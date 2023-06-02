@@ -1,0 +1,78 @@
+<resources>
+    <string name="app_name">ЮКІС</string>
+    <string name="full_name">Южненська Комунальна\nІнформаційна Система</string>
+
+    <!--    Firebase-->
+    //IDs
+    <string name="web_client_id">126951826811-gp5ltjphmgg9gam22dku7rogbl6b8nk1.apps.googleusercontent.com</string>
+    <!-- Dialogs -->
+    <string name="sign_out_title">Вихід?</string>
+    <string name="sign_out_description">Вам доведеться знову увійти до системи, щоб побачити свої події.</string>
+    <string name="delete_account_title">Видалити акаунт?</string>
+    <string name="delete_account_description">Ви втратите всі свої події, а ваш обліковий запис буде видалено. Ця дія необоротна.</string>
+    <string name="password_error">Ваш пароль повинен складатися як мінімум із шести цифр і включати одну цифру, одну малу літеру і одну велику літеру.</string>
+    <string name="password_match_error">Паролі не співпадають.</string>
+    <string name="verify_email_message">Ми надіслали вам електронний лист із посиланням для підтвердження електронної пошти.</string>
+    <string name="reset_password_message">Ми надіслали вам електронний лист із посиланням для скидання пароля.</string>
+    <string name="revoke_access_message">Вам потрібно повторно автентифікуватися, перш ніж скасувати доступ.</string>
+    <string name="access_revoked_message">Ваш доступ скасовано.</string>
+    <string name="email_not_verified_message">Ваша електронна пошта не підтверджена.</string>
+    <string name="repeat_email_not_verified_message">надіслати ще раз</string>
+
+    <string name="create_account_sign">Зареєструватись</string>
+    <string name="alredy_verified">Вже перевірено?</string>
+    <string name="alredy_user">Вже підтверджено? Увійти.</string>
+
+    <string name="verify_email">Підтвердити Email</string>
+    <string name="span_email">Ми надіслали вам електронний лист із посиланням для підтвердження електронної пошти.\n Якщо ні, перевірте також папку спаму.</string>
+
+
+
+
+    <string name="email">Email</string>
+    <string name="password">Пароль</string>
+    <string name="repeat_password">Повторить  пароль</string>
+    <string name="generic_error">Что-то пошло не так. Пожалуйста попытайтесь снова.</string>
+    <string name="email_error">Пожалуйста введите правильный email.</string>
+    <string name="cancel">Отмена</string>
+    <string name="try_again">Попытайтесь снова</string>
+    <string name="profile">профіль користувача</string>
+
+    <!-- LoginScreen -->
+    <string name="sign_in">Вхід по електронній пошті</string>
+    <string name="login_details">Авторизація</string>
+    <string name="forgot_password">Забули пароль? Натисніть для\n його відновлення по email</string>
+    <string name="recovery_email_sent">Перевірте поштову скриньку (спам) на наявність листа для відновлення.</string>
+    <string name="empty_password_error">Пароль не може бути пустим.</string>
+    <string name="no_account">Немає облікового запису?\n Зареєструватися.</string>
+    <!-- SignUpScreen -->
+    <string name="create_account_toolbar">Реєстрація</string>
+    <string name="create_account">Зареєструйтесь, використовуючи електронну пошту та пароль</string>
+    <string name="sign_in_with_google">Вхід за допомогою Google</string>
+
+
+
+    <!-- TasksScreen -->
+    <string name="tasks">Событие</string>
+
+    <!-- EditTaskScreen -->
+    <string name="edit_task">Изменить событие</string>
+    <string name="title">Заголовок</string>
+    <string name="description">Описание</string>
+    <string name="url">URL</string>
+    <string name="date">Дата</string>
+    <string name="time">Время</string>
+    <string name="flag">Флаг</string>
+    <string name="priority">Приоритет</string>
+    <string name="more_options_button">More options</string>
+
+    <!-- SettingsScreen -->
+    <string name="settings">Налаштування</string>
+    <string name="sign_out">Вихід</string>
+    <string name="delete_my_account">Видалити мій аккаунт</string>
+    <string name="agreement_check">Ухвалити угоду</string>
+    <string name="agreement_check_checked">Угода прийнята</string>
+    <string name="back_button">назад</string>
+    <string name="password_failure">Пароль недійсний або у користувача немає пароля</string>
+    <string name="no_user_identifier">Немає запису користувача, відповідного цьому ідентифікатору. Користувач міг бути видалений</string>
+    <string name="revoke_access">скасувати доступ</string></resources>
