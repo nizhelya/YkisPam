@@ -12,7 +12,7 @@ fun ReloadUser(
     viewModel: ProfileViewModel = hiltViewModel(),
     navigateToProfileScreen: () -> Unit
 ) {
-    when(val reloadUserResponse = viewModel.reloadUserResponse) {
+    when (val reloadUserResponse = viewModel.reloadUserResponse) {
         is Response.Loading -> ProgressBar()
         is Response.Success -> {
             val isUserReloaded = reloadUserResponse.data
@@ -22,6 +22,7 @@ fun ReloadUser(
                 }
             }
         }
+
         is Response.Failure -> reloadUserResponse.apply {
             LaunchedEffect(e) {
                 print(e)

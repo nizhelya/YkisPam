@@ -44,12 +44,12 @@ class SignUpViewModel @Inject constructor(
     private val configurationService: ConfigurationService,
     logService: LogService
 ) : BaseViewModel(logService) {
+    val agreementTitle by mutableStateOf(configurationService.agreementTitle)
+    val agreementText by mutableStateOf(configurationService.agreementText)
 
     init {
         launchCatching { configurationService.fetchConfiguration() }
     }
-    val agreementTitle by mutableStateOf(configurationService.agreementTitle)
-    val agreementText by mutableStateOf(configurationService.agreementText)
 
     var signUpResponse by mutableStateOf<SignUpResponse>(Response.Success(false))
         private set
@@ -68,8 +68,6 @@ class SignUpViewModel @Inject constructor(
         get() = uiState.value.email
     private val password
         get() = uiState.value.password
-
-
 
 
     fun onEmailChange(newValue: String) {

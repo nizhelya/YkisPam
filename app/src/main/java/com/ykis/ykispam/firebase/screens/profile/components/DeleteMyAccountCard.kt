@@ -1,9 +1,8 @@
 package com.ykis.ykispam.firebase.screens.profile.components
 
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,32 +18,32 @@ import com.ykis.ykispam.R.string as AppText
 import com.ykis.ykispam.R.drawable as AppIcon
 
 @OptIn(ExperimentalMaterialApi::class)
-@ExperimentalMaterial3Api
+@ExperimentalMaterialApi
 @Composable
 private fun DeleteMyAccountCard(deleteMyAccount: () -> Unit) {
-  var showWarningDialog by remember { mutableStateOf(false) }
+    var showWarningDialog by remember { mutableStateOf(false) }
 
-  DangerousCardEditor(
-    AppText.delete_my_account,
-    AppIcon.ic_delete_my_account,
-    "",
-    Modifier.card()
-  ) {
-    showWarningDialog = true
-  }
+    DangerousCardEditor(
+        AppText.delete_my_account,
+        AppIcon.ic_delete_my_account,
+        "",
+        Modifier.card()
+    ) {
+        showWarningDialog = true
+    }
 
-  if (showWarningDialog) {
-    AlertDialog(
-      title = { Text(stringResource(AppText.delete_account_title)) },
-      text = { Text(stringResource(AppText.delete_account_description)) },
-      dismissButton = { DialogCancelButton(AppText.cancel) { showWarningDialog = false } },
-      confirmButton = {
-        DialogConfirmButton(AppText.delete_my_account) {
-          deleteMyAccount()
-          showWarningDialog = false
-        }
-      },
-      onDismissRequest = { showWarningDialog = false }
-    )
-  }
+    if (showWarningDialog) {
+        AlertDialog(
+            title = { Text(stringResource(AppText.delete_account_title)) },
+            text = { Text(stringResource(AppText.delete_account_description)) },
+            dismissButton = { DialogCancelButton(AppText.cancel) { showWarningDialog = false } },
+            confirmButton = {
+                DialogConfirmButton(AppText.delete_my_account) {
+                    deleteMyAccount()
+                    showWarningDialog = false
+                }
+            },
+            onDismissRequest = { showWarningDialog = false }
+        )
+    }
 }

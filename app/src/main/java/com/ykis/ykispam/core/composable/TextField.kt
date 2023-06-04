@@ -72,7 +72,7 @@ fun EmailField(value: String, onNewValue: (String) -> Unit, modifier: Modifier =
         },
         value = value,
         onValueChange = { onNewValue(it) },
-        placeholder = { Text(stringResource(AppText.email)) },
+        placeholder = { Text(stringResource(AppText.email_placeholder)) },
         leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "Email") }
     )
 }
@@ -112,7 +112,7 @@ private fun PasswordField(
         modifier = Modifier.fillMaxWidth().padding(16.dp,0.dp,16.dp,0.dp),
         label = {
             Text(
-                text = stringResource(id = R.string.password)
+                text = stringResource(id = placeholder)
             )
         },
         value = value,

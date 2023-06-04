@@ -13,13 +13,14 @@ fun SignInWithGoogle(
     viewModel: SignInViewModel = hiltViewModel(),
     navigateToHomeScreen: (signedIn: Boolean) -> Unit
 ) {
-    when(val signInWithGoogleResponse = viewModel.signInWithGoogleResponse) {
+    when (val signInWithGoogleResponse = viewModel.signInWithGoogleResponse) {
         is Response.Loading -> ProgressBar()
         is Response.Success -> signInWithGoogleResponse.data?.let { signedIn ->
             LaunchedEffect(signedIn) {
                 navigateToHomeScreen(false)
             }
         }
+
         is Response.Failure -> LaunchedEffect(Unit) {
             print(signInWithGoogleResponse.e)
         }

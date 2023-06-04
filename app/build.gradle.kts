@@ -1,12 +1,11 @@
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
-
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+//@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.googleServices)
     alias(libs.plugins.crashlytics)
     alias(libs.plugins.hilt)
+//    alias(libs.plugins.ksp)
     alias(libs.plugins.kapt)
 }
 
@@ -45,10 +44,13 @@ android {
     }
     buildFeatures {
         compose = true
+        dataBinding = true
+        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.7"
     }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -59,13 +61,16 @@ android {
 dependencies {
 
     implementation(libs.core.ktx)
+    implementation(libs.androidx.appcompat)
+
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
+//    implementation("androidx.compose.runtime:runtime-livedata")
+
 //    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.0")
 //    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0")
 //    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.0")
@@ -89,32 +94,43 @@ dependencies {
     implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
-    implementation(libs.material3)
     implementation(libs.androidx.material)
 
     implementation("androidx.compose.foundation:foundation")
     implementation("androidx.compose.foundation:foundation-layout")
     implementation("androidx.compose.material:material-icons-core")
     implementation("androidx.compose.material:material-icons-extended")
-    implementation("androidx.compose.material3:material3-window-size-class")
+    implementation(libs.androidx.runtime.livedata)
+
 
 //    hilt
     implementation(libs.androidx.hilt.navigation.compose)
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.android)
+// Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.legacy.support.v4)
+
+    kapt(libs.androidx.room.compiler)
 
     // Retrofit
-    implementation( libs.retrofit)
-    implementation( libs.converter.scalars)
-    implementation( libs.converter.moshi)
-    implementation( libs.moshi.kotlin)
+    implementation(libs.retrofit)
+    implementation(libs.converter.scalars)
+    implementation(libs.converter.moshi)
+    implementation(libs.moshi.kotlin)
+    implementation(libs.converter.gson)
+
     //okHttp
     implementation(libs.okhttp)
-    implementation( libs.logging.interceptor)
+    implementation(libs.logging.interceptor)
 
 
     //coil
     implementation(libs.coil.compose)
+    //Xpay
+//    implementation(libs.pustovitandriy.xpay.android.sdk)
+//    implementation("com.github.pustovitandriy:XPAY_Android_SDK:1.0.0")
 
 
 //    implementation(libs.play.services)
@@ -125,4 +141,11 @@ dependencies {
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
+}
+kapt {
+    correctErrorTypes = true
+    useBuildCache = false
+    showProcessorStats = true
+
+
 }

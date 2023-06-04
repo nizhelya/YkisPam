@@ -15,25 +15,42 @@ limitations under the License.
  */
 
 package com.ykis.ykispam
+
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.core.snackbar.SnackbarMessage.Companion.toSnackbarMessage
 import com.ykis.ykispam.firebase.model.service.repo.LogService
+import com.ykis.ykispam.pam.domain.type.Failure
+import com.ykis.ykispam.pam.domain.type.HandleOnce
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
 open class BaseViewModel(private val logService: LogService) : ViewModel() {
-  fun launchCatching(snackbar: Boolean = true, block: suspend CoroutineScope.() -> Unit) =
-    viewModelScope.launch(
-      CoroutineExceptionHandler { _, throwable ->
-        if (snackbar) {
-          SnackbarManager.showMessage(throwable.toSnackbarMessage())
-        }
-        logService.logNonFatalCrash(throwable)
-      },
-      block = block
-    )
+    var failureData: MutableLiveData<HandleOnce<Failure>> = MutableLiveData()
+    var progressData: MutableLiveData<Boolean> = MutableLiveData()
+
+    protected fun handleFailure(failure: Failure) {
+        this.failureData.value = HandleOnce(failure)
+        updateProgress(false)
+    }
+
+    protected fun updateProgress(progress: Boolean) {
+        this.progressData.value = progress
+    }
+
+    fun launchCatching(snackbar: Boolean = true, block: suspend CoroutineScope.() -> Unit) =
+        viewModelScope.launch(
+            CoroutineExceptionHandler { _, throwable ->
+                if (snackbar) {
+                    SnackbarManager.showMessage(throwable.toSnackbarMessage())
+                }
+                logService.logNonFatalCrash(throwable)
+            },
+            block = block
+        )
+
 }

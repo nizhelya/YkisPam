@@ -15,7 +15,7 @@ import com.ykis.ykispam.R.string as AppText
 fun SignUpTopBar(
     navigateBack: () -> Unit
 ) {
-    TopAppBar (
+    TopAppBar(
         title = {
             Column(
                 modifier = Modifier.fillMaxWidth(),

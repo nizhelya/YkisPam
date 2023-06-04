@@ -8,12 +8,9 @@ import androidx.compose.material.Checkbox
 import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material3.CardDefaults
-
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -23,15 +20,14 @@ import com.ykis.ykispam.R.string as AppText
 
 @Composable
 fun AgreementChekBox(
-    checked :Boolean,
+    checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier,
 
-) {
+    ) {
     Card(
         modifier = modifier
-            .padding(horizontal = 16.dp, vertical = 4.dp)
-            .clip(CardDefaults.shape),
+            .padding(horizontal = 16.dp, vertical = 4.dp),
         backgroundColor = MaterialTheme.colors.background,
 
         ) {
@@ -43,21 +39,22 @@ fun AgreementChekBox(
                 checked = checked,
                 onCheckedChange = onCheckedChange,
                 modifier = Modifier.padding(8.dp, 0.dp),
-                colors = CheckboxDefaults.colors(checkedColor = colorResource(AppColor.white)
+                colors = CheckboxDefaults.colors(
+                    checkedColor = colorResource(AppColor.white)
                 )
             )
-                if (checked) {
-                    Text(
-                        text = stringResource(AppText.agreement_check_checked),
-                        style = MaterialTheme.typography.body2
-                    )
-                }else{
-                    Text(
-                        text = stringResource(AppText.agreement_check),
-                        style = MaterialTheme.typography.body2
-                    )
-                }
+            if (checked) {
+                Text(
+                    text = stringResource(AppText.agreement_check_checked),
+                    style = MaterialTheme.typography.body2
+                )
+            } else {
+                Text(
+                    text = stringResource(AppText.agreement_check),
+                    style = MaterialTheme.typography.body2
+                )
             }
-
         }
+
     }
+}

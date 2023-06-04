@@ -15,7 +15,7 @@ fun RevokeAccess(
 ) {
 
 
-    when(val revokeAccessResponse = viewModel.revokeAccessResponse) {
+    when (val revokeAccessResponse = viewModel.revokeAccessResponse) {
         is Response.Loading -> ProgressBar()
         is Response.Success -> {
             val isAccessRevoked = revokeAccessResponse.data
@@ -26,6 +26,7 @@ fun RevokeAccess(
                 }
             }
         }
+
         is Response.Failure -> revokeAccessResponse.apply {
             LaunchedEffect(e) {
                 print(e)

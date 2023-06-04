@@ -3,6 +3,12 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+        maven {
+            url = uri("https://jitpack.io")
+            credentials {
+                username = "jp_qmo7ur7lrm7bvb3gsdlqfuk1lp"
+            }
+        }
     }
 }
 dependencyResolutionManagement {
@@ -10,6 +16,14 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven {
+            url = uri("https://jitpack.io")
+            credentials {
+                username = "jp_qmo7ur7lrm7bvb3gsdlqfuk1lp"
+
+
+            }
+        }
     }
 }
 

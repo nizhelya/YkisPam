@@ -3,12 +3,12 @@ package com.ykis.ykispam.firebase.model.service.repo
 import com.google.android.gms.auth.api.identity.BeginSignInResult
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseUser
-import com.ykis.ykispam.firebase.model.service.entity.User
 import com.ykis.ykispam.core.Response
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
+
 typealias SignOutResponse = Response<Boolean>
 typealias RevokeAccessResponse = Response<Boolean>
 typealias OneTapSignInResponse = Response<BeginSignInResult>
@@ -53,8 +53,10 @@ interface FirebaseService {
 
     //    suspend fun sendEmailVerification()
     suspend fun firebaseSignInWithEmailAndPassword(email: String, password: String)
-//    suspend fun firebaseSignInWithEmailAndPassword(email: String, password: String): SignInResponse
+
+    //    suspend fun firebaseSignInWithEmailAndPassword(email: String, password: String): SignInResponse
     suspend fun reloadFirebaseUser(): ReloadUserResponse
+
     //    suspend fun sendPasswordResetEmail(email: String)
     suspend fun revokeAccess(): RevokeAccessResponse
     suspend fun addUserFirestore(): addUserFirestoreResponse

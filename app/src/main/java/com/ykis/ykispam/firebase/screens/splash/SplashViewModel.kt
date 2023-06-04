@@ -21,6 +21,7 @@ import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.BaseViewModel
 import com.ykis.ykispam.firebase.model.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.model.service.repo.LogService
+import com.ykis.ykispam.navigation.APPARTMENT_SCREEN
 import com.ykis.ykispam.navigation.PROFILE_SCREEN
 import com.ykis.ykispam.navigation.SIGN_IN_SCREEN
 import com.ykis.ykispam.navigation.SPLASH_SCREEN
@@ -40,15 +41,16 @@ class SplashViewModel @Inject constructor(
     init {
         getAuthState()
     }
+
     fun getAuthState() = firebaseService.getAuthState(viewModelScope)
 
-    fun onAppStart(isUserSignedOut:Boolean,openAndPopUp: (String, String) -> Unit) {
+    fun onAppStart(isUserSignedOut: Boolean, openAndPopUp: (String, String) -> Unit) {
         showError.value = false
         if (isUserSignedOut) {
-          openAndPopUp(SIGN_IN_SCREEN, SPLASH_SCREEN)
+            openAndPopUp(SIGN_IN_SCREEN, SPLASH_SCREEN)
         } else {
             if (isEmailVerified) {
-                openAndPopUp(PROFILE_SCREEN, SPLASH_SCREEN)
+                openAndPopUp(APPARTMENT_SCREEN, SPLASH_SCREEN)
             } else {
                 openAndPopUp(VERIFY_EMAIL_SCREEN, SPLASH_SCREEN)
             }

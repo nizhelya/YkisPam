@@ -33,7 +33,7 @@ import com.ykis.ykispam.core.ext.card
 import com.ykis.ykispam.core.ext.smallSpacer
 import com.ykis.ykispam.core.ext.textButton
 import com.ykis.ykispam.firebase.screens.sign_in.components.SignInWithGoogle
-import ro.alexmamo.firebasesigninwithgoogle.presentation.auth.components.OneTapSignIn
+import com.ykis.ykispam.firebase.screens.sign_in.components.OneTapSignIn
 import com.ykis.ykispam.R.drawable as AppIcon
 import com.ykis.ykispam.R.string as AppText
 
@@ -120,8 +120,8 @@ fun SignInScreen(
     )
 
     SignInWithGoogle(
-        navigateToHomeScreen = {signedIn ->
-            if (!signedIn){
+        navigateToHomeScreen = { signedIn ->
+            if (!signedIn) {
                 viewModel.navigateToProfileScreen(openScreen)
             }
         }

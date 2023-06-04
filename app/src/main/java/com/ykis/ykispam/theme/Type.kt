@@ -10,7 +10,6 @@ import androidx.compose.ui.unit.sp
 import com.ykis.ykispam.R
 
 
-
 private val EczarFontFamily = FontFamily(
     Font(R.font.eczar_regular),
     Font(R.font.eczar_semibold, FontWeight.SemiBold)

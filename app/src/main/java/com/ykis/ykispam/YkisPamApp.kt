@@ -1,5 +1,3 @@
-
-
 package com.ykis.ykispam
 
 import android.content.res.Resources
@@ -46,7 +44,8 @@ fun YkisPamApp() {
                             Snackbar(
                                 snackbarData,
                                 backgroundColor = MaterialTheme.colors.surface,
-                                contentColor = MaterialTheme.colors.onSurface)
+                                contentColor = MaterialTheme.colors.onSurface
+                            )
 
                         }
                     )

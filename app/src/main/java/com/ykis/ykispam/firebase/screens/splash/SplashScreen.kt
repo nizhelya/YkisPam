@@ -23,9 +23,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -53,7 +53,7 @@ private const val SPLASH_TIMEOUT = 1000L
       modifier
         .fillMaxWidth()
         .fillMaxHeight()
-        .background(color = MaterialTheme.colorScheme.background)
+        .background(color = MaterialTheme.colors.background)
         .verticalScroll(rememberScrollState()),
       verticalArrangement = Arrangement.Center,
       horizontalAlignment = Alignment.CenterHorizontally
@@ -64,7 +64,7 @@ private const val SPLASH_TIMEOUT = 1000L
           viewModel.onAppStart(isUserSignedOut,openAndPopUp)
         }
       } else {
-        CircularProgressIndicator(color = MaterialTheme.colorScheme.onBackground)
+        CircularProgressIndicator(color = MaterialTheme.colors.onBackground)
       }
     }
 

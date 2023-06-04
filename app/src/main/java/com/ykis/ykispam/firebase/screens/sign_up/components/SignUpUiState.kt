@@ -17,7 +17,7 @@ limitations under the License.
 package com.ykis.ykispam.firebase.screens.sign_up.components
 
 data class SignUpUiState(
-  val email: String = "",
-  val password: String = "",
-  val repeatPassword: String = ""
+    val email: String = "",
+    val password: String = "",
+    val repeatPassword: String = ""
 )

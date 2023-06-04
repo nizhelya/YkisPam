@@ -1,6 +1,5 @@
 package com.ykis.ykispam.navigation
 
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -10,6 +9,8 @@ import com.ykis.ykispam.firebase.screens.sign_in.SignInScreen
 import com.ykis.ykispam.firebase.screens.sign_up.SignUpScreen
 import com.ykis.ykispam.firebase.screens.splash.SplashScreen
 import com.ykis.ykispam.firebase.screens.verify_email.VerifyEmailScreen
+import com.ykis.ykispam.pam.screens.add_appartment.AddAppartmentScreen
+import com.ykis.ykispam.pam.screens.appartment.AppartmentScreen
 
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -38,7 +39,13 @@ fun NavGraphBuilder.YkisPamGraph(appState: YkisPamAppState) {
             openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) },
             openScreen = { route -> appState.navigate(route) }
         )
-    }
 
+    }
+    composable(ADD_APPARTMENT_SCREEN) {
+        AddAppartmentScreen(openScreen = { route -> appState.navigate(route) })
+    }
+    composable(APPARTMENT_SCREEN) {
+        AppartmentScreen(openScreen = { route -> appState.navigate(route) })
+    }
 }
 

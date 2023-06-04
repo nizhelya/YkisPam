@@ -22,6 +22,6 @@ import com.ykis.ykispam.firebase.model.service.repo.LogService
 import javax.inject.Inject
 
 class LogServiceImpl @Inject constructor() : LogService {
-  override fun logNonFatalCrash(throwable: Throwable) =
-    Firebase.crashlytics.recordException(throwable)
+    override fun logNonFatalCrash(throwable: Throwable) =
+        Firebase.crashlytics.recordException(throwable)
 }

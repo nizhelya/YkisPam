@@ -19,8 +19,8 @@ package com.ykis.ykispam.firebase.screens.splash
 
 data class SettingsUiState(
     val uid: String = "",
-    val isEmailVerification:Boolean = false,
-    val provider:String = "",
+    val isEmailVerification: Boolean = false,
+    val provider: String = "",
     val name: String?,
     val email: String?,
     val phone: String?

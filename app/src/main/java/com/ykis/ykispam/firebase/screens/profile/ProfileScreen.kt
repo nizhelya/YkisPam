@@ -87,14 +87,14 @@ fun ProfileScreen(
 
         )
     }
-        RevokeAccess(
-            restartApp = {
-                viewModel.restartApp(restartApp)
-            },
-            showRevokedMessage = {
-                SnackbarManager.showMessage(R.string.access_revoked_message)
-            }
+    RevokeAccess(
+        restartApp = {
+            viewModel.restartApp(restartApp)
+        },
+        showRevokedMessage = {
+            SnackbarManager.showMessage(R.string.access_revoked_message)
+        }
 
-        )
+    )
 }
 

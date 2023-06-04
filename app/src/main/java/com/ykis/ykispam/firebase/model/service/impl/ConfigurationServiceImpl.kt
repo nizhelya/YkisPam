@@ -27,33 +27,34 @@ import com.ykis.ykispam.R.xml as AppConfig
 
 
 class ConfigurationServiceImpl @Inject constructor() : ConfigurationService {
-  private val remoteConfig
-    get() = Firebase.remoteConfig
+    private val remoteConfig
+        get() = Firebase.remoteConfig
 
-  init {
+    init {
 //    if (BuildConfig.DEBUG) {
 //      val configSettings = remoteConfigSettings { minimumFetchIntervalInSeconds = 0 }
 //      remoteConfig.setConfigSettingsAsync(configSettings)
 //    }
 
-    remoteConfig.setDefaultsAsync(AppConfig.remote_config_defaults)
-  }
+        remoteConfig.setDefaultsAsync(AppConfig.remote_config_defaults)
+    }
 
-  override suspend fun fetchConfiguration(): Boolean =
-    trace(FETCH_CONFIG_TRACE) { remoteConfig.fetchAndActivate().await() }
+    override suspend fun fetchConfiguration(): Boolean =
+        trace(FETCH_CONFIG_TRACE) { remoteConfig.fetchAndActivate().await() }
 
-  override val isShowTaskEditButtonConfig: Boolean
-    get() = remoteConfig[SHOW_TASK_EDIT_BUTTON_KEY].asBoolean()
-  override val agreementTitle: String
-    get() = remoteConfig[AGREMENT_TITLE].asString()
+    override val isShowTaskEditButtonConfig: Boolean
+        get() = remoteConfig[SHOW_TASK_EDIT_BUTTON_KEY].asBoolean()
+    override val agreementTitle: String
+        get() = remoteConfig[AGREMENT_TITLE].asString()
 
-  override val agreementText: String
-    get() = remoteConfig[AGREMENT_TEXT].asString()
-  companion object {
-    private const val SHOW_TASK_EDIT_BUTTON_KEY = "show_task_edit_button"
-    private const val AGREMENT_TITLE = "agreement_title"
-    private const val AGREMENT_TEXT = "agreement_text"
+    override val agreementText: String
+        get() = remoteConfig[AGREMENT_TEXT].asString()
 
-    private const val FETCH_CONFIG_TRACE = "fetchConfig"
-  }
+    companion object {
+        private const val SHOW_TASK_EDIT_BUTTON_KEY = "show_task_edit_button"
+        private const val AGREMENT_TITLE = "agreement_title"
+        private const val AGREMENT_TEXT = "agreement_text"
+
+        private const val FETCH_CONFIG_TRACE = "fetchConfig"
+    }
 }

@@ -1,14 +1,10 @@
 package com.ykis.ykispam.firebase.screens.profile
 
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.viewModelScope
-import com.google.android.gms.auth.api.identity.SignInClient
 import com.ykis.ykispam.BaseViewModel
 import com.ykis.ykispam.R
-import com.ykis.ykispam.core.ProgressBar
 import com.ykis.ykispam.core.Response
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.firebase.model.service.repo.FirebaseService
@@ -18,11 +14,8 @@ import com.ykis.ykispam.firebase.model.service.repo.RevokeAccessResponse
 import com.ykis.ykispam.firebase.model.service.repo.SendEmailVerificationResponse
 import com.ykis.ykispam.firebase.model.service.repo.SignOutResponse
 import com.ykis.ykispam.navigation.PROFILE_SCREEN
-import com.ykis.ykispam.navigation.SIGN_IN_SCREEN
-import com.ykis.ykispam.navigation.SIGN_UP_SCREEN
 import com.ykis.ykispam.navigation.SPLASH_SCREEN
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -54,7 +47,7 @@ class ProfileViewModel @Inject constructor(
     var reloadUserResponse by mutableStateOf<ReloadUserResponse>(Response.Success(false))
         private set
 
-    fun repeatEmailVerified()  {
+    fun repeatEmailVerified() {
         launchCatching {
             sendEmailVerificationResponse = Response.Loading
             sendEmailVerificationResponse = firebaseService.sendEmailVerification()
@@ -90,20 +83,20 @@ class ProfileViewModel @Inject constructor(
                         revokeAccessResponse = firebaseService.revokeAccessEmail()
                     }
                 }
+
                 else -> Unit
             }
         }
     }
 
 
-
-fun navigateToProfileScreen(restartApp: (String) -> Unit) {
-    restartApp(PROFILE_SCREEN)
-}
-
-fun restartApp(restartApp: (String) -> Unit) {
-    launchCatching {
-        restartApp(SPLASH_SCREEN)
+    fun navigateToProfileScreen(restartApp: (String) -> Unit) {
+        restartApp(PROFILE_SCREEN)
     }
-}
+
+    fun restartApp(restartApp: (String) -> Unit) {
+        launchCatching {
+            restartApp(SPLASH_SCREEN)
+        }
+    }
 }

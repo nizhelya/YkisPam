@@ -60,10 +60,10 @@ fun ProfileTopBar(
             DropdownMenu(
                 expanded = openMenu,
                 onDismissRequest = { openMenu = !openMenu },
-                        modifier = Modifier
-                        .fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
 //                    .clip(RoundedCornerShape(20))
-                            .background(color = MaterialTheme.colors.background  )
+                    .background(color = MaterialTheme.colors.background)
 
             ) {
                 SignOutCard(signOut)

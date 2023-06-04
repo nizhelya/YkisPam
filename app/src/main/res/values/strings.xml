@@ -30,6 +30,8 @@
 
 
     <string name="email">Email</string>
+    <string name="email_placeholder">email@address.com</string>
+
     <string name="password">Пароль</string>
     <string name="repeat_password">Повторить  пароль</string>
     <string name="generic_error">Что-то пошло не так. Пожалуйста попытайтесь снова.</string>
@@ -75,4 +77,7 @@
     <string name="back_button">назад</string>
     <string name="password_failure">Пароль недійсний або у користувача немає пароля</string>
     <string name="no_user_identifier">Немає запису користувача, відповідного цьому ідентифікатору. Користувач міг бути видалений</string>
-    <string name="revoke_access">скасувати доступ</string></resources>
+    <string name="revoke_access">скасувати доступ</string>
+    <string name="show_less">Show less</string>
+    <string name="show_more">Show more</string>
+</resources>

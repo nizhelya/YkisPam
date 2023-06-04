@@ -17,5 +17,5 @@ limitations under the License.
 package com.ykis.ykispam.firebase.model.service.repo
 
 interface LogService {
-  fun logNonFatalCrash(throwable: Throwable)
+    fun logNonFatalCrash(throwable: Throwable)
 }

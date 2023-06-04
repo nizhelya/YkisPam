@@ -19,7 +19,6 @@ import com.ykis.ykispam.core.Constants.SIGN_UP_REQUEST
 import com.ykis.ykispam.core.Constants.USERS
 import com.ykis.ykispam.core.Response.*
 import com.ykis.ykispam.core.trace
-import com.ykis.ykispam.firebase.model.service.entity.User
 import com.ykis.ykispam.firebase.model.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.model.service.repo.OneTapSignInResponse
 import com.ykis.ykispam.firebase.model.service.repo.ReloadUserResponse
@@ -57,7 +56,6 @@ class FirebaseServiceImpl @Inject constructor(
 
     override val isUserAuthenticatedInFirebase
         get() = auth.currentUser != null
-
 
 
     override val hasUser: Boolean
@@ -225,16 +223,20 @@ class FirebaseServiceImpl @Inject constructor(
             auth.currentUser!!.linkWithCredential(credential).await()
 
         }
-    override suspend fun firebaseSignUpWithEmailAndPassword(email: String, password: String): SignUpResponse {
+
+    override suspend fun firebaseSignUpWithEmailAndPassword(
+        email: String,
+        password: String
+    ): SignUpResponse {
         return try {
             auth.createUserWithEmailAndPassword(email, password).await()
             try {
-                val credential = EmailAuthProvider.getCredential(email, password)
-                val authResult = auth.signInWithCredential(credential).await()
-//                val isNewUser = authResult.additionalUserInfo?.isNewUser ?: false
-//                if (isNewUser) {
-                    addUserToFirestore()
-//                }
+//                val credential = EmailAuthProvider.getCredential(email, password)
+////                val authResult = auth.signInWithCredential(credential).await()
+////                val isNewUser = authResult.additionalUserInfo?.isNewUser ?: false
+////                if (isNewUser) {
+                addUserToFirestore()
+////                }
             } catch (e: Exception) {
                 Failure(e)
             }

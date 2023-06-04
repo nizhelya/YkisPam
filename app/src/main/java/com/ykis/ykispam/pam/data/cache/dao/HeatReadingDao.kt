@@ -1,0 +1,20 @@
+package com.ykis.ykispam.pam.data.cache.dao
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import com.ykis.ykispam.pam.domain.heat.reading.HeatReadingEntity
+import androidx.room.Query
+
+
+@Dao
+interface HeatReadingDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertHeatReading(heatMeter:List<HeatReadingEntity>)
+    @Query("select * from heat_reading where teplomer_id = :teplomerId")
+    fun getHeatReading(teplomerId:Int): List<HeatReadingEntity>
+    @Query("delete from water_reading")
+    fun deleteAllReadings()
+    @Query("delete from heat_reading where address_id not in (:addressId)")
+    fun deleteReadingFromFlat(addressId: List<Int>)
+}

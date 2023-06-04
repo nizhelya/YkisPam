@@ -11,7 +11,7 @@ import com.ykis.ykispam.firebase.screens.sign_up.SignUpViewModel
 fun SendEmailVerification(
     viewModel: SignUpViewModel = hiltViewModel()
 ) {
-    when(val sendEmailVerificationResponse = viewModel.sendEmailVerificationResponse) {
+    when (val sendEmailVerificationResponse = viewModel.sendEmailVerificationResponse) {
         is Response.Loading -> ProgressBar()
         is Response.Success -> Unit
         is Response.Failure -> sendEmailVerificationResponse.apply {

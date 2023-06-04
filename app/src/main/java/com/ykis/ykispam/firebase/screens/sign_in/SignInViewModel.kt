@@ -1,6 +1,5 @@
 package com.ykis.ykispam.firebase.screens.sign_in
 
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -8,22 +7,16 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.AuthCredential
 import com.ykis.ykispam.BaseViewModel
-import com.ykis.ykispam.core.ProgressBar
-
 import com.ykis.ykispam.core.Response
 import com.ykis.ykispam.core.ext.isValidEmail
 import com.ykis.ykispam.core.snackbar.SnackbarManager
-import com.ykis.ykispam.firebase.model.service.repo.ConfigurationService
 import com.ykis.ykispam.firebase.model.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.model.service.repo.LogService
 import com.ykis.ykispam.firebase.model.service.repo.OneTapSignInResponse
-import com.ykis.ykispam.firebase.model.service.repo.SignInResponse
 import com.ykis.ykispam.firebase.model.service.repo.SignInWithGoogleResponse
 import com.ykis.ykispam.firebase.screens.sign_in.components.SingInUiState
 import com.ykis.ykispam.navigation.PROFILE_SCREEN
-import com.ykis.ykispam.navigation.SIGN_IN_SCREEN
 import com.ykis.ykispam.navigation.SIGN_UP_SCREEN
-import com.ykis.ykispam.navigation.SPLASH_SCREEN
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

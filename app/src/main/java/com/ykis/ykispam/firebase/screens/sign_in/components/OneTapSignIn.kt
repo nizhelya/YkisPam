@@ -1,4 +1,4 @@
-package ro.alexmamo.firebasesigninwithgoogle.presentation.auth.components
+package com.ykis.ykispam.firebase.screens.sign_in.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,13 +13,14 @@ fun OneTapSignIn(
     viewModel: SignInViewModel = hiltViewModel(),
     launch: (result: BeginSignInResult) -> Unit
 ) {
-    when(val oneTapSignInResponse = viewModel.oneTapSignInResponse) {
+    when (val oneTapSignInResponse = viewModel.oneTapSignInResponse) {
         is Response.Loading -> ProgressBar()
         is Response.Success -> oneTapSignInResponse.data?.let {
             LaunchedEffect(it) {
                 launch(it)
             }
         }
+
         is Response.Failure -> LaunchedEffect(Unit) {
             print(oneTapSignInResponse.e)
         }

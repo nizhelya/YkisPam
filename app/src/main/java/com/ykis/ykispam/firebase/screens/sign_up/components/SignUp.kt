@@ -13,7 +13,7 @@ fun SignUp(
     sendEmailVerification: () -> Unit,
     showVerifyEmailMessage: () -> Unit
 ) {
-    when(val signUpResponse = viewModel.signUpResponse) {
+    when (val signUpResponse = viewModel.signUpResponse) {
         is Response.Loading -> ProgressBar()
         is Response.Success -> {
             val isUserSignedUp = signUpResponse.data
@@ -24,6 +24,7 @@ fun SignUp(
                 }
             }
         }
+
         is Response.Failure -> signUpResponse.apply {
             LaunchedEffect(e) {
                 print(e)
