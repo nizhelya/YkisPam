@@ -7,7 +7,6 @@ import com.ykis.ykispam.pam.domain.type.Failure
 interface FamilyRemote {
     fun getFamilyFromFlat(
         addressId: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Either<Failure, List<FamilyEntity>>
 }

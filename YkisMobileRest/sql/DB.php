@@ -7,7 +7,7 @@ class DbConnect{
 	
 		public function __construct(){
 		
-		$this->db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+		$this->db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) or die('Connect Error in ' .$this->db->connect_error);
 
             if ($this->db->connect_error) {
                 return false;

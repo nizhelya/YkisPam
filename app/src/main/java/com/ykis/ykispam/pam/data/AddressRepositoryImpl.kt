@@ -16,12 +16,12 @@ class AddressRepositoryImpl @Inject constructor(
 ) : AddressRepository {
     override fun getBlocks(): Either<Failure, List<AddressEntity>> {
         return userCache.getCurrentUser()
-            .flatMap { return@flatMap remote.getBlocks(it.userId, it.token) }
+            .flatMap { return@flatMap remote.getBlocks(it.uid) }
     }
 
     override fun getStreetsFromBlock(blockId: Int): Either<Failure, List<AddressEntity>> {
         return userCache.getCurrentUser()
-            .flatMap { return@flatMap remote.getStreetsFromBlock(blockId, it.userId, it.token) }
+            .flatMap { return@flatMap remote.getStreetsFromBlock(blockId, it.uid) }
     }
 
     override fun getHousesFromStreet(
@@ -33,26 +33,20 @@ class AddressRepositoryImpl @Inject constructor(
                 return@flatMap remote.getHousesFromStreet(
                     streetId,
                     blockId,
-                    it.userId,
-                    it.token
+                    it.uid
                 )
             }
     }
 
     override fun getFlatsFromHouse(houseId: Int): Either<Failure, List<AddressEntity>> {
         return userCache.getCurrentUser()
-            .flatMap { return@flatMap remote.getFlatsFromHouse(houseId, it.userId, it.token) }
+            .flatMap { return@flatMap remote.getFlatsFromHouse(houseId,it.uid) }
     }
 
-    override fun addFlatByUser(addressId: Int): Either<Failure, GetSimpleResponse> {
+
+    override fun addFlatByUser(kod: String): Either<Failure, GetSimpleResponse> {
         return userCache.getCurrentUser()
-            .flatMap { return@flatMap remote.addFlatsByUser(addressId, it.userId, it.token) }
+            .flatMap { return@flatMap remote.addFlatsByUser(kod,it.uid,it.email) }
     }
-
-    override fun checkCode(kod: String, addressId: Int): Either<Failure, GetSimpleResponse> {
-        return userCache.getCurrentUser()
-            .flatMap { return@flatMap remote.checkCode(kod, addressId, it.userId, it.token) }
-    }
-
 
 }

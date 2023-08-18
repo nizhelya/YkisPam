@@ -24,6 +24,7 @@ import com.ykis.ykispam.core.snackbar.SnackbarMessage.Companion.toMessage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
+import kotlin.reflect.KProperty
 
 class YkisPamAppState(
     val scaffoldState: ScaffoldState,
@@ -63,4 +64,7 @@ class YkisPamAppState(
             popUpTo(0) { inclusive = true }
         }
     }
+
+
+
 }

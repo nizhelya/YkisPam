@@ -17,11 +17,11 @@ limitations under the License.
 package com.ykis.ykispam.firebase.model.entity
 
 data class UserFirebase(
-    val uid: String?,
+    val uid: String ,
     val isEmailVerification: Boolean = false,
     val provider: String?,
     val name: String?,
-    val email: String?,
+    val email: String,
     val phone: String?,
 
 

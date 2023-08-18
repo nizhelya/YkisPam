@@ -42,8 +42,11 @@ class ConfigurationServiceImpl @Inject constructor() : ConfigurationService {
     override suspend fun fetchConfiguration(): Boolean =
         trace(FETCH_CONFIG_TRACE) { remoteConfig.fetchAndActivate().await() }
 
-    override val isShowTaskEditButtonConfig: Boolean
-        get() = remoteConfig[SHOW_TASK_EDIT_BUTTON_KEY].asBoolean()
+    override val isWiFiCheckConfig: Boolean
+        get() = remoteConfig[LOADING_FROM_WIFI].asBoolean()
+
+    override val isMobileCheckConfig: Boolean
+        get() = remoteConfig[LOADING_FROM_MOBILE].asBoolean()
     override val agreementTitle: String
         get() = remoteConfig[AGREMENT_TITLE].asString()
 
@@ -51,7 +54,8 @@ class ConfigurationServiceImpl @Inject constructor() : ConfigurationService {
         get() = remoteConfig[AGREMENT_TEXT].asString()
 
     companion object {
-        private const val SHOW_TASK_EDIT_BUTTON_KEY = "show_task_edit_button"
+        private const val LOADING_FROM_WIFI = "loading_from_wifi"
+        private const val LOADING_FROM_MOBILE = "loading_from_mobile"
         private const val AGREMENT_TITLE = "agreement_title"
         private const val AGREMENT_TEXT = "agreement_text"
 

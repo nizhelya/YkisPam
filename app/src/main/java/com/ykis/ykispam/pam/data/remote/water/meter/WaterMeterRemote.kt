@@ -7,7 +7,6 @@ import com.ykis.ykispam.pam.domain.water.meter.WaterMeterEntity
 interface WaterMeterRemote {
     fun getWaterMeter(
         addressId: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Either<Failure, List<WaterMeterEntity>>
 }

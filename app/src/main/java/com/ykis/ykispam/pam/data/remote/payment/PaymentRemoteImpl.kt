@@ -16,15 +16,13 @@ class PaymentRemoteImpl @Inject constructor(
 
     override fun getFlatPayments(
         addressId: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Either<Failure, List<PaymentEntity>> {
         return request.make(
             apiService.getFlatPayment(
                 createGetFlatPaymentMap(
                     addressId,
-                    userId,
-                    token
+                    uid
                 )
             )
         ) {
@@ -34,13 +32,11 @@ class PaymentRemoteImpl @Inject constructor(
 
     private fun createGetFlatPaymentMap(
         addressId: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Map<String, String> {
         val map = HashMap<String, String>()
         map.put(ApiService.ADDRESS_ID, addressId.toString())
-        map.put(ApiService.PARAM_USER_ID, userId.toString())
-        map.put(ApiService.PARAM_TOKEN, token)
+        map.put(ApiService.PARAM_USER_ID, uid)
         return map
     }
 }

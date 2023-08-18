@@ -1,99 +1,79 @@
 <?php
 include_once "DB.php";
-
 class DBOperations {
     public function __constructor() {
 
     }
-
+      public function addMyFlatByUser($kod ,$uid,$email){
+        $com = new DbConnect();
+        $sql = 'CALL YISGRAND.addMyFlatByUser("'.$kod.'" ,"'.$uid.'" ,"'.$email.'" , @success , @message)';
+//              print_r($sql);
+       mysqli_query( $com->getDb(), $sql) ;
+       $sqlCallBack = 'SELECT @success , @message ' ;
+          return mysqli_query( $com->getDb(), $sqlCallBack);
+    }
+  
 //appartment
     public function getFlatById($address_id){
         $com = new DbConnect();
         $sql = 'SELECT * FROM YIS.APPARTMENT as t1 WHERE t1.address_id= '.$address_id.'';
-
-        $result = mysqli_query($com->getDb(), $sql);
-        return $result;
+        return mysqli_query($com->getDb(), $sql);
     }
 
-    public function getAppartmentsByUser($user_id){
+    public function getAppartmentsByUser($uid){
         $com = new DbConnect();
-        $sql = 'SELECT  t2.id , t2.user_id ,  t1.`address_id`, t1.`raion_id`, t1.`house_id`, (case when t3.`osmd_id` = 0 then "Внески ОСББ" else t3.abbr end) as osbb, t1.`kod`, t1.`address`, t1.`nanim`, t1.`fio`, t1.`order`, t1.`data`, t1.`area_full`, t1.`area_life`, t1.`area_dop`, t1.`area_balk`, t1.`area_otopl`, t1.`room`,
+        $sql = 'SELECT  t2.id , t2.user_id ,t2.uid ,  t1.`address_id`, t1.`raion_id`, t1.`house_id`, (case when t3.`osmd_id` = 0 then "Внески ОСББ" else t3.abbr end) as osbb, t1.`kod`, t1.`address`, t1.`nanim`, t1.`fio`, t1.`order`, t1.`data`, t1.`area_full`, t1.`area_life`, t1.`area_dop`, t1.`area_balk`, t1.`area_otopl`, t1.`room`,
     (case when t1.`privat` = "да" then true else false end) as privat , t1.`tenant`, t1.`tenant_tbo`, t1.`podnan`, t1.`absent`,(case when t1.`subsidia` = "да" then true else false end) as subsidia, (case when t1.`vxvoda` = "да" then true else false end) as vxvoda, (case when t1.`teplomer` = "да" then true else false end) as teplomer, t1.`distributor`, t1.`dvodomer_id`, t1.`dteplomer_id`,(case when t1.`lift` = "да" then true else false end) as lift, (case when t1.`kvartplata` = "да" then true else false end) as kvartplata,
-    (case when t1.`otoplenie` = "да" then true else false end) as otoplenie, (case when t1.`privat` = "да" then true else false end) as ateplo, (case when t1.`podogrev` = "да" then true else false end) as podogrev, (case when t1.`voda` = "да" then true else false end) as voda, (case when t1.`stoki` = "да" then true else false end) as stoki, (case when t1.`avoda` = "да" then true else false end) as avoda, (case when t1.`astoki` = "да" then true else false end) as astoki, (case when t1.`tbo` = "да" then true else false end) as tbo, t1.`tarif_kv`, t1.`tarif_ot`, t1.`tarif_aot`, t1.`tarif_gv`, t1.`tarif_xv`, t1.`tarif_st`, t1.`tarif_tbo`, (case when t1.`aggr_kv` = "да" then true else false end) as aggr_kv, (case when t1.`aggr_voda` = "да" then true else false end) as aggr_voda ,(case when t1.`aggr_teplo` = "да" then true else false end) as aggr_teplo,(case when t1.`aggr_tbo` = "да" then true else false end) as aggr_tbo,   (case when t1.`boiler` = "да" then true else false end) as boiler, t1.`enaudit`, t1.`enaudit_id`, t1.`tne`, t1.`kte`, t1.`length`, t1.`diametr`, t1.`heated`, t1.`ztp`, t1.`ovu`, t1.`paused`, t1.`phone`, t1.`email`, t1.`osmd`, t3.`osmd_id`,IFNULL(t4.ipay , 0) as ipay,IFNULL( t4.pb , 0) as pb , IFNULL(t4.mtb , 0 ) as mtb ,  t1.`what_change`, t1.`operator`, t1.`data_change`, t1.`data_in`
-    
+    (case when t1.`otoplenie` = "да" then true else false end) as otoplenie, (case when t1.`privat` = "да" then true else false end) as ateplo, (case when t1.`podogrev` = "да" then true else false end) as podogrev, (case when t1.`voda` = "да" then true else false end) as voda, (case when t1.`stoki` = "да" then true else false end) as stoki, (case when t1.`avoda` = "да" then true else false end) as avoda, (case when t1.`astoki` = "да" then true else false end) as astoki, (case when t1.`tbo` = "да" then true else false end) as tbo, t1.`tarif_kv`, t1.`tarif_ot`, t1.`tarif_aot`, t1.`tarif_gv`, t1.`tarif_xv`, t1.`tarif_st`, t1.`tarif_tbo`, (case when t1.`aggr_kv` = "да" then true else false end) as aggr_kv, (case when t1.`aggr_voda` = "да" then true else false end) as aggr_voda ,(case when t1.`aggr_teplo` = "да" then true else false end) as aggr_teplo,(case when t1.`aggr_tbo` = "да" then true else false end) as aggr_tbo,   (case when t1.`boiler` = "да" then true else false end) as boiler, t1.`enaudit`, t1.`enaudit_id`, t1.`tne`, t1.`kte`, t1.`length`, t1.`diametr`, t1.`heated`, t1.`ztp`, t1.`ovu`, t1.`paused`, t1.`phone`, t1.`email`, t1.`osmd`, t3.`osmd_id`,IFNULL(t4.ipay , 0) as ipay,IFNULL( t4.pb , 0) as pb , IFNULL(t4.mtb , 0 ) as mtb ,  t1.`what_change`, t1.`operator`, t1.`data_change`, t1.`data_in`     
     FROM YISGRAND.MYFLAT as t2  
     LEFT JOIN YIS.APPARTMENT as t1 USING(`address_id`) 
     LEFT JOIN YIS.HOUSE as t3 on t3.house_id = t2.house_id 
     LEFT JOIN YISGRAND.OSMD as t4 on t4.osmd_id = t1.osmd_id 
-
-    WHERE  t2.user_id = '.$user_id.' ';
-
-        $result = mysqli_query($com->getDb(), $sql);
-        return $result;
+    WHERE  t2.uid = "'.$uid.'"';
+//        print_r($sql);
+        return mysqli_query($com->getDb(), $sql);
     }
     //blocks
     public function getBlocks(){
         $com = new DbConnect();
         $sql = 'SELECT * FROM YIS.RAION as t1 WHERE t1.raion_id in (1,3,4,5,2,6,7,11,12) ORDER BY t1.raion_id';
 //   $sql = 'SELECT "0" as raion_id , "Выберите район" as raion UNION SELECT t2.raion_id , t2.raion FROM YIS.RAION as t2 WHERE t2.raion_id in (1,3,4,5,2,6,7,11,12)';
-        $result = mysqli_query($com->getDb(), $sql);
-        return $result;
+        return mysqli_query($com->getDb(), $sql);
     }
     //streets
     public function getStreetsFromBlock($block_id){
         $com = new DbConnect();
         $sql = 'SELECT t1.street_id, t1.street FROM YIS.STREET as t1 ,YIS.HOUSE as t2'
             .' WHERE t1.street_id=t2.street_id AND t2.raion_id= '.$block_id.' GROUP BY t1.street_id ORDER BY t1.street';
-
-        $result = mysqli_query($com->getDb(), $sql);
-        return $result;
+        return mysqli_query($com->getDb(), $sql);
     }
     //houses
     public function getHousesFromStreet($street_id , $block_id){
         $com = new DbConnect();
         $sql = 'SELECT t1.house_id, t1.house FROM YIS.HOUSE as t1'
             .' WHERE t1.street_id='.$street_id.' AND t1.raion_id= '.$block_id.' ORDER BY t1.house';
-
-        $result = mysqli_query($com->getDb(), $sql);
-        return $result;
+        return mysqli_query($com->getDb(), $sql);
     }
     //flats
     public function getFlatsFromHouse($house_id){
         $com = new DbConnect();
         $sql = 'SELECT t1.address_id , t1.address , t1.kod FROM YIS.ADDRESS as t1 WHERE t1.house_id = '.$house_id.' ORDER BY CAST(t1.appartment AS signed)';
-
-        $result = mysqli_query($com->getDb(), $sql);
-        return $result;
+        return mysqli_query($com->getDb(), $sql);
     }
     //insertFlat
-    public function addFlatByUser($address_id ,$user_id){
-        $com = new DbConnect();
-
-        $sql = 'CALL YKIS.addMyFlatByUser('.$address_id.' , '.$user_id.' , @success , @message);';
-        mysqli_query( $com->getDb(), $sql);
-        $sqlCallBack = 'SELECT @success , @message ';
-        $result = mysqli_query( $com->getDb(), $sqlCallBack);
-        return $result;
-    }
+  
     //family
     public function getFamilyFromFlat($address_id){
         $com = new DbConnect();
         $sql = 'SELECT t1.* , (case when t1.`subsidia` = "да" then TRUE else FALSE end) as subsidia ,  (case when t1.`vkl` = "да" then TRUE else FALSE end) as vkl , (case when t1.`sex` = "Men" then "Чоловік" when t1.`sex` = "Women" then "Жінка" else "" end) as sex FROM YISGRAND.FAMALY as t1 WHERE t1.address_id = '.$address_id.' ORDER BY t1.surname  , t1.firstname ';
-
-        $result = mysqli_query($com->getDb(), $sql);
-        return $result;
+        return mysqli_query($com->getDb(), $sql);
     }
 
-    public function checkAddFlat($address_id , $kod){
+   
+    public function deleteFlatByUser($address_id , $uid){
         $com = new DbConnect();
-        $sql = 'SELECT COUNT(t1.address_id) as success FROM YIS.APPARTMENT as t1  WHERE t1.address_id = '.$address_id.' and t1.kod = "'.$kod.'" ';
-
-        $result = mysqli_query($com->getDb(), $sql);
-        return $result;
-    }
-    public function deleteFlatByUser($address_id , $user_id){
-        $com = new DbConnect();
-        $sql = 'DELETE FROM  YISGRAND.MYFLAT WHERE address_id = '.$address_id.'  and user_id = '.$user_id.' ';
+        $sql = 'DELETE FROM  YISGRAND.MYFLAT WHERE address_id = '.$address_id.'  and uid = "'.$uid.'"';
+//        print ($sql);
         mysqli_query( $com->getDb(), $sql);
         return $com->getDb();
     }
@@ -230,8 +210,7 @@ class DBOperations {
             }
         }
         // print_r($sql);
-        $result = mysqli_query($com->getDb(), $sql);
-        return $result;
+        return mysqli_query($com->getDb(), $sql);
     }
 
     public function getFlatPayments($address_id)
@@ -242,24 +221,21 @@ SELECT t1.`rec_id` , t1.`address_id`,t1.`address`, t1.`god`, t1.`data`,sum(t1.`k
         sum(t1.`voda` + t1.`stoki` +t1.`avoda` + t1.`astoki`) as voda,sum(t1.`tbo`) as tbo ,sum(t1.`summa`) as summa,t1.`prixod`,t1.`kassa`,t1.`nomer`,t1.`operator`,t1.`data_in` FROM YIS.OPLATA as t1 
         WHERE t1.address_id= '.$address_id.' and t1.data > "20161231" GROUP BY t1.`address_id` , t1.`data` ,t1.`prixod` order by  t1.data DESC;';
 
-        $result = mysqli_query($com->getDb(), $sql);
-        return $result;
+        return mysqli_query($com->getDb(), $sql);
     }
 
     public function getWaterMeter($address_id)
     {
         $com = new DbConnect();
         $sql = 'Select t1.* , t1.paused+t1.spisan+t1.out as work from YIS.VODOMER as t1 where t1.address_id = '.$address_id.' order by work ';
-        $result = mysqli_query($com->getDb(), $sql);
-        return $result;
+        return mysqli_query($com->getDb(), $sql);
     }
 
     public function getWaterReadings($vodomer_id)
     {
         $com = new DbConnect();
         $sql = 'Select t1.* from YIS.WATER as t1 where t1.vodomer_id = '.$vodomer_id.' ';
-        $result = mysqli_query($com->getDb(), $sql);
-        return $result;
+        return mysqli_query($com->getDb(), $sql);
     }
 
     public function addCurrentWaterReading($vodomer_id, $current_value,  $new_value, $date)
@@ -270,8 +246,7 @@ SELECT t1.`rec_id` , t1.`address_id`,t1.`address`, t1.`god`, t1.`data`,sum(t1.`k
 //        print_r($sql);
         mysqli_query( $com->getDb(), $sql);
         $sqlCallBack = 'SELECT @success , @msg ';
-        $result = mysqli_query( $com->getDb(), $sqlCallBack);
-        return $result;
+        return mysqli_query( $com->getDb(), $sqlCallBack);
     }
 
     public function deleteCurrentWaterReading($pok_id )
@@ -281,24 +256,21 @@ SELECT t1.`rec_id` , t1.`address_id`,t1.`address`, t1.`god`, t1.`data`,sum(t1.`k
 //        print_r($sql);
         mysqli_query( $com->getDb(), $sql);
         $sqlCallBack = 'SELECT @success , @msg ';
-        $result = mysqli_query( $com->getDb(), $sqlCallBack);
-        return $result;
+        return mysqli_query( $com->getDb(), $sqlCallBack);
     }
 
     public function getHeatMeter($address_id)
     {
         $com = new DbConnect();
         $sql = 'Select t1.*  ,t1.spisan+t1.out as work , '.$address_id.' as address_id from YIS.TEPLOMER as t1 where t1.address_id = '.$address_id.' order by work';
-        $result = mysqli_query($com->getDb(), $sql);
-        return $result;
+        return mysqli_query($com->getDb(), $sql);
     }
 
     public function getHeatReadings($teplomer_id)
     {
         $com = new DbConnect();
         $sql = 'Select t1.* from YIS.PTEPLOMER as t1 where t1.teplomer_id = '.$teplomer_id.' ';
-        $result = mysqli_query($com->getDb(), $sql);
-        return $result;
+        return mysqli_query($com->getDb(), $sql);
     }
 
     public function addCurrentHeatReading( $teplomer_id,  $current_value, $new_value,  $date)
@@ -308,8 +280,7 @@ SELECT t1.`rec_id` , t1.`address_id`,t1.`address`, t1.`god`, t1.`data`,sum(t1.`k
         $sql = 'CALL YISGRAND.input_new_pokaz_ateplomera_mob('.$teplomer_id.' , "'.$current_value.'" ,"'.$new_value.'" ,"'.$date.'" , @success , @msg);';
         mysqli_query( $com->getDb(), $sql);
         $sqlCallBack = 'SELECT @success , @msg ';
-        $result = mysqli_query( $com->getDb(), $sqlCallBack);
-        return $result;
+        return mysqli_query( $com->getDb(), $sqlCallBack);
     }
 
     public function deleteCurrentHeatReading( $pok_id)
@@ -319,8 +290,7 @@ SELECT t1.`rec_id` , t1.`address_id`,t1.`address`, t1.`god`, t1.`data`,sum(t1.`k
 //        print_r($sql);
         mysqli_query( $com->getDb(), $sql);
         $sqlCallBack = 'SELECT @success , @msg ';
-        $result = mysqli_query( $com->getDb(), $sqlCallBack);
-        return $result;
+        return mysqli_query( $com->getDb(), $sqlCallBack);
     }
 
 }

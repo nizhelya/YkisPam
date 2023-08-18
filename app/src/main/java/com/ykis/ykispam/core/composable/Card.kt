@@ -18,6 +18,9 @@ package com.ykis.ykispam.core.composable
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,9 +34,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 
 
@@ -63,6 +69,17 @@ fun RegularCardEditor(
 
 @ExperimentalMaterialApi
 @Composable
+fun InfoCardEditor(
+    @StringRes title: Int,
+    @DrawableRes icon: Int,
+    content: String,
+    modifier: Modifier,
+    onEditClick: () -> Unit
+) {
+    CardEditorInfo(title, icon, content, onEditClick, Color(0xFFFFB945), modifier)
+}
+@ExperimentalMaterialApi
+@Composable
 private fun CardEditor(
     @StringRes title: Int,
     @DrawableRes icon: Int,
@@ -75,7 +92,7 @@ private fun CardEditor(
     Card(
         backgroundColor = MaterialTheme.colors.background,
         modifier = modifier,
-        elevation = 10.dp,
+        elevation = 20.dp,
         shape = RoundedCornerShape(20.dp),
         onClick = onEditClick
     ) {
@@ -95,89 +112,47 @@ private fun CardEditor(
 }
 
 
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun CardEditorInfo(
+    @StringRes title: Int,
+    @DrawableRes icon: Int,
+    content: String,
+    onEditClick: () -> Unit,
+    highlightColor: Color,
+    modifier: Modifier
 
+) {
+    Card(
+        backgroundColor = MaterialTheme.colors.background,
+        modifier = modifier,
+        elevation = 20.dp,
+        shape = RoundedCornerShape(5.dp),
+        onClick = onEditClick
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(1f)
+                .padding(
+                    start = 16.dp,
+                    top = 6.dp,
+                    end = 8.dp,
+                    bottom = 6.dp
+                ),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
 
-//
-//@Composable
-//fun DangerousCardEditor(
-//    @StringRes title: Int,
-//    @DrawableRes icon: Int,
-//    content: String,
-//    modifier: Modifier,
-//    onEditClick: () -> Unit
-//) {
-//    CardEditor(title, icon, content, onEditClick, MaterialTheme.colors.primary, modifier)
-//}
-//
-//@Composable
-//fun RegularCardEditor(
-//    @StringRes title: Int,
-//    @DrawableRes icon: Int,
-//    content: String,
-//    modifier: Modifier,
-//    onEditClick: () -> Unit
-//) {
-//    CardEditor(title, icon, content, onEditClick, MaterialTheme.colors.surface, modifier)
-//}
-//
-//@OptIn(ExperimentalFoundationApi::class)
-//@Composable
-//private fun CardEditor(
-//    @StringRes title: Int,
-//    @DrawableRes icon: Int,
-//    content: String,
-//    onEditClick: () -> Unit,
-//    highlightColor: Color,
-//    modifier: Modifier,
-//    isOpened: Boolean = false,
-//    isSelected: Boolean = false,
-//
-//
-//    ) {
-//    ElevatedCard(
-//        modifier = modifier
-//            .padding(horizontal = 16.dp, vertical = 4.dp)
-//            .semantics { selected = isSelected }
-//            .clip(CardDefaults.shape)
-//            .combinedClickable(
-//                onClick = { onEditClick() },
-//                onLongClick = { onEditClick() }
-//            )
-//            .clip(CardDefaults.shape),
-////        elevation = CardDefaults.cardElevation(
-////            defaultElevation = 8.dp
-////        ),
-//        colors = CardDefaults.cardColors(
-//            containerColor = if (isSelected) MaterialTheme.colors.primary
-//            else if (isOpened) MaterialTheme.colors.secondary
-//            else MaterialTheme.colors.surface
-//        )
-//    )
-//    {
-//        Row(
-//            verticalAlignment = Alignment.CenterVertically,
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(16.dp)
-//        ) {
-//            Column(modifier = Modifier.weight(1f)) {
-//                Text(
-//                    stringResource(title),
-//                    color = highlightColor
-//                )
-//            }
-//
-//            if (content.isNotBlank()) {
-//                Text(text = content, modifier = Modifier.padding(16.dp, 0.dp))
-//            }
-//
-//            Icon(
-//                painter = painterResource(icon),
-//                contentDescription = "Icon",
-//                tint = highlightColor
-//            )
-//        }
-//    }
-//}
+        ){
+            Column(modifier = Modifier.weight(1f)) { Text(stringResource(title), color = highlightColor) }
+
+            if (content.isNotBlank()) {
+                Text(text = content, modifier =Modifier.padding(16.dp, 0.dp)
+                )
+            }
+
+            Icon(painter = painterResource(icon), contentDescription = "Icon", tint = highlightColor)
+        }
+    }
+}
 
 

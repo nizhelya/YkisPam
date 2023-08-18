@@ -3,18 +3,17 @@ $response = array();
 
 include_once "GeneralFunctions.php";
 
-if (isset($_POST['kod']) && !empty($_POST['kod']) &&
-    isset($_POST['address_id']) && !empty($_POST['address_id']) &&
-    isset($_POST['user_id']) && !empty($_POST['user_id']) &&
-    isset($_POST['token']) && !empty($_POST['token']))   {
-    $address_id = $_POST['address_id'];
-    $user_id = $_POST['user_id'];
-    $token = $_POST['token'];
+if (isset($_POST['kod']) && !empty($_POST['kod']) &&    
+    isset($_POST['uid']) && !empty($_POST['uid']) &&    
+    isset($_POST['email']) && !empty($_POST['email']))   {
+    $uid = $_POST['uid'];
     $kod = $_POST['kod'];
+    $email = $_POST['email'];
+
     $dbOperationsObject = new DBOperations();
     $generalFunctionsObject = new GeneralFunctionsClass();
 
-        $resultCheck = $dbOperationsObject->checkAddFlat($address_id , $kod);
+        $resultCheck = $dbOperationsObject->checkAddFlat( $kod,$uid,$email);
         $check = $generalFunctionsObject->checkAddFlat($resultCheck);
         $response["success"] = $check[0]["success"];
         $response["message"] = $check[0]["message"];

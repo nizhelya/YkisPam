@@ -25,4 +25,6 @@ const val APPARTMENT_SCREEN = "AppartmentScreen"
 const val ADD_APPARTMENT_SCREEN = "AddAppartmentScreen"
 const val PROFILE_SCREEN = "ProfileScreen"
 const val AGREEMENT_SCREEN = "AgreementScreen"
+const val SETTINGS_SCREEN = "SettingsScreen"
+
 

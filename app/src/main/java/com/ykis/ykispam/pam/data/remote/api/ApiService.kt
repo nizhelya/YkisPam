@@ -22,11 +22,11 @@ interface ApiService {
 //        const val SERVER_URL = "http://10.0.2.2/YkisMobileRest"
 //        const val SERVER_URL = "http://192.168.0.177/MobYkis/YkisMobileRest"
 
-//        const val SERVER_URL = "http://192.168.0.177/MobYkis/YkisMobileRest"
+        const val SERVER_URL = "http://192.168.0.177/YkisPAM/YkisMobileRest"
 
-//        const val SERVER_URL = "http://192.168.0.104/MobYkis/YkisMobileRest"
+//        const val SERVER_URL = "http://192.168.88.156/MobYkis/YkisMobileRest"
 
-        const val BASE_URL = "http://192.168.0.104/MobYkis/YkisMobileRest/rest_api/"
+        const val BASE_URL = "$SERVER_URL/rest_api/"
         const val GET_FLAT = "getFlatById.php"
         const val GET_SERVICE_FLAT = "getFlatServices.php"
         const val GET_FLAT_PAYMENT = "getFlatPayments.php"
@@ -49,7 +49,7 @@ interface ApiService {
         const val DELETE_CURRENT_WATER_READING = "deleteCurrentWaterReading.php"
         const val DELETE_CURRENT_HEAT_READING = "deleteCurrentHeatReading.php"
         const val PARAM_ADDRESS_ID = "address_id"
-        const val PARAM_USER_ID = "user_id"
+        const val PARAM_USER_ID = "uid"
         const val STREET_ID = "street_id"
         const val HOUSE_ID = "house_id"
         const val ADDRESS_ID = "address_id"

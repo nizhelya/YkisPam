@@ -30,7 +30,7 @@ fun Modifier.basicButton(): Modifier {
 }
 
 fun Modifier.card(): Modifier {
-  return this.padding(16.dp, 8.dp, 16.dp, 4.dp)
+  return this.padding(4.dp, 4.dp, 4.dp, 4.dp)
 
 }
 

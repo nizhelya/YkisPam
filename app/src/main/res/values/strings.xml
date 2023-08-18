@@ -36,7 +36,6 @@
     <string name="repeat_password">Повторить  пароль</string>
     <string name="generic_error">Что-то пошло не так. Пожалуйста попытайтесь снова.</string>
     <string name="email_error">Пожалуйста введите правильный email.</string>
-    <string name="cancel">Отмена</string>
     <string name="try_again">Попытайтесь снова</string>
     <string name="profile">профіль користувача</string>
 
@@ -46,6 +45,9 @@
     <string name="forgot_password">Забули пароль? Натисніть для\n його відновлення по email</string>
     <string name="recovery_email_sent">Перевірте поштову скриньку (спам) на наявність листа для відновлення.</string>
     <string name="empty_password_error">Пароль не може бути пустим.</string>
+    <string name="empty_field_error">Поле не може бути пустим.</string>
+    <string name="empty_text"></string>
+
     <string name="no_account">Немає облікового запису?\n Зареєструватися.</string>
     <!-- SignUpScreen -->
     <string name="create_account_toolbar">Реєстрація</string>
@@ -78,6 +80,221 @@
     <string name="password_failure">Пароль недійсний або у користувача немає пароля</string>
     <string name="no_user_identifier">Немає запису користувача, відповідного цьому ідентифікатору. Користувач міг бути видалений</string>
     <string name="revoke_access">скасувати доступ</string>
-    <string name="show_less">Show less</string>
-    <string name="show_more">Show more</string>
+    <string name="show_less">Показувати менше</string>
+    <string name="secret_сode">Секретний код</string>
+    <string name="add_flat_secret_сode">За допомогою секретного коду</string>
+    <string name="add_flat_authenticator_сode">За допомогою згенерованого коду</string>
+
+    <string name="list_appartment">Перелік квартир</string>
+    <string name="list_family">Склад сім\'ї</string>
+    <string name="bti">БТІ</string>
+    <string name="add_appartment">Додати квартиру</string>
+    <string name="pick_block">Район</string>
+    <string name="pick_street">Вулиця</string>
+    <string name="tooltip_code">Код можна отримати в касах прийому комунальних платежів при оплаті. Код знаходиться у верхньому лівому кутку роздруківки про оплату</string>
+    <string name="block">Район</string>
+    <string name="street">Вулиця</string>
+    <string name="house">Дім</string>
+    <string name="flat">Квартира</string>
+    <string name="no_data_title">Нема записів</string>
+    <string name="no_data_subtitle">Додайте свою квартиру</string>
+    <string name="add_appartment_info">Список ваших квартир порожній.</string>
+
+    <string name="born_text">Дата народження:</string>
+    <string name="relationship_text">Родинність:</string>
+    <string name="sex_text">Стать:</string>
+    <string name="phone_text">Номер телефона:</string>
+    <string name="subsidia_text">Субсидія:</string>
+    <string name="vkl_text">Прописаний:</string>
+    <string name="ots_text">Відсутній:</string>
+    <string name="inn_text">РНОКПП:</string>
+    <string name="card_text">Статутні документи</string>
+    <string name="doc_text">Документ:</string>
+    <string name="seria_text">Серія:</string>
+    <string name="number_text">Номер:</string>
+    <string name="date_issue_text">Дата видачі:</string>
+    <string name="issued_text">Виданий:</string>
+    <string name="desc_delete_appartment">Ви дійсно бажаєте видалити\n%s зі списку ваших квартир? Додати її заново можно задопомогою секретного кода</string>
+    <string name="title_delete_appartment">Видалити квартиру?</string>
+    <string name="delete_appartment">Видалити квартиру</string>
+
+    <string name="cancel">Відмінити</string>
+    <string name="delete">Видалити</string>
+    <string name="area_flat">Площа квартири(м²)</string>
+    <string name="contacts">Контактні дані</string>
+    <string name="PIB">ПІБ</string>
+    <string name="area_full">Корисна:</string>
+    <string name="area_life">Житлова:</string>
+    <string name="area_extra">Додаткова:</string>
+    <string name="area_otopl">Опалення:</string>
+    <string name="elevator_text">Ліфт:</string>
+    <string name="rooms">Кімнат:</string>
+    <string name="data_bti">Дані БТІ </string>
+    <string name="private_text">Приват:</string>
+    <string name="private_ok">Так</string>
+    <string name="private_no">Ні</string>
+
+    <string name="data_order">дата видачі ордера:</string>
+    <string name="order_text">Ордер:</string>
+    <string name="edit">Оновити</string>
+    <string name="updated">Дані оновлено</string>
+    <string name="phone">Номер телефону</string>
+    <string name="dialog_edit_title">Оновити контактну інформацію</string>
+    <string name="phone_colon">Телефон:</string>
+    <string name="employer_text">Гл.наймач (П.І.Б.)  </string>
+    <string name="employer_none">дані відсутні</string>
+
+    <string name="owner_text">Власник:</string>
+    <string name="empty_phone">Додайте свій номер телефону</string>
+    <string name="empty_email">Додайте свою електронну адресу</string>
+    <string name="vodokanal">КП "ЮЖВОДОКАНАЛ"</string>
+    <string name="vodokanal_colon">KП "ЮЖВОДОКАНАЛ":</string>
+    <string name="ytke">КП тм "ЮЖТЕПЛОКОМУНЕНЕРГО"</string>
+    <string name="ytke_colon">КП тм "ЮЖТЕПЛОКОМУНЕНЕРГО":</string>
+    <string name="yzhtrans">ЮМКП "ЮЖТРАНС"</string>
+    <string name="yzhtrans_colon">ЮМКП "ЮЖТРАНС":</string>
+    <string name="organ">Організація</string>
+    <string name="borg_text">Борг на %s</string>
+    <string name="compound_text">Склад(людина)</string>
+    <string name="tenant_text">Прописано:</string>
+    <string name="podnan_text">Піднаймач:</string>
+    <string name="absent_text">Відсутні:</string>
+    <string name="total_debt_text">Усього до сплати:</string>
+    <string name="accrued">Нарахування</string>
+    <string name="payment_list">Платежі</string>
+    <string name="kvartplata_text">Внески:</string>
+    <string name="summary">Усього:</string>
+    <string name="payment_text">Платіж від:</string>
+    <string name="start_debt">Борг на\nпочаток</string>
+    <string name="accured_text">Нарахо-\nвано</string>
+    <string name="end_debt">Борг на\nкінець</string>
+    <string name="services">Послуги\n </string>
+    <string name="refund">Відшкодування</string>
+    <string name="paid">Спла-\nчено</string>
+    <string name="tbo">ТПВ:</string>
+    <string name="prixod">Приход:</string>
+    <string name="add">Додати</string>
+
+    //FragmentLabel
+    <string name="water_meter">Водяний</string>
+    <string name="heat_meter">Тепловий</string>
+    <string name="info">Інфо</string>
+    <string name="meters">Лічільники</string>
+
+
+    <string name="operator">Оператор:</string>
+    <string name="show_more">Подивитися більше</string>
+    <string name="date_colon">Дата:</string>
+    <string name="next">Продовжити</string>
+    //WaterMeter
+    <string name="water_detail_text">Технічна характеристика</string>
+    <string name="wt">Технічна характеристика</string>
+    <string name="number_colon">Номер:</string>
+    <string name="place_colon">Місце:</string>
+    <string name="model_colon">Модель:</string>
+    <string name="position_colon">Позиція:</string>
+    <string name="sdate_colon">Дата введення:</string>
+    <string name="fdate_colon">Наступна:</string>
+    <string name="pdate_colon">Попередня:</string>
+    <string name="check_water_meter">Перевірка</string>
+    <string name="zdate_colon">Дата випуску:</string>
+    <string name="stoki_colon">Стоки:</string>
+    <string name="general_colon">Спільний:</string>
+    <string name="stop_colon">Призупинено:</string>
+    <string name="water_history_colon">Історія показань приладів обліку води:</string>
+    <string name="reading_added">Показання додани</string>
+    <string name="spisan_colon">Списан:</string>
+    <string name="out_colon">На перевірці:</string>
+    //WaterReading
+    <string name="date_ot_colon">Дата попереднього:</string>
+    <string name="date_do_colon">Дата поточного:</string>
+    <string name="reading">Показання</string>
+    <string name="average">За середнім</string>
+    <string name="days_colon">Днів:</string>
+    <string name="qty_cube_colon">Куб раз:</string>
+    <string name="cube_day_colon">Куб/день:</string>
+    <string name="period">Період</string>
+    <string name="last_readings">Останні показання</string>
+    <string name="last_colon">Попереднє :</string>
+    <string name="current_colon">Поточне :</string>
+    <string name="cubs_colon">Кубів:</string>
+    //HeatMeter
+    <string name="no_heat_meter">У вас нема лічільників тепла</string>
+    //HeatDetail
+    <string name="edizm_colon">Одиниці вимірювання:</string>
+    <string name="area_colon">Площа:</string>
+    <string name="koef_colon">Коефіцієнт:</string>
+    <string name="heat_history_colon">Історія показань приладів обліку тепла:</string>
+    //HeatDetail
+    <string name="gkal_rasch_colon">Розрахунох:</string>
+    <string name="gkal_day_colon">ГКал/день:</string>
+    <string name="qty_colon">Кількість:</string>
+    <string name="gkal_colon">Нараховано(ГКал):</string>
+    <string name="rate_colon">Тариф:</string>
+    <string name="coefficient_colon">Коефіцієнт переведення:</string>
+    //addReadingDialog
+    <string name="new_reading">Нове показання</string>
+    <string name="current_reading">Поточне показання</string>
+    <string name="add_reading">Додати нове показання</string>
+    <string name="delete_reading">Видалити показання</string>
+    //deleteReadingDialog
+    <string name="delete_reading_title">Видалити останнє показання?</string>
+    //Payment
+    <string name="mtb_text">МТБ БАНК</string>
+    <string name="pay_text">Оплатити за допомогою :</string>
+    <string name="pb_text">ПриватБанк</string>
+    <string name="ipay_text">iPay.ua</string>
+    <string name="pay_with_text">до сплати </string>
+    <string name="pay_with_colon">До сплати:</string>
+    <string name="edit_pay_text">Сумма до сплати</string>
+    <string name="pay">Сплатити</string>
+    <string name="two_numbers_after_comma">%.2f</string>
+    //error
+    <string name="error_network">Немає доступу до Інтернету \n Перевірте підключення</string>
+    <string name="error_update">Невдалося оновити</string>
+    <string name="error_delete_flat">Невдалося видалити квартиру</string>
+    <string name="error_missing_fields">В запросе отсутствует поле</string>
+    <string name="error_flat_in_db">Ви вже додали цю квартиру</string>
+    <string name="error_incorrect_code">Неправильний код</string>
+    <string name="error_server">Помилка сервера</string>
+    <string name="error_server_appartment">Немає доступу до Інтернету \n Перевірте підключення по WiFi\nЗавантаження локальних даних </string>
+    <string name="error_network_wifi">Немає доступу до Інтернету \n Перевірте підключення по WI-FI </string>
+
+    <string name="error_cant_send_email">Невозможно отправить на этот email</string>
+    <string name="error_add_reading">Невдалося додати показання</string>
+    <string name="error_incorrect_reading">Помилка вводу даних.\n Перевірте показання</string>
+
+    //success
+    <string name="success_delete_flat">Квартира успішно видалена</string>
+    <string name="success_add_flat">Ви додали квартиру</string>
+
+
+    <string name="confirm_password">Подтвердите пароль</string>
+    <string name="name">Имя</string>
+    <string name="register">Регистрация</string>
+    <string name="already_have_account">Уже есть аккаунт?</string>
+    <string name="dont_have_account">Еще нет аккаунта?</string>
+    <string name="forget_password">Забыли пароль?</string>
+    <string name="login">Вход</string>
+    <string name="chats">Чаты</string>
+    <string name="friends">Друзья</string>
+    <string name="add_friend">Пригласить друга</string>
+    <string name="friend_requests">Входящие приглашения</string>
+    <string name="logout">Выйти</string>
+
+    <string name="name_colon">Имя:</string>
+    <string name="email_colon">Email:</string>
+    <string name="status">Статус</string>
+    <string name="status_colon">Статус:</string>
+    <string name="current_password">Текущий пароль</string>
+    <string name="current_password_colon">Текущий пароль:</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="new_password_colon">Новый пароль:</string>
+    <string name="update_account">Обновить аккаунт</string>
+    <string name="send_request">Отправить запрос</string>
+    <string name="ic_arrow_forward">стрілка в право</string>
+    <string name="loading_from_wifi">Через мережу Wi-Fi</string>
+    <string name="loading_from_mobile">Через мобільну сеть</string>
+    <string name="settings_loadin_from_server">Завантаження даних з сервера</string>
+
 </resources>

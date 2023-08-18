@@ -13,33 +13,31 @@ class FamilyRemoteImpl @Inject constructor(
     private val request: Request,
     private val apiService: ApiService
 ) : FamilyRemote {
+
+
+    private fun createGetFamilyFromFlatMap(
+        addressId: Int,
+        uid: String
+    ): Map<String, String> {
+        val map = HashMap<String, String>()
+        map.put(ApiService.ADDRESS_ID, addressId.toString())
+        map.put(ApiService.PARAM_USER_ID, uid)
+        return map
+    }
+
     override fun getFamilyFromFlat(
         addressId: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Either<Failure, List<FamilyEntity>> {
         return request.make(
             apiService.getFamilyFromFlat(
                 createGetFamilyFromFlatMap(
                     addressId,
-                    userId,
-                    token
+                    uid
                 )
             )
         ) {
             it.family
         }
-    }
-
-    private fun createGetFamilyFromFlatMap(
-        addressId: Int,
-        userId: Int,
-        token: String
-    ): Map<String, String> {
-        val map = HashMap<String, String>()
-        map.put(ApiService.ADDRESS_ID, addressId.toString())
-        map.put(ApiService.PARAM_USER_ID, userId.toString())
-        map.put(ApiService.PARAM_TOKEN, token)
-        return map
     }
 }

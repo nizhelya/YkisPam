@@ -3,6 +3,7 @@ package com.ykis.ykispam.pam.data.cache.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.ykis.ykispam.di.ApplicationScope
 import com.ykis.ykispam.pam.data.cache.dao.AppartmentDao
 import com.ykis.ykispam.pam.data.cache.dao.FamilyDao
 import com.ykis.ykispam.pam.data.cache.dao.HeatMeterDao
@@ -19,6 +20,10 @@ import com.ykis.ykispam.pam.domain.payment.PaymentEntity
 import com.ykis.ykispam.pam.domain.service.ServiceEntity
 import com.ykis.ykispam.pam.domain.water.meter.WaterMeterEntity
 import com.ykis.ykispam.pam.domain.water.reading.WaterReadingEntity
+import kotlinx.coroutines.CoroutineScope
+import javax.inject.Inject
+import javax.inject.Provider
+
 
 @Database(
     entities = [
@@ -46,4 +51,8 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         val DATABASE_NAME: String = "mykis_db"
     }
+    class Callback @Inject constructor(
+        private val database: Provider<AppDatabase>,
+        @ApplicationScope private val applicationScope: CoroutineScope
+    ) : RoomDatabase.Callback()
 }

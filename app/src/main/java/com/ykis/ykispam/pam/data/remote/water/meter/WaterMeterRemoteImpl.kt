@@ -15,15 +15,13 @@ class WaterMeterRemoteImpl @Inject constructor(
 ) : WaterMeterRemote {
     override fun getWaterMeter(
         addressId: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Either<Failure, List<WaterMeterEntity>> {
         return request.make(
             apiService.getWaterMeter(
                 createGetWaterMeterMap(
                     addressId,
-                    userId,
-                    token
+                    uid
                 )
             )
         )
@@ -35,13 +33,11 @@ class WaterMeterRemoteImpl @Inject constructor(
 
     private fun createGetWaterMeterMap(
         addressId: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Map<String, String> {
         val map = HashMap<String, String>()
         map.put(ApiService.ADDRESS_ID, addressId.toString())
-        map.put(ApiService.PARAM_USER_ID, userId.toString())
-        map.put(ApiService.PARAM_TOKEN, token)
+        map.put(ApiService.PARAM_USER_ID, uid)
         return map
     }
 

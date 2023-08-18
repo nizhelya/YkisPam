@@ -3,18 +3,12 @@ $response = array();
 
 include_once "GeneralFunctions.php";
 
-if (isset($_POST['user_id']) &&
-    !empty($_POST['user_id']) &&
-    isset($_POST['address_id']) &&
-    !empty($_POST['address_id']) &&
-    isset($_POST['token']) &&
-    !empty($_POST['token']))   {
+if (!empty($_POST['address_id']) &&  !empty($_POST['uid']))   {
     $address_id = $_POST['address_id'];
-    $user_id = $_POST['user_id'];
-    $token = $_POST['token'];
+    $uid = $_POST['uid'];
     $dbOperationsObject = new DBOperations();
 
-        $result = $dbOperationsObject->deleteFlatByUser($address_id , $user_id);
+        $result = $dbOperationsObject->deleteFlatByUser($address_id , $uid);
         if(mysqli_affected_rows($result)>0){
         $response["success"] = 1;
         $response["message"] =  "Appartment deleted";

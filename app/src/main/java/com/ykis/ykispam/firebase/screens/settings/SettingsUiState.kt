@@ -14,14 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-package com.ykis.ykispam.firebase.screens.splash
+package com.ykis.ykispam.firebase.screens.settings
 
 
 data class SettingsUiState(
-    val uid: String = "",
-    val isEmailVerification: Boolean = false,
-    val provider: String = "",
-    val name: String?,
-    val email: String?,
-    val phone: String?
+    val wifi: Boolean = true,
+    val mobile: Boolean = false,
 )

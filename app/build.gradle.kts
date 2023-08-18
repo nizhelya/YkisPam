@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId = "com.ykis.ykispam"
-        minSdk = 21
+        minSdk = 22
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -62,6 +62,7 @@ dependencies {
 
     implementation(libs.core.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(libs.constraintlayout)
 
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -70,6 +71,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
 //    implementation("androidx.compose.runtime:runtime-livedata")
+//    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
+//    implementation("androidx.compose.ui:ui:1.5.0")
 
 //    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.0")
 //    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0")
@@ -93,6 +96,8 @@ dependencies {
     implementation(libs.activity.compose)
     implementation(libs.ui)
     implementation(libs.ui.graphics)
+//    implementation(libs.ui.android)
+
     implementation(libs.ui.tooling.preview)
     implementation(libs.androidx.material)
 
@@ -105,6 +110,8 @@ dependencies {
 
 //    hilt
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.constraintlayout.compose)
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.android)
 // Room

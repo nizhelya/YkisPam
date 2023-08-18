@@ -16,6 +16,7 @@ limitations under the License.
 
 package com.ykis.ykispam.core.composable
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,36 +28,49 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.VectorComposable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.google.android.play.core.integrity.p
 import com.ykis.ykispam.R
-import kotlin.reflect.KFunction1
 import com.ykis.ykispam.R.drawable as AppIcon
 import com.ykis.ykispam.R.string as AppText
 
 @Composable
 fun BasicField(
-    @StringRes text: Int,
+    @StringRes label: Int,
+    @StringRes placeholder: Int,
     value: String,
     onNewValue: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     OutlinedTextField(
         singleLine = true,
-        modifier = modifier,
+//        colors = TextFieldColors(Color(0xFFFFB945)),
+        modifier = Modifier
+            .fillMaxWidth(),
+        label = {
+            Text(
+                text = stringResource(id = label),
+//                color = Color(0xFFFFB945)
+            )
+        },
         value = value,
         onValueChange = { onNewValue(it) },
-        placeholder = { Text(stringResource(text)) }
+        placeholder = { Text(stringResource(id=placeholder)) }
     )
 }
 
@@ -64,7 +78,9 @@ fun BasicField(
 fun EmailField(value: String, onNewValue: (String) -> Unit, modifier: Modifier = Modifier) {
     OutlinedTextField(
         singleLine = true,
-        modifier = Modifier.fillMaxWidth().padding(16.dp,0.dp,16.dp,0.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp, 0.dp, 16.dp, 0.dp),
         label = {
             Text(
                 text = stringResource(id = R.string.email)
@@ -73,7 +89,7 @@ fun EmailField(value: String, onNewValue: (String) -> Unit, modifier: Modifier =
         value = value,
         onValueChange = { onNewValue(it) },
         placeholder = { Text(stringResource(AppText.email_placeholder)) },
-        leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "Email") }
+        leadingIcon = { Icon(imageVector = Icons.Filled.Email, contentDescription = "Email") }
     )
 }
 
@@ -109,7 +125,9 @@ private fun PasswordField(
         if (isVisible) VisualTransformation.None else PasswordVisualTransformation()
 
     OutlinedTextField(
-        modifier = Modifier.fillMaxWidth().padding(16.dp,0.dp,16.dp,0.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp, 0.dp, 16.dp, 0.dp),
         label = {
             Text(
                 text = stringResource(id = placeholder)
@@ -126,5 +144,46 @@ private fun PasswordField(
         },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         visualTransformation = visualTransformation
+    )
+}
+@Composable
+fun LabelField(
+    value: String,
+    @StringRes label: Int,
+    @StringRes placeholder: Int,
+    modifier: Modifier = Modifier
+) {
+    OutlinedTextField(
+        singleLine = false,
+        modifier = modifier,
+        readOnly = true,
+        maxLines = 2,
+
+        label = {
+            Text(
+                text = stringResource(id = label)
+            )
+        },
+        value = value,
+        onValueChange = {},
+        placeholder = { Text(stringResource(id=placeholder)) }
+    )
+}
+@Composable
+fun Field(value: String, onNewValue: (String) -> Unit, modifier: Modifier = Modifier) {
+    OutlinedTextField(
+        singleLine = true,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp, 0.dp, 16.dp, 0.dp),
+        label = {
+            Text(
+                text = stringResource(id = R.string.email)
+            )
+        },
+        value = value,
+        onValueChange = { onNewValue(it) },
+        placeholder = { Text(stringResource(AppText.email_placeholder)) },
+        leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "Email") }
     )
 }

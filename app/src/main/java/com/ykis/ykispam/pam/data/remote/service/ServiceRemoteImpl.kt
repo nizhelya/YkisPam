@@ -19,8 +19,7 @@ class ServiceRemoteImpl @Inject constructor(
         qty: Byte,
         service: Byte,
         total: Byte,
-        userId: Int,
-        token: String
+        uid: String
     ): Either<Failure, List<ServiceEntity>> {
         return request.make(
             apiService.getFlatService(
@@ -30,8 +29,7 @@ class ServiceRemoteImpl @Inject constructor(
                     qty,
                     service,
                     total,
-                    userId,
-                    token
+                    uid
                 )
             )
         )
@@ -46,8 +44,7 @@ class ServiceRemoteImpl @Inject constructor(
         qty: Byte,
         service: Byte,
         total: Byte,
-        userId: Int,
-        token: String
+        uid: String
     ): Map<String, String> {
         val map = HashMap<String, String>()
         map.put(ApiService.ADDRESS_ID, addressId.toString())
@@ -55,8 +52,7 @@ class ServiceRemoteImpl @Inject constructor(
         map.put(ApiService.QTY, qty.toString())
         map.put(ApiService.SERVICE, service.toString())
         map.put(ApiService.TOTAL, total.toString())
-        map.put(ApiService.PARAM_USER_ID, userId.toString())
-        map.put(ApiService.PARAM_TOKEN, token)
+        map.put(ApiService.PARAM_USER_ID, uid)
         return map
     }
 

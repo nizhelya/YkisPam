@@ -23,8 +23,7 @@ class PaymentRepositoryImpl @Inject constructor(
                 return@flatMap if (params.needFetch) {
                     paymentRemote.getFlatPayments(
                         params.int,
-                        it.userId,
-                        it.token
+                        it.uid
                     )
                 } else {
                     Either.Right(

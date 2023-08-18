@@ -21,7 +21,7 @@ class WaterMeterRepositoryImpl @Inject constructor(
         return userCache.getCurrentUser()
             .flatMap {
                 return@flatMap if (params.needFetch) {
-                    waterMeterRemote.getWaterMeter(params.int, it.userId, it.token)
+                    waterMeterRemote.getWaterMeter(params.int, it.uid)
                 } else {
                     Either.Right(
                         waterMeterCache.getWaterMeter(params.int)

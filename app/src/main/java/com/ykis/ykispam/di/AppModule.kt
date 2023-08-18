@@ -58,10 +58,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -168,7 +171,7 @@ object AppModule {
         heatReadingCache: HeatReadingCache,
         appartmentCache: AppartmentCache
     ): AppartmentRepository {
-        return AppartmentRepositoryImpl(appartmentRemote,appartmentCache, firebaseService ,familyCache,serviceCache, paymentCache,waterMeterCache , heatMeterCache,waterReadingCache, heatReadingCache,userCache)
+        return AppartmentRepositoryImpl(appartmentRemote,appartmentCache, familyCache,serviceCache, paymentCache,waterMeterCache , heatMeterCache,waterReadingCache, heatReadingCache,userCache)
     }
 
     @Singleton
@@ -244,4 +247,13 @@ object AppModule {
     ): HeatReadingRepository {
         return  HeatReadingRepositoryImpl(heatReadingCache ,heatReadingRemote , userCache)
     }
+    @ApplicationScope
+    @Provides
+    @Singleton
+    fun provideApplicationScope(): CoroutineScope {
+        return CoroutineScope(SupervisorJob())
+    }
 }
+@Retention(AnnotationRetention.RUNTIME)
+@Qualifier
+annotation class ApplicationScope

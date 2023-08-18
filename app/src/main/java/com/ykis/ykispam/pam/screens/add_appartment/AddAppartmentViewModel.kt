@@ -16,99 +16,69 @@ limitations under the License.
 
 package com.ykis.ykispam.pam.screens.add_appartment
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.ykis.ykispam.BaseViewModel
-import com.ykis.ykispam.firebase.model.service.repo.ConfigurationService
+import com.ykis.ykispam.R
+import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.firebase.model.service.repo.LogService
-import com.ykis.ykispam.navigation.SIGN_UP_SCREEN
-import com.ykis.ykispam.pam.data.cache.appartment.AppartmentCacheImpl
-import com.ykis.ykispam.pam.domain.appartment.request.DeleteFlatByUser
-import com.ykis.ykispam.pam.domain.appartment.request.GetAppartments
-import com.ykis.ykispam.pam.domain.appartment.request.GetFlatById
-import com.ykis.ykispam.pam.domain.appartment.request.UpdateBti
+import com.ykis.ykispam.navigation.APPARTMENT_SCREEN
+import com.ykis.ykispam.navigation.PROFILE_SCREEN
+import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.pam.domain.address.request.AddFlatByUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class AddAppartmentViewModel @Inject constructor(
-    private val configurationService: ConfigurationService,
-    private val getAppartmentsUseCase: GetAppartments,
-    private val deleteFlatByUser: DeleteFlatByUser,
-    private val updateBtiUseCase: UpdateBti,
-    private val getFlatByIdUseCase : GetFlatById,
-    private val appartmentCacheImpl: AppartmentCacheImpl,
+    private val addFlatByUser: AddFlatByUser,
     logService: LogService
-    ) : BaseViewModel(logService) {
-//    private val _appartment = MutableLiveData<AppartmentEntity>()
-//    val appartment: LiveData<AppartmentEntity> get() = _appartment
-//
-//    private val _appartments = MutableLiveData<List<AppartmentEntity>>()
-//    val appartments: LiveData<List<AppartmentEntity>> get() = _appartments
-//
-//    private val _address = MutableLiveData<List<AddressEntity>>()
-//    val address: LiveData<List<AddressEntity>> get() = _address
+) : BaseViewModel(logService) {
 
-//    private val _resultText = MutableLiveData<GetSimpleResponse>()
-//    val resultText: LiveData<GetSimpleResponse> = _resultText
-//
-//    var currentAddress:Int = 0
-//    var currentHouse:Int = 0
-//    fun deleteFlat(addressId:Int){
-//        deleteFlatByUser(addressId){
-//                it -> it.either(::handleFailure){
-//            handleResultText(
-//                it , _resultText
-//            )
-//        }
-//        }
-//    }
-fun onAddClick(openScreen: (String) -> Unit) {
-    openScreen(SIGN_UP_SCREEN)
-}
-//    fun getAppartmentsByUser(needFetch: Boolean = false) {
-//        getAppartmentsUseCase(needFetch) { it ->
-//            it.either(::handleFailure) {
-//                handleAppartments(
-//                    it, !needFetch
-//                )
-//            }
-//        }
-//    }
-//    fun getFlatFromCache(addressId: Int){
-//        viewModelScope.launch {
-//            _appartment.value = appartmentCacheImpl.getAppartmentById(addressId)
-//        }
-//    }
-//    fun updateBti(addressId:Int , phone:String , email:String){
-//        updateBtiUseCase(AppartmentEntity(addressId = addressId , phone = phone , email = email)){
-//                it -> it.either(::handleFailure){
-//            handleResultText(
-//                it , _resultText
-//            )
-//        }
-//        }
-//    }
-//    fun getAppartment(appartmentEntity: AppartmentEntity){
-//        _appartment.value = appartmentEntity
-//    }
-//    private fun handleAppartments(appartments: List<AppartmentEntity>, fromCache: Boolean) {
-//        _appartments.value = appartments
-//        updateProgress(false)
-//
-//        if (fromCache) {
-//            updateProgress(true)
-//            getAppartmentsByUser(true)
-//        }
-//    }
-//
-//    private fun handleResultText(result: GetSimpleResponse, liveData: MutableLiveData<GetSimpleResponse>){
-//        liveData.value = result
-//    }
-//
-//    override fun onCleared() {
-//        super.onCleared()
-//        getAppartmentsUseCase.unsubscribe()
-//        deleteFlatByUser.unsubscribe()
-//        updateBtiUseCase.unsubscribe()
-//    }
+    private val _resultText = MutableLiveData<GetSimpleResponse>()
+    val resultText: LiveData<GetSimpleResponse> = _resultText
+
+    var uiState by mutableStateOf(SecretKeyUiState())
+        private set
+    private val secretCode
+        get() = uiState.secretCode
+
+    fun onSecretCodeChange(newValue: String) {
+        uiState = uiState.copy(secretCode = newValue)
+    }
+
+    fun onAddAppartmentClick(openScreen: (String) -> Unit) {
+        if (secretCode.isBlank()) {
+            SnackbarManager.showMessage(R.string.empty_field_error)
+            return
+        }
+
+        addFlat(secretCode)
+        if (failureData == null) {
+            openScreen(APPARTMENT_SCREEN)
+        }
+
+    }
+
+    fun addFlat(secretCode: String) {
+        addFlatByUser(secretCode) { it ->
+            it.either(::handleFailure) {
+                handleResultText(
+                    it,
+                    _resultText
+                )
+            }
+        }
+    }
+
+    private fun handleResultText(
+        result: GetSimpleResponse,
+        livedata: MutableLiveData<GetSimpleResponse>
+    ) {
+        livedata.value = result
+    }
 }
 

@@ -23,7 +23,7 @@ class HeatMeterRepositoryImpl @Inject constructor(
         return userCache.getCurrentUser()
             .flatMap {
                 return@flatMap if (params.needFetch) {
-                    heatMeterRemote.getHeatMeter(params.int, it.userId, it.token)
+                    heatMeterRemote.getHeatMeter(params.int, it.uid)
                 } else {
                     Either.Right(
                         heatMeterCache.getHeatMeter(params.int)

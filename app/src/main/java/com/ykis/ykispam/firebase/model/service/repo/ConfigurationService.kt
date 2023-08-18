@@ -17,7 +17,8 @@ limitations under the License.
 package com.ykis.ykispam.firebase.model.service.repo
 
 interface ConfigurationService {
-    val isShowTaskEditButtonConfig: Boolean
+    val isWiFiCheckConfig: Boolean
+    val isMobileCheckConfig: Boolean
     val agreementTitle: String
     val agreementText: String
     suspend fun fetchConfiguration(): Boolean

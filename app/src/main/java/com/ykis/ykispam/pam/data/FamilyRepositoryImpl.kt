@@ -22,7 +22,7 @@ class FamilyRepositoryImpl @Inject constructor(
         return userCache.getCurrentUser()
             .flatMap {
                 return@flatMap if (params.needFetch) {
-                    familyRemote.getFamilyFromFlat(params.int, it.userId, it.token)
+                    familyRemote.getFamilyFromFlat(params.int, it.uid)
                 } else {
                     Either.Right(
                         familyCache.getFamilyFromFlat(params.int)

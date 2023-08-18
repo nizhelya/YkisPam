@@ -27,7 +27,6 @@ import javax.inject.Inject
 class AppartmentRepositoryImpl @Inject constructor(
     private val appartmentRemote: AppartmentRemote,
     private val appartmentCache: AppartmentCache,
-    private val firebaseService: FirebaseService,
     private val familyCache: FamilyCache,
     private val serviceCache: ServiceCache,
     private val paymentCache: PaymentCache,
@@ -42,39 +41,37 @@ class AppartmentRepositoryImpl @Inject constructor(
     override suspend fun getAppartmentsByUser(needFetch: Boolean): Either<Failure, List<AppartmentEntity>> {
         return userCache.getCurrentUser()
             .flatMap {
-                return@flatMap if (needFetch) {
-                    appartmentRemote.getAppartmentsByUser(it.userId, it.token)
+                if (needFetch) {
+                    return@flatMap appartmentRemote.getAppartmentsByUser(it.uid)
 
+                        .map { it.sortedBy { it.address } }
+                        .onNext {
+                            appartmentCache.deleteAllAppartments()
+                        }
+                        .onNext {
+                            for (i in it) {
+                                addressIdList.add(i.addressId)
+                            }
+                            familyCache.deleteFamilyFromFlat(addressIdList)
+                            serviceCache.deleteServiceFromFlat(addressIdList)
+                            paymentCache.deletePaymentFromFlat(addressIdList)
+                            waterMeterCache.deleteWaterMeter(addressIdList)
+                            heatMeterCache.deleteHeatMeter(addressIdList)
+                            waterReadingCache.deleteReadingFromFlat(addressIdList)
+                            heatReadingCache.deleteReadingFromFlat(addressIdList)
+                            addressIdList.clear()
+                        }
+                        .onNext {
+                            it.map {
+                                appartmentCache.addAppartmentByUser(listOf(it))
+                            }
+                        }
                 } else {
-                    Either.Right(
-                        appartmentCache.getAppartmentsByUser()
-                    )
-                }
-            }
-            .map { it.sortedBy { it.address } }
-            .onNext {
-                appartmentCache.deleteAllAppartments()
-            }
-            .onNext {
-                for (i in it) {
-                    addressIdList.add(i.addressId)
-                }
-                familyCache.deleteFamilyFromFlat(addressIdList)
-                serviceCache.deleteServiceFromFlat(addressIdList)
-                paymentCache.deletePaymentFromFlat(addressIdList)
-                waterMeterCache.deleteWaterMeter(addressIdList)
-                heatMeterCache.deleteHeatMeter(addressIdList)
-                waterReadingCache.deleteReadingFromFlat(addressIdList)
-                heatReadingCache.deleteReadingFromFlat(addressIdList)
-                addressIdList.clear()
-            }
-            .onNext {
-                it.map {
-                    appartmentCache.addAppartmentByUser(listOf(it))
+                    return@flatMap Either.Right(appartmentCache.getAppartmentsByUser())
+                        .map { it.sortedBy { it.address } }
                 }
             }
     }
-
 
 
     override fun deleteFlatByUser(
@@ -84,8 +81,7 @@ class AppartmentRepositoryImpl @Inject constructor(
             .flatMap {
                 return@flatMap appartmentRemote.deleteFlatByUser(
                     addressId,
-                    it.userId,
-                    it.token
+                    it.uid
                 )
             }
     }
@@ -101,14 +97,13 @@ class AppartmentRepositoryImpl @Inject constructor(
                     addressId,
                     phone,
                     email,
-                    it.userId,
-                    it.token
+                    it.uid
                 )
             }
     }
 
     override fun getFlatById(addressId: Int): Either<Failure, AppartmentEntity> {
         return userCache.getCurrentUser()
-            .flatMap { return@flatMap appartmentRemote.getFlatById(addressId, it.userId, it.token) }
+            .flatMap { return@flatMap appartmentRemote.getFlatById(addressId, it.uid) }
     }
 }

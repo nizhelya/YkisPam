@@ -10,6 +10,5 @@ interface AddressRepository {
     fun getStreetsFromBlock(blockId: Int): Either<Failure, List<AddressEntity>>
     fun getHousesFromStreet(streetId: Int, blockId: Int): Either<Failure, List<AddressEntity>>
     fun getFlatsFromHouse(houseId: Int): Either<Failure, List<AddressEntity>>
-    fun addFlatByUser(addressId: Int): Either<Failure, GetSimpleResponse>
-    fun checkCode(kod: String, addressId: Int): Either<Failure, GetSimpleResponse>
+    fun addFlatByUser(kod:String): Either<Failure, GetSimpleResponse>
 }

@@ -15,15 +15,13 @@ class HeatMeterRemoteImpl @Inject constructor(
 ) : HeatMeterRemote {
     override fun getHeatMeter(
         addressId: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Either<Failure, List<HeatMeterEntity>> {
         return request.make(
             apiService.getHeatMeter(
                 createGetHeatMeterMap(
                     addressId,
-                    userId,
-                    token
+                    uid
                 )
             )
         )
@@ -35,13 +33,11 @@ class HeatMeterRemoteImpl @Inject constructor(
 
     private fun createGetHeatMeterMap(
         addressId: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Map<String, String> {
         val map = HashMap<String, String>()
         map.put(ApiService.ADDRESS_ID, addressId.toString())
-        map.put(ApiService.PARAM_USER_ID, userId.toString())
-        map.put(ApiService.PARAM_TOKEN, token)
+        map.put(ApiService.PARAM_USER_ID, uid)
         return map
     }
 }

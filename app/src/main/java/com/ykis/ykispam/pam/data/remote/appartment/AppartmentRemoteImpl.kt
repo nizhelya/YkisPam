@@ -15,16 +15,10 @@ class AppartmentRemoteImpl @Inject constructor(
     private val apiService: ApiService
 ) : AppartmentRemote {
 
-    override fun getAppartmentsByUser(
-        userId: Int,
-        token: String
-    ): Either<Failure, List<AppartmentEntity>> {
+    override fun getAppartmentsByUser(uid: String): Either<Failure, List<AppartmentEntity>> {
         return request.make(
             apiService.getAppartmentsByUser(
-                createGetAppartmentsByUserMap(
-                    userId,
-                    token
-                )
+                createGetAppartmentsByUserMap(uid)
             )
         ) {
             it.appartments
@@ -33,16 +27,11 @@ class AppartmentRemoteImpl @Inject constructor(
 
     override fun deleteFlatByUser(
         addressId: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Either<Failure, GetSimpleResponse> {
         return request.make(
             apiService.deleteFlatByUser(
-                createRequestByAddressId(
-                    addressId,
-                    userId,
-                    token
-                )
+                createRequestByAddressId(addressId,uid)
             )
         ) {
             it
@@ -53,8 +42,7 @@ class AppartmentRemoteImpl @Inject constructor(
         addressId: Int,
         phone: String,
         email: String,
-        userId: Int,
-        token: String
+        uid: String,
     ): Either<Failure, GetSimpleResponse> {
         return request.make(
             apiService.updateBti(
@@ -62,8 +50,7 @@ class AppartmentRemoteImpl @Inject constructor(
                     addressId,
                     phone,
                     email,
-                    userId,
-                    token
+                    uid
                 )
             )
         ) {
@@ -73,38 +60,31 @@ class AppartmentRemoteImpl @Inject constructor(
 
     override fun getFlatById(
         addressId: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Either<Failure, AppartmentEntity> {
         return request.make(
             apiService.getFlatById(
                 createRequestByAddressId(
-                    addressId,
-                    userId,
-                    token
-                )
+                    addressId,uid)
             )
         ) {
             it.appartments[0]
         }
     }
 
-    private fun createGetAppartmentsByUserMap(userId: Int, token: String): Map<String, String> {
+    private fun createGetAppartmentsByUserMap(uid: String): Map<String, String> {
         val map = HashMap<String, String>()
-        map.put(ApiService.PARAM_USER_ID, userId.toString())
-        map.put(ApiService.PARAM_TOKEN, token)
+        map.put(ApiService.PARAM_USER_ID, uid)
         return map
     }
 
     private fun createRequestByAddressId(
         addressId: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Map<String, String> {
         val map = HashMap<String, String>()
         map.put(ApiService.PARAM_ADDRESS_ID, addressId.toString())
-        map.put(ApiService.PARAM_USER_ID, userId.toString())
-        map.put(ApiService.PARAM_TOKEN, token)
+        map.put(ApiService.PARAM_USER_ID, uid)
         return map
     }
 
@@ -112,15 +92,13 @@ class AppartmentRemoteImpl @Inject constructor(
         addressId: Int,
         phone: String,
         email: String,
-        userId: Int,
-        token: String
+        uid: String
     ): Map<String, String> {
         val map = HashMap<String, String>()
         map.put(ApiService.ADDRESS_ID, addressId.toString())
         map.put(ApiService.PHONE, phone)
         map.put(ApiService.EMAIL, email)
-        map.put(ApiService.PARAM_USER_ID, userId.toString())
-        map.put(ApiService.PARAM_TOKEN, token)
+        map.put(ApiService.PARAM_USER_ID, uid)
         return map
     }
 }

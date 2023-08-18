@@ -1,10 +1,12 @@
 package com.ykis.ykispam.navigation
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.ykis.ykispam.YkisPamAppState
 import com.ykis.ykispam.firebase.screens.profile.ProfileScreen
+import com.ykis.ykispam.firebase.screens.settings.SettingsScreen
 import com.ykis.ykispam.firebase.screens.sign_in.SignInScreen
 import com.ykis.ykispam.firebase.screens.sign_up.SignUpScreen
 import com.ykis.ykispam.firebase.screens.splash.SplashScreen
@@ -13,7 +15,7 @@ import com.ykis.ykispam.pam.screens.add_appartment.AddAppartmentScreen
 import com.ykis.ykispam.pam.screens.appartment.AppartmentScreen
 
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
 fun NavGraphBuilder.YkisPamGraph(appState: YkisPamAppState) {
 
     composable(SPLASH_SCREEN) {
@@ -42,10 +44,19 @@ fun NavGraphBuilder.YkisPamGraph(appState: YkisPamAppState) {
 
     }
     composable(ADD_APPARTMENT_SCREEN) {
-        AddAppartmentScreen(openScreen = { route -> appState.navigate(route) })
+        AddAppartmentScreen(
+            popUpScreen = { appState.popUp() }
+        )
+
     }
     composable(APPARTMENT_SCREEN) {
-        AppartmentScreen(openScreen = { route -> appState.navigate(route) })
+        AppartmentScreen(
+            openScreen = { route -> appState.navigate(route) },
+            popUpScreen = { appState.popUp() }
+        )
+    }
+    composable(SETTINGS_SCREEN) {
+        SettingsScreen(popUpScreen = { appState.popUp() })
     }
 }
 

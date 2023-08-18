@@ -2,7 +2,7 @@ package com.ykis.ykispam.pam.domain.user
 
 
 data class UserEntity(
-    val userId: Int,
+    val uid: String,
     val name: String = "Unknown",
     val email: String = "Unknown",
     val image: String = "Unknown",

@@ -16,15 +16,13 @@ class WaterReadingRemoteImpl @Inject constructor(
 ) : WaterReadingRemote {
     override fun getWaterReadings(
         vodomerId: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Either<Failure, List<WaterReadingEntity>> {
         return request.make(
             apiService.getWaterReadings(
                 createGetWaterReadingMap(
                     vodomerId,
-                    userId,
-                    token
+                    uid
                 )
             )
         )
@@ -37,8 +35,7 @@ class WaterReadingRemoteImpl @Inject constructor(
         vodomerId: Int,
         newValue: Int,
         currentValue: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Either<Failure, GetSimpleResponse> {
         return request.make(
             apiService.addNewWaterReading(
@@ -46,8 +43,7 @@ class WaterReadingRemoteImpl @Inject constructor(
                     vodomerId,
                     newValue,
                     currentValue,
-                    userId,
-                    token
+                    uid
                 )
             )
         )
@@ -58,15 +54,13 @@ class WaterReadingRemoteImpl @Inject constructor(
 
     override fun deleteCurrentWaterReading(
         pokId: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Either<Failure, GetSimpleResponse> {
         return request.make(
             apiService.deleteCurrentWaterReading(
                 createDeleteWaterReadingMap(
                     pokId,
-                    userId,
-                    token
+                    uid
                 )
             )
         )
@@ -77,13 +71,11 @@ class WaterReadingRemoteImpl @Inject constructor(
 
     private fun createGetWaterReadingMap(
         vodomerId: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Map<String, String> {
         val map = HashMap<String, String>()
         map.put(ApiService.VODOMER_ID, vodomerId.toString())
-        map.put(ApiService.PARAM_USER_ID, userId.toString())
-        map.put(ApiService.PARAM_TOKEN, token)
+        map.put(ApiService.PARAM_USER_ID, uid)
         return map
     }
 
@@ -91,27 +83,23 @@ class WaterReadingRemoteImpl @Inject constructor(
         vodomerId: Int,
         newValue: Int,
         currentValue: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Map<String, String> {
         val map = HashMap<String, String>()
         map.put(ApiService.VODOMER_ID, vodomerId.toString())
         map.put(ApiService.NEW_VALUE, newValue.toString())
         map.put(ApiService.CURRENT_VALUE, currentValue.toString())
-        map.put(ApiService.PARAM_USER_ID, userId.toString())
-        map.put(ApiService.PARAM_TOKEN, token)
+        map.put(ApiService.PARAM_USER_ID, uid)
         return map
     }
 
     private fun createDeleteWaterReadingMap(
         pokId: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Map<String, String> {
         val map = HashMap<String, String>()
         map.put(ApiService.POK_ID, pokId.toString())
-        map.put(ApiService.PARAM_USER_ID, userId.toString())
-        map.put(ApiService.PARAM_TOKEN, token)
+        map.put(ApiService.PARAM_USER_ID, uid)
         return map
     }
 }

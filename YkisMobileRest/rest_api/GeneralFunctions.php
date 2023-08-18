@@ -1,8 +1,6 @@
 <?php
-
 $DBOperations_path = "../sql/DBOperations.php";
 include($DBOperations_path);
-
 $DBOperationsMtb_path = "../sql/DBOperationsMtb.php";
 include($DBOperationsMtb_path);
 class GeneralFunctionsClass
@@ -11,12 +9,8 @@ class GeneralFunctionsClass
     {
 
     }
-
-
-
-    public function getFlatById($resultAppartments)
+    public function getFlatById($resultAppartments): array
     {
-        $dbOperationsObject = new DBOperations();
         $appartments = array();
         while ($rowAppartment = mysqli_fetch_array($resultAppartments)) {
             $appartment = array(
@@ -70,7 +64,6 @@ class GeneralFunctionsClass
                 'osmd_id' => $rowAppartment['osmd_id'],
                 'osbb' => $rowAppartment['osbb'],
                 'what_change' => $rowAppartment['what_change'],
-
                 'data_change' => $rowAppartment['data_change'],
                 'enaudit_id' => $rowAppartment['enaudit_id'],
                 'tarif_kv' => $rowAppartment['tarif_kv'],
@@ -91,19 +84,20 @@ class GeneralFunctionsClass
                 'kod' => $rowAppartment['kod']
             );
 
-            array_push($appartments, $appartment);
+            $appartments[] = $appartment;
         }
         return $appartments;
     }
 
-    public function getAppartmentsByUser($resultAppartmentsMyflat)
+    public function getAppartmentsByUser($resultAppartmentsMyflat): array
     {
-        $dbOperationsObject = new DBOperations();
         $appartments = array();
+   //     print_r(1);
         while ($rowAppartment = mysqli_fetch_array($resultAppartmentsMyflat)) {
             $appartment = array(
                 'id'=>$rowAppartment['id'],
                 'user_id'=>$rowAppartment['user_id'],
+                'uid'=>$rowAppartment['uid'],
                 'address_id' => $rowAppartment['address_id'],
                 'address' => $rowAppartment['address'],
                 'nanim' => $rowAppartment['nanim'],
@@ -115,7 +109,6 @@ class GeneralFunctionsClass
                 'area_dop' => $rowAppartment['area_dop'],
                 'area_balk' => $rowAppartment['area_balk'],
                 'area_otopl' => $rowAppartment['area_otopl'],
-
                 'tenant' => $rowAppartment['tenant'],
                 'podnan' => $rowAppartment['podnan'],
                 'absent' => $rowAppartment['absent'],
@@ -154,7 +147,6 @@ class GeneralFunctionsClass
                 'osmd_id' => $rowAppartment['osmd_id'],
                 'osbb' => $rowAppartment['osbb'],
                 'what_change' => $rowAppartment['what_change'],
-
                 'data_change' => $rowAppartment['data_change'],
                 'enaudit_id' => $rowAppartment['enaudit_id'],
                 'tarif_kv' => $rowAppartment['tarif_kv'],
@@ -178,42 +170,36 @@ class GeneralFunctionsClass
                 'pb' => $rowAppartment['pb']
             );
 
-            array_push($appartments, $appartment);
+            $appartments[] = $appartment;
         }
         return $appartments;
     }
-    public function getBlocks($resultBlocks)
+    public function getBlocks($resultBlocks): array
     {
-        $dbOperationsObject = new DBOperations();
         $blocks = array();
         while ($rowBlocks = mysqli_fetch_array($resultBlocks)) {
             $block = array(
                 'raion_id'=>$rowBlocks['raion_id'],
                 'raion'=>$rowBlocks['raion']
             );
-
-            array_push($blocks, $block);
+            $blocks[] = $block;
         }
         return $blocks;
     }
-    public function getStreetsFromBlock($resultStreets)
+    public function getStreetsFromBlock($resultStreets): array
     {
-        $dbOperationsObject = new DBOperations();
         $streets = array();
         while ($rowStreets = mysqli_fetch_array($resultStreets)) {
             $street = array(
                 'street_id'=>$rowStreets['street_id'],
                 'street'=>$rowStreets['street']
             );
-
-            array_push($streets, $street);
+            $streets[] = $street;
         }
         return $streets;
     }
-
-    public function getHousesFromStreet($resultHouses)
+    public function getHousesFromStreet($resultHouses): array
     {
-        $dbOperationsObject = new DBOperations();
         $houses = array();
         // print_r($resultHouses);
         while ($rowHouses = mysqli_fetch_array($resultHouses)) {
@@ -222,14 +208,13 @@ class GeneralFunctionsClass
                 'house'=>$rowHouses['house']
             );
 
-            array_push($houses, $house);
+            $houses[] = $house;
         }
         return $houses;
     }
 
-    public function getFlatsFromHouse($resultFlats)
+    public function getFlatsFromHouse($resultFlats): array
     {
-        $dbOperationsObject = new DBOperations();
         $flats = array();
         while ($rowFlats = mysqli_fetch_array($resultFlats)) {
             $flat = array(
@@ -237,31 +222,26 @@ class GeneralFunctionsClass
                 'address'=>$rowFlats['address'],
                 'kod'=>$rowFlats['kod']
             );
-
-            array_push($flats, $flat);
+            $flats[] = $flat;
         }
         return $flats;
     }
-    public function addFlatByUser($resultFlats)
+    public function addMyFlatByUser($resultCheck): array
     {
-        $dbOperationsObject = new DBOperations();
         $results = array();
-        //print_r($resultFlats);
-        while ($rowFlats = mysqli_fetch_array($resultFlats)) {
-            $flat = array(
-                'success'=>$rowFlats[0],
-                'message'=>$rowFlats[1],
-                'address'=>array()
+     // print_r($resultCheck);
+        while ($row = mysqli_fetch_array($resultCheck)) {            
+            $result = array(
+                'success'=>$row[0],
+                'message'=>$row[1]
             );
-
-            array_push($results, $flat);
-//             print_r($flat);
+            $results[] = $result;
+        //   print_r($results);
         }
         return $results;
     }
-    public function getFamilyFromFlat($resultFamily)
+    public function getFamilyFromFlat($resultFamily): array
     {
-        $dbOperationsObject = new DBOperations();
         $families = array();
         while ($row = mysqli_fetch_array($resultFamily)) {
             $family = array(
@@ -284,36 +264,13 @@ class GeneralFunctionsClass
                 'datav'=>$row['datav'],
                 'organ'=>$row['organ']
             );
-
-            array_push($families, $family);
+            $families[] = $family;
         }
         return $families;
     }
-    public function checkAddFlat($resultCheck)
-    {
-        $dbOperationsObject = new DBOperations();
-        $results = array();
-        //print_r($resultFlats);
-        while ($row = mysqli_fetch_array($resultCheck)) {
-            if($row['success'] == 0){
-                $mes = "Incorrect code";
-            } else {
-                $mes = "Success";
-            }
-            $result = array(
-                'success'=>$row['success'],
-                'message'=>$mes
-            );
 
-            array_push($results, $result);
-//             print_r($results);
-        }
-        return $results;
-    }
-
-    public function getFlatServices($resultServices)
+    public function getFlatServices($resultServices): array
     {
-        $dbOperationsObject = new DBOperations();
         $results = array();
         while ($row = mysqli_fetch_array($resultServices)) {
             $service = array(
@@ -347,13 +304,12 @@ class GeneralFunctionsClass
                 'dolg4'=>$row['dolg4']
             );
 
-            array_push($results, $service);
+            $results[] = $service;
         }
         return $results;
     }
-    public function getFlatPayments($resultPayments)
+    public function getFlatPayments($resultPayments): array
     {
-        $dbOperationsObject = new DBOperations();
         $results = array();
         while ($row = mysqli_fetch_array($resultPayments)) {
             $service = array(
@@ -373,15 +329,13 @@ class GeneralFunctionsClass
                 'nomer'=>$row['operator'],
                 'data_in'=>$row['data_in']
             );
-
-            array_push($results, $service);
+            $results[] = $service;
         }
         return $results;
     }
 
-    public function getWaterMeter($resultWater)
+    public function getWaterMeter($resultWater): array
     {
-        $dbOperationsObject = new DBOperations();
         $results = array();
         while ($row = mysqli_fetch_array($resultWater)) {
             $waterMeter = array(
@@ -417,15 +371,13 @@ class GeneralFunctionsClass
                 'operator'=>$row['operator'],
                 'work'=>$row['work']
             );
-
-            array_push($results, $waterMeter);
+            $results[] = $waterMeter;
         }
         return $results;
     }
 
-    public function getWaterReadings($resultWater)
+    public function getWaterReadings($resultWater): array
     {
-        $dbOperationsObject = new DBOperations();
         $results = array();
         while ($row = mysqli_fetch_array($resultWater)) {
             $waterReadings = array(
@@ -457,15 +409,13 @@ class GeneralFunctionsClass
                 'address_id'=>$row['address_id']
 
             );
-
-            array_push($results, $waterReadings);
+            $results[] = $waterReadings;
         }
         return $results;
     }
 
-    public function addCurrentReading($result)
+    public function addCurrentReading($result): array
     {
-        $dbOperationsObject = new DBOperations();
         $results = array();
         //print_r($resultFlats);
         while ($rowFlats = mysqli_fetch_array($result)) {
@@ -473,31 +423,27 @@ class GeneralFunctionsClass
                 'success'=>$rowFlats[0],
                 'message'=>$rowFlats[1]
             );
-
-            array_push($results, $flat);
+            $results[] = $flat;
 //             print_r($flat);
         }
         return $results;
     }
 
-    public function deleteCurrentReading($result)
+    public function deleteCurrentReading($result): array
     {
-        $dbOperationsObject = new DBOperations();
         $results = array();
         while ($rowFlats = mysqli_fetch_array($result)) {
             $flat = array(
                 'success'=>$rowFlats[0],
                 'message'=>$rowFlats[1]
             );
-
-            array_push($results, $flat);
+            $results[] = $flat;
         }
         return $results;
     }
 
-    public function getHeatMeter($resultHeat)
+    public function getHeatMeter($resultHeat): array
     {
-        $dbOperationsObject = new DBOperations();
         $results = array();
         while ($row = mysqli_fetch_array($resultHeat)) {
             $heatMeter = array(
@@ -522,24 +468,20 @@ class GeneralFunctionsClass
             //в перевірці чи в ремонті
                 'out'=>$row['out'],
                 'spisan'=>$row['spisan'],
-
                 'data_st'=>$row['data_st'],
-
                 'data_fin'=>$row['data_fin'],
                 //Дата списанія
                 'data_spis'=>$row['data_spis'],
 //                'operator'=>$row['operator'],
                 'work'=>$row['work']
             );
-
-            array_push($results, $heatMeter);
+            $results[] = $heatMeter;
         }
         return $results;
     }
 
-    public function getHeatReadings( $result)
+    public function getHeatReadings( $result): array
     {
-        $dbOperationsObject = new DBOperations();
         $results = array();
         while ($row = mysqli_fetch_array($result)) {
             $heatReadings = array(
@@ -572,13 +514,12 @@ class GeneralFunctionsClass
                 'address_id'=>$row['address_id']
             );
 
-            array_push($results, $heatReadings);
+            $results[] = $heatReadings;
         }
         return $results;
     }
-    public function getMtbPayment($resultPayment)
+    public function getMtbPayment($resultPayment): array
     {
-        $dbOperationsObject = new DBOperations();
         $payment = array();
         // print_r($resultHouses);
         while ($row = mysqli_fetch_array($resultPayment)) {

@@ -7,7 +7,6 @@ import com.ykis.ykispam.pam.domain.type.Failure
 interface HeatMeterRemote {
     fun getHeatMeter(
         addressId: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Either<Failure, List<HeatMeterEntity>>
 }

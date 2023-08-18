@@ -27,8 +27,7 @@ class ServiceRepositoryImpl @Inject constructor(
                         params.qty,
                         params.service,
                         params.total,
-                        it.userId,
-                        it.token
+                        it.uid
                     )
                 } else {
                     Either.Right(

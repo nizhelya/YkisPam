@@ -11,7 +11,6 @@ interface ServiceRemote {
         qty: Byte,
         service: Byte,
         total: Byte,
-        userId: Int,
-        token: String
+        uid: String
     ): Either<Failure, List<ServiceEntity>>
 }

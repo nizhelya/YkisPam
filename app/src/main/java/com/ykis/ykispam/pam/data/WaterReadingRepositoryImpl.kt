@@ -24,7 +24,7 @@ class WaterReadingRepositoryImpl @Inject constructor(
         return userCache.getCurrentUser()
             .flatMap {
                 return@flatMap if (params.needFetch) {
-                    waterReadingRemote.getWaterReadings(params.int, it.userId, it.token)
+                    waterReadingRemote.getWaterReadings(params.int, it.uid)
                 } else {
                     Either.Right(
                         waterReadingCache.getWaterReading(params.int)
@@ -51,8 +51,7 @@ class WaterReadingRepositoryImpl @Inject constructor(
                     params.meterId,
                     params.newValue,
                     params.currentValue,
-                    it.userId,
-                    it.token
+                    it.uid
                 )
             }
     }
@@ -61,7 +60,7 @@ class WaterReadingRepositoryImpl @Inject constructor(
         return userCache.getCurrentUser()
             .flatMap {
                 return@flatMap waterReadingRemote.deleteCurrentWaterReading(
-                    params, it.userId, it.token
+                    params,  it.uid
                 )
             }
     }

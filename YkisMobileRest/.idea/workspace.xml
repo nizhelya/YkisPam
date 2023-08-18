@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ea6cce00-1425-4273-84aa-bb561bdd790a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/core/composable/DropdownMenu.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/screens/add_appartment/SecretKeyUiState.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/screens/appartment/AppartmentListItem.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/screens/appartment/DeleteAppartment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/screens/appartment/TaskActionOption.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/src/main/res/drawable-anydpi/ic_stat_name.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/src/main/res/drawable-hdpi/ic_stat_name.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/src/main/res/drawable-mdpi/ic_stat_name.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/src/main/res/drawable-xhdpi/ic_stat_name.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/src/main/res/drawable-xxhdpi/ic_stat_name.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/appInsightsSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/appInsightsSettings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rest_api/GeneralFunctions.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/GeneralFunctions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rest_api/addMyFlatByUser.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/addMyFlatByUser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rest_api/checkAddFlat.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/checkAddFlat.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rest_api/deleteFlatByUser.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/deleteFlatByUser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rest_api/getAppartmentsByUser.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/getAppartmentsByUser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql/DB.php" beforeDir="false" afterPath="$PROJECT_DIR$/sql/DB.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql/DBOperations.php" beforeDir="false" afterPath="$PROJECT_DIR$/sql/DBOperations.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/BaseViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/BaseViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/YkisPamAppState.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/YkisPamAppState.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/core/composable/Button.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/core/composable/Button.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/core/composable/Card.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/core/composable/Card.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/core/composable/TextField.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/core/composable/TextField.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/core/ext/ModifierExt.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/core/ext/ModifierExt.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/di/AppModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/di/AppModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/firebase/model/entity/UserFirebase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/firebase/model/entity/UserFirebase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/navigation/NavGraph.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/navigation/NavGraph.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/AddressRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/AddressRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/AppartmentRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/AppartmentRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/FamilyRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/FamilyRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/HeatMeterRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/HeatMeterRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/HeatReadingRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/HeatReadingRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/PaymentRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/PaymentRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/ServiceRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/ServiceRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/WaterMeterRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/WaterMeterRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/WaterReadingRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/WaterReadingRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/cache/database/AppDatabase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/cache/database/AppDatabase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/cache/user/UserCache.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/cache/user/UserCache.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/cache/user/UserCacheImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/cache/user/UserCacheImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/address/AddressRemote.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/address/AddressRemote.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/address/AddressRemoteImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/address/AddressRemoteImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/api/ApiService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/api/ApiService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/appartment/AppartmentRemote.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/appartment/AppartmentRemote.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/appartment/AppartmentRemoteImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/appartment/AppartmentRemoteImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/family/FamilyRemote.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/family/FamilyRemote.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/family/FamilyRemoteImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/family/FamilyRemoteImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/heat/meter/HeatMeterRemote.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/heat/meter/HeatMeterRemote.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/heat/meter/HeatMeterRemoteImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/heat/meter/HeatMeterRemoteImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/heat/reading/HeatReadingRemote.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/heat/reading/HeatReadingRemote.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/heat/reading/HeatReadingRemoteImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/heat/reading/HeatReadingRemoteImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/payment/PaymentRemote.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/payment/PaymentRemote.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/payment/PaymentRemoteImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/payment/PaymentRemoteImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/service/ServiceRemote.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/service/ServiceRemote.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/service/ServiceRemoteImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/service/ServiceRemoteImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/water/meter/WaterMeterRemote.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/water/meter/WaterMeterRemote.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/water/meter/WaterMeterRemoteImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/water/meter/WaterMeterRemoteImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/water/reading/WaterReadingRemote.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/water/reading/WaterReadingRemote.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/water/reading/WaterReadingRemoteImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/data/remote/water/reading/WaterReadingRemoteImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/domain/address/AddressRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/domain/address/AddressRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/domain/address/request/AddFlatByUser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/domain/address/request/AddFlatByUser.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/domain/address/request/CheckCode.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/domain/appartment/AppartmentEntity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/domain/appartment/AppartmentEntity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/domain/interactor/UseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/domain/interactor/UseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/domain/type/Failure.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/domain/type/Failure.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/domain/user/UserEntity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/domain/user/UserEntity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/screens/add_appartment/AddAppartmentScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/screens/add_appartment/AddAppartmentScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/screens/add_appartment/AddAppartmentViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/screens/add_appartment/AddAppartmentViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/screens/appartment/AppartmentDetail.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/screens/appartment/AppartmentItem.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/screens/appartment/AppartmentScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/screens/appartment/AppartmentScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/screens/appartment/AppartmentViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/pam/screens/appartment/AppartmentViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/res/xml/network_security_config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/res/xml/network_security_config.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/../gradle/libs.versions.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../settings.gradle.kts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerConfigs">
+    <option name="configs">
+      <option value="$PROJECT_DIR$/rest_api/utilities/phpmailer/composer.json" />
+    </option>
+  </component>
+  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="HttpClientSelectedEnvironments">
+    <file url="jar://$APPLICATION_HOME_DIR$/plugins/restClient/lib/restClient.jar!/com/intellij/ws/rest/client/requests/collection/post-requests.http" environment="test" />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="/usr/bin/php" />
+  <component name="ProjectId" id="2TktSDaCz3GqmPVlMqjSSnCyoGW" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.web.browsers&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager" selected="HTTP Request.rest-api_1 | #1">
+    <configuration name="All in rest-api" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/rest-api.http">
+      <method v="2" />
+    </configuration>
+    <configuration name="rest-api | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/rest-api.http" requestIdentifier="#1" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="rest-api_1 | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/rest-api_1.http" requestIdentifier="#1" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="rest-api_1 | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/rest-api_1.http" index="2" requestIdentifier="#2" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="rest-api_1 | #3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/rest-api_1.http" index="3" requestIdentifier="#3" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="HTTP Request.rest-api_1 | #1" />
+        <item itemvalue="HTTP Request.rest-api | #1" />
+        <item itemvalue="HTTP Request.rest-api_1 | #2" />
+        <item itemvalue="HTTP Request.rest-api_1 | #3" />
+        <item itemvalue="HTTP Request.All in rest-api" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ea6cce00-1425-4273-84aa-bb561bdd790a" name="Changes" comment="" />
+      <created>1691598904022</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1691598904022</updated>
+      <workItem from="1691598905248" duration="4636000" />
+      <workItem from="1691773271152" duration="1467000" />
+      <workItem from="1691882160424" duration="1778000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

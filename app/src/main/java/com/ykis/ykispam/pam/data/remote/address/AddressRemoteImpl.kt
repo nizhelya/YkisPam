@@ -16,14 +16,12 @@ class AddressRemoteImpl @Inject constructor(
 ) : AddressRemote {
 
     override fun getBlocks(
-        userId: Int,
-        token: String
+        uid: String
     ): Either<Failure, List<AddressEntity>> {
         return request.make(
             apiService.getBlocks(
                 createGetBlocksMap(
-                    userId,
-                    token
+                    uid
                 )
             )
         ) {
@@ -33,15 +31,13 @@ class AddressRemoteImpl @Inject constructor(
 
     override fun getStreetsFromBlock(
         blockId: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Either<Failure, List<AddressEntity>> {
         return request.make(
             apiService.getStreetsFromBlock(
                 createGetStreetsMap(
                     blockId,
-                    userId,
-                    token
+                    uid
                 )
             )
         ) {
@@ -52,16 +48,14 @@ class AddressRemoteImpl @Inject constructor(
     override fun getHousesFromStreet(
         streetId: Int,
         blockId: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Either<Failure, List<AddressEntity>> {
         return request.make(
             apiService.getHousesFromStreet(
                 createGetHousesMap(
                     streetId,
                     blockId,
-                    userId,
-                    token
+                    uid
                 )
             )
         ) {
@@ -71,15 +65,13 @@ class AddressRemoteImpl @Inject constructor(
 
     override fun getFlatsFromHouse(
         houseId: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Either<Failure, List<AddressEntity>> {
         return request.make(
             apiService.getFlatsFromHouse(
                 createGetFlatsMap(
                     houseId,
-                    userId,
-                    token
+                    uid
                 )
             )
         ) {
@@ -88,16 +80,16 @@ class AddressRemoteImpl @Inject constructor(
     }
 
     override fun addFlatsByUser(
-        addressId: Int,
-        userId: Int,
-        token: String
+        kod: String,
+        uid: String,
+        email:String
     ): Either<Failure, GetSimpleResponse> {
         return request.make(
             apiService.addFlatsByUser(
                 createAddFlatsMap(
-                    addressId,
-                    userId,
-                    token
+                    kod,
+                    uid,
+                    email
                 )
             )
         )
@@ -107,83 +99,50 @@ class AddressRemoteImpl @Inject constructor(
 
     }
 
-    override fun checkCode(
-        kod: String,
-        addressId: Int,
-        userId: Int,
-        token: String
-    ): Either<Failure, GetSimpleResponse> {
-        return request.make(
-            apiService.checkCode(
-                createCheckCodeMap(
-                    kod,
-                    addressId,
-                    userId,
-                    token
-                )
-            )
-        ) {
-            it
-        }
-    }
 
 
-    private fun createGetBlocksMap(userId: Int, token: String): Map<String, String> {
+
+    private fun createGetBlocksMap(uid: String): Map<String, String> {
         val map = HashMap<String, String>()
-        map.put(ApiService.PARAM_USER_ID, userId.toString())
-        map.put(ApiService.PARAM_TOKEN, token)
+        map.put(ApiService.PARAM_USER_ID, uid)
         return map
     }
 
-    private fun createGetStreetsMap(blockId: Int, userId: Int, token: String): Map<String, String> {
+    private fun createGetStreetsMap(blockId: Int, uid: String): Map<String, String> {
         val map = HashMap<String, String>()
         map.put(ApiService.BLOCK_ID, blockId.toString())
-        map.put(ApiService.PARAM_USER_ID, userId.toString())
-        map.put(ApiService.PARAM_TOKEN, token)
+        map.put(ApiService.PARAM_USER_ID, uid)
         return map
     }
 
     private fun createGetHousesMap(
         streetId: Int,
         blockId: Int,
-        userId: Int,
-        token: String
+        uid: String
     ): Map<String, String> {
         val map = HashMap<String, String>()
         map.put(ApiService.STREET_ID, streetId.toString())
         map.put(ApiService.BLOCK_ID, blockId.toString())
-        map.put(ApiService.PARAM_USER_ID, userId.toString())
-        map.put(ApiService.PARAM_TOKEN, token)
+        map.put(ApiService.PARAM_USER_ID, uid)
+
         return map
     }
 
-    private fun createGetFlatsMap(houseId: Int, userId: Int, token: String): Map<String, String> {
+    private fun createGetFlatsMap(houseId: Int,uid: String): Map<String, String> {
         val map = HashMap<String, String>()
         map.put(ApiService.HOUSE_ID, houseId.toString())
-        map.put(ApiService.PARAM_USER_ID, userId.toString())
-        map.put(ApiService.PARAM_TOKEN, token)
+        map.put(ApiService.PARAM_USER_ID, uid)
+
         return map
     }
 
-    private fun createAddFlatsMap(addressId: Int, userId: Int, token: String): Map<String, String> {
-        val map = HashMap<String, String>()
-        map.put(ApiService.ADDRESS_ID, addressId.toString())
-        map.put(ApiService.PARAM_USER_ID, userId.toString())
-        map.put(ApiService.PARAM_TOKEN, token)
-        return map
-    }
-
-    private fun createCheckCodeMap(
-        kod: String,
-        addressId: Int,
-        userId: Int,
-        token: String
-    ): Map<String, String> {
+    private fun createAddFlatsMap(kod: String, uid: String,email: String): Map<String, String> {
         val map = HashMap<String, String>()
         map.put(ApiService.KOD, kod)
-        map.put(ApiService.ADDRESS_ID, addressId.toString())
-        map.put(ApiService.PARAM_USER_ID, userId.toString())
-        map.put(ApiService.PARAM_TOKEN, token)
+        map.put(ApiService.PARAM_USER_ID, uid)
+        map.put(ApiService.EMAIL, email)
+
+
         return map
     }
 

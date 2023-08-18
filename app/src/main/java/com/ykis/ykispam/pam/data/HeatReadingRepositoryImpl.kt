@@ -24,7 +24,7 @@ class HeatReadingRepositoryImpl @Inject constructor(
         return userCache.getCurrentUser()
             .flatMap {
                 return@flatMap if (params.needFetch) {
-                    heatReadingRemote.getHeatReadings(params.int, it.userId, it.token)
+                    heatReadingRemote.getHeatReadings(params.int, it.uid)
                 } else {
                     Either.Right(
                         heatReadingCache.getHeatReading(params.int)
@@ -51,8 +51,7 @@ class HeatReadingRepositoryImpl @Inject constructor(
                     params.meterId,
                     params.newValue,
                     params.currentValue,
-                    it.userId,
-                    it.token
+                    it.uid
                 )
             }
     }
@@ -61,7 +60,7 @@ class HeatReadingRepositoryImpl @Inject constructor(
         return userCache.getCurrentUser()
             .flatMap {
                 return@flatMap heatReadingRemote.deleteCurrentHeatReading(
-                    params, it.userId, it.token
+                    params, it.uid
                 )
             }
     }

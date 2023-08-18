@@ -11,6 +11,7 @@ sealed class Failure {
 
     object FlatAlreadyInDataBase : Failure()
     object IncorrectCode : Failure()
+
     object MissingFields : Failure()
     object FailDeleteFlat : Failure()
     object FailUpdateBti : Failure()

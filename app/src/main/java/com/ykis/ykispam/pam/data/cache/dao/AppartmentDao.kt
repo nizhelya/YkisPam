@@ -30,6 +30,5 @@ interface AppartmentDao {
     @Query("select * from appartment")
     fun getAppartmentsByUser(): List<AppartmentEntity>
 
-    @Query("select * from appartment")
-    fun getAppartments(): Flow<List<AppartmentEntity>>
+
 }
