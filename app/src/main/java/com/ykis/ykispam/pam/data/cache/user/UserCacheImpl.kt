@@ -9,10 +9,10 @@ import javax.inject.Inject
 class UserCacheImpl @Inject constructor(private val firebaseService: FirebaseService) : UserCache {
     override fun getCurrentUser(): Either<Failure, UserFirebase> {
 
-        if (firebaseService.uid.isEmpty()) {
-            return Either.Left(Failure.NoSavedAccountsError)
+        return if (!firebaseService.hasUser) {
+            Either.Left(Failure.NoSavedAccountsError)
         } else {
-            return Either.Right(UserFirebase(
+            Either.Right(UserFirebase(
                 firebaseService.uid,
                 true,
                 firebaseService.providerId,

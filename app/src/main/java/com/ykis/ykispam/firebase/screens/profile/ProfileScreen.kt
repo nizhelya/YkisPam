@@ -10,18 +10,20 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.ext.spacer
 import com.ykis.ykispam.core.snackbar.SnackbarManager
@@ -53,6 +55,7 @@ fun ProfileScreen(
                 .crossfade(true)
                 .build(),
             contentDescription = null,
+            error = painterResource(R.drawable.ic_account_circle),
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .clip(CircleShape)
@@ -60,7 +63,7 @@ fun ProfileScreen(
                 .height(96.dp)
         )
         Spacer(modifier = Modifier.spacer())
-        if (viewModel.displayName.isNullOrEmpty()) {
+        if (viewModel.displayName.isEmpty()) {
             Text(
                 text = "user",
                 fontSize = 24.sp
@@ -71,6 +74,7 @@ fun ProfileScreen(
                 fontSize = 24.sp
             )
         }
+
         Text(
             text = viewModel.email,
             fontSize = 14.sp

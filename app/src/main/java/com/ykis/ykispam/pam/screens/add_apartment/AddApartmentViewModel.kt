@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-package com.ykis.ykispam.pam.screens.add_appartment
+package com.ykis.ykispam.pam.screens.add_apartment
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,44 +24,44 @@ import androidx.lifecycle.MutableLiveData
 import com.ykis.ykispam.BaseViewModel
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.snackbar.SnackbarManager
+import com.ykis.ykispam.firebase.model.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.model.service.repo.LogService
-import com.ykis.ykispam.navigation.APPARTMENT_SCREEN
-import com.ykis.ykispam.navigation.PROFILE_SCREEN
+import com.ykis.ykispam.navigation.APARTMENT_SCREEN
 import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.pam.domain.address.request.AddFlatByUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class AddAppartmentViewModel @Inject constructor(
+class AddApartmentViewModel @Inject constructor(
+    private val firebaseService: FirebaseService,
     private val addFlatByUser: AddFlatByUser,
     logService: LogService
-) : BaseViewModel(logService) {
+) : BaseViewModel(logService,) {
 
     private val _resultText = MutableLiveData<GetSimpleResponse>()
     val resultText: LiveData<GetSimpleResponse> = _resultText
 
-    var uiState by mutableStateOf(SecretKeyUiState())
-        private set
-    private val secretCode
-        get() = uiState.secretCode
 
-    fun onSecretCodeChange(newValue: String) {
-        uiState = uiState.copy(secretCode = newValue)
-    }
+//    private val secretCode
+//        get() = uiState.value.secretCode
+//
+//    fun onSecretCodeChange(newValue: String) {
+//        _uiState.value = uiState.value.copy(secretCode = newValue)
+//    }
 
-    fun onAddAppartmentClick(openScreen: (String) -> Unit) {
-        if (secretCode.isBlank()) {
-            SnackbarManager.showMessage(R.string.empty_field_error)
-            return
-        }
+//    fun onAddAppartmentClick(openScreen: (String) -> Unit) {
+//        if (secretCode.isBlank()) {
+//            SnackbarManager.showMessage(R.string.empty_field_error)
+//            return
+//        }
+//
+//        addFlat(secretCode)
+//        if (failureData == null) {
+//            openScreen(APARTMENT_SCREEN)
+//        }
 
-        addFlat(secretCode)
-        if (failureData == null) {
-            openScreen(APPARTMENT_SCREEN)
-        }
-
-    }
+//    }
 
     fun addFlat(secretCode: String) {
         addFlatByUser(secretCode) { it ->

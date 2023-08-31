@@ -13,8 +13,9 @@ interface HeatReadingDao {
     fun insertHeatReading(heatMeter:List<HeatReadingEntity>)
     @Query("select * from heat_reading where teplomer_id = :teplomerId")
     fun getHeatReading(teplomerId:Int): List<HeatReadingEntity>
-    @Query("delete from water_reading")
-    fun deleteAllReadings()
+    @Query("delete from heat_reading")
+    fun deleteAllHeatReadings()
+
     @Query("delete from heat_reading where address_id not in (:addressId)")
-    fun deleteReadingFromFlat(addressId: List<Int>)
+    fun deleteHeatReadingFromFlat(addressId: List<Int>)
 }

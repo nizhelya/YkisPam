@@ -12,6 +12,6 @@ interface FamilyDao {
     fun insertFamily(appartment:List<FamilyEntity>)
     @Query("select * from family where address_id = :addressId")
     fun getFamilyFromFlat(addressId:Int): List<FamilyEntity>
-    @Query("delete from family where address_id not in (:addressId)")
-    fun deleteFamilyFromFlat(addressId: List<Int>)
+    @Query("delete from family")
+    fun deleteAllFamily()
 }

@@ -5,5 +5,5 @@ import com.ykis.ykispam.pam.domain.water.meter.WaterMeterEntity
 interface WaterMeterCache {
     fun insertWaterMeter(waterMeters: List<WaterMeterEntity>)
     fun getWaterMeter(addressId: Int): List<WaterMeterEntity>
-    fun deleteWaterMeter(addressIdList: List<Int>)
+    fun deleteAllWaterMeter()
 }

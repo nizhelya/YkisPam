@@ -13,6 +13,6 @@ interface HeatMeterDao {
     fun insertHeatMeter(waterMeter:List<HeatMeterEntity>)
     @Query("select *   from heat_meter where address_id = :addressId order by work")
     fun getHeatMeter(addressId:Int): List<HeatMeterEntity>
-    @Query("delete from heat_meter where address_id not in (:addressId)")
-    fun deleteHeatMeter(addressId: List<Int>)
+    @Query("delete from heat_meter")
+    fun deleteAllHeatMeter()
 }

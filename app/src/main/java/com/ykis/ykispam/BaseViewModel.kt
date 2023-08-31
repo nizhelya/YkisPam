@@ -16,26 +16,36 @@ limitations under the License.
 
 package com.ykis.ykispam
 
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.core.snackbar.SnackbarManager.showMessage
 import com.ykis.ykispam.core.snackbar.SnackbarMessage.Companion.toSnackbarMessage
+import com.ykis.ykispam.firebase.model.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.model.service.repo.LogService
+import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.pam.domain.type.Failure
 import com.ykis.ykispam.pam.domain.type.HandleOnce
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 
-open class BaseViewModel(private val logService: LogService) : ViewModel() {
+open class BaseViewModel(
+    private val logService: LogService,
+) : ViewModel() {
     var failureData: MutableLiveData<HandleOnce<Failure>> = MutableLiveData()
     var progressData: MutableLiveData<Boolean> = MutableLiveData()
-
-
+    val _uiState = MutableStateFlow(BaseUIState(loading = true))
+    var uiState: StateFlow<BaseUIState> = _uiState
     protected fun handleFailure(failure: Failure) {
         this.failureData.value = HandleOnce(failure)
         updateProgress(false)
@@ -61,7 +71,6 @@ open class BaseViewModel(private val logService: LogService) : ViewModel() {
     }
 
 
-
     fun launchCatching(snackbar: Boolean = true, block: suspend CoroutineScope.() -> Unit) =
         viewModelScope.launch(
             CoroutineExceptionHandler { _, throwable ->
@@ -73,4 +82,7 @@ open class BaseViewModel(private val logService: LogService) : ViewModel() {
             block = block
         )
 
+
 }
+
+

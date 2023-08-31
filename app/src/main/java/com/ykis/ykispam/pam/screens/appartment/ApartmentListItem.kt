@@ -10,51 +10,58 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ykis.ykispam.R
-import com.ykis.ykispam.pam.domain.appartment.AppartmentEntity
+import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun AppartmentListItem(
-    appartment: AppartmentEntity,
+fun ApartmentListItem(
+    apartment: ApartmentEntity,
+    isSelectable: Boolean = false,
+    isSelected: Boolean = false,
+    modifier: Modifier = Modifier,
     popUpScreean: (String) -> Unit,
     onAppartmentChange: () -> Unit,
-    viewModel: AppartmentViewModel = hiltViewModel(),
+    viewModel: ApartmentViewModel = hiltViewModel(),
 ) {
     var expanded by rememberSaveable { mutableStateOf(false) }
+    val semanticsModifier =
+        if (isSelectable)
+            modifier
+                .padding(horizontal = 16.dp, vertical = 4.dp)
+                .semantics { selected = isSelected }
+        else modifier.padding(horizontal = 16.dp, vertical = 4.dp)
 
     Card(
         modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 8.dp),
-        backgroundColor = if (expanded) {
-//            Color(0xFF1F1B16)
-            MaterialTheme.colors.surface
-        } else {
-            MaterialTheme.colors.background
-        }
-    ) {
+        colors = CardDefaults.cardColors(
+            containerColor = if (expanded) MaterialTheme.colorScheme.primaryContainer
+            else MaterialTheme.colorScheme.surfaceVariant
+        )
+        ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
@@ -91,13 +98,13 @@ fun AppartmentListItem(
 
                     ) {
                         Text(
-                            text = appartment.address,
+                            text = apartment.address,
                             textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.body1,
+                            style = MaterialTheme.typography.titleLarge,
                             color = if (expanded) {
                                 Color(0xFFFFB945)
                             } else {
-                                MaterialTheme.colors.onSurface
+                                MaterialTheme.colorScheme.onSurface
                             },
 
                             )
@@ -138,8 +145,8 @@ fun AppartmentListItem(
                     ) {
                         Card(
                             modifier = Modifier,
-                            backgroundColor = MaterialTheme.colors.surface,
-                            elevation = 10.dp,
+                            colors= CardDefaults.cardColors(MaterialTheme.colorScheme.surface),
+                            elevation = CardDefaults.cardElevation(10.dp),
                             shape = RoundedCornerShape(5.dp)
                         ) {
 
@@ -168,7 +175,7 @@ fun AppartmentListItem(
                                     ) {
                                         Text(
                                             text = stringResource(R.string.employer_text),
-                                            style = MaterialTheme.typography.caption,
+                                            style = MaterialTheme.typography.titleSmall,
                                             color = Color(0xFFFFB945)
                                         )
                                     }
@@ -187,9 +194,9 @@ fun AppartmentListItem(
 
                                     ) {
                                         Text(
-                                            text = appartment.nanim,
+                                            text = apartment.nanim,
 //                                            color = MaterialTheme.colors.primary,
-                                            style = MaterialTheme.typography.body2,
+                                            style = MaterialTheme.typography.bodyMedium,
                                             modifier = Modifier.padding(start = 8.dp),
 //                                            textAlign = TextAlign.Center
                                         )
@@ -210,7 +217,7 @@ fun AppartmentListItem(
                                         ) {
                                         Text(
                                             text = stringResource(R.string.area_flat),
-                                            style = MaterialTheme.typography.caption,
+                                            style = MaterialTheme.typography.titleSmall,
                                             color = Color(0xFFFFB945)
 
                                         )
@@ -240,14 +247,14 @@ fun AppartmentListItem(
 
                                             Text(
                                                 text = stringResource(R.string.area_full),
-                                                style = MaterialTheme.typography.caption,
-                                                color = MaterialTheme.colors.primary,
+                                                style = MaterialTheme.typography.titleSmall,
+                                                color = MaterialTheme.colorScheme.primary,
 
                                                 )
                                             Text(
-                                                text = appartment.areaFull.toString(),
+                                                text = apartment.areaFull.toString(),
 //                                                color = MaterialTheme.colors.primary,
-                                                style = MaterialTheme.typography.body2,
+                                                style = MaterialTheme.typography.bodyMedium,
 
                                                 )
                                         }
@@ -260,14 +267,14 @@ fun AppartmentListItem(
 
                                             Text(
                                                 text = stringResource(R.string.area_life),
-                                                style = MaterialTheme.typography.caption,
-                                                color = MaterialTheme.colors.primary,
+                                                style = MaterialTheme.typography.titleSmall,
+                                                color = MaterialTheme.colorScheme.primary,
 
                                                 )
                                             Text(
-                                                text = appartment.areaLife.toString(),
+                                                text = apartment.areaLife.toString(),
 //                                                color = MaterialTheme.colors.primary,
-                                                style = MaterialTheme.typography.body2,
+                                                style = MaterialTheme.typography.bodyMedium,
                                             )
                                         }
                                         Column(
@@ -279,13 +286,13 @@ fun AppartmentListItem(
 
                                             Text(
                                                 text = stringResource(R.string.area_extra),
-                                                color = MaterialTheme.colors.primary,
-                                                style = MaterialTheme.typography.caption
+                                                color = MaterialTheme.colorScheme.primary,
+                                                style = MaterialTheme.typography.titleSmall
                                             )
                                             Text(
-                                                text = appartment.areaDop.toString(),
+                                                text = apartment.areaDop.toString(),
 //                                                color = MaterialTheme.colors.primary,
-                                                style = MaterialTheme.typography.body2,
+                                                style = MaterialTheme.typography.bodyMedium,
                                             )
                                         }
                                         Column(
@@ -297,13 +304,13 @@ fun AppartmentListItem(
 
                                             Text(
                                                 text = stringResource(R.string.area_otopl),
-                                                color = MaterialTheme.colors.primary,
-                                                style = MaterialTheme.typography.caption
+                                                color = MaterialTheme.colorScheme.primary,
+                                                style = MaterialTheme.typography.titleSmall
                                             )
                                             Text(
-                                                text = appartment.areaOtopl.toString(),
+                                                text = apartment.areaOtopl.toString(),
 //                                                color = MaterialTheme.colors.primary,
-                                                style = MaterialTheme.typography.body2,
+                                                style = MaterialTheme.typography.bodyMedium,
                                             )
                                         }
                                     }
@@ -319,7 +326,7 @@ fun AppartmentListItem(
                                     ) {
                                         Text(
                                             text = stringResource(R.string.compound_text),
-                                            style = MaterialTheme.typography.caption,
+                                            style = MaterialTheme.typography.titleSmall,
                                             color = Color(0xFFFFB945)
 
                                         )
@@ -354,13 +361,13 @@ fun AppartmentListItem(
                                                 Text(
                                                     text = stringResource(R.string.tenant_text),
                                                     modifier = Modifier.padding(end = 4.dp),
-                                                    color = MaterialTheme.colors.primary,
-                                                    style = MaterialTheme.typography.caption
+                                                    color = MaterialTheme.colorScheme.primary,
+                                                    style = MaterialTheme.typography.titleSmall
                                                 )
                                                 Text(
-                                                    text = appartment.tenant.toString(),
+                                                    text = apartment.tenant.toString(),
 //                                                color = MaterialTheme.colors.primary,
-                                                    style = MaterialTheme.typography.body2,
+                                                    style = MaterialTheme.typography.bodyMedium,
                                                     textAlign = TextAlign.Center,
                                                 )
                                             }
@@ -379,14 +386,14 @@ fun AppartmentListItem(
                                             ) {
                                                 Text(
                                                     text = stringResource(R.string.podnan_text),
-                                                    color = MaterialTheme.colors.primary,
+                                                    color = MaterialTheme.colorScheme.primary,
                                                     modifier = Modifier.padding(end = 4.dp),
-                                                    style = MaterialTheme.typography.caption
+                                                    style = MaterialTheme.typography.titleSmall
                                                 )
                                                 Text(
-                                                    text = appartment.podnan.toString(),
+                                                    text = apartment.podnan.toString(),
 //                                                color = MaterialTheme.colors.primary,
-                                                    style = MaterialTheme.typography.body2,
+                                                    style = MaterialTheme.typography.bodyMedium,
                                                 )
                                             }
                                         }
@@ -403,14 +410,14 @@ fun AppartmentListItem(
                                             ) {
                                                 Text(
                                                     text = stringResource(R.string.absent_text),
-                                                    color = MaterialTheme.colors.primary,
+                                                    color = MaterialTheme.colorScheme.primary,
                                                     modifier = Modifier.padding(end = 4.dp),
-                                                    style = MaterialTheme.typography.caption
+                                                    style = MaterialTheme.typography.titleSmall
                                                 )
                                                 Text(
-                                                    text = appartment.absent.toString(),
+                                                    text = apartment.absent.toString(),
 //                                                color = MaterialTheme.colors.primary,
-                                                    style = MaterialTheme.typography.body2,
+                                                    style = MaterialTheme.typography.bodyMedium,
                                                 )
                                             }
                                         }
@@ -428,7 +435,7 @@ fun AppartmentListItem(
                                     ) {
                                         Text(
                                             text = stringResource(R.string.data_bti),
-                                            style = MaterialTheme.typography.caption,
+                                            style = MaterialTheme.typography.titleSmall,
                                             color = Color(0xFFFFB945)
 
                                         )
@@ -465,14 +472,14 @@ fun AppartmentListItem(
 
                                                 Text(
                                                     text = stringResource(R.string.rooms),
-                                                    color = MaterialTheme.colors.primary,
+                                                    color = MaterialTheme.colorScheme.primary,
                                                     modifier = Modifier.padding(end = 4.dp),
-                                                    style = MaterialTheme.typography.caption
+                                                    style = MaterialTheme.typography.titleSmall
                                                 )
                                                 Text(
-                                                    text = appartment.room.toString(),
+                                                    text = apartment.room.toString(),
 //                                                color = MaterialTheme.colors.primary,
-                                                    style = MaterialTheme.typography.body2,
+                                                    style = MaterialTheme.typography.bodyMedium,
                                                 )
                                             }
                                         }
@@ -490,18 +497,18 @@ fun AppartmentListItem(
                                             ) {
                                                 Text(
                                                     text = stringResource(R.string.private_text),
-                                                    color = MaterialTheme.colors.primary,
+                                                    color = MaterialTheme.colorScheme.primary,
                                                     modifier = Modifier.padding(end = 4.dp),
-                                                    style = MaterialTheme.typography.caption
+                                                    style = MaterialTheme.typography.titleSmall
                                                 )
                                                 Text(
-                                                    text = if (appartment.privat.toString() == "1") {
+                                                    text = if (apartment.privat.toString() == "1") {
                                                         stringResource(R.string.private_ok)
                                                     } else {
                                                         stringResource(R.string.private_no)
                                                     },
 //                                                color = MaterialTheme.colors.primary,
-                                                    style = MaterialTheme.typography.body2,
+                                                    style = MaterialTheme.typography.bodyMedium,
                                                 )
                                             }
                                         }
@@ -519,17 +526,17 @@ fun AppartmentListItem(
                                                 Text(
                                                     text = stringResource(R.string.elevator_text),
                                                     modifier = Modifier.padding(end = 4.dp),
-                                                    color = MaterialTheme.colors.primary,
-                                                    style = MaterialTheme.typography.caption
+                                                    color = MaterialTheme.colorScheme.primary,
+                                                    style = MaterialTheme.typography.titleSmall
                                                 )
                                                 Text(
-                                                    text = if (appartment.lift.toString() == "1") {
+                                                    text = if (apartment.lift.toString() == "1") {
                                                         stringResource(R.string.private_ok)
                                                     } else {
                                                         stringResource(R.string.private_no)
                                                     },
 //                                                color = MaterialTheme.colors.primary,
-                                                    style = MaterialTheme.typography.body2,
+                                                    style = MaterialTheme.typography.bodyMedium,
                                                 )
                                             }
                                         }
@@ -566,14 +573,14 @@ fun AppartmentListItem(
 
                                                 Text(
                                                     text = stringResource(R.string.order_text),
-                                                    color = MaterialTheme.colors.primary,
-                                                    style = MaterialTheme.typography.caption,
+                                                    color = MaterialTheme.colorScheme.primary,
+                                                    style = MaterialTheme.typography.titleSmall,
                                                     modifier = Modifier.padding(end = 4.dp)
                                                 )
                                                 Text(
-                                                    text = appartment.order,
+                                                    text = apartment.order,
 //                                                    color = MaterialTheme.colors.primary,
-                                                    style = MaterialTheme.typography.body2,
+                                                    style = MaterialTheme.typography.bodyMedium,
                                                 )
                                             }
 
@@ -612,14 +619,14 @@ fun AppartmentListItem(
 
                                                 Text(
                                                     text = stringResource(R.string.data_order),
-                                                    color = MaterialTheme.colors.primary,
-                                                    style = MaterialTheme.typography.caption,
+                                                    color = MaterialTheme.colorScheme.primary,
+                                                    style = MaterialTheme.typography.titleSmall,
                                                     modifier = Modifier.padding(end = 4.dp)
                                                 )
                                                 Text(
-                                                    text = appartment.dataOrder,
+                                                    text = apartment.dataOrder,
 //                                                    color = MaterialTheme.colors.primary,
-                                                    style = MaterialTheme.typography.body2,
+                                                    style = MaterialTheme.typography.bodyMedium,
                                                 )
                                             }
                                         }
@@ -637,7 +644,7 @@ fun AppartmentListItem(
                                     ) {
                                         Text(
                                             text = stringResource(R.string.contacts),
-                                            style = MaterialTheme.typography.caption,
+                                            style = MaterialTheme.typography.titleSmall,
                                             color = Color(0xFFFFB945)
 
                                         )
@@ -677,14 +684,14 @@ fun AppartmentListItem(
 
                                                 Text(
                                                     text = stringResource(R.string.phone_text),
-                                                    color = MaterialTheme.colors.primary,
-                                                    style = MaterialTheme.typography.caption,
+                                                    color = MaterialTheme.colorScheme.primary,
+                                                    style = MaterialTheme.typography.titleSmall,
                                                     modifier = Modifier.padding(end = 4.dp)
                                                 )
                                                 Text(
-                                                    text = appartment.phone,
+                                                    text = apartment.phone,
 //                                                    color = MaterialTheme.colors.primary,
-                                                    style = MaterialTheme.typography.body2,
+                                                    style = MaterialTheme.typography.bodyMedium,
                                                 )
                                             }
 
@@ -724,14 +731,14 @@ fun AppartmentListItem(
 
                                                 Text(
                                                     text = stringResource(R.string.email_colon),
-                                                    color = MaterialTheme.colors.primary,
-                                                    style = MaterialTheme.typography.caption,
+                                                    color = MaterialTheme.colorScheme.primary,
+                                                    style = MaterialTheme.typography.titleSmall,
                                                     modifier = Modifier.padding(end = 4.dp)
                                                 )
                                                 Text(
-                                                    text = appartment.email,
+                                                    text = apartment.email,
 //                                                    color = MaterialTheme.colors.primary,
-                                                    style = MaterialTheme.typography.body2,
+                                                    style = MaterialTheme.typography.bodyMedium,
                                                 )
                                             }
 
@@ -743,16 +750,7 @@ fun AppartmentListItem(
                             }
                         }
                     }
-                    Row(
-                        modifier = Modifier
-                            .padding(start = 12.dp, top = 0.dp, end = 12.dp, bottom = 8.dp)
 
-                    ) {
-                        DeleteAppartment(appartment.address) {
-                            viewModel.deleteFlat(appartment.addressId, popUpScreean)
-                        }
-
-                    }
                 }
             }
         }

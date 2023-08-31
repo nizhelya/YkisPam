@@ -17,8 +17,8 @@ class PaymentCacheImpl @Inject constructor(
         return paymentDao.getPaymentFromFlat(addressId)
     }
 
-    override fun deletePaymentFromFlat(addressId: List<Int>) {
-        paymentDao.deletePaymentFromFlat(addressId)
+    override fun deleteAllPayment() {
+        paymentDao.deleteAllPayment()
     }
 
     override fun getYearsFromFlat(addressId: Int): List<Int> {

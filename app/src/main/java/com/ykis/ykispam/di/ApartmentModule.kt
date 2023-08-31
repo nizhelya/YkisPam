@@ -1,7 +1,7 @@
 package com.ykis.ykispam.di
 
-import com.ykis.ykispam.pam.data.cache.appartment.AppartmentCache
-import com.ykis.ykispam.pam.data.cache.appartment.AppartmentCacheImpl
+import com.ykis.ykispam.pam.data.cache.apartment.ApartmentCache
+import com.ykis.ykispam.pam.data.cache.apartment.ApartmentCacheImpl
 import com.ykis.ykispam.pam.data.cache.family.FamilyCache
 import com.ykis.ykispam.pam.data.cache.family.FamilyCacheImpl
 import com.ykis.ykispam.pam.data.cache.heat.meter.HeatMeterCache
@@ -20,8 +20,8 @@ import com.ykis.ykispam.pam.data.cache.water.reading.WaterReadingCache
 import com.ykis.ykispam.pam.data.cache.water.reading.WaterReadingCacheImpl
 import com.ykis.ykispam.pam.data.remote.address.AddressRemote
 import com.ykis.ykispam.pam.data.remote.address.AddressRemoteImpl
-import com.ykis.ykispam.pam.data.remote.appartment.AppartmentRemote
-import com.ykis.ykispam.pam.data.remote.appartment.AppartmentRemoteImpl
+import com.ykis.ykispam.pam.data.remote.appartment.ApartmentRemote
+import com.ykis.ykispam.pam.data.remote.appartment.ApartmentRemoteImpl
 import com.ykis.ykispam.pam.data.remote.family.FamilyRemote
 import com.ykis.ykispam.pam.data.remote.family.FamilyRemoteImpl
 import com.ykis.ykispam.pam.data.remote.heat.meter.HeatMeterRemote
@@ -44,15 +44,15 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-abstract class AppartmentModule {
+abstract class ApartmentModule {
 
     @Singleton
     @Binds
-    abstract fun bindAppartmentCache(impl: AppartmentCacheImpl): AppartmentCache
+    abstract fun bindApartmentCache(impl: ApartmentCacheImpl): ApartmentCache
 
     @Singleton
     @Binds
-    abstract fun bindAppartmentRemote(impl: AppartmentRemoteImpl): AppartmentRemote
+    abstract fun bindApartmentRemote(impl: ApartmentRemoteImpl): ApartmentRemote
 
     @Singleton
     @Binds

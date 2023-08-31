@@ -17,7 +17,7 @@ class WaterMeterCacheImpl @Inject constructor(
         return waterMeterDao.getWaterMeter(addressId)
     }
 
-    override fun deleteWaterMeter(addressIdList: List<Int>) {
-        waterMeterDao.deleteWaterMeter(addressIdList)
+    override fun deleteAllWaterMeter() {
+        waterMeterDao.deleteAllWaterMeter()
     }
 }

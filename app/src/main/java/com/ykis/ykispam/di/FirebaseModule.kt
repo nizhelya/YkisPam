@@ -38,6 +38,7 @@ import com.ykis.ykispam.firebase.model.service.impl.LogServiceImpl
 import com.ykis.ykispam.firebase.model.service.repo.ConfigurationService
 import com.ykis.ykispam.firebase.model.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.model.service.repo.LogService
+
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -130,6 +131,11 @@ object FirebaseModule {
 
     @Provides
     fun provideLogService(): LogService = LogServiceImpl()
+//    @Provides
+//    fun provideEmailsRepository(): EmailsRepository = EmailsRepositoryImpl()
+//
+//    @Provides
+//    fun provideAccountRepository(): AccountsRepository = AccountsRepositoryImpl()
 
     @Provides
     fun provideConfigurationService(): ConfigurationService = ConfigurationServiceImpl()

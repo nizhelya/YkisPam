@@ -1,35 +1,59 @@
 package com.ykis.ykispam.navigation
 
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import androidx.window.layout.DisplayFeature
+import com.ykis.ykispam.ExitScreen
+import com.ykis.ykispam.BaseUIState
+import com.ykis.ykispam.SplashScreen
 import com.ykis.ykispam.YkisPamAppState
 import com.ykis.ykispam.firebase.screens.profile.ProfileScreen
 import com.ykis.ykispam.firebase.screens.settings.SettingsScreen
 import com.ykis.ykispam.firebase.screens.sign_in.SignInScreen
 import com.ykis.ykispam.firebase.screens.sign_up.SignUpScreen
-import com.ykis.ykispam.firebase.screens.splash.SplashScreen
 import com.ykis.ykispam.firebase.screens.verify_email.VerifyEmailScreen
-import com.ykis.ykispam.pam.screens.add_appartment.AddAppartmentScreen
-import com.ykis.ykispam.pam.screens.appartment.AppartmentScreen
+import com.ykis.ykispam.pam.screens.add_apartment.AddApartmentScreen
+import com.ykis.ykispam.pam.screens.appartment.ApartmentScreen
 
 
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
-fun NavGraphBuilder.YkisPamGraph(appState: YkisPamAppState) {
+fun NavGraphBuilder.YkisPamGraph(
+    contentType: ContentType,
+    navigationType: NavigationType,
+    displayFeatures: List<DisplayFeature>,
+    appState:YkisPamAppState,
+
+) {
 
     composable(SPLASH_SCREEN) {
-        SplashScreen(openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) })
+        SplashScreen(
+            openScreen = { route -> appState.clearAndNavigate(route) },
+//            navigateToDestination = { route -> appState.navigateTo(route) }
+            openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) }
+
+
+        )
+    }
+
+    composable(
+        route = "$EXIT_SCREEN$ADDRESS_ID_ARG",
+        arguments = listOf(navArgument(ADDRESS_ID) { defaultValue = ADDRESS_DEFAULT_ID })
+    ) {
+        ExitScreen(
+            popUpScreen = { appState.popUp() },
+            addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID
+        )
     }
 
 
     composable(PROFILE_SCREEN) {
-        ProfileScreen(restartApp = { route -> appState.clearAndNavigate(route) })
+        ProfileScreen(
+            restartApp = { route -> appState.clearAndNavigate(route) }
+        )
     }
     composable(SIGN_UP_SCREEN) {
         SignUpScreen(
-            restartApp = { route -> appState.clearAndNavigate(route) },
-            openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) }
+            openScreen = { route -> appState.navigate(route) },
         )
     }
     composable(VERIFY_EMAIL_SCREEN) {
@@ -43,20 +67,34 @@ fun NavGraphBuilder.YkisPamGraph(appState: YkisPamAppState) {
         )
 
     }
-    composable(ADD_APPARTMENT_SCREEN) {
-        AddAppartmentScreen(
-            popUpScreen = { appState.popUp() }
-        )
+    composable(ADD_APARTMENT_SCREEN) {
+        AddApartmentScreen(
+            contentType = contentType,
+            navigationType = navigationType,
+            displayFeatures = displayFeatures,
+            popUpScreen = { appState.popUp() })
 
     }
-    composable(APPARTMENT_SCREEN) {
-        AppartmentScreen(
-            openScreen = { route -> appState.navigate(route) },
-            popUpScreen = { appState.popUp() }
-        )
-    }
+
     composable(SETTINGS_SCREEN) {
         SettingsScreen(popUpScreen = { appState.popUp() })
     }
+
+
+    composable(
+        route = APARTMENT_SCREEN,
+    ) {
+        ApartmentScreen(
+            appState = appState,
+            contentType = contentType,
+            navigationType = navigationType,
+            displayFeatures = displayFeatures,
+        )
+    }
 }
+
+
+
+
+
 

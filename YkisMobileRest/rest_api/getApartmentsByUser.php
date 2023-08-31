@@ -7,11 +7,11 @@ if (isset($_POST['uid']) ) {
     $dbOperationsObject = new DBOperations();
     $generalFunctionsObject = new GeneralFunctionsClass();
 
-        $resultAppartments = $dbOperationsObject->getAppartmentsByUser($uid);
-        $appartments = $generalFunctionsObject->getAppartmentsByUser($resultAppartments);
+        $resultApartments = $dbOperationsObject->getApartmentsByUser($uid);
+        $apartments = $generalFunctionsObject->getApartmentsByUser($resultApartments);
         $response["success"] = 1;
             $response["message"] = "Success!";
-        $response["appartments"] = $appartments;
+        $response["apartments"] = $apartments;
 
 
 } else {

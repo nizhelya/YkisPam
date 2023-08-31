@@ -2,7 +2,7 @@ package com.ykis.ykispam.pam.data.remote.api
 
 import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.pam.data.remote.address.GetAddressResponse
-import com.ykis.ykispam.pam.data.remote.appartment.GetAppartmentsResponse
+import com.ykis.ykispam.pam.data.remote.appartment.GetApartmentsResponse
 import com.ykis.ykispam.pam.data.remote.family.GetFamilyResponse
 import com.ykis.ykispam.pam.data.remote.heat.meter.GetHeatMeterResponse
 import com.ykis.ykispam.pam.data.remote.heat.reading.GetHeatReadingResponse
@@ -10,6 +10,7 @@ import com.ykis.ykispam.pam.data.remote.payment.GetPaymentResponse
 import com.ykis.ykispam.pam.data.remote.service.GetServiceResponse
 import com.ykis.ykispam.pam.data.remote.water.meter.GetWaterMeterResponse
 import com.ykis.ykispam.pam.data.remote.water.reading.GetWaterReadingResponse
+import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 import retrofit2.Call
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
@@ -19,7 +20,7 @@ import retrofit2.http.POST
 interface ApiService {
     companion object {
 //        const val SERVER_URL = "https://is.yuzhny.com/YkisMobileRest"
-//        const val SERVER_URL = "http://10.0.2.2/YkisMobileRest"
+//        const val SERVER_URL = "http://10.0.2.2/YkisPAM/YkisMobileRest"
 //        const val SERVER_URL = "http://192.168.0.177/MobYkis/YkisMobileRest"
 
         const val SERVER_URL = "http://192.168.0.177/YkisPAM/YkisMobileRest"
@@ -30,7 +31,7 @@ interface ApiService {
         const val GET_FLAT = "getFlatById.php"
         const val GET_SERVICE_FLAT = "getFlatServices.php"
         const val GET_FLAT_PAYMENT = "getFlatPayments.php"
-        const val GET_MY_FLATS = "getAppartmentsByUser.php"
+        const val GET_MY_FLATS = "getApartmentsByUser.php"
         const val DELETE_FLAT = "deleteFlatByUser.php"
         const val UPDATE_BTI = "updateBti.php"
         const val GET_BLOCKS = "getBlocks.php"
@@ -73,10 +74,14 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST(GET_MY_FLATS)
-    fun getAppartmentsByUser(@FieldMap params: Map<String, String>): Call<GetAppartmentsResponse>
+    fun getApartmentsByUser(@FieldMap params: Map<String, String>): Call<GetApartmentsResponse>
+
     @FormUrlEncoded
     @POST(GET_MY_FLATS)
-    fun getAppartments(userId:String): Call<GetAppartmentsResponse>
+    fun getAllApartmentsByUser(@FieldMap params: Map<String, String>): Call<List<ApartmentEntity>>
+    @FormUrlEncoded
+    @POST(GET_MY_FLATS)
+    fun getApartments(userId:String): Call<GetApartmentsResponse>
 
     @FormUrlEncoded
     @POST(GET_BLOCKS)
@@ -116,7 +121,7 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST(GET_FLAT)
-    fun getFlatById(@FieldMap params: Map<String, String>): Call<GetAppartmentsResponse>
+    fun getFlatById(@FieldMap params: Map<String, String>): Call<GetApartmentsResponse>
 
     @FormUrlEncoded
     @POST(GET_SERVICE_FLAT)

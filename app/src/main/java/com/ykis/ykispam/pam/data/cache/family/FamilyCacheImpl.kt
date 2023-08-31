@@ -17,8 +17,8 @@ class FamilyCacheImpl @Inject constructor(
         return familyDao.getFamilyFromFlat(addressId)
     }
 
-    override fun deleteFamilyFromFlat(addressId: List<Int>) {
-        familyDao.deleteFamilyFromFlat(addressId)
+    override fun deleteAllFamily() {
+        familyDao.deleteAllFamily()
     }
 
 

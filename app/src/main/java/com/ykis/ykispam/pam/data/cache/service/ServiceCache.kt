@@ -5,6 +5,6 @@ import com.ykis.ykispam.pam.domain.service.ServiceEntity
 interface ServiceCache {
     fun addService(service: List<ServiceEntity>)
     fun getServiceFromFlat(addressId: Int, service: String): List<ServiceEntity>
-    fun deleteServiceFromFlat(addressId: List<Int>)
+    fun deleteAllService()
     fun getTotalDebt(addressId: Int): ServiceEntity?
 }

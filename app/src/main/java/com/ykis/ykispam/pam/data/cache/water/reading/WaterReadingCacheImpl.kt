@@ -17,11 +17,11 @@ class WaterReadingCacheImpl @Inject constructor(
         return waterReadingDao.getWaterReading(vodomerId)
     }
 
-    override fun deleteAllReading() {
-        waterReadingDao.deleteAllReadings()
+    override fun deleteAllWaterReading() {
+        waterReadingDao.deleteAllWaterReadings()
     }
 
-    override fun deleteReadingFromFlat(addressId: List<Int>) {
-        waterReadingDao.deleteReadingFromFlat(addressId)
+    override fun deleteWaterReadingFromFlat(addressId: List<Int>) {
+        waterReadingDao.deleteWaterReadingFromFlat(addressId)
     }
 }
