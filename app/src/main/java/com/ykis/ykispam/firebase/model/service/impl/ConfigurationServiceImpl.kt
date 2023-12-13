@@ -33,16 +33,18 @@ class ConfigurationServiceImpl @Inject constructor() : ConfigurationService {
         get() = Firebase.remoteConfig
 
     init {
-//    if (BuildConfig.DEBUG) {
-//      val configSettings = remoteConfigSettings { minimumFetchIntervalInSeconds = 0 }
-//      remoteConfig.setConfigSettingsAsync(configSettings)
-//    }
+    if (BuildConfig.DEBUG) {
+      val configSettings = remoteConfigSettings { minimumFetchIntervalInSeconds = 0 }
+      remoteConfig.setConfigSettingsAsync(configSettings)
+    }
 
         remoteConfig.setDefaultsAsync(AppConfig.remote_config_defaults)
     }
 
     override suspend fun fetchConfiguration(): Boolean =
         trace(FETCH_CONFIG_TRACE) { remoteConfig.fetchAndActivate().await() }
+
+
 
     override val isWiFiCheckConfig: Boolean
         get() = remoteConfig[LOADING_FROM_WIFI].asBoolean()

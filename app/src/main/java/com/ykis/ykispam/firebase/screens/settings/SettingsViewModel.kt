@@ -41,9 +41,9 @@ class SettingsViewModel @Inject constructor(
     var intPreference = _intPreference.asStateFlow()
 
 
-    fun toggleSwitch(){
+    fun toggleSwitch() {
         _isSwitchOn.value = _isSwitchOn.value.not()
-        // here is place for permanent storage handling - switch
+// здесь место для работы с постоянной памятью - переключатель
     }
 
     fun saveText(finalText: String) {
@@ -51,25 +51,27 @@ class SettingsViewModel @Inject constructor(
         // place to store text
     }
 
-    // just checking, if it is not empty - but you can check anything
+    // просто проверяем, не пусто ли оно - но проверить можно что угодно
     fun checkTextInput(text: String) = text.isNotEmpty()
     private val separatorChar = DecimalFormatSymbols.getInstance(Locale.ENGLISH).decimalSeparator
 
-    // filtering only numbers and decimal separator
-    fun filterNumbers(text: String): String = text.filter { it.isDigit() || it == separatorChar}
+    // фильтрация только чисел и десятичного разделителя
+    fun filterNumbers(text: String): String = text.filter { it.isDigit() || it == separatorChar }
 
-    // someone can still put more decimal points into the textfield
-    // we should always try to convert text to number
+    // кто-то все еще может поставить в текстовое поле больше десятичных знаков
+    // мы всегда должны пытаться преобразовать текст в число
     fun checkNumber(text: String): Boolean {
         val value = text.toDoubleOrNull() ?: return false
         return value < 0
     }
 
-    // saving the number / show error if something goes wrong
+    // сохраняем номер/показываем ошибку, если что-то пойдет не так
     fun saveNumber(text: String) {
-        val value = text.toDoubleOrNull() ?: 0 // default value / handle the error in some way - show toast or something
+        val value = text.toDoubleOrNull()
+            ?: 0 // значение по умолчанию / каким-то образом обработать ошибку - показать тост или что-то в этом роде
 
     }
+
     companion object {
         const val TAG = "SettingsViewModel"
     }
@@ -134,7 +136,7 @@ class SettingsViewModel @Inject constructor(
 //        }
 //    }
 
-//
+    //
 //
     fun onConfirmClick(popUpScreen: () -> Unit) {
         launchCatching {

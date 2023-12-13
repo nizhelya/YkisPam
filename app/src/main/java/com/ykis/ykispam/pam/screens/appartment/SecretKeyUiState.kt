@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.add_apartment
+package com.ykis.ykispam.pam.screens.appartment
 
 data class SecretKeyUiState(
     val secretCode: String = ""

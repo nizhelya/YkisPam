@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ykis.ykispam
+package com.ykis.ykispam.pam.screens.appartment
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -38,10 +38,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ykis.ykispam.pam.screens.appartment.ApartmentViewModel
+import com.ykis.ykispam.R
 
 @Composable
-fun ExitScreen(
+fun WaterScreen(
     popUpScreen:()->Unit,
     addressId: String,
     modifier: Modifier = Modifier,

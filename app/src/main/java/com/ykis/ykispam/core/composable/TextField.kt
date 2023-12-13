@@ -25,6 +25,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -93,7 +94,24 @@ fun EmailField(value: String, onNewValue: (String) -> Unit, modifier: Modifier =
         leadingIcon = { Icon(imageVector = Icons.Filled.Email, contentDescription = "Email") }
     )
 }
-
+@Composable
+fun PhoneField(value: String, onNewValue: (String) -> Unit, modifier: Modifier = Modifier) {
+    OutlinedTextField(
+        singleLine = true,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp, 4.dp, 16.dp, 4.dp),
+        label = {
+            Text(
+                text = stringResource(id = R.string.phone_colon)
+            )
+        },
+        value = value,
+        onValueChange = { onNewValue(it) },
+        placeholder = { Text(stringResource(AppText.email_placeholder)) },
+        leadingIcon = { Icon(imageVector = Icons.Filled.PhoneAndroid, contentDescription = "Phone") }
+    )
+}
 
 @Composable
 fun PasswordField(value: String, onNewValue: (String) -> Unit, modifier: Modifier = Modifier) {

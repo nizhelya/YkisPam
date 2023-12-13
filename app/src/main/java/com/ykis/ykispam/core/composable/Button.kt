@@ -66,7 +66,24 @@ fun BasicButton(@StringRes text: Int, modifier: Modifier, action: () -> Unit) {
     Text(text = stringResource(text), fontSize = 16.sp)
   }
 }
+@Composable
+fun ImageButton(@DrawableRes img:Int, modifier: Modifier, action: () -> Unit) {
+  Button(
+    onClick = action,
+    modifier = modifier,
+    shape = RoundedCornerShape(20.dp),
+    colors =
+    ButtonDefaults.buttonColors(
+      containerColor = Color(0xFF3A4C2B),
+      contentColor = Color(0xFFFFB945),
+    )
+  ) {
 
+    Image(painter = painterResource(img),
+      contentDescription = null
+    )
+  }
+}
 @Composable
 fun BasicImageButton(@StringRes text: Int,@DrawableRes img:Int, modifier: Modifier, action: () -> Unit) {
   Button(

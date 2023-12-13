@@ -16,7 +16,10 @@
 
 package com.ykis.ykispam.navigation
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,12 +37,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddHome
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MenuOpen
+import androidx.compose.material.icons.twotone.Apartment
+import androidx.compose.material.icons.twotone.HouseSiding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
@@ -56,6 +62,7 @@ import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -69,9 +76,11 @@ import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
+import androidx.glance.appwidget.Tracing.enabled
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
@@ -80,6 +89,7 @@ import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.R
 import com.ykis.ykispam.SplashViewModel
 import com.ykis.ykispam.core.composable.LogoImage
+import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.pam.screens.appartment.ApartmentViewModel
 
 @Composable
@@ -89,12 +99,8 @@ fun ApartmentNavigationRail(
     navigationContentPosition: NavigationContentPosition,
     navigateToDestination: (String) -> Unit,
     onDrawerClicked: () -> Unit = {},
-//    viewModel: ApartmentViewModel = hiltViewModel()
 
-) {
-//    val apartments by viewModel.apartments.observeAsState(emptyList())
-//    val uiState by  viewModel.uiState.collectAsStateWithLifecycle()
-
+    ) {
     NavigationRail(
         modifier = Modifier
             .fillMaxHeight()
@@ -136,27 +142,27 @@ fun ApartmentNavigationRail(
                 }
 
 
-                    LazyColumn(
-                        modifier = Modifier
-                            .layoutId(LayoutType.CONTENT),
+                LazyColumn(
+                    modifier = Modifier
+                        .layoutId(LayoutType.CONTENT),
 //                            .verticalScroll(rememberScrollState()),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Top
-                    ) {
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Top
+                ) {
 
-                        items(items = baseUIState.apartments, key =  {it.addressId} ) {
-                            NavigationDrawerItem(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(start = 8.dp, top = 2.dp, end = 8.dp, bottom = 2.dp),
-                                selected = selectedDestination == "$EXIT_SCREEN?$ADDRESS_ID=${it.addressId}",
-                                label = {
-                                    Text(
-                                        text = it.address,
-                                        style = MaterialTheme.typography.titleLarge,
-                                        modifier = Modifier.padding(horizontal = 4.dp)
-                                    )
-                                },
+                    items(items = baseUIState.apartments, key = { it.addressId }) {
+                        NavigationDrawerItem(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 8.dp, top = 2.dp, end = 8.dp, bottom = 2.dp),
+                            selected = selectedDestination == "$BTI_SCREEN?$ADDRESS_ID=${it.addressId}",
+                            label = {
+                                Text(
+                                    text = it.address,
+                                    style = MaterialTheme.typography.titleLarge,
+                                    modifier = Modifier.padding(horizontal = 4.dp)
+                                )
+                            },
 //                                icon = {
 //                                    Icon(
 //                                        imageVector = Icons.TwoTone.Apartment,
@@ -164,14 +170,14 @@ fun ApartmentNavigationRail(
 //                                    )
 //
 //                                },
-                                colors = NavigationDrawerItemDefaults.colors(
-                                    unselectedContainerColor = Color.Transparent
-                                ),
-                                onClick = {
-                                    navigateToDestination("$EXIT_SCREEN?$ADDRESS_ID=${it.addressId}")
-                                }
-                            )
-                        }
+                            colors = NavigationDrawerItemDefaults.colors(
+                                unselectedContainerColor = Color.Transparent
+                            ),
+                            onClick = {
+                                navigateToDestination("$BTI_SCREEN?$ADDRESS_ID=${it.addressId}")
+                            }
+                        )
+                    }
                 }
             },
             measurePolicy = { measurables, constraints ->
@@ -215,13 +221,15 @@ fun ApartmentNavigationRail(
 @Composable
 fun BottomNavigationBar(
     selectedDestination: String,
-    navigateToDestination: (String) -> Unit
+//    navigateToDestination: (String) -> Unit
 ) {
     NavigationBar(modifier = Modifier.fillMaxWidth()) {
         TOP_LEVEL_DESTINATIONS.forEach { destination ->
             NavigationBarItem(
                 selected = selectedDestination == destination.route,
-                onClick = { navigateToDestination(destination.route) },
+                onClick = {},
+//                onClick = { navigateToDestination(destination.route) },
+
                 icon = {
                     Icon(
                         imageVector = destination.selectedIcon,
@@ -240,11 +248,7 @@ fun PermanentNavigationDrawerContent(
     selectedDestination: String,
     navigationContentPosition: NavigationContentPosition,
     navigateToDestination: (String) -> Unit,
-//    viewModel: ApartmentViewModel = hiltViewModel()
-
 ) {
-//    val apartments by viewModel.apartments.observeAsState(emptyList())
-
     PermanentDrawerSheet(modifier = Modifier.sizeIn(minWidth = 200.dp, maxWidth = 300.dp)) {
         // TODO remove custom nav drawer content positioning when NavDrawer component supports it. ticket : b/232495216
         Layout(
@@ -255,51 +259,121 @@ fun PermanentNavigationDrawerContent(
                 Column(
                     modifier = Modifier
                         .layoutId(LayoutType.HEADER),
-                    horizontalAlignment = Alignment.Start,
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    Text(
-                        modifier = Modifier
-                            .padding(16.dp),
-                        text = stringResource(id = R.string.app_name).uppercase(),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                    ExtendedFloatingActionButton(
-                        onClick = { /*TODO*/ },
+                    Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 8.dp, bottom = 40.dp),
+                            .padding(start = 16.dp, top = 4.dp, end = 16.dp, bottom = 8.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        LogoImage()
+                    }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp, top = 4.dp, end = 16.dp, bottom = 8.dp),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(baseUIState.photoUrl)
+                                .crossfade(true)
+                                .build(),
+                            contentDescription = null,
+                            error = painterResource(R.drawable.ic_account_circle),
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .clip(CircleShape)
+                                .width(48.dp)
+                                .height(48.dp)
+                                .clickable(onClick = {
+                                    navigateToDestination(PROFILE_SCREEN)
+                                })
+                        )
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    start = 16.dp,
+                                    top = 4.dp,
+                                    end = 16.dp,
+                                    bottom = 8.dp
+                                ),
+
+                            verticalArrangement = Arrangement.Top,
+                            horizontalAlignment = Alignment.Start
+                        ) {
+                            (if (baseUIState.displayName == "null") {
+                                stringResource(id = R.string.login)
+                            } else {
+                                baseUIState.displayName
+                            }).let {
+                                if (it != null) {
+                                    Text(
+                                        text = it,
+                                        textAlign = TextAlign.Center,
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
+                                }
+                            }
+                            (if (baseUIState.email == "null") {
+                                stringResource(id = R.string.email_placeholder)
+                            } else {
+                                baseUIState.email
+                            }).let {
+                                if (it != null) {
+                                    Text(
+                                        text = it,
+                                        textAlign = TextAlign.Center,
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    ExtendedFloatingActionButton(
+                        onClick = {
+                            navigateToDestination(ADD_APARTMENT_SCREEN)
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
                         containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                         contentColor = MaterialTheme.colorScheme.onTertiaryContainer
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Edit,
-                            contentDescription = stringResource(id = R.string.edit),
+                            imageVector = Icons.Default.AddHome,
+                            contentDescription = stringResource(id = R.string.add_appartment),
                             modifier = Modifier.size(18.dp)
                         )
                         Text(
-                            text = stringResource(id = R.string.compose),
+                            text = stringResource(id = R.string.add_appartment),
                             modifier = Modifier.weight(1f),
                             textAlign = TextAlign.Center
                         )
                     }
                 }
-
+                val apartmentLazyListState = rememberLazyListState()
                 LazyColumn(
                     modifier = Modifier
                         .layoutId(LayoutType.CONTENT),
-//                        .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Top
+                    verticalArrangement = Arrangement.Top,
+                    state = apartmentLazyListState
+
                 ) {
 
                     items(items = baseUIState.apartments, key = { it.addressId }) {
                         NavigationDrawerItem(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(start = 8.dp, top = 2.dp, end = 8.dp, bottom = 2.dp),
-                            selected = selectedDestination == "$EXIT_SCREEN?$ADDRESS_ID={${it.addressId}}",
+                                .padding(start = 8.dp, top = 0.dp, end = 8.dp, bottom = 0.dp),
+                            selected = baseUIState.selectedDestination == "$APARTMENT_SCREEN?$ADDRESS_ID={${it.addressId}}",
                             label = {
                                 Text(
                                     text = it.address,
@@ -318,7 +392,8 @@ fun PermanentNavigationDrawerContent(
                                 unselectedContainerColor = Color.Transparent
                             ),
                             onClick = {
-                                navigateToDestination("$EXIT_SCREEN?$ADDRESS_ID={${it.addressId}}")
+                                navigateToDestination("$BTI_SCREEN?$ADDRESS_ID=${it.addressId}")
+
                             }
                         )
                     }
@@ -370,21 +445,15 @@ fun ModalNavigationDrawerContent(
     navigationContentPosition: NavigationContentPosition,
     navigateToDestination: (String) -> Unit,
     onDrawerClicked: () -> Unit = {},
-    viewModel: ApartmentViewModel = hiltViewModel()
-
 ) {
-
     ModalDrawerSheet {
-
-        // TODO remove custom nav drawer content positioning when NavDrawer component supports it. ticket : b/232495216
         Layout(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.inverseOnSurface),
 //                .padding(start = 16.dp, top = 4.dp, end = 16.dp, bottom = 8.dp),
             content = {
                 Column(
-                    modifier = Modifier
-                        .layoutId(LayoutType.HEADER),
+                    modifier = Modifier.layoutId(LayoutType.HEADER),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
@@ -412,7 +481,7 @@ fun ModalNavigationDrawerContent(
                     ) {
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
-                                .data(viewModel.photoUrl)
+                                .data(baseUIState.photoUrl)
                                 .crossfade(true)
                                 .build(),
                             contentDescription = null,
@@ -441,24 +510,78 @@ fun ModalNavigationDrawerContent(
                             verticalArrangement = Arrangement.Top,
                             horizontalAlignment = Alignment.Start
                         ) {
-
-
-                            (if (viewModel.email.isNullOrBlank()) {
-                                stringResource(id = R.string.email_placeholder)
+                            (if (baseUIState.displayName == "null") {
+                                stringResource(id = R.string.login)
                             } else {
-                                viewModel.email
+                                baseUIState.displayName
                             }).let {
                                 if (it != null) {
                                     Text(
                                         text = it,
                                         textAlign = TextAlign.Center,
-                                        style = MaterialTheme.typography.titleMedium
-                                    )
+                                        style = MaterialTheme.typography.titleMedium,
+//                                        color = MaterialTheme.colorScheme.primary,
+
+                                        )
+                                }
+                            }
+
+                            (if (baseUIState.email == "null") {
+                                stringResource(id = R.string.email_placeholder)
+                            } else {
+                                baseUIState.email
+                            }).let {
+                                if (it != null) {
+                                    Text(
+                                        text = it,
+                                        textAlign = TextAlign.Center,
+                                        style = MaterialTheme.typography.titleMedium,
+//                                        color = MaterialTheme.colorScheme.primary,
+
+                                        )
                                 }
                             }
                         }
                     }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 24.dp ,top = 4.dp, end = 16.dp, bottom = 8.dp),
+//                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        verticalAlignment = Alignment.CenterVertically
 
+                    ) {
+                        val imageModifier = Modifier
+                            .clip(CircleShape)
+                            .width(32.dp)
+                            .height(32.dp)
+                            .border(BorderStroke(0.dp, Color.Transparent))
+                            .background(Color.Transparent)
+                            .clickable(onClick = {
+                                navigateToDestination(SETTINGS_SCREEN)
+                                onDrawerClicked()
+
+                            })
+
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_settings),
+                            contentDescription = stringResource(id = R.string.settings),
+                            contentScale = ContentScale.Fit,
+                            modifier = imageModifier,
+//                            alignment = Alignment.CenterStart
+                        )
+                        ClickableText(
+                            text = AnnotatedString(stringResource(R.string.settings)) ,
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(start = 24.dp ),
+
+                        onClick = {
+                                navigateToDestination(SETTINGS_SCREEN)
+                                onDrawerClicked()
+
+                            })
+
+                    }
                     ExtendedFloatingActionButton(
                         onClick = {
                             navigateToDestination(ADD_APARTMENT_SCREEN)
@@ -482,76 +605,48 @@ fun ModalNavigationDrawerContent(
                         )
                     }
                 }
-                val apartments by viewModel.apartments.observeAsState(emptyList())
                 val apartmentLazyListState = rememberLazyListState()
-
                 LazyColumn(
                     modifier = Modifier
                         .layoutId(LayoutType.CONTENT),
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                    horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.Top,
                     state = apartmentLazyListState
 
                 ) {
 
-                    items(items = apartments, key = { it.addressId }) {
+                    items(items = baseUIState.apartments, key = { it.addressId }) {
                         NavigationDrawerItem(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(start = 8.dp, top = 0.dp, end = 8.dp, bottom = 0.dp),
-                            selected = selectedDestination == "$EXIT_SCREEN?$ADDRESS_ID={${it.addressId}}",
+                            selected = baseUIState.selectedDestination == "$APARTMENT_SCREEN?$ADDRESS_ID={${it.addressId}}",
                             label = {
                                 Text(
+//                                    text = baseUIState.selectedDestination,
                                     text = it.address,
+
                                     style = MaterialTheme.typography.titleLarge,
                                     modifier = Modifier.padding(horizontal = 4.dp)
                                 )
                             },
-//                            icon = {
-//                                Icon(
-//                                    imageVector = Icons.TwoTone.Apartment,
-//                                    contentDescription = ""
-//                                )
-//
-//                            },
+                            icon = {
+                                Icon(
+                                    imageVector = Icons.TwoTone.Apartment,
+                                    contentDescription = ""
+                                )
+
+                            },
                             colors = NavigationDrawerItemDefaults.colors(
                                 unselectedContainerColor = Color.Transparent
                             ),
                             onClick = {
-                                navigateToDestination("$EXIT_SCREEN?$ADDRESS_ID=${it.addressId}")
+                                navigateToDestination("$APARTMENT_SCREEN?$ADDRESS_ID=${it.addressId}")
                                 onDrawerClicked()
 
                             }
                         )
                     }
-//                    apartments.forEach { it ->
-//                        NavigationDrawerItem(
-//                            modifier = Modifier
-//                                .fillMaxWidth()
-//                                .padding(start = 8.dp, top = 2.dp, end = 8.dp, bottom = 2.dp),
-//                            selected = selectedDestination == "$APARTMENT_SCREEN?$ADDRESS_ID={${it.addressId}}",
-//                            label = {
-//                                Text(
-//                                    text = it.address,
-//                                    style = MaterialTheme.typography.titleLarge,
-//                                    modifier = Modifier.padding(horizontal = 4.dp)
-//                                )
-//                            },
-//                            icon = {
-//                                Icon(
-//                                    imageVector = Icons.TwoTone.Apartment,
-//                                    contentDescription = ""
-//                                )
-//
-//                            },
-//                            colors = NavigationDrawerItemDefaults.colors(
-//                                unselectedContainerColor = Color.Transparent
-//                            ),
-//                            onClick = {
-//                                navigateToDestination("$APARTMENT_SCREEN?$ADDRESS_ID={${it.addressId}}")
-//                            }
-//                        )
-//                    }
                 }
             },
             measurePolicy = { measurables, constraints ->

@@ -17,4 +17,12 @@
     <key>loading_from_wifi</key>
     <value>true</value>
   </entry>
+  <entry>
+    <key>isWiFiCheckConfig</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>isMobileCheckConfig</key>
+    <value>true</value>
+  </entry>
 </defaults>

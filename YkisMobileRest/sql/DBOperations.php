@@ -22,15 +22,86 @@ class DBOperations {
 
     public function getApartmentsByUser($uid){
         $com = new DbConnect();
-        $sql = 'SELECT  t2.id , t2.user_id ,t2.uid ,  t1.`address_id`, t1.`raion_id`, t1.`house_id`, (case when t3.`osmd_id` = 0 then "Внески ОСББ" else t3.abbr end) as osbb, t1.`kod`, t1.`address`, t1.`nanim`, t1.`fio`, t1.`order`, t1.`data`, t1.`area_full`, t1.`area_life`, t1.`area_dop`, t1.`area_balk`, t1.`area_otopl`, t1.`room`,
-    (case when t1.`privat` = "да" then true else false end) as privat , t1.`tenant`, t1.`tenant_tbo`, t1.`podnan`, t1.`absent`,(case when t1.`subsidia` = "да" then true else false end) as subsidia, (case when t1.`vxvoda` = "да" then true else false end) as vxvoda, (case when t1.`teplomer` = "да" then true else false end) as teplomer, t1.`distributor`, t1.`dvodomer_id`, t1.`dteplomer_id`,(case when t1.`lift` = "да" then true else false end) as lift, (case when t1.`kvartplata` = "да" then true else false end) as kvartplata,
-    (case when t1.`otoplenie` = "да" then true else false end) as otoplenie, (case when t1.`privat` = "да" then true else false end) as ateplo, (case when t1.`podogrev` = "да" then true else false end) as podogrev, (case when t1.`voda` = "да" then true else false end) as voda, (case when t1.`stoki` = "да" then true else false end) as stoki, (case when t1.`avoda` = "да" then true else false end) as avoda, (case when t1.`astoki` = "да" then true else false end) as astoki, (case when t1.`tbo` = "да" then true else false end) as tbo, t1.`tarif_kv`, t1.`tarif_ot`, t1.`tarif_aot`, t1.`tarif_gv`, t1.`tarif_xv`, t1.`tarif_st`, t1.`tarif_tbo`, (case when t1.`aggr_kv` = "да" then true else false end) as aggr_kv, (case when t1.`aggr_voda` = "да" then true else false end) as aggr_voda ,(case when t1.`aggr_teplo` = "да" then true else false end) as aggr_teplo,(case when t1.`aggr_tbo` = "да" then true else false end) as aggr_tbo,   (case when t1.`boiler` = "да" then true else false end) as boiler, t1.`enaudit`, t1.`enaudit_id`, t1.`tne`, t1.`kte`, t1.`length`, t1.`diametr`, t1.`heated`, t1.`ztp`, t1.`ovu`, t1.`paused`, t1.`phone`, t1.`email`, t1.`osmd`, t3.`osmd_id`,IFNULL(t4.ipay , 0) as ipay,IFNULL( t4.pb , 0) as pb , IFNULL(t4.mtb , 0 ) as mtb ,  t1.`what_change`, t1.`operator`, t1.`data_change`, t1.`data_in`     
+        $sql = 'SELECT  
+        t2.id ,
+        t2.user_id ,
+        t2.uid ,  
+        t1.`address_id`, 
+        t1.`raion_id`, 
+        t1.`house_id`, 
+        (case when t3.`osmd_id` = 0 then "Внески ОСББ" else t3.abbr end) as osbb, 
+        t1.`kod`, 
+        t1.`address`, 
+        t1.`nanim`, 
+        t1.`fio`, 
+        t1.`order`, 
+        t1.`data`, 
+        t1.`area_full`, 
+        t1.`area_life`, 
+        t1.`area_dop`, 
+        t1.`area_balk`, 
+        t1.`area_otopl`, 
+        t1.`room`,
+    (case when t1.`privat` = "да" then true else false end) as privat , 
+    t1.`tenant`, 
+    t1.`tenant_tbo`, 
+    t1.`podnan`, 
+    t1.`absent`,
+    (case when t1.`subsidia` = "да" then true else false end) as subsidia, 
+    (case when t1.`vxvoda` = "да" then true else false end) as vxvoda, 
+    (case when t1.`teplomer` = "да" then true else false end) as teplomer, 
+    t1.`distributor`, 
+    t1.`dvodomer_id`, 
+    t1.`dteplomer_id`,
+    (case when t1.`lift` = "да" then true else false end) as lift, 
+    (case when t1.`kvartplata` = "да" then true else false end) as kvartplata,
+    (case when t1.`otoplenie` = "да" then true else false end) as otoplenie, 
+    (case when t1.`privat` = "да" then true else false end) as ateplo, 
+    (case when t1.`podogrev` = "да" then true else false end) as podogrev, 
+    (case when t1.`voda` = "да" then true else false end) as voda, 
+    (case when t1.`stoki` = "да" then true else false end) as stoki, 
+    (case when t1.`avoda` = "да" then true else false end) as avoda, 
+    (case when t1.`astoki` = "да" then true else false end) as astoki, 
+    (case when t1.`tbo` = "да" then true else false end) as tbo, 
+    t1.`tarif_kv`, 
+    t1.`tarif_ot`, 
+    t1.`tarif_aot`, 
+    t1.`tarif_gv`, 
+    t1.`tarif_xv`, 
+    t1.`tarif_st`, 
+    t1.`tarif_tbo`, 
+    (case when t1.`aggr_kv` = "да" then true else false end) as aggr_kv, 
+    (case when t1.`aggr_voda` = "да" then true else false end) as aggr_voda ,
+    (case when t1.`aggr_teplo` = "да" then true else false end) as aggr_teplo,
+    (case when t1.`aggr_tbo` = "да" then true else false end) as aggr_tbo,   
+    (case when t1.`boiler` = "да" then true else false end) as boiler, 
+    t1.`enaudit`, 
+    t1.`enaudit_id`, 
+    t1.`tne`, 
+    t1.`kte`, 
+    t1.`length`, 
+    t1.`diametr`, 
+    t1.`heated`, 
+    t1.`ztp`, 
+    t1.`ovu`, 
+    t1.`paused`, 
+    t1.`phone`, 
+    t1.`email`, 
+    t1.`osmd`, 
+    t3.`osmd_id`,
+    IFNULL(t4.ipay , 0) as ipay,
+    IFNULL( t4.pb , 0) as pb , 
+    IFNULL(t4.mtb , 0 ) as mtb ,  
+    t1.`what_change`, 
+    t1.`operator`, 
+    t1.`data_change`, 
+    t1.`data_in`     
     FROM YISGRAND.MYFLAT as t2  
     LEFT JOIN YIS.APPARTMENT as t1 USING(`address_id`) 
     LEFT JOIN YIS.HOUSE as t3 on t3.house_id = t2.house_id 
     LEFT JOIN YISGRAND.OSMD as t4 on t4.osmd_id = t1.osmd_id 
     WHERE  t2.uid = "'.$uid.'"';
-//        print_r($sql);
+     //print_r($sql);
         return mysqli_query($com->getDb(), $sql);
     }
     //blocks
@@ -77,6 +148,7 @@ class DBOperations {
         mysqli_query( $com->getDb(), $sql);
         return $com->getDb();
     }
+    
     public function updateBti($address_id , $phone , $email){
         $com = new DbConnect();
         $sql = 'UPDATE YIS.APPARTMENT as t1 SET t1.email = "'.$email.'" , t1.phone = "'.$phone.'" WHERE t1.address_id = '.$address_id.' ';

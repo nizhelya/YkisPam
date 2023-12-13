@@ -24,7 +24,6 @@ import com.ykis.ykispam.R.string as AppText
 
 @Composable
 fun SplashScreen(
-    openScreen: (String) -> Unit,
     openAndPopUp:(String,String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SplashViewModel = hiltViewModel()
@@ -42,7 +41,7 @@ fun SplashScreen(
         if (viewModel.showError.value) {
             Text(text = stringResource(AppText.generic_error))
             BasicButton(AppText.try_again, Modifier.basicButton()) {
-                viewModel.onAppStart(isUserSignedOut,openScreen,openAndPopUp)
+                viewModel.onAppStart(isUserSignedOut,openAndPopUp)
             }
         } else {
             CircularProgressIndicator(color = MaterialTheme.colorScheme.onBackground)
@@ -50,6 +49,6 @@ fun SplashScreen(
     }
 
     LaunchedEffect(key1 = viewModel) {
-        viewModel.onAppStart(isUserSignedOut,openScreen,openAndPopUp)
+        viewModel.onAppStart(isUserSignedOut,openAndPopUp)
     }
 }

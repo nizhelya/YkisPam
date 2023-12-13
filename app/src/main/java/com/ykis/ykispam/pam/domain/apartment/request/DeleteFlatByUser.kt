@@ -1,6 +1,8 @@
 package com.ykis.ykispam.pam.domain.apartment.request
 
 import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.pam.domain.address.AddressEntity
+import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.pam.domain.apartment.ApartmentRepository
 import com.ykis.ykispam.pam.domain.interactor.UseCase
 import javax.inject.Inject

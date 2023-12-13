@@ -20,14 +20,16 @@ import com.ykis.ykispam.core.Constants.TASK_ID
 
 const val SPLASH_SCREEN = "SplashScreen"
 const val SIGN_IN_SCREEN = "SignInScreen"
-const val FORGOT_PASSWORD_SCREEN = "ForgotPasswordScreen"
 const val VERIFY_EMAIL_SCREEN = "VerifyEmailScreen"
 const val SIGN_UP_SCREEN = "SignUpScreen"
 const val APARTMENT_SCREEN = "ApartmentScreen"
 const val ADD_APARTMENT_SCREEN = "AddApartmentScreen"
 const val PROFILE_SCREEN = "ProfileScreen"
-const val AGREEMENT_SCREEN = "AgreementScreen"
-const val EXIT_SCREEN = "ExitScreen"
+const val FLAT_SCREEN = "FlatScreen"
+const val BTI_SCREEN = "BtiScreen"
+const val FAMILY_SCREEN = "FamilyScreen"
+const val WATER_SCREEN = "WaterScreen"
+
 
 const val SETTINGS_SCREEN = "SettingsScreen"
 

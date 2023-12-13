@@ -6,7 +6,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.ykis.ykispam.core.Response
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
 typealias SignOutResponse = Response<Boolean>
@@ -27,8 +26,9 @@ interface FirebaseService {
     val uid: String
     val hasUser: Boolean
     val isEmailVerified: Boolean?
+    val currentUserId: String
 
-    //    val currentUser: Flow<User>
+//        val currentUser: Flow<User>
     val currentUser: FirebaseUser?
 
     val displayName: String

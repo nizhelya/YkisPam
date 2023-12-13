@@ -116,8 +116,7 @@ class GeneralFunctionsClass
                 'tenant_tbo' => $rowApartment['tenant_tbo'],          
                 'room' => $rowApartment['room'],
                 'privat' => $rowApartment['privat'],
-                'lift' => $rowApartment['lift']
-/*
+                'lift' => $rowApartment['lift'],
                 'fio' => $rowApartment['fio'],
                 'raion_id' => $rowApartment['raion_id'],
                 'house_id' => $rowApartment['house_id'],
@@ -169,7 +168,7 @@ class GeneralFunctionsClass
                 'ipay' => $rowApartment['ipay'],
                 'mtb' => $rowApartment['mtb'],
                 'pb' => $rowApartment['pb']
-*/
+
             );
 
             $apartments[] = $apartment;

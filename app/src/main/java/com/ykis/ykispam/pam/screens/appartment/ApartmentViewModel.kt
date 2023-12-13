@@ -22,7 +22,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.BaseViewModel
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.Response
@@ -32,11 +31,11 @@ import com.ykis.ykispam.firebase.model.service.repo.LogService
 import com.ykis.ykispam.firebase.model.service.repo.SignOutResponse
 import com.ykis.ykispam.navigation.ADDRESS_ID
 import com.ykis.ykispam.navigation.ADD_APARTMENT_SCREEN
-import com.ykis.ykispam.navigation.EXIT_SCREEN
-import com.ykis.ykispam.navigation.PROFILE_SCREEN
+import com.ykis.ykispam.navigation.APARTMENT_SCREEN
 import com.ykis.ykispam.navigation.SETTINGS_SCREEN
 import com.ykis.ykispam.navigation.SPLASH_SCREEN
 import com.ykis.ykispam.pam.data.cache.apartment.ApartmentCacheImpl
+import com.ykis.ykispam.pam.data.cache.payment.PaymentCacheImpl
 import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.pam.data.remote.core.NetworkHandler
 import com.ykis.ykispam.pam.domain.address.AddressEntity
@@ -45,10 +44,11 @@ import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.pam.domain.apartment.request.DeleteFlatByUser
 import com.ykis.ykispam.pam.domain.apartment.request.GetApartments
 import com.ykis.ykispam.pam.domain.apartment.request.UpdateBti
-import com.ykis.ykispam.pam.screens.add_apartment.SecretKeyUiState
+import com.ykis.ykispam.pam.domain.family.request.BooleanInt
+import com.ykis.ykispam.pam.domain.payment.PaymentEntity
+import com.ykis.ykispam.pam.domain.payment.PaymentItemEntity
+import com.ykis.ykispam.pam.domain.payment.request.GetFlatPayment
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -61,17 +61,17 @@ class ApartmentViewModel @Inject constructor(
     private val addFlatByUser: AddFlatByUser,
     private val updateBtiUseCase: UpdateBti,
     private val apartmentCacheImpl: ApartmentCacheImpl,
+    private val getFlatPaymentUseCase: GetFlatPayment,
+    private val paymentCacheImpl: PaymentCacheImpl,
     private val networkHandler: NetworkHandler,
     private val logService: LogService,
-) : BaseViewModel(logService,) {
+) : BaseViewModel(logService) {
 
 
     var secretKeyUiState by mutableStateOf(SecretKeyUiState())
         private set
     private val secretCode
         get() = secretKeyUiState.secretCode
-
-
 
     var signOutResponse by mutableStateOf<SignOutResponse>(Response.Success(false))
         private set
@@ -91,6 +91,15 @@ class ApartmentViewModel @Inject constructor(
     private val _address = MutableLiveData<List<AddressEntity>>()
     val address: LiveData<List<AddressEntity>> get() = _address
 
+    private val _paymentsFlat = MutableLiveData<List<PaymentEntity>>()
+    val paymentsFlat: LiveData<List<PaymentEntity>> get() = _paymentsFlat
+
+    private val _years = MutableLiveData<List<PaymentEntity>>()
+    val years: LiveData<List<PaymentEntity>> get() = _years
+
+    private val _paymentItem = mutableListOf<PaymentItemEntity>()
+    val paymentItem = MutableLiveData<List<PaymentItemEntity>>()
+
     private val _resultText = MutableLiveData<GetSimpleResponse>()
     val resultText: LiveData<GetSimpleResponse> = _resultText
 
@@ -99,22 +108,39 @@ class ApartmentViewModel @Inject constructor(
 
     var networkInfo = mutableStateOf(true)
 
-
-
-
-
-
-    fun initialize(){
-
-        if (isConnected && networkType == 2) {
-                networkInfo.value = true
-                getApartmentsByUser(true)
-            } else {
-                SnackbarManager.showMessage(R.string.error_server_appartment)
-                networkInfo.value = false
-                getApartmentsByUser(false)
-            }
+    fun initialize(addressId: Int) {
+        observeApartments(addressId)
     }
+
+    private fun observeApartments(addressId: Int) {
+        launchCatching {
+            if (addressId == 0) {
+                _uiState.value = _uiState
+                    .value.copy(
+                        uid = uid,
+                        displayName = displayName,
+                        email = email,
+                    )
+                if (isConnected && networkType == 2) {
+                    getApartmentsByUser(true)
+                } else {
+                    SnackbarManager.showMessage(R.string.error_server_appartment)
+                    getApartmentsByUser(false)
+                }
+            } else {
+                getFlatFromCache(addressId)
+            }
+        }
+    }
+
+
+    fun closeDetailScreen() {
+        _uiState.value = _uiState
+            .value.copy(
+                isDetailOnlyOpen = false,
+            )
+    }
+
     fun getApartmentsByUser(needFetch: Boolean = true) {
         getApartmentsUseCase(needFetch) { it ->
 
@@ -122,34 +148,41 @@ class ApartmentViewModel @Inject constructor(
                 it.either(::handleFailure) {
                     handleApartments(it)
                 }
-            } else {
-                SnackbarManager.showMessage(R.string.error_server_appartment)
+
             }
         }
     }
-
-
-
     fun getFlatFromCache(addressId: Int) {
-        viewModelScope.launch {
-            _apartment.value = apartmentCacheImpl.getApartmentById(addressId)
 
-        }
+            _apartment.value = apartmentCacheImpl.getApartmentById(addressId)
+            _uiState.value = _uiState.value.copy(
+                addressId = _apartment.value!!.addressId,
+                address = _apartment.value!!.address,
+                selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${_apartment.value!!.addressId}}"
+            )
     }
 
-    fun deleteFlat(addressId: Int, popUpScreen: (String) -> Unit) {
+    fun deleteApartment(addressId: Int, restartApp: (String) -> Unit) {
+        launchCatching {
 
-        deleteFlatByUser(addressId) { it ->
-            it.either(::handleFailure) {
-                handleResultText(
-                    it, _resultText
-                )
+            if (addressId != 0) {
+                deleteFlatByUser(addressId) { it ->
+                    it.either(::handleFailure) {
+                        handleResultText(
+                            it, _resultText
+                        )
+                    }
+                }
+                SnackbarManager.showMessage(R.string.success_delete_flat)
+
+                restartApp(APARTMENT_SCREEN)
+            } else {
+                SnackbarManager.showMessage(R.string.error_delete_flat)
+
             }
         }
-//        initialize()
-        popUpScreen(SPLASH_SCREEN)
-
     }
+
 
     fun updateBti(addressId: Int, phone: String, email: String) {
         updateBtiUseCase(
@@ -169,14 +202,25 @@ class ApartmentViewModel @Inject constructor(
 
     private fun handleApartments(apartments: List<ApartmentEntity>) {
         _apartments.value = apartments
-        _uiState.value =_uiState.value.copy(
+        _uiState.value = _uiState.value.copy(
+            isDetailOnlyOpen = false,
             apartments = apartments,
-            selectedDestination = if (apartments.isEmpty()){
-                "$EXIT_SCREEN?$ADDRESS_ID={0}"
+            selectedDestination = if (apartments.isEmpty()) {
+                "$APARTMENT_SCREEN?$ADDRESS_ID={0}"
             } else {
-                "$EXIT_SCREEN?$ADDRESS_ID={apartments.first().addressId}"
-            }
-        )
+                "$APARTMENT_SCREEN?$ADDRESS_ID={${apartments.first().addressId}}"
+            },
+            addressId = if (apartments.isEmpty()) {
+                0
+            } else {
+                apartments.first().addressId
+            },
+            address = if (apartments.isEmpty()) {
+                ""
+            } else {
+                apartments.first().address
+            },
+            )
     }
 
     fun onAddClick(openScreen: (String) -> Unit) {
@@ -191,7 +235,7 @@ class ApartmentViewModel @Inject constructor(
         }
     }
 
-    fun onExitAppClick(openScreen: (String) ->  Unit) {
+    fun onExitAppClick(openScreen: (String) -> Unit) {
         launchCatching {
             signOutResponse = Response.Loading
             signOutResponse = firebaseService.signOut()
@@ -203,7 +247,7 @@ class ApartmentViewModel @Inject constructor(
         secretKeyUiState = secretKeyUiState.copy(secretCode = newValue)
     }
 
-    fun onAddAppartmentClick(popUpScreean: () -> Unit) {
+    fun onAddAppartmentClick(restartApp: (String) -> Unit) {
         if (secretCode.isBlank()) {
             SnackbarManager.showMessage(R.string.empty_field_error)
             return
@@ -216,10 +260,17 @@ class ApartmentViewModel @Inject constructor(
                 )
             }
         }
-        popUpScreean()
-//        if (resultText.value?.success == 1) {
-//            restartApp(APPARTMENT_SCREEN)
-//        }
+//        restartApp(APARTMENT_SCREEN)
+        if (resultText.value?.success == 1) {
+            _uiState.value = resultText.value?.addressId?.let {
+                _uiState.value.copy(
+                    addressId = it
+                )
+            }!!
+
+
+            restartApp("$APARTMENT_SCREEN?$ADDRESS_ID={${resultText.value?.addressId.toString()}")
+        }
 
     }
 
@@ -238,5 +289,59 @@ class ApartmentViewModel @Inject constructor(
         updateBtiUseCase.unsubscribe()
     }
 
+    private fun getFlatPayments(addressId: Int, needFetch: Boolean = false) {
+        getFlatPaymentUseCase(
+            BooleanInt(
+                addressId,
+                needFetch
+            )
+        ) { it ->
+            it.either(::handleFailure) {
+                handlePayment(
+                    it, addressId, !needFetch
+                )
+            }
+        }
+
+    }
+
+    private fun handlePayment(
+        payments: List<PaymentEntity>,
+        addressId: Int,
+        fromCache: Boolean,
+    ) {
+        _paymentsFlat.value = payments
+        updateProgress(false)
+
+        if (fromCache) {
+            updateProgress(true)
+            getFlatPayments(addressId, true)
+        }
+    }
+
+    fun getPaymentItem(addressId: Int) {
+        _paymentItem.clear()
+        val yearList = paymentCacheImpl.getYearsFromFlat(addressId)
+        viewModelScope.launch {
+            for (i in yearList) {
+                _paymentItem.add(
+                    PaymentItemEntity(
+                        i,
+                        paymentCacheImpl.getPaymentFromYearFlat(addressId, i)
+                    )
+                )
+
+            }
+            paymentItem.value = _paymentItem
+            if (!_paymentItem.isNullOrEmpty()) {
+
+            }
+        }
+    }
+
+    fun clearPaymentList() {
+        _paymentItem.clear()
+        paymentItem.value = _paymentItem
+    }
 }
 

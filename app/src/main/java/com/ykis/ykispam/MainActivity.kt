@@ -25,12 +25,10 @@ class MainActivity : ComponentActivity() {
             YkisPAMTheme {
                 val windowSize = calculateWindowSizeClass(this)
                 val displayFeatures = calculateDisplayFeatures(this)
-                val uiState by  viewModel.uiState.collectAsStateWithLifecycle()
 
                 YkisPamApp(
                     windowSize = windowSize,
                     displayFeatures = displayFeatures,
-                    baseUIState = uiState,
                 )
             }
         }

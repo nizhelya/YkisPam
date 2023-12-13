@@ -91,7 +91,6 @@
     <string name="recovery_email_sent">Перевірте поштову скриньку (спам) на наявність листа для відновлення.</string>
     <string name="empty_password_error">Пароль не може бути пустим.</string>
     <string name="empty_field_error">Поле не може бути пустим.</string>
-    <string name="empty_text"></string>
 
     <string name="no_account">Немає облікового запису?\n Зареєструватися.</string>
     <!-- SignUpScreen -->
@@ -164,6 +163,7 @@
     <string name="desc_delete_appartment">Ви дійсно бажаєте видалити\n%s зі списку ваших квартир? Додати її заново можно задопомогою секретного кода</string>
     <string name="title_delete_appartment">Видалити квартиру?</string>
     <string name="delete_appartment">Видалити квартиру</string>
+    <string name="response_address_id">Лицевой счет %s </string>
 
     <string name="cancel">Відмінити</string>
     <string name="delete">Видалити</string>
@@ -180,12 +180,13 @@
     <string name="private_text">Приват:</string>
     <string name="private_ok">Так</string>
     <string name="private_no">Ні</string>
+    <string name="ok">Так</string>
 
     <string name="data_order">дата видачі ордера:</string>
     <string name="order_text">Ордер:</string>
     <string name="edit">Оновити</string>
     <string name="updated">Дані оновлено</string>
-    <string name="phone">Номер телефону</string>
+    <string name="phone">Тел.</string>
     <string name="dialog_edit_title">Оновити контактну інформацію</string>
     <string name="phone_colon">Телефон:</string>
     <string name="employer_text">Гл.наймач (П.І.Б.)  </string>
@@ -210,6 +211,15 @@
     <string name="accrued">Нарахування</string>
     <string name="payment_list">Платежі</string>
     <string name="kvartplata_text">Внески:</string>
+    <string name="water">Водопостачання:</string>
+    <string name="drainage">Водовідведення:</string>
+    <string name="water_drainage">Водопостачання та\nводовідведення:</string>
+    <string name="heat_supply">Теплопосточання:</string>
+    <string name="distributor">Постачальник:</string>
+    <string name="consumed_services">Споживані послуги:</string>
+
+
+
     <string name="summary">Усього:</string>
     <string name="payment_text">Платіж від:</string>
     <string name="start_debt">Борг на\nпочаток</string>
@@ -218,7 +228,7 @@
     <string name="services">Послуги\n </string>
     <string name="refund">Відшкодування</string>
     <string name="paid">Спла-\nчено</string>
-    <string name="tbo">ТПВ:</string>
+    <string name="tbo">Управління ПВ:</string>
     <string name="prixod">Приход:</string>
     <string name="add">Додати</string>
 
@@ -235,7 +245,7 @@
     <string name="next">Продовжити</string>
     //WaterMeter
     <string name="water_detail_text">Технічна характеристика</string>
-    <string name="wt">Технічна характеристика</string>
+    <string name="xp">Характеристика приміщення</string>
     <string name="number_colon">Номер:</string>
     <string name="place_colon">Місце:</string>
     <string name="model_colon">Модель:</string>
@@ -299,7 +309,7 @@
     //error
     <string name="error_network">Немає доступу до Інтернету \n Перевірте підключення</string>
     <string name="error_update">Невдалося оновити</string>
-    <string name="error_delete_flat">Невдалося видалити квартиру</string>
+    <string name="error_delete_flat">Невдалося видалити квартиру\nУ Вас немає квартир для видалення </string>
     <string name="error_missing_fields">В запросе отсутствует поле</string>
     <string name="error_flat_in_db">Ви вже додали цю квартиру</string>
     <string name="error_incorrect_code">Неправильний код</string>
