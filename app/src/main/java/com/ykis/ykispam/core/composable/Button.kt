@@ -29,6 +29,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -40,94 +41,106 @@ import coil.compose.AsyncImagePainter.State.Empty.painter
 
 @Composable
 fun BasicLinkButton(@StringRes text: Int, modifier: Modifier, action: () -> Unit) {
-  TextButton(onClick = action, modifier = modifier) {
-    Text(
-      text = stringResource(text),
-      color= MaterialTheme.colorScheme.onSurface,
-      style = MaterialTheme.typography.titleSmall,
-      textAlign = TextAlign.Center,
-      fontStyle = FontStyle.Italic,
-      textDecoration = TextDecoration.Underline
+    TextButton(onClick = action, modifier = modifier) {
+        Text(
+            text = stringResource(text),
+            color = MaterialTheme.colorScheme.onSurface,
+            style = MaterialTheme.typography.titleSmall,
+            textAlign = TextAlign.Center,
+            fontStyle = FontStyle.Italic,
+            textDecoration = TextDecoration.Underline
 
-    )
-  }
+        )
+    }
 }
+
 @Composable
 fun BasicButton(@StringRes text: Int, modifier: Modifier, action: () -> Unit) {
-  Button(
-    onClick = action,
-    modifier = modifier,
-    colors =
-    ButtonDefaults.buttonColors(
-      containerColor = MaterialTheme.colorScheme.primary,
-      contentColor = MaterialTheme.colorScheme.onPrimary
-    )
-  ) {
-    Text(text = stringResource(text), fontSize = 16.sp)
-  }
+    Button(
+        onClick = action,
+        modifier = modifier,
+        colors =
+        ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
+        )
+    ) {
+        Text(text = stringResource(text), fontSize = 16.sp)
+    }
 }
-@Composable
-fun ImageButton(@DrawableRes img:Int, modifier: Modifier, action: () -> Unit) {
-  Button(
-    onClick = action,
-    modifier = modifier,
-    shape = RoundedCornerShape(20.dp),
-    colors =
-    ButtonDefaults.buttonColors(
-      containerColor = Color(0xFF3A4C2B),
-      contentColor = Color(0xFFFFB945),
-    )
-  ) {
 
-    Image(painter = painterResource(img),
-      contentDescription = null
-    )
-  }
-}
 @Composable
-fun BasicImageButton(@StringRes text: Int,@DrawableRes img:Int, modifier: Modifier, action: () -> Unit) {
-  Button(
-    onClick = action,
-    modifier = modifier,
-    shape = RoundedCornerShape(20.dp),
-    colors =
-    ButtonDefaults.buttonColors(
-      containerColor = Color(0xFF3A4C2B),
-      contentColor = Color(0xFFFFB945),
-    )
-  ) {
+fun ImageButton(@DrawableRes img: Int, modifier: Modifier, action: () -> Unit) {
+    Button(
+        onClick = action,
+        modifier = modifier,
+        shape = RoundedCornerShape(20.dp),
+        colors =
+        ButtonDefaults.buttonColors(
+            containerColor = Color(0xFF3A4C2B),
+            contentColor = Color(0xFFFFB945),
+        )
+    ) {
 
-    Text(text = stringResource(text), fontSize = 16.sp,modifier = Modifier.padding(end = 2.dp))
-    Image(painter = painterResource(img),
-    contentDescription = null
-    )
-  }
+        Image(
+            painter = painterResource(img),
+            contentDescription = null
+        )
+    }
 }
+
+@Composable
+fun BasicImageButton(
+    @StringRes text: Int,
+    @DrawableRes img: Int,
+    modifier: Modifier,
+    action: () -> Unit
+) {
+    Button(
+        onClick = action,
+        modifier = modifier,
+        shape = RoundedCornerShape(20.dp),
+        colors =
+        ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.inverseOnSurface,
+            contentColor = MaterialTheme.colorScheme.onSurface,
+        )
+    ) {
+
+        Text(text = stringResource(text), fontSize = 16.sp, modifier = Modifier.padding(end = 2.dp))
+        Image(
+            colorFilter = ColorFilter.tint(Color.Black),
+            painter = painterResource(img),
+            contentDescription = null
+        )
+    }
+}
+
 
 @Composable
 fun DialogConfirmButton(@StringRes text: Int, action: () -> Unit) {
-  Button(
-    onClick = action,
-    colors =
-      ButtonDefaults.buttonColors(
-        containerColor = Color(0xFF3A4C2B),
-        contentColor = Color(0xFFFFB945)
-      )
-  ) {
-    Text(text = stringResource(text))
-  }
+    Button(
+        onClick = action,
+        colors =
+        ButtonDefaults.buttonColors(
+            containerColor = Color(0xFF3A4C2B),
+            contentColor = Color(0xFFFFB945)
+        )
+    ) {
+        Text(text = stringResource(text))
+    }
 }
 
 @Composable
 fun DialogCancelButton(@StringRes text: Int, action: () -> Unit) {
-  Button(
-    onClick = action,
-    colors =
-      ButtonDefaults.buttonColors(
-        containerColor = Color(0xFF516440),
-        contentColor = Color(0xFFFFB945)
-      )
-  ) {
-    Text(text = stringResource(text))
-  }
+    Button(
+        onClick = action,
+        colors =
+        ButtonDefaults.buttonColors(
+            containerColor = Color(0xFF516440),
+            contentColor = Color(0xFFFFB945)
+        )
+    ) {
+        Text(text = stringResource(text))
+    }
 }

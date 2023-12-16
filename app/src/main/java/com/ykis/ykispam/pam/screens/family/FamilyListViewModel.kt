@@ -53,19 +53,7 @@ class FamilyListViewModel @Inject constructor(
         super.onCleared()
         getFamilyFromFlat.unsubscribe()
     }
-    fun getBtiFromCache(addressId: Int) {
-        viewModelScope.launch {
-            _apartment.value = apartmentCacheImpl.getApartmentById(addressId)
-            contactUiState.value = contactUiState
-                .value.copy(
-                    addressId = _apartment.value!!.addressId,
-                    address = _apartment.value!!.address,
-                    email = _apartment.value!!.email,
-                    phone = _apartment.value!!.phone,
-                )
 
-        }
-    }
     fun navigateBack(popUpScreen: () -> Unit) {
         launchCatching {
             popUpScreen()

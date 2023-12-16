@@ -17,28 +17,25 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddHome
-import androidx.compose.material.icons.outlined.Apps
-import androidx.compose.material.icons.rounded.Menu
+import androidx.compose.material.icons.twotone.FamilyRestroom
+import androidx.compose.material.icons.twotone.Home
 import androidx.compose.material.icons.twotone.Info
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -58,7 +55,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
-import com.ykis.ykispam.AppContent
 import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.R
 import com.ykis.ykispam.YkisPamAppState
@@ -72,8 +68,6 @@ import com.ykis.ykispam.navigation.ModalNavigationDrawerContent
 import com.ykis.ykispam.navigation.NavigationContentPosition
 import com.ykis.ykispam.navigation.NavigationType
 import com.ykis.ykispam.navigation.PermanentNavigationDrawerContent
-import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import com.ykis.ykispam.R.string as AppText
 
@@ -100,16 +94,6 @@ fun ApartmentScreen(
     val selectedDestination = navBackStackEntry?.destination?.route ?: uiState.selectedDestination
 
     viewModel.initialize(addressId.toInt())
-//    LaunchedEffect(key1 = addressId) {
-//        delay(LOAD_TIMEOUT)
-//        if (contentType == ContentType.DUAL_PANE && uiState.apartments.isNotEmpty()) {
-//            viewModel.getFlatFromCache(uiState.addressId)
-//        } else {
-//            if (contentType == ContentType.SINGLE_PANE && uiState.isDetailOnlyOpen) {
-//                viewModel.closeDetailScreen()
-//            }
-//        }
-
 
     if (navigationType == NavigationType.PERMANENT_NAVIGATION_DRAWER) {
         PermanentNavigationDrawer(drawerContent = {
@@ -173,7 +157,7 @@ fun ApartmentScreen(
                 navController = navController,
                 selectedDestination = selectedDestination,
                 navigateToDestination = appState::navigateTo,
-            ) {
+                ) {
                 coroutineScope.launch {
                     drawerState.open()
                 }
@@ -198,67 +182,20 @@ fun AppContent(
     selectedDestination: String,
     navigateToDestination: (String) -> Unit,
     onDrawerClicked: () -> Unit = {},
-
     ) {
     var openMenu by remember { mutableStateOf(false) }
 
     Scaffold(
-//    floatingActionButtonPosition = FabPosition.centerDocked,
+        containerColor = MaterialTheme.colorScheme.inverseOnSurface,
         topBar = {
-            TopAppBar(
-                title = {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-
-                        (if (baseUIState.apartments.isEmpty()) {
-                            stringResource(id = AppText.list_appartment)
-                        } else {
-                            baseUIState.address
-                        }).let {
-                            if (it != null) {
-                                Text(
-                                    text = it,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                            }
-                        }
-                    }
-
-
-                }, // нет title
-                actions = {
-                    IconButton(onClick = { openMenu = !openMenu })
-                    {
-                        Icon(imageVector = Icons.Outlined.Apps, contentDescription = null)
-                    }
-                    DropdownMenu(
-                        expanded = openMenu,
-                        onDismissRequest = { openMenu = !openMenu },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(color = MaterialTheme.colorScheme.background)
-                    ) {
-                        DeleteApartment { deleteApartment() }
-                    }
-
-                },
-                navigationIcon = {
-                    IconButton(onClick = {
-                        appState.coroutineScope.launch {
-                            // открывает ящик
-                            onDrawerClicked()
-                        }
-                    }) {
-                        Icon(
-                            // внутреннее меню-гамбургер
-                            Icons.Rounded.Menu,
-                            contentDescription = "MenuButton"
-                        )
-                    }
-                },
-            )
+                ApartmentTopAppBar(
+                    appState,
+                    baseUIState,
+                    isDriverClicked = true,
+                    isButtonAction = baseUIState.apartments.isNotEmpty(),
+                    onButtonPressed = { onDrawerClicked() },
+                    onButtonAction = { deleteApartment() }
+                )
         },
 
         ) { it ->
@@ -373,9 +310,11 @@ fun AppContent(
                     modifier = Modifier
                         .padding(PaddingValues(4.dp))
                         .verticalScroll(rememberScrollState())
-                        .weight(weight = 1f, fill = false)
+//                        .weight(weight = 1f, fill = false)
                         .fillMaxWidth()
-                        .fillMaxHeight(),
+                        .fillMaxHeight()
+                        .background(MaterialTheme.colorScheme.inverseOnSurface),
+
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -383,16 +322,14 @@ fun AppContent(
                         Box(modifier = modifier.fillMaxSize()) {
                             // When we have bottom navigation we show FAB at the bottom end.
                             if (navigationType == NavigationType.BOTTOM_NAVIGATION) {
-                                ExtendedFloatingActionButton(
+                                LargeFloatingActionButton(
                                     onClick = {
                                         navigateToDestination(ADD_APARTMENT_SCREEN)
                                     },
                                     modifier = Modifier
-//                                        .fillMaxWidth()
-                                        .padding(16.dp),
-//                                        .align(Alignment.End),
-
-                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                        .padding(16.dp)
+                                    .align(Alignment.BottomEnd),
+                                    containerColor = MaterialTheme.colorScheme.inverseOnSurface,
                                     contentColor = MaterialTheme.colorScheme.onTertiaryContainer
                                 ) {
                                     Icon(
@@ -400,23 +337,16 @@ fun AppContent(
                                         contentDescription = stringResource(id = R.string.add_appartment),
                                         modifier = Modifier.size(28.dp)
                                     )
-                                    Text(
-                                        text = stringResource(id = R.string.add_appartment),
-                                        modifier = Modifier.weight(1f),
-                                        textAlign = TextAlign.Center
-                                    )
+
                                 }
 
                             }
                         }
                     } else {
                         Card(
-                            modifier = Modifier
-                                .padding(8.dp),
-                            elevation = CardDefaults.cardElevation(20.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.onTertiary
-                            )
+                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+
                         ) {
                             Column(
                                 modifier = Modifier
@@ -453,7 +383,7 @@ fun AppContent(
 
                                 }
                                 MenuItem(
-                                    imageVector = ImageVector.vectorResource(R.drawable.twotone_water_damage_24),
+                                    imageVector = Icons.TwoTone.Home,
                                     serviseName = stringResource(id = R.string.bti),
                                     baseUIState = baseUIState,
                                     screen = BTI_SCREEN,
@@ -462,7 +392,7 @@ fun AppContent(
                                     navigateToDestination = navigateToDestination,
                                 )
                                 MenuItem(
-                                    imageVector = ImageVector.vectorResource(R.drawable.twotone_water_damage_24),
+                                    imageVector = Icons.TwoTone.FamilyRestroom,
                                     serviseName = stringResource(id = R.string.list_family),
                                     baseUIState = baseUIState,
                                     screen = FAMILY_SCREEN,
@@ -483,12 +413,8 @@ fun AppContent(
                             }
                         }
                         Card(
-                            modifier = Modifier
-                                .padding(8.dp),
-                            elevation = CardDefaults.cardElevation(20.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.onTertiary
-                            )
+                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                         ) {
                             Column(
                                 modifier = Modifier
@@ -514,7 +440,7 @@ fun AppContent(
                                         modifier = Modifier
                                             .padding(8.dp)
                                             .clip(CircleShape)
-                                            .background(MaterialTheme.colorScheme.primaryContainer)
+                                            .background(MaterialTheme.colorScheme.surface)
                                     ) {
                                         Icon(
                                             imageVector = Icons.TwoTone.Info,
@@ -551,15 +477,7 @@ fun AppContent(
                                     org = stringResource(id = R.string.ytke_colon),
                                     navigateToDestination = navigateToDestination,
                                 )
-                                MenuItem(
-                                    imageVector = ImageVector.vectorResource(R.drawable.twotone_water_damage_24),
-                                    serviseName = stringResource(id = R.string.data_bti),
-                                    baseUIState = baseUIState,
-                                    screen = BTI_SCREEN,
-                                    dolg = 65.45,
-                                    org = stringResource(id = R.string.ytke_colon),
-                                    navigateToDestination = navigateToDestination,
-                                )
+
                                 MenuItem(
                                     imageVector = ImageVector.vectorResource(R.drawable.twotone_water_damage_24),
                                     serviseName = stringResource(id = R.string.payment_list),

@@ -1,7 +1,7 @@
 <?php
-$response = array();
 
 include_once "GeneralFunctions.php";
+$response = array();
 
 
 if (isset($_POST['address_id']) && !empty($_POST['address_id']) &&

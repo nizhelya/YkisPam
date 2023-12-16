@@ -16,7 +16,6 @@ limitations under the License.
 
 package com.ykis.ykispam.navigation
 
-import com.ykis.ykispam.core.Constants.TASK_ID
 
 const val SPLASH_SCREEN = "SplashScreen"
 const val SIGN_IN_SCREEN = "SignInScreen"
@@ -25,7 +24,6 @@ const val SIGN_UP_SCREEN = "SignUpScreen"
 const val APARTMENT_SCREEN = "ApartmentScreen"
 const val ADD_APARTMENT_SCREEN = "AddApartmentScreen"
 const val PROFILE_SCREEN = "ProfileScreen"
-const val FLAT_SCREEN = "FlatScreen"
 const val BTI_SCREEN = "BtiScreen"
 const val FAMILY_SCREEN = "FamilyScreen"
 const val WATER_SCREEN = "WaterScreen"
@@ -35,4 +33,11 @@ const val SETTINGS_SCREEN = "SettingsScreen"
 
 const val ADDRESS_ID = "addressId"
 const val ADDRESS_DEFAULT_ID = "0"
+
+const val ADDRESS = "address"
+const val ADDRESS_DEFAULT = "адреса"
+
 const val ADDRESS_ID_ARG = "?$ADDRESS_ID={$ADDRESS_ID}"
+const val FLAT_ARG = "?$ADDRESS_ID={$ADDRESS_ID},$ADDRESS={$ADDRESS}"
+
+

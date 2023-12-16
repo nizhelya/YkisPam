@@ -14,6 +14,8 @@ if (!empty($_POST['kod']) && !empty($_POST['uid']) && !empty($_POST['email']))  
         $results = $generalFunctionsObject->addMyFlatByUser($result);
         $response["success"] = $results[0]["success"];
         $response["message"] = $results[0]["message"];
+        $response["addressId"] = $results[0]["addressId"];
+
 } else {
     $response["success"] = 0;
     $response["message"] = "Required field(s) is missing";

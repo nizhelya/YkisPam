@@ -28,6 +28,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldColors
@@ -85,6 +86,7 @@ fun EmailField(value: String, onNewValue: (String) -> Unit, modifier: Modifier =
             .padding(16.dp, 4.dp, 16.dp, 4.dp),
         label = {
             Text(
+                style = MaterialTheme.typography.bodyLarge,
                 text = stringResource(id = R.string.email)
             )
         },
@@ -103,6 +105,7 @@ fun PhoneField(value: String, onNewValue: (String) -> Unit, modifier: Modifier =
             .padding(16.dp, 4.dp, 16.dp, 4.dp),
         label = {
             Text(
+                style = MaterialTheme.typography.bodyLarge,
                 text = stringResource(id = R.string.phone_colon)
             )
         },

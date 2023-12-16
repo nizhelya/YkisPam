@@ -35,6 +35,8 @@ object Constants {
     const val SPAM_EMAIL = "If not, please also check the spam folder."
 
     //Messages
+    const val VERIFY_DELETE_FLAT = "Appartment deleted"
+
     const val VERIFY_EMAIL_MESSAGE = "We've sent you an email with a link to verify the email."
     const val EMAIL_NOT_VERIFIED_MESSAGE = "Your email is not verified."
     const val RESET_PASSWORD_MESSAGE = "We've sent you an email with a link to reset the password."
@@ -64,6 +66,8 @@ object Constants {
     const val TASK_ID_ARG = "?$TASK_ID={$TASK_ID}"
 
     //Failure Message
+    const val INCORRECT_CODE = "IncorrectCode"
+    const val NO_FLAT_DELETE = "Failed to delete apartment"
     const val NO_USER_IDENTIFIER = "There is no user record corresponding to this identifier. The user may have been deleted."
     const val PASSWORD_FAILURE  = "The password is invalid or the user does not have a password."
 }

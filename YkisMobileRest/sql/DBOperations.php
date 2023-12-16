@@ -4,12 +4,13 @@ class DBOperations {
     public function __constructor() {
 
     }
+   
       public function addMyFlatByUser($kod ,$uid,$email){
         $com = new DbConnect();
-        $sql = 'CALL YISGRAND.addMyFlatByUser("'.$kod.'" ,"'.$uid.'" ,"'.$email.'" , @success , @message)';
-//              print_r($sql);
+        $sql = 'CALL YISGRAND.addMyFlatByUser("'.$kod.'" ,"'.$uid.'" ,"'.$email.'" , @success , @message,@addressId)';
+ //             print_r($sql);
        mysqli_query( $com->getDb(), $sql) ;
-       $sqlCallBack = 'SELECT @success , @message ' ;
+       $sqlCallBack = 'SELECT @success , @message , @addressId' ;
           return mysqli_query( $com->getDb(), $sqlCallBack);
     }
   
@@ -22,6 +23,7 @@ class DBOperations {
 
     public function getApartmentsByUser($uid){
         $com = new DbConnect();
+        
         $sql = 'SELECT  
         t2.id ,
         t2.user_id ,
@@ -33,8 +35,8 @@ class DBOperations {
         t1.`kod`, 
         t1.`address`, 
         t1.`nanim`, 
-        t1.`fio`, 
-        t1.`order`, 
+        IFNULL(t1.`fio`, t1.`nanim`) as "fio", 
+        IFNULL(t1.`order`, "") as "order", 
         t1.`data`, 
         t1.`area_full`, 
         t1.`area_life`, 
@@ -56,7 +58,7 @@ class DBOperations {
     (case when t1.`lift` = "да" then true else false end) as lift, 
     (case when t1.`kvartplata` = "да" then true else false end) as kvartplata,
     (case when t1.`otoplenie` = "да" then true else false end) as otoplenie, 
-    (case when t1.`privat` = "да" then true else false end) as ateplo, 
+    (case when t1.`ateplo` = "да" then true else false end) as ateplo, 
     (case when t1.`podogrev` = "да" then true else false end) as podogrev, 
     (case when t1.`voda` = "да" then true else false end) as voda, 
     (case when t1.`stoki` = "да" then true else false end) as stoki, 
@@ -101,7 +103,7 @@ class DBOperations {
     LEFT JOIN YIS.HOUSE as t3 on t3.house_id = t2.house_id 
     LEFT JOIN YISGRAND.OSMD as t4 on t4.osmd_id = t1.osmd_id 
     WHERE  t2.uid = "'.$uid.'"';
-     //print_r($sql);
+  //  print_r($sql);
         return mysqli_query($com->getDb(), $sql);
     }
     //blocks
@@ -140,15 +142,14 @@ class DBOperations {
         return mysqli_query($com->getDb(), $sql);
     }
 
-   
+  
     public function deleteFlatByUser($address_id , $uid){
         $com = new DbConnect();
-        $sql = 'DELETE FROM  YISGRAND.MYFLAT WHERE address_id = '.$address_id.'  and uid = "'.$uid.'"';
-//        print ($sql);
+        $sql = 'DELETE FROM  YISGRAND.MYFLAT WHERE address_id = "'.$address_id.'"  and uid = "'.$uid.'"';
+       // print ($sql);
         mysqli_query( $com->getDb(), $sql);
         return $com->getDb();
     }
-    
     public function updateBti($address_id , $phone , $email){
         $com = new DbConnect();
         $sql = 'UPDATE YIS.APPARTMENT as t1 SET t1.email = "'.$email.'" , t1.phone = "'.$phone.'" WHERE t1.address_id = '.$address_id.' ';
@@ -364,5 +365,4 @@ SELECT t1.`rec_id` , t1.`address_id`,t1.`address`, t1.`god`, t1.`data`,sum(t1.`k
         $sqlCallBack = 'SELECT @success , @msg ';
         return mysqli_query( $com->getDb(), $sqlCallBack);
     }
-
 }

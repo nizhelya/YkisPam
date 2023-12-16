@@ -163,7 +163,7 @@
     <string name="desc_delete_appartment">Ви дійсно бажаєте видалити\n%s зі списку ваших квартир? Додати її заново можно задопомогою секретного кода</string>
     <string name="title_delete_appartment">Видалити квартиру?</string>
     <string name="delete_appartment">Видалити квартиру</string>
-    <string name="response_address_id">Лицевой счет %s </string>
+    <string name="response_address_id">особовий рахунок %s </string>
 
     <string name="cancel">Відмінити</string>
     <string name="delete">Видалити</string>
@@ -353,5 +353,7 @@
     <string name="loading_from_wifi">Через мережу Wi-Fi</string>
     <string name="loading_from_mobile">Через мобільну сеть</string>
     <string name="settings_loadin_from_server">Завантаження даних з сервера</string>
+    <string name="driver_menu">бокове меню</string>
+
 
 </resources>

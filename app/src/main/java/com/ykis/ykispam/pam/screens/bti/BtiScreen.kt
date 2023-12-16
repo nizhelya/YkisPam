@@ -16,6 +16,7 @@
 
 package com.ykis.ykispam.pam.screens.bti
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -41,17 +42,17 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ykis.ykispam.R
-import com.ykis.ykispam.core.composable.BasicImageButton
 import com.ykis.ykispam.core.composable.EmailField
 import com.ykis.ykispam.core.composable.ImageButton
 import com.ykis.ykispam.core.composable.PhoneField
 import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.pam.screens.appartment.ApartmentViewModel
+import com.ykis.ykispam.pam.screens.appartment.DetailTopAppBar
 import com.ykis.ykispam.theme.YkisPAMTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,6 +63,8 @@ fun BtiScreen(
     openScreen: (String) -> Unit,
     viewModel: BtiViewModel = hiltViewModel(),
     addressId: String,
+    address: String
+
 ) {
     LaunchedEffect(viewModel) {
         viewModel.getBtiFromCache(addressId.toInt())
@@ -73,10 +76,13 @@ fun BtiScreen(
         BtiScreenContent(
             contactUiState = contactUiState,
             apartment = it,
+            address = address,
             navigateBack = { viewModel.navigateBack(popUpScreen) },
             onEmailChange = viewModel::onEmailChange,
             onPhoneChange = viewModel::onPhoneChange,
-            onUpdateBti = {viewModel.onUpdateBti(openScreen)},
+            onUpdateBti = { viewModel.onUpdateBti(openScreen) },
+            isSelectable = false,
+            isSelected = false,
         )
     }
 }
@@ -88,11 +94,13 @@ fun BtiScreenContent(
     modifier: Modifier = Modifier,
     contactUiState: ApartmentEntity,
     apartment: ApartmentEntity,
+    address: String,
     navigateBack: () -> Unit,
     onEmailChange: (String) -> Unit,
     onPhoneChange: (String) -> Unit,
     onUpdateBti: () -> Unit,
-
+    isSelectable: Boolean = false,
+    isSelected: Boolean = false,
 
     ) {
 
@@ -107,13 +115,19 @@ fun BtiScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val keyboard = LocalSoftwareKeyboardController.current
-        BackUpTopBar(apartment.address, navigateBack = { navigateBack() })
+        DetailTopAppBar(modifier,stringResource(id = R.string.bti),address, navigateBack = { navigateBack() })
+
+        val semanticsModifier =
+            if (isSelectable)
+                modifier
+                    .padding(horizontal = 16.dp, vertical = 4.dp)
+                    .semantics { selected = isSelected }
+            else modifier.padding(horizontal = 16.dp, vertical = 4.dp)
         Card(
-            modifier = Modifier
-                .padding(8.dp),
-            elevation = CardDefaults.cardElevation(20.dp),
+            modifier = semanticsModifier.clickable { },
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.onTertiary
+                containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer
+                else MaterialTheme.colorScheme.surfaceVariant
             )
         ) {
             Column(
@@ -122,52 +136,51 @@ fun BtiScreenContent(
                     .padding(8.dp)
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 8.dp, bottom = 4.dp),
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         text = stringResource(id = R.string.employer_text),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .weight(1f),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.outline
 
-                        )
+                    )
 
 
                 }
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(all = 4.dp),
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
                         modifier = Modifier
-                            .padding(8.dp),
+                            .padding(end = 4.dp),
+
                         imageVector = Icons.TwoTone.Person,
                         contentDescription = "Info",
                         tint = MaterialTheme.colorScheme.outline
                     )
                     Text(
                         text = apartment.nanim,
-                        style = MaterialTheme.typography.titleMedium,
-//                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier
-                            .padding(start = 8.dp, top = 4.dp)
-                            .weight(1f),
+                        style = MaterialTheme.typography.bodyLarge
+
                     )
 
                 }
             }
         }
+
         Card(
-            modifier = Modifier
-                .padding(8.dp),
-            elevation = CardDefaults.cardElevation(20.dp),
+            modifier = semanticsModifier.clickable { },
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.onTertiary
+                containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer
+                else MaterialTheme.colorScheme.surfaceVariant
             )
         ) {
             Column(
@@ -182,11 +195,10 @@ fun BtiScreenContent(
                 ) {
                     Text(
                         text = stringResource(id = R.string.compound_text),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.outline,
                         modifier = Modifier
-                            .padding(8.dp)
-                            .weight(1f),
+                            .padding(4.dp)
 
                         )
 
@@ -217,13 +229,13 @@ fun BtiScreenContent(
                                         end = 8.dp,
                                     ),
                                 text = stringResource(R.string.tenant_text),
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.primary,
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.outline
 
                                 )
                             Text(
                                 text = apartment.tenant.toString(),
-                                style = MaterialTheme.typography.titleMedium,
+                                style = MaterialTheme.typography.bodyLarge,
 
                                 )
                         }
@@ -249,13 +261,13 @@ fun BtiScreenContent(
                                         end = 8.dp,
                                     ),
                                 text = stringResource(R.string.podnan_text),
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.primary,
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.outline
 
                                 )
                             Text(
                                 text = apartment.podnan.toString(),
-                                style = MaterialTheme.typography.titleMedium,
+                                style = MaterialTheme.typography.bodyLarge,
 
                                 )
                         }
@@ -288,13 +300,13 @@ fun BtiScreenContent(
                                         end = 8.dp,
                                     ),
                                 text = stringResource(R.string.absent_text),
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.primary,
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.outline
 
                                 )
                             Text(
                                 text = apartment.absent.toString(),
-                                style = MaterialTheme.typography.titleMedium,
+                                style = MaterialTheme.typography.bodyLarge,
 
                                 )
                         }
@@ -304,12 +316,12 @@ fun BtiScreenContent(
                 }
             }
         }
+
         Card(
-            modifier = Modifier
-                .padding(8.dp),
-            elevation = CardDefaults.cardElevation(20.dp),
+            modifier = semanticsModifier.clickable { },
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.onTertiary
+                containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer
+                else MaterialTheme.colorScheme.surfaceVariant
             )
         ) {
             Column(
@@ -324,11 +336,10 @@ fun BtiScreenContent(
                 ) {
                     Text(
                         text = stringResource(id = R.string.area_flat),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.outline,
                         modifier = Modifier
-                            .padding(8.dp)
-                            .weight(1f),
+                            .padding(4.dp)
 
                         )
 
@@ -359,13 +370,13 @@ fun BtiScreenContent(
                                         end = 8.dp,
                                     ),
                                 text = stringResource(R.string.area_full),
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.primary,
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.outline
 
                                 )
                             Text(
                                 text = apartment.areaFull.toString(),
-                                style = MaterialTheme.typography.titleMedium,
+                                style = MaterialTheme.typography.bodyLarge,
 
                                 )
                         }
@@ -391,13 +402,13 @@ fun BtiScreenContent(
                                         end = 8.dp,
                                     ),
                                 text = stringResource(R.string.area_life),
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.primary,
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.outline
 
                                 )
                             Text(
                                 text = apartment.areaLife.toString(),
-                                style = MaterialTheme.typography.titleMedium,
+                                style = MaterialTheme.typography.bodyLarge,
 
                                 )
                         }
@@ -430,13 +441,13 @@ fun BtiScreenContent(
                                         end = 8.dp,
                                     ),
                                 text = stringResource(R.string.area_extra),
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.primary,
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.outline
 
                                 )
                             Text(
                                 text = apartment.areaDop.toString(),
-                                style = MaterialTheme.typography.titleMedium,
+                                style = MaterialTheme.typography.bodyLarge,
 
                                 )
                         }
@@ -462,13 +473,13 @@ fun BtiScreenContent(
                                         end = 8.dp,
                                     ),
                                 text = stringResource(R.string.area_otopl),
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.primary,
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.outline
 
                                 )
                             Text(
                                 text = apartment.areaOtopl.toString(),
-                                style = MaterialTheme.typography.titleMedium,
+                                style = MaterialTheme.typography.bodyLarge,
 
                                 )
                         }
@@ -478,11 +489,10 @@ fun BtiScreenContent(
             }
         }
         Card(
-            modifier = Modifier
-                .padding(8.dp),
-            elevation = CardDefaults.cardElevation(20.dp),
+            modifier = semanticsModifier.clickable { },
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.onTertiary
+                containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer
+                else MaterialTheme.colorScheme.surfaceVariant
             )
         ) {
             Column(
@@ -497,11 +507,10 @@ fun BtiScreenContent(
                 ) {
                     Text(
                         text = stringResource(id = R.string.data_bti),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.outline,
                         modifier = Modifier
-                            .padding(8.dp)
-                            .weight(1f),
+                            .padding(4.dp)
 
                         )
 
@@ -532,13 +541,13 @@ fun BtiScreenContent(
                                         end = 8.dp,
                                     ),
                                 text = stringResource(R.string.rooms),
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.primary,
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.outline
 
                                 )
                             Text(
                                 text = apartment.room.toString(),
-                                style = MaterialTheme.typography.titleMedium,
+                                style = MaterialTheme.typography.bodyLarge,
 
                                 )
                         }
@@ -564,8 +573,8 @@ fun BtiScreenContent(
                                         end = 8.dp,
                                     ),
                                 text = stringResource(R.string.private_text),
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.primary,
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.outline
 
                                 )
                             Text(
@@ -574,7 +583,7 @@ fun BtiScreenContent(
                                 } else {
                                     stringResource(R.string.private_no)
                                 },
-                                style = MaterialTheme.typography.titleMedium,
+                                style = MaterialTheme.typography.bodyLarge,
                             )
                         }
                     }
@@ -599,8 +608,8 @@ fun BtiScreenContent(
                                         end = 8.dp,
                                     ),
                                 text = stringResource(R.string.elevator_text),
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.primary,
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.outline
 
                                 )
                             Text(
@@ -609,7 +618,7 @@ fun BtiScreenContent(
                                 } else {
                                     stringResource(R.string.private_no)
                                 },
-                                style = MaterialTheme.typography.titleMedium,
+                                style = MaterialTheme.typography.bodyLarge,
                             )
                         }
                     }
@@ -641,13 +650,13 @@ fun BtiScreenContent(
                                         end = 8.dp,
                                     ),
                                 text = stringResource(R.string.order_text),
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.primary,
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.outline
 
                                 )
                             Text(
                                 text = apartment.order.toString(),
-                                style = MaterialTheme.typography.titleMedium,
+                                style = MaterialTheme.typography.bodyLarge,
                             )
                         }
                     }
@@ -679,13 +688,12 @@ fun BtiScreenContent(
                                         end = 8.dp,
                                     ),
                                 text = stringResource(R.string.data_order),
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.primary,
-
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.outline
                                 )
                             Text(
                                 text = apartment.dataOrder.toString(),
-                                style = MaterialTheme.typography.titleMedium,
+                                style = MaterialTheme.typography.bodyLarge,
                             )
                         }
                     }
@@ -694,11 +702,10 @@ fun BtiScreenContent(
             }
         }
         Card(
-            modifier = Modifier
-                .padding(8.dp),
-            elevation = CardDefaults.cardElevation(20.dp),
+            modifier = semanticsModifier.clickable { },
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.onTertiary
+                containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer
+                else MaterialTheme.colorScheme.surfaceVariant
             )
         ) {
             Column(
@@ -713,8 +720,8 @@ fun BtiScreenContent(
                 ) {
                     Text(
                         text = stringResource(id = R.string.contacts),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.outline,
                         modifier = Modifier
                             .padding(4.dp)
                             .weight(1f),
@@ -753,10 +760,6 @@ fun BtiScreenContent(
 
                             PhoneField(contactUiState.phone, onPhoneChange, modifier)
 
-//                            Text(
-//                                text = apartment.phone.toString(),
-//                                style = MaterialTheme.typography.titleMedium,
-//                                )
                         }
                     }
 
@@ -785,10 +788,6 @@ fun BtiScreenContent(
 
                             EmailField(contactUiState.email, onEmailChange, modifier)
 
-//                            Text(
-//                                text = apartment.email.toString(),
-//                                style = MaterialTheme.typography.titleMedium,
-//                            )
                         }
                     }
                 }
@@ -805,10 +804,13 @@ fun BtiScreenPreview() {
         BtiScreenContent(
             contactUiState = ApartmentEntity(email = "example@email.com", phone = "+380931111111"),
             apartment = ApartmentEntity(),
+            address = "Гр.Десанту 21 кв.71",
             navigateBack = { },
             onEmailChange = {},
             onPhoneChange = {},
-            onUpdateBti = {}
+            onUpdateBti = {},
+            isSelectable = false,
+            isSelected = false,
         )
     }
 }

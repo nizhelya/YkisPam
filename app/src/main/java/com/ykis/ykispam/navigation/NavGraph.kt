@@ -36,24 +36,33 @@ fun NavGraphBuilder.YkisPamGraph(
     }
 
     composable(
-        route = "$BTI_SCREEN$ADDRESS_ID_ARG",
-        arguments = listOf(navArgument(ADDRESS_ID) { defaultValue = ADDRESS_DEFAULT_ID })
-    ) {
+        route = "$BTI_SCREEN$FLAT_ARG",
+        arguments = listOf(
+            navArgument(ADDRESS_ID) { defaultValue = ADDRESS_DEFAULT_ID },
+            navArgument(ADDRESS) { defaultValue = ADDRESS_DEFAULT })   )
+    {
         BtiScreen(
             popUpScreen = { appState.popUp() },
             openScreen = { route -> appState.navigate(route) },
-            addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID
-        )
+            addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID,
+            address = it.arguments?.getString(ADDRESS) ?: ADDRESS_DEFAULT,
+
+            )
     }
     composable(
-        route = "$FAMILY_SCREEN$ADDRESS_ID_ARG",
-        arguments = listOf(navArgument(ADDRESS_ID) { defaultValue = ADDRESS_DEFAULT_ID })
-    ) {
+        route = "$FAMILY_SCREEN$FLAT_ARG",
+        arguments = listOf(
+            navArgument(ADDRESS_ID) { defaultValue = ADDRESS_DEFAULT_ID },
+            navArgument(ADDRESS) { defaultValue = ADDRESS_DEFAULT })
+    )
+    {
         FamilyScreen(
             popUpScreen = { appState.popUp() },
             openScreen = { route -> appState.navigate(route) },
-            addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID
-        )
+            addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID,
+            address = it.arguments?.getString(ADDRESS) ?: ADDRESS_DEFAULT,
+
+            )
     }
 
 
@@ -91,9 +100,7 @@ fun NavGraphBuilder.YkisPamGraph(
     }
     composable(ADD_APARTMENT_SCREEN) {
         AddApartmentScreen(
-            contentType = contentType,
-            navigationType = navigationType,
-            displayFeatures = displayFeatures,
+            popUpScreen = { appState.popUp() },
             restartApp = { route -> appState.clearAndNavigate(route) })
 
     }
@@ -104,11 +111,14 @@ fun NavGraphBuilder.YkisPamGraph(
 
     composable(
         route = "$APARTMENT_SCREEN$ADDRESS_ID_ARG",
-        arguments = listOf(navArgument(ADDRESS_ID) { defaultValue = ADDRESS_DEFAULT_ID })
+        arguments = listOf(
+            navArgument(ADDRESS_ID) { defaultValue = ADDRESS_DEFAULT_ID },
+            )
     ) {
         ApartmentScreen(
             restartApp = { route -> appState.clearAndNavigate(route) },
             addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID,
+//            address = it.arguments?.getString(ADDRESS) ?: ADDRESS_DEFAULT,
             appState = appState,
             contentType = contentType,
             navigationType = navigationType,

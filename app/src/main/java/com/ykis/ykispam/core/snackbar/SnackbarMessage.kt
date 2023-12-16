@@ -18,9 +18,13 @@ package com.ykis.ykispam.core.snackbar
 
 import android.content.res.Resources
 import androidx.annotation.StringRes
+import com.ykis.ykispam.core.Constants
+import com.ykis.ykispam.core.Constants.INCORRECT_CODE
+import com.ykis.ykispam.core.Constants.NO_FLAT_DELETE
 import com.ykis.ykispam.core.Constants.NO_USER_IDENTIFIER
 import com.ykis.ykispam.core.Constants.PASSWORD_FAILURE
 import com.ykis.ykispam.core.Constants.SENSITIVE_OPERATION_MESSAGE
+import com.ykis.ykispam.core.Constants.VERIFY_DELETE_FLAT
 import com.ykis.ykispam.R.string as AppText
 
 sealed class SnackbarMessage {
@@ -39,6 +43,9 @@ sealed class SnackbarMessage {
       val message = this.message.orEmpty()
       if (message.isNotBlank()) {
         return when (message) {
+          INCORRECT_CODE -> ResourceSnackbar(AppText.error_incorrect_code)
+          NO_FLAT_DELETE -> ResourceSnackbar(AppText.error_delete_flat)
+          VERIFY_DELETE_FLAT -> ResourceSnackbar(AppText.success_delete_flat)
           NO_USER_IDENTIFIER -> ResourceSnackbar(AppText.no_user_identifier)
           PASSWORD_FAILURE -> ResourceSnackbar(AppText.password_failure)
           SENSITIVE_OPERATION_MESSAGE -> ResourceSnackbar(AppText.revoke_access_message)

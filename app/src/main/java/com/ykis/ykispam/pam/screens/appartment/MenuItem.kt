@@ -27,6 +27,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.core.composable.HelpAlertCard
+import com.ykis.ykispam.navigation.ADDRESS
 import com.ykis.ykispam.navigation.ADDRESS_ID
 
 
@@ -57,13 +58,12 @@ fun MenuItem(
     Card(
         modifier = semanticsModifier.clickable {
             navigateToDestination(
-                "$screen?$ADDRESS_ID=${baseUIState.addressId}"
+                "$screen?$ADDRESS_ID=${baseUIState.addressId},$ADDRESS=${baseUIState.address}"
             )
         },
         elevation = CardDefaults.cardElevation(10.dp),
         colors = CardDefaults.cardColors(
-            containerColor = if (isSelected) MaterialTheme.colorScheme.tertiaryContainer
-            else MaterialTheme.colorScheme.surfaceVariant
+            containerColor =  MaterialTheme.colorScheme.inverseOnSurface
         )
     ) {
         Column(
@@ -79,30 +79,21 @@ fun MenuItem(
                 Icon(
                     modifier = Modifier
                         .padding(8.dp),
-                    imageVector = Icons.TwoTone.Info,
-                    contentDescription = "Info",
+                    imageVector = imageVector,
+                    contentDescription = "",
                     tint = MaterialTheme.colorScheme.outline
                 )
                 Text(
                     text = serviseName,
                     style = MaterialTheme.typography.titleMedium,
-                    color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer
-                    else MaterialTheme.colorScheme.onSurface,
+                    color =  MaterialTheme.colorScheme.secondary,
                     modifier = Modifier
                         .padding(8.dp)
                         .weight(1f),
                 )
             }
 
-            if (showDialog) {
-                HelpAlertCard(
-                    title = serviseName,
-                    text = serviseName,
-                    org = org,
-                    showDialog = true,
-                    onShowDialogChange = { showDialog = it }
-                )
-            }
+
         }
     }
 }

@@ -12,9 +12,13 @@ if (!empty($_POST['address_id']) &&  !empty($_POST['uid']))   {
         if(mysqli_affected_rows($result)>0){
         $response["success"] = 1;
         $response["message"] =  "Appartment deleted";
+        
         }else{
             $response["success"] = 0;
-            $response["message"] = "Failed to delete apartment";
+           $response["message"] = "Failed to delete apartment";
+           // $response["message"] = "'.$uid.'";
+
+           
         }
         echo json_encode($response);
 

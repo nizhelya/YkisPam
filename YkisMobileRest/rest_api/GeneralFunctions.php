@@ -1,15 +1,17 @@
 <?php
 $DBOperations_path = "../sql/DBOperations.php";
 include($DBOperations_path);
-$DBOperationsMtb_path = "../sql/DBOperationsMtb.php";
-include($DBOperationsMtb_path);
+//$DBOperationsMtb_path = "../sql/DBOperationsMtb.php";
+//include($DBOperationsMtb_path);
+
 class GeneralFunctionsClass
 {
     public function __constructor()
     {
 
     }
-    public function getFlatById($resultApartments): array
+    
+    public function getFlatById($resultApartments)
     {
         $apartments = array();
         while ($rowApartment = mysqli_fetch_array($resultApartments)) {
@@ -89,20 +91,25 @@ class GeneralFunctionsClass
         return $apartments;
     }
 
-    public function getApartmentsByUser($resultApartmentsMyflat): array
+    public function getApartmentsByUser($resultApartmentsMyflat)
     {
+         //  $dbOperationsObject = new DBOperations();
+
         $apartments = array();
-   //     print_r(1);
+  
         while ($rowApartment = mysqli_fetch_array($resultApartmentsMyflat)) {
             $apartment = array(
                 'id'=>$rowApartment['id'],
                 'user_id'=>$rowApartment['user_id'],
                 'uid'=>$rowApartment['uid'],
                 'address_id' => $rowApartment['address_id'],
-                'address' => $rowApartment['address'],
-                'email' => $rowApartment['email'],
-                'phone' => $rowApartment['phone'],                
-                'nanim' => $rowApartment['nanim'],                
+                'raion_id' => $rowApartment['raion_id'],
+                'house_id' => $rowApartment['house_id'],
+                'osbb' => $rowApartment['osbb'],
+                'kod' => $rowApartment['kod'],
+                'address' => $rowApartment['address'],                          
+                'nanim' => $rowApartment['nanim'],
+                'fio' => $rowApartment['fio'],
                 'order' => $rowApartment['order'],
                 'data' => $rowApartment['data'],
                 'area_full' => $rowApartment['area_full'],
@@ -110,20 +117,19 @@ class GeneralFunctionsClass
                 'area_dop' => $rowApartment['area_dop'],
                 'area_balk' => $rowApartment['area_balk'],
                 'area_otopl' => $rowApartment['area_otopl'],
-                'tenant' => $rowApartment['tenant'],
-                'podnan' => $rowApartment['podnan'],
-                'absent' => $rowApartment['absent'],
-                'tenant_tbo' => $rowApartment['tenant_tbo'],          
                 'room' => $rowApartment['room'],
                 'privat' => $rowApartment['privat'],
-                'lift' => $rowApartment['lift'],
-                'fio' => $rowApartment['fio'],
-                'raion_id' => $rowApartment['raion_id'],
-                'house_id' => $rowApartment['house_id'],
+                'tenant' => $rowApartment['tenant'],
+                'tenant_tbo' => $rowApartment['tenant_tbo'],
+                'podnan' => $rowApartment['podnan'],
+                'absent' => $rowApartment['absent'],                
                 'subsidia' => $rowApartment['subsidia'],
                 'vxvoda' => $rowApartment['vxvoda'],
                 'teplomer' => $rowApartment['teplomer'],
                 'distributor' => $rowApartment['distributor'],
+                'dvodomer_id' => $rowApartment['dvodomer_id'],
+                'dteplomer_id' => $rowApartment['dteplomer_id'],
+                'lift' => $rowApartment['lift'],
                 'kvartplata' => $rowApartment['kvartplata'],
                 'otoplenie' => $rowApartment['otoplenie'],
                 'ateplo' => $rowApartment['ateplo'],
@@ -133,22 +139,6 @@ class GeneralFunctionsClass
                 'avoda' => $rowApartment['avoda'],
                 'astoki' => $rowApartment['astoki'],
                 'tbo' => $rowApartment['tbo'],
-                'aggr_kv' => $rowApartment['aggr_kv'],
-                'aggr_voda' => $rowApartment['aggr_voda'],
-                'aggr_teplo' => $rowApartment['aggr_teplo'],
-                'aggr_tbo' => $rowApartment['aggr_tbo'],
-                'boiler' => $rowApartment['boiler'],
-                'enaudit' => $rowApartment['enaudit'],
-                'heated' => $rowApartment['heated'],
-                'ztp' => $rowApartment['ztp'],
-                'ovu' => $rowApartment['ovu'],
-                'paused' => $rowApartment['paused'],
-                'osmd' => $rowApartment['osmd'],
-                'osmd_id' => $rowApartment['osmd_id'],
-                'osbb' => $rowApartment['osbb'],
-                'what_change' => $rowApartment['what_change'],
-                'data_change' => $rowApartment['data_change'],
-                'enaudit_id' => $rowApartment['enaudit_id'],
                 'tarif_kv' => $rowApartment['tarif_kv'],
                 'tarif_ot' => $rowApartment['tarif_ot'],
                 'tarif_aot' => $rowApartment['tarif_aot'],
@@ -156,26 +146,43 @@ class GeneralFunctionsClass
                 'tarif_xv' => $rowApartment['tarif_xv'],
                 'tarif_st' => $rowApartment['tarif_st'],
                 'tarif_tbo' => $rowApartment['tarif_tbo'],
+                'aggr_kv' => $rowApartment['aggr_kv'],
+                'aggr_voda' => $rowApartment['aggr_voda'],
+                'aggr_teplo' => $rowApartment['aggr_teplo'],
+                'aggr_tbo' => $rowApartment['aggr_tbo'],
+                'boiler' => $rowApartment['boiler'],
+                'enaudit' => $rowApartment['enaudit'],
+                'enaudit_id' => $rowApartment['enaudit_id'],
                 'tne' => $rowApartment['tne'],
                 'kte' => $rowApartment['kte'],
                 'length' => $rowApartment['length'],
                 'diametr' => $rowApartment['diametr'],
-                'dvodomer_id' => $rowApartment['dvodomer_id'],
-                'dteplomer_id' => $rowApartment['dteplomer_id'],
-                'data_in' => $rowApartment['data_in'],
-                'operator' => $rowApartment['operator'],
-                'kod' => $rowApartment['kod'],
-                'ipay' => $rowApartment['ipay'],
+                'heated' => $rowApartment['heated'],
+                'ztp' => $rowApartment['ztp'],
+                'ovu' => $rowApartment['ovu'],
+                'paused' => $rowApartment['paused'],
+                'phone' => $rowApartment['phone'], 
+                'email' => $rowApartment['email'],
+                'osmd' => $rowApartment['osmd'],
+                'osmd_id' => $rowApartment['osmd_id'],
+                 'ipay' => $rowApartment['ipay'],
                 'mtb' => $rowApartment['mtb'],
-                'pb' => $rowApartment['pb']
-
+                'pb' => $rowApartment['pb'],
+                'what_change' => $rowApartment['what_change'],
+                'operator' => $rowApartment['operator'],
+                'data_change' => $rowApartment['data_change'],                
+                'data_in' => $rowApartment['data_in']
             );
+           //array_push($apartments, $apartment);
+                        $apartments[] = $apartment;
 
-            $apartments[] = $apartment;
+              //   print_r($apartments);
+
         }
         return $apartments;
     }
-    public function getBlocks($resultBlocks): array
+    
+    public function getBlocks($resultBlocks)
     {
         $blocks = array();
         while ($rowBlocks = mysqli_fetch_array($resultBlocks)) {
@@ -187,7 +194,7 @@ class GeneralFunctionsClass
         }
         return $blocks;
     }
-    public function getStreetsFromBlock($resultStreets): array
+    public function getStreetsFromBlock($resultStreets)
     {
         $streets = array();
         while ($rowStreets = mysqli_fetch_array($resultStreets)) {
@@ -199,7 +206,7 @@ class GeneralFunctionsClass
         }
         return $streets;
     }
-    public function getHousesFromStreet($resultHouses): array
+    public function getHousesFromStreet($resultHouses)
     {
         $houses = array();
         // print_r($resultHouses);
@@ -214,7 +221,7 @@ class GeneralFunctionsClass
         return $houses;
     }
 
-    public function getFlatsFromHouse($resultFlats): array
+    public function getFlatsFromHouse($resultFlats)
     {
         $flats = array();
         while ($rowFlats = mysqli_fetch_array($resultFlats)) {
@@ -227,21 +234,23 @@ class GeneralFunctionsClass
         }
         return $flats;
     }
-    public function addMyFlatByUser($resultCheck): array
+    public function addMyFlatByUser($resultCheck)
     {
         $results = array();
      // print_r($resultCheck);
         while ($row = mysqli_fetch_array($resultCheck)) {            
             $result = array(
                 'success'=>$row[0],
-                'message'=>$row[1]
+                'message'=>$row[1],
+                'addressId'=>$row[2]
+
             );
             $results[] = $result;
-        //   print_r($results);
+        //  print_r($results);
         }
         return $results;
     }
-    public function getFamilyFromFlat($resultFamily): array
+    public function getFamilyFromFlat($resultFamily)
     {
         $families = array();
         while ($row = mysqli_fetch_array($resultFamily)) {
@@ -270,7 +279,7 @@ class GeneralFunctionsClass
         return $families;
     }
 
-    public function getFlatServices($resultServices): array
+    public function getFlatServices($resultServices)
     {
         $results = array();
         while ($row = mysqli_fetch_array($resultServices)) {
@@ -309,7 +318,7 @@ class GeneralFunctionsClass
         }
         return $results;
     }
-    public function getFlatPayments($resultPayments): array
+    public function getFlatPayments($resultPayments)
     {
         $results = array();
         while ($row = mysqli_fetch_array($resultPayments)) {
@@ -335,7 +344,7 @@ class GeneralFunctionsClass
         return $results;
     }
 
-    public function getWaterMeter($resultWater): array
+    public function getWaterMeter($resultWater)
     {
         $results = array();
         while ($row = mysqli_fetch_array($resultWater)) {
@@ -377,7 +386,7 @@ class GeneralFunctionsClass
         return $results;
     }
 
-    public function getWaterReadings($resultWater): array
+    public function getWaterReadings($resultWater)
     {
         $results = array();
         while ($row = mysqli_fetch_array($resultWater)) {
@@ -415,7 +424,7 @@ class GeneralFunctionsClass
         return $results;
     }
 
-    public function addCurrentReading($result): array
+    public function addCurrentReading($result)
     {
         $results = array();
         //print_r($resultFlats);
@@ -430,7 +439,7 @@ class GeneralFunctionsClass
         return $results;
     }
 
-    public function deleteCurrentReading($result): array
+    public function deleteCurrentReading($result)
     {
         $results = array();
         while ($rowFlats = mysqli_fetch_array($result)) {
@@ -443,7 +452,7 @@ class GeneralFunctionsClass
         return $results;
     }
 
-    public function getHeatMeter($resultHeat): array
+    public function getHeatMeter($resultHeat)
     {
         $results = array();
         while ($row = mysqli_fetch_array($resultHeat)) {
@@ -481,7 +490,7 @@ class GeneralFunctionsClass
         return $results;
     }
 
-    public function getHeatReadings( $result): array
+    public function getHeatReadings( $result)
     {
         $results = array();
         while ($row = mysqli_fetch_array($result)) {
@@ -519,7 +528,7 @@ class GeneralFunctionsClass
         }
         return $results;
     }
-    public function getMtbPayment($resultPayment): array
+    public function getMtbPayment($resultPayment)
     {
         $payment = array();
         // print_r($resultHouses);
@@ -600,4 +609,5 @@ class GeneralFunctionsClass
             $requestData["Data"] = json_encode($data);
         return $requestData;
     }
+
 }

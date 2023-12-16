@@ -1,11 +1,11 @@
 <?php
-$response = array();
 
 include_once "GeneralFunctions.php";
-var_dump($_POST);
+//var_dump($_POST);
+//print(1)
+$response = array();
 
-
-if (isset($_POST['uid']) ) {
+if ( isset($_POST['uid']) ) {
 
     $uid = $_POST['uid'];
     $dbOperationsObject = new DBOperations();
@@ -14,8 +14,8 @@ if (isset($_POST['uid']) ) {
         $resultApartments = $dbOperationsObject->getApartmentsByUser($uid);
         $apartments = $generalFunctionsObject->getApartmentsByUser($resultApartments);
         $response["success"] = 1;
-            $response["message"] = "Success!";
-        $response["appartments"] = $appartments;
+        $response["message"] = "Success!";
+        $response["apartments"] = $apartments;
         echo json_encode($response);
 
 

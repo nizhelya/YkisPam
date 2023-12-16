@@ -41,11 +41,9 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddHome
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MenuOpen
 import androidx.compose.material.icons.twotone.Apartment
-import androidx.compose.material.icons.twotone.HouseSiding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
@@ -62,9 +60,6 @@ import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -80,17 +75,11 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
-import androidx.glance.appwidget.Tracing.enabled
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.R
-import com.ykis.ykispam.SplashViewModel
 import com.ykis.ykispam.core.composable.LogoImage
-import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.pam.screens.appartment.ApartmentViewModel
 
 @Composable
 fun ApartmentNavigationRail(
@@ -381,13 +370,7 @@ fun PermanentNavigationDrawerContent(
                                     modifier = Modifier.padding(horizontal = 4.dp)
                                 )
                             },
-//                            icon = {
-//                                Icon(
-//                                    imageVector = Icons.TwoTone.Apartment,
-//                                    contentDescription = ""
-//                                )
-//
-//                            },
+
                             colors = NavigationDrawerItemDefaults.colors(
                                 unselectedContainerColor = Color.Transparent
                             ),
@@ -520,9 +503,8 @@ fun ModalNavigationDrawerContent(
                                         text = it,
                                         textAlign = TextAlign.Center,
                                         style = MaterialTheme.typography.titleMedium,
-//                                        color = MaterialTheme.colorScheme.primary,
 
-                                        )
+                                    )
                                 }
                             }
 
@@ -536,9 +518,8 @@ fun ModalNavigationDrawerContent(
                                         text = it,
                                         textAlign = TextAlign.Center,
                                         style = MaterialTheme.typography.titleMedium,
-//                                        color = MaterialTheme.colorScheme.primary,
 
-                                        )
+                                    )
                                 }
                             }
                         }
@@ -546,8 +527,7 @@ fun ModalNavigationDrawerContent(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(start = 24.dp ,top = 4.dp, end = 16.dp, bottom = 8.dp),
-//                        horizontalArrangement = Arrangement.SpaceEvenly,
+                            .padding(start = 24.dp, top = 4.dp, end = 16.dp, bottom = 8.dp),
                         verticalAlignment = Alignment.CenterVertically
 
                     ) {
@@ -556,7 +536,7 @@ fun ModalNavigationDrawerContent(
                             .width(32.dp)
                             .height(32.dp)
                             .border(BorderStroke(0.dp, Color.Transparent))
-                            .background(Color.Transparent)
+//                            .background(Color.Transparent)
                             .clickable(onClick = {
                                 navigateToDestination(SETTINGS_SCREEN)
                                 onDrawerClicked()
@@ -568,17 +548,17 @@ fun ModalNavigationDrawerContent(
                             contentDescription = stringResource(id = R.string.settings),
                             contentScale = ContentScale.Fit,
                             modifier = imageModifier,
-//                            alignment = Alignment.CenterStart
                         )
                         ClickableText(
-                            text = AnnotatedString(stringResource(R.string.settings)) ,
-                            style = MaterialTheme.typography.titleMedium,
-                            modifier = Modifier.padding(start = 24.dp ),
+                            text = AnnotatedString(stringResource(R.string.settings)),
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                color = MaterialTheme.colorScheme.primary
 
-                        onClick = {
+                            ),
+                            modifier = Modifier.padding(start = 24.dp),
+                            onClick = {
                                 navigateToDestination(SETTINGS_SCREEN)
                                 onDrawerClicked()
-
                             })
 
                     }
@@ -590,7 +570,7 @@ fun ModalNavigationDrawerContent(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp),
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        containerColor = MaterialTheme.colorScheme.inverseOnSurface,
                         contentColor = MaterialTheme.colorScheme.onTertiaryContainer
                     ) {
                         Icon(
@@ -600,6 +580,7 @@ fun ModalNavigationDrawerContent(
                         )
                         Text(
                             text = stringResource(id = R.string.add_appartment),
+                            style = MaterialTheme.typography.titleMedium,
                             modifier = Modifier.weight(1f),
                             textAlign = TextAlign.Center
                         )
@@ -623,10 +604,9 @@ fun ModalNavigationDrawerContent(
                             selected = baseUIState.selectedDestination == "$APARTMENT_SCREEN?$ADDRESS_ID={${it.addressId}}",
                             label = {
                                 Text(
-//                                    text = baseUIState.selectedDestination,
                                     text = it.address,
 
-                                    style = MaterialTheme.typography.titleLarge,
+                                    style = MaterialTheme.typography.titleMedium,
                                     modifier = Modifier.padding(horizontal = 4.dp)
                                 )
                             },
