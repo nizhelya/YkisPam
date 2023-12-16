@@ -34,7 +34,6 @@ fun NavGraphBuilder.YkisPamGraph(
 
         )
     }
-
     composable(
         route = "$BTI_SCREEN$FLAT_ARG",
         arguments = listOf(
@@ -58,15 +57,11 @@ fun NavGraphBuilder.YkisPamGraph(
     {
         FamilyScreen(
             popUpScreen = { appState.popUp() },
-            openScreen = { route -> appState.navigate(route) },
             addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID,
             address = it.arguments?.getString(ADDRESS) ?: ADDRESS_DEFAULT,
 
             )
     }
-
-
-
     composable(
         route = "$WATER_SCREEN$ADDRESS_ID_ARG",
         arguments = listOf(navArgument(ADDRESS_ID) { defaultValue = ADDRESS_DEFAULT_ID })
@@ -78,8 +73,10 @@ fun NavGraphBuilder.YkisPamGraph(
     }
 
     composable(PROFILE_SCREEN) {
+
         ProfileScreen(
-            restartApp = { route -> appState.clearAndNavigate(route) }
+            popUpScreen = { appState.popUp() },
+            restartApp = { route -> appState.clearAndNavigate(route) },
         )
     }
     composable(SIGN_UP_SCREEN) {

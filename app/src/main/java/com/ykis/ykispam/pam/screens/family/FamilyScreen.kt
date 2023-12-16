@@ -64,7 +64,6 @@ import com.ykis.ykispam.theme.YkisPAMTheme
 fun FamilyScreen(
     modifier: Modifier = Modifier,
     popUpScreen: () -> Unit,
-    openScreen: (String) -> Unit,
     viewModel: FamilyListViewModel = hiltViewModel(),
     addressId: String,
     address: String

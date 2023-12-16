@@ -98,4 +98,9 @@ class ProfileViewModel @Inject constructor(
                 restartApp(SPLASH_SCREEN)
 
     }
+    fun navigateBack(popUpScreen: () -> Unit) {
+        launchCatching {
+            popUpScreen()
+        }
+    }
 }

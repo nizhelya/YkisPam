@@ -458,7 +458,7 @@ fun ModalNavigationDrawerContent(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(start = 16.dp, top = 4.dp, end = 16.dp, bottom = 8.dp),
+                            .padding(start = 24.dp, top = 4.dp, end = 8.dp, bottom = 4.dp),
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -472,8 +472,8 @@ fun ModalNavigationDrawerContent(
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .clip(CircleShape)
-                                .width(48.dp)
-                                .height(48.dp)
+                                .width(32.dp)
+                                .height(32.dp)
                                 .clickable(onClick = {
                                     navigateToDestination(PROFILE_SCREEN)
                                     onDrawerClicked()
@@ -499,12 +499,23 @@ fun ModalNavigationDrawerContent(
                                 baseUIState.displayName
                             }).let {
                                 if (it != null) {
-                                    Text(
-                                        text = it,
-                                        textAlign = TextAlign.Center,
-                                        style = MaterialTheme.typography.titleMedium,
+                                    ClickableText(
+                                        text = AnnotatedString(it),
+                                        style = MaterialTheme.typography.titleMedium.copy(
+                                            color = MaterialTheme.colorScheme.onSurface
 
-                                    )
+                                        ),
+                                        modifier = Modifier.padding(start = 4.dp),
+                                        onClick = {
+                                            navigateToDestination(PROFILE_SCREEN)
+                                            onDrawerClicked()
+                                        })
+//                                    Text(
+//                                        text = it,
+//                                        textAlign = TextAlign.Center,
+//                                        style = MaterialTheme.typography.titleMedium,
+//
+//                                    )
                                 }
                             }
 
@@ -527,7 +538,7 @@ fun ModalNavigationDrawerContent(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(start = 24.dp, top = 4.dp, end = 16.dp, bottom = 8.dp),
+                            .padding(start = 24.dp, top = 4.dp, end = 16.dp, bottom = 4.dp),
                         verticalAlignment = Alignment.CenterVertically
 
                     ) {
@@ -552,10 +563,10 @@ fun ModalNavigationDrawerContent(
                         ClickableText(
                             text = AnnotatedString(stringResource(R.string.settings)),
                             style = MaterialTheme.typography.titleMedium.copy(
-                                color = MaterialTheme.colorScheme.primary
+                                color = MaterialTheme.colorScheme.onSurface
 
                             ),
-                            modifier = Modifier.padding(start = 24.dp),
+                            modifier = Modifier.padding(start = 16.dp),
                             onClick = {
                                 navigateToDestination(SETTINGS_SCREEN)
                                 onDrawerClicked()
@@ -569,20 +580,21 @@ fun ModalNavigationDrawerContent(
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp),
+                            .padding(start = 16.dp, top = 8.dp, end = 16.dp, bottom = 8.dp),
                         containerColor = MaterialTheme.colorScheme.inverseOnSurface,
                         contentColor = MaterialTheme.colorScheme.onTertiaryContainer
                     ) {
                         Icon(
                             imageVector = Icons.Default.AddHome,
                             contentDescription = stringResource(id = R.string.add_appartment),
-                            modifier = Modifier.size(18.dp)
+                            modifier = Modifier.size(24.dp)
                         )
                         Text(
                             text = stringResource(id = R.string.add_appartment),
                             style = MaterialTheme.typography.titleMedium,
-                            modifier = Modifier.weight(1f),
-                            textAlign = TextAlign.Center
+                            modifier = Modifier.weight(1f)
+                                .padding(start = 8.dp),
+                            textAlign = TextAlign.Left
                         )
                     }
                 }
@@ -600,14 +612,13 @@ fun ModalNavigationDrawerContent(
                         NavigationDrawerItem(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(start = 8.dp, top = 0.dp, end = 8.dp, bottom = 0.dp),
+                                .padding(start = 16.dp, top = 4.dp, end = 16.dp, bottom = 4.dp),
                             selected = baseUIState.selectedDestination == "$APARTMENT_SCREEN?$ADDRESS_ID={${it.addressId}}",
                             label = {
                                 Text(
                                     text = it.address,
-
                                     style = MaterialTheme.typography.titleMedium,
-                                    modifier = Modifier.padding(horizontal = 4.dp)
+                                    modifier = Modifier.padding(start = 4.dp)
                                 )
                             },
                             icon = {

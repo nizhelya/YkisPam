@@ -103,19 +103,13 @@
     <!-- TasksScreen -->
     <string name="tasks">Событие</string>
 
-    <!-- EditTaskScreen -->
-    <string name="edit_task">Изменить событие</string>
-    <string name="title">Заголовок</string>
-    <string name="description">Описание</string>
-    <string name="url">URL</string>
-    <string name="date">Дата</string>
-    <string name="time">Время</string>
-    <string name="flag">Флаг</string>
-    <string name="priority">Приоритет</string>
-    <string name="more_options_button">More options</string>
-
     <!-- SettingsScreen -->
     <string name="nikname">Логин</string>
+    <string name="uid_provider">UID:</string>
+    <string name="provider">Провайдер:</string>
+    <string name="more_options_button">Більше варіантів</string>
+
+
 
     <string name="settings">Налаштування</string>
     <string name="sign_out">Вихід</string>

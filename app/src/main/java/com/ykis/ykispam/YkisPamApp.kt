@@ -130,11 +130,6 @@ fun NavigationWrapper(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val selectedDestination = navBackStackEntry?.destination?.route ?: YkisRoute.INBOX
 
-
-//    val navBackStackEntry by navController.currentBackStackEntryAsState()
-//    val selectedDestination = navBackStackEntry?.destination?.route ?: baseUIState.selectedDestination
-
-
     AppContent(
         appState = appState,
         selectedDestination = selectedDestination,
