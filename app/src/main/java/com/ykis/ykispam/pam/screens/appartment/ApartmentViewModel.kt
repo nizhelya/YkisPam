@@ -32,7 +32,6 @@ import com.ykis.ykispam.firebase.model.service.repo.SignOutResponse
 import com.ykis.ykispam.navigation.ADDRESS_ID
 import com.ykis.ykispam.navigation.ADD_APARTMENT_SCREEN
 import com.ykis.ykispam.navigation.APARTMENT_SCREEN
-import com.ykis.ykispam.navigation.SETTINGS_SCREEN
 import com.ykis.ykispam.navigation.SPLASH_SCREEN
 import com.ykis.ykispam.pam.data.cache.apartment.ApartmentCacheImpl
 import com.ykis.ykispam.pam.data.cache.payment.PaymentCacheImpl
@@ -268,11 +267,11 @@ fun deleteApartment(addressId: Int, restartApp: (String) -> Unit) {
 
     }
 
-    fun navigateBack(popUpScreen: () -> Unit) {
-        launchCatching {
-            popUpScreen()
-        }
-    }
+//    fun navigateBack(popUpScreen: () -> Unit) {
+//        launchCatching {
+//            popUpScreen()
+//        }
+//    }
 
     override fun onCleared() {
         super.onCleared()

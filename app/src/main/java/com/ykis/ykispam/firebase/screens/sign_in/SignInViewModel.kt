@@ -16,7 +16,6 @@ import com.ykis.ykispam.firebase.model.service.repo.OneTapSignInResponse
 import com.ykis.ykispam.firebase.model.service.repo.SignInWithGoogleResponse
 import com.ykis.ykispam.firebase.screens.sign_in.components.SingInUiState
 import com.ykis.ykispam.navigation.APARTMENT_SCREEN
-import com.ykis.ykispam.navigation.PROFILE_SCREEN
 import com.ykis.ykispam.navigation.SIGN_UP_SCREEN
 import com.ykis.ykispam.navigation.SPLASH_SCREEN
 import dagger.hilt.android.lifecycle.HiltViewModel

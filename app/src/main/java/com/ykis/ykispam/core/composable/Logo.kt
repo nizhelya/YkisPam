@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -57,4 +58,38 @@ fun LogoImage() {
 
 }
 
+@Composable
+fun LogoImageShort() {
+    Column(
+        modifier = Modifier,
+//            .padding(paddingValues = PaddingValues())
+//            .semantics(mergeDescendants = true) {},
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+
+    ) {
+        val imageModifier = Modifier
+            .size(32.dp)
+            .clip(CircleShape)
+            .border(BorderStroke(0.dp, Color.Transparent))
+            .background(Color.Transparent)
+            .align(Alignment.CenterHorizontally)
+
+        Image(
+            painter = painterResource(id = R.drawable.ic_launcher_foreground),
+            contentDescription = stringResource(id = R.string.app_name),
+            contentScale = ContentScale.Fit,
+            modifier = imageModifier,
+            alignment = Alignment.Center
+        )
+        Text(
+            style = MaterialTheme.typography.titleSmall,
+//            modifier = Modifier.weight(1f),
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.primary,
+            text = stringResource(R.string.app_name)
+        )
+    }
+
+}
 

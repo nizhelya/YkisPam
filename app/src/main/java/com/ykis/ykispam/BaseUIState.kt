@@ -14,6 +14,7 @@ data class BaseUIState(
     val paymentItems: List<PaymentItemEntity> = emptyList(),
     val addressId: Int = 0,
     val address: String? = null,
+    val addressNumber: String? = null,
     val isDetailOnlyOpen: Boolean = false,
     val selectedDestination: String = "$APARTMENT_SCREEN$ADDRESS_ID_ARG",
     val secretCode: String = "",

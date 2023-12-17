@@ -75,7 +75,11 @@ open class BaseViewModel(
             block = block
         )
 
-
+    fun navigateBack(popUpScreen: () -> Unit) {
+        launchCatching {
+            popUpScreen()
+        }
+    }
 }
 
 

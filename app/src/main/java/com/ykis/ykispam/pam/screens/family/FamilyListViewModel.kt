@@ -53,11 +53,11 @@ class FamilyListViewModel @Inject constructor(
         super.onCleared()
         getFamilyFromFlat.unsubscribe()
     }
-
-    fun navigateBack(popUpScreen: () -> Unit) {
-        launchCatching {
-            popUpScreen()
-        }
-    }
+//
+//    fun navigateBack(popUpScreen: () -> Unit) {
+//        launchCatching {
+//            popUpScreen()
+//        }
+//    }
 
 }

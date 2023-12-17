@@ -23,9 +23,9 @@ fun NavGraphBuilder.YkisPamGraph(
     navigationType: NavigationType,
     displayFeatures: List<DisplayFeature>,
     navigationContentPosition: NavigationContentPosition,
-    appState:YkisPamAppState,
+    appState: YkisPamAppState,
 
-) {
+    ) {
 
     composable(SPLASH_SCREEN) {
         SplashScreen(
@@ -38,7 +38,8 @@ fun NavGraphBuilder.YkisPamGraph(
         route = "$BTI_SCREEN$FLAT_ARG",
         arguments = listOf(
             navArgument(ADDRESS_ID) { defaultValue = ADDRESS_DEFAULT_ID },
-            navArgument(ADDRESS) { defaultValue = ADDRESS_DEFAULT })   )
+            navArgument(ADDRESS) { defaultValue = ADDRESS_DEFAULT })
+    )
     {
         BtiScreen(
             popUpScreen = { appState.popUp() },
@@ -72,13 +73,26 @@ fun NavGraphBuilder.YkisPamGraph(
         )
     }
 
-    composable(PROFILE_SCREEN) {
+    composable(YkisRoute.ACCOUNT) {
 
         ProfileScreen(
             popUpScreen = { appState.popUp() },
             restartApp = { route -> appState.clearAndNavigate(route) },
         )
     }
+    composable(YkisRoute.CHAT) {
+        EmptyScreen(
+            popUpScreen = { appState.popUp() },
+        )
+    }
+    composable(YkisRoute.MESSAGE) {
+        EmptyScreen(
+            popUpScreen = { appState.popUp() },
+        )    }
+    composable(YkisRoute.OSBB) {
+        EmptyScreen(
+            popUpScreen = { appState.popUp() },
+        )    }
     composable(SIGN_UP_SCREEN) {
         SignUpScreen(
             openScreen = { route -> appState.navigate(route) },
@@ -102,7 +116,7 @@ fun NavGraphBuilder.YkisPamGraph(
 
     }
 
-    composable(SETTINGS_SCREEN) {
+    composable(YkisRoute.SETTINGS) {
         SettingsScreen(popUpScreen = { appState.popUp() })
     }
 
@@ -110,7 +124,7 @@ fun NavGraphBuilder.YkisPamGraph(
         route = "$APARTMENT_SCREEN$ADDRESS_ID_ARG",
         arguments = listOf(
             navArgument(ADDRESS_ID) { defaultValue = ADDRESS_DEFAULT_ID },
-            )
+        )
     ) {
         ApartmentScreen(
             restartApp = { route -> appState.clearAndNavigate(route) },

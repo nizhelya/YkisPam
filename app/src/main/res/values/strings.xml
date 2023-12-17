@@ -2,26 +2,16 @@
     <string name="app_name">ЮКІС</string>
     <string name="full_name">Южненська Комунальна\nІнформаційна Система</string>
 
-<!--    reply-->
+<!--    Навигация-->
     <string name="navigation_drawer">Navigation Drawer</string>
-    <string name="tab_inbox">Inbox</string>
-    <string name="tab_article">Articles</string>
-    <string name="tab_dm">Direct Messages</string>
-    <string name="tab_groups">Groups</string>
+    <string name="tab_settings">Настройки</string>
+    <string name="tab_osbb">ОСББ</string>
+    <string name="tab_message">Повідомлення</string>
+    <string name="tab_chat">Чат ОСББ</string>
+    <string name="tab_account">Аккаунт</string>
+    <string name="empty_screen_title">Екран у стадії розробки</string>
+    <string name="empty_screen_subtitle">Цей екран все ще розробляється.</string>
 
-    <string name="search">Search</string>
-    <string name="search_replies">Search replies</string>
-    <string name="reply">Reply</string>
-    <string name="reply_all">Reply All</string>
-
-    <string name="compose">Compose</string>
-
-    <string name="empty_screen_title">Screen under construction</string>
-    <string name="empty_screen_subtitle">This screen is still under construction. This sample will help you learn about adaptive layouts in Jetpack Compose</string>
-
-    <string name="messages">Messages</string>
-    <string name="four_hours_ago">4 hrs ago</string>
-<!--    end reply-->
 
     <!--    Firebase-->
     //IDs

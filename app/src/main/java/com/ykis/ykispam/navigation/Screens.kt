@@ -23,13 +23,12 @@ const val VERIFY_EMAIL_SCREEN = "VerifyEmailScreen"
 const val SIGN_UP_SCREEN = "SignUpScreen"
 const val APARTMENT_SCREEN = "ApartmentScreen"
 const val ADD_APARTMENT_SCREEN = "AddApartmentScreen"
-const val PROFILE_SCREEN = "ProfileScreen"
+
 const val BTI_SCREEN = "BtiScreen"
 const val FAMILY_SCREEN = "FamilyScreen"
 const val WATER_SCREEN = "WaterScreen"
 
 
-const val SETTINGS_SCREEN = "SettingsScreen"
 
 const val ADDRESS_ID = "addressId"
 const val ADDRESS_DEFAULT_ID = "0"

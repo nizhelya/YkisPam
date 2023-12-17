@@ -16,37 +16,25 @@
 
 package com.ykis.ykispam.navigation
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.AddHome
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MenuOpen
 import androidx.compose.material.icons.twotone.Apartment
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -62,24 +50,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.composable.LogoImage
+import com.ykis.ykispam.core.composable.LogoImageShort
 
 @Composable
 fun ApartmentNavigationRail(
@@ -105,6 +86,7 @@ fun ApartmentNavigationRail(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
+                    LogoImageShort()
                     NavigationRailItem(
                         selected = false,
                         onClick = onDrawerClicked,
@@ -115,56 +97,75 @@ fun ApartmentNavigationRail(
                             )
                         }
                     )
-                    FloatingActionButton(
-                        onClick = { /*TODO*/ },
-                        modifier = Modifier.padding(top = 8.dp, bottom = 32.dp),
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+                    val apartmentLazyListState = rememberLazyListState()
+                    LazyColumn(
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.Top,
+                        state = apartmentLazyListState
+
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = stringResource(id = R.string.add_appartment),
-                            modifier = Modifier.size(18.dp)
-                        )
+
+                        items(items = baseUIState.apartments, key = { it.addressId }) {
+                            NavigationDrawerItem(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                selected = baseUIState.selectedDestination == "$APARTMENT_SCREEN?$ADDRESS_ID={${it.addressId}}",
+                                label = {
+                                    Text(
+                                        text = it.addressId.toString(),
+                                        style = MaterialTheme.typography.titleMedium,
+                                        modifier = Modifier.padding(start = 4.dp)
+                                    )
+                                },
+                                icon = {
+                                    Icon(
+                                        imageVector = Icons.TwoTone.Apartment,
+                                        contentDescription = ""
+                                    )
+
+                                },
+                                colors = NavigationDrawerItemDefaults.colors(
+                                    unselectedContainerColor = Color.Transparent
+                                ),
+                                onClick = {
+                                    navigateToDestination("$APARTMENT_SCREEN?$ADDRESS_ID=${it.addressId}")
+                                    onDrawerClicked()
+
+                                }
+                            )
+                        }
                     }
-                    Spacer(Modifier.height(4.dp)) // NavigationRailVerticalPadding
+
                 }
-
-
-                LazyColumn(
+                Column(
                     modifier = Modifier
-                        .layoutId(LayoutType.CONTENT),
-//                            .verticalScroll(rememberScrollState()),
+                        .layoutId(LayoutType.CONTENT)
+                        .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Top
                 ) {
-
-                    items(items = baseUIState.apartments, key = { it.addressId }) {
+                    TOP_LEVEL_DESTINATIONS.forEach { replyDestination ->
                         NavigationDrawerItem(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(start = 8.dp, top = 2.dp, end = 8.dp, bottom = 2.dp),
-                            selected = selectedDestination == "$BTI_SCREEN?$ADDRESS_ID=${it.addressId}",
+                                .fillMaxWidth(),
+                            selected = selectedDestination == replyDestination.route,
                             label = {
                                 Text(
-                                    text = it.address,
-                                    style = MaterialTheme.typography.titleLarge,
-                                    modifier = Modifier.padding(horizontal = 4.dp)
+                                    text = stringResource(id = replyDestination.iconTextId),
+                                    modifier = Modifier.padding(horizontal = 16.dp)
                                 )
                             },
-//                                icon = {
-//                                    Icon(
-//                                        imageVector = Icons.TwoTone.Apartment,
-//                                        contentDescription = ""
-//                                    )
-//
-//                                },
+                            icon = {
+                                Icon(
+                                    imageVector = replyDestination.selectedIcon,
+                                    contentDescription = stringResource(
+                                        id = replyDestination.iconTextId
+                                    )
+                                )
+                            },
                             colors = NavigationDrawerItemDefaults.colors(
                                 unselectedContainerColor = Color.Transparent
                             ),
-                            onClick = {
-                                navigateToDestination("$BTI_SCREEN?$ADDRESS_ID=${it.addressId}")
-                            }
+                            onClick = { navigateToDestination(replyDestination.route) }
                         )
                     }
                 }
@@ -246,141 +247,90 @@ fun PermanentNavigationDrawerContent(
                 .padding(16.dp),
             content = {
                 Column(
-                    modifier = Modifier
-                        .layoutId(LayoutType.HEADER),
+                    modifier = Modifier.layoutId(LayoutType.HEADER),
+//                        .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Row(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 16.dp, top = 4.dp, end = 16.dp, bottom = 8.dp),
+                            .fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         LogoImage()
                     }
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 16.dp, top = 4.dp, end = 16.dp, bottom = 8.dp),
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(baseUIState.photoUrl)
-                                .crossfade(true)
-                                .build(),
-                            contentDescription = null,
-                            error = painterResource(R.drawable.ic_account_circle),
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .width(48.dp)
-                                .height(48.dp)
-                                .clickable(onClick = {
-                                    navigateToDestination(PROFILE_SCREEN)
-                                })
-                        )
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    start = 16.dp,
-                                    top = 4.dp,
-                                    end = 16.dp,
-                                    bottom = 8.dp
-                                ),
+                    val apartmentLazyListState = rememberLazyListState()
+                    LazyColumn(
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.Top,
+                        state = apartmentLazyListState
 
-                            verticalArrangement = Arrangement.Top,
-                            horizontalAlignment = Alignment.Start
-                        ) {
-                            (if (baseUIState.displayName == "null") {
-                                stringResource(id = R.string.login)
-                            } else {
-                                baseUIState.displayName
-                            }).let {
-                                if (it != null) {
+                    ) {
+
+                        items(items = baseUIState.apartments, key = { it.addressId }) {
+                            NavigationDrawerItem(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                selected = baseUIState.selectedDestination == "$APARTMENT_SCREEN?$ADDRESS_ID={${it.addressId}}",
+                                label = {
                                     Text(
-                                        text = it,
-                                        textAlign = TextAlign.Center,
-                                        style = MaterialTheme.typography.titleMedium
+                                        text = it.address,
+                                        style = MaterialTheme.typography.titleMedium,
+                                        modifier = Modifier.padding(start = 4.dp)
                                     )
-                                }
-                            }
-                            (if (baseUIState.email == "null") {
-                                stringResource(id = R.string.email_placeholder)
-                            } else {
-                                baseUIState.email
-                            }).let {
-                                if (it != null) {
-                                    Text(
-                                        text = it,
-                                        textAlign = TextAlign.Center,
-                                        style = MaterialTheme.typography.titleMedium
+                                },
+                                icon = {
+                                    Icon(
+                                        imageVector = Icons.TwoTone.Apartment,
+                                        contentDescription = ""
                                     )
+
+                                },
+                                colors = NavigationDrawerItemDefaults.colors(
+                                    unselectedContainerColor = Color.Transparent
+                                ),
+                                onClick = {
+                                    navigateToDestination("$APARTMENT_SCREEN?$ADDRESS_ID=${it.addressId}")
+
                                 }
-                            }
+                            )
                         }
                     }
 
-                    ExtendedFloatingActionButton(
-                        onClick = {
-                            navigateToDestination(ADD_APARTMENT_SCREEN)
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.AddHome,
-                            contentDescription = stringResource(id = R.string.add_appartment),
-                            modifier = Modifier.size(18.dp)
-                        )
-                        Text(
-                            text = stringResource(id = R.string.add_appartment),
-                            modifier = Modifier.weight(1f),
-                            textAlign = TextAlign.Center
-                        )
-                    }
                 }
-                val apartmentLazyListState = rememberLazyListState()
-                LazyColumn(
+                Column(
                     modifier = Modifier
-                        .layoutId(LayoutType.CONTENT),
+                        .layoutId(LayoutType.CONTENT)
+                        .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Top,
-                    state = apartmentLazyListState
-
                 ) {
-
-                    items(items = baseUIState.apartments, key = { it.addressId }) {
+                    TOP_LEVEL_DESTINATIONS.forEach { replyDestination ->
                         NavigationDrawerItem(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(start = 8.dp, top = 0.dp, end = 8.dp, bottom = 0.dp),
-                            selected = baseUIState.selectedDestination == "$APARTMENT_SCREEN?$ADDRESS_ID={${it.addressId}}",
+                                .padding(start = 2.dp, top = 2.dp, end = 2.dp, bottom = 2.dp),
+                            selected = selectedDestination == replyDestination.route,
                             label = {
                                 Text(
-                                    text = it.address,
-                                    style = MaterialTheme.typography.titleLarge,
-                                    modifier = Modifier.padding(horizontal = 4.dp)
+                                    text = stringResource(id = replyDestination.iconTextId),
+                                    modifier = Modifier.padding(horizontal = 16.dp)
                                 )
                             },
-
+                            icon = {
+                                Icon(
+                                    imageVector = replyDestination.selectedIcon,
+                                    contentDescription = stringResource(
+                                        id = replyDestination.iconTextId
+                                    )
+                                )
+                            },
                             colors = NavigationDrawerItemDefaults.colors(
                                 unselectedContainerColor = Color.Transparent
                             ),
-                            onClick = {
-                                navigateToDestination("$BTI_SCREEN?$ADDRESS_ID=${it.addressId}")
-
-                            }
+                            onClick = { navigateToDestination(replyDestination.route) }
                         )
                     }
-
                 }
             },
             measurePolicy = { measurables, constraints ->
@@ -442,8 +392,7 @@ fun ModalNavigationDrawerContent(
                 ) {
                     Row(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 16.dp, top = 4.dp, end = 16.dp, bottom = 8.dp),
+                            .fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -455,187 +404,100 @@ fun ModalNavigationDrawerContent(
                             )
                         }
                     }
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 24.dp, top = 4.dp, end = 8.dp, bottom = 4.dp),
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        verticalAlignment = Alignment.CenterVertically
+                    val apartmentLazyListState = rememberLazyListState()
+                    LazyColumn(
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.Top,
+                        state = apartmentLazyListState
+
                     ) {
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(baseUIState.photoUrl)
-                                .crossfade(true)
-                                .build(),
-                            contentDescription = null,
-                            error = painterResource(R.drawable.ic_account_circle),
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .width(32.dp)
-                                .height(32.dp)
-                                .clickable(onClick = {
-                                    navigateToDestination(PROFILE_SCREEN)
+
+                        items(items = baseUIState.apartments, key = { it.addressId }) {
+                            NavigationDrawerItem(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                selected = baseUIState.selectedDestination == "$APARTMENT_SCREEN?$ADDRESS_ID={${it.addressId}}",
+                                label = {
+                                    Text(
+                                        text = it.address,
+                                        style = MaterialTheme.typography.titleMedium,
+                                        modifier = Modifier.padding(start = 4.dp)
+                                    )
+                                },
+                                icon = {
+                                    Icon(
+                                        imageVector = Icons.TwoTone.Apartment,
+                                        contentDescription = ""
+                                    )
+
+                                },
+                                colors = NavigationDrawerItemDefaults.colors(
+                                    unselectedContainerColor = Color.Transparent
+                                ),
+                                onClick = {
+                                    navigateToDestination("$APARTMENT_SCREEN?$ADDRESS_ID=${it.addressId}")
                                     onDrawerClicked()
 
-                                })
-                        )
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    start = 16.dp,
-                                    top = 4.dp,
-                                    end = 16.dp,
-                                    bottom = 8.dp
-                                ),
-
-                            verticalArrangement = Arrangement.Top,
-                            horizontalAlignment = Alignment.Start
-                        ) {
-                            (if (baseUIState.displayName == "null") {
-                                stringResource(id = R.string.login)
-                            } else {
-                                baseUIState.displayName
-                            }).let {
-                                if (it != null) {
-                                    ClickableText(
-                                        text = AnnotatedString(it),
-                                        style = MaterialTheme.typography.titleMedium.copy(
-                                            color = MaterialTheme.colorScheme.onSurface
-
-                                        ),
-                                        modifier = Modifier.padding(start = 4.dp),
-                                        onClick = {
-                                            navigateToDestination(PROFILE_SCREEN)
-                                            onDrawerClicked()
-                                        })
-//                                    Text(
-//                                        text = it,
-//                                        textAlign = TextAlign.Center,
-//                                        style = MaterialTheme.typography.titleMedium,
-//
-//                                    )
                                 }
-                            }
-
-                            (if (baseUIState.email == "null") {
-                                stringResource(id = R.string.email_placeholder)
-                            } else {
-                                baseUIState.email
-                            }).let {
-                                if (it != null) {
-                                    Text(
-                                        text = it,
-                                        textAlign = TextAlign.Center,
-                                        style = MaterialTheme.typography.titleMedium,
-
-                                    )
-                                }
-                            }
+                            )
                         }
                     }
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 24.dp, top = 4.dp, end = 16.dp, bottom = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically
 
-                    ) {
-                        val imageModifier = Modifier
-                            .clip(CircleShape)
-                            .width(32.dp)
-                            .height(32.dp)
-                            .border(BorderStroke(0.dp, Color.Transparent))
-//                            .background(Color.Transparent)
-                            .clickable(onClick = {
-                                navigateToDestination(SETTINGS_SCREEN)
-                                onDrawerClicked()
-
-                            })
-
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_settings),
-                            contentDescription = stringResource(id = R.string.settings),
-                            contentScale = ContentScale.Fit,
-                            modifier = imageModifier,
-                        )
-                        ClickableText(
-                            text = AnnotatedString(stringResource(R.string.settings)),
-                            style = MaterialTheme.typography.titleMedium.copy(
-                                color = MaterialTheme.colorScheme.onSurface
-
-                            ),
-                            modifier = Modifier.padding(start = 16.dp),
-                            onClick = {
-                                navigateToDestination(SETTINGS_SCREEN)
-                                onDrawerClicked()
-                            })
-
-                    }
-                    ExtendedFloatingActionButton(
-                        onClick = {
-                            navigateToDestination(ADD_APARTMENT_SCREEN)
-                            onDrawerClicked()
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 16.dp, top = 8.dp, end = 16.dp, bottom = 8.dp),
-                        containerColor = MaterialTheme.colorScheme.inverseOnSurface,
-                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.AddHome,
-                            contentDescription = stringResource(id = R.string.add_appartment),
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Text(
-                            text = stringResource(id = R.string.add_appartment),
-                            style = MaterialTheme.typography.titleMedium,
-                            modifier = Modifier.weight(1f)
-                                .padding(start = 8.dp),
-                            textAlign = TextAlign.Left
-                        )
-                    }
+//                    ExtendedFloatingActionButton(
+//                        onClick = {
+//                            navigateToDestination(ADD_APARTMENT_SCREEN)
+//                            onDrawerClicked()
+//                        },
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(start = 16.dp, top = 8.dp, end = 16.dp, bottom = 8.dp),
+//                        containerColor = MaterialTheme.colorScheme.inverseOnSurface,
+//                        contentColor = MaterialTheme.colorScheme.secondary
+//                    ) {
+//                        Icon(
+//                            imageVector = Icons.Default.AddHome,
+//                            contentDescription = stringResource(id = R.string.add_appartment),
+//                            modifier = Modifier.size(24.dp)
+//                        )
+//                        Text(
+//                            text = stringResource(id = R.string.add_appartment),
+//                            style = MaterialTheme.typography.titleMedium,
+//                            modifier = Modifier
+//                                .weight(1f)
+//                                .padding(start = 8.dp),
+//                            textAlign = TextAlign.Left
+//                        )
+//                    }
                 }
-                val apartmentLazyListState = rememberLazyListState()
-                LazyColumn(
+                Column(
                     modifier = Modifier
-                        .layoutId(LayoutType.CONTENT),
-                    horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.Top,
-                    state = apartmentLazyListState
-
+                        .layoutId(LayoutType.CONTENT)
+                        .verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-
-                    items(items = baseUIState.apartments, key = { it.addressId }) {
+                    TOP_LEVEL_DESTINATIONS.forEach { replyDestination ->
                         NavigationDrawerItem(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(start = 16.dp, top = 4.dp, end = 16.dp, bottom = 4.dp),
-                            selected = baseUIState.selectedDestination == "$APARTMENT_SCREEN?$ADDRESS_ID={${it.addressId}}",
+                                .fillMaxWidth(),
+                            selected = selectedDestination == replyDestination.route,
                             label = {
                                 Text(
-                                    text = it.address,
-                                    style = MaterialTheme.typography.titleMedium,
-                                    modifier = Modifier.padding(start = 4.dp)
+                                    text = stringResource(id = replyDestination.iconTextId),
+                                    modifier = Modifier.padding(horizontal = 16.dp)
                                 )
                             },
                             icon = {
                                 Icon(
-                                    imageVector = Icons.TwoTone.Apartment,
-                                    contentDescription = ""
+                                    imageVector = replyDestination.selectedIcon,
+                                    contentDescription = stringResource(
+                                        id = replyDestination.iconTextId
+                                    )
                                 )
-
                             },
                             colors = NavigationDrawerItemDefaults.colors(
                                 unselectedContainerColor = Color.Transparent
                             ),
-                            onClick = {
-                                navigateToDestination("$APARTMENT_SCREEN?$ADDRESS_ID=${it.addressId}")
-                                onDrawerClicked()
-
-                            }
+                            onClick = { navigateToDestination(replyDestination.route) }
                         )
                     }
                 }
@@ -677,6 +539,7 @@ fun ModalNavigationDrawerContent(
         )
     }
 }
+
 
 enum class LayoutType {
     HEADER, CONTENT

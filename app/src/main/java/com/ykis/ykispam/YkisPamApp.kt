@@ -51,7 +51,9 @@ fun YkisPamApp(
     displayFeatures: List<DisplayFeature>,
 ) {
     val navigationType: NavigationType
+
     val contentType: ContentType
+
     val appState = rememberAppState()
     val foldingFeature = displayFeatures.filterIsInstance<FoldingFeature>().firstOrNull()
 
@@ -112,7 +114,7 @@ fun YkisPamApp(
     NavigationWrapper(
         navigationType = navigationType, //(BOTTOM_NAVIGATION, NAVIGATION_RAIL, PERMANENT_NAVIGATION_DRAWER)
         contentType = contentType,      //(SINGLE,DUAL)
-        displayFeatures = displayFeatures,  //fold device развернуто BookPostureили сложено  SINGLE
+        displayFeatures = displayFeatures,  //fold device развернуто BookPosture или сложено  SINGLE
         navigationContentPosition = navigationContentPosition, // PERMANENT_NAVIGATION_DRAWER содержимое TOP or CENTER
         appState = appState
     )
@@ -128,7 +130,7 @@ fun NavigationWrapper(
 ) {
     val navController = appState.navController
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val selectedDestination = navBackStackEntry?.destination?.route ?: YkisRoute.INBOX
+    val selectedDestination = navBackStackEntry?.destination?.route ?: YkisRoute.ACCOUNT
 
     AppContent(
         appState = appState,
@@ -193,7 +195,6 @@ fun AppContent(
                 AnimatedVisibility(visible = navigationType == NavigationType.BOTTOM_NAVIGATION) {
                     BottomNavigationBar(
                         selectedDestination = selectedDestination,
-//                        navigateToTopLevelDestination = navigateToTopLevelDestination
                     )
                 }
             }
