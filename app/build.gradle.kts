@@ -1,5 +1,3 @@
-import java.awt.SystemColor.window
-
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
@@ -92,7 +90,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 //    implementation("androidx.compose.runtime:runtime-livedata")
 //    implementation(libs.SSJetPackComposeProgressButton)
-    implementation("com.github.SimformSolutionsPvtLtd:SSJetPackComposeProgressButton:1.0.6")
+//    implementation("com.github.SimformSolutionsPvtLtd:SSJetPackComposeProgressButton:1.0.6")
 
 
 //    firebase

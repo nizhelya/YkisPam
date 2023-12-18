@@ -165,6 +165,9 @@
     <string name="private_ok">Так</string>
     <string name="private_no">Ні</string>
     <string name="ok">Так</string>
+    <string name="yes">да</string>
+
+
 
     <string name="data_order">дата видачі ордера:</string>
     <string name="order_text">Ордер:</string>

@@ -38,6 +38,7 @@ class ServiceRemoteImpl @Inject constructor(
         }
     }
 
+
     private fun createGetFlatServiceMap(
         addressId: Int,
         houseId: Int,

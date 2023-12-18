@@ -47,6 +47,8 @@ import com.ykis.ykispam.pam.domain.family.request.BooleanInt
 import com.ykis.ykispam.pam.domain.payment.PaymentEntity
 import com.ykis.ykispam.pam.domain.payment.PaymentItemEntity
 import com.ykis.ykispam.pam.domain.payment.request.GetFlatPayment
+import com.ykis.ykispam.pam.domain.service.ServiceEntity
+import com.ykis.ykispam.pam.domain.service.request.getTotalDebtService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -59,6 +61,7 @@ class ApartmentViewModel @Inject constructor(
     private val deleteFlatByUser: DeleteFlatByUser,
     private val addFlatByUser: AddFlatByUser,
     private val updateBtiUseCase: UpdateBti,
+    private val getTotalDebtServiceUseCase : getTotalDebtService,
     private val apartmentCacheImpl: ApartmentCacheImpl,
     private val networkHandler: NetworkHandler,
     private val logService: LogService,
@@ -84,6 +87,14 @@ class ApartmentViewModel @Inject constructor(
 
     private val _address = MutableLiveData<List<AddressEntity>>()
     val address: LiveData<List<AddressEntity>> get() = _address
+    private val _totalDebt = MutableLiveData<ServiceEntity?>()
+    val totalDebt : LiveData<ServiceEntity?> get() = _totalDebt
+
+    private val _totalPay = MutableLiveData<Double>(0.0)
+    val totalPay : LiveData<Double> get() = _totalPay
+
+    var currentService :Byte = 0
+    var currentServiceTitle :String = ""
 
 
     private val _resultText = MutableLiveData<GetSimpleResponse>()
@@ -106,26 +117,23 @@ class ApartmentViewModel @Inject constructor(
                         displayName = displayName,
                         email = email,
                     )
-                if (isConnected && networkType == 2) {
+//                if (isConnected && networkType == 2) {
                     getApartmentsByUser(true)
-                } else {
-                    SnackbarManager.showMessage(R.string.error_server_appartment)
-                    getApartmentsByUser(false)
-                }
+//                } else {
+//                    SnackbarManager.showMessage(R.string.error_server_appartment)
+//                    getApartmentsByUser(false)
+//                }
             } else {
                 getFlatFromCache(addressId)
             }
         }
     }
-
-
     fun closeDetailScreen() {
         _uiState.value = _uiState
             .value.copy(
                 isDetailOnlyOpen = false,
             )
     }
-
     fun getApartmentsByUser(needFetch: Boolean = true) {
         getApartmentsUseCase(needFetch) { it ->
 
@@ -137,24 +145,25 @@ class ApartmentViewModel @Inject constructor(
             }
         }
     }
-
     fun getFlatFromCache(addressId: Int) {
 
         _apartment.value = apartmentCacheImpl.getApartmentById(addressId)
         _uiState.value = _uiState.value.copy(
+            apartment= _apartment.value!!,
             addressId = _apartment.value!!.addressId,
             address = _apartment.value!!.address,
+            houseId =  _apartment.value!!.houseId,
+            osmdId =  _apartment.value!!.osmdId,
+            osbb = _apartment.value!!.osbb,
             selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${_apartment.value!!.addressId}}"
         )
     }
-
-
-
     private fun handleApartments(apartments: List<ApartmentEntity>) {
         _apartments.value = apartments
         _uiState.value = _uiState.value.copy(
             isDetailOnlyOpen = false,
             apartments = apartments,
+            apartment = apartments.first(),
             selectedDestination = if (apartments.isEmpty()) {
                 "$APARTMENT_SCREEN?$ADDRESS_ID={0}"
             } else {
@@ -170,33 +179,26 @@ class ApartmentViewModel @Inject constructor(
             } else {
                 apartments.first().address
             },
+            houseId = if (apartments.isEmpty()) {
+                0
+            } else {
+                apartments.first().houseId
+                   },
+            osmdId = if (apartments.isEmpty()) {
+                0
+            } else {
+                apartments.first().osmdId
+            },
+            osbb = if (apartments.isEmpty()) {
+                ""
+            } else {
+                apartments.first().osbb
+            },
         )
     }
-
-//    fun onAddClick(openScreen: (String) -> Unit) {
-//        launchCatching {
-//            openScreen(ADD_APARTMENT_SCREEN)
-//        }
-//    }
-//
-//    fun onSettingsClick(openScreen: (String) -> Unit) {
-//        launchCatching {
-//            openScreen(SETTINGS_SCREEN)
-//        }
-//    }
-//
-//    fun onExitAppClick(openScreen: (String) -> Unit) {
-//        launchCatching {
-//            signOutResponse = Response.Loading
-//            signOutResponse = firebaseService.signOut()
-//            openScreen(SPLASH_SCREEN)
-//        }
-//    }
-
     fun onSecretCodeChange(newValue: String) {
         secretKeyUiState = secretKeyUiState.copy(secretCode = newValue)
     }
-
     fun onAddAppartmentClick(restartApp: (String) -> Unit) {
         if (secretCode.isBlank()) {
             SnackbarManager.showMessage(R.string.empty_field_error)
@@ -225,8 +227,6 @@ class ApartmentViewModel @Inject constructor(
 
         }
         }
-
-
 fun deleteApartment(addressId: Int, restartApp: (String) -> Unit) {
     launchCatching {
 
@@ -244,10 +244,6 @@ fun deleteApartment(addressId: Int, restartApp: (String) -> Unit) {
 
     }
 }
-
-
-
-
  fun handleResultText(
     response: GetSimpleResponse,
     result: MutableLiveData<GetSimpleResponse>
@@ -266,12 +262,27 @@ fun deleteApartment(addressId: Int, restartApp: (String) -> Unit) {
         }
 
     }
-
-//    fun navigateBack(popUpScreen: () -> Unit) {
-//        launchCatching {
-//            popUpScreen()
-//        }
-//    }
+    fun getTotalService(addressId: Int){
+        getTotalDebtServiceUseCase(addressId) { it ->
+            it.either(::handleFailure) {
+                handle(
+                    it,_totalDebt
+                )
+            }
+        }
+    }
+    fun plusTotalPay(double: Double){
+        _totalPay.value = _totalPay.value!!.plus(double)
+    }
+    fun minusTotalPay(double: Double){
+        _totalPay.value = _totalPay.value!!.minus(double)
+    }
+    private fun handle(address: ServiceEntity?, liveData : MutableLiveData<ServiceEntity?> ){
+        liveData.value = address
+    }
+    fun clearTotal(){
+        _totalDebt.value = null
+    }
 
     override fun onCleared() {
         super.onCleared()

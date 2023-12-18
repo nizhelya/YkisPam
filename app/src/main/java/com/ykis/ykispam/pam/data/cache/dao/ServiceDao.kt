@@ -19,4 +19,7 @@ interface ServiceDao {
 
     @Query("select *  from service where address_id = :addressId and service = 'total'")
     fun getTotalDebt(addressId: Int): ServiceEntity?
+
+
+
 }

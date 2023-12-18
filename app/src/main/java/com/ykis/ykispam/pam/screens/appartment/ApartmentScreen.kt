@@ -118,7 +118,7 @@ fun ApartmentScreen(
                 contentType = contentType,
                 displayFeatures = displayFeatures,
                 navigationContentPosition = navigationContentPosition,
-                navController = navController,
+//                navController = navController,
                 selectedDestination = selectedDestination,
                 navigateToDestination = appState::navigateTo,
             )
@@ -154,7 +154,7 @@ fun ApartmentScreen(
                 contentType = contentType,
                 displayFeatures = displayFeatures,
                 navigationContentPosition = navigationContentPosition,
-                navController = navController,
+//                navController = navController,
                 selectedDestination = selectedDestination,
                 navigateToDestination = appState::navigateTo,
                 ) {
@@ -170,7 +170,7 @@ fun ApartmentScreen(
 @Composable
 fun AppContent(
     modifier: Modifier = Modifier,
-    drawerState: DrawerState? = null,
+//    drawerState: DrawerState? = null,
     deleteApartment: () -> Unit,
     appState: YkisPamAppState,
     baseUIState: BaseUIState,
@@ -178,7 +178,7 @@ fun AppContent(
     contentType: ContentType,
     displayFeatures: List<DisplayFeature>,
     navigationContentPosition: NavigationContentPosition,
-    navController: NavHostController,
+//    navController: NavHostController,
     selectedDestination: String,
     navigateToDestination: (String) -> Unit,
     onDrawerClicked: () -> Unit = {},
@@ -450,15 +450,19 @@ fun AppContent(
                                     }
 
                                 }
-                                MenuItem(
-                                    imageVector = ImageVector.vectorResource(R.drawable.twotone_water_damage_24),
-                                    serviseName = stringResource(id = R.string.kvartplata_text),
-                                    baseUIState = baseUIState,
-                                    screen = BTI_SCREEN,
-                                    dolg = 65.45,
-                                    org = baseUIState.apartments.first().osbb,
-                                    navigateToDestination = navigateToDestination,
-                                )
+                                if(baseUIState.apartment.kvartplata.equals(stringResource(id = R.string.yes))) {
+                                    MenuItem(
+                                        imageVector = ImageVector.vectorResource(R.drawable.twotone_water_damage_24),
+//                                    serviceName = stringResource(id = R.string.kvartplata_text),
+                                        serviseName = baseUIState.apartment.osbb,
+
+                                        baseUIState = baseUIState,
+                                        screen = BTI_SCREEN,
+                                        dolg = 65.45,
+                                        org = baseUIState.apartment.osbb,
+                                        navigateToDestination = navigateToDestination,
+                                    )
+                                }
                                 MenuItem(
                                     imageVector = ImageVector.vectorResource(R.drawable.twotone_water_damage_24),
                                     serviseName = stringResource(id = R.string.water_drainage),

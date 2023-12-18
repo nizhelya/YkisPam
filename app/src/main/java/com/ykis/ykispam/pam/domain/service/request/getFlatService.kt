@@ -11,12 +11,3 @@ class getFlatService @Inject constructor(
 
     override suspend fun run(params: ServiceParams) = serviceRepository.getFlatService(params)
 }
-
-data class ServiceParams(
-    val addressId: Int,
-    val houseId: Int,
-    val service: Byte,
-    val total: Byte,
-    val qty: Byte,
-    var needFetch: Boolean
-)

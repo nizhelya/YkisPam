@@ -18,8 +18,6 @@ import javax.inject.Inject
 @HiltViewModel
 class FamilyListViewModel @Inject constructor(
     private val getFamilyFromFlat: GetFamilyFromFlat,
-    private val apartmentCacheImpl: ApartmentCacheImpl,
-
     private val logService: LogService,
 ) : BaseViewModel(logService) {
     private val _apartment = MutableLiveData<ApartmentEntity>()
@@ -53,11 +51,5 @@ class FamilyListViewModel @Inject constructor(
         super.onCleared()
         getFamilyFromFlat.unsubscribe()
     }
-//
-//    fun navigateBack(popUpScreen: () -> Unit) {
-//        launchCatching {
-//            popUpScreen()
-//        }
-//    }
 
 }

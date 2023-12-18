@@ -15,6 +15,7 @@ import javax.inject.Inject
 class ServiceRepositoryImpl @Inject constructor(
     private val serviceCache: ServiceCache,
     private val serviceRemote: ServiceRemote,
+
     private val userCache: UserCache
 ) : ServiceRepository {
     override fun getFlatService(params: ServiceParams): Either<Failure, List<ServiceEntity>> {
@@ -43,8 +44,8 @@ class ServiceRepositoryImpl @Inject constructor(
                     )
                 }
             }
-            .onNext {
-                it.map {
+            .onNext { serviceEntities ->
+                serviceEntities.map {
                     if (params.qty == 1.toByte()) {
                         serviceCache.addService(listOf(it))
                     }
@@ -52,6 +53,7 @@ class ServiceRepositoryImpl @Inject constructor(
             }
 
     }
+
 
     override fun getTotalFlatService(addressId: Int): Either<Failure, ServiceEntity?> {
         return Either.Right(serviceCache.getTotalDebt(addressId))

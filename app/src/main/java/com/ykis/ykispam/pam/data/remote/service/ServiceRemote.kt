@@ -13,4 +13,6 @@ interface ServiceRemote {
         total: Byte,
         uid: String
     ): Either<Failure, List<ServiceEntity>>
+
+
 }
