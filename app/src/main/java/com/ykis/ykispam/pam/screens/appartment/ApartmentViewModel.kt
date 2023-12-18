@@ -117,12 +117,12 @@ class ApartmentViewModel @Inject constructor(
                         displayName = displayName,
                         email = email,
                     )
-//                if (isConnected && networkType == 2) {
+                if (isConnected && networkType == 2) {
                     getApartmentsByUser(true)
-//                } else {
-//                    SnackbarManager.showMessage(R.string.error_server_appartment)
-//                    getApartmentsByUser(false)
-//                }
+                } else {
+                    SnackbarManager.showMessage(R.string.error_server_appartment)
+                    getApartmentsByUser(false)
+                }
             } else {
                 getFlatFromCache(addressId)
             }

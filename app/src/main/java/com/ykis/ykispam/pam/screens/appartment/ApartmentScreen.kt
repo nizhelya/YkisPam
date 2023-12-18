@@ -17,9 +17,14 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddHome
+import androidx.compose.material.icons.filled.HotTub
+import androidx.compose.material.icons.filled.Water
+import androidx.compose.material.icons.twotone.Commute
+import androidx.compose.material.icons.twotone.CorporateFare
 import androidx.compose.material.icons.twotone.FamilyRestroom
 import androidx.compose.material.icons.twotone.Home
 import androidx.compose.material.icons.twotone.Info
+import androidx.compose.material.icons.twotone.MonetizationOn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DrawerState
@@ -200,7 +205,7 @@ fun AppContent(
 
         ) { it ->
         var showDialog by rememberSaveable { mutableStateOf(false) }
-
+        val yes:Byte = 1
         Row(
             modifier = Modifier
                 .padding(it)
@@ -328,7 +333,7 @@ fun AppContent(
                                     },
                                     modifier = Modifier
                                         .padding(16.dp)
-                                    .align(Alignment.BottomEnd),
+                                        .align(Alignment.BottomEnd),
                                     containerColor = MaterialTheme.colorScheme.inverseOnSurface,
                                     contentColor = MaterialTheme.colorScheme.onTertiaryContainer
                                 ) {
@@ -450,10 +455,9 @@ fun AppContent(
                                     }
 
                                 }
-                                if(baseUIState.apartment.kvartplata.equals(stringResource(id = R.string.yes))) {
+                                if(baseUIState.apartment.kvartplata == yes ) {
                                     MenuItem(
-                                        imageVector = ImageVector.vectorResource(R.drawable.twotone_water_damage_24),
-//                                    serviceName = stringResource(id = R.string.kvartplata_text),
+                                        imageVector = Icons.TwoTone.CorporateFare,
                                         serviseName = baseUIState.apartment.osbb,
 
                                         baseUIState = baseUIState,
@@ -463,32 +467,49 @@ fun AppContent(
                                         navigateToDestination = navigateToDestination,
                                     )
                                 }
-                                MenuItem(
-                                    imageVector = ImageVector.vectorResource(R.drawable.twotone_water_damage_24),
-                                    serviseName = stringResource(id = R.string.water_drainage),
-                                    baseUIState = baseUIState,
-                                    screen = BTI_SCREEN,
-                                    dolg = 65.45,
-                                    org = stringResource(id = R.string.vodokanal_colon),
-                                    navigateToDestination = navigateToDestination,
-                                )
-                                MenuItem(
-                                    imageVector = ImageVector.vectorResource(R.drawable.twotone_water_damage_24),
-                                    serviseName = stringResource(id = R.string.heat_supply),
-                                    baseUIState = baseUIState,
-                                    screen = BTI_SCREEN,
-                                    dolg = 65.45,
-                                    org = stringResource(id = R.string.ytke_colon),
-                                    navigateToDestination = navigateToDestination,
-                                )
+                                if(baseUIState.apartment.voda == yes || baseUIState.apartment.stoki == yes) {
 
+                                    MenuItem(
+                                        imageVector = Icons.Default.Water,
+                                        serviseName = stringResource(id = R.string.vodokanal),
+                                        baseUIState = baseUIState,
+                                        screen = BTI_SCREEN,
+                                        dolg = 65.45,
+                                        org = stringResource(id = R.string.vodokanal),
+                                        navigateToDestination = navigateToDestination,
+                                    )
+                                }
+                                if(baseUIState.apartment.otoplenie == yes ) {
+
+                                    MenuItem(
+                                        imageVector = Icons.Default.HotTub,
+                                        serviseName = stringResource(id = R.string.ytke),
+                                        baseUIState = baseUIState,
+                                        screen = BTI_SCREEN,
+                                        dolg = 65.45,
+                                        org = stringResource(id = R.string.ytke),
+                                        navigateToDestination = navigateToDestination,
+                                    )
+                                }
+                                if(baseUIState.apartment.tbo == yes ) {
+
+                                    MenuItem(
+                                        imageVector = Icons.TwoTone.Commute,
+                                        serviseName = stringResource(id = R.string.yzhtrans),
+                                        baseUIState = baseUIState,
+                                        screen = BTI_SCREEN,
+                                        dolg = 65.45,
+                                        org = stringResource(id = R.string.yzhtrans),
+                                        navigateToDestination = navigateToDestination,
+                                    )
+                                }
                                 MenuItem(
-                                    imageVector = ImageVector.vectorResource(R.drawable.twotone_water_damage_24),
+                                    imageVector = Icons.TwoTone.MonetizationOn,
                                     serviseName = stringResource(id = R.string.payment_list),
                                     baseUIState = baseUIState,
                                     screen = BTI_SCREEN,
                                     dolg = 65.45,
-                                    org = stringResource(id = R.string.ytke_colon),
+                                    org = stringResource(id = R.string.payment_list),
                                     navigateToDestination = navigateToDestination,
                                 )
                                 if (showDialog) {
