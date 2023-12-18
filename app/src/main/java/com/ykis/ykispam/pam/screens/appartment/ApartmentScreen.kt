@@ -55,6 +55,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.window.layout.DisplayFeature
@@ -123,7 +124,7 @@ fun ApartmentScreen(
                 contentType = contentType,
                 displayFeatures = displayFeatures,
                 navigationContentPosition = navigationContentPosition,
-//                navController = navController,
+                navController = navController,
                 selectedDestination = selectedDestination,
                 navigateToDestination = appState::navigateTo,
             )
@@ -159,7 +160,7 @@ fun ApartmentScreen(
                 contentType = contentType,
                 displayFeatures = displayFeatures,
                 navigationContentPosition = navigationContentPosition,
-//                navController = navController,
+                navController = navController,
                 selectedDestination = selectedDestination,
                 navigateToDestination = appState::navigateTo,
                 ) {
@@ -175,7 +176,6 @@ fun ApartmentScreen(
 @Composable
 fun AppContent(
     modifier: Modifier = Modifier,
-//    drawerState: DrawerState? = null,
     deleteApartment: () -> Unit,
     appState: YkisPamAppState,
     baseUIState: BaseUIState,
@@ -183,7 +183,7 @@ fun AppContent(
     contentType: ContentType,
     displayFeatures: List<DisplayFeature>,
     navigationContentPosition: NavigationContentPosition,
-//    navController: NavHostController,
+    navController: NavController,
     selectedDestination: String,
     navigateToDestination: (String) -> Unit,
     onDrawerClicked: () -> Unit = {},
@@ -315,7 +315,6 @@ fun AppContent(
                     modifier = Modifier
                         .padding(PaddingValues(4.dp))
                         .verticalScroll(rememberScrollState())
-//                        .weight(weight = 1f, fill = false)
                         .fillMaxWidth()
                         .fillMaxHeight()
                         .background(MaterialTheme.colorScheme.inverseOnSurface),
@@ -366,7 +365,7 @@ fun AppContent(
                                     Text(
                                         text = stringResource(id = AppText.xp),
                                         style = MaterialTheme.typography.titleMedium,
-                                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                        color = MaterialTheme.colorScheme.secondary,
                                         modifier = Modifier
                                             .padding(16.dp)
                                             .weight(1f),
@@ -377,7 +376,7 @@ fun AppContent(
                                         modifier = Modifier
                                             .padding(8.dp)
                                             .clip(CircleShape)
-                                            .background(MaterialTheme.colorScheme.primaryContainer)
+                                            .background(MaterialTheme.colorScheme.inverseOnSurface)
                                     ) {
                                         Icon(
                                             imageVector = Icons.TwoTone.Info,
@@ -434,7 +433,7 @@ fun AppContent(
                                     Text(
                                         text = stringResource(id = AppText.consumed_services),
                                         style = MaterialTheme.typography.titleMedium,
-                                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                        color = MaterialTheme.colorScheme.secondary,
                                         modifier = Modifier
                                             .padding(16.dp)
                                             .weight(1f),
@@ -445,7 +444,7 @@ fun AppContent(
                                         modifier = Modifier
                                             .padding(8.dp)
                                             .clip(CircleShape)
-                                            .background(MaterialTheme.colorScheme.surface)
+                                            .background(MaterialTheme.colorScheme.inverseOnSurface)
                                     ) {
                                         Icon(
                                             imageVector = Icons.TwoTone.Info,

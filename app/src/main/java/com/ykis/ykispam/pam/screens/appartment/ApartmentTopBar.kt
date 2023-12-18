@@ -104,7 +104,7 @@ fun ApartmentTopAppBar(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if (baseUIState.address.isNullOrEmpty()) {
+                if (baseUIState.apartment.address.isEmpty()) {
                     Text(
                         text = stringResource(id = R.string.add_appartment),
                         style = MaterialTheme.typography.titleMedium,
@@ -113,13 +113,13 @@ fun ApartmentTopAppBar(
 
                 } else {
                     Text(
-                        text = baseUIState.address,
+                        text = baseUIState.apartment.address,
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
                         modifier = Modifier.padding(top = 4.dp),
-                        text = stringResource(id = R.string.response_address_id,baseUIState.addressId.toString()),
+                        text = stringResource(id = R.string.response_address_id,baseUIState.apartment.addressId.toString()),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.outline
                     )

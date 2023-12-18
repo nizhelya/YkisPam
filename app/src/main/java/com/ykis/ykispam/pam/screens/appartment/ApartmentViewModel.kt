@@ -110,7 +110,7 @@ class ApartmentViewModel @Inject constructor(
 
     private fun observeApartments(addressId: Int) {
         launchCatching {
-            if (addressId == 0) {
+            if (addressId == 0 ) {
                 _uiState.value = _uiState
                     .value.copy(
                         uid = uid,
@@ -169,6 +169,7 @@ class ApartmentViewModel @Inject constructor(
             } else {
                 "$APARTMENT_SCREEN?$ADDRESS_ID={${apartments.first().addressId}}"
             },
+
             addressId = if (apartments.isEmpty()) {
                 0
             } else {
