@@ -16,7 +16,6 @@
 
 package com.ykis.ykispam.pam.screens.bti
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -42,8 +41,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.selected
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -58,7 +55,6 @@ import com.ykis.ykispam.theme.YkisPAMTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BtiScreen(
-    modifier: Modifier = Modifier,
     popUpScreen: () -> Unit,
     openScreen: (String) -> Unit,
     viewModel: BtiViewModel = hiltViewModel(),
@@ -80,9 +76,8 @@ fun BtiScreen(
             navigateBack = { viewModel.navigateBack(popUpScreen) },
             onEmailChange = viewModel::onEmailChange,
             onPhoneChange = viewModel::onPhoneChange,
-            onUpdateBti = { viewModel.onUpdateBti(openScreen) },
-            isSelectable = false,
-            isSelected = false,
+            onUpdateBti = { viewModel.onUpdateBti() },
+
         )
     }
 }
@@ -92,17 +87,14 @@ fun BtiScreen(
 @Composable
 fun BtiScreenContent(
     modifier: Modifier = Modifier,
-    contactUiState: ApartmentEntity,
+    contactUiState: ContactUIState,
     apartment: ApartmentEntity,
     address: String,
     navigateBack: () -> Unit,
     onEmailChange: (String) -> Unit,
     onPhoneChange: (String) -> Unit,
     onUpdateBti: () -> Unit,
-    isSelectable: Boolean = false,
-    isSelected: Boolean = false,
-
-    ) {
+) {
 
 
     Column(
@@ -115,19 +107,16 @@ fun BtiScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val keyboard = LocalSoftwareKeyboardController.current
-        DetailTopAppBar(modifier,stringResource(id = R.string.bti),address, navigateBack = { navigateBack() })
+        DetailTopAppBar(
+            modifier,
+            stringResource(id = R.string.bti),
+            address,
+            navigateBack = { navigateBack() })
 
-        val semanticsModifier =
-            if (isSelectable)
-                modifier
-                    .padding(horizontal = 16.dp, vertical = 4.dp)
-                    .semantics { selected = isSelected }
-            else modifier.padding(horizontal = 16.dp, vertical = 4.dp)
         Card(
-            modifier = semanticsModifier.clickable { },
+            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
             colors = CardDefaults.cardColors(
-                containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer
-                else MaterialTheme.colorScheme.surfaceVariant
+                containerColor = MaterialTheme.colorScheme.surfaceVariant
             )
         ) {
             Column(
@@ -177,10 +166,9 @@ fun BtiScreenContent(
         }
 
         Card(
-            modifier = semanticsModifier.clickable { },
+            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
             colors = CardDefaults.cardColors(
-                containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer
-                else MaterialTheme.colorScheme.surfaceVariant
+                containerColor = MaterialTheme.colorScheme.surfaceVariant
             )
         ) {
             Column(
@@ -200,7 +188,7 @@ fun BtiScreenContent(
                         modifier = Modifier
                             .padding(4.dp)
 
-                        )
+                    )
 
                 }
                 Row(
@@ -232,7 +220,7 @@ fun BtiScreenContent(
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.outline
 
-                                )
+                            )
                             Text(
                                 text = apartment.tenant.toString(),
                                 style = MaterialTheme.typography.bodyLarge,
@@ -264,7 +252,7 @@ fun BtiScreenContent(
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.outline
 
-                                )
+                            )
                             Text(
                                 text = apartment.podnan.toString(),
                                 style = MaterialTheme.typography.bodyLarge,
@@ -303,7 +291,7 @@ fun BtiScreenContent(
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.outline
 
-                                )
+                            )
                             Text(
                                 text = apartment.absent.toString(),
                                 style = MaterialTheme.typography.bodyLarge,
@@ -318,10 +306,9 @@ fun BtiScreenContent(
         }
 
         Card(
-            modifier = semanticsModifier.clickable { },
+            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
             colors = CardDefaults.cardColors(
-                containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer
-                else MaterialTheme.colorScheme.surfaceVariant
+                containerColor = MaterialTheme.colorScheme.surfaceVariant
             )
         ) {
             Column(
@@ -341,7 +328,7 @@ fun BtiScreenContent(
                         modifier = Modifier
                             .padding(4.dp)
 
-                        )
+                    )
 
                 }
                 Row(
@@ -373,7 +360,7 @@ fun BtiScreenContent(
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.outline
 
-                                )
+                            )
                             Text(
                                 text = apartment.areaFull.toString(),
                                 style = MaterialTheme.typography.bodyLarge,
@@ -405,7 +392,7 @@ fun BtiScreenContent(
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.outline
 
-                                )
+                            )
                             Text(
                                 text = apartment.areaLife.toString(),
                                 style = MaterialTheme.typography.bodyLarge,
@@ -423,7 +410,7 @@ fun BtiScreenContent(
                     Column(
                         modifier = Modifier.weight(0.5f),
                     ) {
-                        Row(//площадь
+                        Row(
                             modifier = Modifier
                                 .padding(
                                     start = 4.dp,
@@ -444,7 +431,7 @@ fun BtiScreenContent(
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.outline
 
-                                )
+                            )
                             Text(
                                 text = apartment.areaDop.toString(),
                                 style = MaterialTheme.typography.bodyLarge,
@@ -476,7 +463,7 @@ fun BtiScreenContent(
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.outline
 
-                                )
+                            )
                             Text(
                                 text = apartment.areaOtopl.toString(),
                                 style = MaterialTheme.typography.bodyLarge,
@@ -489,10 +476,9 @@ fun BtiScreenContent(
             }
         }
         Card(
-            modifier = semanticsModifier.clickable { },
+            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
             colors = CardDefaults.cardColors(
-                containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer
-                else MaterialTheme.colorScheme.surfaceVariant
+                containerColor = MaterialTheme.colorScheme.surfaceVariant
             )
         ) {
             Column(
@@ -512,7 +498,7 @@ fun BtiScreenContent(
                         modifier = Modifier
                             .padding(4.dp)
 
-                        )
+                    )
 
                 }
                 Row(
@@ -544,7 +530,7 @@ fun BtiScreenContent(
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.outline
 
-                                )
+                            )
                             Text(
                                 text = apartment.room.toString(),
                                 style = MaterialTheme.typography.bodyLarge,
@@ -576,7 +562,7 @@ fun BtiScreenContent(
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.outline
 
-                                )
+                            )
                             Text(
                                 text = if (apartment.privat.toString() == "1") {
                                     stringResource(R.string.private_ok)
@@ -611,7 +597,7 @@ fun BtiScreenContent(
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.outline
 
-                                )
+                            )
                             Text(
                                 text = if (apartment.lift.toString() == "1") {
                                     stringResource(R.string.private_ok)
@@ -653,9 +639,9 @@ fun BtiScreenContent(
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.outline
 
-                                )
+                            )
                             Text(
-                                text = apartment.order.toString(),
+                                text = apartment.order,
                                 style = MaterialTheme.typography.bodyLarge,
                             )
                         }
@@ -690,9 +676,9 @@ fun BtiScreenContent(
                                 text = stringResource(R.string.data_order),
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.outline
-                                )
+                            )
                             Text(
-                                text = apartment.dataOrder.toString(),
+                                text = apartment.dataOrder,
                                 style = MaterialTheme.typography.bodyLarge,
                             )
                         }
@@ -702,10 +688,9 @@ fun BtiScreenContent(
             }
         }
         Card(
-            modifier = semanticsModifier.clickable { },
+            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
             colors = CardDefaults.cardColors(
-                containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer
-                else MaterialTheme.colorScheme.surfaceVariant
+                containerColor = MaterialTheme.colorScheme.surfaceVariant
             )
         ) {
             Column(
@@ -745,7 +730,7 @@ fun BtiScreenContent(
                     Column(
                         modifier = Modifier.weight(1f),
                     ) {
-                        Row(//площадь
+                        Row(
                             modifier = Modifier
                                 .padding(
                                     start = 0.dp,
@@ -773,7 +758,7 @@ fun BtiScreenContent(
                     Column(
                         modifier = Modifier.weight(1f),
                     ) {
-                        Row(//площадь
+                        Row(
                             modifier = Modifier
                                 .padding(
                                     start = 0.dp,
@@ -802,15 +787,14 @@ fun BtiScreenContent(
 fun BtiScreenPreview() {
     YkisPAMTheme {
         BtiScreenContent(
-            contactUiState = ApartmentEntity(email = "example@email.com", phone = "+380931111111"),
+            contactUiState = ContactUIState(email = "example@email.com", phone = "+380931111111"),
             apartment = ApartmentEntity(),
             address = "Гр.Десанту 21 кв.71",
             navigateBack = { },
             onEmailChange = {},
             onPhoneChange = {},
             onUpdateBti = {},
-            isSelectable = false,
-            isSelected = false,
+
         )
     }
 }

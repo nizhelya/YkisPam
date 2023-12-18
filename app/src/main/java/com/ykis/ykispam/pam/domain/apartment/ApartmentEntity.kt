@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
+import com.ykis.ykispam.pam.screens.bti.ContactUIState
 
 @Entity(tableName = "apartment")
 data class ApartmentEntity(
@@ -16,7 +17,7 @@ data class ApartmentEntity(
     val uid: String? = null,
     @Json(name = "address_id")
     @ColumnInfo(name = "address_id")
-    val addressId: Int = 1111,
+    val addressId: Int = 0,
     val address: String = "Гр.Десанту 1/1",
     val email: String = "example@email.com",
     val phone: String = "+38111111111",

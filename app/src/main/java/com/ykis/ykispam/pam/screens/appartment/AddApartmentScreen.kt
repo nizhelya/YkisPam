@@ -73,7 +73,7 @@ fun AddApartmentScreen(
     AddApartmentScreenContent(
         secretKeyUiState = secretKeyUiState,
         onSecretCodeChange = viewModel::onSecretCodeChange,
-        onAddAppartmentClick = { viewModel.onAddAppartmentClick(restartApp) },
+        onAddApartmentClick = { viewModel.onAddApartmentClick(restartApp) },
         navigateBack = { viewModel.navigateBack(popUpScreen) }
     )
 }
@@ -82,12 +82,12 @@ fun AddApartmentScreen(
 @ExperimentalMaterial3Api
 @Composable
 fun AddApartmentScreenContent(
+    modifier: Modifier = Modifier,
     isSelectable: Boolean = false,
     isSelected: Boolean = false,
-    modifier: Modifier = Modifier,
     secretKeyUiState: SecretKeyUiState,
     onSecretCodeChange: (String) -> Unit,
-    onAddAppartmentClick: () -> Unit,
+    onAddApartmentClick: () -> Unit,
     navigateBack: () -> Unit,
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
@@ -106,14 +106,9 @@ fun AddApartmentScreenContent(
             stringResource(id = R.string.add_appartment),
             navigateBack = { navigateBack() })
 
-        val semanticsModifier =
-            if (isSelectable)
-                modifier
-                    .padding(horizontal = 16.dp, vertical = 4.dp)
-                    .semantics { selected = isSelected }
-            else modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+
         Card(
-            modifier = semanticsModifier.clickable { },
+            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
             colors = CardDefaults.cardColors(
                 containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer
                 else MaterialTheme.colorScheme.surfaceVariant
@@ -139,12 +134,7 @@ fun AddApartmentScreenContent(
                             modifier = Modifier
                                 .weight(1f)
                         ) {
-//                            Text(
-//                                text = stringResource(id = R.string.add_flat_secret_сode),
-//                                modifier = Modifier.padding(4.dp),
-//                                textAlign = TextAlign.Left,
-//                                style = MaterialTheme.typography.labelLarge
-//                            )
+
                             Text(
                                 text = stringResource(id = R.string.tooltip_code),
                                 modifier = Modifier.padding(4.dp),
@@ -179,7 +169,7 @@ fun AddApartmentScreenContent(
                         )
                         {
                             keyboard?.hide()
-                            onAddAppartmentClick()
+                            onAddApartmentClick()
                         }
 
                     }
@@ -202,7 +192,7 @@ fun AddApartmentScreenPreview() {
             modifier = Modifier,
             secretKeyUiState = SecretKeyUiState(secretCode = "4554545454545"),
             onSecretCodeChange = {},
-            onAddAppartmentClick = { },
+            onAddApartmentClick = { },
             navigateBack = { }
         )
     }

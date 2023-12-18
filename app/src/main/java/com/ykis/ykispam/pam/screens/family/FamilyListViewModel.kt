@@ -3,16 +3,13 @@ package com.ykis.ykispam.pam.screens.family
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.BaseViewModel
 import com.ykis.ykispam.firebase.model.service.repo.LogService
-import com.ykis.ykispam.pam.data.cache.apartment.ApartmentCacheImpl
 import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.pam.domain.family.FamilyEntity
 import com.ykis.ykispam.pam.domain.family.request.BooleanInt
 import com.ykis.ykispam.pam.domain.family.request.GetFamilyFromFlat
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel

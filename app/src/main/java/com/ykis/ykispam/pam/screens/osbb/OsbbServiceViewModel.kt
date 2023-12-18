@@ -5,9 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ykis.ykispam.BaseViewModel
 import com.ykis.ykispam.firebase.model.service.repo.LogService
-import com.ykis.ykispam.pam.data.cache.apartment.ApartmentCacheImpl
 import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.pam.domain.family.FamilyEntity
 import com.ykis.ykispam.pam.domain.service.ServiceEntity
 import com.ykis.ykispam.pam.domain.service.request.ServiceParams
 import com.ykis.ykispam.pam.domain.service.request.getFlatService
