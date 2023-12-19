@@ -71,7 +71,7 @@
     <string name="repeat_password">Повторить  пароль</string>
     <string name="generic_error">Что-то пошло не так. Пожалуйста попытайтесь снова.</string>
     <string name="email_error">Пожалуйста введите правильный email.</string>
-    <string name="try_again">Попытайтесь снова</string>
+    <string name="try_again">Спробуйте знову</string>
     <string name="profile">профіль користувача</string>
 
     <!-- LoginScreen -->
@@ -295,7 +295,7 @@
     <string name="two_numbers_after_comma">%.2f</string>
     //error
     <string name="error_network">Немає доступу до Інтернету \n Перевірте підключення</string>
-    <string name="error_update">Невдалося оновити</string>
+    <string name="error_update">Невдалося оновити\nспробуйте знову</string>
     <string name="error_delete_flat">Невдалося видалити квартиру\nУ Вас немає квартир для видалення </string>
     <string name="error_missing_fields">В запросе отсутствует поле</string>
     <string name="error_flat_in_db">Ви вже додали цю квартиру</string>

@@ -9,8 +9,12 @@ import com.ykis.ykispam.R
 import com.ykis.ykispam.core.ext.isValidEmail
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.firebase.model.service.repo.LogService
+import com.ykis.ykispam.navigation.ADDRESS
+import com.ykis.ykispam.navigation.ADDRESS_ID
+import com.ykis.ykispam.navigation.BTI_SCREEN
 import com.ykis.ykispam.pam.data.cache.apartment.ApartmentCacheImpl
 import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.pam.data.remote.core.NetworkHandler
 import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.pam.domain.apartment.request.GetApartments
 import com.ykis.ykispam.pam.domain.apartment.request.UpdateBti
@@ -24,9 +28,13 @@ class BtiViewModel @Inject constructor(
     private val getApartmentsUseCase: GetApartments,
     private val updateBtiUseCase: UpdateBti,
     private val apartmentCacheImpl: ApartmentCacheImpl,
+    private val networkHandler: NetworkHandler,
     private val logService: LogService,
 ) : BaseViewModel(logService) {
 
+
+    private val isConnected: Boolean get() = networkHandler.isConnected
+    private val networkType: Int get() = networkHandler.networkType
 
     var contactUiState = mutableStateOf(ContactUIState())
         private set
@@ -57,6 +65,7 @@ class BtiViewModel @Inject constructor(
             contactUiState.value = contactUiState
                 .value.copy(
                     addressId = _apartment.value!!.addressId,
+                    address = _apartment.value!!.address,
                     email = _apartment.value!!.email,
                     phone = _apartment.value!!.phone,
                 )
@@ -82,30 +91,37 @@ class BtiViewModel @Inject constructor(
 
     }
 
-    fun onUpdateBti() {
+    fun onUpdateBti(openScreen: (String) -> Unit) {
         if (!email.isValidEmail()) {
             SnackbarManager.showMessage(R.string.email_error)
             return
         }
 
         launchCatching {
-
-            updateBtiUseCase(
-                ApartmentEntity(
-                    addressId = contactUiState.value.addressId,
-                    phone = contactUiState.value.phone,
-                    email = contactUiState.value.email
-                )
-            ) { it ->
-                it.either(::handleFailure) {
-                    handleResultText(
-                        it, _resultText
+            if (isConnected && networkType != 0) {
+                updateBtiUseCase(
+                    ApartmentEntity(
+                        addressId = contactUiState.value.addressId,
+                        address = contactUiState.value.address,
+                        phone = contactUiState.value.phone,
+                        email = contactUiState.value.email
                     )
-                }
+                ) { it ->
+                    it.either(::handleFailure) {
+                        handleResultText(
+                            it, _resultText
+                        )
+                    }
 
+                }
+            } else {
+                SnackbarManager.showMessage(R.string.error_server_appartment)
+                getBtiFromCache(contactUiState.value.addressId)
             }
-//            openScreen(BTI_SCREEN)
+
         }
+        openScreen("$BTI_SCREEN?$ADDRESS_ID=${contactUiState.value.addressId},$ADDRESS=${contactUiState.value.address}")
+
     }
 
     private fun handleResultText(
@@ -115,14 +131,11 @@ class BtiViewModel @Inject constructor(
         result.value = response
         if (result.value!!.success == 1) {
             SnackbarManager.showMessage(R.string.updated)
-//            if (isConnected && networkType == 2) {
-//                getApartmentsByUser(true)
-//            } else {
-//                SnackbarManager.showMessage(R.string.error_server_appartment)
-//                getApartmentsByUser(false)
-//            }
+            getApartmentsByUser(true)
+        } else {
+            SnackbarManager.showMessage(R.string.error_update)
+            getBtiFromCache(contactUiState.value.addressId)
         }
-
     }
 
     override fun onCleared() {
