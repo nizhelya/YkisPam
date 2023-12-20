@@ -210,23 +210,24 @@ fun ApartmentNavigationRail(
 
 @Composable
 fun BottomNavigationBar(
+//    navigateToDestination: (String) -> Unit,
     selectedDestination: String,
-//    navigateToDestination: (String) -> Unit
 ) {
     NavigationBar(modifier = Modifier.fillMaxWidth()) {
         TOP_LEVEL_DESTINATIONS.forEach { destination ->
-            NavigationBarItem(
-                selected = selectedDestination == destination.route,
-                onClick = {},
-//                onClick = { navigateToDestination(destination.route) },
+            if (destination.vkl) {
+                NavigationBarItem(
+                    selected = selectedDestination == destination.route,
+                    onClick = {  },
 
-                icon = {
-                    Icon(
-                        imageVector = destination.selectedIcon,
-                        contentDescription = stringResource(id = destination.iconTextId)
-                    )
-                }
-            )
+                    icon = {
+                        Icon(
+                            imageVector = destination.selectedIcon,
+                            contentDescription = stringResource(id = destination.iconTextId)
+                        )
+                    }
+                )
+            }
         }
     }
 }

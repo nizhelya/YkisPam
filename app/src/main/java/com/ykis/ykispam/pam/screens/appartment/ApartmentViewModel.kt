@@ -72,6 +72,7 @@ class ApartmentViewModel @Inject constructor(
 
     private val _address = MutableLiveData<List<AddressEntity>>()
     val address: LiveData<List<AddressEntity>> get() = _address
+
     private val _totalDebt = MutableLiveData<ServiceEntity?>()
     val totalDebt: LiveData<ServiceEntity?> get() = _totalDebt
 

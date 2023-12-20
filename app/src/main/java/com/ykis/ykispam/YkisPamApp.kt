@@ -253,7 +253,3 @@ fun resources(): Resources {
     LocalConfiguration.current
     return LocalContext.current.resources
 }
-
-
-
-
