@@ -4,6 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.window.layout.DisplayFeature
+import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.SplashScreen
 import com.ykis.ykispam.YkisPamAppState
 import com.ykis.ykispam.firebase.screens.profile.ProfileScreen
@@ -24,15 +25,19 @@ fun NavGraphBuilder.YkisPamGraph(
     displayFeatures: List<DisplayFeature>,
     navigationContentPosition: NavigationContentPosition,
     appState: YkisPamAppState,
+    baseUIState: BaseUIState,
+    closeDetailScreen: () -> Unit,
+    navigateToDetail: (Int, ContentType) -> Unit,
 
     ) {
 
     composable(SPLASH_SCREEN) {
         SplashScreen(
-            openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) }
+            openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) },
 
 
-        )
+
+            )
     }
     composable(
         route = "$BTI_SCREEN$FLAT_ARG",
@@ -76,7 +81,7 @@ fun NavGraphBuilder.YkisPamGraph(
     composable(YkisRoute.ACCOUNT) {
 
         ProfileScreen(
-            popUpScreen = { appState.popUp() },
+            popUpScreen = { route->appState.exitApp(route) },
             restartApp = { route -> appState.clearAndNavigate(route) },
         )
     }
@@ -131,9 +136,11 @@ fun NavGraphBuilder.YkisPamGraph(
             addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID,
 //            address = it.arguments?.getString(ADDRESS) ?: ADDRESS_DEFAULT,
             appState = appState,
+            baseUIState=baseUIState,
             contentType = contentType,
             navigationType = navigationType,
             displayFeatures = displayFeatures,
+            closeDetailScreen = closeDetailScreen,
             navigationContentPosition = navigationContentPosition
         )
     }

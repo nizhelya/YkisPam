@@ -29,16 +29,15 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.PermanentNavigationDrawer
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -46,10 +45,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -72,7 +68,6 @@ import com.ykis.ykispam.navigation.NavigationContentPosition
 import com.ykis.ykispam.navigation.NavigationType
 import com.ykis.ykispam.navigation.PermanentNavigationDrawerContent
 import com.ykis.ykispam.pam.screens.bti.BtiPanel
-import com.ykis.ykispam.pam.screens.bti.BtiScreen
 import kotlinx.coroutines.launch
 import com.ykis.ykispam.R.string as AppText
 
@@ -81,13 +76,17 @@ fun ApartmentScreen(
     restartApp: (String) -> Unit,
     addressId: String,
     appState: YkisPamAppState,
+    baseUIState: BaseUIState,
     contentType: ContentType,
     displayFeatures: List<DisplayFeature>,
+    closeDetailScreen: () -> Unit,
     navigationType: NavigationType,
     navigationContentPosition: NavigationContentPosition,
     viewModel: ApartmentViewModel = hiltViewModel()
 ) {
-
+    LaunchedEffect(key1 = contentType) {
+        closeDetailScreen()
+    }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val drawerState = DrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = appState.coroutineScope
@@ -95,77 +94,14 @@ fun ApartmentScreen(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val selectedDestination = navBackStackEntry?.destination?.route ?: uiState.selectedDestination
 
-    viewModel.initialize(addressId.toInt())
+//    LaunchedEffect(key1 = contentType) {
+//        if (contentType == ContentType.SINGLE_PANE && ! baseUIState.isDetailOnlyOpen) {
+//            closeDetailScreen()
+//        }
+//    }
+//    viewModel.initialize(addressId.toInt())
 
-    if (navigationType == NavigationType.PERMANENT_NAVIGATION_DRAWER) {
-        PermanentNavigationDrawer(drawerContent = {
-            PermanentNavigationDrawerContent(
-                baseUIState = uiState,
-                selectedDestination = selectedDestination,
-                navigationContentPosition = navigationContentPosition,
-                navigateToDestination = appState::navigateTo,
-            )
-        })
-        {
-            AppContent(
-                deleteApartment = {
-                    viewModel.deleteApartment(
-                        uiState.addressId,
-                        restartApp
-                    )
-                },
-                appState = appState,
-                baseUIState = uiState,
-                navigationType = navigationType,
-                contentType = contentType,
-                displayFeatures = displayFeatures,
-                navigationContentPosition = navigationContentPosition,
-                navController = navController,
-                selectedDestination = selectedDestination,
-                navigateToDestination = appState::navigateTo,
-            )
-        }
-    } else {
 
-        ModalNavigationDrawer(
-            drawerContent = {
-                ModalNavigationDrawerContent(
-                    baseUIState = uiState,
-                    selectedDestination = selectedDestination,
-                    navigationContentPosition = navigationContentPosition,
-                    navigateToDestination = appState::navigateTo,
-                    onDrawerClicked = {
-                        coroutineScope.launch {
-                            drawerState.close()
-                        }
-                    }
-                )
-            },
-            drawerState = drawerState
-        ) {
-            AppContent(
-                deleteApartment = {
-                    viewModel.deleteApartment(
-                        uiState.addressId,
-                        restartApp
-                    )
-                },
-                appState = appState,
-                baseUIState = uiState,
-                navigationType = navigationType,
-                contentType = contentType,
-                displayFeatures = displayFeatures,
-                navigationContentPosition = navigationContentPosition,
-                navController = navController,
-                selectedDestination = selectedDestination,
-                navigateToDestination = appState::navigateTo,
-                ) {
-                coroutineScope.launch {
-                    drawerState.open()
-                }
-            }
-        }
-    }
 }
 
 @Composable
@@ -182,7 +118,7 @@ fun AppContent(
     selectedDestination: String,
     navigateToDestination: (String) -> Unit,
     onDrawerClicked: () -> Unit = {},
-    ) {
+) {
 
 //    Scaffold(
 //        containerColor = MaterialTheme.colorScheme.inverseOnSurface,
@@ -198,490 +134,489 @@ fun AppContent(
 //        },
 //
 //        ) { it ->
-        var showDialog by rememberSaveable { mutableStateOf(false) }
-        val yes:Byte = 1
-        Row(
-            modifier = Modifier
-//                .padding(it)
-                .fillMaxSize()
-        ) {
-            AnimatedVisibility(visible = navigationType == NavigationType.NAVIGATION_RAIL) {
-                ApartmentNavigationRail(
-                    baseUIState = baseUIState,
-                    selectedDestination = selectedDestination,
-                    navigationContentPosition = navigationContentPosition,
-                    navigateToDestination = navigateToDestination,
-                    onDrawerClicked = onDrawerClicked,
-                )
-            }
-
-            if (contentType == ContentType.DUAL_PANE) {
-                TwoPane(
-                    first = {
-                        Column(
-                            modifier = Modifier
-                                .padding(PaddingValues(4.dp))
-                                .verticalScroll(rememberScrollState())
-                                .fillMaxWidth()
-                                .fillMaxHeight()
-                                .background(MaterialTheme.colorScheme.inverseOnSurface),
-
-                            verticalArrangement = Arrangement.Top,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                                ApartmentTopAppBar(
-                                    appState,
-                                    baseUIState,
-                                    isDriverClicked = true,
-                                    isButtonAction = baseUIState.apartments.isNotEmpty(),
-                                    onButtonPressed = { onDrawerClicked() },
-                                    onButtonAction = { deleteApartment() }
-                                )
-
-                            if (baseUIState.apartments.isEmpty()) {
-                                Box(modifier = modifier.fillMaxSize()) {
-                                    // When we have bottom navigation we show FAB at the bottom end.
-                                    if (navigationType == NavigationType.BOTTOM_NAVIGATION) {
-                                        LargeFloatingActionButton(
-                                            onClick = {
-                                                navigateToDestination(ADD_APARTMENT_SCREEN)
-                                            },
-                                            modifier = Modifier
-                                                .padding(16.dp)
-                                                .align(Alignment.BottomEnd),
-                                            containerColor = MaterialTheme.colorScheme.inverseOnSurface,
-                                            contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Default.AddHome,
-                                                contentDescription = stringResource(id = R.string.add_appartment),
-                                                modifier = Modifier.size(28.dp)
-                                            )
-
-                                        }
-
-                                    }
-                                }
-                            } else {
-                                Card(
-                                    modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-
-                                ) {
-                                    Column(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(8.dp)
-                                    ) {
-                                        Row(
-                                            modifier = Modifier.fillMaxWidth(),
-                                            horizontalArrangement = Arrangement.Start,
-                                            verticalAlignment = Alignment.CenterVertically
-                                        ) {
-                                            Text(
-                                                text = stringResource(id = AppText.xp),
-                                                style = MaterialTheme.typography.titleMedium,
-                                                color = MaterialTheme.colorScheme.secondary,
-                                                modifier = Modifier
-                                                    .padding(16.dp)
-                                                    .weight(1f),
-
-                                                )
-                                            IconButton(
-                                                onClick = { showDialog = true },
-                                                modifier = Modifier
-                                                    .padding(8.dp)
-                                                    .clip(CircleShape)
-                                                    .background(MaterialTheme.colorScheme.inverseOnSurface)
-                                            ) {
-                                                Icon(
-                                                    imageVector = Icons.TwoTone.Info,
-                                                    contentDescription = "Info",
-                                                    tint = MaterialTheme.colorScheme.outline
-                                                )
-                                            }
-
-                                        }
-                                        MenuItem(
-                                            imageVector = Icons.TwoTone.Home,
-                                            serviseName = stringResource(id = R.string.bti),
-                                            baseUIState = baseUIState,
-                                            screen = BTI_SCREEN,
-                                            dolg = 65.45,
-                                            org = baseUIState.apartments.first().osbb,
-                                            navigateToDestination = navigateToDestination,
-                                        )
-                                        MenuItem(
-                                            imageVector = Icons.TwoTone.FamilyRestroom,
-                                            serviseName = stringResource(id = R.string.list_family),
-                                            baseUIState = baseUIState,
-                                            screen = FAMILY_SCREEN,
-                                            dolg = 65.45,
-                                            org = stringResource(id = R.string.vodokanal_colon),
-                                            navigateToDestination = navigateToDestination,
-                                        )
-
-                                        if (showDialog) {
-                                            HelpAlertCard(
-                                                title = stringResource(id = R.string.consumed_services),
-                                                text = stringResource(id = R.string.consumed_services),
-                                                org = "",
-                                                showDialog = true,
-                                                onShowDialogChange = { showDialog = it }
-                                            )
-                                        }
-                                    }
-                                }
-                                Card(
-                                    modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-                                ) {
-                                    Column(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(8.dp)
-                                    ) {
-                                        Row(
-                                            modifier = Modifier.fillMaxWidth(),
-                                            horizontalArrangement = Arrangement.Start,
-                                            verticalAlignment = Alignment.CenterVertically
-                                        ) {
-                                            Text(
-                                                text = stringResource(id = AppText.consumed_services),
-                                                style = MaterialTheme.typography.titleMedium,
-                                                color = MaterialTheme.colorScheme.secondary,
-                                                modifier = Modifier
-                                                    .padding(16.dp)
-                                                    .weight(1f),
-
-                                                )
-                                            IconButton(
-                                                onClick = { showDialog = true },
-                                                modifier = Modifier
-                                                    .padding(8.dp)
-                                                    .clip(CircleShape)
-                                                    .background(MaterialTheme.colorScheme.inverseOnSurface)
-                                            ) {
-                                                Icon(
-                                                    imageVector = Icons.TwoTone.Info,
-                                                    contentDescription = "Info",
-                                                    tint = MaterialTheme.colorScheme.outline
-                                                )
-                                            }
-
-                                        }
-                                        if(baseUIState.apartment.kvartplata == yes ) {
-                                            MenuItem(
-                                                imageVector = Icons.TwoTone.CorporateFare,
-                                                serviseName = baseUIState.apartment.osbb,
-
-                                                baseUIState = baseUIState,
-                                                screen = BTI_SCREEN,
-                                                dolg = 65.45,
-                                                org = baseUIState.apartment.osbb,
-                                                navigateToDestination = navigateToDestination,
-                                            )
-                                        }
-                                        if(baseUIState.apartment.voda == yes || baseUIState.apartment.stoki == yes) {
-
-                                            MenuItem(
-                                                imageVector = Icons.Default.Water,
-                                                serviseName = stringResource(id = R.string.vodokanal),
-                                                baseUIState = baseUIState,
-                                                screen = BTI_SCREEN,
-                                                dolg = 65.45,
-                                                org = stringResource(id = R.string.vodokanal),
-                                                navigateToDestination = navigateToDestination,
-                                            )
-                                        }
-                                        if(baseUIState.apartment.otoplenie == yes ) {
-
-                                            MenuItem(
-                                                imageVector = Icons.Default.HotTub,
-                                                serviseName = stringResource(id = R.string.ytke),
-                                                baseUIState = baseUIState,
-                                                screen = BTI_SCREEN,
-                                                dolg = 65.45,
-                                                org = stringResource(id = R.string.ytke),
-                                                navigateToDestination = navigateToDestination,
-                                            )
-                                        }
-                                        if(baseUIState.apartment.tbo == yes ) {
-
-                                            MenuItem(
-                                                imageVector = Icons.TwoTone.Commute,
-                                                serviseName = stringResource(id = R.string.yzhtrans),
-                                                baseUIState = baseUIState,
-                                                screen = BTI_SCREEN,
-                                                dolg = 65.45,
-                                                org = stringResource(id = R.string.yzhtrans),
-                                                navigateToDestination = navigateToDestination,
-                                            )
-                                        }
-                                        MenuItem(
-                                            imageVector = Icons.TwoTone.MonetizationOn,
-                                            serviseName = stringResource(id = R.string.payment_list),
-                                            baseUIState = baseUIState,
-                                            screen = BTI_SCREEN,
-                                            dolg = 65.45,
-                                            org = stringResource(id = R.string.payment_list),
-                                            navigateToDestination = navigateToDestination,
-                                        )
-                                        if (showDialog) {
-                                            HelpAlertCard(
-                                                title = stringResource(id = R.string.consumed_services),
-                                                text = stringResource(id = R.string.consumed_services),
-                                                org = "",
-                                                showDialog = true,
-                                                onShowDialogChange = { showDialog = it }
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    second = {
-                        Column(
-                            modifier = Modifier
-                                .padding(PaddingValues(20.dp))
-                                .fillMaxWidth()
-                                .fillMaxHeight(),
-                            verticalArrangement = Arrangement.Top,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            BtiPanel( baseUIState = baseUIState)
-
-                        }
-                    },
-                    strategy = HorizontalTwoPaneStrategy(splitFraction = 0.5f, gapWidth = 16.dp),
-                    displayFeatures = displayFeatures
-                )
-            } else {
-                Column(
-                    modifier = Modifier
-                        .padding(PaddingValues(4.dp))
-                        .verticalScroll(rememberScrollState())
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                        .background(MaterialTheme.colorScheme.inverseOnSurface),
-
-                    verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    ApartmentTopAppBar(
-                        appState,
-                        baseUIState,
-                        isDriverClicked = true,
-                        isButtonAction = baseUIState.apartments.isNotEmpty(),
-                        onButtonPressed = { onDrawerClicked() },
-                        onButtonAction = { deleteApartment() }
-                    )
-                    if (baseUIState.apartments.isEmpty()) {
-                        Box(modifier = modifier.fillMaxSize()) {
-                            // When we have bottom navigation we show FAB at the bottom end.
-                            if (navigationType == NavigationType.BOTTOM_NAVIGATION) {
-                                LargeFloatingActionButton(
-                                    onClick = {
-                                        navigateToDestination(ADD_APARTMENT_SCREEN)
-                                    },
-                                    modifier = Modifier
-                                        .padding(16.dp)
-                                        .align(Alignment.BottomEnd),
-                                    containerColor = MaterialTheme.colorScheme.inverseOnSurface,
-                                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.AddHome,
-                                        contentDescription = stringResource(id = R.string.add_appartment),
-                                        modifier = Modifier.size(28.dp)
-                                    )
-
-                                }
-
-                            }
-                        }
-                    } else {
-                        Card(
-                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-
-                        ) {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(8.dp)
-                            ) {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.Start,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Text(
-                                        text = stringResource(id = AppText.xp),
-                                        style = MaterialTheme.typography.titleMedium,
-                                        color = MaterialTheme.colorScheme.secondary,
-                                        modifier = Modifier
-                                            .padding(16.dp)
-                                            .weight(1f),
-
-                                        )
-                                    IconButton(
-                                        onClick = { showDialog = true },
-                                        modifier = Modifier
-                                            .padding(8.dp)
-                                            .clip(CircleShape)
-                                            .background(MaterialTheme.colorScheme.inverseOnSurface)
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.TwoTone.Info,
-                                            contentDescription = "Info",
-                                            tint = MaterialTheme.colorScheme.outline
-                                        )
-                                    }
-
-                                }
-                                MenuItem(
-                                    imageVector = Icons.TwoTone.Home,
-                                    serviseName = stringResource(id = R.string.bti),
-                                    baseUIState = baseUIState,
-                                    screen = BTI_SCREEN,
-                                    dolg = 65.45,
-                                    org = baseUIState.apartments.first().osbb,
-                                    navigateToDestination = navigateToDestination,
-                                )
-                                MenuItem(
-                                    imageVector = Icons.TwoTone.FamilyRestroom,
-                                    serviseName = stringResource(id = R.string.list_family),
-                                    baseUIState = baseUIState,
-                                    screen = FAMILY_SCREEN,
-                                    dolg = 65.45,
-                                    org = stringResource(id = R.string.vodokanal_colon),
-                                    navigateToDestination = navigateToDestination,
-                                )
-
-                                if (showDialog) {
-                                    HelpAlertCard(
-                                        title = stringResource(id = R.string.consumed_services),
-                                        text = stringResource(id = R.string.consumed_services),
-                                        org = "",
-                                        showDialog = true,
-                                        onShowDialogChange = { showDialog = it }
-                                    )
-                                }
-                            }
-                        }
-                        Card(
-                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-                        ) {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(8.dp)
-                            ) {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.Start,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Text(
-                                        text = stringResource(id = AppText.consumed_services),
-                                        style = MaterialTheme.typography.titleMedium,
-                                        color = MaterialTheme.colorScheme.secondary,
-                                        modifier = Modifier
-                                            .padding(16.dp)
-                                            .weight(1f),
-
-                                        )
-                                    IconButton(
-                                        onClick = { showDialog = true },
-                                        modifier = Modifier
-                                            .padding(8.dp)
-                                            .clip(CircleShape)
-                                            .background(MaterialTheme.colorScheme.inverseOnSurface)
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.TwoTone.Info,
-                                            contentDescription = "Info",
-                                            tint = MaterialTheme.colorScheme.outline
-                                        )
-                                    }
-
-                                }
-                                if(baseUIState.apartment.kvartplata == yes ) {
-                                    MenuItem(
-                                        imageVector = Icons.TwoTone.CorporateFare,
-                                        serviseName = baseUIState.apartment.osbb,
-
-                                        baseUIState = baseUIState,
-                                        screen = BTI_SCREEN,
-                                        dolg = 65.45,
-                                        org = baseUIState.apartment.osbb,
-                                        navigateToDestination = navigateToDestination,
-                                    )
-                                }
-                                if(baseUIState.apartment.voda == yes || baseUIState.apartment.stoki == yes) {
-
-                                    MenuItem(
-                                        imageVector = Icons.Default.Water,
-                                        serviseName = stringResource(id = R.string.vodokanal),
-                                        baseUIState = baseUIState,
-                                        screen = BTI_SCREEN,
-                                        dolg = 65.45,
-                                        org = stringResource(id = R.string.vodokanal),
-                                        navigateToDestination = navigateToDestination,
-                                    )
-                                }
-                                if(baseUIState.apartment.otoplenie == yes ) {
-
-                                    MenuItem(
-                                        imageVector = Icons.Default.HotTub,
-                                        serviseName = stringResource(id = R.string.ytke),
-                                        baseUIState = baseUIState,
-                                        screen = BTI_SCREEN,
-                                        dolg = 65.45,
-                                        org = stringResource(id = R.string.ytke),
-                                        navigateToDestination = navigateToDestination,
-                                    )
-                                }
-                                if(baseUIState.apartment.tbo == yes ) {
-
-                                    MenuItem(
-                                        imageVector = Icons.TwoTone.Commute,
-                                        serviseName = stringResource(id = R.string.yzhtrans),
-                                        baseUIState = baseUIState,
-                                        screen = BTI_SCREEN,
-                                        dolg = 65.45,
-                                        org = stringResource(id = R.string.yzhtrans),
-                                        navigateToDestination = navigateToDestination,
-                                    )
-                                }
-                                MenuItem(
-                                    imageVector = Icons.TwoTone.MonetizationOn,
-                                    serviseName = stringResource(id = R.string.payment_list),
-                                    baseUIState = baseUIState,
-                                    screen = BTI_SCREEN,
-                                    dolg = 65.45,
-                                    org = stringResource(id = R.string.payment_list),
-                                    navigateToDestination = navigateToDestination,
-                                )
-                                if (showDialog) {
-                                    HelpAlertCard(
-                                        title = stringResource(id = R.string.consumed_services),
-                                        text = stringResource(id = R.string.consumed_services),
-                                        org = "",
-                                        showDialog = true,
-                                        onShowDialogChange = { showDialog = it }
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    var showDialog by rememberSaveable { mutableStateOf(false) }
+    val yes:Byte = 1
+//    Row(
+//        modifier = Modifier
+////                .padding(it)
+//            .fillMaxSize()
+//    ) {
+//        AnimatedVisibility(visible = navigationType == NavigationType.NAVIGATION_RAIL) {
+//            ApartmentNavigationRail(
+//                baseUIState = baseUIState,
+//                selectedDestination = selectedDestination,
+//                navigationContentPosition = navigationContentPosition,
+//                navigateToDestination = navigateToDestination,
+//                onDrawerClicked = onDrawerClicked,
+//            )
+//        }
+//
+//        if (contentType == ContentType.DUAL_PANE) {
+//            TwoPane(
+//                first = {
+//                    Column(
+//                        modifier = Modifier
+//                            .padding(PaddingValues(4.dp))
+//                            .verticalScroll(rememberScrollState())
+//                            .fillMaxWidth()
+//                            .fillMaxHeight()
+//                            .background(MaterialTheme.colorScheme.inverseOnSurface),
+//
+//                        verticalArrangement = Arrangement.Top,
+//                        horizontalAlignment = Alignment.CenterHorizontally
+//                    ) {
+//                        ApartmentTopAppBar(
+//                            appState,
+//                            baseUIState,
+//                            isDriverClicked = true,
+//                            isButtonAction = baseUIState.apartments.isNotEmpty(),
+//                            onButtonPressed = { onDrawerClicked() },
+//                            onButtonAction = { deleteApartment() }
+//                        )
+//
+//                        if (baseUIState.apartments.isEmpty()) {
+//                            Box(modifier = modifier.fillMaxSize()) {
+//                                // When we have bottom navigation we show FAB at the bottom end.
+//                                if (navigationType == NavigationType.BOTTOM_NAVIGATION) {
+//                                    LargeFloatingActionButton(
+//                                        onClick = {
+//                                            navigateToDestination(ADD_APARTMENT_SCREEN)
+//                                        },
+//                                        modifier = Modifier
+//                                            .padding(16.dp)
+//                                            .align(Alignment.BottomEnd),
+//                                        containerColor = MaterialTheme.colorScheme.inverseOnSurface,
+//                                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+//                                    ) {
+//                                        Icon(
+//                                            imageVector = Icons.Default.AddHome,
+//                                            contentDescription = stringResource(id = R.string.add_appartment),
+//                                            modifier = Modifier.size(28.dp)
+//                                        )
+//
+//                                    }
+//
+//                                }
+//                            }
+//                        } else {
+//                            Card(
+//                                modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+//                                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+//
+//                            ) {
+//                                Column(
+//                                    modifier = Modifier
+//                                        .fillMaxWidth()
+//                                        .padding(8.dp)
+//                                ) {
+//                                    Row(
+//                                        modifier = Modifier.fillMaxWidth(),
+//                                        horizontalArrangement = Arrangement.Start,
+//                                        verticalAlignment = Alignment.CenterVertically
+//                                    ) {
+//                                        Text(
+//                                            text = stringResource(id = AppText.xp),
+//                                            style = MaterialTheme.typography.titleMedium,
+//                                            color = MaterialTheme.colorScheme.secondary,
+//                                            modifier = Modifier
+//                                                .padding(16.dp)
+//                                                .weight(1f),
+//
+//                                            )
+//                                        IconButton(
+//                                            onClick = { showDialog = true },
+//                                            modifier = Modifier
+//                                                .padding(8.dp)
+//                                                .clip(CircleShape)
+//                                                .background(MaterialTheme.colorScheme.inverseOnSurface)
+//                                        ) {
+//                                            Icon(
+//                                                imageVector = Icons.TwoTone.Info,
+//                                                contentDescription = "Info",
+//                                                tint = MaterialTheme.colorScheme.outline
+//                                            )
+//                                        }
+//
+//                                    }
+//                                    MenuItem(
+//                                        imageVector = Icons.TwoTone.Home,
+//                                        serviseName = stringResource(id = R.string.bti),
+//                                        baseUIState = baseUIState,
+//                                        screen = BTI_SCREEN,
+//                                        dolg = 65.45,
+//                                        org = baseUIState.apartments.first().osbb,
+//                                        navigateToDestination = navigateToDestination,
+//                                    )
+//                                    MenuItem(
+//                                        imageVector = Icons.TwoTone.FamilyRestroom,
+//                                        serviseName = stringResource(id = R.string.list_family),
+//                                        baseUIState = baseUIState,
+//                                        screen = FAMILY_SCREEN,
+//                                        dolg = 65.45,
+//                                        org = stringResource(id = R.string.vodokanal_colon),
+//                                        navigateToDestination = navigateToDestination,
+//                                    )
+//
+//                                    if (showDialog) {
+//                                        HelpAlertCard(
+//                                            title = stringResource(id = R.string.consumed_services),
+//                                            text = stringResource(id = R.string.consumed_services),
+//                                            org = "",
+//                                            showDialog = true,
+//                                            onShowDialogChange = { showDialog = it }
+//                                        )
+//                                    }
+//                                }
+//                            }
+//                            Card(
+//                                modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+//                                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+//                            ) {
+//                                Column(
+//                                    modifier = Modifier
+//                                        .fillMaxWidth()
+//                                        .padding(8.dp)
+//                                ) {
+//                                    Row(
+//                                        modifier = Modifier.fillMaxWidth(),
+//                                        horizontalArrangement = Arrangement.Start,
+//                                        verticalAlignment = Alignment.CenterVertically
+//                                    ) {
+//                                        Text(
+//                                            text = stringResource(id = AppText.consumed_services),
+//                                            style = MaterialTheme.typography.titleMedium,
+//                                            color = MaterialTheme.colorScheme.secondary,
+//                                            modifier = Modifier
+//                                                .padding(16.dp)
+//                                                .weight(1f),
+//
+//                                            )
+//                                        IconButton(
+//                                            onClick = { showDialog = true },
+//                                            modifier = Modifier
+//                                                .padding(8.dp)
+//                                                .clip(CircleShape)
+//                                                .background(MaterialTheme.colorScheme.inverseOnSurface)
+//                                        ) {
+//                                            Icon(
+//                                                imageVector = Icons.TwoTone.Info,
+//                                                contentDescription = "Info",
+//                                                tint = MaterialTheme.colorScheme.outline
+//                                            )
+//                                        }
+//
+//                                    }
+//                                    if(baseUIState.apartment.kvartplata == yes ) {
+//                                        MenuItem(
+//                                            imageVector = Icons.TwoTone.CorporateFare,
+//                                            serviseName = baseUIState.apartment.osbb,
+//
+//                                            baseUIState = baseUIState,
+//                                            screen = BTI_SCREEN,
+//                                            dolg = 65.45,
+//                                            org = baseUIState.apartment.osbb,
+//                                            navigateToDestination = navigateToDestination,
+//                                        )
+//                                    }
+//                                    if(baseUIState.apartment.voda == yes || baseUIState.apartment.stoki == yes) {
+//
+//                                        MenuItem(
+//                                            imageVector = Icons.Default.Water,
+//                                            serviseName = stringResource(id = R.string.vodokanal),
+//                                            baseUIState = baseUIState,
+//                                            screen = BTI_SCREEN,
+//                                            dolg = 65.45,
+//                                            org = stringResource(id = R.string.vodokanal),
+//                                            navigateToDestination = navigateToDestination,
+//                                        )
+//                                    }
+//                                    if(baseUIState.apartment.otoplenie == yes ) {
+//
+//                                        MenuItem(
+//                                            imageVector = Icons.Default.HotTub,
+//                                            serviseName = stringResource(id = R.string.ytke),
+//                                            baseUIState = baseUIState,
+//                                            screen = BTI_SCREEN,
+//                                            dolg = 65.45,
+//                                            org = stringResource(id = R.string.ytke),
+//                                            navigateToDestination = navigateToDestination,
+//                                        )
+//                                    }
+//                                    if(baseUIState.apartment.tbo == yes ) {
+//
+//                                        MenuItem(
+//                                            imageVector = Icons.TwoTone.Commute,
+//                                            serviseName = stringResource(id = R.string.yzhtrans),
+//                                            baseUIState = baseUIState,
+//                                            screen = BTI_SCREEN,
+//                                            dolg = 65.45,
+//                                            org = stringResource(id = R.string.yzhtrans),
+//                                            navigateToDestination = navigateToDestination,
+//                                        )
+//                                    }
+//                                    MenuItem(
+//                                        imageVector = Icons.TwoTone.MonetizationOn,
+//                                        serviseName = stringResource(id = R.string.payment_list),
+//                                        baseUIState = baseUIState,
+//                                        screen = BTI_SCREEN,
+//                                        dolg = 65.45,
+//                                        org = stringResource(id = R.string.payment_list),
+//                                        navigateToDestination = navigateToDestination,
+//                                    )
+//                                    if (showDialog) {
+//                                        HelpAlertCard(
+//                                            title = stringResource(id = R.string.consumed_services),
+//                                            text = stringResource(id = R.string.consumed_services),
+//                                            org = "",
+//                                            showDialog = true,
+//                                            onShowDialogChange = { showDialog = it }
+//                                        )
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                },
+//                second = {
+//                    Column(
+//                        modifier = Modifier
+//                            .padding(PaddingValues(20.dp))
+//                            .fillMaxWidth()
+//                            .fillMaxHeight(),
+//                        verticalArrangement = Arrangement.Top,
+//                        horizontalAlignment = Alignment.CenterHorizontally
+//                    ) {
+//                        BtiPanel( baseUIState = baseUIState)
+//
+//                    }
+//                },
+//                strategy = HorizontalTwoPaneStrategy(splitFraction = 0.5f, gapWidth = 16.dp),
+//                displayFeatures = displayFeatures
+//            )
+//        } else {
+//            Column(
+//                modifier = Modifier
+//                    .padding(PaddingValues(4.dp))
+//                    .verticalScroll(rememberScrollState())
+//                    .fillMaxWidth()
+//                    .fillMaxHeight()
+//                    .background(MaterialTheme.colorScheme.inverseOnSurface),
+//
+//                verticalArrangement = Arrangement.Top,
+//                horizontalAlignment = Alignment.CenterHorizontally
+//            ) {
+//                ApartmentTopAppBar(
+//                    appState,
+//                    baseUIState,
+//                    isDriverClicked = true,
+//                    isButtonAction = baseUIState.apartments.isNotEmpty(),
+//                    onButtonPressed = { onDrawerClicked() },
+//                    onButtonAction = { deleteApartment() }
+//                )
+//                if (baseUIState.apartments.isEmpty()) {
+//                    Box(modifier = modifier.fillMaxSize()) {
+//                        // When we have bottom navigation we show FAB at the bottom end.
+//                        if (navigationType == NavigationType.BOTTOM_NAVIGATION) {
+//                            LargeFloatingActionButton(
+//                                onClick = {
+//                                    navigateToDestination(ADD_APARTMENT_SCREEN)
+//                                },
+//                                modifier = Modifier
+//                                    .padding(16.dp)
+//                                    .align(Alignment.BottomEnd),
+//                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+//                                contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+//
+//                            ) {
+//                                Icon(
+//                                    imageVector = Icons.Default.AddHome,
+//                                    contentDescription = stringResource(id = R.string.add_appartment),
+//                                    modifier = Modifier.size(28.dp)
+//                                )
+//
+//                            }
+//
+//                        }
+//                    }
+//                } else {
+//                    Card(
+//                        modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+//                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+//
+//                    ) {
+//                        Column(
+//                            modifier = Modifier
+//                                .fillMaxWidth()
+//                                .padding(8.dp)
+//                        ) {
+//                            Row(
+//                                modifier = Modifier.fillMaxWidth(),
+//                                horizontalArrangement = Arrangement.Start,
+//                                verticalAlignment = Alignment.CenterVertically
+//                            ) {
+//                                Text(
+//                                    text = stringResource(id = AppText.xp),
+//                                    style = MaterialTheme.typography.titleMedium,
+//                                    color = MaterialTheme.colorScheme.secondary,
+//                                    modifier = Modifier
+//                                        .padding(16.dp)
+//                                        .weight(1f),
+//
+//                                    )
+//                                IconButton(
+//                                    onClick = { showDialog = true },
+//                                    modifier = Modifier
+//                                        .padding(8.dp)
+//                                        .clip(CircleShape)
+//                                        .background(MaterialTheme.colorScheme.inverseOnSurface)
+//                                ) {
+//                                    Icon(
+//                                        imageVector = Icons.TwoTone.Info,
+//                                        contentDescription = "Info",
+//                                        tint = MaterialTheme.colorScheme.outline
+//                                    )
+//                                }
+//
+//                            }
+//                            MenuItem(
+//                                imageVector = Icons.TwoTone.Home,
+//                                serviseName = stringResource(id = R.string.bti),
+//                                baseUIState = baseUIState,
+//                                screen = BTI_SCREEN,
+//                                dolg = 65.45,
+//                                org = baseUIState.apartments.first().osbb,
+//                                navigateToDestination = navigateToDestination,
+//                            )
+//                            MenuItem(
+//                                imageVector = Icons.TwoTone.FamilyRestroom,
+//                                serviseName = stringResource(id = R.string.list_family),
+//                                baseUIState = baseUIState,
+//                                screen = FAMILY_SCREEN,
+//                                dolg = 65.45,
+//                                org = stringResource(id = R.string.vodokanal_colon),
+//                                navigateToDestination = navigateToDestination,
+//                            )
+//
+//                            if (showDialog) {
+//                                HelpAlertCard(
+//                                    title = stringResource(id = R.string.consumed_services),
+//                                    text = stringResource(id = R.string.consumed_services),
+//                                    org = "",
+//                                    showDialog = true,
+//                                    onShowDialogChange = { showDialog = it }
+//                                )
+//                            }
+//                        }
+//                    }
+//                    Card(
+//                        modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+//                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+//                    ) {
+//                        Column(
+//                            modifier = Modifier
+//                                .fillMaxWidth()
+//                                .padding(8.dp)
+//                        ) {
+//                            Row(
+//                                modifier = Modifier.fillMaxWidth(),
+//                                horizontalArrangement = Arrangement.Start,
+//                                verticalAlignment = Alignment.CenterVertically
+//                            ) {
+//                                Text(
+//                                    text = stringResource(id = AppText.consumed_services),
+//                                    style = MaterialTheme.typography.titleMedium,
+//                                    color = MaterialTheme.colorScheme.secondary,
+//                                    modifier = Modifier
+//                                        .padding(16.dp)
+//                                        .weight(1f),
+//
+//                                    )
+//                                IconButton(
+//                                    onClick = { showDialog = true },
+//                                    modifier = Modifier
+//                                        .padding(8.dp)
+//                                        .clip(CircleShape)
+//                                        .background(MaterialTheme.colorScheme.inverseOnSurface)
+//                                ) {
+//                                    Icon(
+//                                        imageVector = Icons.TwoTone.Info,
+//                                        contentDescription = "Info",
+//                                        tint = MaterialTheme.colorScheme.outline
+//                                    )
+//                                }
+//
+//                            }
+//                            if(baseUIState.apartment.kvartplata == yes ) {
+//                                MenuItem(
+//                                    imageVector = Icons.TwoTone.CorporateFare,
+//                                    serviseName = baseUIState.apartment.osbb,
+//
+//                                    baseUIState = baseUIState,
+//                                    screen = BTI_SCREEN,
+//                                    dolg = 65.45,
+//                                    org = baseUIState.apartment.osbb,
+//                                    navigateToDestination = navigateToDestination,
+//                                )
+//                            }
+//                            if(baseUIState.apartment.voda == yes || baseUIState.apartment.stoki == yes) {
+//
+//                                MenuItem(
+//                                    imageVector = Icons.Default.Water,
+//                                    serviseName = stringResource(id = R.string.vodokanal),
+//                                    baseUIState = baseUIState,
+//                                    screen = BTI_SCREEN,
+//                                    dolg = 65.45,
+//                                    org = stringResource(id = R.string.vodokanal),
+//                                    navigateToDestination = navigateToDestination,
+//                                )
+//                            }
+//                            if(baseUIState.apartment.otoplenie == yes ) {
+//
+//                                MenuItem(
+//                                    imageVector = Icons.Default.HotTub,
+//                                    serviseName = stringResource(id = R.string.ytke),
+//                                    baseUIState = baseUIState,
+//                                    screen = BTI_SCREEN,
+//                                    dolg = 65.45,
+//                                    org = stringResource(id = R.string.ytke),
+//                                    navigateToDestination = navigateToDestination,
+//                                )
+//                            }
+//                            if(baseUIState.apartment.tbo == yes ) {
+//
+//                                MenuItem(
+//                                    imageVector = Icons.TwoTone.Commute,
+//                                    serviseName = stringResource(id = R.string.yzhtrans),
+//                                    baseUIState = baseUIState,
+//                                    screen = BTI_SCREEN,
+//                                    dolg = 65.45,
+//                                    org = stringResource(id = R.string.yzhtrans),
+//                                    navigateToDestination = navigateToDestination,
+//                                )
+//                            }
+//                            MenuItem(
+//                                imageVector = Icons.TwoTone.MonetizationOn,
+//                                serviseName = stringResource(id = R.string.payment_list),
+//                                baseUIState = baseUIState,
+//                                screen = BTI_SCREEN,
+//                                dolg = 65.45,
+//                                org = stringResource(id = R.string.payment_list),
+//                                navigateToDestination = navigateToDestination,
+//                            )
+//                            if (showDialog) {
+//                                HelpAlertCard(
+//                                    title = stringResource(id = R.string.consumed_services),
+//                                    text = stringResource(id = R.string.consumed_services),
+//                                    org = "",
+//                                    showDialog = true,
+//                                    onShowDialogChange = { showDialog = it }
+//                                )
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 //    }
 }
-
-

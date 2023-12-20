@@ -7,8 +7,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.DrawerState
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
@@ -32,31 +35,37 @@ import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
 import androidx.window.layout.FoldingFeature
 import com.ykis.ykispam.core.snackbar.SnackbarManager
+import com.ykis.ykispam.navigation.ApartmentNavigationRail
 import com.ykis.ykispam.navigation.BottomNavigationBar
 import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.navigation.DevicePosture
+import com.ykis.ykispam.navigation.ModalNavigationDrawerContent
 import com.ykis.ykispam.navigation.NavigationContentPosition
 import com.ykis.ykispam.navigation.NavigationType
+import com.ykis.ykispam.navigation.PermanentNavigationDrawerContent
 import com.ykis.ykispam.navigation.SPLASH_SCREEN
 import com.ykis.ykispam.navigation.YkisPamGraph
 import com.ykis.ykispam.navigation.YkisRoute
 import com.ykis.ykispam.navigation.isBookPosture
 import com.ykis.ykispam.navigation.isSeparating
+import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 
 @Composable
 fun YkisPamApp(
     windowSize: WindowSizeClass,
     displayFeatures: List<DisplayFeature>,
+    baseUIState: BaseUIState,
+    closeDetailScreen: () -> Unit = {},
+    navigateToDetail: (Int, ContentType) -> Unit = { _, _ -> }
+
 ) {
     val navigationType: NavigationType
-
     val contentType: ContentType
-
     val appState = rememberAppState()
     val foldingFeature = displayFeatures.filterIsInstance<FoldingFeature>().firstOrNull()
-
     val foldingDevicePosture = when {
         isBookPosture(foldingFeature) ->
             DevicePosture.BookPosture(foldingFeature.bounds)
@@ -116,7 +125,10 @@ fun YkisPamApp(
         contentType = contentType,      //(SINGLE,DUAL)
         displayFeatures = displayFeatures,  //fold device развернуто BookPosture или сложено  SINGLE
         navigationContentPosition = navigationContentPosition, // PERMANENT_NAVIGATION_DRAWER содержимое TOP or CENTER
-        appState = appState
+        appState = appState,
+        baseUIState = baseUIState,
+        closeDetailScreen = closeDetailScreen,
+        navigateToDetail = navigateToDetail
     )
 }
 
@@ -126,39 +138,99 @@ fun NavigationWrapper(
     contentType: ContentType,
     displayFeatures: List<DisplayFeature>,
     navigationContentPosition: NavigationContentPosition,
-    appState: YkisPamAppState
+    appState: YkisPamAppState,
+    baseUIState: BaseUIState,
+    closeDetailScreen: () -> Unit,
+    navigateToDetail: (Int, ContentType) -> Unit
 ) {
+    val drawerState = DrawerState(initialValue = DrawerValue.Closed)
+    val coroutineScope = appState.coroutineScope
     val navController = appState.navController
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val selectedDestination = navBackStackEntry?.destination?.route ?: YkisRoute.ACCOUNT
+    val selectedDestination =
+        navBackStackEntry?.destination?.route ?: baseUIState.selectedDestination
 
-    AppContent(
-        appState = appState,
-        selectedDestination = selectedDestination,
-        navigationType = navigationType,
-        contentType = contentType,
-        displayFeatures = displayFeatures,
-        navigationContentPosition = navigationContentPosition,
-        navController = navController,
-    )
+    if (navigationType == NavigationType.PERMANENT_NAVIGATION_DRAWER) {
+        PermanentNavigationDrawer(drawerContent = {
+            PermanentNavigationDrawerContent(
+                baseUIState = baseUIState,
+                selectedDestination = selectedDestination,
+                navigationContentPosition = navigationContentPosition,
+                navigateToDestination = appState::navigateTo
+            )
+        })   {
+            AppContent(
+                appState = appState,
+                baseUIState = baseUIState,
+                navigationType = navigationType,
+                contentType = contentType,
+                displayFeatures = displayFeatures,
+                navigationContentPosition = navigationContentPosition,
+                navController = navController,
+                selectedDestination = selectedDestination,
+                navigateToDestination = appState::navigateTo,
+                closeDetailScreen = closeDetailScreen,
+                navigateToDetail = navigateToDetail,
+            )
+        }
+    } else {
+        ModalNavigationDrawer(
+            drawerContent = {
+                ModalNavigationDrawerContent(
+                    baseUIState = baseUIState,
+                    selectedDestination = selectedDestination,
+                    navigationContentPosition = navigationContentPosition,
+                    navigateToDestination = appState::navigateTo,
+                    onDrawerClicked = {
+                        coroutineScope.launch {
+                            drawerState.close()
+                        }
+                    }
+                )
+            },
+            drawerState = drawerState
+        ) {
+            AppContent(
 
+                appState = appState,
+                baseUIState = baseUIState,
+                navigationType = navigationType,
+                contentType = contentType,
+                displayFeatures = displayFeatures,
+                navigationContentPosition = navigationContentPosition,
+                navController = navController,
+                selectedDestination = selectedDestination,
+                navigateToDestination = appState::navigateTo,
+                closeDetailScreen = closeDetailScreen,
+                navigateToDetail = navigateToDetail,
+            ) {
+                coroutineScope.launch {
+                    drawerState.open()
+                }
+            }
+        }
+    }
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppContent(
     modifier: Modifier = Modifier,
     appState: YkisPamAppState,
-    selectedDestination: String,
+    baseUIState: BaseUIState,
     navigationType: NavigationType,
     contentType: ContentType,
     displayFeatures: List<DisplayFeature>,
     navigationContentPosition: NavigationContentPosition,
     navController: NavHostController,
+    selectedDestination: String,
+    navigateToDestination: (String) -> Unit,
+    closeDetailScreen: () -> Unit,
+    navigateToDetail: (Int, ContentType) -> Unit,
+    onDrawerClicked: () -> Unit = {}
 ) {
     Scaffold(
-
+        modifier = modifier.fillMaxSize(),
         snackbarHost = {
             SnackbarHost(
                 hostState = appState.snackbarHostState,
@@ -176,7 +248,16 @@ fun AppContent(
                 .padding(it)
                 .fillMaxSize()
         ) {
-
+            AnimatedVisibility(visible = navigationType == NavigationType.NAVIGATION_RAIL)
+            {
+                ApartmentNavigationRail(
+                    baseUIState = baseUIState,
+                    selectedDestination = selectedDestination,
+                    navigationContentPosition = navigationContentPosition,
+                    navigateToDestination = appState::navigateTo,
+                    onDrawerClicked = onDrawerClicked,
+                )
+            }
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -185,11 +266,14 @@ fun AppContent(
             ) {
                 YkisNavHost(
                     appState = appState,
+                    baseUIState = baseUIState,
                     navController = navController,
                     contentType = contentType,
                     displayFeatures = displayFeatures,
                     navigationType = navigationType,
                     navigationContentPosition = navigationContentPosition,
+                    closeDetailScreen = closeDetailScreen,
+                    navigateToDetail = navigateToDetail,
                     modifier = Modifier.weight(1f),
                 )
                 AnimatedVisibility(visible = navigationType == NavigationType.BOTTOM_NAVIGATION) {
@@ -202,15 +286,17 @@ fun AppContent(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun YkisNavHost(
     appState: YkisPamAppState,
+    baseUIState: BaseUIState,
     navController: NavHostController,
     contentType: ContentType,
     displayFeatures: List<DisplayFeature>,
     navigationType: NavigationType,
     navigationContentPosition: NavigationContentPosition,
+    closeDetailScreen: () -> Unit,
+    navigateToDetail: (Int, ContentType) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     NavHost(
@@ -223,7 +309,10 @@ private fun YkisNavHost(
             navigationType,
             displayFeatures,
             navigationContentPosition,
-            appState
+            appState,
+            baseUIState,
+            closeDetailScreen ,
+            navigateToDetail,
         )
     }
 }
@@ -253,7 +342,3 @@ fun resources(): Resources {
     LocalConfiguration.current
     return LocalContext.current.resources
 }
-
-
-
-

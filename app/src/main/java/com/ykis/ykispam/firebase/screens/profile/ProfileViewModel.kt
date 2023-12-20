@@ -3,6 +3,7 @@ package com.ykis.ykispam.firebase.screens.profile
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.google.android.play.core.integrity.p
 import com.ykis.ykispam.BaseViewModel
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.Response
@@ -13,6 +14,8 @@ import com.ykis.ykispam.firebase.model.service.repo.ReloadUserResponse
 import com.ykis.ykispam.firebase.model.service.repo.RevokeAccessResponse
 import com.ykis.ykispam.firebase.model.service.repo.SendEmailVerificationResponse
 import com.ykis.ykispam.firebase.model.service.repo.SignOutResponse
+import com.ykis.ykispam.navigation.EmptyScreen
+import com.ykis.ykispam.navigation.EmptyViewModel
 import com.ykis.ykispam.navigation.SPLASH_SCREEN
 import com.ykis.ykispam.navigation.YkisRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -63,11 +66,11 @@ class ProfileViewModel @Inject constructor(
     }
 
 
-    fun signOut(restartApp: (String) -> Unit) {
+    fun signOut(popUpScreen: (String) -> Unit) {
         launchCatching {
             signOutResponse = Response.Loading
             signOutResponse = firebaseService.signOut()
-            restartApp(SPLASH_SCREEN)
+            popUpScreen(SPLASH_SCREEN)
 
         }
     }
@@ -95,7 +98,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun restartApp(restartApp: (String) -> Unit) {
-                restartApp(SPLASH_SCREEN)
+        restartApp(SPLASH_SCREEN)
 
     }
 //    fun navigateBack(popUpScreen: () -> Unit) {

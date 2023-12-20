@@ -61,6 +61,7 @@ import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.composable.LogoImage
 import com.ykis.ykispam.core.composable.LogoImageShort
+import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 
 @Composable
 fun ApartmentNavigationRail(
@@ -86,7 +87,6 @@ fun ApartmentNavigationRail(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    LogoImageShort()
                     NavigationRailItem(
                         selected = false,
                         onClick = onDrawerClicked,
@@ -97,6 +97,8 @@ fun ApartmentNavigationRail(
                             )
                         }
                     )
+                    LogoImageShort()
+
                     val apartmentLazyListState = rememberLazyListState()
                     LazyColumn(
                         horizontalAlignment = Alignment.Start,
@@ -144,6 +146,7 @@ fun ApartmentNavigationRail(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     TOP_LEVEL_DESTINATIONS.forEach { replyDestination ->
+
                         NavigationDrawerItem(
                             modifier = Modifier
                                 .fillMaxWidth(),
@@ -210,23 +213,24 @@ fun ApartmentNavigationRail(
 
 @Composable
 fun BottomNavigationBar(
+//    navigateToDestination: (String) -> Unit,
     selectedDestination: String,
-//    navigateToDestination: (String) -> Unit
 ) {
     NavigationBar(modifier = Modifier.fillMaxWidth()) {
         TOP_LEVEL_DESTINATIONS.forEach { destination ->
-            NavigationBarItem(
-                selected = selectedDestination == destination.route,
-                onClick = {},
-//                onClick = { navigateToDestination(destination.route) },
+            if (destination.vkl) {
+                NavigationBarItem(
+                    selected = selectedDestination == destination.route,
+                    onClick = { },
 
-                icon = {
-                    Icon(
-                        imageVector = destination.selectedIcon,
-                        contentDescription = stringResource(id = destination.iconTextId)
-                    )
-                }
-            )
+                    icon = {
+                        Icon(
+                            imageVector = destination.selectedIcon,
+                            contentDescription = stringResource(id = destination.iconTextId)
+                        )
+                    }
+                )
+            }
         }
     }
 }
@@ -379,6 +383,7 @@ fun ModalNavigationDrawerContent(
     navigateToDestination: (String) -> Unit,
     onDrawerClicked: () -> Unit = {},
 ) {
+
     ModalDrawerSheet {
         Layout(
             modifier = Modifier

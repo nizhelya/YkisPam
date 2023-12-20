@@ -23,7 +23,6 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.core.snackbar.SnackbarMessage.Companion.toMessage
-import com.ykis.ykispam.navigation.TopLevelDestination
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
@@ -54,6 +53,15 @@ class YkisPamAppState(
 
     fun navigate(route: String) {
         navController.navigate(route) { launchSingleTop = true }
+    }
+
+    fun exitApp(route:String) {
+        navController.navigate(route) {
+
+            popUpTo(0) { inclusive = true }
+            navController.popBackStack()
+
+        }
     }
 
     fun navigateAndPopUp(route: String, popUp: String) {

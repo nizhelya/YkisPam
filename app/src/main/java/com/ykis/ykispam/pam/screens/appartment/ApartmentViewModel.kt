@@ -16,6 +16,7 @@ limitations under the License.
 
 package com.ykis.ykispam.pam.screens.appartment
 
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -27,7 +28,10 @@ import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.firebase.model.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.model.service.repo.LogService
 import com.ykis.ykispam.navigation.ADDRESS_ID
+import com.ykis.ykispam.navigation.ADD_APARTMENT_SCREEN
 import com.ykis.ykispam.navigation.APARTMENT_SCREEN
+import com.ykis.ykispam.navigation.SIGN_IN_SCREEN
+import com.ykis.ykispam.navigation.SPLASH_SCREEN
 import com.ykis.ykispam.pam.data.cache.apartment.ApartmentCacheImpl
 import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.pam.data.remote.core.NetworkHandler
@@ -45,7 +49,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ApartmentViewModel @Inject constructor(
     private val firebaseService: FirebaseService,
-    private val getApartmentsUseCase: GetApartments,
     private val deleteFlatByUser: DeleteFlatByUser,
     private val addFlatByUser: AddFlatByUser,
     private val updateBtiUseCase: UpdateBti,
@@ -68,10 +71,9 @@ class ApartmentViewModel @Inject constructor(
     private val _apartment = MutableLiveData<ApartmentEntity>()
     val apartment: LiveData<ApartmentEntity> get() = _apartment
 
-    private val _apartments = MutableLiveData<List<ApartmentEntity>>()
-
     private val _address = MutableLiveData<List<AddressEntity>>()
     val address: LiveData<List<AddressEntity>> get() = _address
+
     private val _totalDebt = MutableLiveData<ServiceEntity?>()
     val totalDebt: LiveData<ServiceEntity?> get() = _totalDebt
 
@@ -85,108 +87,32 @@ class ApartmentViewModel @Inject constructor(
     private val networkType: Int get() = networkHandler.networkType
 
 
-    fun initialize(addressId: Int) {
-        observeApartments(addressId)
-    }
-
-    private fun observeApartments(addressId: Int) {
-        launchCatching {
-            if (addressId == 0) {
-                _uiState.value = _uiState
-                    .value.copy(
-                        uid = uid,
-                        displayName = displayName,
-                        email = email,
-                    )
-                if (isConnected && networkType != 0) {
-                    getApartmentsByUser(true)
-                } else {
-                    SnackbarManager.showMessage(R.string.error_server_appartment)
-                    getApartmentsByUser(false)
-                }
-            } else {
-                getFlatFromCache(addressId)
-            }
-        }
-    }
-
-    fun closeDetailScreen() {
-        _uiState.value = _uiState
-            .value.copy(
-                isDetailOnlyOpen = false,
-            )
-    }
-
-    fun getApartmentsByUser(needFetch: Boolean = true) {
-        getApartmentsUseCase(needFetch) { it ->
-
-            if (it.isRight) {
-                it.either(::handleFailure) {
-                    handleApartments(it)
-                }
-
-            }
-        }
-    }
-
-    fun getFlatFromCache(addressId: Int) {
-
-        _apartment.value = apartmentCacheImpl.getApartmentById(addressId)
-        _uiState.value = _uiState.value.copy(
-            apartment = _apartment.value!!,
-            addressId = _apartment.value!!.addressId,
-            address = _apartment.value!!.address,
-            houseId = _apartment.value!!.houseId,
-            osmdId = _apartment.value!!.osmdId,
-            osbb = _apartment.value!!.osbb,
-            selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${_apartment.value!!.addressId}}"
-        )
-    }
-
-    private fun handleApartments(apartments: List<ApartmentEntity>) {
-        _apartments.value = apartments
-        _uiState.value = _uiState.value.copy(
-            isDetailOnlyOpen = false,
-            apartments = apartments,
-            apartment = if (apartments.isEmpty()) {
-                ApartmentEntity()
-            } else {
-                apartments.first()
-            },
-            selectedDestination = if (apartments.isEmpty()) {
-                "$APARTMENT_SCREEN?$ADDRESS_ID={0}"
-            } else {
-                "$APARTMENT_SCREEN?$ADDRESS_ID={${apartments.first().addressId}}"
-            },
-
-            addressId = if (apartments.isEmpty()) {
-                0
-            } else {
-                apartments.first().addressId
-            },
-            address = if (apartments.isEmpty()) {
-                ""
-            } else {
-                apartments.first().address
-            },
-            houseId = if (apartments.isEmpty()) {
-                0
-            } else {
-                apartments.first().houseId
-            },
-            osmdId = if (apartments.isEmpty()) {
-                0
-            } else {
-                apartments.first().osmdId
-            },
-            osbb = if (apartments.isEmpty()) {
-                ""
-            } else {
-                apartments.first().osbb
-            },
-        )
-    }
-
+//
+//
+//    fun closeDetailScreen() {
+//        _uiState.value = _uiState
+//            .value.copy(
+//                isDetailOnlyOpen = false,
+//            )
+//    }
+//    fun getFlatFromCache(addressId: Int) {
+//        launchCatching {
+//
+//            _apartment.value = apartmentCacheImpl.getApartmentById(addressId)
+//            _uiState.value = _uiState.value.copy(
+//                apartment = _apartment.value!!,
+//                addressId = _apartment.value!!.addressId,
+//                address = _apartment.value!!.address,
+//                houseId = _apartment.value!!.houseId,
+//                osmdId = _apartment.value!!.osmdId,
+//                osbb = _apartment.value!!.osbb,
+//                selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${_apartment.value!!.addressId}}"
+//            )
+//        }
+//    }
+//
+//
+//
     fun onSecretCodeChange(newValue: String) {
         secretKeyUiState = secretKeyUiState.copy(secretCode = newValue)
     }
@@ -215,7 +141,7 @@ class ApartmentViewModel @Inject constructor(
                 }
 
             }
-            restartApp(APARTMENT_SCREEN)
+            restartApp(SPLASH_SCREEN)
 
         }
     }
@@ -256,13 +182,14 @@ class ApartmentViewModel @Inject constructor(
         }
 
     }
-
-    override fun onCleared() {
-        super.onCleared()
-        getApartmentsUseCase.unsubscribe()
-        deleteFlatByUser.unsubscribe()
-        updateBtiUseCase.unsubscribe()
-    }
+//    fun addApartment(openScreen: (String) -> Unit) {
+//        openScreen(ADD_APARTMENT_SCREEN)
+//    }
+//    override fun onCleared() {
+//        super.onCleared()
+//        deleteFlatByUser.unsubscribe()
+//        updateBtiUseCase.unsubscribe()
+//    }
 }
 
 

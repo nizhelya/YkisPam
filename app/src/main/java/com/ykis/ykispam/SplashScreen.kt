@@ -24,11 +24,11 @@ import com.ykis.ykispam.R.string as AppText
 
 @Composable
 fun SplashScreen(
-    openAndPopUp:(String,String) -> Unit,
     modifier: Modifier = Modifier,
+    openAndPopUp:(String,String) -> Unit,
     viewModel: SplashViewModel = hiltViewModel()
 ) {
-    val isUserSignedOut = viewModel.getAuthState().collectAsState().value
+    val isUserSignedOut = viewModel.getAuthState().collectAsStateWithLifecycle().value
 
     Column(
         modifier =

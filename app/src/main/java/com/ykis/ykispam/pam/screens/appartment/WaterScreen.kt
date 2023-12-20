@@ -49,7 +49,7 @@ fun WaterScreen(
 ) {
 
     LaunchedEffect(viewModel) {
-        viewModel.getFlatFromCache(addressId.toInt())
+//        viewModel.getFlatFromCache(addressId.toInt())
     }
     val apartment by viewModel.apartment.observeAsState()
     Column(
