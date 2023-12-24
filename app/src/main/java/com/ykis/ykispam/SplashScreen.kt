@@ -16,10 +16,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ykis.ykispam.core.composable.BasicButton
 import com.ykis.ykispam.core.ext.basicButton
+import com.ykis.ykispam.theme.YkisPAMTheme
 import com.ykis.ykispam.R.string as AppText
 
 @Composable
@@ -52,3 +54,4 @@ fun SplashScreen(
         viewModel.onAppStart(isUserSignedOut,openAndPopUp)
     }
 }
+

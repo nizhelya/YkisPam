@@ -488,8 +488,9 @@ fun AppContent(
                                 modifier = Modifier
                                     .padding(16.dp)
                                     .align(Alignment.BottomEnd),
-                                containerColor = MaterialTheme.colorScheme.inverseOnSurface,
-                                contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.AddHome,

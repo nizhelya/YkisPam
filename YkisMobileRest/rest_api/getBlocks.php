@@ -2,9 +2,7 @@
 $response = array();
 
 include_once "GeneralFunctions.php";
-
-if (isset($_POST['user_id'])  ) {
-    $dbOperationsObject = new DBOperations();
+$dbOperationsObject = new DBOperations();
     $generalFunctionsObject = new GeneralFunctionsClass();
 
         $resultBlocks = $dbOperationsObject->getBlocks();
@@ -13,10 +11,4 @@ if (isset($_POST['user_id'])  ) {
         $response["message"] = "Success!";
         $response["address"] = $blocks;
         echo json_encode($response);
-} else {
-    $response["success"] = 0;
-    $response["message"] = "Required field(s) is missing";
-    echo json_encode($response);
-}
-
 ?>
