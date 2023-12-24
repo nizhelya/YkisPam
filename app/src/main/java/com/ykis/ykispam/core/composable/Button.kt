@@ -102,14 +102,14 @@ fun BasicImageButton(
         shape = RoundedCornerShape(20.dp),
         colors =
         ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.inverseOnSurface,
-            contentColor = MaterialTheme.colorScheme.onSurface,
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary,
         )
     ) {
 
         Text(text = stringResource(text), fontSize = 16.sp, modifier = Modifier.padding(end = 2.dp))
         Image(
-            colorFilter = ColorFilter.tint(Color.Black),
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary),
             painter = painterResource(img),
             contentDescription = null
         )

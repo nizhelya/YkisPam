@@ -38,6 +38,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection.Companion.Out
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.VectorComposable
@@ -58,11 +59,11 @@ fun BasicField(
     @StringRes placeholder: Int,
     value: String,
     onNewValue: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    keyboardType :KeyboardType = KeyboardType.Text
 ) {
     OutlinedTextField(
         singleLine = true,
-//        colors = TextFieldColors(Color(0xFFFFB945)),
         modifier = Modifier
             .widthIn(0.dp, 480.dp),
         label = {
@@ -73,7 +74,8 @@ fun BasicField(
         },
         value = value,
         onValueChange = { onNewValue(it) },
-        placeholder = { Text(stringResource(id = placeholder)) }
+        placeholder = { Text(stringResource(id = placeholder)) },
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType)
     )
 }
 
