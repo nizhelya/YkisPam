@@ -147,8 +147,7 @@ fun AddApartmentScreenContent(
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier.padding(PaddingValues(8.dp)),
-
+                        modifier = Modifier.padding(PaddingValues(8.dp))
                         ) {
                         Column(
                             modifier = Modifier

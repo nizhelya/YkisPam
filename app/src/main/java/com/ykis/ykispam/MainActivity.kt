@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
 
 
         setContent {
-                YkisPAMTheme {
+                YkisPAMTheme() {
                     val windowSize = calculateWindowSizeClass(this)
                     val displayFeatures = calculateDisplayFeatures(this)
                     Surface(tonalElevation = 5.dp) {

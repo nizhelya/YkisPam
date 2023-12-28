@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -463,7 +465,6 @@ fun AppContent(
                     .padding(PaddingValues(4.dp))
                     .verticalScroll(rememberScrollState())
                     .fillMaxWidth()
-                    .fillMaxHeight()
                     .background(MaterialTheme.colorScheme.inverseOnSurface),
 
                 verticalArrangement = Arrangement.Top,
@@ -505,7 +506,7 @@ fun AppContent(
                 } else {
                     Card(
                         modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
 
                     ) {
                         Column(
@@ -574,7 +575,7 @@ fun AppContent(
                     }
                     Card(
                         modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
                     ) {
                         Column(
                             modifier = Modifier

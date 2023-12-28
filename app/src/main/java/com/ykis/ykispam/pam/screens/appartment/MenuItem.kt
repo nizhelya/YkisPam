@@ -63,7 +63,7 @@ fun MenuItem(
         },
         elevation = CardDefaults.cardElevation(10.dp),
         colors = CardDefaults.cardColors(
-            containerColor =  MaterialTheme.colorScheme.inverseOnSurface
+            containerColor =  MaterialTheme.colorScheme.primary
         )
     ) {
         Column(
@@ -81,12 +81,12 @@ fun MenuItem(
                         .padding(8.dp),
                     imageVector = imageVector,
                     contentDescription = "",
-                    tint = MaterialTheme.colorScheme.outline
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
                 Text(
                     text = serviseName,
                     style = MaterialTheme.typography.titleMedium,
-                    color =  MaterialTheme.colorScheme.secondary,
+                    color =  MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier
                         .padding(8.dp)
                         .weight(1f),
