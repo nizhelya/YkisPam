@@ -212,12 +212,13 @@
     <string name="start_debt">Борг на\nпочаток</string>
     <string name="accured_text">Нарахо-\nвано</string>
     <string name="end_debt">Борг на\nкінець</string>
-    <string name="services">Послуги\n </string>
+    <string name="services">Послуги</string>
     <string name="refund">Відшкодування</string>
     <string name="paid">Спла-\nчено</string>
     <string name="tbo">Управління ПВ:</string>
     <string name="prixod">Приход:</string>
     <string name="add">Додати</string>
+    <string name="services_detail">Історія платежів</string>
 
     //FragmentLabel
     <string name="water_meter">Водяний</string>

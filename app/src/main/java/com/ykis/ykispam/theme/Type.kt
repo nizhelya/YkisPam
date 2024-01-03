@@ -2,13 +2,12 @@ package com.ykis.ykispam.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 // Material 3 typography
 
-val replyTypography = Typography(
+val Typography = Typography(
     headlineLarge = TextStyle(
         fontWeight = FontWeight.SemiBold,
         fontSize = 32.sp,
@@ -64,7 +63,7 @@ val replyTypography = Typography(
         letterSpacing = 0.4.sp
     ),
     labelLarge = TextStyle(
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.Bold,
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.1.sp
@@ -80,5 +79,6 @@ val replyTypography = Typography(
         fontSize = 11.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp
-    )
+    ),
+
 )

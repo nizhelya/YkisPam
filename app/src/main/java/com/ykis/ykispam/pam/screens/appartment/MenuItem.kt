@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.twotone.Info
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -26,7 +24,6 @@ import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.BaseUIState
-import com.ykis.ykispam.core.composable.HelpAlertCard
 import com.ykis.ykispam.navigation.ADDRESS
 import com.ykis.ykispam.navigation.ADDRESS_ID
 
@@ -52,13 +49,13 @@ fun MenuItem(
     val semanticsModifier =
         if (isSelectable)
             modifier
-                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .padding(horizontal = 20.dp, vertical = 6.dp)
                 .semantics { selected = isSelected }
         else modifier.padding(horizontal = 16.dp, vertical = 8.dp)
     Card(
         modifier = semanticsModifier.clickable {
             navigateToDestination(
-                "$screen?$ADDRESS_ID=${baseUIState.addressId},$ADDRESS=${baseUIState.address}"
+                "$screen?$ADDRESS_ID=${baseUIState.addressId},$ADDRESS=${baseUIState.address} "
             )
         },
         elevation = CardDefaults.cardElevation(10.dp),

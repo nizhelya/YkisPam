@@ -36,8 +36,6 @@ object YkisRoute {
     const val MESSAGE = "MessageScreen"
     const val SETTINGS = "SettingsScreen"
     const val ADDAPARTMENT = "AddApartmentScreen"
-
-
 }
 
 data class TopLevelDestination(

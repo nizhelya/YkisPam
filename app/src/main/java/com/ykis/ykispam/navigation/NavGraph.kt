@@ -16,6 +16,7 @@ import com.ykis.ykispam.pam.screens.appartment.ApartmentScreen
 import com.ykis.ykispam.pam.screens.appartment.WaterScreen
 import com.ykis.ykispam.pam.screens.bti.BtiScreen
 import com.ykis.ykispam.pam.screens.family.FamilyScreen
+import com.ykis.ykispam.pam.screens.service.ServiceDetailScreen
 
 
 fun NavGraphBuilder.YkisPamGraph(
@@ -137,7 +138,21 @@ fun NavGraphBuilder.YkisPamGraph(
             navigationContentPosition = navigationContentPosition
         )
     }
-}
+        composable(
+            route = "$SERVICE_DETAIL_SCREEN$FLAT_ARG",
+            arguments = listOf(
+                navArgument(ADDRESS_ID) { defaultValue = ADDRESS_DEFAULT_ID },
+                navArgument(ADDRESS) { defaultValue = ADDRESS_DEFAULT },
+//                navArgument(HOUSE_ID) { defaultValue = HOUSE_DEFAULT_ID }),
+        )){
+            ServiceDetailScreen(
+                popUpScreen = { appState.popUp() },
+                addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID,
+                houseId ="43",
+                address = it.arguments?.getString(ADDRESS) ?: ADDRESS_DEFAULT
+            )
+        }
+    }
 
 
 

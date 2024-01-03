@@ -21,7 +21,7 @@ interface ApiService {
     companion object {
         const val SERVER_URL = "https://is.yuzhny.com/YkisMobileRest"
 //        const val SERVER_URL = "http://10.0.2.2/YkisPAM/YkisMobileRest"
-//        const val SERVER_URL = "http://192.168.0.177/MobYkis/YkisMobileRest"
+//        const val SERVER_URL = "http://192.168.0.102/MobYkis/YkisMobileRest"
 
 //        const val SERVER_URL = "http://192.168.0.177/YkisPAM/YkisMobileRest"
 

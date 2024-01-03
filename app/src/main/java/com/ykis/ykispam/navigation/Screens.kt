@@ -27,16 +27,20 @@ const val ADD_APARTMENT_SCREEN = "AddApartmentScreen"
 const val BTI_SCREEN = "BtiScreen"
 const val FAMILY_SCREEN = "FamilyScreen"
 const val WATER_SCREEN = "WaterScreen"
-
+const val SERVICE_DETAIL_SCREEN ="ServiceDetailScreen"
 
 
 const val ADDRESS_ID = "addressId"
 const val ADDRESS_DEFAULT_ID = "0"
+
+const val HOUSE_ID="houseId"
+const val HOUSE_DEFAULT_ID="0"
 
 const val ADDRESS = "address"
 const val ADDRESS_DEFAULT = "адреса"
 
 const val ADDRESS_ID_ARG = "?$ADDRESS_ID={$ADDRESS_ID}"
 const val FLAT_ARG = "?$ADDRESS_ID={$ADDRESS_ID},$ADDRESS={$ADDRESS}"
+const val SERVICE_ARG = "?$ADDRESS_ID={$ADDRESS_ID},$ADDRESS={$ADDRESS}, ?$HOUSE_ID={$HOUSE_ID}"
 
 
