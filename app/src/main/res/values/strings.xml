@@ -171,7 +171,7 @@
 
     <string name="data_order">дата видачі ордера:</string>
     <string name="order_text">Ордер:</string>
-    <string name="edit">Оновити</string>
+    <string name="edit">оновити</string>
     <string name="updated">Дані оновлено</string>
     <string name="phone">Тел.</string>
     <string name="dialog_edit_title">Оновити контактну інформацію</string>

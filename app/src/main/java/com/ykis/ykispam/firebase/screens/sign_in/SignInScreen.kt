@@ -45,17 +45,29 @@ import com.ykis.ykispam.R.string as AppText
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SignInScreen(
-    openAndPopUp: (String, String) -> Unit,
     openScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SignInViewModel = hiltViewModel()
 ) {
-
+    val singInUiState = viewModel.singInUiState
+    val keyboard = LocalSoftwareKeyboardController.current
+    val launcher =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                try {
+                    val credentials =
+                        viewModel.oneTapClient.getSignInCredentialFromIntent(result.data)
+                    val googleIdToken = credentials.googleIdToken
+                    val googleCredentials = getCredential(googleIdToken, null)
+                    viewModel.signInWithGoogle(googleCredentials)
+                } catch (it: ApiException) {
+                    print(it)
+                }
+            }
+        }
     Row( modifier = modifier
         .fillMaxWidth()
         .fillMaxHeight(),
-//        .verticalScroll(rememberScrollState())
-//        .background(color = MaterialTheme.colorScheme.background),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center) {
         Column(
@@ -63,12 +75,9 @@ fun SignInScreen(
                 .widthIn(0.dp, 460.dp)
                 .fillMaxHeight()
                 .verticalScroll(rememberScrollState()),
-//                .background(color = MaterialTheme.colorScheme.background),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val singInUiState = viewModel.singInUiState
-            val keyboard = LocalSoftwareKeyboardController.current
             BasicToolbar(AppText.login_details, isFullScreen = true)
             Spacer(modifier = Modifier.smallSpacer())
             LogoImage()
@@ -111,20 +120,7 @@ fun SignInScreen(
         }
     }
 
-    val launcher =
-        rememberLauncherForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                try {
-                    val credentials =
-                        viewModel.oneTapClient.getSignInCredentialFromIntent(result.data)
-                    val googleIdToken = credentials.googleIdToken
-                    val googleCredentials = getCredential(googleIdToken, null)
-                    viewModel.signInWithGoogle(googleCredentials)
-                } catch (it: ApiException) {
-                    print(it)
-                }
-            }
-        }
+
 
     fun launch(signInResult: BeginSignInResult) {
         val intent = IntentSenderRequest.Builder(signInResult.pendingIntent.intentSender).build()

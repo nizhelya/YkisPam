@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -40,15 +41,14 @@ import com.ykis.ykispam.navigation.BottomNavigationBar
 import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.navigation.DevicePosture
 import com.ykis.ykispam.navigation.ModalNavigationDrawerContent
+import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.NavigationContentPosition
 import com.ykis.ykispam.navigation.NavigationType
 import com.ykis.ykispam.navigation.PermanentNavigationDrawerContent
 import com.ykis.ykispam.navigation.SPLASH_SCREEN
 import com.ykis.ykispam.navigation.YkisPamGraph
-import com.ykis.ykispam.navigation.YkisRoute
 import com.ykis.ykispam.navigation.isBookPosture
 import com.ykis.ykispam.navigation.isSeparating
-import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -58,8 +58,11 @@ fun YkisPamApp(
     windowSize: WindowSizeClass,
     displayFeatures: List<DisplayFeature>,
     baseUIState: BaseUIState,
+    getApartments: () -> Unit ,
     closeDetailScreen: () -> Unit = {},
-    navigateToDetail: (Int, ContentType) -> Unit = { _, _ -> }
+    getApartment: (Int, ContentType) -> Unit = { _, _ -> },
+    navigateToDetail: (ContentDetail, ContentType) -> Unit = { _, _ -> }
+
 
 ) {
     val navigationType: NavigationType
@@ -98,6 +101,7 @@ fun YkisPamApp(
                 NavigationType.PERMANENT_NAVIGATION_DRAWER
             }
             contentType = ContentType.DUAL_PANE
+
         }
 
         else -> {
@@ -127,8 +131,11 @@ fun YkisPamApp(
         navigationContentPosition = navigationContentPosition, // PERMANENT_NAVIGATION_DRAWER содержимое TOP or CENTER
         appState = appState,
         baseUIState = baseUIState,
+        getApartments = getApartments,
         closeDetailScreen = closeDetailScreen,
+        getApartment = getApartment,
         navigateToDetail = navigateToDetail
+
     )
 }
 
@@ -140,8 +147,11 @@ fun NavigationWrapper(
     navigationContentPosition: NavigationContentPosition,
     appState: YkisPamAppState,
     baseUIState: BaseUIState,
+    getApartments: () -> Unit,
     closeDetailScreen: () -> Unit,
-    navigateToDetail: (Int, ContentType) -> Unit
+    getApartment: (Int, ContentType) -> Unit,
+    navigateToDetail: (ContentDetail, ContentType) -> Unit
+
 ) {
     val drawerState = DrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = appState.coroutineScope
@@ -158,7 +168,7 @@ fun NavigationWrapper(
                 navigationContentPosition = navigationContentPosition,
                 navigateToDestination = appState::navigateTo
             )
-        })   {
+        }) {
             AppContent(
                 appState = appState,
                 baseUIState = baseUIState,
@@ -169,8 +179,11 @@ fun NavigationWrapper(
                 navController = navController,
                 selectedDestination = selectedDestination,
                 navigateToDestination = appState::navigateTo,
+                getApartments = getApartments,
                 closeDetailScreen = closeDetailScreen,
-                navigateToDetail = navigateToDetail,
+                getApartment = getApartment,
+                navigateToDetail = navigateToDetail
+
             )
         }
     } else {
@@ -201,8 +214,11 @@ fun NavigationWrapper(
                 navController = navController,
                 selectedDestination = selectedDestination,
                 navigateToDestination = appState::navigateTo,
+                getApartments = getApartments,
                 closeDetailScreen = closeDetailScreen,
-                navigateToDetail = navigateToDetail,
+                getApartment = getApartment,
+                navigateToDetail = navigateToDetail
+
             ) {
                 coroutineScope.launch {
                     drawerState.open()
@@ -225,8 +241,10 @@ fun AppContent(
     navController: NavHostController,
     selectedDestination: String,
     navigateToDestination: (String) -> Unit,
+    getApartments: () -> Unit,
     closeDetailScreen: () -> Unit,
-    navigateToDetail: (Int, ContentType) -> Unit,
+    getApartment: (Int, ContentType) -> Unit,
+    navigateToDetail: (ContentDetail, ContentType) -> Unit,
     onDrawerClicked: () -> Unit = {}
 ) {
     Scaffold(
@@ -265,19 +283,23 @@ fun AppContent(
 
             ) {
                 YkisNavHost(
+                    modifier = Modifier.weight(1f),
                     appState = appState,
                     baseUIState = baseUIState,
                     navController = navController,
                     contentType = contentType,
                     displayFeatures = displayFeatures,
                     navigationType = navigationType,
-                    navigationContentPosition = navigationContentPosition,
+                    getApartments = getApartments,
                     closeDetailScreen = closeDetailScreen,
+                    navigateToDestination = navigateToDestination,
+                    getApartment = getApartment,
                     navigateToDetail = navigateToDetail,
-                    modifier = Modifier.weight(1f),
+                    onDrawerClicked = onDrawerClicked
                 )
                 AnimatedVisibility(visible = navigationType == NavigationType.BOTTOM_NAVIGATION) {
                     BottomNavigationBar(
+                        navigateToDestination = navigateToDestination,
                         selectedDestination = selectedDestination,
                     )
                 }
@@ -288,16 +310,20 @@ fun AppContent(
 
 @Composable
 private fun YkisNavHost(
+    modifier: Modifier = Modifier,
     appState: YkisPamAppState,
     baseUIState: BaseUIState,
     navController: NavHostController,
     contentType: ContentType,
     displayFeatures: List<DisplayFeature>,
     navigationType: NavigationType,
-    navigationContentPosition: NavigationContentPosition,
+    getApartments: () -> Unit,
     closeDetailScreen: () -> Unit,
-    navigateToDetail: (Int, ContentType) -> Unit,
-    modifier: Modifier = Modifier,
+    navigateToDestination: (String) -> Unit,
+    getApartment: (Int, ContentType) -> Unit,
+    navigateToDetail: (ContentDetail, ContentType) -> Unit,
+    onDrawerClicked: () -> Unit = {}
+
 ) {
     NavHost(
         modifier = modifier,
@@ -308,11 +334,14 @@ private fun YkisNavHost(
             contentType,
             navigationType,
             displayFeatures,
-            navigationContentPosition,
             appState,
             baseUIState,
-            closeDetailScreen ,
+            getApartments,
+            closeDetailScreen,
+            navigateToDestination,
+            getApartment,
             navigateToDetail,
+            onDrawerClicked
         )
     }
 }

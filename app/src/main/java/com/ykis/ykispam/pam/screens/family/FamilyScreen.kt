@@ -52,7 +52,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ykis.ykispam.R
 import com.ykis.ykispam.pam.domain.family.FamilyEntity
-import com.ykis.ykispam.pam.screens.appartment.DetailTopAppBar
+import com.ykis.ykispam.pam.screens.appartment.AppBars.AddAppBar
 import com.ykis.ykispam.theme.YkisPAMTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -73,7 +73,7 @@ fun FamilyScreen(
     FamilyScreenContent(
         family = family,
         address = address,
-        navigateBack = { viewModel.navigateBack(popUpScreen) }
+        onBackPressed = { viewModel.navigateBack(popUpScreen) }
     )
 }
 
@@ -83,7 +83,7 @@ fun FamilyScreenContent(
     modifier: Modifier = Modifier,
     family: List<FamilyEntity>,
     address: String,
-    navigateBack: () -> Unit,
+    onBackPressed: () -> Unit,
 ) {
 
     val familyLazyListState = rememberLazyListState()
@@ -96,7 +96,7 @@ fun FamilyScreenContent(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        DetailTopAppBar(modifier,stringResource(id = R.string.list_family),address, navigateBack = { navigateBack() })
+        AddAppBar(modifier,stringResource(id = R.string.list_family),address, onBackPressed = { onBackPressed() })
         FamilyList(
             family = family,
             familyLazyListState = familyLazyListState,
@@ -294,7 +294,7 @@ fun FamilyScreenPreview() {
         FamilyScreenContent(
             family = listOf(FamilyEntity(surname = "Нижельский", inn = "")),
             address = "Гр.Десанта 21/71",
-            navigateBack = {},
+            onBackPressed = {},
 
             )
     }

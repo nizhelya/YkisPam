@@ -33,7 +33,6 @@ class SignInViewModel @Inject constructor(
     private val email
         get() = singInUiState.email
     private val password
-
         get() = singInUiState.password
 
     var singInUiState by mutableStateOf(SingInUiState())
@@ -42,7 +41,6 @@ class SignInViewModel @Inject constructor(
         private set
     var signInWithGoogleResponse by mutableStateOf<SignInWithGoogleResponse>(Response.Success(null))
         private set
-
 
 
     fun onEmailChange(newValue: String) {
@@ -84,10 +82,11 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    fun oneTapSignIn() = viewModelScope.launch {
-        oneTapSignInResponse = Response.Loading
-        oneTapSignInResponse = firebaseService.oneTapSignInWithGoogle()
-
+    fun oneTapSignIn() {
+        launchCatching {
+            oneTapSignInResponse = Response.Loading
+            oneTapSignInResponse = firebaseService.oneTapSignInWithGoogle()
+        }
     }
 
     fun signInWithGoogle(googleCredential: AuthCredential) {

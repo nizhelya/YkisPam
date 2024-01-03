@@ -49,14 +49,14 @@ import com.ykis.ykispam.core.composable.EmailField
 import com.ykis.ykispam.core.composable.ImageButton
 import com.ykis.ykispam.core.composable.PhoneField
 import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.pam.screens.appartment.DetailTopAppBar
+import com.ykis.ykispam.pam.screens.appartment.AppBars.AddAppBar
 import com.ykis.ykispam.theme.YkisPAMTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BtiScreen(
-    popUpScreen: () -> Unit,
-    openScreen: (String) -> Unit,
+    popUpScreen: () -> Unit ={},
+    openScreen: (String) -> Unit = {_ -> },
     viewModel: BtiViewModel = hiltViewModel(),
     addressId: String,
     address: String
@@ -73,10 +73,10 @@ fun BtiScreen(
             contactUiState = contactUiState,
             apartment = it,
             address = address,
-            navigateBack = { viewModel.navigateBack(popUpScreen) },
+            onBackPressed = { viewModel.navigateBack(popUpScreen) },
             onEmailChange = viewModel::onEmailChange,
             onPhoneChange = viewModel::onPhoneChange,
-            onUpdateBti = { viewModel.onUpdateBti(openScreen) },
+            onUpdateBti = { viewModel.onUpdateBti() },
 
         )
     }
@@ -90,7 +90,7 @@ fun BtiScreenContent(
     contactUiState: ContactUIState,
     apartment: ApartmentEntity,
     address: String,
-    navigateBack: () -> Unit,
+    onBackPressed: () -> Unit,
     onEmailChange: (String) -> Unit,
     onPhoneChange: (String) -> Unit,
     onUpdateBti: () -> Unit,
@@ -107,11 +107,11 @@ fun BtiScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val keyboard = LocalSoftwareKeyboardController.current
-        DetailTopAppBar(
+        AddAppBar(
             modifier,
             stringResource(id = R.string.bti),
             address,
-            navigateBack = { navigateBack() })
+            onBackPressed = { onBackPressed() })
 
         Card(
             modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -790,7 +790,7 @@ fun BtiScreenPreview() {
             contactUiState = ContactUIState(email = "example@email.com", phone = "+380931111111"),
             apartment = ApartmentEntity(),
             address = "Гр.Десанту 21 кв.71",
-            navigateBack = { },
+            onBackPressed = { },
             onEmailChange = {},
             onPhoneChange = {},
             onUpdateBti = {},

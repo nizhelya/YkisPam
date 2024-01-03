@@ -71,3 +71,7 @@ enum class NavigationContentPosition {
 enum class ContentType {
     SINGLE_PANE, DUAL_PANE
 }
+
+enum class ContentDetail {
+    BTI, FAMALY, OSBB, WATER_SERVICE, WARM_SERVICE, GARBAGE_SERVICE,PAYMENTS
+}

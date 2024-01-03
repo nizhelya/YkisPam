@@ -16,30 +16,38 @@ limitations under the License.
 
 package com.ykis.ykispam
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavHost
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.firebase.model.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.model.service.repo.LogService
 import com.ykis.ykispam.navigation.ADDRESS_ID
 import com.ykis.ykispam.navigation.APARTMENT_SCREEN
 import com.ykis.ykispam.navigation.ContentType
+import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.SIGN_IN_SCREEN
 import com.ykis.ykispam.navigation.SPLASH_SCREEN
 import com.ykis.ykispam.navigation.VERIFY_EMAIL_SCREEN
-import com.ykis.ykispam.navigation.YkisRoute
+import com.ykis.ykispam.pam.data.cache.apartment.ApartmentCacheImpl
+import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.pam.data.remote.core.NetworkHandler
-import com.ykis.ykispam.pam.domain.address.AddressEntity
+import com.ykis.ykispam.pam.domain.address.request.AddFlatByUser
 import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.pam.domain.apartment.request.GetApartments
+import com.ykis.ykispam.pam.screens.appartment.SecretKeyUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val firebaseService: FirebaseService,
+    private val apartmentCacheImpl: ApartmentCacheImpl,
+    private val addFlatByUser: AddFlatByUser,
     private val getApartmentsUseCase: GetApartments,
     private val networkHandler: NetworkHandler,
     logService: LogService,
@@ -48,35 +56,45 @@ class SplashViewModel @Inject constructor(
     val showError = mutableStateOf(false)
     private val isEmailVerified get() = firebaseService.currentUser?.isEmailVerified ?: false
     val uid get() = firebaseService.uid
-    val displayName get() = firebaseService.displayName
+    private val displayName get() = firebaseService.displayName
     val email get() = firebaseService.email
 
-    private val _apartments = MutableLiveData<List<ApartmentEntity>>()
-    val apartments: LiveData<List<ApartmentEntity>> get() = _apartments
+    private val secretCode
+        get() = secretKeyUiState.secretCode
 
+    private val addressId
+        get() = secretKeyUiState.addressId
 
+    private val _apartment = MutableLiveData<ApartmentEntity>()
+    val apartment: LiveData<ApartmentEntity> get() = _apartment
+
+    private val _resultText = MutableLiveData<GetSimpleResponse>()
+    val resultText: LiveData<GetSimpleResponse> = _resultText
+
+    var secretKeyUiState by mutableStateOf(SecretKeyUiState())
+        private set
     private val isConnected: Boolean get() = networkHandler.isConnected
     private val networkType: Int get() = networkHandler.networkType
 
-//    fun initialize(uid: String) {
-////        if (uid.isNotEmpty()) {
-//            observeApartments()
-////        }
-//    }
-    init {
-        if (uid.isNotEmpty()) {
-        observeApartments()
+    fun initialize(isUserSignedOut: Boolean) {
+        if (uid.isNotEmpty() && !isUserSignedOut) {
+            observeApartments()
         }
     }
+
     fun getAuthState() = firebaseService.getAuthState(viewModelScope)
 
-    fun onAppStart(isUserSignedOut: Boolean, openAndPopUp: (String, String) -> Unit) {
+    fun onAppStart(
+        isUserSignedOut: Boolean,
+        restartApp: (String) -> Unit,
+        openAndPopUp: (String, String) -> Unit
+    ) {
         showError.value = false
         if (isUserSignedOut) {
-            openAndPopUp(SIGN_IN_SCREEN, SPLASH_SCREEN)
+            restartApp(SIGN_IN_SCREEN)
         } else {
             if (isEmailVerified) {
-                openAndPopUp(APARTMENT_SCREEN, SPLASH_SCREEN)
+                restartApp(APARTMENT_SCREEN)
             } else {
                 openAndPopUp(VERIFY_EMAIL_SCREEN, SPLASH_SCREEN)
 
@@ -84,105 +102,139 @@ class SplashViewModel @Inject constructor(
         }
     }
 
-    fun setSelectedAddress(addressId: Int, contentType: ContentType) {
-        /**
-         * We only set isDetailOnlyOpen to true when it's only single pane layout
-         */
-        val apartment = uiState.value.apartments.find { it.addressId == addressId }
-        _uiState.value = apartment?.let {
-            _uiState.value.copy(
-                apartment = it,
-                addressId = it.addressId,
-                address = it.address,
-                houseId = it.houseId,
-                osmdId = it.osmdId,
-                osbb = it.osbb,
-                selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${it.addressId}}",
-                isDetailOnlyOpen = contentType == ContentType.SINGLE_PANE
-            )
-        }!!
+    fun setSelectedDetail(contentDetail: ContentDetail, contentType: ContentType) {
+
+        _uiState.value = _uiState.value.copy(
+            selectedContentDetail = contentDetail,
+            isDetailOnlyOpen = contentType == ContentType.SINGLE_PANE
+        )
+    }
+
+    fun setApartment(addressId: Int, contentType: ContentType) {
+        if (addressId != 0) {
+            launchCatching {
+                _apartment.value = apartmentCacheImpl.getApartmentById(addressId)
+                _uiState.value = _apartment.value?.let {
+                    _uiState.value.copy(
+                        apartment = _apartment.value!!,
+                        addressId = _apartment.value!!.addressId,
+                        address = _apartment.value!!.address,
+                        houseId = _apartment.value!!.houseId,
+                        osmdId = _apartment.value!!.osmdId,
+                        osbb = _apartment.value!!.osbb,
+                        selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${_apartment.value!!.addressId}}"
+                    )
+                }!!
+
+            }
+        }
+    }
+
+
+
+    fun addApartment(restartApp: (String) -> Unit) {
+        if (secretCode.isBlank()) {
+            SnackbarManager.showMessage(R.string.empty_field_error)
+            return
+        }
+        launchCatching {
+
+            addFlatByUser(secretCode) { it ->
+                it.either(::handleFailure) {
+                    handleResultText(
+                        it, _resultText
+                    )
+                }
+                if (resultText.value?.success == 1) {
+                    _uiState.value = _uiState.value.copy(
+                        secretCode = secretCode
+                    )
+                    getApartmentsByUser(secretCode, true)
+                    SnackbarManager.showMessage(R.string.success_add_flat)
+                    restartApp(SPLASH_SCREEN)
+                }
+
+            }
+        }
+
+    }
+
+    private fun handleResultText(
+        response: GetSimpleResponse,
+        result: MutableLiveData<GetSimpleResponse>,
+    ) {
+        result.value = response
     }
 
     fun closeDetailScreen() {
         _uiState.value = _uiState
             .value.copy(
                 isDetailOnlyOpen = false,
-//                apartment = _uiState.value.apartments.first()
+                selectedContentDetail = ContentDetail.BTI
             )
     }
 
-private fun observeApartments() {
-    launchCatching {
-        _uiState.value = _uiState.value.copy(
-            uid = uid,
-            displayName = displayName,
-            email = email,
-        )
-        if (isConnected && networkType != 0) {
-            getApartmentsByUser(true)
-        } else {
-            SnackbarManager.showMessage(R.string.error_server_appartment)
-            getApartmentsByUser(false)
-        }
-
-    }
-}
-
-fun getApartmentsByUser(needFetch: Boolean = true) {
-    getApartmentsUseCase(needFetch) { it ->
-
-        if (it.isRight) {
-            it.either(::handleFailure) {
-                handleApartments(it)
+    private fun observeApartments() {
+        launchCatching {
+            _uiState.value = _uiState.value.copy(
+                uid = uid,
+                displayName = displayName,
+                email = email,
+            )
+            if (isConnected && networkType != 0) {
+                getApartmentsByUser(secretCode = "", true)
+            } else {
+                SnackbarManager.showMessage(R.string.error_server_appartment)
+                getApartmentsByUser(secretCode = "", false)
             }
 
         }
     }
-}
 
-private fun handleApartments(apartments: List<ApartmentEntity>) {
-    _apartments.value = apartments
-    _uiState.value = _uiState.value.copy(
-        isDetailOnlyOpen = false,
-        apartments = apartments,
-        apartment = if (apartments.isEmpty()) {
-            ApartmentEntity()
-        } else {
-            apartments.first()
-        },
-        selectedDestination = if (apartments.isEmpty()) {
-            "$APARTMENT_SCREEN?$ADDRESS_ID={0}"
-        } else {
-            "$APARTMENT_SCREEN?$ADDRESS_ID={${apartments.first().addressId}}"
-        },
+    fun getApartmentsByUser(secretCode: String = "", needFetch: Boolean = true) {
+        getApartmentsUseCase(needFetch) { it ->
+            if (it.isRight) {
+                it.either(::handleFailure) {
+                    handleApartments(it, secretCode)
+                }
 
-        addressId = if (apartments.isEmpty()) {
-            0
-        } else {
-            apartments.first().addressId
-        },
-        address = if (apartments.isEmpty()) {
-            ""
-        } else {
-            apartments.first().address
-        },
-        houseId = if (apartments.isEmpty()) {
-            0
-        } else {
-            apartments.first().houseId
-        },
-        osmdId = if (apartments.isEmpty()) {
-            0
-        } else {
-            apartments.first().osmdId
-        },
-        osbb = if (apartments.isEmpty()) {
-            ""
-        } else {
-            apartments.first().osbb
-        },
-    )
-}
+            }
+        }
+    }
 
+    private fun handleApartments(apartments: List<ApartmentEntity>, secretCode: String = "") {
+        if (secretCode.isNotBlank()) {
+            val apartmentEntity = apartments.find { it.kod == secretCode }
+            if (apartmentEntity != null) {
+                secretKeyUiState.addressId = apartmentEntity.addressId
+                _uiState.value = _uiState.value.copy(
+                    isDetailOnlyOpen = false,
+                    apartments = apartments,
+                    apartment = apartmentEntity,
+                    selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${apartmentEntity.addressId}}",
+                    addressId = apartmentEntity.addressId,
+                    address = apartmentEntity.address,
+                    houseId = apartmentEntity.houseId,
+                    osmdId = apartmentEntity.osmdId,
+                    osbb = apartmentEntity.osbb,
+                )
+            }
+        } else {
+            if (apartments.isNotEmpty()) {
+                _uiState.value = _uiState.value.copy(
+                    isDetailOnlyOpen = false,
+                    apartments = apartments,
+                    apartment = apartments.first(),
+                    selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${apartments.first().addressId}}",
+                    addressId = apartments.first().addressId,
+                    address = apartments.first().address,
+                    houseId = apartments.first().houseId,
+                    osmdId = apartments.first().osmdId,
+                    osbb = apartments.first().osbb,
 
+                    )
+            }
+
+        }
+    }
 }

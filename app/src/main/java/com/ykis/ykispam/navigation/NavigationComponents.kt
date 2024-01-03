@@ -130,7 +130,7 @@ fun ApartmentNavigationRail(
                                     unselectedContainerColor = Color.Transparent
                                 ),
                                 onClick = {
-                                    navigateToDestination("$APARTMENT_SCREEN?$ADDRESS_ID=${it.addressId}")
+                                    navigateToDestination("$APARTMENT_SCREEN?$ADDRESS_ID={${it.addressId}}")
                                     onDrawerClicked()
 
                                 }
@@ -213,7 +213,7 @@ fun ApartmentNavigationRail(
 
 @Composable
 fun BottomNavigationBar(
-//    navigateToDestination: (String) -> Unit,
+    navigateToDestination: (String) -> Unit,
     selectedDestination: String,
 ) {
     NavigationBar(modifier = Modifier.fillMaxWidth()) {
@@ -221,7 +221,7 @@ fun BottomNavigationBar(
             if (destination.vkl) {
                 NavigationBarItem(
                     selected = selectedDestination == destination.route,
-                    onClick = { },
+                    onClick = {navigateToDestination(destination.route) },
 
                     icon = {
                         Icon(
@@ -278,11 +278,13 @@ fun PermanentNavigationDrawerContent(
                                     .fillMaxWidth(),
                                 selected = baseUIState.selectedDestination == "$APARTMENT_SCREEN?$ADDRESS_ID={${it.addressId}}",
                                 label = {
-                                    Text(
-                                        text = it.address,
-                                        style = MaterialTheme.typography.titleMedium,
-                                        modifier = Modifier.padding(start = 4.dp)
-                                    )
+                                    it.address?.let { address ->
+                                        Text(
+                                            text = address,
+                                            style = MaterialTheme.typography.titleMedium,
+                                            modifier = Modifier.padding(start = 4.dp)
+                                        )
+                                    }
                                 },
                                 icon = {
                                     Icon(
@@ -309,30 +311,30 @@ fun PermanentNavigationDrawerContent(
                         .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    TOP_LEVEL_DESTINATIONS.forEach { replyDestination ->
+                    TOP_LEVEL_DESTINATIONS.forEach { destination ->
                         NavigationDrawerItem(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(start = 2.dp, top = 2.dp, end = 2.dp, bottom = 2.dp),
-                            selected = selectedDestination == replyDestination.route,
+                            selected = selectedDestination == destination.route,
                             label = {
                                 Text(
-                                    text = stringResource(id = replyDestination.iconTextId),
+                                    text = stringResource(id = destination.iconTextId),
                                     modifier = Modifier.padding(horizontal = 16.dp)
                                 )
                             },
                             icon = {
                                 Icon(
-                                    imageVector = replyDestination.selectedIcon,
+                                    imageVector = destination.selectedIcon,
                                     contentDescription = stringResource(
-                                        id = replyDestination.iconTextId
+                                        id = destination.iconTextId
                                     )
                                 )
                             },
                             colors = NavigationDrawerItemDefaults.colors(
                                 unselectedContainerColor = Color.Transparent
                             ),
-                            onClick = { navigateToDestination(replyDestination.route) }
+                            onClick = { navigateToDestination(destination.route) }
                         )
                     }
                 }
@@ -423,11 +425,13 @@ fun ModalNavigationDrawerContent(
                                     .fillMaxWidth(),
                                 selected = baseUIState.selectedDestination == "$APARTMENT_SCREEN?$ADDRESS_ID={${it.addressId}}",
                                 label = {
-                                    Text(
-                                        text = it.address,
-                                        style = MaterialTheme.typography.titleMedium,
-                                        modifier = Modifier.padding(start = 4.dp)
-                                    )
+                                    it.address?.let { address ->
+                                        Text(
+                                            text = address,
+                                            style = MaterialTheme.typography.titleMedium,
+                                            modifier = Modifier.padding(start = 4.dp)
+                                        )
+                                    }
                                 },
                                 icon = {
                                     Icon(
@@ -447,32 +451,6 @@ fun ModalNavigationDrawerContent(
                             )
                         }
                     }
-
-//                    ExtendedFloatingActionButton(
-//                        onClick = {
-//                            navigateToDestination(ADD_APARTMENT_SCREEN)
-//                            onDrawerClicked()
-//                        },
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .padding(start = 16.dp, top = 8.dp, end = 16.dp, bottom = 8.dp),
-//                        containerColor = MaterialTheme.colorScheme.inverseOnSurface,
-//                        contentColor = MaterialTheme.colorScheme.secondary
-//                    ) {
-//                        Icon(
-//                            imageVector = Icons.Default.AddHome,
-//                            contentDescription = stringResource(id = R.string.add_appartment),
-//                            modifier = Modifier.size(24.dp)
-//                        )
-//                        Text(
-//                            text = stringResource(id = R.string.add_appartment),
-//                            style = MaterialTheme.typography.titleMedium,
-//                            modifier = Modifier
-//                                .weight(1f)
-//                                .padding(start = 8.dp),
-//                            textAlign = TextAlign.Left
-//                        )
-//                    }
                 }
                 Column(
                     modifier = Modifier
@@ -480,29 +458,29 @@ fun ModalNavigationDrawerContent(
                         .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    TOP_LEVEL_DESTINATIONS.forEach { replyDestination ->
+                    TOP_LEVEL_DESTINATIONS.forEach { destination ->
                         NavigationDrawerItem(
                             modifier = Modifier
                                 .fillMaxWidth(),
-                            selected = selectedDestination == replyDestination.route,
+                            selected = selectedDestination == destination.route,
                             label = {
                                 Text(
-                                    text = stringResource(id = replyDestination.iconTextId),
+                                    text = stringResource(id = destination.iconTextId),
                                     modifier = Modifier.padding(horizontal = 16.dp)
                                 )
                             },
                             icon = {
                                 Icon(
-                                    imageVector = replyDestination.selectedIcon,
+                                    imageVector = destination.selectedIcon,
                                     contentDescription = stringResource(
-                                        id = replyDestination.iconTextId
+                                        id = destination.iconTextId
                                     )
                                 )
                             },
                             colors = NavigationDrawerItemDefaults.colors(
                                 unselectedContainerColor = Color.Transparent
                             ),
-                            onClick = { navigateToDestination(replyDestination.route) }
+                            onClick = { navigateToDestination(destination.route) }
                         )
                     }
                 }

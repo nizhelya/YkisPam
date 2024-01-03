@@ -33,7 +33,7 @@ class DBOperations {
         t1.`house_id`, 
         (case when t3.`osmd_id` = 0 then "Внески ОСББ" else t3.abbr end) as osbb, 
         t1.`kod`, 
-        t1.`address`, 
+        IFNULL(t1.`address`,0), 
         t1.`nanim`, 
         IFNULL(t1.`fio`, t1.`nanim`) as "fio", 
         IFNULL(t1.`order`, "") as "order", 

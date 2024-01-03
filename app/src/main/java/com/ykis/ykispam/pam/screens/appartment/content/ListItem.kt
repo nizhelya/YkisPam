@@ -1,14 +1,11 @@
-package com.ykis.ykispam.pam.screens.appartment
+package com.ykis.ykispam.pam.screens.appartment.content
 
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.twotone.Info
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,56 +24,44 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import androidx.glance.GlanceTheme.colors
 import com.ykis.ykispam.BaseUIState
-import com.ykis.ykispam.core.composable.HelpAlertCard
-import com.ykis.ykispam.navigation.ADDRESS
-import com.ykis.ykispam.navigation.ADDRESS_ID
+import com.ykis.ykispam.navigation.ContentDetail
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MenuItem(
+fun ListItem(
+    modifier: Modifier = Modifier,
     imageVector: ImageVector,
-    baseUIState: BaseUIState,
-    screen: String,
-    navigateToDestination: (String) -> Unit,
-    dolg: Double = 0.0,
     serviseName: String = "",
     org: String = "",
     description: String = "",
     isSelected: Boolean = false,
     isSelectable: Boolean = false,
-    modifier: Modifier = Modifier,
+    baseUIState: BaseUIState,
+    contentDetail: ContentDetail,
+    navigateToDetail: (ContentDetail) -> Unit,
+
 
     ) {
     var showDialog by rememberSaveable { mutableStateOf(false) }
     var isSelected by remember { mutableStateOf(false) }
 
+
     val semanticsModifier =
         if (isSelectable)
             modifier
-                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .padding(horizontal = 16.dp, vertical = 4.dp)
                 .semantics { selected = isSelected }
-        else modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+        else modifier.padding(horizontal = 16.dp, vertical = 4.dp)
     Card(
-        modifier = semanticsModifier.clickable()
-        {
-            isSelected = !isSelected
-            navigateToDestination(
-                "$screen?$ADDRESS_ID=${baseUIState.addressId},$ADDRESS=${baseUIState.address}"
-            )
-
-        },
-
-        elevation = CardDefaults.cardElevation(20.dp),
+        modifier = semanticsModifier.clickable { navigateToDetail(contentDetail) },
         colors = CardDefaults.cardColors(
             containerColor = if (isSelected) MaterialTheme.colorScheme.surfaceVariant
             else MaterialTheme.colorScheme.inverseOnSurface
         )
 
-
-    ) {
+       ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()

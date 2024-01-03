@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.ykis.ykispam.pam.screens.osbb
+package com.ykis.ykispam.pam.screens.appartment.content
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -46,51 +45,46 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.selected
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.R
+import com.ykis.ykispam.navigation.ContentDetail
+import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.pam.domain.service.ServiceEntity
-import com.ykis.ykispam.pam.screens.appartment.AppBars.AddAppBar
-import com.ykis.ykispam.theme.YkisPAMTheme
+import com.ykis.ykispam.pam.screens.appartment.AppBars.DetailAppBar
+import com.ykis.ykispam.pam.screens.family.ServiceViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OsbbServiceScreen(
+fun OsbbContent(
     modifier: Modifier = Modifier,
-    popUpScreen: () -> Unit,
-    viewModel: OsbbServiceViewModel = hiltViewModel(),
-    addressId: String,
-    address: String
-) {
+    contentType: ContentType,
+    contentDetail: ContentDetail,
+    baseUIState: BaseUIState,
+    onBackPressed: () -> Unit, viewModel: ServiceViewModel = hiltViewModel(),
 
-    LaunchedEffect(addressId) {
-//        viewModel.servicesFlat(addressId.toInt())
+    ) {
+
+    LaunchedEffect(key1 = baseUIState.apartment) {
+        baseUIState.uid?.let {
+            viewModel.getFlatService(
+                it,
+                baseUIState.apartment.addressId,
+                baseUIState.apartment.houseId,
+                4,
+                0,
+                0,
+                true
+            )
+        }
     }
 
-    val service by viewModel.servicesFlat.observeAsState(listOf(ServiceEntity()))
+    val servicesFlat by viewModel.servicesFlat.observeAsState(listOf(ServiceEntity()))
 
-    OsbbServiceScreenContent(
-        service = service,
-        address = address,
-        onBackPressed = { viewModel.navigateBack(popUpScreen) }
-    )
-}
-
-@ExperimentalMaterial3Api
-@Composable
-fun OsbbServiceScreenContent(
-    modifier: Modifier = Modifier,
-    service : List<ServiceEntity>,
-    address: String,
-    onBackPressed: () -> Unit,
-) {
-
-    val familyLazyListState = rememberLazyListState()
+    val serviceLazyListState = rememberLazyListState()
 
     Column(
         modifier = Modifier
@@ -100,50 +94,41 @@ fun OsbbServiceScreenContent(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        AddAppBar(modifier,stringResource(id = R.string.kvartplata_text),address, onBackPressed = { onBackPressed() })
-        OsbbServiceList(
-            service = service,
-            familyLazyListState = familyLazyListState,
+        DetailAppBar(modifier, contentType, baseUIState, contentDetail) {
+            onBackPressed()
+        }
+        ServiceList(
+            servicesFlat = servicesFlat,
+            serviceLazyListState = serviceLazyListState,
             modifier = modifier,
         )
     }
 }
 
 @Composable
-fun OsbbServiceList(
-    service: List<ServiceEntity>,
-    familyLazyListState: LazyListState,
+fun ServiceList(
+    servicesFlat: List<ServiceEntity>,
+    serviceLazyListState: LazyListState,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(modifier = modifier, state = familyLazyListState) {
+    LazyColumn(modifier = modifier, state = serviceLazyListState) {
 
-        items(items = service, key = { it.data }) { service ->
-            OsbbServiceListItem(service = service)
+        items(items = servicesFlat, key = { it.data }) { service ->
+            ServiceListItem(service = service)
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OsbbServiceListItem(
-    service: ServiceEntity,
-    isSelectable: Boolean = false,
-    isSelected: Boolean = false,
+fun ServiceListItem(
     modifier: Modifier = Modifier,
-
+    service: ServiceEntity,
 
     ) {
-    val semanticsModifier =
-        if (isSelectable)
-            modifier
-                .padding(horizontal = 16.dp, vertical = 4.dp)
-                .semantics { selected = isSelected }
-        else modifier.padding(horizontal = 16.dp, vertical = 4.dp)
     Card(
-        modifier = semanticsModifier.clickable { },
+        modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
         colors = CardDefaults.cardColors(
-            containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer
-            else MaterialTheme.colorScheme.surfaceVariant
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
         )
     ) {
         Column(
@@ -172,12 +157,12 @@ fun OsbbServiceListItem(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = service.service1.toString(),
+                        text = service.service + " " + service.data,
                         style = MaterialTheme.typography.bodyLarge
                     )
 
                     Text(
-                        text = service.service1.toString(),
+                        text = service.service,
                         style = MaterialTheme.typography.bodyLarge,
                     )
                 }
@@ -206,7 +191,7 @@ fun OsbbServiceListItem(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = service.service1.toString(),
+                        text = service.dolg.toString(),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
@@ -234,7 +219,7 @@ fun OsbbServiceListItem(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = service.service1.toString(),
+                        text = service.dolg1.toString(),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
@@ -262,7 +247,7 @@ fun OsbbServiceListItem(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = service.service1.toString(),
+                        text = service.zadol.toString(),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
@@ -290,7 +275,7 @@ fun OsbbServiceListItem(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = service.service1.toString(),
+                        text = service.dolg1.toString(),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
@@ -301,19 +286,18 @@ fun OsbbServiceListItem(
 }
 
 
-@Preview(showBackground = true)
-@ExperimentalMaterial3Api
-@Composable
-fun VneskiScreenPreview() {
-    YkisPAMTheme {
-        OsbbServiceScreenContent(
-            service = listOf(ServiceEntity(addressId = 6314)),
-            address = "Гр.Десанта 21/71",
-            onBackPressed = {},
+//@Preview(showBackground = true)
+//@ExperimentalMaterial3Api
+//@Composable
+//fun ServiceContentPreview() {
+//    YkisPAMTheme {
+//        ServiceListContent(
+//            family = listOf(FamilyEntity(surname = "Нижельский", inn = "")),
+//            address = "Гр.Десанта 21/71",
+//            )
+//    }
+//}
 
-            )
-    }
-}
 
 
 

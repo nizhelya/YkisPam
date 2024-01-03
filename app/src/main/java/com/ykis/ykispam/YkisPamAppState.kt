@@ -55,28 +55,36 @@ class YkisPamAppState(
         navController.navigate(route) { launchSingleTop = true }
     }
 
-    fun exitApp(route:String) {
-        navController.navigate(route) {
-
-            popUpTo(0) { inclusive = true }
-            navController.popBackStack()
-
-        }
-    }
-
-    fun navigateAndPopUp(route: String, popUp: String) {
+       fun navigateAndPopUp(route: String, popUp: String) {
         navController.navigate(route) {
             launchSingleTop = true
             popUpTo(popUp) { inclusive = true }
         }
     }
 
-    fun clearAndNavigate(route: String) {
-        navController.navigate(route) {
-            launchSingleTop = true
+//    fun clearAndNavigate(route: String) {
+//        navController.navigate(route) {
+//            launchSingleTop = true
+//            popUpTo(0) { inclusive = true }
+//        }
+//    }
+fun clearAndNavigate(route: String) {
+    navController.navigate(route) {
+        // Всплывающее окно к начальному пункту назначения графика
+        // избегаем создания большого стека пунктов назначения
+        // в заднем стеке, когда пользователи выбирают элементы
+//        popUpTo(navController.graph.findStartDestination().id) {
+//            saveState = false
+//        }
             popUpTo(0) { inclusive = true }
-        }
+
+        // Избегайте нескольких копий одного и того же места назначения, когда
+        // повторный выбор того же элемента
+        launchSingleTop = true
+        // Восстанавливаем состояние при повторном выборе ранее выбранного элемента
+        restoreState = true
     }
+}
 
     fun navigateTo(route: String) {
         navController.navigate(route) {

@@ -1,21 +1,4 @@
-package com.ykis.ykispam.pam.screens.bti
-
-/*
- * Copyright 2022 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
+package com.ykis.ykispam.pam.screens.appartment.content
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -36,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -47,38 +29,65 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.R
+import com.ykis.ykispam.core.composable.BasicImageButton
 import com.ykis.ykispam.core.composable.EmailField
 import com.ykis.ykispam.core.composable.ImageButton
 import com.ykis.ykispam.core.composable.PhoneField
+import com.ykis.ykispam.navigation.ContentDetail
+import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.pam.screens.appartment.DetailTopAppBar
+import com.ykis.ykispam.pam.screens.appartment.AppBars.DetailAppBar
+import com.ykis.ykispam.pam.screens.bti.BtiViewModel
+import com.ykis.ykispam.pam.screens.bti.ContactUIState
 import com.ykis.ykispam.theme.YkisPAMTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun BtiPanel(
-    baseUIState: BaseUIState
-) {
 
-
-
-        BtiPanelContent(
-            apartment = baseUIState.apartment,
-        )
-    }
-
-
-@OptIn(ExperimentalComposeUiApi::class)
 @ExperimentalMaterial3Api
 @Composable
 fun BtiPanelContent(
     modifier: Modifier = Modifier,
-    apartment: ApartmentEntity,
-//    onUpdateBti: () -> Unit,
+    contentType: ContentType,
+    contentDetail: ContentDetail,
+    baseUIState: BaseUIState,
+    onBackPressed: () -> Unit,
+    viewModel: BtiViewModel = hiltViewModel(),
 ) {
 
+    LaunchedEffect(key1 = baseUIState.apartment) {
+        viewModel.initialize(baseUIState.apartment)
+    }
+    val contactUiState by viewModel.contactUiState
 
-    Column(
+    BtiContent(
+        modifier = modifier,
+        baseUIState = baseUIState,
+        contentType = contentType,
+        contentDetail = contentDetail,
+        contactUiState = contactUiState,
+        onBackPressed = onBackPressed,
+        onEmailChange = viewModel::onEmailChange,
+        onPhoneChange = viewModel::onPhoneChange,
+        onUpdateBti = { viewModel.onUpdateBti() },
+
+        )
+}
+
+    @OptIn(ExperimentalComposeUiApi::class)
+    @ExperimentalMaterial3Api
+    @Composable
+    fun BtiContent(
+        modifier: Modifier = Modifier,
+        baseUIState: BaseUIState,
+        contentType: ContentType,
+        contentDetail: ContentDetail,
+        contactUiState: ContactUIState,
+        onBackPressed: () -> Unit,
+        onEmailChange: (String) -> Unit,
+        onPhoneChange: (String) -> Unit,
+        onUpdateBti: () -> Unit,
+    ) {
+        val keyboard = LocalSoftwareKeyboardController.current
+        Column(
         modifier = Modifier
             .padding(4.dp)
             .verticalScroll(rememberScrollState())
@@ -87,7 +96,11 @@ fun BtiPanelContent(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val keyboard = LocalSoftwareKeyboardController.current
+
+        DetailAppBar(modifier, contentType, baseUIState, contentDetail) {
+            onBackPressed()
+        }
+
 
         Card(
             modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -132,7 +145,7 @@ fun BtiPanelContent(
                         tint = MaterialTheme.colorScheme.outline
                     )
                     Text(
-                        text = apartment.nanim,
+                        text = baseUIState.apartment.nanim,
                         style = MaterialTheme.typography.bodyLarge
 
                     )
@@ -198,7 +211,7 @@ fun BtiPanelContent(
 
                             )
                             Text(
-                                text = apartment.tenant.toString(),
+                                text = baseUIState.apartment.tenant.toString(),
                                 style = MaterialTheme.typography.bodyLarge,
 
                                 )
@@ -230,7 +243,7 @@ fun BtiPanelContent(
 
                             )
                             Text(
-                                text = apartment.podnan.toString(),
+                                text = baseUIState.apartment.podnan.toString(),
                                 style = MaterialTheme.typography.bodyLarge,
 
                                 )
@@ -269,7 +282,7 @@ fun BtiPanelContent(
 
                             )
                             Text(
-                                text = apartment.absent.toString(),
+                                text = baseUIState.apartment.absent.toString(),
                                 style = MaterialTheme.typography.bodyLarge,
 
                                 )
@@ -338,7 +351,7 @@ fun BtiPanelContent(
 
                             )
                             Text(
-                                text = apartment.areaFull.toString(),
+                                text = baseUIState.apartment.areaFull.toString(),
                                 style = MaterialTheme.typography.bodyLarge,
 
                                 )
@@ -370,7 +383,7 @@ fun BtiPanelContent(
 
                             )
                             Text(
-                                text = apartment.areaLife.toString(),
+                                text = baseUIState.apartment.areaLife.toString(),
                                 style = MaterialTheme.typography.bodyLarge,
 
                                 )
@@ -409,7 +422,7 @@ fun BtiPanelContent(
 
                             )
                             Text(
-                                text = apartment.areaDop.toString(),
+                                text = baseUIState.apartment.areaDop.toString(),
                                 style = MaterialTheme.typography.bodyLarge,
 
                                 )
@@ -441,7 +454,7 @@ fun BtiPanelContent(
 
                             )
                             Text(
-                                text = apartment.areaOtopl.toString(),
+                                text = baseUIState.apartment.areaOtopl.toString(),
                                 style = MaterialTheme.typography.bodyLarge,
 
                                 )
@@ -508,7 +521,7 @@ fun BtiPanelContent(
 
                             )
                             Text(
-                                text = apartment.room.toString(),
+                                text = baseUIState.apartment.room.toString(),
                                 style = MaterialTheme.typography.bodyLarge,
 
                                 )
@@ -540,7 +553,7 @@ fun BtiPanelContent(
 
                             )
                             Text(
-                                text = if (apartment.privat.toString() == "1") {
+                                text = if (baseUIState.apartment.privat.toString() == "1") {
                                     stringResource(R.string.private_ok)
                                 } else {
                                     stringResource(R.string.private_no)
@@ -575,7 +588,7 @@ fun BtiPanelContent(
 
                             )
                             Text(
-                                text = if (apartment.lift.toString() == "1") {
+                                text = if (baseUIState.apartment.lift.toString() == "1") {
                                     stringResource(R.string.private_ok)
                                 } else {
                                     stringResource(R.string.private_no)
@@ -617,7 +630,7 @@ fun BtiPanelContent(
 
                             )
                             Text(
-                                text = apartment.order,
+                                text = baseUIState.apartment.order,
                                 style = MaterialTheme.typography.bodyLarge,
                             )
                         }
@@ -654,7 +667,7 @@ fun BtiPanelContent(
                                 color = MaterialTheme.colorScheme.outline
                             )
                             Text(
-                                text = apartment.dataOrder,
+                                text = baseUIState.apartment.dataOrder,
                                 style = MaterialTheme.typography.bodyLarge,
                             )
                         }
@@ -688,13 +701,14 @@ fun BtiPanelContent(
                             .weight(1f),
 
                         )
-                    ImageButton(
+                    BasicImageButton(
+                        R.string.edit,
                         R.drawable.ic_check,
-                        modifier = Modifier
+                        modifier = Modifier,
                     )
                     {
                         keyboard?.hide()
-//                        onUpdateBti()
+                        onUpdateBti()
                     }
 
                 }
@@ -719,10 +733,8 @@ fun BtiPanelContent(
 
                         ) {
 
-                            Text(
-                                text = apartment.phone,
-                                style = MaterialTheme.typography.bodyLarge,
-                            )
+                            PhoneField(contactUiState.phone, onPhoneChange, modifier)
+
                         }
                     }
 
@@ -749,10 +761,8 @@ fun BtiPanelContent(
 
                         ) {
 
-                            Text(
-                                text = apartment.email,
-                                style = MaterialTheme.typography.bodyLarge,
-                            )
+                            EmailField(contactUiState.email, onEmailChange, modifier)
+
                         }
                     }
                 }
@@ -764,17 +774,18 @@ fun BtiPanelContent(
 @Preview(showBackground = true)
 @ExperimentalMaterial3Api
 @Composable
-fun BtiPanelPreview() {
+fun BtiContentPreview() {
     YkisPAMTheme {
-        BtiPanelContent(
-            apartment = ApartmentEntity(),
-
-            )
+        BtiContent(
+            modifier = Modifier,
+            baseUIState = BaseUIState(apartment = ApartmentEntity()),
+            contentType = ContentType.SINGLE_PANE,
+            contentDetail = ContentDetail.BTI,
+            contactUiState = ContactUIState(addressId = 6314, address = "Гр.Десанту 21 кв.71", email = "nizelskiy.sergey@gmail.com"),
+            onBackPressed = { },
+            onEmailChange = { },
+            onPhoneChange = { },
+            onUpdateBti = {},
+        )
     }
 }
-
-
-
-
-
-

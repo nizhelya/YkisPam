@@ -59,12 +59,14 @@ fun WaterScreen(
             .fillMaxHeight()
     ) {
         apartment?.let {
-            Text(
-                text = it.address,
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSurface
-            )
+            it.address?.let { address ->
+                Text(
+                    text = address,
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
         }
 
         Row(

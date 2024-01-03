@@ -44,12 +44,11 @@ fun <T : BaseResponse> Response<T>.parseError(): Failure {
         "Reading did not add" -> Failure.FailAddReading
         "Failed to update contacts" -> Failure.FailUpdateBti
         "Failed to delete apartment" -> Failure.FailDeleteFlat
-        "You have already added this apartment" -> Failure.FlatAlreadyInDataBase
+        "FlatAlreadyInDataBase" -> Failure.FlatAlreadyInDataBase
         "Required field(s) is missing" -> Failure.MissingFields
-        "Incorrect code" -> Failure.IncorrectCode
+        "IncorrectCode" -> Failure.IncorrectCode
         "there is a user has this email",
         "Token is invalid" -> Failure.TokenError
-
         "can't send email to you" -> Failure.CantSendEmailError
         else -> Failure.ServerError
     }

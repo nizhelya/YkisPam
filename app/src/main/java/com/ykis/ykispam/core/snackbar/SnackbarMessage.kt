@@ -39,10 +39,11 @@ sealed class SnackbarMessage {
       }
     }
 
+
     fun Throwable.toSnackbarMessage(): SnackbarMessage {
       val message = this.message.orEmpty()
-      if (message.isNotBlank()) {
-        return when (message) {
+      return if (message.isNotBlank()) {
+        when (message) {
           INCORRECT_CODE -> ResourceSnackbar(AppText.error_incorrect_code)
           NO_FLAT_DELETE -> ResourceSnackbar(AppText.error_delete_flat)
           VERIFY_DELETE_FLAT -> ResourceSnackbar(AppText.success_delete_flat)
@@ -50,9 +51,9 @@ sealed class SnackbarMessage {
           PASSWORD_FAILURE -> ResourceSnackbar(AppText.password_failure)
           SENSITIVE_OPERATION_MESSAGE -> ResourceSnackbar(AppText.revoke_access_message)
           else -> StringSnackbar(message)
-        }
+          }
       } else {
-        return ResourceSnackbar(AppText.generic_error)
+        ResourceSnackbar(AppText.generic_error)
       }
     }
   }

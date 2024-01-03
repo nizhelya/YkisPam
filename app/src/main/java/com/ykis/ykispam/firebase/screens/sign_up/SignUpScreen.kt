@@ -59,85 +59,90 @@ fun SignUpScreen(
     viewModel: SignUpViewModel = hiltViewModel()
 ) {
 
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-//                .background(color = MaterialTheme.colorScheme.background)
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        val signUpUiState by viewModel.signUpUiState
-        val keyboard = LocalSoftwareKeyboardController.current
-        var checkedState by rememberSaveable { mutableStateOf(false) }
-        SignUpTopBar(navigateBack = { viewModel.navigateBack(openScreen) })
-        Spacer(modifier = Modifier.spacer())
-        LogoImage()
-        Spacer(modifier = Modifier.spacer())
-        if (!checkedState) {
-            Text(
-                text = viewModel.agreementTitle.ifEmpty {
-                    stringResource(id = AppText.agreement_title)
-                },
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(4.dp, 0.dp),
-                style = MaterialTheme.typography.titleSmall
-            )
-            Card(
-                modifier = Modifier.padding(PaddingValues(8.dp)),
-                elevation = CardDefaults.cardElevation(20.dp),
-                shape = RoundedCornerShape(20.dp),
-            )
-            {
+    Row( modifier = modifier
+        .fillMaxWidth()
+        .fillMaxHeight(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center)
+    {
+        Column(
+            modifier = modifier
+                .widthIn(0.dp, 460.dp)
+                .fillMaxHeight()
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            val signUpUiState by viewModel.signUpUiState
+            val keyboard = LocalSoftwareKeyboardController.current
+            var checkedState by rememberSaveable { mutableStateOf(false) }
+            SignUpTopBar(navigateBack = { viewModel.navigateBack(openScreen) })
+            Spacer(modifier = Modifier.spacer())
+            LogoImage()
+            Spacer(modifier = Modifier.spacer())
+            if (!checkedState) {
                 Text(
-                    text = viewModel.agreementText.ifEmpty {
-                        stringResource(id = AppText.agreement_text)
+                    text = viewModel.agreementTitle.ifEmpty {
+                        stringResource(id = AppText.agreement_title)
                     },
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(4.dp, 0.dp),
+                    style = MaterialTheme.typography.titleSmall
+                )
+                Card(
                     modifier = Modifier.padding(PaddingValues(8.dp)),
-                    textAlign = TextAlign.Start,
-                    style = MaterialTheme.typography.bodyMedium
+                    elevation = CardDefaults.cardElevation(20.dp),
+                    shape = RoundedCornerShape(20.dp),
+                )
+                {
+                    Text(
+                        text = viewModel.agreementText.ifEmpty {
+                            stringResource(id = AppText.agreement_text)
+                        },
+                        modifier = Modifier.padding(PaddingValues(8.dp)),
+                        textAlign = TextAlign.Start,
+                        style = MaterialTheme.typography.bodyMedium
 
-                )
-            }
-        }
-        AgreementChekBox(
-            checked = checkedState,
-            onCheckedChange = { checkedState = it },
-            modifier = Modifier
-        )
-        if (checkedState) {
-            Column(
-                modifier = Modifier.padding(PaddingValues(8.dp))
-                    .widthIn(0.dp, 480.dp),
-                )
-            {
-                EmailField(signUpUiState.email, viewModel::onEmailChange, modifier)
-                PasswordField(signUpUiState.password, viewModel::onPasswordChange, modifier)
-                RepeatPasswordField(
-                    signUpUiState.repeatPassword,
-                    viewModel::onRepeatPasswordChange,
-                    modifier
-                )
-
-                RegularCardEditor(
-                    AppText.create_account_sign,
-                    AppIcon.ic_create_account,
-                    "",
-                    Modifier.card()
-                ) {
-                    keyboard?.hide()
-                    viewModel.signUpWithEmailAndPassword()
+                    )
                 }
             }
+            AgreementChekBox(
+                checked = checkedState,
+                onCheckedChange = { checkedState = it },
+                modifier = Modifier
+            )
+            if (checkedState) {
+                Column(
+                    modifier = Modifier.padding(PaddingValues(8.dp))
+                        .widthIn(0.dp, 480.dp),
+                )
+                {
+                    EmailField(signUpUiState.email, viewModel::onEmailChange, modifier)
+                    PasswordField(signUpUiState.password, viewModel::onPasswordChange, modifier)
+                    RepeatPasswordField(
+                        signUpUiState.repeatPassword,
+                        viewModel::onRepeatPasswordChange,
+                        modifier
+                    )
+
+                    RegularCardEditor(
+                        AppText.create_account_sign,
+                        AppIcon.ic_create_account,
+                        "",
+                        Modifier.card()
+                    ) {
+                        keyboard?.hide()
+                        viewModel.signUpWithEmailAndPassword()
+                    }
+                }
 
 
-            BasicLinkButton(AppText.alredy_user, Modifier.textButton()) {
-                viewModel.navigateBack(openScreen)
+                BasicLinkButton(AppText.alredy_user, Modifier.textButton()) {
+                    viewModel.navigateBack(openScreen)
+                }
+
             }
-
         }
-
     }
     SignUp(
         sendEmailVerification = {

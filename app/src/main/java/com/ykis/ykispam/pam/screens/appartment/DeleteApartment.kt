@@ -16,6 +16,7 @@ import com.ykis.ykispam.core.composable.DialogCancelButton
 import com.ykis.ykispam.core.composable.DialogConfirmButton
 import com.ykis.ykispam.core.ext.card
 
+
 @Composable
 fun DeleteApartment(
     deleteApartment: () -> Unit

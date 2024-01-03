@@ -1,5 +1,6 @@
 package com.ykis.ykispam.pam.screens.bti
 
+import android.provider.ContactsContract.CommonDataKinds.Phone
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -40,6 +41,8 @@ class BtiViewModel @Inject constructor(
         private set
     private val email
         get() = contactUiState.value.email
+    private val phone
+        get() = contactUiState.value.phone
 
     fun onEmailChange(newValue: String) {
         contactUiState.value = contactUiState.value.copy(email = newValue)
@@ -52,25 +55,47 @@ class BtiViewModel @Inject constructor(
     private val _apartment = MutableLiveData<ApartmentEntity>()
     val apartment: LiveData<ApartmentEntity> get() = _apartment
 
-    private val _apartments = MutableLiveData<List<ApartmentEntity>>()
-//    val apartments: LiveData<List<ApartmentEntity>> get() = _apartments
+
+//    private val _apartments = MutableLiveData<List<ApartmentEntity>>()
+////    val apartments: LiveData<List<ApartmentEntity>> get() = _apartments
 
 
     private val _resultText = MutableLiveData<GetSimpleResponse>()
+    fun initialize(apartmentEntity: ApartmentEntity) {
+        contactUiState.value = contactUiState.value.copy(
+            addressId = apartmentEntity.addressId,
+            address = apartmentEntity.address,
+            email = apartmentEntity.email,
+            phone = apartmentEntity.phone,
+        )
+    }
 
+//    fun setSelectedEmail(addressId: Int ) {
+//        /**
+//         * We only set isDetailOnlyOpen to true when it's only single pane layout
+//         */
+//        val email = uiState.value.apartment.find { it.addressId == addressId }
+//        _uiState.value = _uiState.value.copy(
+//            selectedEmail = email,
+//            isDetailOnlyOpen = contentType == ReplyContentType.SINGLE_PANE
+//        )
+//    }
 
     fun getBtiFromCache(addressId: Int) {
-        viewModelScope.launch {
-            _apartment.value = apartmentCacheImpl.getApartmentById(addressId)
-            contactUiState.value = contactUiState
-                .value.copy(
-                    addressId = _apartment.value!!.addressId,
-                    address = _apartment.value!!.address,
-                    email = _apartment.value!!.email,
-                    phone = _apartment.value!!.phone,
-                )
-
-        }
+//        viewModelScope.launch {
+//            _apartment.value = apartmentCacheImpl.getApartmentById(addressId)
+//            contactUiState.value = contactUiState.value.copy(
+//                addressId = _apartment.value!!.addressId,
+//                address = if (_apartment.value!!.address.isNullOrEmpty()) {
+//                    ""
+//                } else {
+//                    _apartment.value!!.address
+//                },
+//                email = _apartment.value!!.email,
+//                phone = _apartment.value!!.phone,
+//            )
+//
+//        }
     }
 
     fun getApartmentsByUser(needFetch: Boolean = true) {
@@ -86,12 +111,12 @@ class BtiViewModel @Inject constructor(
     }
 
     private fun handleApartments(apartments: List<ApartmentEntity>) {
-        _apartments.value = apartments
+//        _apartments.value = apartments
 
 
     }
 
-    fun onUpdateBti(openScreen: (String) -> Unit) {
+    fun onUpdateBti() {
         if (!email.isValidEmail()) {
             SnackbarManager.showMessage(R.string.email_error)
             return
@@ -120,7 +145,7 @@ class BtiViewModel @Inject constructor(
             }
 
         }
-        openScreen("$BTI_SCREEN?$ADDRESS_ID=${contactUiState.value.addressId},$ADDRESS=${contactUiState.value.address}")
+//        openScreen("$BTI_SCREEN?$ADDRESS_ID=${contactUiState.value.addressId},$ADDRESS=${contactUiState.value.address}")
 
     }
 

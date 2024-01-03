@@ -44,7 +44,7 @@ import com.ykis.ykispam.theme.YkisPAMTheme
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
-    popUpScreen: (String) -> Unit,
+    popUpScreen: () -> Unit,
     restartApp: (String) -> Unit,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
@@ -55,9 +55,9 @@ fun ProfileScreen(
         email = viewModel.email,
         uid = viewModel.uid,
         providerId = viewModel.providerId,
-        signOut = { viewModel.signOut(popUpScreen) },
+        signOut = { viewModel.signOut(restartApp) },
         revokeAccess = { viewModel.revokeAccess() },
-        navigateBack = { viewModel.navigateBack() }
+        navigateBack = { viewModel.navigateBack(popUpScreen) }
 
     )
 

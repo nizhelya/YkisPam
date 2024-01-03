@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.appartment
+package com.ykis.ykispam.pam.screens.appartment.AppBars
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,11 +24,11 @@ import com.ykis.ykispam.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailTopAppBar(
+fun AddAppBar(
     modifier: Modifier = Modifier,
     label: String,
     address: String,
-    navigateBack: () -> Unit,
+    onBackPressed: () -> Unit
 ) {
 
     TopAppBar(
@@ -57,7 +57,7 @@ fun DetailTopAppBar(
         navigationIcon = {
 
             FilledIconButton(
-                onClick = navigateBack,
+                onClick = onBackPressed,
                 modifier = Modifier.padding(8.dp),
                 colors = IconButtonDefaults.filledIconButtonColors(
                     containerColor = MaterialTheme.colorScheme.surface,

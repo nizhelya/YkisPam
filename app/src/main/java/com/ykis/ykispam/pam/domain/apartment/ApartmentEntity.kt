@@ -18,7 +18,7 @@ data class ApartmentEntity(
     @Json(name = "address_id")
     @ColumnInfo(name = "address_id")
     val addressId: Int = 0,
-    val address: String = "Гр.Десанту 1/1",
+    val address: String = "",
     val email: String = "example@email.com",
     val phone: String = "+38111111111",
     val nanim: String = "Иванов Иван Иванович",
