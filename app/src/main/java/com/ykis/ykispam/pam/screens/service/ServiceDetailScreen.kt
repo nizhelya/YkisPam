@@ -1,5 +1,9 @@
 package com.ykis.ykispam.pam.screens.service
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -61,20 +66,29 @@ fun ServiceDetailScreen(
     ServiceDetailContent(serviceEntyties = serviceDetail, address = address , navigateBack ={viewModel.navigateBack(popUpScreen)})
 }
 
-// TODO: добавить divider , сделать кнопку expand рабочей ,поменять стиль summary , "внутренюю обрезку scroll елемента" , возможность смотреть другие услуги
+// TODO: добавить divider , сделать кнопку expand рабочей ,поменять стиль summary , "внутренюю обрезку scroll елемента" , возможность смотреть другие услуги , добавить spacebetween для большого екрана
+
 @Composable
 fun ServiceDetailItem(
     modifier: Modifier = Modifier,
     serviceEntity: ServiceEntity = ServiceEntity()
 ) {
     var expanded by rememberSaveable {
-        mutableStateOf(true)
+        mutableStateOf(false)
     }
     val dateUnix = SimpleDateFormat("yyyy-MM-dd").parse(serviceEntity.data)
     Card(colors = CardDefaults.cardColors(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         contentColor = MaterialTheme.colorScheme.onPrimaryContainer, )
-        , modifier = modifier.padding(horizontal = 8.dp , vertical = 8.dp)
+        , modifier = modifier
+            .padding(horizontal = 8.dp, vertical = 8.dp)
+            .animateContentSize(
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                    stiffness = Spring.StiffnessMediumLow,
+
+                    )
+            )
     ) {
         Column(modifier= modifier.padding(top=12.dp , bottom = 12.dp)) {
             Row(modifier = modifier.padding(horizontal = 12.dp),
@@ -87,7 +101,7 @@ fun ServiceDetailItem(
                         .weight(1f)
 
                 )
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = {expanded = !expanded}) {
                     Icon(
                         imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
                         contentDescription = if (expanded) "Expand less" else "Expand more"
@@ -104,50 +118,71 @@ fun ServiceDetailItem(
 
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     HeaderInTable(text = stringResource(id = R.string.services))
-                    NumberInTable(text = serviceEntity.service1.toString())
-                    NumberInTable(text = serviceEntity.service2.toString())
-                    NumberInTable(text   = serviceEntity.service3.toString())
-                    NumberInTable(text =serviceEntity.service4.toString())
+                    AnimatedVisibility(expanded) {
+                        Column(horizontalAlignment = Alignment.Start,verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            NumberInTable(text = serviceEntity.service1.toString())
+                            NumberInTable(text = serviceEntity.service2.toString())
+                            NumberInTable(text = serviceEntity.service3.toString())
+                            NumberInTable(text = serviceEntity.service4.toString())
+                        }
+                    }
                     Text(
                         text = stringResource(id = R.string.summary),
                         style = MaterialTheme.typography.titleMedium)
                 }
                 Column(horizontalAlignment = Alignment.End , verticalArrangement = Arrangement.spacedBy(8.dp) )  {
                     HeaderInTable(text = stringResource(id = R.string.start_debt))
-                    NumberInTable(serviceEntity.zadol1.toString())
-                    NumberInTable(serviceEntity.zadol2.toString())
-                    NumberInTable(serviceEntity.zadol3.toString())
-                    NumberInTable(serviceEntity.zadol4.toString())
+                    AnimatedVisibility(expanded) {
+                        Column(horizontalAlignment = Alignment.End,verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            NumberInTable(serviceEntity.zadol1.toString())
+                            NumberInTable(serviceEntity.zadol2.toString())
+                            NumberInTable(serviceEntity.zadol3.toString())
+                            NumberInTable(serviceEntity.zadol4.toString())
+                        }
+                    }
                     Text(
                         text = serviceEntity.zadol.toString(),
                         style = MaterialTheme.typography.titleMedium)
                 }
                 Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(8.dp))  {
                     HeaderInTable(text = stringResource(id = R.string.accured_text))
-                    NumberInTable(serviceEntity.nachisleno1.toString())
-                    NumberInTable(serviceEntity.nachisleno2.toString())
-                    NumberInTable(serviceEntity.nachisleno3.toString())
-                    NumberInTable(serviceEntity.nachisleno4.toString())
+                    AnimatedVisibility(expanded) {
+                        Column(horizontalAlignment = Alignment.End,verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            NumberInTable(serviceEntity.nachisleno1.toString())
+                            NumberInTable(serviceEntity.nachisleno2.toString())
+                            NumberInTable(serviceEntity.nachisleno3.toString())
+                            NumberInTable(serviceEntity.nachisleno4.toString())
+                        }
+                    }
                     Text(
                         text = serviceEntity.nachisleno.toString(),
                         style = MaterialTheme.typography.titleMedium)
                 }
-                Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(8.dp))  {
+                Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = modifier.wrapContentWidth(unbounded = true))  {
                     HeaderInTable(text = stringResource(id = R.string.paid))
-                    NumberInTable(serviceEntity.oplacheno1.toString())
-                    NumberInTable(serviceEntity.oplacheno2.toString())
-                    NumberInTable(serviceEntity.oplacheno3.toString())
-                    NumberInTable(serviceEntity.oplacheno4.toString())
+                    AnimatedVisibility(expanded) {
+                        Column(horizontalAlignment = Alignment.End,verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            NumberInTable(serviceEntity.oplacheno1.toString())
+                            NumberInTable(serviceEntity.oplacheno2.toString())
+                            NumberInTable(serviceEntity.oplacheno3.toString())
+                            NumberInTable(serviceEntity.oplacheno4.toString())
+                        }
+                    }
                     Text(
                         text = serviceEntity.oplacheno.toString(),
                         style = MaterialTheme.typography.titleMedium)
                 }
                 Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     HeaderInTable(text = stringResource(id = R.string.end_debt))
-                    NumberInTable(serviceEntity.dolg1.toString())
-                    NumberInTable(serviceEntity.dolg2.toString())
-                    NumberInTable(serviceEntity.dolg3.toString())
-                    NumberInTable(serviceEntity.dolg4.toString())
+                    AnimatedVisibility(expanded) {
+                        Column(horizontalAlignment = Alignment.End,verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            NumberInTable(serviceEntity.dolg1.toString())
+                            NumberInTable(serviceEntity.dolg2.toString())
+                            NumberInTable(serviceEntity.dolg3.toString())
+                            NumberInTable(serviceEntity.dolg4.toString())
+                        }
+                    }
                     Text(
                         text =serviceEntity.dolg.toString(),
                         style = MaterialTheme.typography.titleMedium)
@@ -204,8 +239,8 @@ fun PreviewItem(){
 }
 
 @Composable
-fun HeaderInTable(text:String) {
-    Text(text = text , textAlign = TextAlign.Center , style = MaterialTheme.typography.labelLarge)
+fun HeaderInTable(text:String , modifier: Modifier = Modifier) {
+    Text(text = text , textAlign = TextAlign.Center , style = MaterialTheme.typography.labelLarge )
 }
 
 @Composable

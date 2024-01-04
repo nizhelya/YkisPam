@@ -145,6 +145,7 @@ fun NavGraphBuilder.YkisPamGraph(
                 navArgument(ADDRESS) { defaultValue = ADDRESS_DEFAULT },
 //                navArgument(HOUSE_ID) { defaultValue = HOUSE_DEFAULT_ID }),
         )){
+            // TODO: добавить аргумент houseId 
             ServiceDetailScreen(
                 popUpScreen = { appState.popUp() },
                 addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID,
