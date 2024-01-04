@@ -36,11 +36,17 @@ const val ADDRESS_DEFAULT_ID = "0"
 const val HOUSE_ID="houseId"
 const val HOUSE_DEFAULT_ID="0"
 
+const val SERVICE="service"
+const val SERVICE_DEFAULT="1"
+
+const val SERVICE_NAME="serviceName"
+const val SERVICE_DEFAULT_NAME="ОСББ"
+
 const val ADDRESS = "address"
 const val ADDRESS_DEFAULT = "адреса"
 
 const val ADDRESS_ID_ARG = "?$ADDRESS_ID={$ADDRESS_ID}"
 const val FLAT_ARG = "?$ADDRESS_ID={$ADDRESS_ID},$ADDRESS={$ADDRESS}"
-const val SERVICE_ARG = "?$ADDRESS_ID={$ADDRESS_ID},$ADDRESS={$ADDRESS}, ?$HOUSE_ID={$HOUSE_ID}"
+const val SERVICE_ARG = "?$ADDRESS_ID={$ADDRESS_ID},$ADDRESS={$ADDRESS},$HOUSE_ID={$HOUSE_ID},$SERVICE={$SERVICE},$SERVICE_NAME={$SERVICE_NAME}"
 
 

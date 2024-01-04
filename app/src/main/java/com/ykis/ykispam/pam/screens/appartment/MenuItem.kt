@@ -1,5 +1,6 @@
 package com.ykis.ykispam.pam.screens.appartment
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,9 @@ import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.navigation.ADDRESS
 import com.ykis.ykispam.navigation.ADDRESS_ID
+import com.ykis.ykispam.navigation.HOUSE_ID
+import com.ykis.ykispam.navigation.SERVICE
+import com.ykis.ykispam.navigation.SERVICE_NAME
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,7 +41,9 @@ fun MenuItem(
     navigateToDestination: (String) -> Unit,
     dolg: Double = 0.0,
     serviseName: String = "",
-    org: String = "",
+    serviceName: String = "",
+    org:String ="",
+    service: Byte = 1,
     description: String = "",
     isSelectable: Boolean = false,
     isSelected: Boolean = false,
@@ -52,10 +58,12 @@ fun MenuItem(
                 .padding(horizontal = 20.dp, vertical = 6.dp)
                 .semantics { selected = isSelected }
         else modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+
+    Log.d("testik","$screen?$ADDRESS_ID=${baseUIState.addressId},$ADDRESS=${baseUIState.address},$HOUSE_ID=${baseUIState.houseId},$SERVICE=${service},$SERVICE_NAME=${serviceName}")
     Card(
         modifier = semanticsModifier.clickable {
             navigateToDestination(
-                "$screen?$ADDRESS_ID=${baseUIState.addressId},$ADDRESS=${baseUIState.address} "
+                "$screen?$ADDRESS_ID=${baseUIState.addressId},$ADDRESS=${baseUIState.address},$HOUSE_ID=${baseUIState.houseId},$SERVICE=${service},$SERVICE_NAME=${serviceName}"
             )
         },
         elevation = CardDefaults.cardElevation(10.dp),

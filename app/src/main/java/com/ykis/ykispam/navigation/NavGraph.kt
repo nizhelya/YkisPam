@@ -139,18 +139,22 @@ fun NavGraphBuilder.YkisPamGraph(
         )
     }
         composable(
-            route = "$SERVICE_DETAIL_SCREEN$FLAT_ARG",
+            route = "$SERVICE_DETAIL_SCREEN$SERVICE_ARG",
             arguments = listOf(
                 navArgument(ADDRESS_ID) { defaultValue = ADDRESS_DEFAULT_ID },
                 navArgument(ADDRESS) { defaultValue = ADDRESS_DEFAULT },
-//                navArgument(HOUSE_ID) { defaultValue = HOUSE_DEFAULT_ID }),
+                navArgument(HOUSE_ID) { defaultValue = HOUSE_DEFAULT_ID },
+                navArgument(SERVICE){defaultValue = SERVICE_DEFAULT},
+                navArgument(SERVICE_NAME){defaultValue = SERVICE_DEFAULT_NAME}
         )){
             // TODO: добавить аргумент houseId 
             ServiceDetailScreen(
                 popUpScreen = { appState.popUp() },
                 addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID,
-                houseId ="43",
-                address = it.arguments?.getString(ADDRESS) ?: ADDRESS_DEFAULT
+                address = it.arguments?.getString(ADDRESS) ?: ADDRESS_DEFAULT,
+                houseId =it.arguments?.getString(HOUSE_ID) ?: HOUSE_DEFAULT_ID,
+                service = it.arguments?.getString(SERVICE) ?: SERVICE_DEFAULT,
+                serviceName = it.arguments?.getString(SERVICE_NAME) ?: SERVICE_DEFAULT_NAME
             )
         }
     }

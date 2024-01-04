@@ -303,7 +303,7 @@ fun AppContent(
                                         baseUIState = baseUIState,
                                             screen = BTI_SCREEN,
                                         dolg = 65.45,
-                                        org = baseUIState.apartments.first().osbb,
+                                        serviceName = baseUIState.apartments.first().osbb,
                                         navigateToDestination = navigateToDestination,
                                     )
                                     MenuItem(
@@ -312,7 +312,7 @@ fun AppContent(
                                         baseUIState = baseUIState,
                                         screen = FAMILY_SCREEN,
                                         dolg = 65.45,
-                                        org = stringResource(id = R.string.vodokanal_colon),
+                                        serviceName = stringResource(id = R.string.vodokanal_colon),
                                         navigateToDestination = navigateToDestination,
                                     )
 
@@ -373,7 +373,8 @@ fun AppContent(
                                             baseUIState = baseUIState,
                                             screen = SERVICE_DETAIL_SCREEN,
                                             dolg = 65.45,
-                                            org = baseUIState.apartment.osbb,
+                                            service = 1,
+                                            serviceName = baseUIState.apartment.osbb,
                                             navigateToDestination = navigateToDestination,
                                         )
                                     }
@@ -383,9 +384,10 @@ fun AppContent(
                                             imageVector = Icons.Default.Water,
                                             serviseName = stringResource(id = R.string.vodokanal),
                                             baseUIState = baseUIState,
-                                            screen = BTI_SCREEN,
+                                            screen = SERVICE_DETAIL_SCREEN,
                                             dolg = 65.45,
-                                            org = stringResource(id = R.string.vodokanal),
+                                            service = 2,
+                                            serviceName = stringResource(id = R.string.vodokanal),
                                             navigateToDestination = navigateToDestination,
                                         )
                                     }
@@ -395,9 +397,10 @@ fun AppContent(
                                             imageVector = Icons.Default.HotTub,
                                             serviseName = stringResource(id = R.string.ytke),
                                             baseUIState = baseUIState,
-                                            screen = BTI_SCREEN,
+                                            screen = SERVICE_DETAIL_SCREEN,
                                             dolg = 65.45,
-                                            org = stringResource(id = R.string.ytke),
+                                            service = 3,
+                                            serviceName = stringResource(id = R.string.ytke),
                                             navigateToDestination = navigateToDestination,
                                         )
                                     }
@@ -407,9 +410,9 @@ fun AppContent(
                                             imageVector = Icons.TwoTone.Commute,
                                             serviseName = stringResource(id = R.string.yzhtrans),
                                             baseUIState = baseUIState,
-                                            screen = BTI_SCREEN,
-                                            dolg = 65.45,
-                                            org = stringResource(id = R.string.yzhtrans),
+                                            screen = SERVICE_DETAIL_SCREEN,
+                                            service = 4,
+                                            serviceName = stringResource(id = R.string.yzhtrans),
                                             navigateToDestination = navigateToDestination,
                                         )
                                     }
@@ -417,9 +420,9 @@ fun AppContent(
                                         imageVector = Icons.TwoTone.MonetizationOn,
                                         serviseName = stringResource(id = R.string.payment_list),
                                         baseUIState = baseUIState,
-                                        screen = BTI_SCREEN,
+                                        screen = SERVICE_DETAIL_SCREEN,
                                         dolg = 65.45,
-                                        org = stringResource(id = R.string.payment_list),
+                                        serviceName = stringResource(id = R.string.payment_list),
                                         navigateToDestination = navigateToDestination,
                                     )
                                     if (showDialog) {
@@ -542,7 +545,7 @@ fun AppContent(
                                 baseUIState = baseUIState,
                                 screen = BTI_SCREEN,
                                 dolg = 65.45,
-                                org = baseUIState.apartments.first().osbb,
+                                serviceName = baseUIState.apartments.first().osbb,
                                 navigateToDestination = navigateToDestination,
                             )
                             MenuItem(
@@ -551,7 +554,7 @@ fun AppContent(
                                 baseUIState = baseUIState,
                                 screen = FAMILY_SCREEN,
                                 dolg = 65.45,
-                                org = stringResource(id = R.string.vodokanal_colon),
+                                serviceName = stringResource(id = R.string.vodokanal_colon),
                                 navigateToDestination = navigateToDestination,
                             )
 
@@ -611,8 +614,8 @@ fun AppContent(
 
                                     baseUIState = baseUIState,
                                     screen = SERVICE_DETAIL_SCREEN,
-                                    dolg = 65.45,
-                                    org = baseUIState.apartment.osbb,
+                                    service = 1,
+                                    serviceName = baseUIState.apartment.osbb,
                                     navigateToDestination = navigateToDestination,
                                 )
                             }
@@ -622,9 +625,10 @@ fun AppContent(
                                     imageVector = Icons.Default.Water,
                                     serviseName = stringResource(id = R.string.vodokanal),
                                     baseUIState = baseUIState,
-                                    screen = BTI_SCREEN,
+                                    screen = SERVICE_DETAIL_SCREEN,
+                                    service = 2,
                                     dolg = 65.45,
-                                    org = stringResource(id = R.string.vodokanal),
+                                    serviceName = stringResource(id = R.string.vodokanal),
                                     navigateToDestination = navigateToDestination,
                                 )
                             }
@@ -634,9 +638,10 @@ fun AppContent(
                                     imageVector = Icons.Default.HotTub,
                                     serviseName = stringResource(id = R.string.ytke),
                                     baseUIState = baseUIState,
-                                    screen = BTI_SCREEN,
+                                    screen = SERVICE_DETAIL_SCREEN,
+                                    service = 3,
                                     dolg = 65.45,
-                                    org = stringResource(id = R.string.ytke),
+                                    serviceName = stringResource(id = R.string.ytke),
                                     navigateToDestination = navigateToDestination,
                                 )
                             }
@@ -646,9 +651,10 @@ fun AppContent(
                                     imageVector = Icons.TwoTone.Commute,
                                     serviseName = stringResource(id = R.string.yzhtrans),
                                     baseUIState = baseUIState,
-                                    screen = BTI_SCREEN,
+                                    screen = SERVICE_DETAIL_SCREEN,
+                                    service = 4,
                                     dolg = 65.45,
-                                    org = stringResource(id = R.string.yzhtrans),
+                                    serviceName = stringResource(id = R.string.yzhtrans),
                                     navigateToDestination = navigateToDestination,
                                 )
                             }
@@ -658,7 +664,7 @@ fun AppContent(
                                 baseUIState = baseUIState,
                                 screen = BTI_SCREEN,
                                 dolg = 65.45,
-                                org = stringResource(id = R.string.payment_list),
+                                serviceName = stringResource(id = R.string.payment_list),
                                 navigateToDestination = navigateToDestination,
                             )
                             if (showDialog) {
