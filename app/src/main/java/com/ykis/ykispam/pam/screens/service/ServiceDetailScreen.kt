@@ -1,5 +1,6 @@
 package com.ykis.ykispam.pam.screens.service
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
@@ -37,6 +38,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -59,7 +61,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ykis.ykispam.R
 import com.ykis.ykispam.pam.domain.service.ServiceEntity
 import com.ykis.ykispam.pam.screens.appartment.DetailTopAppBar
-import com.ykis.ykispam.theme.YkisPAMTheme
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -211,6 +212,9 @@ fun ServiceDetailContent(
     navigateBack: () -> Unit,
 ) {
     val years = listOf(2024,2023,2022,2021,2020,2019,2018,2017,2016,2015,2014,2013,2012)
+    var selectedChip :MutableState<String?> = remember {
+        mutableStateOf(null)
+    }
     Column(
         modifier = Modifier
             .padding(4.dp)
@@ -225,24 +229,12 @@ fun ServiceDetailContent(
             stringResource(id = R.string.services_detail),
             navigateBack = { navigateBack() })
         // TODO: сделать логику для FilterChip
-        LazyRow {
-            items(items = years){
-                year->
-                FilterChipSample(text = year.toString())
-            }
-        }
-        ListServiceDetails(listServiceEntity =serviceEntyties )
+        GroupFilterChip(list = years , selectedChip = selectedChip.value,
+            onSelectedChanged = { selectedChip.value = "2023"
+            Log.d("chip_test", "SelectedChip:${selectedChip.value}\n it:$it")})
+        ListServiceDetails(listServiceEntity =serviceEntyties)
     }
 }
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true , widthDp = 340)
-@Composable
-fun PreviewItem(){
-    YkisPAMTheme {
-       ServiceDetailItem()
-    }
-}
-
 @Composable
 fun HeaderInTable(text:String , modifier: Modifier = Modifier) {
     Text(text = text , textAlign = TextAlign.Center , style = MaterialTheme.typography.labelLarge ,
@@ -318,18 +310,22 @@ fun DividerInTable(componentWidth:Dp,modifier:Modifier = Modifier) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FilterChipSample(text:String , modifier: Modifier=Modifier) {
-    var chipSelected by remember {
-        mutableStateOf(false)
-    }
+fun FilterChipSample(text:String ,
+                     modifier: Modifier=Modifier,
+                     onSelectedChanged: (String) -> Unit = {},
+                     isSelected:Boolean = false){
+//    var chipSelected by remember {
+//        mutableStateOf(false)
+//    }
+    Log.d("chip_test", "isSelected $isSelected")
     FilterChip(
         modifier = modifier.padding(horizontal = 4.dp),
-        selected = chipSelected,
+        selected = isSelected,
         label = {
             Text(text)
         },
-        onClick = {chipSelected = !chipSelected },
-        leadingIcon = if (chipSelected) {
+        onClick = {onSelectedChanged(text)},
+        leadingIcon = if (isSelected) {
             {
                 Icon(
                     imageVector = Icons.Filled.Done,
@@ -339,5 +335,42 @@ fun FilterChipSample(text:String , modifier: Modifier=Modifier) {
             }
         } else {
             null
-        })
+        },)
+}
+
+@Composable
+fun GroupFilterChip(list : List<Any>,
+                    selectedChip : Any? = null,
+                    onSelectedChanged: (String) -> Unit = {}
+                    ) {
+    LazyRow {
+        items(items = list){
+                text->
+            FilterChipSample(text = text.toString(),
+                onSelectedChanged= {onSelectedChanged(text.toString())},
+                isSelected = text == selectedChip)
+        }
+    }
+}
+
+@Preview(showBackground = true, widthDp = 256)
+@Composable
+private fun PrevGroupFilterChip() {
+    GroupFilterChip(
+        list = listOf(
+            2024,
+            2023,
+            2022,
+            2021,
+            2020,
+            2019,
+            2018,
+            2017,
+            2016,
+            2015,
+            2014,
+            2013,
+            2012
+        )
+    )
 }
