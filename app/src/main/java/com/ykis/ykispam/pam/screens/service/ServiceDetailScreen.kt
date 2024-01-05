@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -38,7 +38,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -53,7 +52,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -65,7 +63,6 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-
 @Composable
 fun ServiceDetailScreen(
     popUpScreen: () -> Unit,
@@ -76,14 +73,20 @@ fun ServiceDetailScreen(
     service:String,
     serviceName:String
 ) {
+    var selectedChip  by rememberSaveable {
+        mutableStateOf("2024")
+    }
     LaunchedEffect(key1 = addressId ) {
         viewModel.getDetailService(addressId = addressId.toInt() , houseId = houseId.toInt(), service = service.toByte() , qty = 1, total = 0)
     }
     val serviceDetail by viewModel.serviceDetail.observeAsState(listOf(ServiceEntity()))
-    ServiceDetailContent(serviceEntyties = serviceDetail, service = serviceName, navigateBack ={viewModel.navigateBack(popUpScreen)})
+    ServiceDetailContent(serviceEntyties = serviceDetail,
+        service = serviceName, navigateBack ={viewModel.navigateBack(popUpScreen)},
+        onSelectedChanged = {selectedChip=it} , selectedChip = selectedChip
+    )
 }
 
-// TODO:, "внутренюю обрезку scroll елемента", добавить spacebetween для большого екрана , убрать лаг header'а при первом открьІтии item'а
+// TODO:, "внутренюю обрезку scroll елемента", добавить equal weight aligement для большого екрана , убрать лаг header'а при первом открьІтии item'а
 
 @Composable
 fun ServiceDetailItem(
@@ -128,11 +131,11 @@ fun ServiceDetailItem(
                 }
             }
             Row (
-                modifier
+                modifier.fillMaxWidth()
                     .horizontalScroll(rememberScrollState())
                     .padding(horizontal = 18.dp),
                 verticalAlignment =  Alignment.Bottom,
-                horizontalArrangement = Arrangement.spacedBy(0.dp)
+                horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
                 ColumnItemInTable(
                     expanded =expanded ,
@@ -210,16 +213,15 @@ fun ServiceDetailContent(
     serviceEntyties: List<ServiceEntity>,
     service: String,
     navigateBack: () -> Unit,
+    selectedChip: String,
+    onSelectedChanged: (String) -> Unit
 ) {
-    val years = listOf(2024,2023,2022,2021,2020,2019,2018,2017,2016,2015,2014,2013,2012)
-    var selectedChip :MutableState<String?> = remember {
-        mutableStateOf(null)
-    }
+    val years = listOf("2024","2023","2022","2021","2020","2019","2018","2017","2016","2015","2014","2013","2012")
+    Log.d("chip_test" , selectedChip)
     Column(
         modifier = Modifier
             .padding(4.dp)
-            .fillMaxWidth()
-            .fillMaxHeight(),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -228,10 +230,8 @@ fun ServiceDetailContent(
             service,
             stringResource(id = R.string.services_detail),
             navigateBack = { navigateBack() })
-        // TODO: сделать логику для FilterChip
-        GroupFilterChip(list = years , selectedChip = selectedChip.value,
-            onSelectedChanged = { selectedChip.value = "2023"
-            Log.d("chip_test", "SelectedChip:${selectedChip.value}\n it:$it")})
+        GroupFilterChip(list = years , selectedChip = selectedChip,
+            onSelectedChanged = onSelectedChanged)
         ListServiceDetails(listServiceEntity =serviceEntyties)
     }
 }
@@ -268,33 +268,42 @@ fun ColumnItemInTable(modifier: Modifier = Modifier ,
                         ) {
     var componentWidth by remember { mutableStateOf(0.dp) }
     val density = LocalDensity.current
-    Column(horizontalAlignment =alignment, verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = modifier
-            .onGloballyPositioned {
-                componentWidth = with(density) {
-                    it.size.width.toDp()
+        Column(horizontalAlignment =alignment, verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = modifier
+                .onGloballyPositioned {
+                    componentWidth = with(density) {
+                        it.size.width.toDp()
 
+                    }
+                }
+        )
+        {
+            HeaderInTable(header)
+            Spacer(modifier = modifier.widthIn(min = componentWidth))
+            AnimatedVisibility(expanded) {
+                Column(horizontalAlignment = alignment,verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    if(value1!=="null"&&value1!=="none") {
+                        NumberInTable(value1)
+                        DividerInTable(componentWidth = componentWidth)
+                    }
+                    if(value2!="null"&&value2!="none") {
+                        Log.d("service_test" , value2)
+                        NumberInTable(value2)
+                        DividerInTable(componentWidth = componentWidth)
+                    }
+                    if(value3!="null"&&value3!="none") {
+                        NumberInTable(value3)
+                        DividerInTable(componentWidth = componentWidth)
+                    }
+                    if(value4!="null"&&value4!="none") {
+                        NumberInTable(value4)
+                        DividerInTable(componentWidth = componentWidth)
+                    }
                 }
             }
-    )
-    {
-        HeaderInTable(header)
-        Spacer(modifier = modifier.widthIn(min = componentWidth))
-        AnimatedVisibility(expanded) {
-            Column(horizontalAlignment = alignment,verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                NumberInTable(value1)
-                DividerInTable(componentWidth = componentWidth)
-                NumberInTable(value2)
-                DividerInTable(componentWidth = componentWidth)
-                NumberInTable(value3)
-                DividerInTable(componentWidth = componentWidth)
-                NumberInTable(value4)
-                DividerInTable(componentWidth = componentWidth)
-            }
+            HeaderInTable(
+                text = summary)
         }
-        HeaderInTable(
-            text = summary)
-    }
 }
 
 @Composable
@@ -314,12 +323,10 @@ fun FilterChipSample(text:String ,
                      modifier: Modifier=Modifier,
                      onSelectedChanged: (String) -> Unit = {},
                      isSelected:Boolean = false){
-//    var chipSelected by remember {
-//        mutableStateOf(false)
-//    }
-    Log.d("chip_test", "isSelected $isSelected")
     FilterChip(
-        modifier = modifier.padding(horizontal = 4.dp),
+        modifier = modifier
+            .padding(horizontal = 4.dp)
+            .animateContentSize(),
         selected = isSelected,
         label = {
             Text(text)
@@ -339,38 +346,17 @@ fun FilterChipSample(text:String ,
 }
 
 @Composable
-fun GroupFilterChip(list : List<Any>,
+fun GroupFilterChip(list : List<String>,
                     selectedChip : Any? = null,
                     onSelectedChanged: (String) -> Unit = {}
                     ) {
     LazyRow {
         items(items = list){
                 text->
-            FilterChipSample(text = text.toString(),
-                onSelectedChanged= {onSelectedChanged(text.toString())},
-                isSelected = text == selectedChip)
+            FilterChipSample(text = text,
+                onSelectedChanged= {onSelectedChanged(text)},
+                isSelected = text == selectedChip
+            )
         }
     }
-}
-
-@Preview(showBackground = true, widthDp = 256)
-@Composable
-private fun PrevGroupFilterChip() {
-    GroupFilterChip(
-        list = listOf(
-            2024,
-            2023,
-            2022,
-            2021,
-            2020,
-            2019,
-            2018,
-            2017,
-            2016,
-            2015,
-            2014,
-            2013,
-            2012
-        )
-    )
 }
