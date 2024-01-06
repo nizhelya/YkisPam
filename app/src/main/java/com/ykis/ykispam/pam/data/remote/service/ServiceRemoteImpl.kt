@@ -16,7 +16,7 @@ class ServiceRemoteImpl @Inject constructor(
     override fun getFlatServices(
         addressId: Int,
         houseId: Int,
-        qty: Byte,
+        year: String,
         service: Byte,
         total: Byte,
         uid: String
@@ -26,7 +26,7 @@ class ServiceRemoteImpl @Inject constructor(
                 createGetFlatServiceMap(
                     addressId,
                     houseId,
-                    qty,
+                    year,
                     service,
                     total,
                     uid
@@ -42,7 +42,7 @@ class ServiceRemoteImpl @Inject constructor(
     private fun createGetFlatServiceMap(
         addressId: Int,
         houseId: Int,
-        qty: Byte,
+        year: String,
         service: Byte,
         total: Byte,
         uid: String
@@ -50,7 +50,7 @@ class ServiceRemoteImpl @Inject constructor(
         val map = HashMap<String, String>()
         map.put(ApiService.ADDRESS_ID, addressId.toString())
         map.put(ApiService.HOUSE_ID, houseId.toString())
-        map.put(ApiService.QTY, qty.toString())
+        map.put(ApiService.YEAR, year)
         map.put(ApiService.SERVICE, service.toString())
         map.put(ApiService.TOTAL, total.toString())
         map.put(ApiService.PARAM_USER_ID, uid)

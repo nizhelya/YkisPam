@@ -16,6 +16,6 @@ data class ServiceParams(
     val houseId:Int ,
     val service:Byte,
     val total:Byte,
-    val qty :Byte ,
+    val year : String ,
     var needFetch:Boolean
 )

@@ -19,9 +19,9 @@ import retrofit2.http.POST
 
 interface ApiService {
     companion object {
-        const val SERVER_URL = "https://is.yuzhny.com/YkisMobileRest"
+//        const val SERVER_URL = "https://is.yuzhny.com/YkisMobileRest"
 //        const val SERVER_URL = "http://10.0.2.2/YkisPAM/YkisMobileRest"
-//        const val SERVER_URL = "http://192.168.0.102/MobYkis/YkisMobileRest"
+        const val SERVER_URL = "http://192.168.0.102/YkisPAM/YkisMobileRest"
 
 //        const val SERVER_URL = "http://192.168.0.177/YkisPAM/YkisMobileRest"
 
@@ -60,7 +60,7 @@ interface ApiService {
         const val NEW_VALUE = "new_value"
         const val CURRENT_VALUE = "current_value"
         const val KOD = "kod"
-        const val QTY = "qty"
+        const val YEAR = "year"
         const val SERVICE = "service"
         const val TOTAL = "total"
         const val PHONE = "phone"

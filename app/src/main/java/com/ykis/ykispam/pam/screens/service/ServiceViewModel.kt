@@ -27,7 +27,7 @@ class ServiceViewModel @Inject constructor(
         houseId: Int,
         service: Byte,
         total: Byte,
-        qty: Byte,
+        year: String,
         needFetch: Boolean = false
     ) {
         getFlatServiceUseCase(
@@ -36,13 +36,13 @@ class ServiceViewModel @Inject constructor(
                 houseId = houseId,
                 service = service,
                 total = total,
-                qty = qty,
+                year = year,
                 needFetch = needFetch
             )
         ) { it ->
             it.either(::handleFailure) {
                 handleDetailService(
-                    it, addressId, houseId, service, total, qty, !needFetch
+                    it, addressId, houseId, service, total, year, !needFetch
                 )
             }
         }
@@ -54,7 +54,7 @@ class ServiceViewModel @Inject constructor(
         houseId: Int,
         service: Byte,
         total: Byte,
-        qty: Byte,
+        year: String,
         fromCache: Boolean,
     ) {
         _serviceDetail.value = services
@@ -62,7 +62,7 @@ class ServiceViewModel @Inject constructor(
 
         if (fromCache) {
             updateProgress(true)
-            getDetailService(addressId, houseId, service, total, qty, true)
+            getDetailService(addressId, houseId, service, total, year, true)
         }
     }
 

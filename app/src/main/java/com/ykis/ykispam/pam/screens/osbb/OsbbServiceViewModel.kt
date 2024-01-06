@@ -41,19 +41,19 @@ class OsbbServiceViewModel @Inject constructor(
     var currentServiceTitle :String = ""
 
 
-    fun getFlatService(addressId: Int , houseId: Int , service:Byte ,total:Byte ,qty:Byte , needFetch:Boolean = false) {
+    fun getFlatService(addressId: Int , houseId: Int , service:Byte ,total:Byte ,year:String , needFetch:Boolean = false) {
         getFlatServiceUseCase(
             ServiceParams(
             addressId = addressId ,
             houseId = houseId ,
             service = service,
             total = total,
-            qty = qty,
+            year = year,
             needFetch = needFetch)
         ) { it ->
             it.either(::handleFailure) {
                 handleService(
-                    it, addressId , houseId , service , total , qty , !needFetch
+                    it, addressId , houseId , service , total , year , !needFetch
                 )
             }
         }
@@ -63,7 +63,7 @@ class OsbbServiceViewModel @Inject constructor(
                               houseId: Int,
                               service:Byte,
                               total:Byte,
-                              qty:Byte,
+                              year: String,
                               fromCache: Boolean,
     ) {
         _servicesFlat.value = services
@@ -71,22 +71,22 @@ class OsbbServiceViewModel @Inject constructor(
 
         if (fromCache) {
             updateProgress(true)
-            getFlatService(addressId, houseId , service,total, qty, true)
+            getFlatService(addressId, houseId , service,total, year =year , true)
         }
     }
-    fun getDetailService(addressId: Int , houseId: Int , service:Byte ,total:Byte ,qty:Byte , needFetch:Boolean = false) {
+    fun getDetailService(addressId: Int , houseId: Int , service:Byte ,total:Byte ,year: String , needFetch:Boolean = false) {
         getFlatServiceUseCase(
             ServiceParams(
             addressId = addressId ,
             houseId = houseId ,
             service = service,
             total = total,
-            qty = qty,
+            year = year,
             needFetch = needFetch)
         ) { it ->
             it.either(::handleFailure) {
                 handleDetailService(
-                    it,addressId , houseId , service , total , qty , !needFetch
+                    it,addressId , houseId , service , total , year , !needFetch
                 )
             }
         }
@@ -96,7 +96,7 @@ class OsbbServiceViewModel @Inject constructor(
                                     houseId: Int,
                                     service:Byte,
                                     total:Byte,
-                                    qty:Byte,
+                                    year:String,
                                     fromCache: Boolean,
     ) {
         _serviceDetail.value = services
@@ -104,7 +104,7 @@ class OsbbServiceViewModel @Inject constructor(
 
         if (fromCache) {
             updateProgress(true)
-            getDetailService(addressId, houseId , service,total, qty, true)
+            getDetailService(addressId, houseId , service,total,year, true)
         }
     }
     fun getTotalService(addressId: Int){

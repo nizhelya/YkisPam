@@ -74,10 +74,10 @@ fun ServiceDetailScreen(
     serviceName:String
 ) {
     var selectedChip  by rememberSaveable {
-        mutableStateOf("2024")
+        mutableStateOf("2023")
     }
-    LaunchedEffect(key1 = addressId ) {
-        viewModel.getDetailService(addressId = addressId.toInt() , houseId = houseId.toInt(), service = service.toByte() , qty = 1, total = 0)
+    LaunchedEffect(key1 = selectedChip ) {
+        viewModel.getDetailService(addressId = addressId.toInt() , houseId = houseId.toInt(), service = service.toByte() , year = selectedChip, total = 0)
     }
     val serviceDetail by viewModel.serviceDetail.observeAsState(listOf(ServiceEntity()))
     ServiceDetailContent(serviceEntyties = serviceDetail,
@@ -267,7 +267,7 @@ fun ColumnItemInTable(modifier: Modifier = Modifier ,
                         summary :String
                         ) {
     var componentWidth by remember { mutableStateOf(0.dp) }
-    val density = LocalDensity.current
+    val density = LocalDensity.current;
         Column(horizontalAlignment =alignment, verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = modifier
                 .onGloballyPositioned {

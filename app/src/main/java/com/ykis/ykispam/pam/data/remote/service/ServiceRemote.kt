@@ -8,7 +8,7 @@ interface ServiceRemote {
     fun getFlatServices(
         addressId: Int,
         houseId: Int,
-        qty: Byte,
+        year: String,
         service: Byte,
         total: Byte,
         uid: String

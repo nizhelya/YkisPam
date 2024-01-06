@@ -158,19 +158,10 @@ class DBOperations {
     }
 
 
-    public function getFlatServices($address_id ,$house_id , $service ,$total , $qty){
+    public function getFlatServices($address_id ,$house_id , $service ,$total , $year){
         $com = new DbConnect();
         $sql = "";
         if($total == false) {
-            switch ($qty) {
-                case 1 :
-                    $limit = 'LIMIT 12';
-                    break;
-                case 0 :
-                    $limit = '';
-                    break;
-            }
-
             switch ($service) {
 
                 case 1 :
@@ -186,7 +177,7 @@ class DBOperations {
     LEFT JOIN YIS.STOKI as t2 USING(address_id,data)
     LEFT JOIN YIS.AVODA as t12 USING(address_id , data)
     LEFT JOIN YIS.ASTOKI as t13 USING(address_id , data)
-    WHERE t1.address_id = ' . $address_id . ' ORDER BY t1.data DESC  '. $limit . ' ';
+    WHERE t1.address_id = ' . $address_id . ' AND YEAR(t1.data) = '.$year.' ORDER BY t1.data DESC ';
                     break;
 
                 case 2 :
@@ -202,7 +193,7 @@ class DBOperations {
     LEFT JOIN YIS.ATEPLO as t2 USING(address_id,data)
     LEFT JOIN YIS.PTN as t12 USING(address_id , data)
     LEFT JOIN YIS.PODOGREV as t13 USING(address_id , data)
-    WHERE t1.address_id = ' . $address_id . ' ORDER BY t1.data DESC '. $limit . ' ';
+    WHERE t1.address_id = ' . $address_id . ' AND YEAR(t1.data) = '.$year.' ORDER BY t1.data DESC';
                     break;
 
                 case 3 :
@@ -217,7 +208,7 @@ class DBOperations {
     IFNULL(t1.dolg , 0) as dolg1,
     IFNULL(t1.dolg , 0) as dolg
     FROM YIS.TBO as t1
-    WHERE t1.address_id = ' . $address_id . ' ORDER BY t1.data DESC '. $limit . ' ';
+    WHERE t1.address_id = ' . $address_id . ' AND YEAR(t1.data) = '.$year.' ORDER BY t1.data DESC ';
                     break;
 
                 case 4 :
@@ -232,7 +223,7 @@ class DBOperations {
     IFNULL(t1.dolg , 0) + IFNULL(t3.dolg  , 0) as dolg
     FROM OSBB.KVARTPLATA as t1
     LEFT JOIN OSBB.RFOND as t3 using(address_id , data)
-    WHERE t1.address_id = ' . $address_id . ' ORDER BY t1.data DESC '. $limit . ' ';
+    WHERE t1.address_id = ' . $address_id . ' AND YEAR(t1.data) = '.$year.' ORDER BY t1.data DESC ';
                     } else {
                         $sql = 'SELECT "kv" as service ,"Внески жит.фонд" as service1 , "Ремонтний фонд" as service2 , "none" as service3 , "none" as service4 , t1.address_id , t1.data ,IFNULL(t1.zadol , 0) as zadol1, IFNULL(t1.rzadol , 0 ) as zadol2 ,
     IFNULL(t1.zadol , 0) + IFNULL(t1.rzadol , 0) as zadol,
@@ -243,7 +234,7 @@ class DBOperations {
     IFNULL(t1.dolg, 0) as dolg1, IFNULL(t1.rdolg , 0 ) as dolg2 ,
     IFNULL(t1.dolg , 0) + IFNULL(t1.rdolg  , 0) as dolg
     FROM YIS.KVARTPLATA as t1
-    WHERE t1.address_id = ' . $address_id . ' ORDER BY t1.data DESC  '. $limit . ' ';
+    WHERE t1.address_id = ' . $address_id . ' AND YEAR(t1.data) = '.$year.' ORDER BY t1.data DESC';
                     }
                     break;
             }
@@ -263,7 +254,7 @@ class DBOperations {
     LEFT JOIN YIS.TBO as t10 on t1.address_id = t10.address_id and t10.data = CONCAT(EXTRACT(YEAR_MONTH FROM CURDATE()),"01")
     LEFT JOIN OSBB.KVARTPLATA as t11 on t1.address_id = t11.address_id and t11.data = CONCAT(EXTRACT(YEAR_MONTH FROM CURDATE()),"01")
     LEFT JOIN OSBB.RFOND as t12 on t1.address_id = t12.address_id and t12.data = CONCAT(EXTRACT(YEAR_MONTH FROM CURDATE()),"01")
-    WHERE t1.address_id = '.$address_id.' ';
+    WHERE t1.address_id = '.$address_id.' AND YEAR(t1.data) = '.$year.' ';
             } else {
                 $sql = 'SELECT t1.address_id , "total" as service ,"none" as service1 , "none" as service2, "none" as service3 , "none" as service4 ,
        "2000-01-01" as data ,t2.dolg + t3.dolg + t4.dolg + t5.dolg as dolg1  , t6.dolg + t7.dolg + t8.dolg + t9.dolg as dolg2 ,
@@ -279,7 +270,7 @@ class DBOperations {
     LEFT JOIN YIS.PODOGREV as t9 on t1.address_id = t9.address_id and t9.data = CONCAT(EXTRACT(YEAR_MONTH FROM CURDATE()),"01")
     LEFT JOIN YIS.TBO as t10 on t1.address_id = t10.address_id and t10.data = CONCAT(EXTRACT(YEAR_MONTH FROM CURDATE()),"01")
     LEFT JOIN YIS.KVARTPLATA as t11 on t1.address_id = t11.address_id and t11.data = CONCAT(EXTRACT(YEAR_MONTH FROM CURDATE()),"01")
-    WHERE t1.address_id = '.$address_id.' ';
+    WHERE t1.address_id = '.$address_id.' AND YEAR(t1.data) = '.$year.' ';
             }
         }
         // print_r($sql);

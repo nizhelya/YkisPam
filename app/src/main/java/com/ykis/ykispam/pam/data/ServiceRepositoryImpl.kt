@@ -25,7 +25,7 @@ class ServiceRepositoryImpl @Inject constructor(
                     serviceRemote.getFlatServices(
                         params.addressId,
                         params.houseId,
-                        params.qty,
+                        params.year,
                         params.service,
                         params.total,
                         it.uid
@@ -46,7 +46,8 @@ class ServiceRepositoryImpl @Inject constructor(
             }
             .onNext { serviceEntities ->
                 serviceEntities.map {
-                    if (params.qty == 1.toByte()) {
+                    // TODO: replace with current year 
+                    if (params.year == "2024") {
                         serviceCache.addService(listOf(it))
                     }
                 }
