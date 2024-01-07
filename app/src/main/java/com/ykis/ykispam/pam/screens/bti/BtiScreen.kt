@@ -49,7 +49,8 @@ import com.ykis.ykispam.core.composable.EmailField
 import com.ykis.ykispam.core.composable.ImageButton
 import com.ykis.ykispam.core.composable.PhoneField
 import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.pam.screens.appartment.AppBars.AddAppBar
+import com.ykis.ykispam.pam.screens.appartment.appbars.AddAppBar
+import com.ykis.ykispam.pam.screens.appartment.viewmodels.BtiViewModel
 import com.ykis.ykispam.theme.YkisPAMTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

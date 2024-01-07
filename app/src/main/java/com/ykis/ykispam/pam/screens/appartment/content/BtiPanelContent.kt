@@ -31,13 +31,12 @@ import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.composable.BasicImageButton
 import com.ykis.ykispam.core.composable.EmailField
-import com.ykis.ykispam.core.composable.ImageButton
 import com.ykis.ykispam.core.composable.PhoneField
 import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.pam.screens.appartment.AppBars.DetailAppBar
-import com.ykis.ykispam.pam.screens.bti.BtiViewModel
+import com.ykis.ykispam.pam.screens.appartment.appbars.DetailAppBar
+import com.ykis.ykispam.pam.screens.appartment.viewmodels.BtiViewModel
 import com.ykis.ykispam.pam.screens.bti.ContactUIState
 import com.ykis.ykispam.theme.YkisPAMTheme
 

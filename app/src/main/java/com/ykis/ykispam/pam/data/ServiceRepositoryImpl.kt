@@ -23,12 +23,12 @@ class ServiceRepositoryImpl @Inject constructor(
             .flatMap {
                 return@flatMap if (params.needFetch) {
                     serviceRemote.getFlatServices(
+                        it.uid,
                         params.addressId,
                         params.houseId,
-                        params.qty,
+                        params.year,
                         params.service,
                         params.total,
-                        it.uid
                     )
                 } else {
                     Either.Right(
@@ -46,7 +46,7 @@ class ServiceRepositoryImpl @Inject constructor(
             }
             .onNext { serviceEntities ->
                 serviceEntities.map {
-                    if (params.qty == 1.toByte()) {
+                    if (params.total== 1.toByte()) {
                         serviceCache.addService(listOf(it))
                     }
                 }

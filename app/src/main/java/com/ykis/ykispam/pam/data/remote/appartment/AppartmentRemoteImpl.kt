@@ -75,7 +75,7 @@ class ApartmentRemoteImpl @Inject constructor(
 
     private fun createGetApartmentsByUserMap(uid: String): Map<String, String> {
         val map = HashMap<String, String>()
-        map.put(ApiService.PARAM_USER_ID, uid)
+        map.put(ApiService.UID, uid)
         return map
     }
 
@@ -85,7 +85,7 @@ class ApartmentRemoteImpl @Inject constructor(
     ): Map<String, String> {
         val map = HashMap<String, String>()
         map.put(ApiService.PARAM_ADDRESS_ID, addressId.toString())
-        map.put(ApiService.PARAM_USER_ID, uid)
+        map.put(ApiService.UID, uid)
         return map
     }
 
@@ -99,7 +99,7 @@ class ApartmentRemoteImpl @Inject constructor(
         map.put(ApiService.ADDRESS_ID, addressId.toString())
         map.put(ApiService.PHONE, phone)
         map.put(ApiService.EMAIL, email)
-        map.put(ApiService.PARAM_USER_ID, uid)
+        map.put(ApiService.UID, uid)
         return map
     }
 }

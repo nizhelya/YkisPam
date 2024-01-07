@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.appartment.AppBars
+package com.ykis.ykispam.pam.screens.appartment.appbars
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

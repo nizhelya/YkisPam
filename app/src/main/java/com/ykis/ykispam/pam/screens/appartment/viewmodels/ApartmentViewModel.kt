@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-package com.ykis.ykispam.pam.screens.appartment
+package com.ykis.ykispam.pam.screens.appartment.viewmodels
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,6 +44,7 @@ import com.ykis.ykispam.pam.domain.apartment.request.DeleteFlatByUser
 import com.ykis.ykispam.pam.domain.apartment.request.GetApartments
 import com.ykis.ykispam.pam.domain.apartment.request.UpdateBti
 import com.ykis.ykispam.pam.domain.service.ServiceEntity
+import com.ykis.ykispam.pam.screens.appartment.SecretKeyUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

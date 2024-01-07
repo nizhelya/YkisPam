@@ -43,11 +43,11 @@ fun DetailContent(
         when (contentDetail) {
             ContentDetail.BTI -> BtiPanelContent(contentType =contentType,contentDetail = contentDetail,baseUIState = baseUIState,onBackPressed=onBackPressed)
             ContentDetail.FAMALY -> FamilyContent(contentType =contentType,contentDetail = contentDetail,baseUIState = baseUIState,onBackPressed=onBackPressed)
-            ContentDetail.OSBB -> OsbbContent(contentType =contentType,contentDetail = contentDetail,baseUIState = baseUIState,onBackPressed=onBackPressed)
-            ContentDetail.WATER_SERVICE -> TODO()
-            ContentDetail.WARM_SERVICE -> TODO()
-            ContentDetail.GARBAGE_SERVICE -> TODO()
-            ContentDetail.PAYMENTS -> TODO()
+            ContentDetail.OSBB -> ServicesContent(contentType =contentType,contentDetail = contentDetail,baseUIState = baseUIState,onBackPressed=onBackPressed)
+            ContentDetail.WATER_SERVICE -> ServicesContent(contentType =contentType,contentDetail = contentDetail,baseUIState = baseUIState,onBackPressed=onBackPressed)
+            ContentDetail.WARM_SERVICE -> ServicesContent(contentType =contentType,contentDetail = contentDetail,baseUIState = baseUIState,onBackPressed=onBackPressed)
+            ContentDetail.GARBAGE_SERVICE -> ServicesContent(contentType =contentType,contentDetail = contentDetail,baseUIState = baseUIState,onBackPressed=onBackPressed)
+            ContentDetail.PAYMENTS -> ServicesContent(contentType =contentType,contentDetail = contentDetail,baseUIState = baseUIState,onBackPressed=onBackPressed)
 
             else -> BtiPanelContent(contentType =contentType,contentDetail = contentDetail,baseUIState = baseUIState,onBackPressed=onBackPressed)
         }

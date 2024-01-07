@@ -198,12 +198,15 @@
     <string name="accrued">Нарахування</string>
     <string name="payment_list">Платежі</string>
     <string name="kvartplata_text">Внески:</string>
+    <string name="vneski">Внески</string>
+
     <string name="water">Водопостачання:</string>
     <string name="drainage">Водовідведення:</string>
     <string name="water_drainage">Водопостачання та\nводовідведення:</string>
     <string name="heat_supply">Теплопосточання:</string>
     <string name="distributor">Постачальник:</string>
     <string name="consumed_services">Споживані послуги:</string>
+    <string name="services_detail">Історія платежів</string>
 
 
 

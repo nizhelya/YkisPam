@@ -104,14 +104,14 @@ class AddressRemoteImpl @Inject constructor(
 
     private fun createGetBlocksMap(uid: String): Map<String, String> {
         val map = HashMap<String, String>()
-        map.put(ApiService.PARAM_USER_ID, uid)
+        map.put(ApiService.UID, uid)
         return map
     }
 
     private fun createGetStreetsMap(blockId: Int, uid: String): Map<String, String> {
         val map = HashMap<String, String>()
         map.put(ApiService.BLOCK_ID, blockId.toString())
-        map.put(ApiService.PARAM_USER_ID, uid)
+        map.put(ApiService.UID, uid)
         return map
     }
 
@@ -123,7 +123,7 @@ class AddressRemoteImpl @Inject constructor(
         val map = HashMap<String, String>()
         map.put(ApiService.STREET_ID, streetId.toString())
         map.put(ApiService.BLOCK_ID, blockId.toString())
-        map.put(ApiService.PARAM_USER_ID, uid)
+        map.put(ApiService.UID, uid)
 
         return map
     }
@@ -131,7 +131,7 @@ class AddressRemoteImpl @Inject constructor(
     private fun createGetFlatsMap(houseId: Int,uid: String): Map<String, String> {
         val map = HashMap<String, String>()
         map.put(ApiService.HOUSE_ID, houseId.toString())
-        map.put(ApiService.PARAM_USER_ID, uid)
+        map.put(ApiService.UID, uid)
 
         return map
     }
@@ -139,7 +139,7 @@ class AddressRemoteImpl @Inject constructor(
     private fun createAddFlatsMap(kod: String, uid: String,email: String): Map<String, String> {
         val map = HashMap<String, String>()
         map.put(ApiService.KOD, kod)
-        map.put(ApiService.PARAM_USER_ID, uid)
+        map.put(ApiService.UID, uid)
         map.put(ApiService.EMAIL, email)
 
 

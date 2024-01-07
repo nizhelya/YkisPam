@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.services
+package com.ykis.ykispam.pam.screens.appartment.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,6 +23,7 @@ class ServiceViewModel @Inject constructor(
     val serviceDetail: LiveData<List<ServiceEntity>> get() = _serviceDetail
 
     fun getDetailService(
+        uid:String,
         addressId: Int,
         houseId: Int,
         service: Byte,
@@ -32,6 +33,7 @@ class ServiceViewModel @Inject constructor(
     ) {
         getFlatServiceUseCase(
             ServiceParams(
+                uid = uid,
                 addressId = addressId,
                 houseId = houseId,
                 service = service,
@@ -42,7 +44,7 @@ class ServiceViewModel @Inject constructor(
         ) { it ->
             it.either(::handleFailure) {
                 handleDetailService(
-                    it, addressId, houseId, service, total, year, !needFetch
+                    it, uid,addressId, houseId, service, total, year, !needFetch
                 )
             }
         }
@@ -50,6 +52,7 @@ class ServiceViewModel @Inject constructor(
 
     private fun handleDetailService(
         services: List<ServiceEntity>,
+        uid: String,
         addressId: Int,
         houseId: Int,
         service: Byte,
@@ -62,7 +65,7 @@ class ServiceViewModel @Inject constructor(
 
         if (fromCache) {
             updateProgress(true)
-            getDetailService(addressId, houseId, service, total, year, true)
+            getDetailService(uid,addressId, houseId, service, total, year, true)
         }
     }
 

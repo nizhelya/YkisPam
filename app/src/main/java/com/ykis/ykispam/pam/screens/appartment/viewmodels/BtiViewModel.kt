@@ -1,26 +1,21 @@
-package com.ykis.ykispam.pam.screens.bti
+package com.ykis.ykispam.pam.screens.appartment.viewmodels
 
-import android.provider.ContactsContract.CommonDataKinds.Phone
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.BaseViewModel
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.ext.isValidEmail
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.firebase.model.service.repo.LogService
-import com.ykis.ykispam.navigation.ADDRESS
-import com.ykis.ykispam.navigation.ADDRESS_ID
-import com.ykis.ykispam.navigation.BTI_SCREEN
 import com.ykis.ykispam.pam.data.cache.apartment.ApartmentCacheImpl
 import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.pam.data.remote.core.NetworkHandler
 import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.pam.domain.apartment.request.GetApartments
 import com.ykis.ykispam.pam.domain.apartment.request.UpdateBti
+import com.ykis.ykispam.pam.screens.bti.ContactUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 

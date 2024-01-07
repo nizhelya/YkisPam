@@ -16,7 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ykis.ykispam.core.composable.BasicButton
 import com.ykis.ykispam.core.ext.basicButton
-import com.ykis.ykispam.pam.screens.appartment.ApartmentViewModel
+import com.ykis.ykispam.pam.screens.appartment.viewmodels.ApartmentViewModel
 import com.ykis.ykispam.R.string as AppText
 
 @Composable

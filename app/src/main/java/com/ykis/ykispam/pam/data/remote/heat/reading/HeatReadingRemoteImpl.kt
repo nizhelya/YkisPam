@@ -75,7 +75,7 @@ class HeatReadingRemoteImpl @Inject constructor(
     ): Map<String, String> {
         val map = HashMap<String, String>()
         map.put(ApiService.TEPLOMER_ID, teplomerId.toString())
-        map.put(ApiService.PARAM_USER_ID, uid)
+        map.put(ApiService.UID, uid)
         return map
     }
 
@@ -89,7 +89,7 @@ class HeatReadingRemoteImpl @Inject constructor(
         map.put(ApiService.TEPLOMER_ID, teplomerId.toString())
         map.put(ApiService.NEW_VALUE, newValue.toString())
         map.put(ApiService.CURRENT_VALUE, currentValue.toString())
-        map.put(ApiService.PARAM_USER_ID, uid)
+        map.put(ApiService.UID, uid)
         return map
     }
 
@@ -99,7 +99,7 @@ class HeatReadingRemoteImpl @Inject constructor(
     ): Map<String, String> {
         val map = HashMap<String, String>()
         map.put(ApiService.POK_ID, pokId.toString())
-        map.put(ApiService.PARAM_USER_ID, uid)
+        map.put(ApiService.UID, uid)
         return map
     }
 }

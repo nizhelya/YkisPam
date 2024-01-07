@@ -1,4 +1,20 @@
-package com.ykis.ykispam.pam.screens.services
+/*
+ * Copyright 2022 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.ykis.ykispam.pam.screens.appartment.content
 
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
@@ -56,43 +72,68 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.R
+import com.ykis.ykispam.navigation.ContentDetail
+import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.pam.domain.service.ServiceEntity
-import com.ykis.ykispam.pam.screens.family.ServiceViewModel
+import com.ykis.ykispam.pam.screens.appartment.appbars.DetailAppBar
+import com.ykis.ykispam.pam.screens.appartment.viewmodels.ServiceViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ServiceDetailScreen(
-    popUpScreen: () -> Unit,
+fun ServicesContent(
+    modifier: Modifier = Modifier,
+    contentType: ContentType,
+    contentDetail: ContentDetail,
+    baseUIState: BaseUIState,
+    onBackPressed: () -> Unit,
     viewModel: ServiceViewModel = hiltViewModel(),
-    addressId: String,
-    houseId: String,
-    address: String,
-    service: String,
-    serviceName: String
 ) {
+
     var selectedChip by rememberSaveable {
         mutableStateOf("2023")
     }
+    val serviceName = when (contentDetail) {
+        ContentDetail.OSBB -> baseUIState.apartment.osbb
+        ContentDetail.WATER_SERVICE -> stringResource(id = R.string.vodokanal)
+        ContentDetail.WARM_SERVICE -> stringResource(id = R.string.ytke)
+        ContentDetail.GARBAGE_SERVICE -> stringResource(id = R.string.yzhtrans)
+        else -> baseUIState.apartment.osbb
+    }
     LaunchedEffect(key1 = selectedChip) {
-        viewModel.getDetailService(
-            addressId = addressId.toInt(),
-            houseId = houseId.toInt(),
-            service = service.toByte(),
-            year = selectedChip,
-            total = 0
-        )
+        baseUIState.uid?.let {
+            viewModel.getDetailService(
+                uid = it,
+                addressId = baseUIState.apartment.addressId,
+                houseId = baseUIState.apartment.houseId,
+                service = when (contentDetail) {
+                    ContentDetail.OSBB -> 4.toByte()
+                    ContentDetail.WATER_SERVICE -> 3.toByte()
+                    ContentDetail.WARM_SERVICE -> 2.toByte()
+                    ContentDetail.GARBAGE_SERVICE -> 5.toByte()
+                    else -> 4.toByte()
+                },
+                year = selectedChip,
+                total = 0
+            )
+        }
     }
     val serviceDetail by viewModel.serviceDetail.observeAsState(listOf(ServiceEntity()))
-    ServiceDetailContent(serviceEntyties = serviceDetail,
-        service = serviceName, navigateBack = { viewModel.navigateBack(popUpScreen) },
-        onSelectedChanged = { selectedChip = it }, selectedChip = selectedChip
+    ServiceDetailContent(
+        contentType = contentType,
+        contentDetail = contentDetail,
+        baseUIState = baseUIState,
+        serviceEntyties = serviceDetail,
+        service = serviceName,
+        onBackPressed = onBackPressed,
+        onSelectedChanged = { selectedChip = it },
+        selectedChip = selectedChip
     )
 }
-
-// TODO:, "внутренюю обрезку scroll елемента", добавить equal weight aligement для большого екрана , убрать лаг header'а при первом открьІтии item'а
 
 @Composable
 fun ServiceDetailItem(
@@ -106,8 +147,8 @@ fun ServiceDetailItem(
     val dateUnix = SimpleDateFormat("yyyy-MM-dd").parse(serviceEntity.data)
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+//            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
         ), modifier = modifier
             .padding(horizontal = 8.dp, vertical = 8.dp)
             .animateContentSize(
@@ -125,8 +166,8 @@ fun ServiceDetailItem(
             ) {
                 Text(
                     text = SimpleDateFormat("LLLL yyyy", Locale("uk")).format(Date(dateUnix.time))
-                        .capitalize(),
-                    style = MaterialTheme.typography.headlineSmall.copy(
+                        .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() },
+                    style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold
                     ), modifier = modifier
                         .weight(1f)
@@ -219,10 +260,13 @@ fun ListServiceDetails(
 
 @Composable
 fun ServiceDetailContent(
+    contentType: ContentType,
+    contentDetail: ContentDetail,
+    baseUIState: BaseUIState,
     modifier: Modifier = Modifier,
     serviceEntyties: List<ServiceEntity>,
     service: String,
-    navigateBack: () -> Unit,
+    onBackPressed: () -> Unit,
     selectedChip: String,
     onSelectedChanged: (String) -> Unit
 ) {
@@ -249,11 +293,14 @@ fun ServiceDetailContent(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        DetailTopAppBar(
-            modifier,
-            service,
-            stringResource(id = R.string.services_detail),
-            navigateBack = { navigateBack() })
+        DetailAppBar(
+            modifier = modifier,
+            contentType =contentType,
+            contentDetail =contentDetail,
+            baseUIState =  baseUIState,
+            onBackPressed = onBackPressed
+        )
+
         GroupFilterChip(
             list = years, selectedChip = selectedChip,
             onSelectedChanged = onSelectedChanged
@@ -397,3 +444,9 @@ fun GroupFilterChip(
         }
     }
 }
+
+
+
+
+
+

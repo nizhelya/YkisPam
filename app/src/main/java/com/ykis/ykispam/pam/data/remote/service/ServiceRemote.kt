@@ -6,12 +6,12 @@ import com.ykis.ykispam.pam.domain.type.Failure
 
 interface ServiceRemote {
     fun getFlatServices(
+        uid: String,
         addressId: Int,
         houseId: Int,
-        qty: Byte,
+        year: String,
         service: Byte,
         total: Byte,
-        uid: String
     ): Either<Failure, List<ServiceEntity>>
 
 

@@ -42,7 +42,7 @@ import com.ykis.ykispam.YkisPamAppState
 import com.ykis.ykispam.core.composable.HelpAlertCard
 import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.navigation.ContentDetail
-import com.ykis.ykispam.pam.screens.appartment.AppBars.ApartmentTopAppBar
+import com.ykis.ykispam.pam.screens.appartment.appbars.ApartmentTopAppBar
 
 
 @Composable

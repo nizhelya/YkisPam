@@ -9,7 +9,7 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.adaptive.calculateDisplayFeatures
-import com.ykis.ykispam.pam.screens.appartment.ApartmentViewModel
+import com.ykis.ykispam.pam.screens.appartment.viewmodels.ApartmentViewModel
 import com.ykis.ykispam.theme.YkisPAMTheme
 import dagger.hilt.android.AndroidEntryPoint
 

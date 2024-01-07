@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.R
-import com.ykis.ykispam.pam.screens.appartment.AppBars.AddAppBar
+import com.ykis.ykispam.pam.screens.appartment.appbars.AddAppBar
 
 @Composable
 fun EmptyApartments(

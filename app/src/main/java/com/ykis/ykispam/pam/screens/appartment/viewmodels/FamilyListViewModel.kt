@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.family
+package com.ykis.ykispam.pam.screens.appartment.viewmodels
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData

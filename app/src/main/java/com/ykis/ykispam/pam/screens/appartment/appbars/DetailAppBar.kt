@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.appartment.AppBars
+package com.ykis.ykispam.pam.screens.appartment.appbars
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.twotone.Commute
 import androidx.compose.material.icons.twotone.CorporateFare
 import androidx.compose.material.icons.twotone.FamilyRestroom
@@ -19,7 +18,6 @@ import androidx.compose.material.icons.twotone.Water
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -34,9 +32,6 @@ import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.R
 import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.ContentType
-import com.ykis.ykispam.pam.screens.appartment.content.BtiContent
-import com.ykis.ykispam.pam.screens.appartment.content.FamilyContent
-import com.ykis.ykispam.pam.screens.appartment.content.OsbbContent
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -93,7 +88,7 @@ fun DetailAppBar(
                             text = when (contentDetail) {
                                 ContentDetail.BTI -> stringResource(id = R.string.bti)
                                 ContentDetail.FAMALY -> stringResource(id = R.string.list_family)
-                                ContentDetail.OSBB -> baseUIState.apartment.osbb
+                                ContentDetail.OSBB -> stringResource(id = R.string.vneski)
                                 ContentDetail.WATER_SERVICE -> stringResource(id = R.string.vodokanal)
                                 ContentDetail.WARM_SERVICE -> stringResource(id = R.string.ytke)
                                 ContentDetail.GARBAGE_SERVICE -> stringResource(id = R.string.yzhtrans)

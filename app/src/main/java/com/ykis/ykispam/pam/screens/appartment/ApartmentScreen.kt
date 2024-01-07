@@ -29,6 +29,7 @@ import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.NavigationType
 import com.ykis.ykispam.pam.screens.appartment.content.ListContent
 import com.ykis.ykispam.pam.screens.appartment.content.DetailContent
+import com.ykis.ykispam.pam.screens.appartment.viewmodels.ApartmentViewModel
 
 @Composable
 fun ApartmentScreen(

@@ -21,7 +21,7 @@ class FamilyRemoteImpl @Inject constructor(
     ): Map<String, String> {
         val map = HashMap<String, String>()
         map.put(ApiService.ADDRESS_ID, addressId.toString())
-        map.put(ApiService.PARAM_USER_ID, uid)
+        map.put(ApiService.UID, uid)
         return map
     }
 
