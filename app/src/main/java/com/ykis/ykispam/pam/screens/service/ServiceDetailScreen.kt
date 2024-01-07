@@ -2,11 +2,14 @@ package com.ykis.ykispam.pam.screens.service
 
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -48,6 +51,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -102,11 +106,11 @@ fun ServiceDetailItem(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         contentColor = MaterialTheme.colorScheme.onPrimaryContainer, )
         , modifier = modifier
-            .padding(horizontal = 8.dp, vertical = 8.dp)
+            .padding(horizontal = 8.dp, vertical = 16.dp)
             .animateContentSize(
                 animationSpec = spring(
                     dampingRatio = Spring.DampingRatioMediumBouncy,
-                    stiffness = Spring.StiffnessMediumLow,
+                    stiffness = Spring.StiffnessLow,
 
                     )
             )
@@ -131,7 +135,8 @@ fun ServiceDetailItem(
                 }
             }
             Row (
-                modifier.fillMaxWidth()
+                modifier
+                    .fillMaxWidth()
                     .horizontalScroll(rememberScrollState())
                     .padding(horizontal = 18.dp),
                 verticalAlignment =  Alignment.Bottom,
@@ -232,7 +237,12 @@ fun ServiceDetailContent(
             navigateBack = { navigateBack() })
         GroupFilterChip(list = years , selectedChip = selectedChip,
             onSelectedChanged = onSelectedChanged)
-        ListServiceDetails(listServiceEntity =serviceEntyties)
+//        AnimatedContent(targetState = selectedChip ) {
+//            sel->
+            if(serviceEntyties.isEmpty()) EmptyListScreen()
+            ListServiceDetails(listServiceEntity =serviceEntyties)
+//            Log.d("animation_test", "$sel")
+//        }
     }
 }
 @Composable
@@ -255,6 +265,7 @@ fun NumberInTable(text: String , modifier: Modifier = Modifier) {
     )
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun ColumnItemInTable(modifier: Modifier = Modifier ,
                         expanded :Boolean ,
@@ -268,6 +279,7 @@ fun ColumnItemInTable(modifier: Modifier = Modifier ,
                         ) {
     var componentWidth by remember { mutableStateOf(0.dp) }
     val density = LocalDensity.current;
+
         Column(horizontalAlignment =alignment, verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = modifier
                 .onGloballyPositioned {
@@ -280,7 +292,9 @@ fun ColumnItemInTable(modifier: Modifier = Modifier ,
         {
             HeaderInTable(header)
             Spacer(modifier = modifier.widthIn(min = componentWidth))
-            AnimatedVisibility(expanded) {
+            AnimatedVisibility(
+                visible = expanded
+            ) {
                 Column(horizontalAlignment = alignment,verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     if(value1!=="null"&&value1!=="none") {
                         NumberInTable(value1)
@@ -358,5 +372,28 @@ fun GroupFilterChip(list : List<String>,
                 isSelected = text == selectedChip
             )
         }
+    }
+}
+
+@Composable
+fun EmptyListScreen(modifier: Modifier = Modifier,
+                    useDarkTheme: Boolean = isSystemInDarkTheme()
+) {
+    val paintRes = if(useDarkTheme){
+        R.drawable.ic_empty_list_dark
+    }else{
+        R.drawable.ic_empty_list_light
+    }
+    Column(modifier = modifier.fillMaxSize() , horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center) {
+        Image(painter = painterResource(id = paintRes), contentDescription = null)
+        Text(text = stringResource(R.string.no_payment), style = TextStyle(
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
+            lineHeight = 24.sp,
+            letterSpacing = 0.15.sp
+        )
+        )
+        Text(text = stringResource(R.string.no_payment_year))
     }
 }

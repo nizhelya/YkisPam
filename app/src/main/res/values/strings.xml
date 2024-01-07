@@ -342,6 +342,8 @@
     <string name="loading_from_mobile">Через мобільну сеть</string>
     <string name="settings_loadin_from_server">Завантаження даних з сервера</string>
     <string name="driver_menu">бокове меню</string>
+    <string name="no_payment">Немає платежів</string>
+    <string name="no_payment_year">За цей рік платежів не знайдено</string>
 
 
 </resources>
