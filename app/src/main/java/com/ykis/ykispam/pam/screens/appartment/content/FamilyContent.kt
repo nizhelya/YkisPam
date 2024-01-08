@@ -54,8 +54,8 @@ import com.ykis.ykispam.R
 import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.pam.domain.family.FamilyEntity
-import com.ykis.ykispam.pam.screens.appartment.appbars.DetailAppBar
-import com.ykis.ykispam.pam.screens.appartment.viewmodels.FamilyListViewModel
+import com.ykis.ykispam.pam.screens.appbars.DetailAppBar
+import com.ykis.ykispam.pam.screens.family.FamilyListViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

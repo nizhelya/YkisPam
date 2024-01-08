@@ -9,11 +9,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddHome
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,12 +24,11 @@ import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.R
 import com.ykis.ykispam.YkisPamAppState
 import com.ykis.ykispam.navigation.ADD_APARTMENT_SCREEN
-import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.navigation.ContentDetail
+import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.navigation.NavigationType
+import com.ykis.ykispam.pam.screens.service.DetailContent
 import com.ykis.ykispam.pam.screens.appartment.content.ListContent
-import com.ykis.ykispam.pam.screens.appartment.content.DetailContent
-import com.ykis.ykispam.pam.screens.appartment.viewmodels.ApartmentViewModel
 
 @Composable
 fun ApartmentScreen(
@@ -117,8 +116,8 @@ if (contentType == ContentType.DUAL_PANE) {
                     .align(Alignment.BottomEnd),
 //                    containerColor = MaterialTheme.colorScheme.inverseOnSurface,
 //                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-                containerColor = Color(0xFF3A4C2B),
-                contentColor = Color(0xFFFFB945),
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
             ) {
                 Icon(
                     imageVector = Icons.Default.AddHome,

@@ -40,9 +40,9 @@ import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.R
 import com.ykis.ykispam.YkisPamAppState
 import com.ykis.ykispam.core.composable.HelpAlertCard
-import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.navigation.ContentDetail
-import com.ykis.ykispam.pam.screens.appartment.appbars.ApartmentTopAppBar
+import com.ykis.ykispam.navigation.ContentType
+import com.ykis.ykispam.pam.screens.appbars.ApartmentTopAppBar
 
 
 @Composable
@@ -82,7 +82,7 @@ fun ListContent(
         if(baseUIState.addressId !=0) {
             Card(
                 modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
 
             ) {
                 Column(
@@ -98,7 +98,7 @@ fun ListContent(
                         Text(
                             text = stringResource(id = R.string.xp),
                             style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.secondary,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
                             modifier = Modifier
                                 .padding(16.dp)
                                 .weight(1f),
@@ -114,7 +114,7 @@ fun ListContent(
                             Icon(
                                 imageVector = Icons.TwoTone.Info,
                                 contentDescription = "Info",
-                                tint = MaterialTheme.colorScheme.outline
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer
                             )
                         }
 
@@ -152,7 +152,7 @@ fun ListContent(
             }
             Card(
                 modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
             ) {
                 Column(
                     modifier = Modifier
@@ -167,7 +167,7 @@ fun ListContent(
                         Text(
                             text = stringResource(id = R.string.consumed_services),
                             style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.secondary,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
                             modifier = Modifier
                                 .padding(16.dp)
                                 .weight(1f),

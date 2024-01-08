@@ -52,8 +52,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ykis.ykispam.R
 import com.ykis.ykispam.pam.domain.family.FamilyEntity
-import com.ykis.ykispam.pam.screens.appartment.appbars.AddAppBar
-import com.ykis.ykispam.pam.screens.appartment.viewmodels.FamilyListViewModel
+import com.ykis.ykispam.pam.screens.appbars.AddAppBar
 import com.ykis.ykispam.theme.YkisPAMTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

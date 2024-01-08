@@ -58,7 +58,7 @@ fun ListItem(
         modifier = semanticsModifier.clickable { navigateToDetail(contentDetail) },
         colors = CardDefaults.cardColors(
             containerColor = if (isSelected) MaterialTheme.colorScheme.surfaceVariant
-            else MaterialTheme.colorScheme.inverseOnSurface
+            else MaterialTheme.colorScheme.primary
         )
 
        ) {
@@ -77,12 +77,12 @@ fun ListItem(
                         .padding(8.dp),
                     imageVector = imageVector,
                     contentDescription = "",
-                    tint = MaterialTheme.colorScheme.outline
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
                 Text(
                     text = serviseName,
                     style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.secondary,
+                    color = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier
                         .padding(8.dp)
                         .weight(1f),

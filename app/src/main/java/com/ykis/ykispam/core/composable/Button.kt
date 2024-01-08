@@ -23,14 +23,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -38,9 +36,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.glance.GlanceTheme.colors
-import coil.compose.AsyncImagePainter.State.Empty.painter
-import com.google.common.base.Defaults
 
 @Composable
 fun BasicLinkButton(@StringRes text: Int, modifier: Modifier, action: () -> Unit) {
@@ -112,17 +107,15 @@ fun BasicImageButton(
         ),
         colors =
         ButtonDefaults.buttonColors(
-            containerColor = Color(0xFF3A4C2B),
-            contentColor = Color(0xFFFFB945),
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary,
         )
     ) {
-
-        Text(text = stringResource(text), fontSize = 16.sp, modifier = Modifier.padding(end = 8.dp))
         Image(
-//            colorFilter = ColorFilter.tint(Color.White),
             painter = painterResource(img),
             contentDescription = null
         )
+        Text(text = stringResource(text), fontSize = 16.sp, modifier = Modifier.padding(end = 8.dp))
     }
 }
 

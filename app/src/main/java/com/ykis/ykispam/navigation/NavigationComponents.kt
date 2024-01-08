@@ -61,7 +61,6 @@ import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.composable.LogoImage
 import com.ykis.ykispam.core.composable.LogoImageShort
-import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 
 @Composable
 fun ApartmentNavigationRail(
@@ -247,7 +246,7 @@ fun PermanentNavigationDrawerContent(
         // TODO remove custom nav drawer content positioning when NavDrawer component supports it. ticket : b/232495216
         Layout(
             modifier = Modifier
-                .background(MaterialTheme.colorScheme.inverseOnSurface)
+                .background(MaterialTheme.colorScheme.surfaceVariant)
                 .padding(16.dp),
             content = {
                 Column(
@@ -282,19 +281,22 @@ fun PermanentNavigationDrawerContent(
                                         Text(
                                             text = address,
                                             style = MaterialTheme.typography.titleMedium,
-                                            modifier = Modifier.padding(start = 4.dp)
+                                            modifier = Modifier.padding(start = 4.dp),
+                                            color = MaterialTheme.colorScheme.onPrimary
                                         )
                                     }
                                 },
                                 icon = {
                                     Icon(
                                         imageVector = Icons.TwoTone.Apartment,
-                                        contentDescription = ""
+                                        contentDescription = "",
+                                        tint = MaterialTheme.colorScheme.onPrimary
                                     )
 
                                 },
                                 colors = NavigationDrawerItemDefaults.colors(
-                                    unselectedContainerColor = Color.Transparent
+                                    unselectedContainerColor = Color.Transparent,
+                                    selectedContainerColor = MaterialTheme.colorScheme.primary
                                 ),
                                 onClick = {
                                     navigateToDestination("$APARTMENT_SCREEN?$ADDRESS_ID=${it.addressId}")
@@ -320,7 +322,8 @@ fun PermanentNavigationDrawerContent(
                             label = {
                                 Text(
                                     text = stringResource(id = destination.iconTextId),
-                                    modifier = Modifier.padding(horizontal = 16.dp)
+                                    modifier = Modifier.padding(horizontal = 16.dp),
+                                    color = MaterialTheme.colorScheme.onTertiaryContainer
                                 )
                             },
                             icon = {
@@ -328,11 +331,13 @@ fun PermanentNavigationDrawerContent(
                                     imageVector = destination.selectedIcon,
                                     contentDescription = stringResource(
                                         id = destination.iconTextId
-                                    )
+                                    ),
+                                    tint = MaterialTheme.colorScheme.onTertiaryContainer
                                 )
                             },
                             colors = NavigationDrawerItemDefaults.colors(
-                                unselectedContainerColor = Color.Transparent
+                                unselectedContainerColor = Color.Transparent,
+                                selectedContainerColor = MaterialTheme.colorScheme.tertiaryContainer
                             ),
                             onClick = { navigateToDestination(destination.route) }
                         )

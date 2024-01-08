@@ -25,8 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.composable.BasicField
 import com.ykis.ykispam.core.composable.BasicImageButton
-import com.ykis.ykispam.pam.screens.appartment.appbars.AddAppBar
-import com.ykis.ykispam.pam.screens.appartment.viewmodels.ApartmentViewModel
+import com.ykis.ykispam.pam.screens.appbars.AddAppBar
 import com.ykis.ykispam.theme.YkisPAMTheme
 import com.ykis.ykispam.R.string as AppText
 

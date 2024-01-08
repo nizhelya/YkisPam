@@ -4,7 +4,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.window.layout.DisplayFeature
-import com.google.firestore.v1.FirestoreGrpc.SERVICE_NAME
 import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.SplashScreen
 import com.ykis.ykispam.YkisPamAppState
@@ -13,13 +12,11 @@ import com.ykis.ykispam.firebase.screens.settings.SettingsScreen
 import com.ykis.ykispam.firebase.screens.sign_in.SignInScreen
 import com.ykis.ykispam.firebase.screens.sign_up.SignUpScreen
 import com.ykis.ykispam.firebase.screens.verify_email.VerifyEmailScreen
-import com.ykis.ykispam.pam.data.remote.api.ApiService.Companion.HOUSE_ID
-import com.ykis.ykispam.pam.data.remote.api.ApiService.Companion.SERVICE
 import com.ykis.ykispam.pam.screens.appartment.AddApartmentScreen
 import com.ykis.ykispam.pam.screens.appartment.ApartmentScreen
-import com.ykis.ykispam.pam.screens.appartment.WaterScreen
 import com.ykis.ykispam.pam.screens.bti.BtiScreen
 import com.ykis.ykispam.pam.screens.family.FamilyScreen
+import com.ykis.ykispam.pam.screens.meter.water.WaterScreen
 
 
 fun NavGraphBuilder.YkisPamGraph(
@@ -28,6 +25,7 @@ fun NavGraphBuilder.YkisPamGraph(
     displayFeatures: List<DisplayFeature>,
     appState: YkisPamAppState,
     baseUIState: BaseUIState,
+    isUserSignedOut:Boolean,
     getApartments: () -> Unit,
     closeDetailScreen: () -> Unit,
     navigateToDestination: (String) -> Unit,
@@ -40,9 +38,8 @@ fun NavGraphBuilder.YkisPamGraph(
     composable(SPLASH_SCREEN) {
         SplashScreen(
             openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) },
-            restartApp = { route -> appState.clearAndNavigate(route) },
-
-            )
+            isUserSignedOut = isUserSignedOut
+        )
     }
     composable(
         route = "$BTI_SCREEN$FLAT_ARG",

@@ -16,14 +16,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ykis.ykispam.core.composable.BasicButton
 import com.ykis.ykispam.core.ext.basicButton
-import com.ykis.ykispam.pam.screens.appartment.viewmodels.ApartmentViewModel
+import com.ykis.ykispam.pam.screens.appartment.ApartmentViewModel
 import com.ykis.ykispam.R.string as AppText
 
 @Composable
 fun SplashScreen(
     modifier: Modifier = Modifier,
     openAndPopUp: (String, String) -> Unit,
-    restartApp: (String) -> Unit,
+    isUserSignedOut:Boolean,
 //    getApartments:(Boolean)->Unit,
     viewModel: ApartmentViewModel = hiltViewModel()
 ) {
@@ -40,13 +40,13 @@ fun SplashScreen(
         if (viewModel.showError.value) {
             Text(text = stringResource(AppText.generic_error))
             BasicButton(AppText.try_again, Modifier.basicButton()) {
-                    viewModel.onAppStart(isUserSignedOut, restartApp, openAndPopUp)
+                viewModel.onAppStart(isUserSignedOut, openAndPopUp)
             }
         } else {
             CircularProgressIndicator(color = MaterialTheme.colorScheme.onBackground)
         }
     }
     LaunchedEffect(key1 = isUserSignedOut) {
-        viewModel.onAppStart(isUserSignedOut, restartApp, openAndPopUp)
+        viewModel.onAppStart(isUserSignedOut, openAndPopUp)
     }
 }
