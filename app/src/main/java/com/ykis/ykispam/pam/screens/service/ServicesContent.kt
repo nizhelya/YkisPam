@@ -76,15 +76,12 @@ import com.ykis.ykispam.R
 import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.pam.domain.service.ServiceEntity
-import com.ykis.ykispam.pam.screens.appbars.DetailAppBar
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ServicesContent(
-    modifier: Modifier = Modifier,
     contentType: ContentType,
     contentDetail: ContentDetail,
     baseUIState: BaseUIState,
@@ -95,13 +92,13 @@ fun ServicesContent(
     var selectedChip by rememberSaveable {
         mutableStateOf("2024")
     }
-    val serviceName = when (contentDetail) {
-        ContentDetail.OSBB -> baseUIState.apartment.osbb
-        ContentDetail.WATER_SERVICE -> stringResource(id = R.string.vodokanal)
-        ContentDetail.WARM_SERVICE -> stringResource(id = R.string.ytke)
-        ContentDetail.GARBAGE_SERVICE -> stringResource(id = R.string.yzhtrans)
-        else -> baseUIState.apartment.osbb
-    }
+//    val serviceName = when (contentDetail) {
+//        ContentDetail.OSBB -> baseUIState.apartment.osbb
+//        ContentDetail.WATER_SERVICE -> stringResource(id = R.string.vodokanal)
+//        ContentDetail.WARM_SERVICE -> stringResource(id = R.string.ytke)
+//        ContentDetail.GARBAGE_SERVICE -> stringResource(id = R.string.yzhtrans)
+//        else -> baseUIState.apartment.osbb
+//    }
     LaunchedEffect(key1 = selectedChip) {
         baseUIState.uid?.let {
             viewModel.getDetailService(
@@ -126,7 +123,6 @@ fun ServicesContent(
         contentDetail = contentDetail,
         baseUIState = baseUIState,
         serviceEntyties = serviceDetail,
-        service = serviceName,
         onBackPressed = onBackPressed,
         onSelectedChanged = { selectedChip = it },
         selectedChip = selectedChip
@@ -159,7 +155,7 @@ fun ServiceDetailItem(
                     .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() },
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp
+//                        fontSize = 24.sp
                     ), modifier = modifier
                         .padding(16.dp)
                 )
@@ -226,7 +222,6 @@ fun ServiceDetailItem(
 
 @Composable
 fun ListServiceDetails(
-    modifier: Modifier = Modifier,
     listServiceEntity: List<ServiceEntity> = listOf(ServiceEntity(), ServiceEntity()),
 ) {
     if(listServiceEntity.isEmpty()){
@@ -245,7 +240,6 @@ fun ServiceDetailContent(
     baseUIState: BaseUIState,
     modifier: Modifier = Modifier,
     serviceEntyties: List<ServiceEntity>,
-    service: String,
     onBackPressed: () -> Unit,
     selectedChip: String,
     onSelectedChanged: (String) -> Unit
@@ -265,7 +259,7 @@ fun ServiceDetailContent(
         "2013",
         "2012"
     )
-    Log.d("chip_test", selectedChip)
+//    Log.d("chip_test", selectedChip)
     Column(
         modifier = Modifier
             .padding(4.dp)
@@ -273,13 +267,7 @@ fun ServiceDetailContent(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        DetailAppBar(
-            modifier = modifier,
-            contentType =contentType,
-            contentDetail =contentDetail,
-            baseUIState =  baseUIState,
-            onBackPressed = onBackPressed
-        )
+
 
         GroupFilterChip(
             list = years, selectedChip = selectedChip,

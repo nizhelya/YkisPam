@@ -93,10 +93,10 @@ fun BtiPanelContent(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        DetailAppBar(modifier, contentType, baseUIState, contentDetail) {
-            onBackPressed()
-        }
+//
+//        DetailAppBar(modifier, contentType, baseUIState, contentDetail) {
+//            onBackPressed()
+//        }
 
 
         Card(

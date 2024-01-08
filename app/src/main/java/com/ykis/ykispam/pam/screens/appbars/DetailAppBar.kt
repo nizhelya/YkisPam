@@ -3,6 +3,7 @@ package com.ykis.ykispam.pam.screens.appbars
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -69,7 +70,7 @@ fun DetailAppBar(
                     ) {
                         Icon(
                             modifier = Modifier
-                                .padding(8.dp),
+                                .padding(4.dp),
                             imageVector = when (contentDetail) {
                                 ContentDetail.BTI -> Icons.TwoTone.Home
                                 ContentDetail.FAMALY -> Icons.TwoTone.FamilyRestroom
@@ -95,7 +96,7 @@ fun DetailAppBar(
                                 ContentDetail.PAYMENTS -> stringResource(id = R.string.payment_list)
                                 else -> stringResource(id = R.string.bti)
                             },
-                            style = MaterialTheme.typography.titleMedium,
+                            style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }

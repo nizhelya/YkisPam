@@ -14,8 +14,6 @@ import com.ykis.ykispam.firebase.screens.sign_up.SignUpScreen
 import com.ykis.ykispam.firebase.screens.verify_email.VerifyEmailScreen
 import com.ykis.ykispam.pam.screens.appartment.AddApartmentScreen
 import com.ykis.ykispam.pam.screens.appartment.ApartmentScreen
-import com.ykis.ykispam.pam.screens.bti.BtiScreen
-import com.ykis.ykispam.pam.screens.family.FamilyScreen
 import com.ykis.ykispam.pam.screens.meter.water.WaterScreen
 
 
@@ -41,35 +39,8 @@ fun NavGraphBuilder.YkisPamGraph(
             isUserSignedOut = isUserSignedOut
         )
     }
-    composable(
-        route = "$BTI_SCREEN$FLAT_ARG",
-        arguments = listOf(
-            navArgument(ADDRESS_ID) { defaultValue = ADDRESS_DEFAULT_ID },
-            navArgument(ADDRESS) { defaultValue = ADDRESS_DEFAULT })
-    )
-    {
-        BtiScreen(
-            popUpScreen = { appState.popUp() },
-            openScreen = { route -> appState.navigate(route) },
-            addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID,
-            address = it.arguments?.getString(ADDRESS) ?: ADDRESS_DEFAULT,
 
-            )
-    }
-    composable(
-        route = "$FAMILY_SCREEN$FLAT_ARG",
-        arguments = listOf(
-            navArgument(ADDRESS_ID) { defaultValue = ADDRESS_DEFAULT_ID },
-            navArgument(ADDRESS) { defaultValue = ADDRESS_DEFAULT })
-    )
-    {
-        FamilyScreen(
-            popUpScreen = { appState.popUp() },
-            addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID,
-            address = it.arguments?.getString(ADDRESS) ?: ADDRESS_DEFAULT,
 
-            )
-    }
     composable(
         route = "$WATER_SCREEN$ADDRESS_ID_ARG",
         arguments = listOf(navArgument(ADDRESS_ID) { defaultValue = ADDRESS_DEFAULT_ID })

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -58,209 +59,259 @@ fun ListContent(
 
     var showDialog by rememberSaveable { mutableStateOf(false) }
     val yes: Byte = 1
-    Column(
+    Row(
         modifier = Modifier
             .padding(PaddingValues(4.dp))
-            .verticalScroll(rememberScrollState())
-            .fillMaxWidth()
-            .fillMaxHeight()
+//            .verticalScroll(rememberScrollState())
+            .fillMaxSize()
+//            .fillMaxHeight()
             .background(MaterialTheme.colorScheme.inverseOnSurface),
-
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalAlignment = Alignment.Top,
+        horizontalArrangement = Arrangement.Center
     ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.inverseOnSurface),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
-        ApartmentTopAppBar(
-            contentType = contentType,
-            appState = appState,
-            apartment = baseUIState.apartment,
-            isDriverClicked = true,
-            isButtonAction = baseUIState.apartment.address.isNotEmpty() ,
-            onButtonAction = { deleteApartment() },
-            onButtonPressed = { onDrawerClicked() }
-        )
-        if(baseUIState.addressId !=0) {
-            Card(
-                modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+            ApartmentTopAppBar(
+                contentType = contentType,
+                appState = appState,
+                apartment = baseUIState.apartment,
+                isDriverClicked = true,
+                isButtonAction = baseUIState.apartment.address.isNotEmpty(),
+                onButtonAction = { deleteApartment() },
+                onButtonPressed = { onDrawerClicked() }
+            )
+            Row(
+                modifier = Modifier
+                    .padding(PaddingValues(4.dp))
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.inverseOnSurface),
 
+                verticalAlignment = Alignment.Top,
+                horizontalArrangement = Arrangement.Center
             ) {
                 Column(
                     modifier = Modifier
+                        .padding(PaddingValues(4.dp))
+                        .verticalScroll(rememberScrollState())
                         .fillMaxWidth()
-                        .padding(8.dp)
+                        .fillMaxHeight()
+                        .background(MaterialTheme.colorScheme.inverseOnSurface),
+
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Start,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.xp),
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .weight(1f),
 
-                            )
-                        IconButton(
-                            onClick = { showDialog = true },
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .clip(CircleShape)
-                                .background(MaterialTheme.colorScheme.inverseOnSurface)
+
+                    if (baseUIState.addressId != 0) {
+                        Card(
+                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+
                         ) {
-                            Icon(
-                                imageVector = Icons.TwoTone.Info,
-                                contentDescription = "Info",
-                                tint = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
-                        }
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(8.dp)
+                            ) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.Start,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = stringResource(id = R.string.xp),
+                                        style = MaterialTheme.typography.titleMedium,
+                                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                        modifier = Modifier
+                                            .padding(16.dp)
+                                            .weight(1f),
 
-                    }
-                    ListItem(
-                        modifier = modifier,
-                        imageVector = Icons.TwoTone.Home,
-                        serviseName = stringResource(id = R.string.bti),
-                        baseUIState = baseUIState,
-                        org = baseUIState.apartment.osbb,
-                        contentDetail = ContentDetail.BTI,
-                    ) { contentDetail ->
-                        navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
-                    }
-                    ListItem(
-                        modifier = modifier,
-                        imageVector = Icons.TwoTone.FamilyRestroom,
-                        serviseName = stringResource(id = R.string.list_family),
-                        baseUIState = baseUIState,
-                        org = baseUIState.apartment.osbb,
-                        contentDetail = ContentDetail.FAMALY,
-                    ) { contentDetail ->
-                        navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
-                    }
-                    if (showDialog) {
-                        HelpAlertCard(
-                            title = stringResource(id = R.string.consumed_services),
-                            text = stringResource(id = R.string.consumed_services),
-                            org = "",
-                            showDialog = true,
-                            onShowDialogChange = { showDialog = it }
-                        )
+                                        )
+                                    IconButton(
+                                        onClick = { showDialog = true },
+                                        modifier = Modifier
+                                            .padding(8.dp)
+                                            .clip(CircleShape)
+                                            .background(MaterialTheme.colorScheme.inverseOnSurface)
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.TwoTone.Info,
+                                            contentDescription = "Info",
+                                            tint = MaterialTheme.colorScheme.onPrimaryContainer
+                                        )
+                                    }
+
+                                }
+                                ListItem(
+                                    modifier = modifier,
+                                    imageVector = Icons.TwoTone.Home,
+                                    serviseName = stringResource(id = R.string.bti),
+                                    baseUIState = baseUIState,
+                                    org = baseUIState.apartment.osbb,
+                                    contentDetail = ContentDetail.BTI,
+                                ) { contentDetail ->
+                                    navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
+                                }
+                                ListItem(
+                                    modifier = modifier,
+                                    imageVector = Icons.TwoTone.FamilyRestroom,
+                                    serviseName = stringResource(id = R.string.list_family),
+                                    baseUIState = baseUIState,
+                                    org = baseUIState.apartment.osbb,
+                                    contentDetail = ContentDetail.FAMALY,
+                                ) { contentDetail ->
+                                    navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
+                                }
+                                if (showDialog) {
+                                    HelpAlertCard(
+                                        title = stringResource(id = R.string.consumed_services),
+                                        text = stringResource(id = R.string.consumed_services),
+                                        org = "",
+                                        showDialog = true,
+                                        onShowDialogChange = { showDialog = it }
+                                    )
+                                }
+                            }
+                        }
+                        Card(
+                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(8.dp)
+                            ) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.Start,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = stringResource(id = R.string.consumed_services),
+                                        style = MaterialTheme.typography.titleMedium,
+                                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                        modifier = Modifier
+                                            .padding(16.dp)
+                                            .weight(1f),
+
+                                        )
+                                    IconButton(
+                                        onClick = { showDialog = true },
+                                        modifier = Modifier
+                                            .padding(8.dp)
+                                            .clip(CircleShape)
+                                            .background(MaterialTheme.colorScheme.inverseOnSurface)
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.TwoTone.Info,
+                                            contentDescription = "Info",
+                                            tint = MaterialTheme.colorScheme.outline
+                                        )
+                                    }
+
+                                }
+                                if (baseUIState.apartment.kvartplata == yes) {
+                                    ListItem(
+                                        modifier = modifier,
+                                        imageVector = Icons.TwoTone.CorporateFare,
+                                        serviseName = baseUIState.apartment.osbb,
+                                        baseUIState = baseUIState,
+                                        org = baseUIState.apartment.osbb,
+                                        contentDetail = ContentDetail.OSBB,
+                                    ) { contentDetail ->
+                                        navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
+                                    }
+
+                                }
+                                if (baseUIState.apartment.voda == yes || baseUIState.apartment.stoki == yes) {
+                                    ListItem(
+                                        modifier = modifier,
+                                        imageVector = Icons.Default.Water,
+                                        serviseName = stringResource(id = R.string.vodokanal),
+                                        baseUIState = baseUIState,
+                                        org = stringResource(id = R.string.vodokanal),
+                                        contentDetail = ContentDetail.WATER_SERVICE,
+                                    ) { contentDetail ->
+                                        navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
+                                    }
+                                }
+                                if (baseUIState.apartment.otoplenie == yes) {
+                                    ListItem(
+                                        modifier = modifier,
+                                        imageVector = Icons.TwoTone.HotTub,
+                                        serviseName = stringResource(id = R.string.ytke),
+                                        baseUIState = baseUIState,
+                                        org = stringResource(id = R.string.ytke),
+                                        contentDetail = ContentDetail.WARM_SERVICE,
+                                    ) { contentDetail ->
+                                        navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
+                                    }
+
+                                }
+                                if (baseUIState.apartment.tbo == yes) {
+                                    ListItem(
+                                        modifier = modifier,
+                                        imageVector = Icons.TwoTone.Commute,
+                                        serviseName = stringResource(id = R.string.yzhtrans),
+                                        baseUIState = baseUIState,
+                                        org = stringResource(id = R.string.yzhtrans),
+                                        contentDetail = ContentDetail.GARBAGE_SERVICE,
+                                    ) { contentDetail ->
+                                        navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
+                                    }
+                                }
+                                ListItem(
+                                    modifier = modifier,
+                                    imageVector = Icons.TwoTone.MonetizationOn,
+                                    serviseName = stringResource(id = R.string.payment_list),
+                                    baseUIState = baseUIState,
+                                    org = stringResource(id = R.string.payment_list),
+                                    contentDetail = ContentDetail.PAYMENTS,
+                                ) { contentDetail ->
+                                    navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
+                                }
+                                ListItem(
+                                    modifier = modifier,
+                                    imageVector = Icons.TwoTone.MonetizationOn,
+                                    serviseName = stringResource(id = R.string.payment_list),
+                                    baseUIState = baseUIState,
+                                    org = stringResource(id = R.string.payment_list),
+                                    contentDetail = ContentDetail.PAYMENTS,
+                                ) { contentDetail ->
+                                    navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
+                                }
+                                ListItem(
+                                    modifier = modifier,
+                                    imageVector = Icons.TwoTone.MonetizationOn,
+                                    serviseName = stringResource(id = R.string.payment_list),
+                                    baseUIState = baseUIState,
+                                    org = stringResource(id = R.string.payment_list),
+                                    contentDetail = ContentDetail.PAYMENTS,
+                                ) { contentDetail ->
+                                    navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
+                                }
+                                if (showDialog) {
+                                    HelpAlertCard(
+                                        title = stringResource(id = R.string.consumed_services),
+                                        text = stringResource(id = R.string.consumed_services),
+                                        org = "",
+                                        showDialog = true,
+                                        onShowDialogChange = { showDialog = it }
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
             }
-            Card(
-                modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Start,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.consumed_services),
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .weight(1f),
 
-                            )
-                        IconButton(
-                            onClick = { showDialog = true },
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .clip(CircleShape)
-                                .background(MaterialTheme.colorScheme.inverseOnSurface)
-                        ) {
-                            Icon(
-                                imageVector = Icons.TwoTone.Info,
-                                contentDescription = "Info",
-                                tint = MaterialTheme.colorScheme.outline
-                            )
-                        }
-
-                    }
-                    if (baseUIState.apartment.kvartplata == yes) {
-                        ListItem(
-                            modifier = modifier,
-                            imageVector = Icons.TwoTone.CorporateFare,
-                            serviseName = baseUIState.apartment.osbb,
-                            baseUIState = baseUIState,
-                            org = baseUIState.apartment.osbb,
-                            contentDetail = ContentDetail.OSBB,
-                        ) { contentDetail ->
-                            navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
-                        }
-
-                    }
-                    if (baseUIState.apartment.voda == yes || baseUIState.apartment.stoki == yes) {
-                        ListItem(
-                            modifier = modifier,
-                            imageVector = Icons.Default.Water,
-                            serviseName = stringResource(id = R.string.vodokanal),
-                            baseUIState = baseUIState,
-                            org = stringResource(id = R.string.vodokanal),
-                            contentDetail = ContentDetail.WATER_SERVICE,
-                        ) { contentDetail ->
-                            navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
-                        }
-                    }
-                    if (baseUIState.apartment.otoplenie == yes) {
-                        ListItem(
-                            modifier = modifier,
-                            imageVector = Icons.TwoTone.HotTub,
-                            serviseName = stringResource(id = R.string.ytke),
-                            baseUIState = baseUIState,
-                            org = stringResource(id = R.string.ytke),
-                            contentDetail = ContentDetail.WARM_SERVICE,
-                        ) { contentDetail ->
-                            navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
-                        }
-
-                    }
-                    if (baseUIState.apartment.tbo == yes) {
-                        ListItem(
-                            modifier = modifier,
-                            imageVector = Icons.TwoTone.Commute,
-                            serviseName = stringResource(id = R.string.yzhtrans),
-                            baseUIState = baseUIState,
-                            org = stringResource(id = R.string.yzhtrans),
-                            contentDetail = ContentDetail.GARBAGE_SERVICE,
-                        ) { contentDetail ->
-                            navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
-                        }
-                    }
-                    ListItem(
-                        modifier = modifier,
-                        imageVector = Icons.TwoTone.MonetizationOn,
-                        serviseName = stringResource(id = R.string.payment_list),
-                        baseUIState = baseUIState,
-                        org = stringResource(id = R.string.payment_list),
-                        contentDetail = ContentDetail.PAYMENTS,
-                    ) { contentDetail ->
-                        navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
-                    }
-
-                    if (showDialog) {
-                        HelpAlertCard(
-                            title = stringResource(id = R.string.consumed_services),
-                            text = stringResource(id = R.string.consumed_services),
-                            org = "",
-                            showDialog = true,
-                            onShowDialogChange = { showDialog = it }
-                        )
-                    }
-                }
-            }
         }
-
     }
 }

@@ -27,7 +27,7 @@ import com.ykis.ykispam.navigation.ADD_APARTMENT_SCREEN
 import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.navigation.NavigationType
-import com.ykis.ykispam.pam.screens.service.DetailContent
+import com.ykis.ykispam.pam.screens.appartment.content.DetailContent
 import com.ykis.ykispam.pam.screens.appartment.content.ListContent
 
 @Composable
