@@ -137,7 +137,7 @@ fun ServiceDetailItem(
     val dateUnix = SimpleDateFormat("yyyy-MM-dd").parse(serviceEntity.data)
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            containerColor = MaterialTheme.colorScheme.onSecondary,
             contentColor = MaterialTheme.colorScheme.onPrimaryContainer
         ), modifier = modifier
             .padding(horizontal = 8.dp, vertical = 8.dp)

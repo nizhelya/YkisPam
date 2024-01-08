@@ -34,7 +34,7 @@ fun AddAppBar(
     TopAppBar(
         modifier = modifier,
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.inverseOnSurface
+            containerColor = MaterialTheme.colorScheme.onSecondary
         ),
         title = {
             Column(

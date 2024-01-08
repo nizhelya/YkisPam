@@ -26,9 +26,11 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -36,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ykis.ykispam.theme.md_theme_dark_onSecondary
 
 @Composable
 fun BasicLinkButton(@StringRes text: Int, modifier: Modifier, action: () -> Unit) {
@@ -107,15 +110,25 @@ fun BasicImageButton(
         ),
         colors =
         ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
+            containerColor = MaterialTheme.colorScheme.onSecondary,
+            contentColorFor(backgroundColor = MaterialTheme.colorScheme.secondary),
+//            containerColor = Color(0xFF3A4C2B),
+//            contentColor = Color(0xFFFFB945),
         )
     ) {
         Image(
             painter = painterResource(img),
-            contentDescription = null
+            contentDescription = null,
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary)
+
         )
-        Text(text = stringResource(text), fontSize = 16.sp, modifier = Modifier.padding(end = 8.dp))
+        Text(
+            text = stringResource(text),
+            fontSize = 16.sp,
+            color = MaterialTheme.colorScheme.secondary,
+            modifier = Modifier.padding(start = 8.dp)
+
+        )
     }
 }
 

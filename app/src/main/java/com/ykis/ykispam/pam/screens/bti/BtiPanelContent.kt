@@ -93,16 +93,11 @@ fun BtiPanelContent(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-//
-//        DetailAppBar(modifier, contentType, baseUIState, contentDetail) {
-//            onBackPressed()
-//        }
-
 
         Card(
             modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant
+                containerColor = MaterialTheme.colorScheme.onSecondary
             )
         ) {
             Column(
@@ -154,7 +149,7 @@ fun BtiPanelContent(
         Card(
             modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant
+                containerColor = MaterialTheme.colorScheme.onSecondary
             )
         ) {
             Column(
@@ -294,7 +289,7 @@ fun BtiPanelContent(
         Card(
             modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant
+                containerColor = MaterialTheme.colorScheme.onSecondary
             )
         ) {
             Column(
@@ -464,7 +459,7 @@ fun BtiPanelContent(
         Card(
             modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant
+                containerColor = MaterialTheme.colorScheme.onSecondary
             )
         ) {
             Column(
@@ -676,7 +671,7 @@ fun BtiPanelContent(
         Card(
             modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant
+                containerColor = MaterialTheme.colorScheme.onSecondary
             )
         ) {
             Column(

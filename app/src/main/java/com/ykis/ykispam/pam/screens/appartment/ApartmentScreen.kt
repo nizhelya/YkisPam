@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -114,15 +115,16 @@ if (contentType == ContentType.DUAL_PANE) {
                 modifier = Modifier
                     .padding(16.dp)
                     .align(Alignment.BottomEnd),
-//                    containerColor = MaterialTheme.colorScheme.inverseOnSurface,
-//                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                containerColor = MaterialTheme.colorScheme.onSecondary,
+//                containerColor = Color(0xFF3A4C2B),
+                contentColor = Color(0xFFFFB945),
             ) {
                 Icon(
                     imageVector = Icons.Default.AddHome,
                     contentDescription = stringResource(id = R.string.add_appartment),
-                    modifier = Modifier.size(28.dp)
+                    modifier = Modifier.size(28.dp),
+                    tint = MaterialTheme.colorScheme.secondary
+
                 )
             }
 
