@@ -86,38 +86,38 @@ fun DetailContent(
                 )
 
                 ContentDetail.OSBB -> ServicesContent(
-                    contentType = contentType,
+//                    contentType = contentType,
                     contentDetail = contentDetail,
                     baseUIState = baseUIState,
-                    onBackPressed = onBackPressed
+//                    onBackPressed = onBackPressed
                 )
 
                 ContentDetail.WATER_SERVICE -> ServicesContent(
-                    contentType = contentType,
+//                    contentType = contentType,
                     contentDetail = contentDetail,
                     baseUIState = baseUIState,
-                    onBackPressed = onBackPressed
+//                    onBackPressed = onBackPressed
                 )
 
                 ContentDetail.WARM_SERVICE -> ServicesContent(
-                    contentType = contentType,
+//                    contentType = contentType,
                     contentDetail = contentDetail,
                     baseUIState = baseUIState,
-                    onBackPressed = onBackPressed
+//                    onBackPressed = onBackPressed
                 )
 
                 ContentDetail.GARBAGE_SERVICE -> ServicesContent(
-                    contentType = contentType,
+//                    contentType = contentType,
                     contentDetail = contentDetail,
                     baseUIState = baseUIState,
-                    onBackPressed = onBackPressed
+//                    onBackPressed = onBackPressed
                 )
 
                 ContentDetail.PAYMENTS -> ServicesContent(
-                    contentType = contentType,
+//                    contentType = contentType,
                     contentDetail = contentDetail,
                     baseUIState = baseUIState,
-                    onBackPressed = onBackPressed
+//                    onBackPressed = onBackPressed
                 )
 
                 else -> BtiPanelContent(

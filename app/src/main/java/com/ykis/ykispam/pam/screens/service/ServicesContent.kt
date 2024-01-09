@@ -76,29 +76,23 @@ import com.ykis.ykispam.R
 import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.pam.domain.service.ServiceEntity
+import com.ykis.ykispam.pam.screens.family.FamilyListItem
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 @Composable
 fun ServicesContent(
-    contentType: ContentType,
     contentDetail: ContentDetail,
     baseUIState: BaseUIState,
-    onBackPressed: () -> Unit,
     viewModel: ServiceViewModel = hiltViewModel(),
 ) {
+    val date = Date()
+    val year = SimpleDateFormat("yyyy", Locale("uk")).format(Date(date.time))
 
-    var selectedChip by rememberSaveable {
-        mutableStateOf("2024")
-    }
-//    val serviceName = when (contentDetail) {
-//        ContentDetail.OSBB -> baseUIState.apartment.osbb
-//        ContentDetail.WATER_SERVICE -> stringResource(id = R.string.vodokanal)
-//        ContentDetail.WARM_SERVICE -> stringResource(id = R.string.ytke)
-//        ContentDetail.GARBAGE_SERVICE -> stringResource(id = R.string.yzhtrans)
-//        else -> baseUIState.apartment.osbb
-//    }
+
+    var selectedChip by rememberSaveable {mutableStateOf(year)}
+
     LaunchedEffect(key1 = selectedChip) {
         baseUIState.uid?.let {
             viewModel.getDetailService(
@@ -118,16 +112,18 @@ fun ServicesContent(
         }
     }
     val serviceDetail by viewModel.serviceDetail.observeAsState(listOf(ServiceEntity()))
+
+
+
+
     ServiceDetailContent(
-        contentType = contentType,
-        contentDetail = contentDetail,
-        baseUIState = baseUIState,
+        year = year,
         serviceEntyties = serviceDetail,
-        onBackPressed = onBackPressed,
         onSelectedChanged = { selectedChip = it },
         selectedChip = selectedChip
     )
 }
+
 
 @Composable
 fun ServiceDetailItem(
@@ -135,6 +131,7 @@ fun ServiceDetailItem(
     serviceEntity: ServiceEntity = ServiceEntity()
 ) {
     val dateUnix = SimpleDateFormat("yyyy-MM-dd").parse(serviceEntity.data)
+
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.onSecondary,
@@ -155,7 +152,6 @@ fun ServiceDetailItem(
                     .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() },
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold,
-//                        fontSize = 24.sp
                     ), modifier = modifier
                         .padding(16.dp)
                 )
@@ -201,7 +197,7 @@ fun ServiceDetailItem(
                     value2 = serviceEntity.oplacheno2.toString(),
                     value3 = serviceEntity.oplacheno3.toString(),
                     value4 = serviceEntity.oplacheno4.toString(),
-                    header = stringResource(id = R.string.paid),
+                    header = stringResource(id = R.string.accured_text),
                     summary = serviceEntity.oplacheno.toString()
 
                 )
@@ -235,31 +231,35 @@ fun ListServiceDetails(
 
 @Composable
 fun ServiceDetailContent(
-    contentType: ContentType,
-    contentDetail: ContentDetail,
-    baseUIState: BaseUIState,
-    modifier: Modifier = Modifier,
+    year:String,
     serviceEntyties: List<ServiceEntity>,
-    onBackPressed: () -> Unit,
     selectedChip: String,
     onSelectedChanged: (String) -> Unit
 ) {
     val years = listOf(
-        "2024",
-        "2023",
-        "2022",
-        "2021",
-        "2020",
-        "2019",
-        "2018",
-        "2017",
-        "2016",
-        "2015",
-        "2014",
-        "2013",
-        "2012"
+        year,
+        year.toInt().plus(-1).toString(),
+        year.toInt().plus(-2).toString(),
+        year.toInt().plus(-3).toString(),
+        year.toInt().plus(-4).toString(),
+        year.toInt().plus(-5).toString(),
+        year.toInt().plus(-6).toString(),
+        year.toInt().plus(-7).toString(),
+        year.toInt().plus(-8).toString(),
+        year.toInt().plus(-9).toString(),
+        year.toInt().plus(-10).toString(),
+        year.toInt().plus(-11).toString(),
+        year.toInt().plus(-12).toString(),
+        year.toInt().plus(-13).toString(),
+        year.toInt().plus(-14).toString(),
+        year.toInt().plus(-15).toString(),
+        year.toInt().plus(-16).toString(),
+        year.toInt().plus(-17).toString(),
+        year.toInt().plus(-18).toString(),
+        year.toInt().plus(-19).toString(),
+        year.toInt().plus(-20).toString(),
     )
-//    Log.d("chip_test", selectedChip)
+//    Log.d("chip_test", years.toString())
     Column(
         modifier = Modifier
             .padding(4.dp)

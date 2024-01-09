@@ -279,26 +279,7 @@ fun ListContent(
                                 ) { contentDetail ->
                                     navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
                                 }
-                                ListItem(
-                                    modifier = modifier,
-                                    imageVector = Icons.TwoTone.MonetizationOn,
-                                    serviseName = stringResource(id = R.string.payment_list),
-                                    baseUIState = baseUIState,
-                                    org = stringResource(id = R.string.payment_list),
-                                    contentDetail = ContentDetail.PAYMENTS,
-                                ) { contentDetail ->
-                                    navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
-                                }
-                                ListItem(
-                                    modifier = modifier,
-                                    imageVector = Icons.TwoTone.MonetizationOn,
-                                    serviseName = stringResource(id = R.string.payment_list),
-                                    baseUIState = baseUIState,
-                                    org = stringResource(id = R.string.payment_list),
-                                    contentDetail = ContentDetail.PAYMENTS,
-                                ) { contentDetail ->
-                                    navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
-                                }
+
                                 if (showDialog) {
                                     HelpAlertCard(
                                         title = stringResource(id = R.string.consumed_services),

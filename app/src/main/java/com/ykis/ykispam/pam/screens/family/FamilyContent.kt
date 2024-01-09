@@ -272,19 +272,6 @@ fun FamilyListItem(
     }
 }
 
-//
-//@Preview(showBackground = true)
-//@ExperimentalMaterial3Api
-//@Composable
-//fun FamilyScreenPreview() {
-//    YkisPAMTheme {
-//        FamilyList(
-//            family = listOf(FamilyEntity(surname = "Нижельский", inn = "")),
-//            address = "Гр.Десанта 21/71",
-//            )
-//    }
-//}
-
 
 
 

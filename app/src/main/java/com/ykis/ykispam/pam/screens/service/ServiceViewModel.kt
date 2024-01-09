@@ -61,7 +61,7 @@ class ServiceViewModel @Inject constructor(
         fromCache: Boolean,
     ) {
         _serviceDetail.value = services
-        updateProgress(false)
+         updateProgress(false)
 
         if (fromCache) {
             updateProgress(true)
