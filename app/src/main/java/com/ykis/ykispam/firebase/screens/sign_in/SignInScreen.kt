@@ -25,8 +25,12 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.gms.auth.api.identity.BeginSignInResult
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider.getCredential
+import com.ykis.ykispam.R
 import com.ykis.ykispam.core.composable.BasicLinkButton
 import com.ykis.ykispam.core.composable.BasicToolbar
 import com.ykis.ykispam.core.composable.EmailField

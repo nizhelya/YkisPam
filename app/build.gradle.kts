@@ -5,7 +5,12 @@ plugins {
     alias(libs.plugins.crashlytics)
     alias(libs.plugins.hilt)
     alias(libs.plugins.perf)
-    alias(libs.plugins.kapt)
+    alias(libs.plugins.ksp)
+//    id("com.google.dagger.hilt.android")
+
+//    id("dagger.hilt.android.plugin")
+
+//    alias(libs.plugins.kapt)
 }
 
 android {
@@ -43,11 +48,11 @@ android {
     }
     buildFeatures {
         compose = true
-        dataBinding = true
+//        dataBinding = true
         viewBinding = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.4"
     }
 
     packaging {
@@ -95,13 +100,15 @@ dependencies {
 
 //    firebase
     implementation(platform(libs.firebase.bom))
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-crashlytics")
-    implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.firebase:firebase-firestore")
-    implementation("com.google.firebase:firebase-perf")
-    implementation("com.google.firebase:firebase-config")
-    implementation("com.google.firebase:firebase-messaging")
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.perf)
+    implementation(libs.firebase.config)
+    implementation(libs.firebase.messaging)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.play.services.auth)
 
 
@@ -110,16 +117,17 @@ dependencies {
 //    hilt
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.constraintlayout.compose)
-//    ksp(libs.hilt.compiler)
-    kapt(libs.hilt.compiler)
     implementation(libs.hilt.android)
+    ksp(libs.androidx.hilt.compiler)
+    ksp(libs.hilt.compiler)
+//    kapt(libs.hilt.compiler)
 // Room
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.legacy.support.v4)
 
-    kapt(libs.androidx.room.compiler)
-//    ksp(libs.androidx.room.compiler)
+//    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
 
     // Retrofit
     implementation(libs.retrofit)
@@ -138,8 +146,6 @@ dependencies {
     //Xpay
 //    implementation(libs.pustovitandriy.xpay.android.sdk)
 //    implementation("com.github.pustovitandriy:XPAY_Android_SDK:1.0.0")
-
-
 //    implementation(libs.play.services)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
@@ -148,9 +154,9 @@ dependencies {
 //    debugImplementation(libs.ui.tooling)
 //    debugImplementation(libs.ui.test.manifest)
 }
-
-kapt {
-    correctErrorTypes = true
-    useBuildCache = false
-    showProcessorStats = true
-}
+//
+//kapt {
+//    correctErrorTypes = true
+//    useBuildCache = false
+//    showProcessorStats = true
+//}

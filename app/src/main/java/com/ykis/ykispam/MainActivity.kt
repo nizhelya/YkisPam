@@ -14,7 +14,6 @@ import com.ykis.ykispam.theme.YkisPAMTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-
 class MainActivity : ComponentActivity() {
     private val viewModel: ApartmentViewModel by viewModels()
 
