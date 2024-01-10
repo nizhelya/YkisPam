@@ -323,7 +323,7 @@ fun PermanentNavigationDrawerContent(
                                 Text(
                                     text = stringResource(id = destination.iconTextId),
                                     modifier = Modifier.padding(horizontal = 16.dp),
-                                    color = MaterialTheme.colorScheme.onTertiaryContainer
+                                    color = MaterialTheme.colorScheme.onSecondaryContainer
                                 )
                             },
                             icon = {
@@ -332,12 +332,12 @@ fun PermanentNavigationDrawerContent(
                                     contentDescription = stringResource(
                                         id = destination.iconTextId
                                     ),
-                                    tint = MaterialTheme.colorScheme.onTertiaryContainer
+                                    tint = MaterialTheme.colorScheme.onSecondaryContainer
                                 )
                             },
                             colors = NavigationDrawerItemDefaults.colors(
                                 unselectedContainerColor = Color.Transparent,
-                                selectedContainerColor = MaterialTheme.colorScheme.tertiaryContainer
+                                selectedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
                             ),
                             onClick = { navigateToDestination(destination.route) }
                         )
