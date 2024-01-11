@@ -35,7 +35,7 @@ room-runtime = "2.6.1"
 runtime-livedata = "1.5.4"
 constraintlayout-compose = "1.0.1"
 glance-appwidget = "1.0.0"
-
+splashscreen="1.0.1"
 [libraries]
 
 accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive", version.ref = "accompanist-adaptive" }
@@ -105,7 +105,7 @@ ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-constraintlayout-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayout-compose" }
 androidx-glance-appwidget = { group = "androidx.glance", name = "glance-appwidget", version.ref = "glance-appwidget" }
-
+androidx-splashscreen={group = "androidx.core" , name = "core-splashscreen" , version.ref ="splashscreen"}
 [plugins]
 
 androidApplication = { id = "com.android.application", version.ref = "agp" }
