@@ -32,7 +32,7 @@ import com.ykis.ykispam.navigation.APARTMENT_SCREEN
 import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.navigation.SIGN_IN_SCREEN
-import com.ykis.ykispam.navigation.SPLASH_SCREEN
+import com.ykis.ykispam.navigation.LAUNCH_SCREEN
 import com.ykis.ykispam.navigation.VERIFY_EMAIL_SCREEN
 import com.ykis.ykispam.pam.data.cache.apartment.ApartmentCacheImpl
 import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
@@ -93,7 +93,7 @@ class ApartmentViewModel @Inject constructor(
 
     private val isConnected: Boolean get() = networkHandler.isConnected
     private val networkType: Int get() = networkHandler.networkType
-    // SplashScreen
+    // LaunchScreen
     val showError = mutableStateOf(false)
     fun getAuthState() = firebaseService.getAuthState(viewModelScope)
 
@@ -103,12 +103,12 @@ class ApartmentViewModel @Inject constructor(
     ) {
         showError.value = false
         if (isUserSignedOut) {
-            openAndPopUp(SIGN_IN_SCREEN, SPLASH_SCREEN)
+            openAndPopUp(SIGN_IN_SCREEN, LAUNCH_SCREEN)
         } else {
             if (isEmailVerified) {
-                openAndPopUp(APARTMENT_SCREEN, SPLASH_SCREEN)
+                openAndPopUp(APARTMENT_SCREEN, LAUNCH_SCREEN)
             } else {
-                openAndPopUp(VERIFY_EMAIL_SCREEN, SPLASH_SCREEN)
+                openAndPopUp(VERIFY_EMAIL_SCREEN, LAUNCH_SCREEN)
 
             }
         }
@@ -126,7 +126,7 @@ class ApartmentViewModel @Inject constructor(
             if (isEmailVerified) {
                 restartApp(APARTMENT_SCREEN)
             } else {
-                openAndPopUp(VERIFY_EMAIL_SCREEN, SPLASH_SCREEN)
+                openAndPopUp(VERIFY_EMAIL_SCREEN, LAUNCH_SCREEN)
 
             }
         }
@@ -256,7 +256,7 @@ class ApartmentViewModel @Inject constructor(
                     )
                     getApartmentsByUser(secretCode, true)
                     SnackbarManager.showMessage(R.string.success_add_flat)
-                    restartApp(SPLASH_SCREEN)
+                    restartApp(LAUNCH_SCREEN)
                 }
 
             }
@@ -329,7 +329,7 @@ class ApartmentViewModel @Inject constructor(
 
             }
         }
-        restartApp(SPLASH_SCREEN)
+        restartApp(LAUNCH_SCREEN)
 
     }
 

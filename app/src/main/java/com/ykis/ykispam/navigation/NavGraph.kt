@@ -5,7 +5,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.window.layout.DisplayFeature
 import com.ykis.ykispam.BaseUIState
-import com.ykis.ykispam.SplashScreen
 import com.ykis.ykispam.YkisPamAppState
 import com.ykis.ykispam.firebase.screens.profile.ProfileScreen
 import com.ykis.ykispam.firebase.screens.settings.SettingsScreen
@@ -14,6 +13,7 @@ import com.ykis.ykispam.firebase.screens.sign_up.SignUpScreen
 import com.ykis.ykispam.firebase.screens.verify_email.VerifyEmailScreen
 import com.ykis.ykispam.pam.screens.appartment.AddApartmentScreen
 import com.ykis.ykispam.pam.screens.appartment.ApartmentScreen
+import com.ykis.ykispam.pam.screens.launch.LaunchScreen
 import com.ykis.ykispam.pam.screens.meter.water.WaterScreen
 
 
@@ -33,8 +33,8 @@ fun NavGraphBuilder.YkisPamGraph(
 
 ) {
 
-    composable(SPLASH_SCREEN) {
-        SplashScreen(
+    composable(LAUNCH_SCREEN) {
+        LaunchScreen(
             openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) },
             isUserSignedOut = isUserSignedOut
         )

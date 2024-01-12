@@ -13,7 +13,7 @@ import com.ykis.ykispam.firebase.model.service.repo.ReloadUserResponse
 import com.ykis.ykispam.firebase.model.service.repo.RevokeAccessResponse
 import com.ykis.ykispam.firebase.model.service.repo.SendEmailVerificationResponse
 import com.ykis.ykispam.firebase.model.service.repo.SignOutResponse
-import com.ykis.ykispam.navigation.SPLASH_SCREEN
+import com.ykis.ykispam.navigation.LAUNCH_SCREEN
 import com.ykis.ykispam.navigation.YkisRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -67,7 +67,7 @@ class ProfileViewModel @Inject constructor(
         launchCatching {
             signOutResponse = Response.Loading
             signOutResponse = firebaseService.signOut()
-            restartApp(SPLASH_SCREEN)
+            restartApp(LAUNCH_SCREEN)
 
         }
     }

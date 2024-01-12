@@ -17,7 +17,7 @@ limitations under the License.
 package com.ykis.ykispam.navigation
 
 
-const val SPLASH_SCREEN = "SplashScreen"
+const val LAUNCH_SCREEN = "LaunchScreen"
 const val SIGN_IN_SCREEN = "SignInScreen"
 const val VERIFY_EMAIL_SCREEN = "VerifyEmailScreen"
 const val SIGN_UP_SCREEN = "SignUpScreen"

@@ -40,11 +40,11 @@ import com.ykis.ykispam.navigation.BottomNavigationBar
 import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.navigation.DevicePosture
+import com.ykis.ykispam.navigation.LAUNCH_SCREEN
 import com.ykis.ykispam.navigation.ModalNavigationDrawerContent
 import com.ykis.ykispam.navigation.NavigationContentPosition
 import com.ykis.ykispam.navigation.NavigationType
 import com.ykis.ykispam.navigation.PermanentNavigationDrawerContent
-import com.ykis.ykispam.navigation.SPLASH_SCREEN
 import com.ykis.ykispam.navigation.YkisPamGraph
 import com.ykis.ykispam.navigation.isBookPosture
 import com.ykis.ykispam.navigation.isSeparating
@@ -352,7 +352,7 @@ private fun YkisNavHost(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = SPLASH_SCREEN,
+        startDestination = LAUNCH_SCREEN,
     ) {
         YkisPamGraph(
             contentType,
