@@ -32,7 +32,7 @@ import com.ykis.ykispam.firebase.model.service.repo.SendEmailVerificationRespons
 import com.ykis.ykispam.firebase.model.service.repo.SignUpResponse
 import com.ykis.ykispam.firebase.screens.sign_up.components.SignUpUiState
 import com.ykis.ykispam.navigation.SIGN_IN_SCREEN
-import com.ykis.ykispam.navigation.SPLASH_SCREEN
+import com.ykis.ykispam.navigation.LAUNCH_SCREEN
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import com.ykis.ykispam.R.string as AppText
@@ -111,7 +111,7 @@ class SignUpViewModel @Inject constructor(
         launchCatching {
             sendEmailVerificationResponse = Response.Loading
             sendEmailVerificationResponse = firebaseService.sendEmailVerification()
-            openScreen(SPLASH_SCREEN)
+            openScreen(LAUNCH_SCREEN)
         }
 
     }

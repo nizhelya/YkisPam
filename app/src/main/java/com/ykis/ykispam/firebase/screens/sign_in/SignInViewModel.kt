@@ -3,7 +3,6 @@ package com.ykis.ykispam.firebase.screens.sign_in
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.AuthCredential
 import com.ykis.ykispam.BaseViewModel
@@ -16,11 +15,9 @@ import com.ykis.ykispam.firebase.model.service.repo.LogService
 import com.ykis.ykispam.firebase.model.service.repo.OneTapSignInResponse
 import com.ykis.ykispam.firebase.model.service.repo.SignInWithGoogleResponse
 import com.ykis.ykispam.firebase.screens.sign_in.components.SingInUiState
-import com.ykis.ykispam.navigation.APARTMENT_SCREEN
 import com.ykis.ykispam.navigation.SIGN_UP_SCREEN
-import com.ykis.ykispam.navigation.SPLASH_SCREEN
+import com.ykis.ykispam.navigation.LAUNCH_SCREEN
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.ykis.ykispam.R.string as AppText
 
@@ -66,7 +63,7 @@ class SignInViewModel @Inject constructor(
 
         launchCatching {
             firebaseService.firebaseSignInWithEmailAndPassword(email, password)
-            openScreen(SPLASH_SCREEN)
+            openScreen(LAUNCH_SCREEN)
         }
 
     }
@@ -104,7 +101,7 @@ class SignInViewModel @Inject constructor(
 
     fun navigateToApartmentScreen(openScreen: (String) -> Unit) {
         launchCatching {
-            openScreen(SPLASH_SCREEN)
+            openScreen(LAUNCH_SCREEN)
         }
     }
 }

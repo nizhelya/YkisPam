@@ -125,7 +125,10 @@ dependencies {
 
     //coil
     implementation(libs.coil.compose)
-    //Xpay
+
+    implementation(libs.androidx.splashscreen)
+//    implementation(libs.androidx.co)
+//    Xpay
 //    implementation(libs.pustovitandriy.xpay.android.sdk)
 //    implementation("com.github.pustovitandriy:XPAY_Android_SDK:1.0.0")
     testImplementation(libs.junit)

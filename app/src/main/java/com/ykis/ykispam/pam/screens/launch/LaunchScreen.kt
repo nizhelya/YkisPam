@@ -1,4 +1,4 @@
-package com.ykis.ykispam
+package com.ykis.ykispam.pam.screens.launch
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,7 +20,7 @@ import com.ykis.ykispam.pam.screens.appartment.ApartmentViewModel
 import com.ykis.ykispam.R.string as AppText
 
 @Composable
-fun SplashScreen(
+fun LaunchScreen(
     modifier: Modifier = Modifier,
     restartApp: ( String) -> Unit,
     openAndPopUp: (String, String) -> Unit,
