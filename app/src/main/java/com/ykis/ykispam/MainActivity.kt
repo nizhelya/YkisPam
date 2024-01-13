@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.adaptive.calculateDisplayFeatures
@@ -31,19 +32,19 @@ class MainActivity : ComponentActivity() {
                     windowSize = windowSize,
                     displayFeatures = displayFeatures,
                     baseUIState = uiState,
-                    isUserSignedOut= isUserSignedOut,
+                    isUserSignedOut = isUserSignedOut,
                     getApartments = {
                         viewModel.initialize()
                     },
                     closeDetailScreen = {
                         viewModel.closeDetailScreen()
                     },
-                    getApartment = { addressId, pane ->
-                        viewModel.setApartment(addressId, pane)
+                    setApartment = { addressId ->
+                        viewModel.setApartment(addressId)
                     },
                     navigateToDetail = { contentDetail, pane ->
                         viewModel.setSelectedDetail(contentDetail, pane)
-                    }
+                    },
                 )
             }
         }

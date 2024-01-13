@@ -22,9 +22,8 @@ import com.ykis.ykispam.R.string as AppText
 @Composable
 fun SplashScreen(
     modifier: Modifier = Modifier,
+    restartApp: ( String) -> Unit,
     openAndPopUp: (String, String) -> Unit,
-    isUserSignedOut:Boolean,
-//    getApartments:(Boolean)->Unit,
     viewModel: ApartmentViewModel = hiltViewModel()
 ) {
     val isUserSignedOut = viewModel.getAuthState().collectAsStateWithLifecycle().value
@@ -40,13 +39,13 @@ fun SplashScreen(
         if (viewModel.showError.value) {
             Text(text = stringResource(AppText.generic_error))
             BasicButton(AppText.try_again, Modifier.basicButton()) {
-                viewModel.onAppStart(isUserSignedOut, openAndPopUp)
+                viewModel.onAppStart(isUserSignedOut, openAndPopUp,restartApp)
             }
         } else {
             CircularProgressIndicator(color = MaterialTheme.colorScheme.onBackground)
         }
     }
     LaunchedEffect(key1 = isUserSignedOut) {
-        viewModel.onAppStart(isUserSignedOut, openAndPopUp)
+        viewModel.onAppStart(isUserSignedOut, openAndPopUp,restartApp)
     }
 }

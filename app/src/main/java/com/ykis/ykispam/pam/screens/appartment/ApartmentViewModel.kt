@@ -24,9 +24,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.BaseViewModel
 import com.ykis.ykispam.R
+import com.ykis.ykispam.core.Response
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.firebase.model.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.model.service.repo.LogService
+import com.ykis.ykispam.firebase.model.service.repo.RevokeAccessResponse
+import com.ykis.ykispam.firebase.model.service.repo.SignOutResponse
 import com.ykis.ykispam.navigation.ADDRESS_ID
 import com.ykis.ykispam.navigation.APARTMENT_SCREEN
 import com.ykis.ykispam.navigation.ContentDetail
@@ -64,7 +67,10 @@ class ApartmentViewModel @Inject constructor(
     val uid get() = firebaseService.uid
     private val displayName get() = firebaseService.displayName
     val email get() = firebaseService.email
-
+    var signOutResponse by mutableStateOf<SignOutResponse>(Response.Success(false))
+        private set
+    var revokeAccessResponse by mutableStateOf<RevokeAccessResponse>(Response.Success(false))
+        private set
     private val secretCode
         get() = secretKeyUiState.secretCode
 
@@ -93,31 +99,15 @@ class ApartmentViewModel @Inject constructor(
 
     private val isConnected: Boolean get() = networkHandler.isConnected
     private val networkType: Int get() = networkHandler.networkType
+
     // SplashScreen
     val showError = mutableStateOf(false)
     fun getAuthState() = firebaseService.getAuthState(viewModelScope)
 
     fun onAppStart(
         isUserSignedOut: Boolean,
-        openAndPopUp: (String, String) -> Unit
-    ) {
-        showError.value = false
-        if (isUserSignedOut) {
-            openAndPopUp(SIGN_IN_SCREEN, SPLASH_SCREEN)
-        } else {
-            if (isEmailVerified) {
-                openAndPopUp(APARTMENT_SCREEN, SPLASH_SCREEN)
-            } else {
-                openAndPopUp(VERIFY_EMAIL_SCREEN, SPLASH_SCREEN)
-
-            }
-        }
-    }
-
-    fun onAppStart(
-        isUserSignedOut: Boolean,
+        openAndPopUp: (String, String) -> Unit,
         restartApp: (String) -> Unit,
-        openAndPopUp: (String, String) -> Unit
     ) {
         showError.value = false
         if (isUserSignedOut) {
@@ -132,18 +122,12 @@ class ApartmentViewModel @Inject constructor(
         }
     }
 
-//    fun initialize(addressId: Int) {
-//        if (addressId != 0) {
-//            launchCatching {
-//                getFlatFromCache(addressId)
-//            }
-//        }
-//    }
     fun initialize() {
-        if (uid.isNotEmpty() ) {
+        if (uid.isNotEmpty()) {
             observeApartments()
         }
     }
+
     fun closeDetailScreen() {
         _uiState.value = _uiState
             .value.copy(
@@ -168,7 +152,8 @@ class ApartmentViewModel @Inject constructor(
 
         }
     }
-    fun setApartment(addressId: Int, contentType: ContentType) {
+
+    fun setApartment(addressId: Int) {
         if (addressId != 0) {
             launchCatching {
                 _apartment.value = apartmentCacheImpl.getApartmentById(addressId)
@@ -187,6 +172,7 @@ class ApartmentViewModel @Inject constructor(
             }
         }
     }
+
     private fun getFlatFromCache(addressId: Int) {
         _apartment.value = apartmentCacheImpl.getApartmentById(addressId)
         _uiState.value = _uiState.value.copy(
@@ -199,6 +185,7 @@ class ApartmentViewModel @Inject constructor(
             selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${_apartment.value!!.addressId}}"
         )
     }
+
     fun setSelectedDetail(contentDetail: ContentDetail, contentType: ContentType) {
 
         _uiState.value = _uiState.value.copy(
@@ -206,37 +193,11 @@ class ApartmentViewModel @Inject constructor(
             isDetailOnlyOpen = contentType == ContentType.SINGLE_PANE
         )
     }
+
     fun onSecretCodeChange(newValue: String) {
         secretKeyUiState = secretKeyUiState.copy(secretCode = newValue)
     }
 
-//    fun onAddApartmentClick(restartApp: (String) -> Unit) {
-//        if (secretCode.isBlank()) {
-//            SnackbarManager.showMessage(R.string.empty_field_error)
-//            return
-//        }
-//        launchCatching {
-//
-//            addFlatByUser(secretCode) { it ->
-//                it.either(::handleFailure) {
-//                    handleResultText(
-//                        it, _resultText
-//                    )
-//                }
-//                if (resultText.value?.success == 1) {
-//                    _uiState.value = _uiState.value.copy(
-//                        secretCode = secretCode
-//                    )
-//                    getApartmentsByUser(true)
-//                    SnackbarManager.showMessage(R.string.success_add_flat)
-//                }
-//
-//            }
-//
-//            restartApp(APARTMENT_SCREEN)
-//        }
-//
-//    }
     fun addApartment(restartApp: (String) -> Unit) {
         if (secretCode.isBlank()) {
             SnackbarManager.showMessage(R.string.empty_field_error)
@@ -263,12 +224,14 @@ class ApartmentViewModel @Inject constructor(
         }
 
     }
+
     private fun handleResultText(
         response: GetSimpleResponse,
         result: MutableLiveData<GetSimpleResponse>,
     ) {
         result.value = response
     }
+
     fun getApartmentsByUser(secretCode: String = "", needFetch: Boolean = true) {
         getApartmentsUseCase(needFetch) { it ->
             if (it.isRight) {
@@ -315,6 +278,7 @@ class ApartmentViewModel @Inject constructor(
 
         }
     }
+
     fun deleteApartment(addressId: Int, restartApp: (String) -> Unit) {
         launchCatching {
 
@@ -329,7 +293,7 @@ class ApartmentViewModel @Inject constructor(
 
             }
         }
-        restartApp(SPLASH_SCREEN)
+//        restartApp(SPLASH_SCREEN)
 
     }
 
@@ -341,18 +305,15 @@ class ApartmentViewModel @Inject constructor(
         result.value = response
         if (result.value!!.success == 1) {
             SnackbarManager.showMessage(R.string.success_delete_flat)
-
+            observeApartments()
         }
-
     }
-//    fun addApartment(openScreen: (String) -> Unit) {
-//        openScreen(ADD_APARTMENT_SCREEN)
-//    }
-//    override fun onCleared() {
-//        super.onCleared()
-//        deleteFlatByUser.unsubscribe()
-//        updateBtiUseCase.unsubscribe()
-//    }
+    fun signOut() {
+        launchCatching {
+            signOutResponse = Response.Loading
+            signOutResponse = firebaseService.signOut()
+        }
+    }
 }
 
 

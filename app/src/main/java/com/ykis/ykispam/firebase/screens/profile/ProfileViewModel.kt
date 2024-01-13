@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.ykis.ykispam.BaseViewModel
 import com.ykis.ykispam.R
+import com.ykis.ykispam.core.Constants.USERS
 import com.ykis.ykispam.core.Response
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.firebase.model.service.repo.FirebaseService
@@ -16,6 +17,7 @@ import com.ykis.ykispam.firebase.model.service.repo.SignOutResponse
 import com.ykis.ykispam.navigation.SPLASH_SCREEN
 import com.ykis.ykispam.navigation.YkisRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 
@@ -76,16 +78,6 @@ class ProfileViewModel @Inject constructor(
         launchCatching {
             revokeAccessResponse = Response.Loading
             revokeAccessResponse = firebaseService.revokeAccess()
-            when (revokeAccessResponse) {
-                is Response.Success -> Unit
-                is Response.Failure -> {
-                    launchCatching() {
-                        revokeAccessResponse = firebaseService.revokeAccessEmail()
-                    }
-                }
-
-                else -> Unit
-            }
         }
     }
 
@@ -96,11 +88,5 @@ class ProfileViewModel @Inject constructor(
 
     fun restartApp(restartApp: () -> Unit) {
         restartApp()
-
     }
-//    fun navigateBack(popUpScreen: () -> Unit) {
-//        launchCatching {
-//            popUpScreen()
-//        }
-//    }
 }

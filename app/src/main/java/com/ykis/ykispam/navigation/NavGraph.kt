@@ -23,11 +23,10 @@ fun NavGraphBuilder.YkisPamGraph(
     displayFeatures: List<DisplayFeature>,
     appState: YkisPamAppState,
     baseUIState: BaseUIState,
-    isUserSignedOut:Boolean,
     getApartments: () -> Unit,
     closeDetailScreen: () -> Unit,
     navigateToDestination: (String) -> Unit,
-    getApartment: (Int, ContentType) -> Unit,
+    setApartment: (Int) -> Unit ,
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
     onDrawerClicked: () -> Unit = {}
 
@@ -35,8 +34,8 @@ fun NavGraphBuilder.YkisPamGraph(
 
     composable(SPLASH_SCREEN) {
         SplashScreen(
+            restartApp = { route -> appState.clearAndNavigate(route) },
             openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) },
-            isUserSignedOut = isUserSignedOut
         )
     }
 
@@ -88,6 +87,12 @@ fun NavGraphBuilder.YkisPamGraph(
         )
 
     }
+    composable(YkisRoute.EXITAPP) {
+        SplashScreen(
+            restartApp = { route -> appState.clearAndNavigate(route) },
+            openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) },
+        )
+    }
     composable(ADD_APARTMENT_SCREEN) {
         AddApartmentScreen(
             popUpScreen = { appState.popUp() },
@@ -116,7 +121,7 @@ fun NavGraphBuilder.YkisPamGraph(
             displayFeatures = displayFeatures,
             closeDetailScreen = closeDetailScreen,
             getApartments = getApartments,
-            getApartment = getApartment,
+            setApartment = setApartment,
             navigateToDetail = navigateToDetail,
             addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID,
             onDrawerClicked = onDrawerClicked,

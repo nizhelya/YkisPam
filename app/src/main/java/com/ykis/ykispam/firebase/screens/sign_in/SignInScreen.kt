@@ -1,6 +1,8 @@
 package com.ykis.ykispam.firebase.screens.sign_in
 
 import android.app.Activity.RESULT_OK
+import android.content.Intent
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,6 +20,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -29,6 +32,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.GoogleAuthProvider.getCredential
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.composable.BasicLinkButton
@@ -42,6 +47,7 @@ import com.ykis.ykispam.core.ext.smallSpacer
 import com.ykis.ykispam.core.ext.textButton
 import com.ykis.ykispam.firebase.screens.sign_in.components.SignInWithGoogle
 import com.ykis.ykispam.firebase.screens.sign_in.components.OneTapSignIn
+import kotlinx.coroutines.launch
 import com.ykis.ykispam.R.drawable as AppIcon
 import com.ykis.ykispam.R.string as AppText
 
@@ -55,6 +61,7 @@ fun SignInScreen(
 ) {
     val singInUiState = viewModel.singInUiState
     val keyboard = LocalSoftwareKeyboardController.current
+
     val launcher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -69,11 +76,13 @@ fun SignInScreen(
                 }
             }
         }
-    Row( modifier = modifier
-        .fillMaxWidth()
-        .fillMaxHeight(),
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center) {
+        horizontalArrangement = Arrangement.Center
+    ) {
         Column(
             modifier = modifier
                 .widthIn(0.dp, 460.dp)
@@ -87,7 +96,8 @@ fun SignInScreen(
             LogoImage()
             Spacer(modifier = Modifier.smallSpacer())
             Column(
-                modifier = Modifier.padding(PaddingValues(8.dp))
+                modifier = Modifier
+                    .padding(PaddingValues(8.dp))
                     .widthIn(0.dp, 480.dp),
             )
             {
@@ -139,7 +149,7 @@ fun SignInScreen(
 
     SignInWithGoogle(
         navigateToHomeScreen = { signedIn ->
-            if (!signedIn) {
+            if (signedIn) {
                 viewModel.navigateToApartmentScreen(openScreen)
             }
         }

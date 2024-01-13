@@ -43,7 +43,7 @@ fun ApartmentScreen(
     displayFeatures: List<DisplayFeature>,
     closeDetailScreen: () -> Unit,
     getApartments:() ->Unit,
-    getApartment: (Int, ContentType) -> Unit,
+    setApartment: (Int) -> Unit ,
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
     addressId: String,
     onDrawerClicked: () -> Unit = {},
@@ -62,7 +62,7 @@ fun ApartmentScreen(
     }
 
 LaunchedEffect(key1 = addressId) {
-    getApartment(addressId.toInt(), contentType)
+    setApartment(addressId.toInt())
     if (contentType == ContentType.SINGLE_PANE && !baseUIState.isDetailOnlyOpen) {
         closeDetailScreen()
     }
@@ -80,13 +80,12 @@ if (contentType == ContentType.DUAL_PANE) {
             )
         },
         second = {
+                DetailContent(
+                    baseUIState = baseUIState,
+                    contentType = contentType,
+                    contentDetail = baseUIState.selectedContentDetail ?: ContentDetail.EMPTY,
+                )
 
-            DetailContent(
-                baseUIState = baseUIState,
-                contentType = contentType,
-                contentDetail = baseUIState.selectedContentDetail ?: ContentDetail.BTI,
-                isFullScreen = false,
-            )
         },
         strategy = HorizontalTwoPaneStrategy(splitFraction = 0.5f, gapWidth = 16.dp),
         displayFeatures = displayFeatures
@@ -99,7 +98,7 @@ if (contentType == ContentType.DUAL_PANE) {
             appState = appState,
             baseUIState = baseUIState,
             closeDetailScreen = closeDetailScreen,
-            deleteApartment = { viewModel.deleteApartment(addressId.toInt(), restartApp) },
+            deleteApartment = { viewModel.deleteApartment(baseUIState.addressId, restartApp) },
             navigateToDetail = navigateToDetail,
             onDrawerClicked = onDrawerClicked,
 //                navigateBack = { viewModel.navigateBack(popUpScreen) }
@@ -146,6 +145,7 @@ fun SinglePanelContent(
     onDrawerClicked: () -> Unit,
 
     ) {
+
     if (baseUIState.selectedContentDetail != null && baseUIState.isDetailOnlyOpen) {
         BackHandler {
             closeDetailScreen()

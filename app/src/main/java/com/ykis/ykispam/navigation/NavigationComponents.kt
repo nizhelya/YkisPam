@@ -67,16 +67,16 @@ fun ApartmentNavigationRail(
     baseUIState: BaseUIState,
     selectedDestination: String,
     navigationContentPosition: NavigationContentPosition,
+    closeDetailScreen: () -> Unit,
     navigateToDestination: (String) -> Unit,
+    setApartment: (Int) -> Unit,
     onDrawerClicked: () -> Unit = {},
-
-    ) {
+) {
     NavigationRail(
         modifier = Modifier
             .fillMaxHeight()
             .background(MaterialTheme.colorScheme.inverseOnSurface)
     ) {
-        // TODO remove custom nav rail positioning when NavRail component supports it. ticket : b/232495216
         Layout(
             modifier = Modifier.widthIn(0.dp, 80.dp),
             content = {
@@ -129,6 +129,8 @@ fun ApartmentNavigationRail(
                                     unselectedContainerColor = Color.Transparent
                                 ),
                                 onClick = {
+                                    setApartment(it.addressId)
+                                    closeDetailScreen()
                                     navigateToDestination("$APARTMENT_SCREEN?$ADDRESS_ID={${it.addressId}}")
                                     onDrawerClicked()
 
@@ -220,7 +222,7 @@ fun BottomNavigationBar(
             if (destination.vkl) {
                 NavigationBarItem(
                     selected = selectedDestination == destination.route,
-                    onClick = {navigateToDestination(destination.route) },
+                    onClick = { navigateToDestination(destination.route) },
 
                     icon = {
                         Icon(
@@ -234,13 +236,13 @@ fun BottomNavigationBar(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PermanentNavigationDrawerContent(
     baseUIState: BaseUIState,
     selectedDestination: String,
     navigationContentPosition: NavigationContentPosition,
     navigateToDestination: (String) -> Unit,
+    closeDetailScreen: () -> Unit,
 ) {
     PermanentDrawerSheet(modifier = Modifier.sizeIn(minWidth = 200.dp, maxWidth = 300.dp)) {
         // TODO remove custom nav drawer content positioning when NavDrawer component supports it. ticket : b/232495216
@@ -251,7 +253,6 @@ fun PermanentNavigationDrawerContent(
             content = {
                 Column(
                     modifier = Modifier.layoutId(LayoutType.HEADER),
-//                        .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
@@ -277,14 +278,12 @@ fun PermanentNavigationDrawerContent(
                                     .fillMaxWidth(),
                                 selected = baseUIState.selectedDestination == "$APARTMENT_SCREEN?$ADDRESS_ID={${it.addressId}}",
                                 label = {
-                                    it.address?.let { address ->
-                                        Text(
-                                            text = address,
-                                            style = MaterialTheme.typography.titleMedium,
-                                            modifier = Modifier.padding(start = 4.dp),
-                                            color = MaterialTheme.colorScheme.onPrimary
-                                        )
-                                    }
+                                    Text(
+                                        text = it.address,
+                                        style = MaterialTheme.typography.titleMedium,
+                                        modifier = Modifier.padding(start = 4.dp),
+                                        color = MaterialTheme.colorScheme.onPrimary
+                                    )
                                 },
                                 icon = {
                                     Icon(
@@ -299,6 +298,7 @@ fun PermanentNavigationDrawerContent(
                                     selectedContainerColor = MaterialTheme.colorScheme.primary
                                 ),
                                 onClick = {
+                                    closeDetailScreen()
                                     navigateToDestination("$APARTMENT_SCREEN?$ADDRESS_ID=${it.addressId}")
 
                                 }
@@ -388,8 +388,11 @@ fun ModalNavigationDrawerContent(
     selectedDestination: String,
     navigationContentPosition: NavigationContentPosition,
     navigateToDestination: (String) -> Unit,
+    closeDetailScreen: () -> Unit = {},
+    setApartment: (Int) -> Unit,
     onDrawerClicked: () -> Unit = {},
-) {
+
+    ) {
 
     ModalDrawerSheet {
         Layout(
@@ -430,13 +433,11 @@ fun ModalNavigationDrawerContent(
                                     .fillMaxWidth(),
                                 selected = baseUIState.selectedDestination == "$APARTMENT_SCREEN?$ADDRESS_ID={${it.addressId}}",
                                 label = {
-                                    it.address?.let { address ->
-                                        Text(
-                                            text = address,
-                                            style = MaterialTheme.typography.titleMedium,
-                                            modifier = Modifier.padding(start = 4.dp)
-                                        )
-                                    }
+                                    Text(
+                                        text = it.address,
+                                        style = MaterialTheme.typography.titleMedium,
+                                        modifier = Modifier.padding(start = 4.dp)
+                                    )
                                 },
                                 icon = {
                                     Icon(
@@ -449,6 +450,8 @@ fun ModalNavigationDrawerContent(
                                     unselectedContainerColor = Color.Transparent
                                 ),
                                 onClick = {
+                                    setApartment(it.addressId)
+                                    closeDetailScreen()
                                     navigateToDestination("$APARTMENT_SCREEN?$ADDRESS_ID=${it.addressId}")
                                     onDrawerClicked()
 
@@ -485,7 +488,9 @@ fun ModalNavigationDrawerContent(
                             colors = NavigationDrawerItemDefaults.colors(
                                 unselectedContainerColor = Color.Transparent
                             ),
-                            onClick = { navigateToDestination(destination.route) }
+                            onClick = {
+                                navigateToDestination(destination.route)
+                            }
                         )
                     }
                 }

@@ -20,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.AddHome
 import androidx.compose.material.icons.filled.Adjust
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.HomeWork
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Transcribe
@@ -36,8 +37,7 @@ object YkisRoute {
     const val MESSAGE = "MessageScreen"
     const val SETTINGS = "SettingsScreen"
     const val ADDAPARTMENT = "AddApartmentScreen"
-
-
+    const val EXITAPP = "ExitApp"
 }
 
 data class TopLevelDestination(
@@ -45,7 +45,7 @@ data class TopLevelDestination(
     val selectedIcon: ImageVector = Icons.Default.Adjust,
     val unselectedIcon: ImageVector = Icons.Default.Adjust,
     val iconTextId: Int = -1,
-    val vkl:Boolean = true
+    val vkl: Boolean = true
 )
 
 
@@ -63,9 +63,7 @@ val TOP_LEVEL_DESTINATIONS = listOf(
         unselectedIcon = Icons.Default.AccountCircle,
         iconTextId = R.string.tab_account,
         vkl = true,
-
-        ),
-
+    ),
     TopLevelDestination(
         route = YkisRoute.OSBB,
         selectedIcon = Icons.Default.HomeWork,
@@ -79,22 +77,19 @@ val TOP_LEVEL_DESTINATIONS = listOf(
         unselectedIcon = Icons.Outlined.ChatBubbleOutline,
         iconTextId = R.string.tab_chat,
         vkl = true,
-
-        ),
+    ),
     TopLevelDestination(
         route = YkisRoute.MESSAGE,
         selectedIcon = Icons.TwoTone.Transcribe,
         unselectedIcon = Icons.Default.Transcribe,
         iconTextId = R.string.tab_message,
         vkl = true,
-        ),
+    ),
     TopLevelDestination(
         route = YkisRoute.SETTINGS,
         selectedIcon = Icons.Default.Settings,
         unselectedIcon = Icons.Default.Settings,
         iconTextId = R.string.tab_settings,
         vkl = false,
-
-        ),
-
+    ),
 )

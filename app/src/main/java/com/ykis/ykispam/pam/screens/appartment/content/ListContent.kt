@@ -58,15 +58,14 @@ fun ListContent(
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
     onDrawerClicked: () -> Unit = {},
 ) {
-
     var showDialog by rememberSaveable { mutableStateOf(false) }
+    var setSelected by rememberSaveable { mutableStateOf<ContentDetail?>(null) }
+
     val yes: Byte = 1
     Row(
         modifier = Modifier
             .padding(PaddingValues(4.dp))
-//            .verticalScroll(rememberScrollState())
             .fillMaxSize()
-//            .fillMaxHeight()
             .background(MaterialTheme.colorScheme.inverseOnSurface),
         verticalAlignment = Alignment.Top,
         horizontalArrangement = Arrangement.Center
@@ -108,7 +107,6 @@ fun ListContent(
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-
 
                     if (baseUIState.addressId != 0) {
                         Card(
@@ -153,22 +151,26 @@ fun ListContent(
                                 ListItem(
                                     modifier = modifier,
                                     imageVector = Icons.TwoTone.Home,
-                                    serviseName = stringResource(id = R.string.bti),
-                                    baseUIState = baseUIState,
-                                    org = baseUIState.apartment.osbb,
+                                    serviceName = stringResource(id = R.string.bti),
+                                    isSelected = setSelected?.let {
+                                        it == ContentDetail.BTI
+                                    } ?: false,
+                                    navigateToDetail = navigateToDetail,
                                     contentDetail = ContentDetail.BTI,
-                                ) { contentDetail ->
-                                    navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
+                                ) {
+                                    setSelected = ContentDetail.BTI
                                 }
                                 ListItem(
                                     modifier = modifier,
                                     imageVector = Icons.TwoTone.FamilyRestroom,
-                                    serviseName = stringResource(id = R.string.list_family),
-                                    baseUIState = baseUIState,
-                                    org = baseUIState.apartment.osbb,
+                                    serviceName = stringResource(id = R.string.list_family),
+                                    isSelected = setSelected?.let {
+                                        it == ContentDetail.FAMALY
+                                    } ?: false,
+                                    navigateToDetail = navigateToDetail,
                                     contentDetail = ContentDetail.FAMALY,
-                                ) { contentDetail ->
-                                    navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
+                                ) {
+                                    setSelected = ContentDetail.FAMALY
                                 }
                                 if (showDialog) {
                                     HelpAlertCard(
@@ -223,12 +225,14 @@ fun ListContent(
                                     ListItem(
                                         modifier = modifier,
                                         imageVector = Icons.TwoTone.CorporateFare,
-                                        serviseName = baseUIState.apartment.osbb,
-                                        baseUIState = baseUIState,
-                                        org = baseUIState.apartment.osbb,
+                                        serviceName = baseUIState.apartment.osbb,
+                                        isSelected = setSelected?.let {
+                                            it == ContentDetail.OSBB
+                                        } ?: false,
+                                        navigateToDetail = navigateToDetail,
                                         contentDetail = ContentDetail.OSBB,
-                                    ) { contentDetail ->
-                                        navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
+                                    ) {
+                                        setSelected = ContentDetail.OSBB
                                     }
 
                                 }
@@ -236,48 +240,55 @@ fun ListContent(
                                     ListItem(
                                         modifier = modifier,
                                         imageVector = Icons.Default.Water,
-                                        serviseName = stringResource(id = R.string.vodokanal),
-                                        baseUIState = baseUIState,
-                                        org = stringResource(id = R.string.vodokanal),
+                                        serviceName = stringResource(id = R.string.vodokanal),
+                                        isSelected = setSelected?.let {
+                                            it == ContentDetail.WARM_SERVICE
+                                        } ?: false,
+                                        navigateToDetail = navigateToDetail,
                                         contentDetail = ContentDetail.WATER_SERVICE,
-                                    ) { contentDetail ->
-                                        navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
+                                    ) {
+                                        setSelected = ContentDetail.WATER_SERVICE
                                     }
                                 }
                                 if (baseUIState.apartment.otoplenie == yes) {
                                     ListItem(
                                         modifier = modifier,
                                         imageVector = Icons.TwoTone.HotTub,
-                                        serviseName = stringResource(id = R.string.ytke),
-                                        baseUIState = baseUIState,
-                                        org = stringResource(id = R.string.ytke),
+                                        serviceName = stringResource(id = R.string.ytke),
+                                        isSelected = setSelected?.let {
+                                            it == ContentDetail.WARM_SERVICE
+                                        } ?: false,
+                                        navigateToDetail = navigateToDetail,
                                         contentDetail = ContentDetail.WARM_SERVICE,
-                                    ) { contentDetail ->
-                                        navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
+                                    ) {
+                                        setSelected = ContentDetail.WARM_SERVICE
                                     }
-
                                 }
                                 if (baseUIState.apartment.tbo == yes) {
                                     ListItem(
                                         modifier = modifier,
                                         imageVector = Icons.TwoTone.Commute,
-                                        serviseName = stringResource(id = R.string.yzhtrans),
-                                        baseUIState = baseUIState,
-                                        org = stringResource(id = R.string.yzhtrans),
+                                        serviceName = stringResource(id = R.string.yzhtrans),
+                                        isSelected = setSelected?.let {
+                                            it == ContentDetail.GARBAGE_SERVICE
+                                        } ?: false,
+                                        navigateToDetail = navigateToDetail,
                                         contentDetail = ContentDetail.GARBAGE_SERVICE,
-                                    ) { contentDetail ->
-                                        navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
+                                    ) {
+                                        setSelected = ContentDetail.GARBAGE_SERVICE
                                     }
                                 }
                                 ListItem(
                                     modifier = modifier,
                                     imageVector = Icons.TwoTone.MonetizationOn,
-                                    serviseName = stringResource(id = R.string.payment_list),
-                                    baseUIState = baseUIState,
-                                    org = stringResource(id = R.string.payment_list),
+                                    serviceName = stringResource(id = R.string.payment_list),
+                                    isSelected = setSelected?.let {
+                                        it == ContentDetail.PAYMENTS
+                                    } ?: false,
+                                    navigateToDetail = navigateToDetail,
                                     contentDetail = ContentDetail.PAYMENTS,
-                                ) { contentDetail ->
-                                    navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
+                                ) {
+                                    setSelected = ContentDetail.PAYMENTS
                                 }
 
                                 if (showDialog) {
@@ -291,6 +302,7 @@ fun ListContent(
                                 }
                             }
                         }
+                        // визуализация MaterialTheme.colorScheme
 //                        Card(
 //                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
 //                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
@@ -300,7 +312,7 @@ fun ListContent(
 //                                text = "background",
 //                                modifier = Modifier
 //                                    .padding(8.dp)
-//                                )
+//                            )
 //                        }
 //                        Card(
 //                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),

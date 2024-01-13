@@ -17,7 +17,7 @@ fun SignInWithGoogle(
         is Response.Loading -> ProgressBar()
         is Response.Success -> signInWithGoogleResponse.data?.let { signedIn ->
             LaunchedEffect(signedIn) {
-                navigateToHomeScreen(false)
+                navigateToHomeScreen(signedIn)
             }
         }
 

@@ -113,9 +113,6 @@ fun ServicesContent(
     }
     val serviceDetail by viewModel.serviceDetail.observeAsState(listOf(ServiceEntity()))
 
-
-
-
     ServiceDetailContent(
         year = year,
         serviceEntyties = serviceDetail,
@@ -123,7 +120,6 @@ fun ServicesContent(
         selectedChip = selectedChip
     )
 }
-
 
 @Composable
 fun ServiceDetailItem(
@@ -409,6 +405,7 @@ fun GroupFilterChip(
         }
     }
 }
+
 @Composable
 fun EmptyListScreen(modifier: Modifier = Modifier,
                     useDarkTheme: Boolean = isSystemInDarkTheme()

@@ -46,7 +46,6 @@ fun DetailContent(
     baseUIState: BaseUIState,
     contentType: ContentType,
     contentDetail: ContentDetail,
-    isFullScreen: Boolean = true,
     onBackPressed: () -> Unit = {}
 
 
@@ -66,9 +65,10 @@ fun DetailContent(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-            DetailAppBar(modifier, contentType, baseUIState, contentDetail) {
-                onBackPressed()
+            if (contentDetail != ContentDetail.EMPTY ) {
+                DetailAppBar(modifier, contentType, baseUIState, contentDetail) {
+                    onBackPressed()
+                }
             }
             when (contentDetail) {
                 ContentDetail.BTI -> BtiPanelContent(
@@ -86,45 +86,31 @@ fun DetailContent(
                 )
 
                 ContentDetail.OSBB -> ServicesContent(
-//                    contentType = contentType,
                     contentDetail = contentDetail,
                     baseUIState = baseUIState,
-//                    onBackPressed = onBackPressed
                 )
 
                 ContentDetail.WATER_SERVICE -> ServicesContent(
-//                    contentType = contentType,
                     contentDetail = contentDetail,
                     baseUIState = baseUIState,
-//                    onBackPressed = onBackPressed
                 )
 
                 ContentDetail.WARM_SERVICE -> ServicesContent(
-//                    contentType = contentType,
                     contentDetail = contentDetail,
                     baseUIState = baseUIState,
-//                    onBackPressed = onBackPressed
                 )
 
                 ContentDetail.GARBAGE_SERVICE -> ServicesContent(
-//                    contentType = contentType,
                     contentDetail = contentDetail,
                     baseUIState = baseUIState,
-//                    onBackPressed = onBackPressed
                 )
 
                 ContentDetail.PAYMENTS -> ServicesContent(
-//                    contentType = contentType,
                     contentDetail = contentDetail,
                     baseUIState = baseUIState,
-//                    onBackPressed = onBackPressed
                 )
 
-                else -> BtiPanelContent(
-                    contentType = contentType,
-                    contentDetail = contentDetail,
-                    baseUIState = baseUIState,
-                    onBackPressed = onBackPressed
+                else -> EmptyDetail(
                 )
             }
         }

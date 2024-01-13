@@ -57,13 +57,11 @@ fun YkisPamApp(
     windowSize: WindowSizeClass,
     displayFeatures: List<DisplayFeature>,
     baseUIState: BaseUIState,
-    isUserSignedOut:Boolean,
-    getApartments: () -> Unit ,
+    isUserSignedOut: Boolean,
+    getApartments: () -> Unit,
     closeDetailScreen: () -> Unit = {},
-    getApartment: (Int, ContentType) -> Unit = { _, _ -> },
-    navigateToDetail: (ContentDetail, ContentType) -> Unit = { _, _ -> }
-
-
+    setApartment: (Int) -> Unit ,
+    navigateToDetail: (ContentDetail, ContentType) -> Unit = { _, _ -> },
 ) {
     val navigationType: NavigationType
     val contentType: ContentType
@@ -134,9 +132,8 @@ fun YkisPamApp(
         getApartments = getApartments,
         isUserSignedOut = isUserSignedOut,
         closeDetailScreen = closeDetailScreen,
-        getApartment = getApartment,
-        navigateToDetail = navigateToDetail
-
+        setApartment = setApartment,
+        navigateToDetail = navigateToDetail,
     )
 }
 
@@ -151,9 +148,8 @@ fun NavigationWrapper(
     isUserSignedOut: Boolean,
     getApartments: () -> Unit,
     closeDetailScreen: () -> Unit,
-    getApartment: (Int, ContentType) -> Unit,
-    navigateToDetail: (ContentDetail, ContentType) -> Unit
-
+    setApartment: (Int) -> Unit ,
+    navigateToDetail: (ContentDetail, ContentType) -> Unit,
 ) {
     val drawerState = DrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = appState.coroutineScope
@@ -176,8 +172,8 @@ fun NavigationWrapper(
             navigateToDestination = appState::navigateTo,
             getApartments = getApartments,
             closeDetailScreen = closeDetailScreen,
-            getApartment = getApartment,
-            navigateToDetail = navigateToDetail
+            setApartment = setApartment,
+            navigateToDetail = navigateToDetail,
         )
     } else {
         if (navigationType == NavigationType.PERMANENT_NAVIGATION_DRAWER) {
@@ -186,14 +182,14 @@ fun NavigationWrapper(
                     baseUIState = baseUIState,
                     selectedDestination = selectedDestination,
                     navigationContentPosition = navigationContentPosition,
-                    navigateToDestination = appState::navigateTo
+                    navigateToDestination = appState::navigateTo,
+                    closeDetailScreen = closeDetailScreen,
                 )
             }) {
                 AppContent(
                     appState = appState,
                     baseUIState = baseUIState,
                     isUserSignedOut = isUserSignedOut,
-
                     navigationType = navigationType,
                     contentType = contentType,
                     displayFeatures = displayFeatures,
@@ -203,8 +199,8 @@ fun NavigationWrapper(
                     navigateToDestination = appState::navigateTo,
                     getApartments = getApartments,
                     closeDetailScreen = closeDetailScreen,
-                    getApartment = getApartment,
-                    navigateToDetail = navigateToDetail
+                    setApartment = setApartment,
+                    navigateToDetail = navigateToDetail,
                 )
             }
         } else {
@@ -215,6 +211,8 @@ fun NavigationWrapper(
                         selectedDestination = selectedDestination,
                         navigationContentPosition = navigationContentPosition,
                         navigateToDestination = appState::navigateTo,
+                        closeDetailScreen = closeDetailScreen,
+                        setApartment=setApartment,
                         onDrawerClicked = {
                             coroutineScope.launch {
                                 drawerState.close()
@@ -237,9 +235,8 @@ fun NavigationWrapper(
                     navigateToDestination = appState::navigateTo,
                     getApartments = getApartments,
                     closeDetailScreen = closeDetailScreen,
-                    getApartment = getApartment,
-                    navigateToDetail = navigateToDetail
-
+                    setApartment = setApartment,
+                    navigateToDetail = navigateToDetail,
                 ) {
                     coroutineScope.launch {
                         drawerState.open()
@@ -255,9 +252,9 @@ fun AppContent(
     modifier: Modifier = Modifier,
     appState: YkisPamAppState,
     baseUIState: BaseUIState,
+    isUserSignedOut: Boolean,
     navigationType: NavigationType,
     contentType: ContentType,
-    isUserSignedOut: Boolean,
     displayFeatures: List<DisplayFeature>,
     navigationContentPosition: NavigationContentPosition,
     navController: NavHostController,
@@ -265,7 +262,7 @@ fun AppContent(
     navigateToDestination: (String) -> Unit,
     getApartments: () -> Unit,
     closeDetailScreen: () -> Unit,
-    getApartment: (Int, ContentType) -> Unit,
+    setApartment: (Int) -> Unit ,
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
     onDrawerClicked: () -> Unit = {}
 ) {
@@ -294,7 +291,9 @@ fun AppContent(
                     baseUIState = baseUIState,
                     selectedDestination = selectedDestination,
                     navigationContentPosition = navigationContentPosition,
+                    closeDetailScreen = closeDetailScreen,
                     navigateToDestination = appState::navigateTo,
+                    setApartment=setApartment,
                     onDrawerClicked = onDrawerClicked,
                 )
             }
@@ -308,7 +307,6 @@ fun AppContent(
                     modifier = Modifier.weight(1f),
                     appState = appState,
                     baseUIState = baseUIState,
-                    isUserSignedOut = isUserSignedOut,
                     navController = navController,
                     contentType = contentType,
                     displayFeatures = displayFeatures,
@@ -316,7 +314,7 @@ fun AppContent(
                     getApartments = getApartments,
                     closeDetailScreen = closeDetailScreen,
                     navigateToDestination = navigateToDestination,
-                    getApartment = getApartment,
+                    setApartment = setApartment,
                     navigateToDetail = navigateToDetail,
                     onDrawerClicked = onDrawerClicked
                 )
@@ -338,13 +336,12 @@ private fun YkisNavHost(
     baseUIState: BaseUIState,
     navController: NavHostController,
     contentType: ContentType,
-    isUserSignedOut: Boolean,
     displayFeatures: List<DisplayFeature>,
     navigationType: NavigationType,
     getApartments: () -> Unit,
     closeDetailScreen: () -> Unit,
     navigateToDestination: (String) -> Unit,
-    getApartment: (Int, ContentType) -> Unit,
+    setApartment: (Int) -> Unit ,
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
     onDrawerClicked: () -> Unit = {}
 
@@ -360,11 +357,10 @@ private fun YkisNavHost(
             displayFeatures,
             appState,
             baseUIState,
-            isUserSignedOut,
             getApartments,
             closeDetailScreen,
             navigateToDestination,
-            getApartment,
+            setApartment,
             navigateToDetail,
             onDrawerClicked
         )

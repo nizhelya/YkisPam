@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -53,7 +54,6 @@ fun AddApartmentScreen(
 @Composable
 fun AddApartmentScreenContent(
     modifier: Modifier = Modifier,
-    isSelectable: Boolean = false,
     isSelected: Boolean = false,
     secretKeyUiState: SecretKeyUiState,
     onSecretCodeChange: (String) -> Unit,
@@ -64,7 +64,7 @@ fun AddApartmentScreenContent(
     Column(
         modifier = Modifier
             .padding(4.dp)
-            .fillMaxWidth()
+            .widthIn(0.dp, 460.dp)
             .fillMaxHeight(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
