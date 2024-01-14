@@ -18,15 +18,15 @@ package com.ykis.ykispam.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.AddHome
 import androidx.compose.material.icons.filled.Adjust
-import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material.icons.filled.HomeWork
+import androidx.compose.material.icons.filled.Chat
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Payments
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Transcribe
 import androidx.compose.material.icons.outlined.Chat
-import androidx.compose.material.icons.outlined.ChatBubbleOutline
-import androidx.compose.material.icons.twotone.Transcribe
+import androidx.compose.material.icons.outlined.Church
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Payments
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.ykis.ykispam.R
 
@@ -44,52 +44,47 @@ data class TopLevelDestination(
     val route: String = "",
     val selectedIcon: ImageVector = Icons.Default.Adjust,
     val unselectedIcon: ImageVector = Icons.Default.Adjust,
-    val iconTextId: Int = -1,
-    val vkl: Boolean = true
+    val labelId: Int,
 )
 
 
-val TOP_LEVEL_DESTINATIONS = listOf(
+val NAV_BAR_DESTINATIONS = listOf(
     TopLevelDestination(
-        route = YkisRoute.ADDAPARTMENT,
-        selectedIcon = Icons.Default.AddHome,
-        unselectedIcon = Icons.Default.AddHome,
-        iconTextId = R.string.add_appartment,
-        vkl = true,
+        route = APARTMENT_SCREEN,
+        selectedIcon = Icons.Filled.Home,
+        unselectedIcon = Icons.Outlined.Home,
+        labelId = R.string.house
     ),
+    TopLevelDestination(
+        route = METER_SCREEN,
+        selectedIcon = Icons.Outlined.Church ,
+        unselectedIcon = Icons.Outlined.Church,
+        labelId = R.string.meters
+    ),
+    TopLevelDestination(
+        route = SERVICE_LIST_SCREEN,
+        selectedIcon = Icons.Filled.Payments,
+        unselectedIcon = Icons.Outlined.Payments,
+        labelId = R.string.accrued
+    ),
+    TopLevelDestination(
+        route = YkisRoute.CHAT,
+        selectedIcon = Icons.Filled.Chat,
+        unselectedIcon = Icons.Outlined.Chat,
+        labelId = R.string.chat,
+    )
+)
+val NAV_RAIL_DESTINATIONS = NAV_BAR_DESTINATIONS + listOf(
     TopLevelDestination(
         route = YkisRoute.ACCOUNT,
         selectedIcon = Icons.Default.AccountCircle,
         unselectedIcon = Icons.Default.AccountCircle,
-        iconTextId = R.string.tab_account,
-        vkl = true,
-    ),
-    TopLevelDestination(
-        route = YkisRoute.OSBB,
-        selectedIcon = Icons.Default.HomeWork,
-        unselectedIcon = Icons.Default.HomeWork,
-        iconTextId = R.string.tab_osbb,
-        vkl = false,
-    ),
-    TopLevelDestination(
-        route = YkisRoute.CHAT,
-        selectedIcon = Icons.Outlined.Chat,
-        unselectedIcon = Icons.Outlined.ChatBubbleOutline,
-        iconTextId = R.string.tab_chat,
-        vkl = true,
-    ),
-    TopLevelDestination(
-        route = YkisRoute.MESSAGE,
-        selectedIcon = Icons.TwoTone.Transcribe,
-        unselectedIcon = Icons.Default.Transcribe,
-        iconTextId = R.string.tab_message,
-        vkl = true,
+        labelId = R.string.account
     ),
     TopLevelDestination(
         route = YkisRoute.SETTINGS,
         selectedIcon = Icons.Default.Settings,
         unselectedIcon = Icons.Default.Settings,
-        iconTextId = R.string.tab_settings,
-        vkl = false,
-    ),
+        labelId = R.string.settings
+    )
 )

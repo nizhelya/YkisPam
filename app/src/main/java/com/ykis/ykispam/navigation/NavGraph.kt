@@ -14,7 +14,9 @@ import com.ykis.ykispam.firebase.screens.verify_email.VerifyEmailScreen
 import com.ykis.ykispam.pam.screens.appartment.AddApartmentScreen
 import com.ykis.ykispam.pam.screens.appartment.ApartmentScreen
 import com.ykis.ykispam.pam.screens.launch.LaunchScreen
+import com.ykis.ykispam.pam.screens.meter.MeterScreen
 import com.ykis.ykispam.pam.screens.meter.water.WaterScreen
+import com.ykis.ykispam.pam.screens.service.ServiceListScreen
 
 
 fun NavGraphBuilder.YkisPamGraph(
@@ -126,6 +128,12 @@ fun NavGraphBuilder.YkisPamGraph(
             addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID,
             onDrawerClicked = onDrawerClicked,
         )
+    }
+    composable(METER_SCREEN){
+        MeterScreen()
+    }
+    composable(SERVICE_LIST_SCREEN){
+        ServiceListScreen()
     }
 
 }
