@@ -1,7 +1,6 @@
 package com.ykis.ykispam
 
 import android.content.res.Resources
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,7 +35,6 @@ import androidx.window.layout.DisplayFeature
 import androidx.window.layout.FoldingFeature
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.navigation.ApartmentNavigationRail
-import com.ykis.ykispam.navigation.BottomNavigationBar
 import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.navigation.DevicePosture
@@ -54,6 +52,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun YkisPamApp(
+//    viewModel : ApartmentViewModel = hiltViewModel(),
     windowSize: WindowSizeClass,
     displayFeatures: List<DisplayFeature>,
     baseUIState: BaseUIState,
@@ -155,27 +154,28 @@ fun NavigationWrapper(
     val coroutineScope = appState.coroutineScope
     val navController = appState.navController
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val selectedDestination =
-        navBackStackEntry?.destination?.route ?: baseUIState.selectedDestination
-
-    if (isUserSignedOut) {
-        AppContent(
-            appState = appState,
-            baseUIState = baseUIState,
-            isUserSignedOut = isUserSignedOut,
-            navigationType = navigationType,
-            contentType = contentType,
-            displayFeatures = displayFeatures,
-            navigationContentPosition = navigationContentPosition,
-            navController = navController,
-            selectedDestination = selectedDestination,
-            navigateToDestination = appState::navigateTo,
-            getApartments = getApartments,
-            closeDetailScreen = closeDetailScreen,
-            setApartment = setApartment,
-            navigateToDetail = navigateToDetail,
-        )
-    } else {
+    val selectedDestination = navBackStackEntry?.destination?.route ?: baseUIState.selectedDestination
+//    Log.d("test_nav", "${selectedDestination}\n$navBackStackEntry")
+//
+//    if (isUserSignedOut) {
+//        AppContent(
+//            appState = appState,
+//            baseUIState = baseUIState,
+//            isUserSignedOut = isUserSignedOut,
+//            navigationType = navigationType,
+//            contentType = contentType,
+//            displayFeatures = displayFeatures,
+//            navigationContentPosition = navigationContentPosition,
+//            navController = navController,
+//            selectedDestination = selectedDestination,
+//            navigateToDestination = appState::navigateTo,
+//            getApartments = getApartments,
+//            closeDetailScreen = closeDetailScreen,
+//            setApartment = setApartment,
+//            navigateToDetail = navigateToDetail,
+//        )
+////        navController.navigate("Auth")
+//    } else {
         if (navigationType == NavigationType.PERMANENT_NAVIGATION_DRAWER) {
             PermanentNavigationDrawer(drawerContent = {
                 PermanentNavigationDrawerContent(
@@ -244,7 +244,7 @@ fun NavigationWrapper(
                 }
             }
         }
-    }
+//    }
 }
 
 @Composable
@@ -262,7 +262,7 @@ fun AppContent(
     navigateToDestination: (String) -> Unit,
     getApartments: () -> Unit,
     closeDetailScreen: () -> Unit,
-    setApartment: (Int) -> Unit ,
+    setApartment: (Int) -> Unit,
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
     onDrawerClicked: () -> Unit = {}
 ) {
@@ -285,7 +285,7 @@ fun AppContent(
                 .padding(it)
                 .fillMaxSize()
         ) {
-            AnimatedVisibility(visible = navigationType == NavigationType.NAVIGATION_RAIL && !isUserSignedOut)
+            if(navigationType == NavigationType.NAVIGATION_RAIL && !isUserSignedOut)
             {
                 ApartmentNavigationRail(
                     baseUIState = baseUIState,
@@ -300,6 +300,7 @@ fun AppContent(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    // TODO: remove color from this
                     .background(MaterialTheme.colorScheme.inverseOnSurface)
 
             ) {
@@ -316,14 +317,15 @@ fun AppContent(
                     navigateToDestination = navigateToDestination,
                     setApartment = setApartment,
                     navigateToDetail = navigateToDetail,
-                    onDrawerClicked = onDrawerClicked
+                    onDrawerClicked = onDrawerClicked,
+                    selectedDestination = selectedDestination
                 )
-                AnimatedVisibility(visible = navigationType == NavigationType.BOTTOM_NAVIGATION) {
-                    BottomNavigationBar(
-                        navigateToDestination = navigateToDestination,
-                        selectedDestination = selectedDestination,
-                    )
-                }
+//                if(navigationType == NavigationType.BOTTOM_NAVIGATION) {
+//                    BottomNavigationBar(
+//                        navigateToDestination = navigateToDestination,
+//                        selectedDestination = selectedDestination,
+//                    )
+//                }
             }
         }
     }
@@ -343,7 +345,9 @@ private fun YkisNavHost(
     navigateToDestination: (String) -> Unit,
     setApartment: (Int) -> Unit ,
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
-    onDrawerClicked: () -> Unit = {}
+    onDrawerClicked: () -> Unit = {},
+    selectedDestination: String
+
 
 ) {
     NavHost(
@@ -362,7 +366,8 @@ private fun YkisNavHost(
             navigateToDestination,
             setApartment,
             navigateToDetail,
-            onDrawerClicked
+            onDrawerClicked,
+            selectedDestination
         )
     }
 }
@@ -392,3 +397,4 @@ fun resources(): Resources {
     LocalConfiguration.current
     return LocalContext.current.resources
 }
+

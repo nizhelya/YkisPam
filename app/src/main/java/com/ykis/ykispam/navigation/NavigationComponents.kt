@@ -215,12 +215,16 @@ fun ApartmentNavigationRail(
 fun BottomNavigationBar(
     navigateToDestination: (String) -> Unit,
     selectedDestination: String,
+    onClick:(String) -> Unit
 ) {
     NavigationBar(modifier = Modifier.fillMaxWidth()) {
         NAV_BAR_DESTINATIONS.forEach { destination ->
                 NavigationBarItem(
                     selected = selectedDestination.substringBefore("?") == destination.route,
-                    onClick = { navigateToDestination(destination.route) },
+                    onClick = {
+//                        navigateToDestination(destination.route)
+                            onClick(destination.route)
+                              },
 
                     icon = {
                         Icon(
