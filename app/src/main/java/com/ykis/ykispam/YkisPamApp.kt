@@ -1,19 +1,9 @@
 package com.ykis.ykispam
 
 import android.content.res.Resources
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.PermanentNavigationDrawer
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -26,7 +16,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -34,20 +23,16 @@ import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
 import androidx.window.layout.FoldingFeature
 import com.ykis.ykispam.core.snackbar.SnackbarManager
-import com.ykis.ykispam.navigation.ApartmentNavigationRail
 import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.navigation.DevicePosture
 import com.ykis.ykispam.navigation.LAUNCH_SCREEN
-import com.ykis.ykispam.navigation.ModalNavigationDrawerContent
 import com.ykis.ykispam.navigation.NavigationContentPosition
 import com.ykis.ykispam.navigation.NavigationType
-import com.ykis.ykispam.navigation.PermanentNavigationDrawerContent
 import com.ykis.ykispam.navigation.YkisPamGraph
 import com.ykis.ykispam.navigation.isBookPosture
 import com.ykis.ykispam.navigation.isSeparating
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 
 @Composable
@@ -176,16 +161,52 @@ fun NavigationWrapper(
 //        )
 ////        navController.navigate("Auth")
 //    } else {
-        if (navigationType == NavigationType.PERMANENT_NAVIGATION_DRAWER) {
-            PermanentNavigationDrawer(drawerContent = {
-                PermanentNavigationDrawerContent(
-                    baseUIState = baseUIState,
-                    selectedDestination = selectedDestination,
-                    navigationContentPosition = navigationContentPosition,
-                    navigateToDestination = appState::navigateTo,
-                    closeDetailScreen = closeDetailScreen,
-                )
-            }) {
+//        if (navigationType == NavigationType.PERMANENT_NAVIGATION_DRAWER) {
+//            PermanentNavigationDrawer(drawerContent = {
+//                PermanentNavigationDrawerContent(
+//                    baseUIState = baseUIState,
+//                    selectedDestination = selectedDestination,
+//                    navigationContentPosition = navigationContentPosition,
+//                    navigateToDestination = appState::navigateTo,
+//                    closeDetailScreen = closeDetailScreen,
+//                )
+//            }) {
+//                AppContent(
+//                    appState = appState,
+//                    baseUIState = baseUIState,
+//                    isUserSignedOut = isUserSignedOut,
+//                    navigationType = navigationType,
+//                    contentType = contentType,
+//                    displayFeatures = displayFeatures,
+//                    navigationContentPosition = navigationContentPosition,
+//                    navController = navController,
+//                    selectedDestination = selectedDestination,
+//                    navigateToDestination = appState::navigateTo,
+//                    getApartments = getApartments,
+//                    closeDetailScreen = closeDetailScreen,
+//                    setApartment = setApartment,
+//                    navigateToDetail = navigateToDetail,
+//                )
+//            }
+//        } else {
+//            ModalNavigationDrawer(
+//                drawerContent = {
+//                    ModalNavigationDrawerContent(
+//                        baseUIState = baseUIState,
+//                        selectedDestination = selectedDestination,
+//                        navigationContentPosition = navigationContentPosition,
+//                        navigateToDestination = appState::navigateTo,
+//                        closeDetailScreen = closeDetailScreen,
+//                        setApartment=setApartment,
+//                        onDrawerClicked = {
+//                            coroutineScope.launch {
+//                                drawerState.close()
+//                            }
+//                        }
+//                    )
+//                },
+//                drawerState = drawerState
+//            ) {
                 AppContent(
                     appState = appState,
                     baseUIState = baseUIState,
@@ -202,48 +223,13 @@ fun NavigationWrapper(
                     setApartment = setApartment,
                     navigateToDetail = navigateToDetail,
                 )
-            }
-        } else {
-            ModalNavigationDrawer(
-                drawerContent = {
-                    ModalNavigationDrawerContent(
-                        baseUIState = baseUIState,
-                        selectedDestination = selectedDestination,
-                        navigationContentPosition = navigationContentPosition,
-                        navigateToDestination = appState::navigateTo,
-                        closeDetailScreen = closeDetailScreen,
-                        setApartment=setApartment,
-                        onDrawerClicked = {
-                            coroutineScope.launch {
-                                drawerState.close()
-                            }
-                        }
-                    )
-                },
-                drawerState = drawerState
-            ) {
-                AppContent(
-                    appState = appState,
-                    baseUIState = baseUIState,
-                    isUserSignedOut = isUserSignedOut,
-                    navigationType = navigationType,
-                    contentType = contentType,
-                    displayFeatures = displayFeatures,
-                    navigationContentPosition = navigationContentPosition,
-                    navController = navController,
-                    selectedDestination = selectedDestination,
-                    navigateToDestination = appState::navigateTo,
-                    getApartments = getApartments,
-                    closeDetailScreen = closeDetailScreen,
-                    setApartment = setApartment,
-                    navigateToDetail = navigateToDetail,
-                ) {
-                    coroutineScope.launch {
-                        drawerState.open()
-                    }
-                }
-            }
-        }
+//                {
+//                    coroutineScope.launch {
+//                        drawerState.open()
+//                    }
+//                }
+//            }
+//        }
 //    }
 }
 
@@ -266,46 +252,46 @@ fun AppContent(
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
     onDrawerClicked: () -> Unit = {}
 ) {
-    Scaffold(
-        modifier = modifier.fillMaxSize(),
-        snackbarHost = {
-            SnackbarHost(
-                hostState = appState.snackbarHostState,
-                modifier = Modifier.padding(8.dp),
-                snackbar = { snackbarData ->
-                    Snackbar(
-                        snackbarData,
-                    )
-                }
-            )
-        },
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(it)
-                .fillMaxSize()
-        ) {
-            if(navigationType == NavigationType.NAVIGATION_RAIL && !isUserSignedOut)
-            {
-                ApartmentNavigationRail(
-                    baseUIState = baseUIState,
-                    selectedDestination = selectedDestination,
-                    navigationContentPosition = navigationContentPosition,
-                    closeDetailScreen = closeDetailScreen,
-                    navigateToDestination = appState::navigateTo,
-                    setApartment=setApartment,
-                    onDrawerClicked = onDrawerClicked,
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    // TODO: remove color from this
-                    .background(MaterialTheme.colorScheme.inverseOnSurface)
-
-            ) {
+//    Scaffold(
+//        modifier = modifier.fillMaxSize(),
+//        snackbarHost = {
+//            SnackbarHost(
+//                hostState = appState.snackbarHostState,
+//                modifier = Modifier.padding(8.dp),
+//                snackbar = { snackbarData ->
+//                    Snackbar(
+//                        snackbarData,
+//                    )
+//                }
+//            )
+//        },
+//    ) {
+//        Row(
+//            modifier = Modifier
+//                .padding(it)
+//                .fillMaxSize()
+//        ) {
+////            if(navigationType == NavigationType.NAVIGATION_RAIL && !isUserSignedOut)
+////            {
+////                ApartmentNavigationRail(
+////                    baseUIState = baseUIState,
+////                    selectedDestination = selectedDestination,
+////                    navigationContentPosition = navigationContentPosition,
+////                    closeDetailScreen = closeDetailScreen,
+////                    navigateToDestination = appState::navigateTo,
+////                    setApartment=setApartment,
+////                    onDrawerClicked = onDrawerClicked,
+////                )
+////            }
+//            Column(
+//                modifier = Modifier
+//                    .fillMaxSize()
+//                    // TODO: remove color from this
+//                    .background(MaterialTheme.colorScheme.tertiaryContainer)
+//
+//            ) {
                 YkisNavHost(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.fillMaxSize(),
                     appState = appState,
                     baseUIState = baseUIState,
                     navController = navController,
@@ -325,10 +311,9 @@ fun AppContent(
 //                        navigateToDestination = navigateToDestination,
 //                        selectedDestination = selectedDestination,
 //                    )
-//                }
-            }
-        }
-    }
+//            }
+//        }
+//    }
 }
 
 @Composable

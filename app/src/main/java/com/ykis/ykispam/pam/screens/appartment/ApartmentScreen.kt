@@ -1,5 +1,6 @@
 package com.ykis.ykispam.pam.screens.appartment
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -56,6 +57,8 @@ fun ApartmentScreen(
 
     LaunchedEffect(key1 = baseUIState.apartments) {
         getApartments()
+//        viewModel.initialize()
+        Log.d("vm_test","vm.uiState:${viewModel.uiState.value}\nbaseUiState:$baseUIState")
         if (contentType == ContentType.SINGLE_PANE && !baseUIState.isDetailOnlyOpen) {
             closeDetailScreen()
         }

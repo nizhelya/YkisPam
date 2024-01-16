@@ -62,7 +62,7 @@ val NAV_BAR_DESTINATIONS = listOf(
         labelId = R.string.meters
     ),
     TopLevelDestination(
-        route = YkisRoute.ACCOUNT,
+        route = SERVICE_LIST_SCREEN,
         selectedIcon = Icons.Filled.Payments,
         unselectedIcon = Icons.Outlined.Payments,
         labelId = R.string.accrued

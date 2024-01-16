@@ -1,9 +1,15 @@
 package com.ykis.ykispam.navigation
 
 import android.util.Log
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.DrawerState
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -22,6 +28,7 @@ import com.ykis.ykispam.pam.screens.appartment.ApartmentScreen
 import com.ykis.ykispam.pam.screens.launch.LaunchScreen
 import com.ykis.ykispam.pam.screens.meter.MeterScreen
 import com.ykis.ykispam.pam.screens.service.ServiceListScreen
+import kotlinx.coroutines.launch
 
 @Composable
 fun MainApartmentScreen(
@@ -39,35 +46,77 @@ fun MainApartmentScreen(
     navController: NavHostController = rememberNavController(),
 //    selectedDestination:String
 
-                        ) {
+) {
+    val drawerState = DrawerState(initialValue = DrawerValue.Closed)
+    val coroutineScope = appState.coroutineScope
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val selectedDestination = navBackStackEntry?.destination?.route ?: baseUIState.selectedDestination
-    Log.d("test_nav2" , "$navBackStackEntry\n$selectedDestination")
+    val selectedDestination =
+        navBackStackEntry?.destination?.route ?: baseUIState.selectedDestination
+    Log.d("test_nav2", "$navBackStackEntry\n$selectedDestination")
+    ModalNavigationDrawer(
+        drawerContent = {
+                ModalNavigationDrawerContent(
+                    baseUIState = baseUIState,
+                    selectedDestination = selectedDestination,
+                    navigationContentPosition =NavigationContentPosition.TOP,
+                    navigateToDestination = {navController.navigate(it)},
+                    closeDetailScreen = closeDetailScreen,
+                    setApartment=setApartment,
+                    onDrawerClicked = {
+                        coroutineScope.launch {
+                            drawerState.close()
+                        }
+                    }
+                )
+        },
+        drawerState = drawerState
+    ) {
     Scaffold(
-        bottomBar = { BottomNavigationBar(
-            navigateToDestination = navigateToDestination,
-            selectedDestination =selectedDestination,
-            onClick = { navController.navigate(it) })}
-    ) {it->
-        Log.d("e",it.toString())
+        bottomBar = {
+            if (navigationType == NavigationType.BOTTOM_NAVIGATION) BottomNavigationBar(
+                navigateToDestination = navigateToDestination,
+                selectedDestination = selectedDestination,
+                onClick = { navController.navigate(it) })
+        }
+    ) { it ->
+        Log.d("e", it.toString())
+
         ApartmentNavGraph(
+            modifier = Modifier.padding(
+                start = if (navigationType != NavigationType.BOTTOM_NAVIGATION) 80.dp else 0.dp,
+//                bottom = it.calculateBottomPadding()
+            ),
             appState = appState,
-            contentType =contentType ,
+            contentType = contentType,
             navigationType = navigationType,
             displayFeatures = displayFeatures,
             baseUIState = baseUIState,
-            getApartments =getApartments,
+            getApartments = getApartments,
             closeDetailScreen = closeDetailScreen,
             navigateToDestination = navigateToDestination,
             setApartment = setApartment,
             navigateToDetail = navigateToDetail,
             navController = navController
         )
+        if (navigationType != NavigationType.BOTTOM_NAVIGATION) {
+            ApartmentNavigationRail(
+                baseUIState = baseUIState,
+                selectedDestination = selectedDestination,
+                navigationContentPosition = NavigationContentPosition.TOP,
+                closeDetailScreen = closeDetailScreen,
+                navigateToDestination = { navController.navigate(it) },
+                setApartment = setApartment
+            )
+        }
     }
+        }
+//    }
+
 }
 
 @Composable
 fun ApartmentNavGraph(
+    modifier: Modifier = Modifier,
     appState: YkisPamAppState,
     contentType: ContentType,
     navigationType: NavigationType,
@@ -80,98 +129,13 @@ fun ApartmentNavGraph(
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
     onDrawerClicked: () -> Unit = {},
     navController: NavHostController
-    ) {
-        NavHost(
-            navController = navController,
-            route = Graph.APARTMENT,
-            startDestination = APARTMENT_SCREEN ){
-            composable(YkisRoute.ACCOUNT) {
-
-                ProfileScreen(
-                    popUpScreen = { appState.popUp() },
-                    restartApp = { route -> appState.clearAndNavigate(route) },
-                )
-            }
-            composable(YkisRoute.CHAT) {
-                EmptyScreen(
-                    popUpScreen = { appState.popUp() },
-                )
-            }
-            composable(YkisRoute.MESSAGE) {
-                EmptyScreen(
-                    popUpScreen = { appState.popUp() },
-                )
-            }
-            composable(YkisRoute.OSBB) {
-                EmptyScreen(
-                    popUpScreen = { appState.popUp() },
-                )
-            }
-            composable(YkisRoute.EXITAPP) {
-                LaunchScreen(
-                    restartApp = { route -> appState.clearAndNavigate(route) },
-                    openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) },
-                )
-            }
-            composable(ADD_APARTMENT_SCREEN) {
-                AddApartmentScreen(
-                    popUpScreen = { appState.popUp() },
-                    restartApp = { route -> appState.clearAndNavigate(route) },
-                )
-
-            }
-
-            composable(YkisRoute.SETTINGS) {
-                SettingsScreen(popUpScreen = { appState.popUp() })
-            }
-
-            composable(
-                route = "$APARTMENT_SCREEN$ADDRESS_ID_ARG",
-                arguments = listOf(
-                    navArgument(ADDRESS_ID) { defaultValue = ADDRESS_DEFAULT_ID },
-                )
-            ) {
-                ApartmentScreen(
-                    openScreen = { route -> appState.navigate(route) },
-                    restartApp = { route -> appState.clearAndNavigate(route) },
-                    appState = appState,
-                    contentType = contentType,
-                    baseUIState = baseUIState,
-                    navigationType = navigationType,
-                    displayFeatures = displayFeatures,
-                    closeDetailScreen = closeDetailScreen,
-                    getApartments = getApartments,
-                    setApartment = setApartment,
-                    navigateToDetail = navigateToDetail,
-                    addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID,
-                    onDrawerClicked = onDrawerClicked,
-                )
-            }
-            composable(METER_SCREEN){
-                MeterScreen()
-            }
-            composable(SERVICE_LIST_SCREEN){
-                ServiceListScreen()
-            }
-        }
-}
-fun NavGraphBuilder.apartmentNavGraph(
-//    TODO:remove this arg
-    appState: YkisPamAppState,
-    contentType: ContentType,
-    navigationType: NavigationType,
-    displayFeatures: List<DisplayFeature>,
-    baseUIState: BaseUIState,
-    getApartments: () -> Unit,
-    closeDetailScreen: () -> Unit,
-    navigateToDestination: (String) -> Unit,
-    setApartment: (Int) -> Unit,
-    navigateToDetail: (ContentDetail, ContentType) -> Unit,
-    onDrawerClicked: () -> Unit = {}
 ) {
-    navigation(
+    NavHost(
+        modifier = modifier,
+        navController = navController,
         route = Graph.APARTMENT,
-        startDestination = SERVICE_LIST_SCREEN ){
+        startDestination = APARTMENT_SCREEN
+    ) {
         composable(YkisRoute.ACCOUNT) {
 
             ProfileScreen(
@@ -234,10 +198,99 @@ fun NavGraphBuilder.apartmentNavGraph(
                 onDrawerClicked = onDrawerClicked,
             )
         }
-        composable(METER_SCREEN){
+        composable(METER_SCREEN) {
             MeterScreen()
         }
-        composable(SERVICE_LIST_SCREEN){
+        composable(SERVICE_LIST_SCREEN) {
+            ServiceListScreen()
+        }
+    }
+}
+
+fun NavGraphBuilder.apartmentNavGraph(
+//    TODO:remove this arg
+    appState: YkisPamAppState,
+    contentType: ContentType,
+    navigationType: NavigationType,
+    displayFeatures: List<DisplayFeature>,
+    baseUIState: BaseUIState,
+    getApartments: () -> Unit,
+    closeDetailScreen: () -> Unit,
+    navigateToDestination: (String) -> Unit,
+    setApartment: (Int) -> Unit,
+    navigateToDetail: (ContentDetail, ContentType) -> Unit,
+    onDrawerClicked: () -> Unit = {}
+) {
+    navigation(
+        route = Graph.APARTMENT,
+        startDestination = SERVICE_LIST_SCREEN
+    ) {
+        composable(YkisRoute.ACCOUNT) {
+
+            ProfileScreen(
+                popUpScreen = { appState.popUp() },
+                restartApp = { route -> appState.clearAndNavigate(route) },
+            )
+        }
+        composable(YkisRoute.CHAT) {
+            EmptyScreen(
+                popUpScreen = { appState.popUp() },
+            )
+        }
+        composable(YkisRoute.MESSAGE) {
+            EmptyScreen(
+                popUpScreen = { appState.popUp() },
+            )
+        }
+        composable(YkisRoute.OSBB) {
+            EmptyScreen(
+                popUpScreen = { appState.popUp() },
+            )
+        }
+        composable(YkisRoute.EXITAPP) {
+            LaunchScreen(
+                restartApp = { route -> appState.clearAndNavigate(route) },
+                openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) },
+            )
+        }
+        composable(ADD_APARTMENT_SCREEN) {
+            AddApartmentScreen(
+                popUpScreen = { appState.popUp() },
+                restartApp = { route -> appState.clearAndNavigate(route) },
+            )
+
+        }
+
+        composable(YkisRoute.SETTINGS) {
+            SettingsScreen(popUpScreen = { appState.popUp() })
+        }
+
+        composable(
+            route = "$APARTMENT_SCREEN$ADDRESS_ID_ARG",
+            arguments = listOf(
+                navArgument(ADDRESS_ID) { defaultValue = ADDRESS_DEFAULT_ID },
+            )
+        ) {
+            ApartmentScreen(
+                openScreen = { route -> appState.navigate(route) },
+                restartApp = { route -> appState.clearAndNavigate(route) },
+                appState = appState,
+                contentType = contentType,
+                baseUIState = baseUIState,
+                navigationType = navigationType,
+                displayFeatures = displayFeatures,
+                closeDetailScreen = closeDetailScreen,
+                getApartments = getApartments,
+                setApartment = setApartment,
+                navigateToDetail = navigateToDetail,
+                addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID,
+                onDrawerClicked = onDrawerClicked,
+            )
+        }
+        composable(METER_SCREEN) {
+            MeterScreen()
+        }
+        composable(SERVICE_LIST_SCREEN) {
             ServiceListScreen()
         }
     }

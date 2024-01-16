@@ -42,7 +42,7 @@ fun LaunchScreen(
                 viewModel.onAppStart(isUserSignedOut, openAndPopUp,restartApp)
             }
         } else {
-            CircularProgressIndicator(color = MaterialTheme.colorScheme.onBackground)
+            CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
         }
     }
     LaunchedEffect(key1 = isUserSignedOut) {

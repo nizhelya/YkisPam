@@ -424,6 +424,7 @@ fun ModalNavigationDrawerContent(
                             )
                         }
                     }
+                    // TODO: remove lazyliststate
                     val apartmentLazyListState = rememberLazyListState()
                     LazyColumn(
                         horizontalAlignment = Alignment.Start,
