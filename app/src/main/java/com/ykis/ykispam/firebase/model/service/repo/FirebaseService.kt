@@ -21,6 +21,9 @@ typealias SendPasswordResetEmailResponse = Response<Boolean>
 typealias AuthStateResponse = StateFlow<Boolean>
 
 
+
+
+
 interface FirebaseService {
     val isUserAuthenticatedInFirebase: Boolean
     val uid: String
@@ -43,6 +46,7 @@ interface FirebaseService {
     suspend fun signOut(): SignOutResponse
 //    fun signOut()
 
+
     suspend fun oneTapSignInWithGoogle(): OneTapSignInResponse
     suspend fun firebaseSignInWithGoogle(googleCredential: AuthCredential): SignInWithGoogleResponse
 
@@ -57,8 +61,9 @@ interface FirebaseService {
     //    suspend fun firebaseSignInWithEmailAndPassword(email: String, password: String): SignInResponse
     suspend fun reloadFirebaseUser(): ReloadUserResponse
 
-    //    suspend fun sendPasswordResetEmail(email: String)
+
     suspend fun revokeAccess(): RevokeAccessResponse
+    //    suspend fun sendPasswordResetEmail(email: String)
     suspend fun addUserFirestore(): addUserFirestoreResponse
 
     suspend fun revokeAccessEmail(): RevokeAccessResponse

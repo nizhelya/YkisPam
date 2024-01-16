@@ -8,21 +8,19 @@ import com.ykis.ykispam.core.Response
 import com.ykis.ykispam.firebase.screens.profile.ProfileViewModel
 
 @Composable
-fun RevokeAccess(
+fun SignOut(
     viewModel: ProfileViewModel = hiltViewModel(),
-    navigateToAuthScreen: (accessRevoked: Boolean) -> Unit,
-    showSnackBar: () -> Unit
+    navigateToAuthScreen: (signedOut: Boolean) -> Unit
 ) {
-    when(val revokeAccessResponse = viewModel.revokeAccessResponse) {
+    when(val signOutResponse = viewModel.signOutResponse) {
         is Response.Loading -> ProgressBar()
-        is Response.Success -> revokeAccessResponse.data?.let { accessRevoked ->
-            LaunchedEffect(accessRevoked) {
-                navigateToAuthScreen(accessRevoked)
+        is Response.Success -> signOutResponse.data?.let { signedOut ->
+            LaunchedEffect(signedOut) {
+                navigateToAuthScreen(signedOut)
             }
         }
         is Response.Failure -> LaunchedEffect(Unit) {
-            print(revokeAccessResponse.e)
-            showSnackBar()
+            print(signOutResponse.e)
         }
     }
 }

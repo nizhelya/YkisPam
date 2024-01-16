@@ -80,6 +80,7 @@ object FirebaseModule {
         .setAutoSelectEnabled(true)
         .build()
 
+
     @Provides
     @Named(SIGN_UP_REQUEST)
     fun provideSignUpRequest(

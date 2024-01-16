@@ -40,6 +40,7 @@ import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Singleton
 
+
 @Singleton
 class FirebaseServiceImpl @Inject constructor(
     private val auth: FirebaseAuth,
@@ -50,11 +51,10 @@ class FirebaseServiceImpl @Inject constructor(
     @Named(SIGN_UP_REQUEST)
     private var signUpRequest: BeginSignInRequest,
     private val db: FirebaseFirestore
+
 ) : FirebaseService {
 
-    override val isUserAuthenticatedInFirebase
-        get() = auth.currentUser != null
-
+    override val isUserAuthenticatedInFirebase = auth.currentUser != null
 
     override val hasUser: Boolean
         get() = auth.currentUser != null
@@ -131,19 +131,7 @@ class FirebaseServiceImpl @Inject constructor(
     }
 
 
-    override suspend fun revokeAccess(): RevokeAccessResponse {
-        return try {
-            auth.currentUser?.apply {
-                db.collection(USERS).document(uid).delete().await()
-                signInClient.revokeAccess().await()
-                oneTapClient.signOut().await()
-                delete().await()
-            }
-            Success(true)
-        } catch (e: Exception) {
-            Failure(e)
-        }
-    }
+
 
     override suspend fun authenticate(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password).await()
@@ -159,16 +147,9 @@ class FirebaseServiceImpl @Inject constructor(
     }
 //    override fun signOut() = auth.signOut()
 
-    override suspend fun signOut(): SignOutResponse {
-        return try {
-            oneTapClient.signOut().await()
-            auth.signOut()
-            Success(true)
-        } catch (e: Exception) {
-            Failure(e)
-        }
-    }
 
+
+    // start google auth
     override suspend fun oneTapSignInWithGoogle(): OneTapSignInResponse {
         return try {
             val signInResult = oneTapClient.beginSignIn(signInRequest).await()
@@ -182,7 +163,6 @@ class FirebaseServiceImpl @Inject constructor(
             }
         }
     }
-
 
     override suspend fun firebaseSignInWithGoogle(
         googleCredential: AuthCredential
@@ -199,6 +179,43 @@ class FirebaseServiceImpl @Inject constructor(
         }
     }
 
+    private suspend fun addUserToFirestore() {
+        auth.currentUser?.apply {
+            val user = toUser()
+            db.collection(USERS).document(uid).set(user).await()
+        }
+    }
+    fun FirebaseUser.toUser() = mapOf(
+        DISPLAY_NAME to displayName,
+        PROVIDER_ID to providerId,
+        EMAIL to email,
+        PHOTO_URL to photoUrl?.toString(),
+        CREATED_AT to serverTimestamp()
+    )
+    override suspend fun signOut(): SignOutResponse {
+        return try {
+            oneTapClient.signOut().await()
+            auth.signOut()
+            Success(true)
+        } catch (e: Exception) {
+            Failure(e)
+        }
+    }
+    override suspend fun revokeAccess(): RevokeAccessResponse {
+        return try {
+            auth.currentUser?.apply {
+                db.collection(USERS).document(uid).delete().await()
+                signInClient.revokeAccess().await()
+                oneTapClient.signOut().await()
+                delete().await()
+            }
+            Success(true)
+        } catch (e: Exception) {
+            Failure(e)
+        }
+    }
+
+    // end google auth
 
     override suspend fun linkAccount(email: String, password: String): Unit =
         trace(LINK_ACCOUNT_TRACE) {
@@ -231,12 +248,7 @@ class FirebaseServiceImpl @Inject constructor(
         }
     }
 
-    private suspend fun addUserToFirestore() {
-        auth.currentUser?.apply {
-            val user = toUser()
-            db.collection(USERS).document(uid).set(user).await()
-        }
-    }
+
 
     override suspend fun addUserFirestore(): addUserFirestoreResponse {
         return try {
@@ -246,16 +258,8 @@ class FirebaseServiceImpl @Inject constructor(
             Failure(e)
         }
     }
-
     companion object {
         private const val LINK_ACCOUNT_TRACE = "linkAccount"
     }
 }
 
-fun FirebaseUser.toUser() = mapOf(
-    DISPLAY_NAME to displayName,
-    PROVIDER_ID to providerId,
-    EMAIL to email,
-    PHOTO_URL to photoUrl?.toString(),
-    CREATED_AT to serverTimestamp()
-)

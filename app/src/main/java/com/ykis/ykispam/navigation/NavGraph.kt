@@ -51,12 +51,13 @@ fun NavGraphBuilder.YkisPamGraph(
     }
 
     composable(YkisRoute.ACCOUNT) {
-
         ProfileScreen(
+            appState = appState,
             popUpScreen = { appState.popUp() },
-            restartApp = { route -> appState.clearAndNavigate(route) },
+            navigateToDestination = navigateToDestination
         )
     }
+
     composable(YkisRoute.CHAT) {
         EmptyScreen(
             popUpScreen = { appState.popUp() },
@@ -83,7 +84,9 @@ fun NavGraphBuilder.YkisPamGraph(
 
     composable(SIGN_IN_SCREEN) {
         SignInScreen(
-            openScreen = { route -> appState.navigate(route) }
+            openScreen = { route -> appState.navigate(route) },
+            navigateToDestination = navigateToDestination
+
         )
 
     }

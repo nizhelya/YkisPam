@@ -59,6 +59,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.glance.appwidget)
+//    implementation(libs.firebase.auth)
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
     implementation(libs.androidx.compose.material3)
@@ -91,14 +92,16 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.auth.ktx)
-    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.perf)
     implementation(libs.firebase.config)
     implementation(libs.firebase.messaging)
+//    implementation(libs.firebase.ui.auth)
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.play.services.auth)
     implementation(libs.kotlinx.coroutines.play.services)
+
 
 //    hilt
     implementation(libs.androidx.hilt.navigation.compose)

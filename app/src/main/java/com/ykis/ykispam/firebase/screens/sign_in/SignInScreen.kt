@@ -47,6 +47,7 @@ import com.ykis.ykispam.core.ext.smallSpacer
 import com.ykis.ykispam.core.ext.textButton
 import com.ykis.ykispam.firebase.screens.sign_in.components.SignInWithGoogle
 import com.ykis.ykispam.firebase.screens.sign_in.components.OneTapSignIn
+import com.ykis.ykispam.navigation.LAUNCH_SCREEN
 import kotlinx.coroutines.launch
 import com.ykis.ykispam.R.drawable as AppIcon
 import com.ykis.ykispam.R.string as AppText
@@ -56,26 +57,15 @@ import com.ykis.ykispam.R.string as AppText
 @Composable
 fun SignInScreen(
     openScreen: (String) -> Unit,
+    navigateToDestination: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SignInViewModel = hiltViewModel()
 ) {
     val singInUiState = viewModel.singInUiState
     val keyboard = LocalSoftwareKeyboardController.current
 
-    val launcher =
-        rememberLauncherForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                try {
-                    val credentials =
-                        viewModel.oneTapClient.getSignInCredentialFromIntent(result.data)
-                    val googleIdToken = credentials.googleIdToken
-                    val googleCredentials = getCredential(googleIdToken, null)
-                    viewModel.signInWithGoogle(googleCredentials)
-                } catch (it: ApiException) {
-                    print(it)
-                }
-            }
-        }
+
+
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -134,7 +124,20 @@ fun SignInScreen(
         }
     }
 
-
+    val launcher =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                try {
+                    val credentials =
+                        viewModel.oneTapClient.getSignInCredentialFromIntent(result.data)
+                    val googleIdToken = credentials.googleIdToken
+                    val googleCredentials = getCredential(googleIdToken, null)
+                    viewModel.signInWithGoogle(googleCredentials)
+                } catch (it: ApiException) {
+                    print(it)
+                }
+            }
+        }
 
     fun launch(signInResult: BeginSignInResult) {
         val intent = IntentSenderRequest.Builder(signInResult.pendingIntent.intentSender).build()
@@ -150,7 +153,9 @@ fun SignInScreen(
     SignInWithGoogle(
         navigateToHomeScreen = { signedIn ->
             if (signedIn) {
-                viewModel.navigateToApartmentScreen(openScreen)
+                navigateToDestination(LAUNCH_SCREEN)
+
+//                viewModel.navigateToApartmentScreen(openScreen)
             }
         }
     )

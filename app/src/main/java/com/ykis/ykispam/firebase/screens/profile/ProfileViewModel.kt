@@ -3,9 +3,11 @@ package com.ykis.ykispam.firebase.screens.profile
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.firebase.firestore.FirebaseFirestore
 import com.ykis.ykispam.BaseViewModel
 import com.ykis.ykispam.R
-import com.ykis.ykispam.core.Constants.USERS
 import com.ykis.ykispam.core.Response
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.firebase.model.service.repo.FirebaseService
@@ -17,7 +19,6 @@ import com.ykis.ykispam.firebase.model.service.repo.SignOutResponse
 import com.ykis.ykispam.navigation.LAUNCH_SCREEN
 import com.ykis.ykispam.navigation.YkisRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 
@@ -64,12 +65,22 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    fun navigateToProfileScreen(restartApp: (String) -> Unit) {
+        restartApp(YkisRoute.ACCOUNT)
+    }
 
-    fun signOut(restartApp: (String) -> Unit) {
+    fun restartApp(restartApp: () -> Unit) {
+        restartApp()
+    }
+
+
+
+
+    fun signOut() {
         launchCatching {
             signOutResponse = Response.Loading
             signOutResponse = firebaseService.signOut()
-            restartApp(LAUNCH_SCREEN)
+//            restartApp(LAUNCH_SCREEN)
 
         }
     }
@@ -79,14 +90,5 @@ class ProfileViewModel @Inject constructor(
             revokeAccessResponse = Response.Loading
             revokeAccessResponse = firebaseService.revokeAccess()
         }
-    }
-
-
-    fun navigateToProfileScreen(restartApp: (String) -> Unit) {
-        restartApp(YkisRoute.ACCOUNT)
-    }
-
-    fun restartApp(restartApp: () -> Unit) {
-        restartApp()
     }
 }

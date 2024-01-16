@@ -1,6 +1,5 @@
 package com.ykis.ykispam.firebase.screens.profile
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,12 +13,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Email
 import androidx.compose.material.icons.twotone.Key
 import androidx.compose.material.icons.twotone.Nat
-import androidx.compose.material.icons.twotone.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,23 +28,29 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.selected
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ykis.ykispam.R
+import com.ykis.ykispam.YkisPamAppState
+import com.ykis.ykispam.core.Constants.REVOKE_ACCESS_MESSAGE
+import com.ykis.ykispam.core.Constants.SIGN_OUT
 import com.ykis.ykispam.firebase.screens.profile.components.ProfileTopBar
+import com.ykis.ykispam.firebase.screens.profile.components.RevokeAccess
+import com.ykis.ykispam.firebase.screens.profile.components.SignOut
+import com.ykis.ykispam.navigation.LAUNCH_SCREEN
 import com.ykis.ykispam.theme.YkisPAMTheme
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
-    popUpScreen: () -> Unit,
-    restartApp: (String) -> Unit,
+    appState: YkisPamAppState,
+    popUpScreen:() -> Unit,
+    navigateToDestination: (String) -> Unit,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
 
@@ -55,10 +60,36 @@ fun ProfileScreen(
         email = viewModel.email,
         uid = viewModel.uid,
         providerId = viewModel.providerId,
-        signOut = { viewModel.signOut(restartApp) },
+        signOut = { viewModel.signOut() },
         revokeAccess = { viewModel.revokeAccess() },
         navigateBack = { viewModel.navigateBack(popUpScreen) }
 
+    )
+    SignOut(
+        navigateToAuthScreen = { signedOut ->
+            if (signedOut) {
+                navigateToDestination(LAUNCH_SCREEN)
+            }
+        }
+    )
+    fun showSnackBar() = appState.coroutineScope.launch {
+        val result = appState.snackbarHostState.showSnackbar(
+            message = REVOKE_ACCESS_MESSAGE,
+            actionLabel = SIGN_OUT
+        )
+        if (result == SnackbarResult.ActionPerformed) {
+            viewModel.signOut()
+        }
+    }
+    RevokeAccess(
+        navigateToAuthScreen = { accessRevoked ->
+            if (accessRevoked) {
+                navigateToDestination(LAUNCH_SCREEN)
+            }
+        },
+        showSnackBar = {
+            showSnackBar()
+        }
     )
 
 }
@@ -108,9 +139,11 @@ fun ProfileScreenContent(
                     .fillMaxWidth()
                     .padding(8.dp)
             ) {
-                Row(modifier = Modifier.fillMaxWidth(),
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Start,
-                    verticalAlignment =Alignment.CenterVertically) {
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
                             .data(photoUrl)
@@ -284,6 +317,7 @@ fun ProfileScreenContent(
             }
         }
     }
+
 }
 
 @Preview(showBackground = true)

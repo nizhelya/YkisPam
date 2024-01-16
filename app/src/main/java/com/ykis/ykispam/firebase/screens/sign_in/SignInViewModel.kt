@@ -99,9 +99,9 @@ class SignInViewModel @Inject constructor(
         openScreen(SIGN_UP_SCREEN)
     }
 
-    fun navigateToApartmentScreen(openScreen: (String) -> Unit) {
-        launchCatching {
-            openScreen(LAUNCH_SCREEN)
-        }
-    }
+//    fun navigateToApartmentScreen(openScreen: (String) -> Unit) {
+//        launchCatching {
+//            openScreen(LAUNCH_SCREEN)
+//        }
+//    }
 }
