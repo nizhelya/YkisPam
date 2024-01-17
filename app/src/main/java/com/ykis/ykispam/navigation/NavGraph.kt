@@ -11,9 +11,9 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.window.layout.DisplayFeature
 import com.ykis.ykispam.BaseUIState
-import com.ykis.ykispam.YkisPamAppState
 import com.ykis.ykispam.pam.screens.launch.LaunchScreen
 import com.ykis.ykispam.pam.screens.meter.water.WaterScreen
+import com.ykis.ykispam.rememberAppState
 
 object Graph {
     const val AUTHENTICATION = "auth_graph"
@@ -22,7 +22,7 @@ object Graph {
 @Composable
 fun RootNavGraph(
     modifier: Modifier = Modifier,
-    appState: YkisPamAppState,
+//    appState: YkisPamAppState,
     baseUIState: BaseUIState,
     navController: NavHostController = rememberNavController(),
     contentType: ContentType,
@@ -30,11 +30,12 @@ fun RootNavGraph(
     navigationType: NavigationType,
     getApartments: () -> Unit,
     closeDetailScreen: () -> Unit,
-    navigateToDestination: (String) -> Unit,
+//    navigateToDestination: (String) -> Unit,
     setApartment: (Int) -> Unit,
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
     onDrawerClicked: () -> Unit = {},
 ) {
+    val appState = rememberAppState(navController)
     NavHost(
         modifier = modifier.background(MaterialTheme.colorScheme.tertiaryContainer),
         navController = navController,
@@ -67,7 +68,7 @@ fun RootNavGraph(
                 baseUIState = baseUIState,
                 getApartments = getApartments,
                 closeDetailScreen =closeDetailScreen,
-                navigateToDestination = navigateToDestination,
+                navigateToDestination = appState::navigateTo,
                 setApartment = setApartment,
                 navigateToDetail = navigateToDetail,
             )

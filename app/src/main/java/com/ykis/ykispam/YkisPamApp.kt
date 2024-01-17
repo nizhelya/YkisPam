@@ -6,15 +6,12 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
 import androidx.window.layout.FoldingFeature
 import com.ykis.ykispam.core.snackbar.SnackbarManager
@@ -41,7 +38,7 @@ fun YkisPamApp(
 ) {
     val navigationType: NavigationType
     val contentType: ContentType
-    val appState = rememberAppState()
+//    val appState = rememberAppState()
     val foldingFeature = displayFeatures.filterIsInstance<FoldingFeature>().firstOrNull()
 //    val navController = appState.navController
 //    val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -89,7 +86,7 @@ fun YkisPamApp(
     }
     RootNavGraph(
         modifier = Modifier,
-        appState = appState,
+//        appState = appState,
         baseUIState = baseUIState,
         contentType = contentType,
         displayFeatures = displayFeatures,
@@ -97,7 +94,7 @@ fun YkisPamApp(
         getApartments = getApartments,
         closeDetailScreen = closeDetailScreen,
         // TODO: опустить ету переменную  
-        navigateToDestination = appState::navigateTo,
+//        navigateToDestination = appState::navigateTo,
         setApartment = setApartment,
         navigateToDetail = navigateToDetail,
         onDrawerClicked = {},
@@ -105,7 +102,7 @@ fun YkisPamApp(
 }
 @Composable
 fun rememberAppState(
-    navController: NavHostController = rememberNavController(),
+    navController: NavHostController,
     snackbarHostState: SnackbarHostState = SnackbarHostState(),
     snackbarManager: SnackbarManager = SnackbarManager,
     resources: Resources = resources(),
