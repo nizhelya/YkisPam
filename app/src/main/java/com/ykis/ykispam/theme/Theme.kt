@@ -1,20 +1,15 @@
 package com.ykis.ykispam.theme
 
 import android.app.Activity
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import com.ykis.ykispam.*
 
 // Material 3 color schemes
 
@@ -35,7 +30,7 @@ private val LightColors = lightColorScheme(
     errorContainer = md_theme_light_errorContainer,
     onError = md_theme_light_onError,
     onErrorContainer = md_theme_light_onErrorContainer,
-    background = md_theme_light_primaryContainer,
+    background = md_theme_light_background,
     onBackground = md_theme_light_onBackground,
     surface = md_theme_light_surface,
     onSurface = md_theme_light_onSurface,
@@ -68,7 +63,7 @@ private val DarkColors = darkColorScheme(
     errorContainer = md_theme_dark_errorContainer,
     onError = md_theme_dark_onError,
     onErrorContainer = md_theme_dark_onErrorContainer,
-    background = md_theme_dark_primaryContainer,
+    background = md_theme_dark_background,
     onBackground = md_theme_dark_onBackground,
     surface = md_theme_dark_surface,
     onSurface = md_theme_dark_onSurface,

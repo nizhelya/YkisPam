@@ -56,7 +56,7 @@ val NAV_BAR_DESTINATIONS = listOf(
         labelId = R.string.house
     ),
     TopLevelDestination(
-        route = METER_SCREEN,
+        route = ADD_APARTMENT_SCREEN,
         selectedIcon = Icons.Outlined.Church ,
         unselectedIcon = Icons.Outlined.Church,
         labelId = R.string.meters
