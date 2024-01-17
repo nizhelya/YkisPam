@@ -8,11 +8,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import androidx.window.layout.DisplayFeature
 import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.pam.screens.launch.LaunchScreen
-import com.ykis.ykispam.pam.screens.meter.water.WaterScreen
 import com.ykis.ykispam.rememberAppState
 
 object Graph {
@@ -30,10 +28,8 @@ fun RootNavGraph(
     navigationType: NavigationType,
     getApartments: () -> Unit,
     closeDetailScreen: () -> Unit,
-//    navigateToDestination: (String) -> Unit,
     setApartment: (Int) -> Unit,
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
-    onDrawerClicked: () -> Unit = {},
 ) {
     val appState = rememberAppState(navController)
     NavHost(
@@ -50,18 +46,17 @@ fun RootNavGraph(
 
         authNavGraph(appState)
 
-        composable(
-            route = "$WATER_SCREEN$ADDRESS_ID_ARG",
-            arguments = listOf(navArgument(ADDRESS_ID) { defaultValue = ADDRESS_DEFAULT_ID })
-        ) {
-            WaterScreen(
-                popUpScreen = { appState.popUp() },
-                addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID
-            )
-        }
+//        composable(
+//            route = "$WATER_SCREEN$ADDRESS_ID_ARG",
+//            arguments = listOf(navArgument(ADDRESS_ID) { defaultValue = ADDRESS_DEFAULT_ID })
+//        ) {
+//            WaterScreen(
+//                popUpScreen = { appState.popUp() },
+//                addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID
+//            )
+//        }
         composable(route= Graph.APARTMENT){
             MainApartmentScreen(
-                appState = appState,
                 contentType =contentType ,
                 navigationType = navigationType,
                 displayFeatures = displayFeatures,

@@ -109,6 +109,7 @@ fun ApartmentNavigationRail(
                             NavigationDrawerItem(
                                 modifier = Modifier
                                     .fillMaxWidth(),
+                                // TODO: selected destination maybe always the same value  
                                 selected = baseUIState.selectedDestination == "$APARTMENT_SCREEN?$ADDRESS_ID={${it.addressId}}",
                                 label = {
                                     Text(

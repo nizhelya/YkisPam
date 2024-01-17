@@ -30,7 +30,6 @@ fun YkisPamApp(
     windowSize: WindowSizeClass,
     displayFeatures: List<DisplayFeature>,
     baseUIState: BaseUIState,
-    isUserSignedOut: Boolean,
     getApartments: () -> Unit,
     closeDetailScreen: () -> Unit = {},
     setApartment: (Int) -> Unit,
@@ -86,7 +85,6 @@ fun YkisPamApp(
     }
     RootNavGraph(
         modifier = Modifier,
-//        appState = appState,
         baseUIState = baseUIState,
         contentType = contentType,
         displayFeatures = displayFeatures,
@@ -94,10 +92,8 @@ fun YkisPamApp(
         getApartments = getApartments,
         closeDetailScreen = closeDetailScreen,
         // TODO: опустить ету переменную  
-//        navigateToDestination = appState::navigateTo,
         setApartment = setApartment,
         navigateToDetail = navigateToDetail,
-        onDrawerClicked = {},
     )
 }
 @Composable

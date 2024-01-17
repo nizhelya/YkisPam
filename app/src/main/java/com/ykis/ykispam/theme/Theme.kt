@@ -131,3 +131,20 @@ fun YkisPAMTheme(
         shapes = shapes
     )
 }
+//@Composable
+//fun YkisPAMTheme(
+//    useDarkTheme: Boolean = isSystemInDarkTheme(),
+//    content: @Composable() () -> Unit
+//) {
+//    val colors = if (!useDarkTheme) {
+//        LightColors
+//    } else {
+//        DarkColors
+//    }
+//
+//    MaterialTheme(
+//        colorScheme = colors,
+//        content = content,
+//        shapes = shapes
+//    )
+//}

@@ -36,13 +36,10 @@ class MainActivity : ComponentActivity() {
                 val windowSize = calculateWindowSizeClass(this)
                 val displayFeatures = calculateDisplayFeatures(this)
                 val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-                val isUserSignedOut = viewModel.getAuthState().collectAsStateWithLifecycle().value
-
                 YkisPamApp(
                     windowSize = windowSize,
                     displayFeatures = displayFeatures,
                     baseUIState = uiState,
-                    isUserSignedOut = isUserSignedOut,
                     getApartments = {
                         viewModel.initialize()
                     },
