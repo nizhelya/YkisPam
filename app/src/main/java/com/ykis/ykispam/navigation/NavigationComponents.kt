@@ -251,7 +251,6 @@ fun PermanentNavigationDrawerContent(
     closeDetailScreen: () -> Unit,
 ) {
     PermanentDrawerSheet(modifier = Modifier.sizeIn(minWidth = 200.dp, maxWidth = 300.dp)) {
-        // TODO remove custom nav drawer content positioning when NavDrawer component supports it. ticket : b/232495216
         Layout(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.surfaceVariant)
@@ -404,7 +403,6 @@ fun ModalNavigationDrawerContent(
         Layout(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.inverseOnSurface),
-//                .padding(start = 16.dp, top = 4.dp, end = 16.dp, bottom = 8.dp),
             content = {
                 Column(
                     modifier = Modifier.layoutId(LayoutType.HEADER),

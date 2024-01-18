@@ -15,7 +15,6 @@ import androidx.navigation.NavHostController
 import androidx.window.layout.DisplayFeature
 import androidx.window.layout.FoldingFeature
 import com.ykis.ykispam.core.snackbar.SnackbarManager
-import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.navigation.DevicePosture
 import com.ykis.ykispam.navigation.NavigationType
@@ -29,11 +28,11 @@ import kotlinx.coroutines.CoroutineScope
 fun YkisPamApp(
     windowSize: WindowSizeClass,
     displayFeatures: List<DisplayFeature>,
-    baseUIState: BaseUIState,
-    getApartments: () -> Unit,
-    closeDetailScreen: () -> Unit = {},
-    setApartment: (Int) -> Unit,
-    navigateToDetail: (ContentDetail, ContentType) -> Unit = { _, _ -> },
+//    baseUIState: BaseUIState,
+//    getApartments: () -> Unit,
+//    closeDetailScreen: () -> Unit = {},
+//    setApartment: (Int) -> Unit,
+//    navigateToDetail: (ContentDetail, ContentType) -> Unit = { _, _ -> },
 ) {
     val navigationType: NavigationType
     val contentType: ContentType
@@ -85,15 +84,9 @@ fun YkisPamApp(
     }
     RootNavGraph(
         modifier = Modifier,
-        baseUIState = baseUIState,
         contentType = contentType,
         displayFeatures = displayFeatures,
         navigationType = navigationType,
-        getApartments = getApartments,
-        closeDetailScreen = closeDetailScreen,
-        // TODO: опустить ету переменную  
-        setApartment = setApartment,
-        navigateToDetail = navigateToDetail,
     )
 }
 @Composable

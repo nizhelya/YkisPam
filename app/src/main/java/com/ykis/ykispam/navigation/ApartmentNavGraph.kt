@@ -1,6 +1,5 @@
 package com.ykis.ykispam.navigation
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
@@ -10,6 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -26,10 +26,10 @@ import com.ykis.ykispam.firebase.screens.profile.ProfileScreen
 import com.ykis.ykispam.firebase.screens.settings.SettingsScreen
 import com.ykis.ykispam.pam.screens.appartment.AddApartmentScreen
 import com.ykis.ykispam.pam.screens.appartment.ApartmentScreen
+import com.ykis.ykispam.pam.screens.appartment.ApartmentViewModel
 import com.ykis.ykispam.pam.screens.launch.LaunchScreen
 import com.ykis.ykispam.pam.screens.meter.MeterScreen
 import com.ykis.ykispam.pam.screens.service.ServiceListScreen
-import com.ykis.ykispam.pam.screens.service.ServiceViewModel
 import com.ykis.ykispam.rememberAppState
 import kotlinx.coroutines.launch
 
@@ -38,27 +38,18 @@ fun MainApartmentScreen(
     contentType: ContentType,
     navigationType: NavigationType,
     displayFeatures: List<DisplayFeature>,
-    baseUIState: BaseUIState,
-    getApartments: () -> Unit,
-    closeDetailScreen: () -> Unit,
     navigateToDestination: (String) -> Unit,
-    setApartment: (Int) -> Unit,
-    navigateToDetail: (ContentDetail, ContentType) -> Unit,
-    onDrawerClicked: () -> Unit = {},
     navController: NavHostController = rememberNavController(),
-//    selectedDestination:String
-    viewModel : ServiceViewModel = hiltViewModel()
+    viewModel : ApartmentViewModel = hiltViewModel()
 
 ) {
-    // TODO: remove appState
-    val appState = rememberAppState(navController)
-    val uiState by viewModel.uiState.collectAsState()
+    val baseUIState by viewModel.uiState.collectAsState()
     val drawerState = DrawerState(initialValue = DrawerValue.Closed)
-    val coroutineScope = appState.coroutineScope
+    val coroutineScope = rememberCoroutineScope()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val selectedDestination =
         navBackStackEntry?.destination?.route ?: baseUIState.selectedDestination
-    Log.d("test_nav2", "$navBackStackEntry\n$selectedDestination")
+
     ModalNavigationDrawer(
         drawerContent = {
                 ModalNavigationDrawerContent(
@@ -66,8 +57,8 @@ fun MainApartmentScreen(
                     selectedDestination = selectedDestination,
                     navigationContentPosition =NavigationContentPosition.TOP,
                     navigateToDestination = {navController.navigate(it)},
-                    closeDetailScreen = closeDetailScreen,
-                    setApartment=setApartment,
+                    closeDetailScreen = {viewModel.closeDetailScreen()},
+                    setApartment= {addressId ->viewModel.setApartment(addressId) },
                     onDrawerClicked = {
                         coroutineScope.launch {
                             drawerState.close()
@@ -96,21 +87,26 @@ fun MainApartmentScreen(
             navigationType = navigationType,
             displayFeatures = displayFeatures,
             baseUIState = baseUIState,
-            getApartments = getApartments,
-            closeDetailScreen = closeDetailScreen,
-            navigateToDestination = navigateToDestination,
-            setApartment = setApartment,
-            navigateToDetail = navigateToDetail,
-            navController = navController
+            closeDetailScreen = {viewModel.closeDetailScreen()},
+            setApartment = {addressId ->viewModel.setApartment(addressId) },
+            navigateToDetail = {contentDetail, pane ->  viewModel.setSelectedDetail(contentDetail, pane) },
+            getApartments = {viewModel.initialize()},
+            navController = navController,
+            deleteApartment = {addressId, restartApp ->  viewModel.deleteApartment(addressId, restartApp)},
+            onDrawerClicked = {
+                coroutineScope.launch {
+                    drawerState.open()
+                }
+            }
         )
         if (navigationType != NavigationType.BOTTOM_NAVIGATION) {
             ApartmentNavigationRail(
                 baseUIState = baseUIState,
                 selectedDestination = selectedDestination,
                 navigationContentPosition = NavigationContentPosition.TOP,
-                closeDetailScreen = closeDetailScreen,
+                closeDetailScreen = {viewModel.closeDetailScreen()},
                 navigateToDestination = { navController.navigate(it) },
-                setApartment = setApartment
+                setApartment = {addressId ->viewModel.setApartment(addressId) }
             )
         }
     }
@@ -120,18 +116,17 @@ fun MainApartmentScreen(
 @Composable
 fun ApartmentNavGraph(
     modifier: Modifier = Modifier,
-//    appState: YkisPamAppState,
     contentType: ContentType,
     navigationType: NavigationType,
     displayFeatures: List<DisplayFeature>,
     baseUIState: BaseUIState,
     getApartments: () -> Unit,
     closeDetailScreen: () -> Unit,
-    navigateToDestination: (String) -> Unit,
     setApartment: (Int) -> Unit,
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
     onDrawerClicked: () -> Unit = {},
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    deleteApartment: (addressId: Int, restartApp: (String) -> Unit) ->Unit
 ) {
     val appState = rememberAppState(navController)
     NavHost(
@@ -200,6 +195,7 @@ fun ApartmentNavGraph(
                 navigateToDetail = navigateToDetail,
                 addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID,
                 onDrawerClicked = onDrawerClicked,
+                deleteApartment = deleteApartment
             )
         }
         composable(METER_SCREEN) {
