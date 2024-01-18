@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
@@ -47,8 +46,7 @@ fun ApartmentScreen(
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
     addressId: String,
     onDrawerClicked: () -> Unit = {},
-    viewModel: ApartmentViewModel = hiltViewModel()
-
+    deleteApartment:(addressId: Int, restartApp: (String) -> Unit)->Unit
 
 ) {
 
@@ -75,7 +73,7 @@ if (contentType == ContentType.DUAL_PANE) {
                 contentType = contentType,
                 appState = appState,
                 baseUIState = baseUIState,
-                deleteApartment = { viewModel.deleteApartment(addressId.toInt(), restartApp) },
+                deleteApartment = { deleteApartment(addressId.toInt(), restartApp) },
                 navigateToDetail = navigateToDetail,
             )
         },
@@ -98,7 +96,7 @@ if (contentType == ContentType.DUAL_PANE) {
             appState = appState,
             baseUIState = baseUIState,
             closeDetailScreen = closeDetailScreen,
-            deleteApartment = { viewModel.deleteApartment(baseUIState.addressId, restartApp) },
+            deleteApartment = { deleteApartment(baseUIState.addressId, restartApp) },
             navigateToDetail = navigateToDetail,
             onDrawerClicked = onDrawerClicked,
 //                navigateBack = { viewModel.navigateBack(popUpScreen) }

@@ -74,9 +74,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.R
 import com.ykis.ykispam.navigation.ContentDetail
-import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.pam.domain.service.ServiceEntity
-import com.ykis.ykispam.pam.screens.family.FamilyListItem
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -193,7 +191,7 @@ fun ServiceDetailItem(
                     value2 = serviceEntity.oplacheno2.toString(),
                     value3 = serviceEntity.oplacheno3.toString(),
                     value4 = serviceEntity.oplacheno4.toString(),
-                    header = stringResource(id = R.string.accured_text),
+                    header = stringResource(id = R.string.accrued_text),
                     summary = serviceEntity.oplacheno.toString()
 
                 )

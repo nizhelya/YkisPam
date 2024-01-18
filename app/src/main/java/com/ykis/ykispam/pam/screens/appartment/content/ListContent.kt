@@ -3,7 +3,6 @@ package com.ykis.ykispam.pam.screens.appartment.content
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,7 +26,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,7 +34,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.BaseUIState
@@ -64,16 +61,13 @@ fun ListContent(
     val yes: Byte = 1
     Row(
         modifier = Modifier
-            .padding(PaddingValues(4.dp))
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.inverseOnSurface),
+            .fillMaxSize(),
         verticalAlignment = Alignment.Top,
         horizontalArrangement = Arrangement.Center
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.inverseOnSurface),
+                .fillMaxWidth(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -89,20 +83,17 @@ fun ListContent(
             )
             Row(
                 modifier = Modifier
-                    .padding(PaddingValues(4.dp))
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.inverseOnSurface),
+                    .fillMaxSize(),
 
                 verticalAlignment = Alignment.Top,
                 horizontalArrangement = Arrangement.Center
             ) {
                 Column(
                     modifier = Modifier
-                        .padding(PaddingValues(4.dp))
                         .verticalScroll(rememberScrollState())
                         .fillMaxWidth()
                         .fillMaxHeight()
-                        .background(MaterialTheme.colorScheme.inverseOnSurface),
+                    ,
 
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.CenterHorizontally

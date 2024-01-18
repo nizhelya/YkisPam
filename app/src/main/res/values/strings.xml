@@ -4,11 +4,8 @@
 
 <!--    Навигация-->
     <string name="navigation_drawer">Navigation Drawer</string>
-    <string name="tab_settings">Налаштування</string>
-    <string name="tab_osbb">ОСББ</string>
-    <string name="tab_message">Повідомлення</string>
-    <string name="tab_chat">Чат ОСББ</string>
-    <string name="tab_account">Аккаунт</string>
+    <string name="chat">Чат</string>
+    <string name="account">Аккаунт</string>
     <string name="empty_screen_title">Екран у стадії розробки</string>
     <string name="empty_screen_subtitle">Цей екран все ще розробляється.</string>
 
@@ -197,7 +194,7 @@
     <string name="podnan_text">Піднаймач:</string>
     <string name="absent_text">Відсутні:</string>
     <string name="total_debt_text">Усього до сплати:</string>
-    <string name="accrued">Нарахування</string>
+    <string name="accrued">Платіжка</string>
     <string name="payment_list">Платежі</string>
     <string name="kvartplata_text">Внески:</string>
     <string name="vneski">Внески</string>
@@ -215,7 +212,7 @@
     <string name="summary">Усього:</string>
     <string name="payment_text">Платіж від:</string>
     <string name="start_debt">Борг на\nпочаток</string>
-    <string name="accured_text">Нарахо-\nвано</string>
+    <string name="accrued_text">Нарахо-\nвано</string>
     <string name="end_debt">Борг на\nкінець</string>
     <string name="services">Послуги\n </string>
     <string name="refund">Відшкодування</string>

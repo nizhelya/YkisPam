@@ -34,7 +34,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MenuOpen
 import androidx.compose.material.icons.twotone.Apartment
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -110,6 +109,7 @@ fun ApartmentNavigationRail(
                             NavigationDrawerItem(
                                 modifier = Modifier
                                     .fillMaxWidth(),
+                                // TODO: selected destination maybe always the same value  
                                 selected = baseUIState.selectedDestination == "$APARTMENT_SCREEN?$ADDRESS_ID={${it.addressId}}",
                                 label = {
                                     Text(
@@ -146,7 +146,7 @@ fun ApartmentNavigationRail(
                         .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    TOP_LEVEL_DESTINATIONS.forEach { replyDestination ->
+                    NAV_RAIL_DESTINATIONS.forEach { replyDestination ->
 
                         NavigationDrawerItem(
                             modifier = Modifier
@@ -154,7 +154,7 @@ fun ApartmentNavigationRail(
                             selected = selectedDestination == replyDestination.route,
                             label = {
                                 Text(
-                                    text = stringResource(id = replyDestination.iconTextId),
+                                    text = stringResource(id = replyDestination.labelId),
                                     modifier = Modifier.padding(horizontal = 16.dp)
                                 )
                             },
@@ -162,7 +162,7 @@ fun ApartmentNavigationRail(
                                 Icon(
                                     imageVector = replyDestination.selectedIcon,
                                     contentDescription = stringResource(
-                                        id = replyDestination.iconTextId
+                                        id = replyDestination.labelId
                                     )
                                 )
                             },
@@ -216,25 +216,31 @@ fun ApartmentNavigationRail(
 fun BottomNavigationBar(
     navigateToDestination: (String) -> Unit,
     selectedDestination: String,
+    onClick:(String) -> Unit
 ) {
     NavigationBar(modifier = Modifier.fillMaxWidth()) {
-        TOP_LEVEL_DESTINATIONS.forEach { destination ->
-            if (destination.vkl) {
+        NAV_BAR_DESTINATIONS.forEach { destination ->
                 NavigationBarItem(
-                    selected = selectedDestination == destination.route,
-                    onClick = { navigateToDestination(destination.route) },
+                    selected = selectedDestination.substringBefore("?") == destination.route,
+                    onClick = {
+//                        navigateToDestination(destination.route)
+                            onClick(destination.route)
+                              },
 
                     icon = {
                         Icon(
-                            imageVector = destination.selectedIcon,
-                            contentDescription = stringResource(id = destination.iconTextId)
+                            imageVector = if(selectedDestination.substringBefore("?") == destination.route){
+                                destination.selectedIcon
+                            }else destination.unselectedIcon,
+                            contentDescription = stringResource(id = destination.labelId)
                         )
-                    }
+                    },
+                    alwaysShowLabel = true,
+                    label = {Text(text =  stringResource(destination.labelId))}
                 )
             }
         }
     }
-}
 
 @Composable
 fun PermanentNavigationDrawerContent(
@@ -245,7 +251,6 @@ fun PermanentNavigationDrawerContent(
     closeDetailScreen: () -> Unit,
 ) {
     PermanentDrawerSheet(modifier = Modifier.sizeIn(minWidth = 200.dp, maxWidth = 300.dp)) {
-        // TODO remove custom nav drawer content positioning when NavDrawer component supports it. ticket : b/232495216
         Layout(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.surfaceVariant)
@@ -313,7 +318,7 @@ fun PermanentNavigationDrawerContent(
                         .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    TOP_LEVEL_DESTINATIONS.forEach { destination ->
+                    NAV_RAIL_DESTINATIONS.forEach { destination ->
                         NavigationDrawerItem(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -321,7 +326,7 @@ fun PermanentNavigationDrawerContent(
                             selected = selectedDestination == destination.route,
                             label = {
                                 Text(
-                                    text = stringResource(id = destination.iconTextId),
+                                    text = stringResource(id = destination.labelId),
                                     modifier = Modifier.padding(horizontal = 16.dp),
                                     color = MaterialTheme.colorScheme.onTertiaryContainer
                                 )
@@ -330,7 +335,7 @@ fun PermanentNavigationDrawerContent(
                                 Icon(
                                     imageVector = destination.selectedIcon,
                                     contentDescription = stringResource(
-                                        id = destination.iconTextId
+                                        id = destination.labelId
                                     ),
                                     tint = MaterialTheme.colorScheme.onTertiaryContainer
                                 )
@@ -398,7 +403,6 @@ fun ModalNavigationDrawerContent(
         Layout(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.inverseOnSurface),
-//                .padding(start = 16.dp, top = 4.dp, end = 16.dp, bottom = 8.dp),
             content = {
                 Column(
                     modifier = Modifier.layoutId(LayoutType.HEADER),
@@ -419,6 +423,7 @@ fun ModalNavigationDrawerContent(
                             )
                         }
                     }
+                    // TODO: remove lazyliststate
                     val apartmentLazyListState = rememberLazyListState()
                     LazyColumn(
                         horizontalAlignment = Alignment.Start,
@@ -466,14 +471,14 @@ fun ModalNavigationDrawerContent(
                         .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    TOP_LEVEL_DESTINATIONS.forEach { destination ->
+                    NAV_RAIL_DESTINATIONS.forEach { destination ->
                         NavigationDrawerItem(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             selected = selectedDestination == destination.route,
                             label = {
                                 Text(
-                                    text = stringResource(id = destination.iconTextId),
+                                    text = stringResource(id = destination.labelId),
                                     modifier = Modifier.padding(horizontal = 16.dp)
                                 )
                             },
@@ -481,7 +486,7 @@ fun ModalNavigationDrawerContent(
                                 Icon(
                                     imageVector = destination.selectedIcon,
                                     contentDescription = stringResource(
-                                        id = destination.iconTextId
+                                        id = destination.labelId
                                     )
                                 )
                             },

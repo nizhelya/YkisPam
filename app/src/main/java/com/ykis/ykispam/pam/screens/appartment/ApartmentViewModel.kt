@@ -34,7 +34,7 @@ import com.ykis.ykispam.navigation.ADDRESS_ID
 import com.ykis.ykispam.navigation.APARTMENT_SCREEN
 import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.ContentType
-import com.ykis.ykispam.navigation.SIGN_IN_SCREEN
+import com.ykis.ykispam.navigation.Graph
 import com.ykis.ykispam.navigation.LAUNCH_SCREEN
 import com.ykis.ykispam.navigation.VERIFY_EMAIL_SCREEN
 import com.ykis.ykispam.pam.data.cache.apartment.ApartmentCacheImpl
@@ -112,11 +112,12 @@ class ApartmentViewModel @Inject constructor(
     ) {
         showError.value = false
         if (isUserSignedOut) {
-            restartApp(SIGN_IN_SCREEN)
+            restartApp(Graph.AUTHENTICATION)
         } else {
             if (isEmailVerified) {
-                restartApp(APARTMENT_SCREEN)
+                restartApp(Graph.APARTMENT)
             } else {
+                // TODO: make this with authNavGraph
                 openAndPopUp(VERIFY_EMAIL_SCREEN, LAUNCH_SCREEN)
 
             }

@@ -27,6 +27,8 @@ const val ADD_APARTMENT_SCREEN = "AddApartmentScreen"
 const val BTI_SCREEN = "BtiScreen"
 const val FAMILY_SCREEN = "FamilyScreen"
 const val WATER_SCREEN = "WaterScreen"
+const val METER_SCREEN = "MeterScreen"
+const val SERVICE_LIST_SCREEN = "ServiceListScreen"
 const val SERVICE_DETAIL_SCREEN ="ServiceDetailScreen"
 
 

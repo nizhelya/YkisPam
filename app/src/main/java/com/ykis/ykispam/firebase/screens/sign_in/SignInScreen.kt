@@ -47,6 +47,7 @@ import com.ykis.ykispam.R.string as AppText
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SignInScreen(
+    //почему две функции
     openScreen: (String) -> Unit,
     navigateToDestination: (String) -> Unit,
     modifier: Modifier = Modifier,

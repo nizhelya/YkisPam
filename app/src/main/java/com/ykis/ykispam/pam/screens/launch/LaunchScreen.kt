@@ -2,8 +2,7 @@ package com.ykis.ykispam.pam.screens.launch
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -31,8 +30,7 @@ fun LaunchScreen(
     Column(
         modifier =
         modifier
-            .fillMaxWidth()
-            .fillMaxHeight(),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -42,7 +40,7 @@ fun LaunchScreen(
                 viewModel.onAppStart(isUserSignedOut, openAndPopUp,restartApp)
             }
         } else {
-            CircularProgressIndicator(color = MaterialTheme.colorScheme.onBackground)
+            CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
         }
     }
     LaunchedEffect(key1 = isUserSignedOut) {

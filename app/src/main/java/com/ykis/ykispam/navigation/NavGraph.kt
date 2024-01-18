@@ -1,137 +1,57 @@
 package com.ykis.ykispam.navigation
 
-import androidx.navigation.NavGraphBuilder
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
+import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
-import com.ykis.ykispam.BaseUIState
-import com.ykis.ykispam.YkisPamAppState
-import com.ykis.ykispam.firebase.screens.profile.ProfileScreen
-import com.ykis.ykispam.firebase.screens.settings.SettingsScreen
-import com.ykis.ykispam.firebase.screens.sign_in.SignInScreen
-import com.ykis.ykispam.firebase.screens.sign_up.SignUpScreen
-import com.ykis.ykispam.firebase.screens.verify_email.VerifyEmailScreen
-import com.ykis.ykispam.pam.screens.appartment.AddApartmentScreen
-import com.ykis.ykispam.pam.screens.appartment.ApartmentScreen
 import com.ykis.ykispam.pam.screens.launch.LaunchScreen
-import com.ykis.ykispam.pam.screens.meter.water.WaterScreen
+import com.ykis.ykispam.rememberAppState
 
-
-fun NavGraphBuilder.YkisPamGraph(
-    contentType: ContentType,
-    navigationType: NavigationType,
-    displayFeatures: List<DisplayFeature>,
-    appState: YkisPamAppState,
-    baseUIState: BaseUIState,
-    getApartments: () -> Unit,
-    closeDetailScreen: () -> Unit,
-    navigateToDestination: (String) -> Unit,
-    setApartment: (Int) -> Unit ,
-    navigateToDetail: (ContentDetail, ContentType) -> Unit,
-    onDrawerClicked: () -> Unit = {}
-
-) {
-
-    composable(LAUNCH_SCREEN) {
-        LaunchScreen(
-            restartApp = { route -> appState.clearAndNavigate(route) },
-            openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) },
-        )
-    }
-
-
-    composable(
-        route = "$WATER_SCREEN$ADDRESS_ID_ARG",
-        arguments = listOf(navArgument(ADDRESS_ID) { defaultValue = ADDRESS_DEFAULT_ID })
-    ) {
-        WaterScreen(
-            popUpScreen = { appState.popUp() },
-            addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID
-        )
-    }
-
-    composable(YkisRoute.ACCOUNT) {
-        ProfileScreen(
-            appState = appState,
-            popUpScreen = { appState.popUp() },
-            navigateToDestination = navigateToDestination
-        )
-    }
-
-    composable(YkisRoute.CHAT) {
-        EmptyScreen(
-            popUpScreen = { appState.popUp() },
-        )
-    }
-    composable(YkisRoute.MESSAGE) {
-        EmptyScreen(
-            popUpScreen = { appState.popUp() },
-        )
-    }
-    composable(YkisRoute.OSBB) {
-        EmptyScreen(
-            popUpScreen = { appState.popUp() },
-        )
-    }
-    composable(SIGN_UP_SCREEN) {
-        SignUpScreen(
-            openScreen = { route -> appState.navigate(route) },
-        )
-    }
-    composable(VERIFY_EMAIL_SCREEN) {
-        VerifyEmailScreen(restartApp = { route -> appState.clearAndNavigate(route) })
-    }
-
-    composable(SIGN_IN_SCREEN) {
-        SignInScreen(
-            openScreen = { route -> appState.navigate(route) },
-            navigateToDestination = navigateToDestination
-
-        )
-
-    }
-    composable(YkisRoute.EXITAPP) {
-        LaunchScreen(
-            restartApp = { route -> appState.clearAndNavigate(route) },
-            openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) },
-        )
-    }
-    composable(ADD_APARTMENT_SCREEN) {
-        AddApartmentScreen(
-            popUpScreen = { appState.popUp() },
-            restartApp = { route -> appState.clearAndNavigate(route) },
-        )
-
-    }
-
-    composable(YkisRoute.SETTINGS) {
-        SettingsScreen(popUpScreen = { appState.popUp() })
-    }
-
-    composable(
-        route = "$APARTMENT_SCREEN$ADDRESS_ID_ARG",
-        arguments = listOf(
-            navArgument(ADDRESS_ID) { defaultValue = ADDRESS_DEFAULT_ID },
-        )
-    ) {
-        ApartmentScreen(
-            openScreen = { route -> appState.navigate(route) },
-            restartApp = { route -> appState.clearAndNavigate(route) },
-            appState = appState,
-            contentType = contentType,
-            baseUIState = baseUIState,
-            navigationType = navigationType,
-            displayFeatures = displayFeatures,
-            closeDetailScreen = closeDetailScreen,
-            getApartments = getApartments,
-            setApartment = setApartment,
-            navigateToDetail = navigateToDetail,
-            addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID,
-            onDrawerClicked = onDrawerClicked,
-        )
-    }
-
+object Graph {
+    const val AUTHENTICATION = "auth_graph"
+    const val APARTMENT = "apartment_graph"
 }
+@Composable
+fun RootNavGraph(
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController(),
+    contentType: ContentType,
+    displayFeatures: List<DisplayFeature>,
+    navigationType: NavigationType,
+) {
+    val appState = rememberAppState(navController)
+    Scaffold { paddingValues ->
+        NavHost(
+            modifier = modifier
+                .padding(paddingValues = paddingValues),
+            navController = navController,
+            startDestination = LAUNCH_SCREEN,
+        ) {
+            composable(LAUNCH_SCREEN) {
+                LaunchScreen(
+                    restartApp = { route -> appState.clearAndNavigate(route) },
+                    openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) },
+                )
+            }
+
+            authNavGraph(appState)
+            composable(route = Graph.APARTMENT) {
+                MainApartmentScreen(
+                    contentType = contentType,
+                    navigationType = navigationType,
+                    displayFeatures = displayFeatures,
+                    navigateToDestination = appState::navigateTo,
+                )
+            }
+        }
+    }
+}
+
 
 
 
