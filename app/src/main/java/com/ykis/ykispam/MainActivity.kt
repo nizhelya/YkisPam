@@ -38,6 +38,9 @@ class MainActivity : ComponentActivity() {
                     getApartments = {
                         viewModel.initialize()
                     },
+//                    deleteApartments = {addressId ->
+//                        viewModel.deleteApartment(addressId)
+//                    },
                     closeDetailScreen = {
                         viewModel.closeDetailScreen()
                     },

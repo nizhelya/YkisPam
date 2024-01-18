@@ -1,6 +1,5 @@
 package com.ykis.ykispam.firebase.screens.sign_up
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -18,7 +17,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -31,7 +29,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.core.composable.BasicLinkButton
 import com.ykis.ykispam.core.composable.EmailField
 import com.ykis.ykispam.core.composable.LogoImage
@@ -43,13 +40,10 @@ import com.ykis.ykispam.core.ext.spacer
 import com.ykis.ykispam.core.ext.textButton
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.firebase.screens.sign_up.components.AgreementChekBox
-import com.ykis.ykispam.firebase.screens.sign_up.components.SendEmailVerification
 import com.ykis.ykispam.firebase.screens.sign_up.components.SignUp
 import com.ykis.ykispam.firebase.screens.sign_up.components.SignUpTopBar
-import kotlinx.coroutines.delay
 import com.ykis.ykispam.R.drawable as AppIcon
 import com.ykis.ykispam.R.string as AppText
-import com.ykis.ykispam.R.xml as AppConfig
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -150,8 +144,11 @@ fun SignUpScreen(
         },
         showVerifyEmailMessage = {
             SnackbarManager.showMessage(AppText.verify_email_message)
+        },
+        showErrorMessage = { errorMessage ->
+            SnackbarManager.showMessage(errorMessage)
         }
     )
 
-    SendEmailVerification()
+//    SendEmailVerification()
 }

@@ -11,9 +11,11 @@ import com.ykis.ykispam.firebase.screens.sign_up.SignUpViewModel
 fun SignUp(
     viewModel: SignUpViewModel = hiltViewModel(),
     sendEmailVerification: () -> Unit,
-    showVerifyEmailMessage: () -> Unit
+    showVerifyEmailMessage: () -> Unit,
+    showErrorMessage: (String) -> Unit
+
 ) {
-    when (val signUpResponse = viewModel.signUpResponse) {
+    when(val signUpResponse = viewModel.signUpResponse) {
         is Response.Loading -> ProgressBar()
         is Response.Success -> {
             val isUserSignedUp = signUpResponse.data
@@ -24,10 +26,10 @@ fun SignUp(
                 }
             }
         }
-
         is Response.Failure -> signUpResponse.apply {
             LaunchedEffect(e) {
                 print(e)
+                e.message?.let { showErrorMessage(it) }
             }
         }
     }

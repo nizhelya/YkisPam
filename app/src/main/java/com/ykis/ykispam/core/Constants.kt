@@ -8,8 +8,8 @@ object Constants {
     const val SIGN_IN = "Sign in"
     const val RESET_PASSWORD = "Reset"
     const val SIGN_UP = "Sign up"
-    const val SIGN_OUT = "Sign out"
-    const val REVOKE_ACCESS = "Revoke Access"
+    const val SIGN_OUT = "Вийти з аккаунта"
+    const val REVOKE_ACCESS = "Скасувати доступ"
 
     //Screens
     const val SIGN_IN_SCREEN = "Sign in"
@@ -40,7 +40,7 @@ object Constants {
     const val VERIFY_EMAIL_MESSAGE = "We've sent you an email with a link to verify the email."
     const val EMAIL_NOT_VERIFIED_MESSAGE = "Your email is not verified."
     const val RESET_PASSWORD_MESSAGE = "We've sent you an email with a link to reset the password."
-    const val REVOKE_ACCESS_MESSAGE = "You need to re-authenticate before revoking the access."
+    const val REVOKE_ACCESS_MESSAGE = "Вам потрібно повторно автентифікуватися, перш ніж скасувати доступ."
     const val ACCESS_REVOKED_MESSAGE = "Your access has been revoked."
 
     //Error Messages
@@ -69,5 +69,6 @@ object Constants {
     const val INCORRECT_CODE = "IncorrectCode"
     const val NO_FLAT_DELETE = "Failed to delete apartment"
     const val NO_USER_IDENTIFIER = "There is no user record corresponding to this identifier. The user may have been deleted."
+
     const val PASSWORD_FAILURE  = "The password is invalid or the user does not have a password."
 }

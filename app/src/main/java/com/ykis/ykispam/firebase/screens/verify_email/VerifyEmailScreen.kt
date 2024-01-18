@@ -24,13 +24,14 @@ import com.ykis.ykispam.core.composable.BasicToolbar
 import com.ykis.ykispam.core.composable.LogoImage
 import com.ykis.ykispam.core.ext.spacer
 import com.ykis.ykispam.core.snackbar.SnackbarManager
-import com.ykis.ykispam.firebase.screens.profile.ProfileViewModel
+import com.ykis.ykispam.firebase.screens.sign_up.SignUpViewModel
+import com.ykis.ykispam.firebase.screens.verify_email.components.SendEmailVerification
 import com.ykis.ykispam.firebase.screens.verify_email.components.ReloadUser
 import com.ykis.ykispam.R.string as AppText
 
 @Composable
 fun VerifyEmailScreen(
-    viewModel: ProfileViewModel = hiltViewModel(),
+    viewModel: SignUpViewModel = hiltViewModel(),
     restartApp: (String) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -74,10 +75,20 @@ fun VerifyEmailScreen(
             textDecoration = TextDecoration.Underline
         )
     }
+    SendEmailVerification(
+        navigateToLaunchScreen = {
+            if (viewModel.isEmailVerified) {
+                viewModel.navigateToLaunchScreen(restartApp)
+            } else {
+                SnackbarManager.showMessage(AppText.email_not_verified_message)
+
+            }        }
+    )
+
     ReloadUser(
         navigateToProfileScreen = {
             if (viewModel.isEmailVerified) {
-                viewModel.navigateToProfileScreen(restartApp)
+                viewModel.navigateToLaunchScreen(restartApp)
             } else {
                 SnackbarManager.showMessage(AppText.email_not_verified_message)
 

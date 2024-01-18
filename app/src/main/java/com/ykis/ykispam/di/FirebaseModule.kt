@@ -51,13 +51,15 @@ import javax.inject.Named
 @InstallIn(SingletonComponent::class)
 //@InstallIn(ViewModelComponent::class)
 
-object FirebaseModule {
+class FirebaseModule {
     @Provides
-    fun auth(): FirebaseAuth = Firebase.auth
+//    fun auth(): FirebaseAuth = Firebase.auth
+    fun provideFirebaseAuth() = Firebase.auth
+
 
     @Provides
-    fun firestore(): FirebaseFirestore = Firebase.firestore
-
+//    fun firestore(): FirebaseFirestore = Firebase.firestore
+    fun provideFirebaseFirestore() = Firebase.firestore
 
     @Provides
     fun provideOneTapClient(
@@ -65,8 +67,21 @@ object FirebaseModule {
         context: Context
     ) = Identity.getSignInClient(context)
 
+
     @Provides
     @Named(SIGN_IN_REQUEST)
+//    fun provideSignInRequest(
+//        app: Application
+//    ) = BeginSignInRequest.builder()
+//        .setGoogleIdTokenRequestOptions(
+//            BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+//                .setSupported(true)
+//                .setServerClientId(app.getString(R.string.web_client_id))
+//                .setFilterByAuthorizedAccounts(true)
+//                .build()
+//        )
+//        .setAutoSelectEnabled(true)
+//        .build()
     fun provideSignInRequest(
         app: Application
     ) = BeginSignInRequest.builder()
@@ -75,14 +90,23 @@ object FirebaseModule {
                 .setSupported(true)
                 .setServerClientId(app.getString(R.string.web_client_id))
                 .setFilterByAuthorizedAccounts(true)
-                .build()
-        )
+                .build())
         .setAutoSelectEnabled(true)
         .build()
 
-
     @Provides
     @Named(SIGN_UP_REQUEST)
+//    fun provideSignUpRequest(
+//        app: Application
+//    ) = BeginSignInRequest.builder()
+//        .setGoogleIdTokenRequestOptions(
+//            BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+//                .setSupported(true)
+//                .setServerClientId(app.getString(R.string.web_client_id))
+//                .setFilterByAuthorizedAccounts(false)
+//                .build()
+//        )
+//        .build()
     fun provideSignUpRequest(
         app: Application
     ) = BeginSignInRequest.builder()
@@ -91,24 +115,30 @@ object FirebaseModule {
                 .setSupported(true)
                 .setServerClientId(app.getString(R.string.web_client_id))
                 .setFilterByAuthorizedAccounts(false)
-                .build()
-        )
+                .build())
         .build()
-
     @Provides
+//    fun provideGoogleSignInOptions(
+//        app: Application
+//    ) = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//        .requestIdToken(app.getString(R.string.web_client_id))
+//        .requestEmail()
+//        .build()
     fun provideGoogleSignInOptions(
         app: Application
     ) = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
         .requestIdToken(app.getString(R.string.web_client_id))
         .requestEmail()
         .build()
-
     @Provides
+//    fun provideGoogleSignInClient(
+//        app: Application,
+//        options: GoogleSignInOptions
+//    ) = GoogleSignIn.getClient(app, options)
     fun provideGoogleSignInClient(
         app: Application,
         options: GoogleSignInOptions
     ) = GoogleSignIn.getClient(app, options)
-
     @Provides
     fun provideFirebaseService(
         auth: FirebaseAuth,
@@ -128,16 +158,8 @@ object FirebaseModule {
         db = db
     )
 
-
-
     @Provides
     fun provideLogService(): LogService = LogServiceImpl()
-//    @Provides
-//    fun provideEmailsRepository(): EmailsRepository = EmailsRepositoryImpl()
-//
-//    @Provides
-//    fun provideAccountRepository(): AccountsRepository = AccountsRepositoryImpl()
-
     @Provides
     fun provideConfigurationService(): ConfigurationService = ConfigurationServiceImpl()
 

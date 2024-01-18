@@ -20,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.ykis.ykispam.BaseViewModel
+import com.ykis.ykispam.R
 import com.ykis.ykispam.core.Response
 import com.ykis.ykispam.core.ext.isValidEmail
 import com.ykis.ykispam.core.ext.isValidPassword
@@ -28,11 +29,13 @@ import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.firebase.model.service.repo.ConfigurationService
 import com.ykis.ykispam.firebase.model.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.model.service.repo.LogService
+import com.ykis.ykispam.firebase.model.service.repo.ReloadUserResponse
 import com.ykis.ykispam.firebase.model.service.repo.SendEmailVerificationResponse
 import com.ykis.ykispam.firebase.model.service.repo.SignUpResponse
 import com.ykis.ykispam.firebase.screens.sign_up.components.SignUpUiState
 import com.ykis.ykispam.navigation.SIGN_IN_SCREEN
 import com.ykis.ykispam.navigation.LAUNCH_SCREEN
+import com.ykis.ykispam.navigation.YkisRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import com.ykis.ykispam.R.string as AppText
@@ -50,13 +53,14 @@ class SignUpViewModel @Inject constructor(
     var agreementText by mutableStateOf(configurationService.agreementText)
         private set
 
-    fun init() {
+    init{
         launchCatching { configurationService.fetchConfiguration() }
     }
-
+    var reloadUserResponse by mutableStateOf<ReloadUserResponse>(Response.Success(false))
+        private set
     var signUpResponse by mutableStateOf<SignUpResponse>(Response.Success(false))
         private set
-    var sendEmailVerificationResponse by mutableStateOf<SendEmailVerificationResponse>(
+    private var sendEmailVerificationResponse by mutableStateOf<SendEmailVerificationResponse>(
         Response.Success(
             false
         )
@@ -73,6 +77,18 @@ class SignUpViewModel @Inject constructor(
         get() = signUpUiState.value.password
 
 
+
+    val isEmailVerified get() = firebaseService.currentUser?.isEmailVerified ?: false
+
+
+
+    fun repeatEmailVerified() {
+        launchCatching {
+            sendEmailVerificationResponse = Response.Loading
+            sendEmailVerificationResponse = firebaseService.sendEmailVerification()
+            SnackbarManager.showMessage(R.string.verify_email_message)
+        }
+    }
     fun onEmailChange(newValue: String) {
         signUpUiState.value = signUpUiState.value.copy(email = newValue)
     }
@@ -115,13 +131,21 @@ class SignUpViewModel @Inject constructor(
         }
 
     }
-
+    fun navigateToProfileScreen(restartApp: (String) -> Unit) {
+        restartApp(LAUNCH_SCREEN)
+    }
+    fun navigateToLaunchScreen(restartApp: (String) -> Unit) {
+        restartApp(LAUNCH_SCREEN)
+    }
+    fun reloadUser() {
+        launchCatching {
+            reloadUserResponse = Response.Loading
+            reloadUserResponse = firebaseService.reloadFirebaseUser()
+        }
+    }
     fun navigateBack(openScreen: (String) -> Unit) {
-        openScreen(SIGN_IN_SCREEN)
+        openScreen(LAUNCH_SCREEN)
     }
 
-    fun showVerifyEmailMessage() {
-        SnackbarManager.showMessage(AppText.verify_email_message)
 
-    }
 }

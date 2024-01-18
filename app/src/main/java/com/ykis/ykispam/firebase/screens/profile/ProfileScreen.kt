@@ -37,6 +37,7 @@ import com.ykis.ykispam.R
 import com.ykis.ykispam.YkisPamAppState
 import com.ykis.ykispam.core.Constants.REVOKE_ACCESS_MESSAGE
 import com.ykis.ykispam.core.Constants.SIGN_OUT
+import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.firebase.screens.profile.components.ProfileTopBar
 import com.ykis.ykispam.firebase.screens.profile.components.RevokeAccess
 import com.ykis.ykispam.firebase.screens.profile.components.SignOut
@@ -47,7 +48,6 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    modifier: Modifier = Modifier,
     appState: YkisPamAppState,
     popUpScreen:() -> Unit,
     navigateToDestination: (String) -> Unit,
@@ -81,6 +81,7 @@ fun ProfileScreen(
             viewModel.signOut()
         }
     }
+
     RevokeAccess(
         navigateToAuthScreen = { accessRevoked ->
             if (accessRevoked) {
@@ -91,7 +92,6 @@ fun ProfileScreen(
             showSnackBar()
         }
     )
-
 }
 
 @ExperimentalMaterial3Api
@@ -103,7 +103,6 @@ fun ProfileScreenContent(
     uid: String,
     providerId: String,
     modifier: Modifier = Modifier,
-    isSelectable: Boolean = false,
     isSelected: Boolean = false,
     signOut: () -> Unit,
     revokeAccess: () -> Unit,
@@ -312,6 +311,14 @@ fun ProfileScreenContent(
 
                         }
                     }
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp)
+                ) {
+
+
                 }
 
             }

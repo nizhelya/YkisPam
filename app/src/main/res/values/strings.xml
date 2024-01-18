@@ -93,10 +93,12 @@
     <!-- TasksScreen -->
     <string name="tasks">Событие</string>
 
-    <!-- SettingsScreen -->
+    <!-- AccountScreen -->
     <string name="nikname">Логин</string>
     <string name="uid_provider">UID:</string>
     <string name="provider">Провайдер:</string>
+    <string name="providerData">Авторизація:</string>
+
     <string name="more_options_button">Більше варіантів</string>
 
 

@@ -8,8 +8,10 @@ import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.EmailAuthProvider.PROVIDER_ID
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserInfo
 import com.google.firebase.firestore.FieldValue.serverTimestamp
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.auth.User
 import com.ykis.ykispam.core.Constants.CREATED_AT
 import com.ykis.ykispam.core.Constants.DISPLAY_NAME
 import com.ykis.ykispam.core.Constants.EMAIL
@@ -25,6 +27,7 @@ import com.ykis.ykispam.firebase.model.service.repo.ReloadUserResponse
 import com.ykis.ykispam.firebase.model.service.repo.RevokeAccessResponse
 import com.ykis.ykispam.firebase.model.service.repo.SendEmailVerificationResponse
 import com.ykis.ykispam.firebase.model.service.repo.SendPasswordResetEmailResponse
+import com.ykis.ykispam.firebase.model.service.repo.SignInResponse
 import com.ykis.ykispam.firebase.model.service.repo.SignInWithGoogleResponse
 import com.ykis.ykispam.firebase.model.service.repo.SignOutResponse
 import com.ykis.ykispam.firebase.model.service.repo.SignUpResponse
@@ -67,8 +70,11 @@ class FirebaseServiceImpl @Inject constructor(
     override val photoUrl = auth.currentUser?.photoUrl.toString()
     override val email = auth.currentUser?.email.toString()
     override val providerId = auth.currentUser?.providerId.toString()
-    override val currentUserId: String
-        get() = auth.currentUser?.uid.orEmpty()
+//    override val providerData = getProvider()
+
+
+//    override val currentUserId: String
+//        get() = auth.currentUser?.uid.orEmpty()
 
     override val currentUser get() = auth.currentUser
 //    override val currentUser: Flow<User>
@@ -81,14 +87,16 @@ class FirebaseServiceImpl @Inject constructor(
 //            awaitClose { auth.removeAuthStateListener(listener) }
 //        }
 
+
     override fun getAuthState(viewModelScope: CoroutineScope) = callbackFlow {
         val authStateListener = FirebaseAuth.AuthStateListener { auth ->
             trySend(auth.currentUser == null)
         }
         auth.addAuthStateListener(authStateListener)
-        awaitClose { auth.removeAuthStateListener(authStateListener) }
+        awaitClose {
+            auth.removeAuthStateListener(authStateListener)
+        }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), auth.currentUser == null)
-
 
     override suspend fun sendEmailVerification(): SendEmailVerificationResponse {
         return try {
@@ -99,18 +107,6 @@ class FirebaseServiceImpl @Inject constructor(
         }
     }
 
-    override suspend fun firebaseSignInWithEmailAndPassword(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password).await()
-    }
-
-    override suspend fun reloadFirebaseUser(): ReloadUserResponse {
-        return try {
-            auth.currentUser?.reload()?.await()
-            Success(true)
-        } catch (e: Exception) {
-            Failure(e)
-        }
-    }
 
     override suspend fun sendPasswordResetEmail(email: String): SendPasswordResetEmailResponse {
         return try {
@@ -121,6 +117,17 @@ class FirebaseServiceImpl @Inject constructor(
         }
     }
 
+    override  fun getProvider(viewModelScope: CoroutineScope): String {
+        val user = auth.currentUser
+        var providerId:String = ""
+
+        user?.let {
+            for (profile in it.providerData) {
+                providerId = profile.providerId
+            }
+        }
+        return providerId
+    }
     override suspend fun revokeAccessEmail(): RevokeAccessResponse {
         return try {
             auth.currentUser?.delete()?.await()
@@ -129,8 +136,6 @@ class FirebaseServiceImpl @Inject constructor(
             Failure(e)
         }
     }
-
-
 
 
     override suspend fun authenticate(email: String, password: String) {
@@ -146,7 +151,6 @@ class FirebaseServiceImpl @Inject constructor(
         auth.currentUser!!.delete().await()
     }
 //    override fun signOut() = auth.signOut()
-
 
 
     // start google auth
@@ -185,6 +189,7 @@ class FirebaseServiceImpl @Inject constructor(
             db.collection(USERS).document(uid).set(user).await()
         }
     }
+
     fun FirebaseUser.toUser() = mapOf(
         DISPLAY_NAME to displayName,
         PROVIDER_ID to providerId,
@@ -192,6 +197,7 @@ class FirebaseServiceImpl @Inject constructor(
         PHOTO_URL to photoUrl?.toString(),
         CREATED_AT to serverTimestamp()
     )
+
     override suspend fun signOut(): SignOutResponse {
         return try {
             oneTapClient.signOut().await()
@@ -201,6 +207,7 @@ class FirebaseServiceImpl @Inject constructor(
             Failure(e)
         }
     }
+
     override suspend fun revokeAccess(): RevokeAccessResponse {
         return try {
             auth.currentUser?.apply {
@@ -224,30 +231,39 @@ class FirebaseServiceImpl @Inject constructor(
 
         }
 
-    override suspend fun firebaseSignUpWithEmailAndPassword(
-        email: String,
-        password: String
-    ): SignUpResponse {
+    //    override suspend fun firebaseSignInWithEmailAndPassword(
+//        email: String, password: String
+//    ): SignInResponse {
+//        return try {
+//            auth.signInWithEmailAndPassword(email, password).await()
+//            Success(true)
+//        } catch (e: Exception) {
+//            Failure(e)
+//        }
+//    }
+    override suspend fun firebaseSignInWithEmailAndPassword(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password).await()
+    }
+
+    override suspend fun reloadFirebaseUser(): ReloadUserResponse {
         return try {
-            auth.createUserWithEmailAndPassword(email, password).await()
-            try {
-//                val credential = EmailAuthProvider.getCredential(email, password)
-////                val authResult = auth.signInWithCredential(credential).await()
-////                val isNewUser = authResult.additionalUserInfo?.isNewUser ?: false
-////                if (isNewUser) {
-                addUserToFirestore()
-////                }
-            } catch (e: Exception) {
-                Failure(e)
-            }
-
+            auth.currentUser?.reload()?.await()
             Success(true)
-
         } catch (e: Exception) {
             Failure(e)
         }
     }
 
+    override suspend fun firebaseSignUpWithEmailAndPassword(
+        email: String, password: String
+    ): SignUpResponse {
+        return try {
+            auth.createUserWithEmailAndPassword(email, password).await()
+            Success(true)
+        } catch (e: Exception) {
+            Failure(e)
+        }
+    }
 
 
     override suspend fun addUserFirestore(): addUserFirestoreResponse {
@@ -258,6 +274,7 @@ class FirebaseServiceImpl @Inject constructor(
             Failure(e)
         }
     }
+
     companion object {
         private const val LINK_ACCOUNT_TRACE = "linkAccount"
     }

@@ -5,14 +5,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.FirebaseAuthException
 import com.ykis.ykispam.BaseViewModel
 import com.ykis.ykispam.core.Response
 import com.ykis.ykispam.core.composable.ProfileImage
 import com.ykis.ykispam.core.ext.isValidEmail
 import com.ykis.ykispam.core.snackbar.SnackbarManager
+import com.ykis.ykispam.core.snackbar.SnackbarMessage.Companion.toSnackbarMessage
+import com.ykis.ykispam.core.trace
 import com.ykis.ykispam.firebase.model.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.model.service.repo.LogService
 import com.ykis.ykispam.firebase.model.service.repo.OneTapSignInResponse
+import com.ykis.ykispam.firebase.model.service.repo.SignInResponse
 import com.ykis.ykispam.firebase.model.service.repo.SignInWithGoogleResponse
 import com.ykis.ykispam.firebase.screens.sign_in.components.SingInUiState
 import com.ykis.ykispam.navigation.SIGN_UP_SCREEN
@@ -40,6 +44,7 @@ class SignInViewModel @Inject constructor(
     var signInWithGoogleResponse by mutableStateOf<SignInWithGoogleResponse>(Response.Success(null))
         private set
 
+    var signInResponse by mutableStateOf<SignInResponse>(Response.Success(false))
 
     fun onEmailChange(newValue: String) {
         singInUiState = singInUiState.copy(email = newValue)
@@ -61,8 +66,8 @@ class SignInViewModel @Inject constructor(
             return
         }
 
-        launchCatching {
-            firebaseService.firebaseSignInWithEmailAndPassword(email, password)
+        launchCatching() {
+                firebaseService.firebaseSignInWithEmailAndPassword(email, password)
             openScreen(LAUNCH_SCREEN)
         }
 
@@ -96,7 +101,9 @@ class SignInViewModel @Inject constructor(
     }
 
     fun onSignUpClick(openScreen: (String) -> Unit) {
-        openScreen(SIGN_UP_SCREEN)
+        launchCatching {
+            openScreen(SIGN_UP_SCREEN)
+        }
     }
 
 //    fun navigateToApartmentScreen(openScreen: (String) -> Unit) {

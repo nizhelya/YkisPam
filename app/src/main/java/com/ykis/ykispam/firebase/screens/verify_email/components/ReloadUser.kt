@@ -6,10 +6,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ykis.ykispam.core.ProgressBar
 import com.ykis.ykispam.core.Response
 import com.ykis.ykispam.firebase.screens.profile.ProfileViewModel
+import com.ykis.ykispam.firebase.screens.sign_up.SignUpViewModel
 
 @Composable
 fun ReloadUser(
-    viewModel: ProfileViewModel = hiltViewModel(),
+    viewModel: SignUpViewModel = hiltViewModel(),
     navigateToProfileScreen: () -> Unit
 ) {
     when (val reloadUserResponse = viewModel.reloadUserResponse) {

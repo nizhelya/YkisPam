@@ -1,12 +1,9 @@
 package com.ykis.ykispam.firebase.screens.sign_in
 
 import android.app.Activity.RESULT_OK
-import android.content.Intent
-import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -18,24 +15,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.gms.auth.api.identity.BeginSignInResult
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.GoogleAuthProvider.getCredential
-import com.ykis.ykispam.R
 import com.ykis.ykispam.core.composable.BasicLinkButton
 import com.ykis.ykispam.core.composable.BasicToolbar
 import com.ykis.ykispam.core.composable.EmailField
@@ -45,10 +35,11 @@ import com.ykis.ykispam.core.composable.RegularCardEditor
 import com.ykis.ykispam.core.ext.card
 import com.ykis.ykispam.core.ext.smallSpacer
 import com.ykis.ykispam.core.ext.textButton
-import com.ykis.ykispam.firebase.screens.sign_in.components.SignInWithGoogle
+import com.ykis.ykispam.core.snackbar.SnackbarManager
+import com.ykis.ykispam.core.snackbar.SnackbarMessage.Companion.toSnackbarMessage
 import com.ykis.ykispam.firebase.screens.sign_in.components.OneTapSignIn
+import com.ykis.ykispam.firebase.screens.sign_in.components.SignInWithGoogle
 import com.ykis.ykispam.navigation.LAUNCH_SCREEN
-import kotlinx.coroutines.launch
 import com.ykis.ykispam.R.drawable as AppIcon
 import com.ykis.ykispam.R.string as AppText
 
@@ -63,6 +54,7 @@ fun SignInScreen(
 ) {
     val singInUiState = viewModel.singInUiState
     val keyboard = LocalSoftwareKeyboardController.current
+    val context = LocalContext.current
 
 
 
@@ -135,6 +127,8 @@ fun SignInScreen(
                     viewModel.signInWithGoogle(googleCredentials)
                 } catch (it: ApiException) {
                     print(it)
+                    SnackbarManager.showMessage(it.toSnackbarMessage())
+
                 }
             }
         }
@@ -154,8 +148,6 @@ fun SignInScreen(
         navigateToHomeScreen = { signedIn ->
             if (signedIn) {
                 navigateToDestination(LAUNCH_SCREEN)
-
-//                viewModel.navigateToApartmentScreen(openScreen)
             }
         }
     )

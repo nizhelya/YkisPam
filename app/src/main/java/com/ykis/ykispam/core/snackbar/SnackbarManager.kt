@@ -34,5 +34,10 @@ object SnackbarManager {
     messages.value = message
   }
 
+  fun showMessage(message: String) {
+    messages.value = SnackbarMessage.StringSnackbar(message)
+
+  }
+
 
 }

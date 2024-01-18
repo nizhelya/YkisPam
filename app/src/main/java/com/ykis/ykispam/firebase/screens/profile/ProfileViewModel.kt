@@ -3,6 +3,7 @@ package com.ykis.ykispam.firebase.screens.profile
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.firestore.FirebaseFirestore
@@ -32,63 +33,29 @@ class ProfileViewModel @Inject constructor(
     val displayName get() = firebaseService.displayName
     val photoUrl get() = firebaseService.photoUrl
     val email get() = firebaseService.email
-    val providerId get() = firebaseService.providerId
+    val providerId get() = firebaseService.getProvider(viewModelScope)
+
     var signOutResponse by mutableStateOf<SignOutResponse>(Response.Success(false))
         private set
     var revokeAccessResponse by mutableStateOf<RevokeAccessResponse>(Response.Success(false))
         private set
-
-    var sendEmailVerificationResponse by mutableStateOf<SendEmailVerificationResponse>(
-        Response.Success(
-            false
-        )
-    )
-        private set
-
-    val isEmailVerified get() = firebaseService.currentUser?.isEmailVerified ?: false
-
-    var reloadUserResponse by mutableStateOf<ReloadUserResponse>(Response.Success(false))
-        private set
-
-    fun repeatEmailVerified() {
-        launchCatching {
-            sendEmailVerificationResponse = Response.Loading
-            sendEmailVerificationResponse = firebaseService.sendEmailVerification()
-            SnackbarManager.showMessage(R.string.verify_email_message)
-        }
-    }
-
-    fun reloadUser() {
-        launchCatching {
-            reloadUserResponse = Response.Loading
-            reloadUserResponse = firebaseService.reloadFirebaseUser()
-        }
-    }
-
-    fun navigateToProfileScreen(restartApp: (String) -> Unit) {
-        restartApp(YkisRoute.ACCOUNT)
-    }
-
-    fun restartApp(restartApp: () -> Unit) {
-        restartApp()
-    }
-
-
-
 
     fun signOut() {
         launchCatching {
             signOutResponse = Response.Loading
             signOutResponse = firebaseService.signOut()
 //            restartApp(LAUNCH_SCREEN)
-
         }
     }
 
     fun revokeAccess() {
         launchCatching {
             revokeAccessResponse = Response.Loading
-            revokeAccessResponse = firebaseService.revokeAccess()
+            if (providerId == "password") {
+                revokeAccessResponse = firebaseService.revokeAccessEmail()
+            } else if (providerId == "google.com") {
+                revokeAccessResponse = firebaseService.revokeAccess()
+            }
         }
     }
 }
