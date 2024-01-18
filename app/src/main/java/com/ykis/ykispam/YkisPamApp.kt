@@ -28,20 +28,12 @@ import kotlinx.coroutines.CoroutineScope
 fun YkisPamApp(
     windowSize: WindowSizeClass,
     displayFeatures: List<DisplayFeature>,
-//    baseUIState: BaseUIState,
-//    getApartments: () -> Unit,
-//    closeDetailScreen: () -> Unit = {},
-//    setApartment: (Int) -> Unit,
-//    navigateToDetail: (ContentDetail, ContentType) -> Unit = { _, _ -> },
+
 ) {
     val navigationType: NavigationType
     val contentType: ContentType
-//    val appState = rememberAppState()
     val foldingFeature = displayFeatures.filterIsInstance<FoldingFeature>().firstOrNull()
-//    val navController = appState.navController
-//    val navBackStackEntry by navController.currentBackStackEntryAsState()
-//    val selectedDestination =
-//        navBackStackEntry?.destination?.route ?: baseUIState.selectedDestination;
+
     val foldingDevicePosture = when {
         isBookPosture(foldingFeature) ->
             DevicePosture.BookPosture(foldingFeature.bounds)

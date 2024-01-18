@@ -3,7 +3,6 @@ package com.ykis.ykispam.pam.screens.appartment.content
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -62,7 +61,6 @@ fun ListContent(
     val yes: Byte = 1
     Row(
         modifier = Modifier
-            .padding(PaddingValues(4.dp))
             .fillMaxSize(),
         verticalAlignment = Alignment.Top,
         horizontalArrangement = Arrangement.Center
@@ -85,7 +83,6 @@ fun ListContent(
             )
             Row(
                 modifier = Modifier
-                    .padding(PaddingValues(4.dp))
                     .fillMaxSize(),
 
                 verticalAlignment = Alignment.Top,
@@ -93,7 +90,6 @@ fun ListContent(
             ) {
                 Column(
                     modifier = Modifier
-                        .padding(PaddingValues(4.dp))
                         .verticalScroll(rememberScrollState())
                         .fillMaxWidth()
                         .fillMaxHeight()

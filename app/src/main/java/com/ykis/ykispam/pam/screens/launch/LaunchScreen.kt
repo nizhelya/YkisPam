@@ -16,6 +16,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ykis.ykispam.core.composable.BasicButton
 import com.ykis.ykispam.core.ext.basicButton
 import com.ykis.ykispam.pam.screens.appartment.ApartmentViewModel
+import kotlinx.coroutines.delay
 import com.ykis.ykispam.R.string as AppText
 
 @Composable
@@ -41,10 +42,10 @@ fun LaunchScreen(
             }
         } else {
             CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
-            Text("4rdsdfdsfw2dasd", style=MaterialTheme.typography.displaySmall)
         }
     }
     LaunchedEffect(key1 = isUserSignedOut) {
+        delay(10000L)
         viewModel.onAppStart(isUserSignedOut, openAndPopUp,restartApp)
     }
 }

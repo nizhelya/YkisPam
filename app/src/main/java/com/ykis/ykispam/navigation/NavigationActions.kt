@@ -20,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Adjust
 import androidx.compose.material.icons.filled.Chat
+import androidx.compose.material.icons.filled.Church
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Payments
 import androidx.compose.material.icons.filled.Settings
@@ -56,8 +57,8 @@ val NAV_BAR_DESTINATIONS = listOf(
         labelId = R.string.house
     ),
     TopLevelDestination(
-        route = ADD_APARTMENT_SCREEN,
-        selectedIcon = Icons.Outlined.Church ,
+        route = METER_SCREEN,
+        selectedIcon = Icons.Filled.Church ,
         unselectedIcon = Icons.Outlined.Church,
         labelId = R.string.meters
     ),

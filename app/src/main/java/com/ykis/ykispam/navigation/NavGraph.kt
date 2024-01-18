@@ -1,7 +1,7 @@
 package com.ykis.ykispam.navigation
 
-import androidx.compose.foundation.background
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -25,26 +25,31 @@ fun RootNavGraph(
     navigationType: NavigationType,
 ) {
     val appState = rememberAppState(navController)
-    NavHost(
-        modifier = modifier.background(MaterialTheme.colorScheme.tertiaryContainer),
-        navController = navController,
-        startDestination = LAUNCH_SCREEN,
-    ) {
-        composable(LAUNCH_SCREEN) {
-            LaunchScreen(
-                restartApp = { route -> appState.clearAndNavigate(route) },
-                openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) },
-            )
-        }
+    Scaffold {
+        paddingValues->
+        NavHost(
+            modifier = modifier
+                .padding(paddingValues = paddingValues)
+            ,
+            navController = navController,
+            startDestination = LAUNCH_SCREEN,
+        ) {
+            composable(LAUNCH_SCREEN) {
+                LaunchScreen(
+                    restartApp = { route -> appState.clearAndNavigate(route) },
+                    openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) },
+                )
+            }
 
-        authNavGraph(appState)
-        composable(route= Graph.APARTMENT){
-            MainApartmentScreen(
-                contentType =contentType ,
-                navigationType = navigationType,
-                displayFeatures = displayFeatures,
-                navigateToDestination = appState::navigateTo,
-            )
+            authNavGraph(appState)
+            composable(route= Graph.APARTMENT){
+                MainApartmentScreen(
+                    contentType =contentType ,
+                    navigationType = navigationType,
+                    displayFeatures = displayFeatures,
+                    navigateToDestination = appState::navigateTo,
+                )
+            }
         }
     }
 }
