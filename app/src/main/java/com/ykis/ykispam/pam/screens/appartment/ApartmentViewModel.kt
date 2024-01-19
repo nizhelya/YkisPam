@@ -148,15 +148,15 @@ class ApartmentViewModel @Inject constructor(
                 email = email,
             )
             if (isConnected && networkType != 0) {
-                getApartmentsByUser(secretCode = "", true)
+                getApartmentsByUser( true)
             } else {
                 SnackbarManager.showMessage(R.string.error_server_appartment)
-                getApartmentsByUser(secretCode = "", false)
+                getApartmentsByUser(false)
             }
 
         }
     }
-
+//визивається дваждьІ
     fun setApartment(addressId: Int) {
         if (addressId != 0) {
             launchCatching {
@@ -219,7 +219,7 @@ class ApartmentViewModel @Inject constructor(
                     _uiState.value = _uiState.value.copy(
                         secretCode = secretCode
                     )
-                    getApartmentsByUser(secretCode, true)
+                    getApartmentsByUser(true)
                     SnackbarManager.showMessage(R.string.success_add_flat)
                     restartApp(LAUNCH_SCREEN)
                 }
@@ -236,51 +236,29 @@ class ApartmentViewModel @Inject constructor(
         result.value = response
     }
 
-    fun getApartmentsByUser(secretCode: String = "", needFetch: Boolean = true) {
+    fun getApartmentsByUser( needFetch: Boolean = true) {
         getApartmentsUseCase(needFetch) { it ->
             if (it.isRight) {
                 it.either(::handleFailure) {
-                    handleApartments(it, secretCode)
+                    handleApartments(it, !needFetch)
                 }
 
             }
         }
     }
 
-    private fun handleApartments(apartments: List<ApartmentEntity>, secretCode: String = "") {
-        if (secretCode.isNotBlank()) {
-            val apartmentEntity = apartments.find { it.kod == secretCode }
-            if (apartmentEntity != null) {
-                secretKeyUiState.addressId = apartmentEntity.addressId
-                _uiState.value = _uiState.value.copy(
-                    isDetailOnlyOpen = false,
-                    apartments = apartments,
-                    apartment = apartmentEntity,
-                    selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${apartmentEntity.addressId}}",
-                    addressId = apartmentEntity.addressId,
-                    address = apartmentEntity.address,
-                    houseId = apartmentEntity.houseId,
-                    osmdId = apartmentEntity.osmdId,
-                    osbb = apartmentEntity.osbb,
-                )
-            }
-        } else {
-            if (apartments.isNotEmpty()) {
-                _uiState.value = _uiState.value.copy(
-                    isDetailOnlyOpen = false,
-                    apartments = apartments,
-                    apartment = apartments.first(),
-                    selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${apartments.first().addressId}}",
-                    addressId = apartments.first().addressId,
-                    address = apartments.first().address,
-                    houseId = apartments.first().houseId,
-                    osmdId = apartments.first().osmdId,
-                    osbb = apartments.first().osbb,
+    private fun handleApartments(apartments: List<ApartmentEntity>, fromCache: Boolean) {
+        _uiState.value = _uiState.value.copy(
+            isDetailOnlyOpen = false,
+            apartments = apartments
+        )
+        updateProgress(false)
 
-                    )
-            }
-
+        if (fromCache) {
+            updateProgress(true)
+            getApartmentsByUser(true)
         }
+        updateProgress(true)
     }
 
     fun deleteApartment(addressId: Int, restartApp: (String) -> Unit) {

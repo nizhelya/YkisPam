@@ -29,6 +29,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 
@@ -39,7 +40,7 @@ open class BaseViewModel(
     var progressData: MutableLiveData<Boolean> = MutableLiveData()
 
     val _uiState = MutableStateFlow(BaseUIState(loading = true))
-    var uiState: StateFlow<BaseUIState> = _uiState
+    val uiState: StateFlow<BaseUIState> = _uiState.asStateFlow()
 
     protected fun handleFailure(failure: Failure) {
         this.failureData.value = HandleOnce(failure)

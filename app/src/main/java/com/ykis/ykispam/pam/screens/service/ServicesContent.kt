@@ -230,33 +230,13 @@ fun ServiceDetailContent(
     selectedChip: String,
     onSelectedChanged: (String) -> Unit
 ) {
-    val years = listOf(
-        year,
-        year.toInt().plus(-1).toString(),
-        year.toInt().plus(-2).toString(),
-        year.toInt().plus(-3).toString(),
-        year.toInt().plus(-4).toString(),
-        year.toInt().plus(-5).toString(),
-        year.toInt().plus(-6).toString(),
-        year.toInt().plus(-7).toString(),
-        year.toInt().plus(-8).toString(),
-        year.toInt().plus(-9).toString(),
-        year.toInt().plus(-10).toString(),
-        year.toInt().plus(-11).toString(),
-        year.toInt().plus(-12).toString(),
-        year.toInt().plus(-13).toString(),
-        year.toInt().plus(-14).toString(),
-        year.toInt().plus(-15).toString(),
-        year.toInt().plus(-16).toString(),
-        year.toInt().plus(-17).toString(),
-        year.toInt().plus(-18).toString(),
-        year.toInt().plus(-19).toString(),
-        year.toInt().plus(-20).toString(),
-    )
-//    Log.d("chip_test", years.toString())
+    val years = mutableListOf<String>()
+
+    for (i in 0 until 20) {
+        years.add((year.toInt() + (-i)).toString())
+    }
     Column(
         modifier = Modifier
-            .padding(4.dp)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
