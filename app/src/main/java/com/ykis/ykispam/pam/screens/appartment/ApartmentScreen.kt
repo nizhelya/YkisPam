@@ -60,6 +60,7 @@ fun ApartmentScreen(
     }
 
 LaunchedEffect(key1 = addressId) {
+    // TODO: make addressId int by default
     setApartment(addressId.toInt())
     if (contentType == ContentType.SINGLE_PANE && !baseUIState.isDetailOnlyOpen) {
         closeDetailScreen()

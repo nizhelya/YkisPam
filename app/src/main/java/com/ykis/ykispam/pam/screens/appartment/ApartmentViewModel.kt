@@ -221,7 +221,8 @@ class ApartmentViewModel @Inject constructor(
                     )
                     getApartmentsByUser(true)
                     SnackbarManager.showMessage(R.string.success_add_flat)
-                    restartApp(LAUNCH_SCREEN)
+                    // TODO: rename fun restartApp
+                    restartApp(APARTMENT_SCREEN)
                 }
 
             }
@@ -275,7 +276,7 @@ class ApartmentViewModel @Inject constructor(
 
             }
         }
-        restartApp(LAUNCH_SCREEN)
+        restartApp(APARTMENT_SCREEN)
 
     }
 
