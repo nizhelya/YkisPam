@@ -47,8 +47,10 @@ import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.pam.domain.apartment.request.DeleteFlatByUser
 import com.ykis.ykispam.pam.domain.apartment.request.GetApartments
 import com.ykis.ykispam.pam.domain.apartment.request.UpdateBti
-import com.ykis.ykispam.pam.domain.service.ServiceEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 
@@ -72,18 +74,11 @@ class ApartmentViewModel @Inject constructor(
         private set
     var revokeAccessResponse by mutableStateOf<RevokeAccessResponse>(Response.Success(false))
         private set
-    private val secretCode
-        get() = secretKeyUiState.secretCode
-
-    private val addressId
-        get() = secretKeyUiState.addressId
 
 
     private val _resultText = MutableLiveData<GetSimpleResponse>()
     val resultText: LiveData<GetSimpleResponse> = _resultText
 
-    var secretKeyUiState by mutableStateOf(SecretKeyUiState())
-        private set
 
     private val _apartment = MutableLiveData<ApartmentEntity>()
     val apartment: LiveData<ApartmentEntity> get() = _apartment
@@ -91,15 +86,12 @@ class ApartmentViewModel @Inject constructor(
     private val _address = MutableLiveData<List<AddressEntity>>()
     val address: LiveData<List<AddressEntity>> get() = _address
 
-    private val _totalDebt = MutableLiveData<ServiceEntity?>()
-    val totalDebt: LiveData<ServiceEntity?> get() = _totalDebt
-
-    private val _totalPay = MutableLiveData<Double>(0.0)
-    val totalPay: LiveData<Double> get() = _totalPay
-
 
     private val isConnected: Boolean get() = networkHandler.isConnected
     private val networkType: Int get() = networkHandler.networkType
+
+    private val _secretCode = MutableStateFlow("")
+    val secretCode : StateFlow<String> = _secretCode.asStateFlow()
 
     // LaunchScreen
     val showError = mutableStateOf(false)
@@ -200,17 +192,16 @@ class ApartmentViewModel @Inject constructor(
     }
 
     fun onSecretCodeChange(newValue: String) {
-        secretKeyUiState = secretKeyUiState.copy(secretCode = newValue)
+        _secretCode.value = newValue
     }
 
     fun addApartment(restartApp: (String) -> Unit) {
-        if (secretCode.isBlank()) {
+        if (_secretCode.value.isBlank()) {
             SnackbarManager.showMessage(R.string.empty_field_error)
             return
         }
         launchCatching {
-                addFlatByUser(secretCode) { it ->
-//                Log.d("response_test",it.toString())
+                addFlatByUser(secretCode.value) { it ->
                 it.either(::handleFailure) {
                     handleResultText(
                         it, _resultText
@@ -218,15 +209,14 @@ class ApartmentViewModel @Inject constructor(
                 }
                 if (resultText.value?.success == 1) {
                     _uiState.value = _uiState.value.copy(
-                        secretCode = secretCode,
                         addressId = resultText.value!!.addressId
                     )
                     Log.d("response_test",resultText.value?.addressId.toString())
-//                    getApartmentsByUser(true)
+                    getApartmentsByUser(true)
                     SnackbarManager.showMessage(R.string.success_add_flat)
                     // TODO: rename fun restartApp
-                    Log.d("state_test","addApartment:${_uiState.value.addressId}")
                     restartApp(APARTMENT_SCREEN)
+                    _secretCode.value = ""
                 }
 
             }
@@ -280,8 +270,7 @@ class ApartmentViewModel @Inject constructor(
 
             }
         }
-        restartApp(APARTMENT_SCREEN)
-
+        _uiState.value.apartment = ApartmentEntity()
     }
 
 

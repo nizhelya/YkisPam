@@ -12,7 +12,7 @@ data class BaseUIState(
 
     val email: String? = null,
     val photoUrl: String? = null,
-    val apartment: ApartmentEntity = ApartmentEntity(),
+    var apartment: ApartmentEntity = ApartmentEntity(),
     val selectedContentDetail: ContentDetail? = null,
     val apartments: List<ApartmentEntity> = emptyList(),
     val paymentItems: List<PaymentItemEntity> = emptyList(),
@@ -24,7 +24,6 @@ data class BaseUIState(
     val addressNumber: String? = null,
     val isDetailOnlyOpen: Boolean = false,
     val selectedDestination: String = "$APARTMENT_SCREEN$ADDRESS_ID_ARG",
-    val secretCode: String ="",
     val loading: Boolean = false,
     val error: String? = null
 )

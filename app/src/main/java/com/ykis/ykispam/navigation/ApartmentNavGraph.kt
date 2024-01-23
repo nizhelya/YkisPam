@@ -130,7 +130,6 @@ fun ApartmentNavGraph(
     viewModel: ApartmentViewModel
 ) {
     Log.d("viewModel_test" , "ApartmentNavGraph:$viewModel")
-    Log.d("state_test","ApartmentNavGraph:${baseUIState.addressId}\nsecretKey:${viewModel.secretKeyUiState}")
     val appState = rememberAppState(navController)
     NavHost(
         modifier = modifier,
@@ -169,10 +168,8 @@ fun ApartmentNavGraph(
         }
         composable(ADD_APARTMENT_SCREEN) {
             AddApartmentScreenContent(
-                secretKeyUiState = viewModel.secretKeyUiState,
-                onSecretCodeChange = viewModel::onSecretCodeChange,
-                addApartment = { viewModel.addApartment { route -> appState.clearAndNavigate(route) } },
-                onBackPressed = { viewModel.navigateBack{ appState.popUp() } }
+                appState = appState,
+                viewModel = viewModel
             )
 //            AddApartmentScreen(
 //                popUpScreen = { appState.popUp() },

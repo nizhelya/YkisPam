@@ -84,7 +84,7 @@ if (contentType == ContentType.DUAL_PANE) {
                 contentType = contentType,
                 appState = appState,
                 baseUIState = baseUIState,
-                deleteApartment = { deleteApartment(addressId.toInt(), restartApp) },
+                deleteApartment = { deleteApartment(baseUIState.addressId, restartApp) },
                 navigateToDetail = navigateToDetail,
             )
         },

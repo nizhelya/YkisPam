@@ -11,59 +11,54 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.ykis.ykispam.R
+import com.ykis.ykispam.YkisPamAppState
 import com.ykis.ykispam.core.composable.BasicField
 import com.ykis.ykispam.core.composable.BasicImageButton
 import com.ykis.ykispam.pam.screens.appbars.AddAppBar
-import com.ykis.ykispam.theme.YkisPAMTheme
 import com.ykis.ykispam.R.string as AppText
 
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun AddApartmentScreen(
-    popUpScreen: () -> Unit,
-    restartApp: (String) -> Unit,
-    onBackPressed: () -> Unit = {},
-    viewModel: ApartmentViewModel = hiltViewModel()
-) {
-    val secretKeyUiState = viewModel.secretKeyUiState
-    Log.d("state_test","AddApartmentScreen:${viewModel._uiState.collectAsState().value.addressId}")
-    AddApartmentScreenContent(
-        secretKeyUiState = secretKeyUiState,
-        onSecretCodeChange = viewModel::onSecretCodeChange,
-        addApartment = { viewModel.addApartment(restartApp) },
-        onBackPressed = { viewModel.navigateBack(popUpScreen) },
-    )
-}
+//@OptIn(ExperimentalMaterial3Api::class)
+//@Composable
+//fun AddApartmentScreen(
+//    popUpScreen: () -> Unit,
+//    restartApp: (String) -> Unit,
+//    onBackPressed: () -> Unit = {},
+//    viewModel: ApartmentViewModel = hiltViewModel()
+//) {
+//    Log.d("state_test","AddApartmentScreen:${viewModel._uiState.collectAsState().value.addressId}")
+//    AddApartmentScreenContent(
+//        viewModel=viewModel,
+//        onSecretCodeChange = viewModel::onSecretCodeChange,
+//        addApartment = { viewModel.addApartment(restartApp) },
+//        onBackPressed = { viewModel.navigateBack(popUpScreen) },
+//    )
+//}
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AddApartmentScreenContent(
     modifier: Modifier = Modifier,
     isSelected: Boolean = false,
-    secretKeyUiState: SecretKeyUiState,
-    onSecretCodeChange: (String) -> Unit,
-    addApartment: (String) -> Unit,
-    onBackPressed: () -> Unit = {},
-    viewModel: ApartmentViewModel = hiltViewModel()
+    appState: YkisPamAppState,
+    viewModel: ApartmentViewModel
 
 ) {
     Log.d("viewModel_test" , "AddApartmentScreenContent:$viewModel")
+    val secretCode by viewModel.secretCode.collectAsState()
     val keyboard = LocalSoftwareKeyboardController.current
     Column(
         modifier = Modifier
@@ -77,7 +72,7 @@ fun AddApartmentScreenContent(
             modifier = Modifier,
             stringResource(id = R.string.add_flat_secret_сode),
             stringResource(id = R.string.add_appartment),
-            onBackPressed = onBackPressed
+            onBackPressed = {viewModel.navigateBack{ appState.popUp() }}
         )
         Card(
             modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -129,8 +124,8 @@ fun AddApartmentScreenContent(
                             BasicField(
                                 AppText.secret_сode,
                                 AppText.secret_сode,
-                                secretKeyUiState.secretCode,
-                                onSecretCodeChange,
+                                secretCode,
+                                onNewValue = { viewModel.onSecretCodeChange(it)},
                                 modifier = Modifier.padding(4.dp),
                             )
                         }
@@ -141,8 +136,7 @@ fun AddApartmentScreenContent(
                         )
                         {
                             keyboard?.hide()
-//                            onAddApartmentClick()
-                            addApartment(secretKeyUiState.secretCode)
+                            viewModel.addApartment { route -> appState.clearAndNavigate(route) }
                         }
 
                     }
@@ -152,22 +146,6 @@ fun AddApartmentScreenContent(
 
     }
 }
-
-
-@Preview(showBackground = true)
-@ExperimentalMaterial3Api
-@Composable
-fun AddApartmentScreenPreview() {
-    YkisPAMTheme {
-        AddApartmentScreenContent(
-            secretKeyUiState = SecretKeyUiState(secretCode = "4554545454545"),
-            onSecretCodeChange = {},
-            addApartment = { },
-            onBackPressed = { }
-        )
-    }
-}
-
 
 
 
