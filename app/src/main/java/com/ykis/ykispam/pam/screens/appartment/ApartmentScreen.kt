@@ -1,5 +1,6 @@
 package com.ykis.ykispam.pam.screens.appartment
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
@@ -27,6 +29,7 @@ import com.ykis.ykispam.navigation.ADD_APARTMENT_SCREEN
 import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.navigation.NavigationType
+import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.pam.screens.appartment.content.DetailContent
 import com.ykis.ykispam.pam.screens.appartment.content.ListContent
 
@@ -46,12 +49,14 @@ fun ApartmentScreen(
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
     addressId: String,
     onDrawerClicked: () -> Unit = {},
-    deleteApartment:(addressId: Int, restartApp: (String) -> Unit)->Unit
-
+    deleteApartment:(addressId: Int, restartApp: (String) -> Unit)->Unit,
+    viewModel: ApartmentViewModel= hiltViewModel()
 ) {
+//    baseUiState called 5 times
+//    Log.d("baseState_test",baseUIState.toString())
 
 //    val apartment by viewModel.apartment.observeAsState(ApartmentEntity())
-
+    Log.d("viewModel_test" , "ApartmentScreen:$viewModel")
     LaunchedEffect(key1 = baseUIState.apartments) {
         getApartments()
         if (contentType == ContentType.SINGLE_PANE && !baseUIState.isDetailOnlyOpen) {
@@ -59,9 +64,14 @@ fun ApartmentScreen(
         }
     }
 
-LaunchedEffect(key1 = addressId) {
-    // TODO: make addressId int by default
-    setApartment(addressId.toInt())
+LaunchedEffect(key1 = baseUIState.addressId,key2 = baseUIState.apartments) {
+    if(baseUIState.apartment == ApartmentEntity()&& baseUIState.apartments.isNotEmpty()){
+        setApartment(baseUIState.apartments.first().addressId)
+    }else {
+        // TODO: make addressId int by default
+        setApartment(baseUIState.addressId)
+    }
+
     if (contentType == ContentType.SINGLE_PANE && !baseUIState.isDetailOnlyOpen) {
         closeDetailScreen()
     }

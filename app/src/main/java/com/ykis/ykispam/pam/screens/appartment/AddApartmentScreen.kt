@@ -1,5 +1,6 @@
 package com.ykis.ykispam.pam.screens.appartment
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,6 +15,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -40,7 +42,7 @@ fun AddApartmentScreen(
     viewModel: ApartmentViewModel = hiltViewModel()
 ) {
     val secretKeyUiState = viewModel.secretKeyUiState
-
+    Log.d("state_test","AddApartmentScreen:${viewModel._uiState.collectAsState().value.addressId}")
     AddApartmentScreenContent(
         secretKeyUiState = secretKeyUiState,
         onSecretCodeChange = viewModel::onSecretCodeChange,
@@ -50,7 +52,6 @@ fun AddApartmentScreen(
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
-@ExperimentalMaterial3Api
 @Composable
 fun AddApartmentScreenContent(
     modifier: Modifier = Modifier,
@@ -59,7 +60,10 @@ fun AddApartmentScreenContent(
     onSecretCodeChange: (String) -> Unit,
     addApartment: (String) -> Unit,
     onBackPressed: () -> Unit = {},
+    viewModel: ApartmentViewModel = hiltViewModel()
+
 ) {
+    Log.d("viewModel_test" , "AddApartmentScreenContent:$viewModel")
     val keyboard = LocalSoftwareKeyboardController.current
     Column(
         modifier = Modifier

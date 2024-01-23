@@ -431,7 +431,6 @@ fun ModalNavigationDrawerContent(
                         state = apartmentLazyListState
 
                     ) {
-
                         items(items = baseUIState.apartments, key = { it.addressId }) {
                             NavigationDrawerItem(
                                 modifier = Modifier

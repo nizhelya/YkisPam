@@ -23,7 +23,7 @@ import androidx.window.layout.DisplayFeature
 import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.firebase.screens.profile.ProfileScreen
 import com.ykis.ykispam.firebase.screens.settings.SettingsScreen
-import com.ykis.ykispam.pam.screens.appartment.AddApartmentScreen
+import com.ykis.ykispam.pam.screens.appartment.AddApartmentScreenContent
 import com.ykis.ykispam.pam.screens.appartment.ApartmentScreen
 import com.ykis.ykispam.pam.screens.appartment.ApartmentViewModel
 import com.ykis.ykispam.pam.screens.launch.LaunchScreen
@@ -42,6 +42,7 @@ fun MainApartmentScreen(
     viewModel : ApartmentViewModel = hiltViewModel()
 
 ) {
+    Log.d("viewmodel_test","MainApartmentScreen:$viewModel")
     val baseUIState by viewModel.uiState.collectAsState()
     val drawerState = DrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
@@ -95,7 +96,8 @@ fun MainApartmentScreen(
                 coroutineScope.launch {
                     drawerState.open()
                 }
-            }
+            },
+            viewModel = viewModel
         )
         if (navigationType != NavigationType.BOTTOM_NAVIGATION) {
             ApartmentNavigationRail(
@@ -124,8 +126,11 @@ fun ApartmentNavGraph(
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
     onDrawerClicked: () -> Unit = {},
     navController: NavHostController = rememberNavController(),
-    deleteApartment: (addressId: Int, restartApp: (String) -> Unit) ->Unit
+    deleteApartment: (addressId: Int, restartApp: (String) -> Unit) ->Unit,
+    viewModel: ApartmentViewModel
 ) {
+    Log.d("viewModel_test" , "ApartmentNavGraph:$viewModel")
+    Log.d("state_test","ApartmentNavGraph:${baseUIState.addressId}\nsecretKey:${viewModel.secretKeyUiState}")
     val appState = rememberAppState(navController)
     NavHost(
         modifier = modifier,
@@ -163,11 +168,16 @@ fun ApartmentNavGraph(
             )
         }
         composable(ADD_APARTMENT_SCREEN) {
-            AddApartmentScreen(
-                popUpScreen = { appState.popUp() },
-                restartApp = { route -> appState.clearAndNavigate(route) },
+            AddApartmentScreenContent(
+                secretKeyUiState = viewModel.secretKeyUiState,
+                onSecretCodeChange = viewModel::onSecretCodeChange,
+                addApartment = { viewModel.addApartment { route -> appState.clearAndNavigate(route) } },
+                onBackPressed = { viewModel.navigateBack{ appState.popUp() } }
             )
-
+//            AddApartmentScreen(
+//                popUpScreen = { appState.popUp() },
+//                restartApp = { route -> appState.clearAndNavigate(route) },
+//            )
         }
 
         composable(YkisRoute.SETTINGS) {

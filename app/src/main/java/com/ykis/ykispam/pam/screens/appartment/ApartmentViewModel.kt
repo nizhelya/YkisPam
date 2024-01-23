@@ -16,6 +16,7 @@ limitations under the License.
 
 package com.ykis.ykispam.pam.screens.appartment
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -208,8 +209,8 @@ class ApartmentViewModel @Inject constructor(
             return
         }
         launchCatching {
-
-            addFlatByUser(secretCode) { it ->
+                addFlatByUser(secretCode) { it ->
+//                Log.d("response_test",it.toString())
                 it.either(::handleFailure) {
                     handleResultText(
                         it, _resultText
@@ -217,11 +218,14 @@ class ApartmentViewModel @Inject constructor(
                 }
                 if (resultText.value?.success == 1) {
                     _uiState.value = _uiState.value.copy(
-                        secretCode = secretCode
+                        secretCode = secretCode,
+                        addressId = resultText.value!!.addressId
                     )
-                    getApartmentsByUser(true)
+                    Log.d("response_test",resultText.value?.addressId.toString())
+//                    getApartmentsByUser(true)
                     SnackbarManager.showMessage(R.string.success_add_flat)
                     // TODO: rename fun restartApp
+                    Log.d("state_test","addApartment:${_uiState.value.addressId}")
                     restartApp(APARTMENT_SCREEN)
                 }
 
