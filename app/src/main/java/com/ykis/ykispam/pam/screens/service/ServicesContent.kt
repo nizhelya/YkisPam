@@ -393,7 +393,9 @@ fun EmptyListScreen(modifier: Modifier = Modifier,
     }else{
         R.drawable.ic_empty_box_light
     }
-    Column(modifier = modifier.fillMaxSize().padding(bottom = 48.dp) , horizontalAlignment = Alignment.CenterHorizontally,
+    Column(modifier = modifier
+        .fillMaxSize()
+        .padding(bottom = 48.dp) , horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center) {
         Image(painter = painterResource(id = paintRes), contentDescription = null)
         Text(text = stringResource(R.string.no_payment), style = TextStyle(

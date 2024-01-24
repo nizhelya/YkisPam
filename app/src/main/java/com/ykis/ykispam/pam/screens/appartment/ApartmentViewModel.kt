@@ -16,7 +16,6 @@ limitations under the License.
 
 package com.ykis.ykispam.pam.screens.appartment
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -110,9 +109,7 @@ class ApartmentViewModel @Inject constructor(
             if (isEmailVerified) {
                 restartApp(Graph.APARTMENT)
             } else {
-                // TODO: make this with authNavGraph
                 openAndPopUp(VERIFY_EMAIL_SCREEN, LAUNCH_SCREEN)
-
             }
         }
     }
@@ -211,7 +208,6 @@ class ApartmentViewModel @Inject constructor(
                     _uiState.value = _uiState.value.copy(
                         addressId = resultText.value!!.addressId
                     )
-                    Log.d("response_test",resultText.value?.addressId.toString())
                     getApartmentsByUser(true)
                     SnackbarManager.showMessage(R.string.success_add_flat)
                     // TODO: rename fun restartApp

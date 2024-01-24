@@ -2,10 +2,8 @@ package com.ykis.ykispam.pam.domain.apartment
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
-import com.ykis.ykispam.pam.screens.bti.ContactUIState
 
 @Entity(tableName = "apartment")
 data class ApartmentEntity(
@@ -58,8 +56,6 @@ data class ApartmentEntity(
     @Json(name = "house_id")
     @ColumnInfo(name = "house_id")
     val houseId: Int = 23,
-//    TODO("Удалить Код")
-    val kod: String = "45666656",
     val fio: String = "Иванов Иван Иванович",
 
 

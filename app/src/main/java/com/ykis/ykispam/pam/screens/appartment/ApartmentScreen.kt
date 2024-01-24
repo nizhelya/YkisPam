@@ -5,7 +5,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddHome
 import androidx.compose.material3.FloatingActionButton
@@ -15,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -47,15 +45,11 @@ fun ApartmentScreen(
     getApartments:() ->Unit,
     setApartment: (Int) -> Unit ,
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
-    addressId: String,
     onDrawerClicked: () -> Unit = {},
     deleteApartment:(addressId: Int, restartApp: (String) -> Unit)->Unit,
     viewModel: ApartmentViewModel= hiltViewModel()
 ) {
 //    baseUiState called 5 times
-//    Log.d("baseState_test",baseUIState.toString())
-
-//    val apartment by viewModel.apartment.observeAsState(ApartmentEntity())
     Log.d("viewModel_test" , "ApartmentScreen:$viewModel")
     LaunchedEffect(key1 = baseUIState.apartments) {
         getApartments()
@@ -68,7 +62,6 @@ LaunchedEffect(key1 = baseUIState.addressId,key2 = baseUIState.apartments) {
     if(baseUIState.apartment == ApartmentEntity()&& baseUIState.apartments.isNotEmpty()){
         setApartment(baseUIState.apartments.first().addressId)
     }else {
-        // TODO: make addressId int by default
         setApartment(baseUIState.addressId)
     }
 
@@ -123,16 +116,12 @@ if (contentType == ContentType.DUAL_PANE) {
                 modifier = Modifier
                     .padding(16.dp)
                     .align(Alignment.BottomEnd),
-                containerColor = MaterialTheme.colorScheme.onSecondary,
-//                containerColor = Color(0xFF3A4C2B),
-                contentColor = Color(0xFFFFB945),
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer         ,
             ) {
                 Icon(
                     imageVector = Icons.Default.AddHome,
                     contentDescription = stringResource(id = R.string.add_appartment),
-                    modifier = Modifier.size(28.dp),
-                    tint = MaterialTheme.colorScheme.secondary
-
                 )
             }
 

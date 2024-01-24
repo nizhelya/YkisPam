@@ -86,12 +86,7 @@ fun MainApartmentScreen(
             navigationType = navigationType,
             displayFeatures = displayFeatures,
             baseUIState = baseUIState,
-            closeDetailScreen = {viewModel.closeDetailScreen()},
-            setApartment = {addressId ->viewModel.setApartment(addressId) },
-            navigateToDetail = {contentDetail, pane ->  viewModel.setSelectedDetail(contentDetail, pane) },
-            getApartments = {viewModel.initialize()},
             navController = navController,
-            deleteApartment = {addressId, restartApp ->  viewModel.deleteApartment(addressId, restartApp)},
             onDrawerClicked = {
                 coroutineScope.launch {
                     drawerState.open()
@@ -120,17 +115,14 @@ fun ApartmentNavGraph(
     navigationType: NavigationType,
     displayFeatures: List<DisplayFeature>,
     baseUIState: BaseUIState,
-    getApartments: () -> Unit,
-    closeDetailScreen: () -> Unit,
-    setApartment: (Int) -> Unit,
-    navigateToDetail: (ContentDetail, ContentType) -> Unit,
     onDrawerClicked: () -> Unit = {},
     navController: NavHostController = rememberNavController(),
-    deleteApartment: (addressId: Int, restartApp: (String) -> Unit) ->Unit,
     viewModel: ApartmentViewModel
 ) {
     Log.d("viewModel_test" , "ApartmentNavGraph:$viewModel")
     val appState = rememberAppState(navController)
+    val state = viewModel.uiState.collectAsState()
+    Log.d("vm_test","apartmentNavGraph:${state}")
     NavHost(
         modifier = modifier,
         navController = navController,
@@ -195,13 +187,12 @@ fun ApartmentNavGraph(
                 baseUIState = baseUIState,
                 navigationType = navigationType,
                 displayFeatures = displayFeatures,
-                closeDetailScreen = closeDetailScreen,
-                getApartments = getApartments,
-                setApartment = setApartment,
-                navigateToDetail = navigateToDetail,
-                addressId = it.arguments?.getString(ADDRESS_ID) ?: ADDRESS_DEFAULT_ID,
+                closeDetailScreen = {viewModel.closeDetailScreen()},
+                setApartment = {addressId ->viewModel.setApartment(addressId) },
+                navigateToDetail = {contentDetail, pane ->  viewModel.setSelectedDetail(contentDetail, pane) },
+                getApartments = {viewModel.initialize()},
+                deleteApartment = {addressId, restartApp ->  viewModel.deleteApartment(addressId, restartApp)},
                 onDrawerClicked = onDrawerClicked,
-                deleteApartment = deleteApartment
             )
         }
         composable(METER_SCREEN) {
