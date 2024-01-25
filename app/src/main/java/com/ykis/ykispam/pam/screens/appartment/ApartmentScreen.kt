@@ -1,6 +1,5 @@
 package com.ykis.ykispam.pam.screens.appartment
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
@@ -30,6 +28,7 @@ import com.ykis.ykispam.navigation.NavigationType
 import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.pam.screens.appartment.content.DetailContent
 import com.ykis.ykispam.pam.screens.appartment.content.ListContent
+
 
 @Composable
 fun ApartmentScreen(
@@ -47,10 +46,8 @@ fun ApartmentScreen(
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
     onDrawerClicked: () -> Unit = {},
     deleteApartment:(addressId: Int, restartApp: (String) -> Unit)->Unit,
-    viewModel: ApartmentViewModel= hiltViewModel()
 ) {
 //    baseUiState called 5 times
-    Log.d("viewModel_test" , "ApartmentScreen:$viewModel")
     LaunchedEffect(key1 = baseUIState.apartments) {
         getApartments()
         if (contentType == ContentType.SINGLE_PANE && !baseUIState.isDetailOnlyOpen) {

@@ -17,6 +17,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -76,7 +77,7 @@ fun SignUpScreen(
             Spacer(modifier = Modifier.spacer())
             if (!checkedState) {
                 Text(
-                    text = viewModel.agreementTitle.ifEmpty {
+                    text = viewModel.agreementTitle.collectAsState().value.ifEmpty {
                         stringResource(id = AppText.agreement_title)
                     },
                     textAlign = TextAlign.Center,
@@ -90,7 +91,7 @@ fun SignUpScreen(
                 )
                 {
                     Text(
-                        text = viewModel.agreementText.ifEmpty {
+                        text = viewModel.agreementText.collectAsState().value.ifEmpty {
                             stringResource(id = AppText.agreement_text)
                         },
                         modifier = Modifier.padding(PaddingValues(8.dp)),
@@ -107,7 +108,8 @@ fun SignUpScreen(
             )
             if (checkedState) {
                 Column(
-                    modifier = Modifier.padding(PaddingValues(8.dp))
+                    modifier = Modifier
+                        .padding(PaddingValues(8.dp))
                         .widthIn(0.dp, 480.dp),
                 )
                 {

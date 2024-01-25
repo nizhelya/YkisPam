@@ -16,9 +16,7 @@ limitations under the License.
 
 package com.ykis.ykispam.firebase.screens.sign_up
 
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import com.ykis.ykispam.BaseViewModel
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.Response
@@ -33,10 +31,10 @@ import com.ykis.ykispam.firebase.model.service.repo.ReloadUserResponse
 import com.ykis.ykispam.firebase.model.service.repo.SendEmailVerificationResponse
 import com.ykis.ykispam.firebase.model.service.repo.SignUpResponse
 import com.ykis.ykispam.firebase.screens.sign_up.components.SignUpUiState
-import com.ykis.ykispam.navigation.SIGN_IN_SCREEN
 import com.ykis.ykispam.navigation.LAUNCH_SCREEN
-import com.ykis.ykispam.navigation.YkisRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 import com.ykis.ykispam.R.string as AppText
 
@@ -47,26 +45,20 @@ class SignUpViewModel @Inject constructor(
     private val configurationService: ConfigurationService,
     logService: LogService
 ) : BaseViewModel(logService) {
-    var agreementTitle by mutableStateOf(configurationService.agreementTitle)
-        private set
 
-    var agreementText by mutableStateOf(configurationService.agreementText)
-        private set
+    private val  _agreementTitle = MutableStateFlow(configurationService.agreementTitle)
+    val agreementTitle = _agreementTitle.asStateFlow()
 
-    init{
-        launchCatching { configurationService.fetchConfiguration() }
-    }
-    var reloadUserResponse by mutableStateOf<ReloadUserResponse>(Response.Success(false))
-        private set
-    var signUpResponse by mutableStateOf<SignUpResponse>(Response.Success(false))
-        private set
-    private var sendEmailVerificationResponse by mutableStateOf<SendEmailVerificationResponse>(
-        Response.Success(
-            false
-        )
-    )
-        private set
+    private val  _agreementText = MutableStateFlow(configurationService.agreementText)
+    val agreementText = _agreementText.asStateFlow()
 
+    private val _reloadUserResponse = MutableStateFlow<ReloadUserResponse>(Response.Success(false))
+    val reloadUserResponse = _reloadUserResponse.asStateFlow()
+
+    private val _signUpResponse = MutableStateFlow<SignUpResponse>(Response.Success(false))
+    val signUpResponse = _signUpResponse.asStateFlow()
+
+    private val _sendEmailVerificationResponse = MutableStateFlow<SendEmailVerificationResponse>(Response.Success(false))
 
     var signUpUiState = mutableStateOf(SignUpUiState())
         private set
@@ -80,12 +72,14 @@ class SignUpViewModel @Inject constructor(
 
     val isEmailVerified get() = firebaseService.currentUser?.isEmailVerified ?: false
 
-
+    init{
+        launchCatching { configurationService.fetchConfiguration() }
+    }
 
     fun repeatEmailVerified() {
         launchCatching {
-            sendEmailVerificationResponse = Response.Loading
-            sendEmailVerificationResponse = firebaseService.sendEmailVerification()
+            _sendEmailVerificationResponse.value = Response.Loading
+            _sendEmailVerificationResponse.value = firebaseService.sendEmailVerification()
             SnackbarManager.showMessage(R.string.verify_email_message)
         }
     }
@@ -118,15 +112,15 @@ class SignUpViewModel @Inject constructor(
         }
 
         launchCatching {
-            signUpResponse = Response.Loading
-            signUpResponse = firebaseService.firebaseSignUpWithEmailAndPassword(email, password)
+            _signUpResponse.value = Response.Loading
+            _signUpResponse.value = firebaseService.firebaseSignUpWithEmailAndPassword(email, password)
         }
     }
 
     fun sendEmailVerification(openScreen: (String) -> Unit) {
         launchCatching {
-            sendEmailVerificationResponse = Response.Loading
-            sendEmailVerificationResponse = firebaseService.sendEmailVerification()
+            _sendEmailVerificationResponse.value = Response.Loading
+            _sendEmailVerificationResponse.value = firebaseService.sendEmailVerification()
             openScreen(LAUNCH_SCREEN)
         }
 
@@ -139,8 +133,8 @@ class SignUpViewModel @Inject constructor(
     }
     fun reloadUser() {
         launchCatching {
-            reloadUserResponse = Response.Loading
-            reloadUserResponse = firebaseService.reloadFirebaseUser()
+            _reloadUserResponse.value = Response.Loading
+            _reloadUserResponse.value = firebaseService.reloadFirebaseUser()
         }
     }
     fun navigateBack(openScreen: (String) -> Unit) {

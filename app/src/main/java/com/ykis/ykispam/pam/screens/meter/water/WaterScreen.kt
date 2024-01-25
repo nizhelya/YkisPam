@@ -29,8 +29,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -52,15 +52,15 @@ fun WaterScreen(
     LaunchedEffect(viewModel) {
 //        viewModel.getFlatFromCache(addressId.toInt())
     }
-    val apartment by viewModel.apartment.observeAsState()
+    val apartment by viewModel.apartment.collectAsState()
     Column(
         modifier = Modifier
             .padding(4.dp)
             .fillMaxWidth()
             .fillMaxHeight()
     ) {
-        apartment?.let {
-            it.address?.let { address ->
+        apartment.let {
+            it.address.let { address ->
                 Text(
                     text = address,
                     textAlign = TextAlign.Center,

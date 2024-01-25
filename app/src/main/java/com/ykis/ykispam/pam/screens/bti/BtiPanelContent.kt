@@ -18,6 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -35,7 +36,6 @@ import com.ykis.ykispam.core.composable.PhoneField
 import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.pam.screens.appbars.DetailAppBar
 import com.ykis.ykispam.theme.YkisPAMTheme
 
 
@@ -53,7 +53,7 @@ fun BtiPanelContent(
     LaunchedEffect(key1 = baseUIState.apartment) {
         viewModel.initialize(baseUIState.apartment)
     }
-    val contactUiState by viewModel.contactUiState
+    val contactUiState by viewModel.contactUIState.collectAsState()
 
     BtiContent(
         modifier = modifier,

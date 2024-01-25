@@ -1,7 +1,6 @@
 
 package com.ykis.ykispam.pam.screens.bti
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ykis.ykispam.BaseViewModel
@@ -16,6 +15,9 @@ import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.pam.domain.apartment.request.GetApartments
 import com.ykis.ykispam.pam.domain.apartment.request.UpdateBti
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 
@@ -32,19 +34,21 @@ class BtiViewModel @Inject constructor(
     private val isConnected: Boolean get() = networkHandler.isConnected
     private val networkType: Int get() = networkHandler.networkType
 
-    var contactUiState = mutableStateOf(ContactUIState())
-        private set
+    private val _contactUiState = MutableStateFlow<ContactUIState>(ContactUIState())
+    val contactUIState : StateFlow<ContactUIState> = _contactUiState.asStateFlow()
+
+
     private val email
-        get() = contactUiState.value.email
+        get() = _contactUiState.value.email
     private val phone
-        get() = contactUiState.value.phone
+        get() = _contactUiState.value.phone
 
     fun onEmailChange(newValue: String) {
-        contactUiState.value = contactUiState.value.copy(email = newValue)
+        _contactUiState.value = _contactUiState.value.copy(email = newValue)
     }
 
     fun onPhoneChange(newValue: String) {
-        contactUiState.value = contactUiState.value.copy(phone = newValue)
+        _contactUiState.value = _contactUiState.value.copy(phone = newValue)
     }
 
     private val _apartment = MutableLiveData<ApartmentEntity>()
@@ -57,7 +61,7 @@ class BtiViewModel @Inject constructor(
 
     private val _resultText = MutableLiveData<GetSimpleResponse>()
     fun initialize(apartmentEntity: ApartmentEntity) {
-        contactUiState.value = contactUiState.value.copy(
+        _contactUiState.value = _contactUiState.value.copy(
             addressId = apartmentEntity.addressId,
             address = apartmentEntity.address,
             email = apartmentEntity.email,
@@ -121,10 +125,10 @@ class BtiViewModel @Inject constructor(
             if (isConnected && networkType != 0) {
                 updateBtiUseCase(
                     ApartmentEntity(
-                        addressId = contactUiState.value.addressId,
-                        address = contactUiState.value.address,
-                        phone = contactUiState.value.phone,
-                        email = contactUiState.value.email
+                        addressId = _contactUiState.value.addressId,
+                        address = _contactUiState.value.address,
+                        phone = _contactUiState.value.phone,
+                        email = _contactUiState.value.email
                     )
                 ) { it ->
                     it.either(::handleFailure) {
@@ -136,7 +140,7 @@ class BtiViewModel @Inject constructor(
                 }
             } else {
                 SnackbarManager.showMessage(R.string.error_server_appartment)
-                getBtiFromCache(contactUiState.value.addressId)
+                getBtiFromCache(_contactUiState.value.addressId)
             }
 
         }
@@ -154,7 +158,7 @@ class BtiViewModel @Inject constructor(
             getApartmentsByUser(true)
         } else {
             SnackbarManager.showMessage(R.string.error_update)
-            getBtiFromCache(contactUiState.value.addressId)
+            getBtiFromCache(_contactUiState.value.addressId)
         }
     }
 

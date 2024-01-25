@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -26,7 +27,7 @@ fun LaunchScreen(
     viewModel: ApartmentViewModel = hiltViewModel()
 ) {
     val isUserSignedOut = viewModel.getAuthState().collectAsStateWithLifecycle().value
-
+    val showError = viewModel.showError.collectAsState()
     Column(
         modifier =
         modifier
@@ -34,7 +35,7 @@ fun LaunchScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (viewModel.showError.value) {
+        if (showError.value) {
             Text(text = stringResource(AppText.generic_error))
             BasicButton(AppText.try_again, Modifier.basicButton()) {
                 viewModel.onAppStart(isUserSignedOut, openAndPopUp,restartApp)

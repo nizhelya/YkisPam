@@ -16,11 +16,6 @@ limitations under the License.
 
 package com.ykis.ykispam.pam.screens.appartment
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.BaseViewModel
 import com.ykis.ykispam.R
@@ -28,7 +23,6 @@ import com.ykis.ykispam.core.Response
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.firebase.model.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.model.service.repo.LogService
-import com.ykis.ykispam.firebase.model.service.repo.RevokeAccessResponse
 import com.ykis.ykispam.firebase.model.service.repo.SignOutResponse
 import com.ykis.ykispam.navigation.ADDRESS_ID
 import com.ykis.ykispam.navigation.APARTMENT_SCREEN
@@ -67,23 +61,22 @@ class ApartmentViewModel @Inject constructor(
 
     private val isEmailVerified get() = firebaseService.currentUser?.isEmailVerified ?: false
     val uid get() = firebaseService.uid
+
     private val displayName get() = firebaseService.displayName
     val email get() = firebaseService.email
-    var signOutResponse by mutableStateOf<SignOutResponse>(Response.Success(false))
-        private set
-    var revokeAccessResponse by mutableStateOf<RevokeAccessResponse>(Response.Success(false))
-        private set
+
+    private val signOutResponse = MutableStateFlow<SignOutResponse>(Response.Success(false))
+
+    private val _resultResponse = MutableStateFlow<GetSimpleResponse?>(null)
 
 
-    private val _resultText = MutableLiveData<GetSimpleResponse>()
-    val resultText: LiveData<GetSimpleResponse> = _resultText
+    private val _apartment = MutableStateFlow<ApartmentEntity>(ApartmentEntity())
+    val apartment: StateFlow<ApartmentEntity> get() = _apartment.asStateFlow()
 
 
-    private val _apartment = MutableLiveData<ApartmentEntity>()
-    val apartment: LiveData<ApartmentEntity> get() = _apartment
-
-    private val _address = MutableLiveData<List<AddressEntity>>()
-    val address: LiveData<List<AddressEntity>> get() = _address
+    // TODO: delete address
+    private val _address = MutableStateFlow<List<AddressEntity>>(emptyList())
+    val address: StateFlow<List<AddressEntity>> get() = _address.asStateFlow()
 
 
     private val isConnected: Boolean get() = networkHandler.isConnected
@@ -93,7 +86,10 @@ class ApartmentViewModel @Inject constructor(
     val secretCode : StateFlow<String> = _secretCode.asStateFlow()
 
     // LaunchScreen
-    val showError = mutableStateOf(false)
+    private val _showError = MutableStateFlow(false)
+    val showError :StateFlow<Boolean> = _showError.asStateFlow()
+
+
     fun getAuthState() = firebaseService.getAuthState(viewModelScope)
 
     fun onAppStart(
@@ -102,7 +98,7 @@ class ApartmentViewModel @Inject constructor(
         restartApp: (String) -> Unit,
 
     ) {
-        showError.value = false
+        _showError.value = false
         if (isUserSignedOut) {
             restartApp(Graph.AUTHENTICATION)
         } else {
@@ -201,12 +197,12 @@ class ApartmentViewModel @Inject constructor(
                 addFlatByUser(secretCode.value) { it ->
                 it.either(::handleFailure) {
                     handleResultText(
-                        it, _resultText
+                        it, _resultResponse
                     )
                 }
-                if (resultText.value?.success == 1) {
+                if (_resultResponse.value!!.success == 1) {
                     _uiState.value = _uiState.value.copy(
-                        addressId = resultText.value!!.addressId
+                        addressId = _resultResponse.value!!.addressId
                     )
                     getApartmentsByUser(true)
                     SnackbarManager.showMessage(R.string.success_add_flat)
@@ -222,7 +218,7 @@ class ApartmentViewModel @Inject constructor(
 
     private fun handleResultText(
         response: GetSimpleResponse,
-        result: MutableLiveData<GetSimpleResponse>,
+        result: MutableStateFlow<GetSimpleResponse?>,
     ) {
         result.value = response
     }
@@ -259,7 +255,7 @@ class ApartmentViewModel @Inject constructor(
                 deleteFlatByUser(addressId) { it ->
                     it.either(::handleFailure) {
                         handleResultTextDelete(
-                            it, _resultText
+                            it, _resultResponse
                         )
                     }
                 }
@@ -272,7 +268,7 @@ class ApartmentViewModel @Inject constructor(
 
     private fun handleResultTextDelete(
         response: GetSimpleResponse,
-        result: MutableLiveData<GetSimpleResponse>
+        result: MutableStateFlow<GetSimpleResponse?>
     ) {
         result.value = response
         if (result.value!!.success == 1) {
@@ -282,8 +278,8 @@ class ApartmentViewModel @Inject constructor(
     }
     fun signOut() {
         launchCatching {
-            signOutResponse = Response.Loading
-            signOutResponse = firebaseService.signOut()
+            signOutResponse.value = Response.Loading
+            signOutResponse.value = firebaseService.signOut()
         }
     }
 }

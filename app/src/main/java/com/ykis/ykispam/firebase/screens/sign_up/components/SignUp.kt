@@ -2,6 +2,7 @@ package com.ykis.ykispam.firebase.screens.sign_up.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ykis.ykispam.core.ProgressBar
 import com.ykis.ykispam.core.Response
@@ -15,7 +16,7 @@ fun SignUp(
     showErrorMessage: (String) -> Unit
 
 ) {
-    when(val signUpResponse = viewModel.signUpResponse) {
+    when(val signUpResponse = viewModel.signUpResponse.collectAsState().value) {
         is Response.Loading -> ProgressBar()
         is Response.Success -> {
             val isUserSignedUp = signUpResponse.data

@@ -37,7 +37,6 @@ import com.ykis.ykispam.R
 import com.ykis.ykispam.YkisPamAppState
 import com.ykis.ykispam.core.Constants.REVOKE_ACCESS_MESSAGE
 import com.ykis.ykispam.core.Constants.SIGN_OUT
-import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.firebase.screens.profile.components.ProfileTopBar
 import com.ykis.ykispam.firebase.screens.profile.components.RevokeAccess
 import com.ykis.ykispam.firebase.screens.profile.components.SignOut
@@ -54,7 +53,7 @@ fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
 
-    ProfileScreenContent(
+    ProfileScreenStateless(
         photoUrl = viewModel.photoUrl,
         displayName = viewModel.displayName,
         email = viewModel.email,
@@ -96,7 +95,7 @@ fun ProfileScreen(
 
 @ExperimentalMaterial3Api
 @Composable
-fun ProfileScreenContent(
+fun ProfileScreenStateless(
     photoUrl: String,
     displayName: String,
     email: String,
@@ -332,7 +331,7 @@ fun ProfileScreenContent(
 @Composable
 fun ProfileScreenPreview() {
     YkisPAMTheme {
-        ProfileScreenContent(
+        ProfileScreenStateless(
             photoUrl = "",
             displayName = "Sergey Nizhelskiy",
             email = "nizhelskiy.sergey@gmail.com",

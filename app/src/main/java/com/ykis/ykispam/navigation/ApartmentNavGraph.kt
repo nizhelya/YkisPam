@@ -92,7 +92,7 @@ fun MainApartmentScreen(
                     drawerState.open()
                 }
             },
-            viewModel = viewModel
+            apartmentViewModel = viewModel
         )
         if (navigationType != NavigationType.BOTTOM_NAVIGATION) {
             ApartmentNavigationRail(
@@ -117,11 +117,11 @@ fun ApartmentNavGraph(
     baseUIState: BaseUIState,
     onDrawerClicked: () -> Unit = {},
     navController: NavHostController = rememberNavController(),
-    viewModel: ApartmentViewModel
+    apartmentViewModel: ApartmentViewModel
 ) {
-    Log.d("viewModel_test" , "ApartmentNavGraph:$viewModel")
+    Log.d("viewModel_test" , "ApartmentNavGraph:$apartmentViewModel")
     val appState = rememberAppState(navController)
-    val state = viewModel.uiState.collectAsState()
+    val state = apartmentViewModel.uiState.collectAsState()
     Log.d("vm_test","apartmentNavGraph:${state}")
     NavHost(
         modifier = modifier,
@@ -161,7 +161,7 @@ fun ApartmentNavGraph(
         composable(ADD_APARTMENT_SCREEN) {
             AddApartmentScreenContent(
                 appState = appState,
-                viewModel = viewModel
+                viewModel = apartmentViewModel
             )
 //            AddApartmentScreen(
 //                popUpScreen = { appState.popUp() },
@@ -187,11 +187,11 @@ fun ApartmentNavGraph(
                 baseUIState = baseUIState,
                 navigationType = navigationType,
                 displayFeatures = displayFeatures,
-                closeDetailScreen = {viewModel.closeDetailScreen()},
-                setApartment = {addressId ->viewModel.setApartment(addressId) },
-                navigateToDetail = {contentDetail, pane ->  viewModel.setSelectedDetail(contentDetail, pane) },
-                getApartments = {viewModel.initialize()},
-                deleteApartment = {addressId, restartApp ->  viewModel.deleteApartment(addressId, restartApp)},
+                closeDetailScreen = {apartmentViewModel.closeDetailScreen()},
+                setApartment = {addressId ->apartmentViewModel.setApartment(addressId) },
+                navigateToDetail = {contentDetail, pane ->  apartmentViewModel.setSelectedDetail(contentDetail, pane) },
+                getApartments = {apartmentViewModel.initialize()},
+                deleteApartment = {addressId, restartApp ->  apartmentViewModel.deleteApartment(addressId, restartApp)},
                 onDrawerClicked = onDrawerClicked,
             )
         }

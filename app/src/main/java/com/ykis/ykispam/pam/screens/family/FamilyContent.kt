@@ -36,8 +36,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -54,7 +54,6 @@ import com.ykis.ykispam.R
 import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.pam.domain.family.FamilyEntity
-import com.ykis.ykispam.pam.screens.appbars.DetailAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -72,7 +71,8 @@ fun FamilyContent(
         viewModel.getFamily(baseUIState.apartment.addressId)
     }
 
-    val family by viewModel.family.observeAsState(listOf(FamilyEntity()))
+    val family by viewModel.family.collectAsState()
+    // TODO: delete rememberLazyState
     val familyLazyListState = rememberLazyListState()
 
     Column(
