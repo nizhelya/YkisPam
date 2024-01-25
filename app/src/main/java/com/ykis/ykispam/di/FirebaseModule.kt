@@ -32,12 +32,12 @@ import com.google.firebase.ktx.Firebase
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.Constants.SIGN_IN_REQUEST
 import com.ykis.ykispam.core.Constants.SIGN_UP_REQUEST
-import com.ykis.ykispam.firebase.model.service.impl.ConfigurationServiceImpl
-import com.ykis.ykispam.firebase.model.service.impl.FirebaseServiceImpl
-import com.ykis.ykispam.firebase.model.service.impl.LogServiceImpl
-import com.ykis.ykispam.firebase.model.service.repo.ConfigurationService
-import com.ykis.ykispam.firebase.model.service.repo.FirebaseService
-import com.ykis.ykispam.firebase.model.service.repo.LogService
+import com.ykis.ykispam.firebase.service.impl.ConfigurationServiceImpl
+import com.ykis.ykispam.firebase.service.impl.FirebaseServiceImpl
+import com.ykis.ykispam.firebase.service.impl.LogServiceImpl
+import com.ykis.ykispam.firebase.service.repo.ConfigurationService
+import com.ykis.ykispam.firebase.service.repo.FirebaseService
+import com.ykis.ykispam.firebase.service.repo.LogService
 
 import dagger.Module
 import dagger.Provides

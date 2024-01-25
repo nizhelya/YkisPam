@@ -5,7 +5,7 @@ import android.content.Context
 import androidx.room.Room
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.ykis.ykispam.firebase.model.service.repo.FirebaseService
+import com.ykis.ykispam.firebase.service.repo.FirebaseService
 import com.ykis.ykispam.pam.data.AddressRepositoryImpl
 import com.ykis.ykispam.pam.data.ApartmentRepositoryImpl
 import com.ykis.ykispam.pam.data.FamilyRepositoryImpl

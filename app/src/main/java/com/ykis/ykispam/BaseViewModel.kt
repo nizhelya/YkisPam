@@ -22,7 +22,7 @@ import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.core.snackbar.SnackbarManager.showMessage
 import com.ykis.ykispam.core.snackbar.SnackbarMessage.Companion.toSnackbarMessage
-import com.ykis.ykispam.firebase.model.service.repo.LogService
+import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.pam.domain.type.Failure
 import com.ykis.ykispam.pam.domain.type.HandleOnce
 import kotlinx.coroutines.CoroutineExceptionHandler

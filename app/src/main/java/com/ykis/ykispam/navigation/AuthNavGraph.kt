@@ -5,10 +5,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.ykis.ykispam.YkisPamAppState
-import com.ykis.ykispam.firebase.screens.sign_in.SignInScreen
-import com.ykis.ykispam.firebase.screens.sign_up.SignUpScreen
-import com.ykis.ykispam.firebase.screens.sign_up.SignUpViewModel
-import com.ykis.ykispam.firebase.screens.verify_email.VerifyEmailScreen
+import com.ykis.ykispam.pam.screens.auth.sign_in.SignInScreen
+import com.ykis.ykispam.pam.screens.auth.sign_up.SignUpScreen
+import com.ykis.ykispam.pam.screens.auth.sign_up.SignUpViewModel
+import com.ykis.ykispam.pam.screens.auth.verify_email.VerifyEmailScreen
 
 fun NavGraphBuilder.authNavGraph(
     appState: YkisPamAppState,

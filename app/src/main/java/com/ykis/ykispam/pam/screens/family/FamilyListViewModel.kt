@@ -1,7 +1,7 @@
 package com.ykis.ykispam.pam.screens.family
 
 import com.ykis.ykispam.BaseViewModel
-import com.ykis.ykispam.firebase.model.service.repo.LogService
+import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.pam.domain.family.FamilyEntity
 import com.ykis.ykispam.pam.domain.family.request.BooleanInt

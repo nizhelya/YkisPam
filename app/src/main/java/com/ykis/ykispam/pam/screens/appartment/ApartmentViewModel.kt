@@ -21,9 +21,9 @@ import com.ykis.ykispam.BaseViewModel
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.Response
 import com.ykis.ykispam.core.snackbar.SnackbarManager
-import com.ykis.ykispam.firebase.model.service.repo.FirebaseService
-import com.ykis.ykispam.firebase.model.service.repo.LogService
-import com.ykis.ykispam.firebase.model.service.repo.SignOutResponse
+import com.ykis.ykispam.firebase.service.repo.FirebaseService
+import com.ykis.ykispam.firebase.service.repo.LogService
+import com.ykis.ykispam.firebase.service.repo.SignOutResponse
 import com.ykis.ykispam.navigation.ADDRESS_ID
 import com.ykis.ykispam.navigation.APARTMENT_SCREEN
 import com.ykis.ykispam.navigation.ContentDetail

@@ -7,7 +7,7 @@ import com.ykis.ykispam.BaseViewModel
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.ext.isValidEmail
 import com.ykis.ykispam.core.snackbar.SnackbarManager
-import com.ykis.ykispam.firebase.model.service.repo.LogService
+import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.pam.data.cache.apartment.ApartmentCacheImpl
 import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.pam.data.remote.core.NetworkHandler

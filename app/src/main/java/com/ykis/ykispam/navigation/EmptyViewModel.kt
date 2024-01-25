@@ -2,7 +2,7 @@ package com.ykis.ykispam.navigation
 
 
 import com.ykis.ykispam.BaseViewModel
-import com.ykis.ykispam.firebase.model.service.repo.LogService
+import com.ykis.ykispam.firebase.service.repo.LogService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

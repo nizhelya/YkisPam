@@ -1,7 +1,7 @@
 package com.ykis.ykispam.pam.screens.service
 
 import com.ykis.ykispam.BaseViewModel
-import com.ykis.ykispam.firebase.model.service.repo.LogService
+import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.pam.domain.service.ServiceEntity
 import com.ykis.ykispam.pam.domain.service.request.ServiceParams
 import com.ykis.ykispam.pam.domain.service.request.getFlatService

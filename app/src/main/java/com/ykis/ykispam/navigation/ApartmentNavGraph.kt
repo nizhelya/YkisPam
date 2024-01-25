@@ -24,8 +24,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.window.layout.DisplayFeature
 import com.ykis.ykispam.BaseUIState
-import com.ykis.ykispam.firebase.screens.profile.ProfileScreen
-import com.ykis.ykispam.firebase.screens.settings.SettingsScreen
+import com.ykis.ykispam.pam.screens.profile.ProfileScreen
+import com.ykis.ykispam.pam.screens.settings.SettingsScreen
 import com.ykis.ykispam.pam.screens.appartment.AddApartmentScreenContent
 import com.ykis.ykispam.pam.screens.appartment.ApartmentScreen
 import com.ykis.ykispam.pam.screens.appartment.ApartmentViewModel
