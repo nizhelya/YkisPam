@@ -16,6 +16,7 @@ limitations under the License.
 
 package com.ykis.ykispam.firebase.screens.sign_up
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import com.ykis.ykispam.BaseViewModel
 import com.ykis.ykispam.R
@@ -125,9 +126,6 @@ class SignUpViewModel @Inject constructor(
         }
 
     }
-    fun navigateToProfileScreen(restartApp: (String) -> Unit) {
-        restartApp(LAUNCH_SCREEN)
-    }
     fun navigateToLaunchScreen(restartApp: (String) -> Unit) {
         restartApp(LAUNCH_SCREEN)
     }
@@ -140,6 +138,8 @@ class SignUpViewModel @Inject constructor(
     fun navigateBack(openScreen: (String) -> Unit) {
         openScreen(LAUNCH_SCREEN)
     }
-
-
+    override fun onCleared() {
+        Log.d("sharedViewModel", "vm is cleared!")
+        super.onCleared()
+    }
 }

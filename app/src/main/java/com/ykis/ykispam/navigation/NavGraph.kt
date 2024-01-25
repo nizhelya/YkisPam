@@ -39,7 +39,8 @@ fun RootNavGraph(
                 )
             }
 
-            authNavGraph(appState)
+            authNavGraph(appState , navController)
+
             composable(route = Graph.APARTMENT) {
                 MainApartmentScreen(
                     contentType = contentType,

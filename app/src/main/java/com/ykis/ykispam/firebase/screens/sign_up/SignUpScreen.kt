@@ -29,7 +29,6 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.ykis.ykispam.core.composable.BasicLinkButton
 import com.ykis.ykispam.core.composable.EmailField
 import com.ykis.ykispam.core.composable.LogoImage
@@ -51,9 +50,8 @@ import com.ykis.ykispam.R.string as AppText
 fun SignUpScreen(
     openScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SignUpViewModel = hiltViewModel()
+    viewModel: SignUpViewModel
 ) {
-
     Row( modifier = modifier
         .fillMaxWidth()
         .fillMaxHeight(),
@@ -149,7 +147,8 @@ fun SignUpScreen(
         },
         showErrorMessage = { errorMessage ->
             SnackbarManager.showMessage(errorMessage)
-        }
+        },
+        viewModel = viewModel
     )
 
 //    SendEmailVerification()

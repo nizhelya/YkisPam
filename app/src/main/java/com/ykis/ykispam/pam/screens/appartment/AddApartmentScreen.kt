@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ykis.ykispam.R
 import com.ykis.ykispam.YkisPamAppState
 import com.ykis.ykispam.core.composable.BasicField
@@ -54,7 +55,7 @@ fun AddApartmentScreenContent(
     modifier: Modifier = Modifier,
     isSelected: Boolean = false,
     appState: YkisPamAppState,
-    viewModel: ApartmentViewModel
+    viewModel: ApartmentViewModel = hiltViewModel()
 
 ) {
     Log.d("viewModel_test" , "AddApartmentScreenContent:$viewModel")

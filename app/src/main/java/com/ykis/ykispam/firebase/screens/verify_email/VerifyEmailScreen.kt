@@ -12,29 +12,26 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.ykis.ykispam.core.composable.BasicToolbar
 import com.ykis.ykispam.core.composable.LogoImage
 import com.ykis.ykispam.core.ext.spacer
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.firebase.screens.sign_up.SignUpViewModel
-import com.ykis.ykispam.firebase.screens.verify_email.components.SendEmailVerification
 import com.ykis.ykispam.firebase.screens.verify_email.components.ReloadUser
+import com.ykis.ykispam.firebase.screens.verify_email.components.SendEmailVerification
 import com.ykis.ykispam.R.string as AppText
 
 @Composable
 fun VerifyEmailScreen(
-    viewModel: SignUpViewModel = hiltViewModel(),
+    viewModel: SignUpViewModel,
     restartApp: (String) -> Unit
 ) {
-    val coroutineScope = rememberCoroutineScope()
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -82,7 +79,8 @@ fun VerifyEmailScreen(
             } else {
                 SnackbarManager.showMessage(AppText.email_not_verified_message)
 
-            }        }
+            }        },
+        viewModel= viewModel
     )
 
     ReloadUser(
@@ -93,6 +91,7 @@ fun VerifyEmailScreen(
                 SnackbarManager.showMessage(AppText.email_not_verified_message)
 
             }
-        }
+        },
+        viewModel = viewModel
     )
 }

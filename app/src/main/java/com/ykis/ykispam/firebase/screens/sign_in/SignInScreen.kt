@@ -51,8 +51,10 @@ fun SignInScreen(
     openScreen: (String) -> Unit,
     navigateToDestination: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SignInViewModel = hiltViewModel()
+    viewModel: SignInViewModel = hiltViewModel(),
+//    signUpViewModel: SignUpViewModel
 ) {
+//    Log.d("sharedViewModel", "SignIn:$signUpViewModel" )
     val singInUiState = viewModel.singInUiState
     val keyboard = LocalSoftwareKeyboardController.current
     val context = LocalContext.current
