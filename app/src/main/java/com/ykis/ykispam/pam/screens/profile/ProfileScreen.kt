@@ -37,6 +37,7 @@ import com.ykis.ykispam.R
 import com.ykis.ykispam.YkisPamAppState
 import com.ykis.ykispam.core.Constants.REVOKE_ACCESS_MESSAGE
 import com.ykis.ykispam.core.Constants.SIGN_OUT
+import com.ykis.ykispam.navigation.Graph
 import com.ykis.ykispam.navigation.LAUNCH_SCREEN
 import com.ykis.ykispam.pam.screens.profile.components.ProfileTopBar
 import com.ykis.ykispam.pam.screens.profile.components.RevokeAccess
@@ -49,7 +50,7 @@ import kotlinx.coroutines.launch
 fun ProfileScreen(
     appState: YkisPamAppState,
     popUpScreen:() -> Unit,
-    navigateToDestination: (String) -> Unit,
+    cleanNavigateToDestination: (String) -> Unit,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
 
@@ -67,7 +68,7 @@ fun ProfileScreen(
     SignOut(
         navigateToAuthScreen = { signedOut ->
             if (signedOut) {
-                navigateToDestination(LAUNCH_SCREEN)
+                cleanNavigateToDestination(Graph.AUTHENTICATION)
             }
         },
         viewModel = viewModel
@@ -85,7 +86,7 @@ fun ProfileScreen(
     RevokeAccess(
         navigateToAuthScreen = { accessRevoked ->
             if (accessRevoked) {
-                navigateToDestination(LAUNCH_SCREEN)
+                cleanNavigateToDestination(LAUNCH_SCREEN)
             }
         },
         showSnackBar = {

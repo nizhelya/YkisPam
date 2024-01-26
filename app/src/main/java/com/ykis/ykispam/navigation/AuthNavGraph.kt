@@ -4,14 +4,12 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.ykis.ykispam.YkisPamAppState
 import com.ykis.ykispam.pam.screens.auth.sign_in.SignInScreen
 import com.ykis.ykispam.pam.screens.auth.sign_up.SignUpScreen
 import com.ykis.ykispam.pam.screens.auth.sign_up.SignUpViewModel
 import com.ykis.ykispam.pam.screens.auth.verify_email.VerifyEmailScreen
 
 fun NavGraphBuilder.authNavGraph(
-    appState: YkisPamAppState,
     navController : NavHostController
 ) {
     navigation(
@@ -21,7 +19,7 @@ fun NavGraphBuilder.authNavGraph(
             entry ->
             val signUpViewModel = entry.sharedViewModel<SignUpViewModel>(navController)
             SignUpScreen(
-                openScreen = { route -> appState.navigate(route) },
+                openScreen = { route -> navController.navigate(route) },
                 viewModel = signUpViewModel
             )
         }
@@ -29,7 +27,7 @@ fun NavGraphBuilder.authNavGraph(
             entry ->
             val signUpViewModel = entry.sharedViewModel<SignUpViewModel>(navController)
             VerifyEmailScreen(
-                restartApp = { route -> appState.clearAndNavigate(route) },
+                restartApp = { route ->  navController.cleanNavigateTo(route) },
                 viewModel = signUpViewModel
                 )
         }
@@ -38,8 +36,8 @@ fun NavGraphBuilder.authNavGraph(
                 entry ->
             val signUpViewModel = entry.sharedViewModel<SignUpViewModel>(navController)
             SignInScreen(
-                openScreen = { route -> appState.navigate(route) },
-                navigateToDestination = {route-> appState.navigateTo(route)},
+                openScreen = { route -> navController.navigate(route) },
+                navigateToDestination = {route-> navController.navigate(route)},
             )
 
         }

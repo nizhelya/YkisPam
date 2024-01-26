@@ -11,7 +11,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.NavHostController
 import androidx.window.layout.DisplayFeature
 import androidx.window.layout.FoldingFeature
 import com.ykis.ykispam.core.snackbar.SnackbarManager
@@ -83,15 +82,13 @@ fun YkisPamApp(
 }
 @Composable
 fun rememberAppState(
-    navController: NavHostController,
     snackbarHostState: SnackbarHostState = SnackbarHostState(),
     snackbarManager: SnackbarManager = SnackbarManager,
     resources: Resources = resources(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
 ) =
-    remember(navController, snackbarManager, resources, coroutineScope) {
+    remember(snackbarManager, resources, coroutineScope) {
         YkisPamAppState(
-            navController,
             snackbarHostState,
             snackbarManager,
             resources,

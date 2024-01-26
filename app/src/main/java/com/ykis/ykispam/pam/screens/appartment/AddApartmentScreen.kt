@@ -24,10 +24,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.ykis.ykispam.R
-import com.ykis.ykispam.YkisPamAppState
 import com.ykis.ykispam.core.composable.BasicField
 import com.ykis.ykispam.core.composable.BasicImageButton
+import com.ykis.ykispam.navigation.cleanNavigateTo
 import com.ykis.ykispam.pam.screens.appbars.AddAppBar
 import com.ykis.ykispam.R.string as AppText
 
@@ -54,9 +55,8 @@ import com.ykis.ykispam.R.string as AppText
 fun AddApartmentScreenContent(
     modifier: Modifier = Modifier,
     isSelected: Boolean = false,
-    appState: YkisPamAppState,
-    viewModel: ApartmentViewModel = hiltViewModel()
-
+    viewModel: ApartmentViewModel = hiltViewModel(),
+    navController : NavHostController
 ) {
     Log.d("viewModel_test" , "AddApartmentScreenContent:$viewModel")
     val secretCode by viewModel.secretCode.collectAsState()
@@ -73,7 +73,7 @@ fun AddApartmentScreenContent(
             modifier = Modifier,
             stringResource(id = R.string.add_flat_secret_сode),
             stringResource(id = R.string.add_appartment),
-            onBackPressed = {viewModel.navigateBack{ appState.popUp() }}
+            onBackPressed = {viewModel.navigateBack{ navController.popBackStack()}}
         )
         Card(
             modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -137,7 +137,7 @@ fun AddApartmentScreenContent(
                         )
                         {
                             keyboard?.hide()
-                            viewModel.addApartment { route -> appState.clearAndNavigate(route) }
+                            viewModel.addApartment { route -> navController.cleanNavigateTo(route) }
                         }
 
                     }

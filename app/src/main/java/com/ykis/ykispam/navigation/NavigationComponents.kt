@@ -214,7 +214,6 @@ fun ApartmentNavigationRail(
 
 @Composable
 fun BottomNavigationBar(
-    navigateToDestination: (String) -> Unit,
     selectedDestination: String,
     onClick:(String) -> Unit
 ) {

@@ -10,7 +10,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
 import com.ykis.ykispam.pam.screens.launch.LaunchScreen
-import com.ykis.ykispam.rememberAppState
 
 object Graph {
     const val AUTHENTICATION = "auth_graph"
@@ -24,7 +23,6 @@ fun RootNavGraph(
     displayFeatures: List<DisplayFeature>,
     navigationType: NavigationType,
 ) {
-    val appState = rememberAppState(navController)
     Scaffold { paddingValues ->
         NavHost(
             modifier = modifier
@@ -34,19 +32,19 @@ fun RootNavGraph(
         ) {
             composable(LAUNCH_SCREEN) {
                 LaunchScreen(
-                    restartApp = { route -> appState.clearAndNavigate(route) },
-                    openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) },
+                    restartApp = { route -> navController.cleanNavigateTo(route) },
+                    openAndPopUp = { route, popUp -> navController.navigateWithPopUp(route, popUp) },
                 )
             }
 
-            authNavGraph(appState , navController)
+            authNavGraph(navController)
 
             composable(route = Graph.APARTMENT) {
                 MainApartmentScreen(
                     contentType = contentType,
                     navigationType = navigationType,
                     displayFeatures = displayFeatures,
-                    navigateToDestination = appState::navigateTo,
+                    rootNavController = navController
                 )
             }
         }

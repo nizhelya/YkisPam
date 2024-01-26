@@ -1,6 +1,5 @@
 package com.ykis.ykispam.navigation
 
-import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
@@ -24,14 +23,14 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.window.layout.DisplayFeature
 import com.ykis.ykispam.BaseUIState
-import com.ykis.ykispam.pam.screens.profile.ProfileScreen
-import com.ykis.ykispam.pam.screens.settings.SettingsScreen
 import com.ykis.ykispam.pam.screens.appartment.AddApartmentScreenContent
 import com.ykis.ykispam.pam.screens.appartment.ApartmentScreen
 import com.ykis.ykispam.pam.screens.appartment.ApartmentViewModel
 import com.ykis.ykispam.pam.screens.launch.LaunchScreen
 import com.ykis.ykispam.pam.screens.meter.MeterScreen
+import com.ykis.ykispam.pam.screens.profile.ProfileScreen
 import com.ykis.ykispam.pam.screens.service.ServiceListScreen
+import com.ykis.ykispam.pam.screens.settings.SettingsScreen
 import com.ykis.ykispam.rememberAppState
 import kotlinx.coroutines.launch
 
@@ -40,12 +39,11 @@ fun MainApartmentScreen(
     contentType: ContentType,
     navigationType: NavigationType,
     displayFeatures: List<DisplayFeature>,
-    navigateToDestination: (String) -> Unit,
     navController: NavHostController = rememberNavController(),
-    viewModel : ApartmentViewModel = hiltViewModel()
+    viewModel : ApartmentViewModel = hiltViewModel(),
+    rootNavController: NavHostController
 
 ) {
-    Log.d("viewmodel_test","MainApartmentScreen:$viewModel")
     val baseUIState by viewModel.uiState.collectAsState()
     val drawerState = DrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
@@ -59,7 +57,7 @@ fun MainApartmentScreen(
                     baseUIState = baseUIState,
                     selectedDestination = selectedDestination,
                     navigationContentPosition =NavigationContentPosition.TOP,
-                    navigateToDestination = {navController.navigate(it)},
+                    navigateToDestination = {navController.navigateWithPopUp(it , APARTMENT_SCREEN)},
                     closeDetailScreen = {viewModel.closeDetailScreen()},
                     setApartment= {addressId ->viewModel.setApartment(addressId) },
                     onDrawerClicked = {
@@ -74,9 +72,8 @@ fun MainApartmentScreen(
     Scaffold(
         bottomBar = {
             if (navigationType == NavigationType.BOTTOM_NAVIGATION) BottomNavigationBar(
-                navigateToDestination = navigateToDestination,
                 selectedDestination = selectedDestination,
-                onClick = { navController.navigate(it) })
+                onClick = { navController.navigateWithPopUp(it, APARTMENT_SCREEN) })
         }
     ) { it ->
         ApartmentNavGraph(
@@ -95,7 +92,9 @@ fun MainApartmentScreen(
                     drawerState.open()
                 }
             },
-            apartmentViewModel = viewModel
+            apartmentViewModel = viewModel,
+            rootNavController = rootNavController
+
         )
         if (navigationType != NavigationType.BOTTOM_NAVIGATION) {
             ApartmentNavigationRail(
@@ -103,7 +102,7 @@ fun MainApartmentScreen(
                 selectedDestination = selectedDestination,
                 navigationContentPosition = NavigationContentPosition.TOP,
                 closeDetailScreen = {viewModel.closeDetailScreen()},
-                navigateToDestination = { navController.navigate(it) },
+                navigateToDestination = { navController.navigateWithPopUp(it, APARTMENT_SCREEN) },
                 setApartment = {addressId ->viewModel.setApartment(addressId) }
             )
         }
@@ -120,12 +119,11 @@ fun ApartmentNavGraph(
     baseUIState: BaseUIState,
     onDrawerClicked: () -> Unit = {},
     navController: NavHostController = rememberNavController(),
-    apartmentViewModel: ApartmentViewModel
+    apartmentViewModel: ApartmentViewModel,
+    rootNavController: NavHostController
 ) {
-    Log.d("viewModel_test" , "ApartmentNavGraph:$apartmentViewModel")
-    val appState = rememberAppState(navController)
-    val state = apartmentViewModel.uiState.collectAsState()
-    Log.d("vm_test","apartmentNavGraph:${state}")
+    val appState = rememberAppState()
+
     NavHost(
         modifier = modifier,
         navController = navController,
@@ -136,35 +134,35 @@ fun ApartmentNavGraph(
 
             ProfileScreen(
                 appState = appState,
-                popUpScreen = { appState.popUp() },
-                navigateToDestination = {appState.navigateTo(it)},
+                popUpScreen = { navController.popBackStack() },
+                cleanNavigateToDestination = {rootNavController.cleanNavigateTo(it)},
             )
         }
         composable(YkisRoute.CHAT) {
             EmptyScreen(
-                popUpScreen = { appState.popUp() },
+                popUpScreen = { navController.popBackStack()},
             )
         }
         composable(YkisRoute.MESSAGE) {
             EmptyScreen(
-                popUpScreen = { appState.popUp() },
+                popUpScreen = {navController.popBackStack() },
             )
         }
         composable(YkisRoute.OSBB) {
             EmptyScreen(
-                popUpScreen = { appState.popUp() },
+                popUpScreen = { navController.popBackStack() },
             )
         }
         composable(YkisRoute.EXITAPP) {
             LaunchScreen(
-                restartApp = { route -> appState.clearAndNavigate(route) },
-                openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) },
+                restartApp = { route -> navController.cleanNavigateTo(route) },
+                openAndPopUp = { route, popUp -> navController.navigateWithPopUp(route, popUp) },
             )
         }
         composable(ADD_APARTMENT_SCREEN) {
             AddApartmentScreenContent(
-                appState = appState,
-                viewModel = apartmentViewModel
+                viewModel = apartmentViewModel,
+                navController = navController
             )
 //            AddApartmentScreen(
 //                popUpScreen = { appState.popUp() },
@@ -173,7 +171,7 @@ fun ApartmentNavGraph(
         }
 
         composable(YkisRoute.SETTINGS) {
-            SettingsScreen(popUpScreen = { appState.popUp() })
+            SettingsScreen(popUpScreen = { navController.popBackStack() })
         }
 
         composable(
@@ -183,8 +181,8 @@ fun ApartmentNavGraph(
             )
         ) {
             ApartmentScreen(
-                openScreen = { route -> appState.navigate(route) },
-                restartApp = { route -> appState.clearAndNavigate(route) },
+                openScreen = { route -> navController.navigate(route) },
+                restartApp = { route ->  navController.cleanNavigateTo(route) },
                 appState = appState,
                 contentType = contentType,
                 baseUIState = baseUIState,

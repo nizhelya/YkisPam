@@ -22,6 +22,7 @@ import com.ykis.ykispam.core.composable.BasicToolbar
 import com.ykis.ykispam.core.composable.LogoImage
 import com.ykis.ykispam.core.ext.spacer
 import com.ykis.ykispam.core.snackbar.SnackbarManager
+import com.ykis.ykispam.navigation.LAUNCH_SCREEN
 import com.ykis.ykispam.pam.screens.auth.sign_up.SignUpViewModel
 import com.ykis.ykispam.pam.screens.auth.verify_email.components.ReloadUser
 import com.ykis.ykispam.pam.screens.auth.verify_email.components.SendEmailVerification
@@ -75,7 +76,7 @@ fun VerifyEmailScreen(
     SendEmailVerification(
         navigateToLaunchScreen = {
             if (viewModel.isEmailVerified) {
-                viewModel.navigateToLaunchScreen(restartApp)
+                restartApp(LAUNCH_SCREEN)
             } else {
                 SnackbarManager.showMessage(AppText.email_not_verified_message)
 
@@ -86,7 +87,7 @@ fun VerifyEmailScreen(
     ReloadUser(
         navigateToProfileScreen = {
             if (viewModel.isEmailVerified) {
-                viewModel.navigateToLaunchScreen(restartApp)
+                restartApp(LAUNCH_SCREEN)
             } else {
                 SnackbarManager.showMessage(AppText.email_not_verified_message)
 
