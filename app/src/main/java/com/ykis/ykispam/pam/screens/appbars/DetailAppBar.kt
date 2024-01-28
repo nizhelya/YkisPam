@@ -47,7 +47,7 @@ fun DetailAppBar(
         TopAppBar(
             modifier = modifier,
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.onSecondary
+                containerColor = MaterialTheme.colorScheme.primary
             ),
             title = {
                 Column(
@@ -124,9 +124,6 @@ fun DetailAppBar(
     } else {
         TopAppBar(
             modifier = modifier,
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.inverseOnSurface
-            ),
             title = {
                 Column(
                     modifier = Modifier.fillMaxWidth(),

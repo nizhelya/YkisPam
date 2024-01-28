@@ -35,7 +35,7 @@ class ProfileViewModel @Inject constructor(
         launchCatching{
             _signOutResponse.value = Response.Loading
             _signOutResponse.value = firebaseService.signOut()
-//            restartApp(LAUNCH_SCREEN)
+
         }
     }
 

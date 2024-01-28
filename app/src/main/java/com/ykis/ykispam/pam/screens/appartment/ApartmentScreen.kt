@@ -70,12 +70,11 @@ if (contentType == ContentType.DUAL_PANE) {
     TwoPane(
         first = {
             ListContent(
-                modifier = Modifier.fillMaxSize(),
-                contentType = contentType,
                 appState = appState,
                 baseUIState = baseUIState,
                 deleteApartment = { deleteApartment(baseUIState.addressId, restartApp) },
                 navigateToDetail = navigateToDetail,
+                navigationType=navigationType
             )
         },
         second = {
@@ -86,7 +85,7 @@ if (contentType == ContentType.DUAL_PANE) {
                 )
 
         },
-        strategy = HorizontalTwoPaneStrategy(splitFraction = 0.5f, gapWidth = 16.dp),
+        strategy = HorizontalTwoPaneStrategy(splitFraction = 0.5f),
         displayFeatures = displayFeatures
     )
 } else {
@@ -100,9 +99,7 @@ if (contentType == ContentType.DUAL_PANE) {
             deleteApartment = { deleteApartment(baseUIState.addressId, restartApp) },
             navigateToDetail = navigateToDetail,
             onDrawerClicked = onDrawerClicked,
-//                navigateBack = { viewModel.navigateBack(popUpScreen) }
-
-
+            navigationType=navigationType
         )
         // When we have bottom navigation we show FAB at the bottom end.
         if (navigationType == NavigationType.BOTTOM_NAVIGATION && !baseUIState.isDetailOnlyOpen) {
@@ -138,7 +135,7 @@ fun SinglePanelContent(
     deleteApartment: () -> Unit,
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
     onDrawerClicked: () -> Unit,
-
+    navigationType: NavigationType
     ) {
 
     if (baseUIState.selectedContentDetail != null && baseUIState.isDetailOnlyOpen) {
@@ -156,12 +153,12 @@ fun SinglePanelContent(
     } else {
         ListContent(
             modifier = modifier,
-            contentType = contentType,
             appState = appState,
             baseUIState = baseUIState,
             deleteApartment = deleteApartment,
             navigateToDetail = navigateToDetail,
             onDrawerClicked = onDrawerClicked,
+            navigationType = navigationType
         )
 
     }

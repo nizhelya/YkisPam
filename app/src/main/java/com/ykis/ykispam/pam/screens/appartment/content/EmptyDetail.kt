@@ -2,10 +2,8 @@ package com.ykis.ykispam.pam.screens.appartment.content
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,12 +20,10 @@ fun EmptyDetail(
 
     ) {
 
-    Column(
+    Box(
         modifier = modifier
-            .fillMaxSize()
-            .padding(bottom = 48.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
     ) {
         Image(
             modifier = Modifier.size(128.dp),

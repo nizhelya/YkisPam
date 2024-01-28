@@ -35,7 +35,6 @@ import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.ContentType
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListItem(
     modifier: Modifier = Modifier,

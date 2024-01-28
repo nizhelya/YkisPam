@@ -42,18 +42,19 @@ import com.ykis.ykispam.YkisPamAppState
 import com.ykis.ykispam.core.composable.HelpAlertCard
 import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.ContentType
+import com.ykis.ykispam.navigation.NavigationType
 import com.ykis.ykispam.pam.screens.appbars.ApartmentTopAppBar
 
 
 @Composable
 fun ListContent(
     modifier: Modifier = Modifier,
-    contentType: ContentType,
     appState: YkisPamAppState,
     baseUIState: BaseUIState,
     deleteApartment: () -> Unit,
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
     onDrawerClicked: () -> Unit = {},
+    navigationType: NavigationType
 ) {
     var showDialog by rememberSaveable { mutableStateOf(false) }
     var setSelected by rememberSaveable { mutableStateOf<ContentDetail?>(null) }
@@ -73,13 +74,12 @@ fun ListContent(
         ) {
 
             ApartmentTopAppBar(
-                contentType = contentType,
                 appState = appState,
                 apartment = baseUIState.apartment,
-                isDriverClicked = true,
                 isButtonAction = baseUIState.apartment.address.isNotEmpty(),
                 onButtonAction = { deleteApartment() },
-                onButtonPressed = { onDrawerClicked() }
+                onButtonPressed = { onDrawerClicked() },
+                navigationType = navigationType
             )
             Row(
                 modifier = Modifier
@@ -293,337 +293,6 @@ fun ListContent(
                                 }
                             }
                         }
-                        // визуализация MaterialTheme.colorScheme
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
-//
-//                        ) {
-//                            Text(
-//                                text = "background",
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onBackground)
-//
-//                        ) {
-//                            Text(
-//                                text = "onBackground",
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)
-//
-//                        ) {
-//                            Text(
-//                                text = "primary",
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimary)
-//
-//                        ) {
-//                            Text(
-//                                text = "onPrimary",
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimaryContainer)
-//
-//                        ) {
-//                            Text(
-//                                text = "onPrimaryContainer",
-//                                color = MaterialTheme.colorScheme.background,
-//
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary)
-//
-//                        ) {
-//                            Text(
-//                                text = "secondary",
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onSecondary)
-//
-//                        ) {
-//                            Text(
-//                                text = "onSecondary",
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onSecondaryContainer)
-//
-//                        ) {
-//                            Text(
-//                                text = "onSecondaryContainer",
-//                                color = MaterialTheme.colorScheme.onPrimary,
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiary)
-//
-//                        ) {
-//                            Text(
-//                                text = "tertiary",
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onTertiary)
-//
-//                        ) {
-//                            Text(
-//                                text = "onTertiary",
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onTertiaryContainer)
-//
-//                        ) {
-//                            Text(
-//                                text = "onTertiaryContainer",
-//                                color = MaterialTheme.colorScheme.onPrimary,
-//
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-//
-//                        ) {
-//                            Text(
-//                                text = "surface",
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onSurface)
-//
-//                        ) {
-//                            Text(
-//                                text = "onSurface",
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onSurfaceVariant)
-//
-//                        ) {
-//                            Text(
-//                                text = "onSurfaceVariant",
-//                                color = MaterialTheme.colorScheme.onPrimary,
-//
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
-//
-//                        ) {
-//                            Text(
-//                                text = "inverseOnSurface",
-//                                color = MaterialTheme.colorScheme.primary,
-//
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceTint)
-//
-//                        ) {
-//                            Text(
-//                                text = "surfaceTint",
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.inversePrimary)
-//
-//                        ) {
-//                            Text(
-//                                text = "inversePrimary",
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.outlineVariant)
-//
-//                        ) {
-//                            Text(
-//                                text = "outlineVariant",
-//                                color = MaterialTheme.colorScheme.onPrimary,
-//
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.outline)
-//
-//                        ) {
-//                            Text(
-//                                text = "outline",
-//                                color = MaterialTheme.colorScheme.primary,
-//
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.scrim)
-//
-//                        ) {
-//                            Text(
-//                                text = "outlineVariant",
-//                                color = MaterialTheme.colorScheme.onPrimary,
-//
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(Color(0xFF1A1B1F))
-//
-//                        ) {
-//                            Text(
-//                                text = "0xFF1A1B1F",
-//                                color = MaterialTheme.colorScheme.primary,
-//
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(Color(0xFF1A1B1F))
-//
-//                        ) {
-//                            Text(
-//                                text = "0xFF1A1B1F",
-//                                color = MaterialTheme.colorScheme.primary,
-//
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(Color(0xFF44474E))
-//
-//                        ) {
-//                            Text(
-//                                text = "0xFF44474E",
-//                                color = MaterialTheme.colorScheme.primary,
-//
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(Color(0xFF1A1B1F))
-//
-//                        ) {
-//                            Text(
-//                                text = "0xFF1A1B1F",
-//                                color = MaterialTheme.colorScheme.primary,
-//
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(Color(0xFF000000))
-//
-//                        ) {
-//                            Text(
-//                                text = "0xFF000000",
-//                                color = MaterialTheme.colorScheme.primary,
-//
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(Color(0xFF44474E))
-//
-//                        ) {
-//                            Text(
-//                                text = "0xFF44474E",
-//                                color = MaterialTheme.colorScheme.primary,
-//
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
-//                        Card(
-//                            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-//                            colors = CardDefaults.cardColors(Color(0xFF000000))
-//
-//                        ) {
-//                            Text(
-//                                text = "0xFF000000",
-//                                color = MaterialTheme.colorScheme.primary,
-//
-//                                modifier = Modifier
-//                                    .padding(8.dp)
-//                            )
-//                        }
                     }
                 }
             }
