@@ -2,6 +2,8 @@ package com.ykis.ykispam.navigation
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -10,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
 import com.ykis.ykispam.pam.screens.launch.LaunchScreen
+import com.ykis.ykispam.rememberAppState
 
 object Graph {
     const val AUTHENTICATION = "auth_graph"
@@ -23,7 +26,19 @@ fun RootNavGraph(
     displayFeatures: List<DisplayFeature>,
     navigationType: NavigationType,
 ) {
-    Scaffold { paddingValues ->
+    val appState = rememberAppState()
+    Scaffold (
+        snackbarHost = {
+            SnackbarHost(
+                hostState = appState.snackbarHostState,
+                snackbar = { snackbarData ->
+                    Snackbar(
+                        snackbarData,
+                    )
+                }
+            )
+        },
+    ){ paddingValues ->
         NavHost(
             modifier = modifier
                 .padding(paddingValues = paddingValues),
