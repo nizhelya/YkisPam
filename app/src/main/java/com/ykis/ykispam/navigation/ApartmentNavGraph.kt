@@ -6,6 +6,7 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -23,6 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.window.layout.DisplayFeature
 import com.ykis.ykispam.BaseUIState
+import com.ykis.ykispam.YkisPamAppState
 import com.ykis.ykispam.pam.screens.appartment.AddApartmentScreenContent
 import com.ykis.ykispam.pam.screens.appartment.ApartmentScreen
 import com.ykis.ykispam.pam.screens.appartment.ApartmentViewModel
@@ -41,8 +43,10 @@ fun MainApartmentScreen(
     displayFeatures: List<DisplayFeature>,
     navController: NavHostController = rememberNavController(),
     viewModel : ApartmentViewModel = hiltViewModel(),
-    rootNavController: NavHostController
-
+    rootNavController: NavHostController,
+    appState: YkisPamAppState,
+    onLaunch : () -> Unit,
+    onDispose : () -> Unit
 ) {
     val baseUIState by viewModel.uiState.collectAsState()
     val drawerState = DrawerState(initialValue = DrawerValue.Closed)
@@ -51,6 +55,12 @@ fun MainApartmentScreen(
     val selectedDestination =
         navBackStackEntry?.destination?.route ?: baseUIState.selectedDestination
 
+    DisposableEffect(key1 = Unit) {
+        onLaunch()
+        onDispose {
+            onDispose()
+        }
+    }
     ModalNavigationDrawer(
         drawerContent = {
                 ModalNavigationDrawerContent(
@@ -70,6 +80,7 @@ fun MainApartmentScreen(
         drawerState = drawerState
     ) {
     Scaffold(
+        snackbarHost = {appState.snackbarHostState},
         bottomBar = {
             if (navigationType == NavigationType.BOTTOM_NAVIGATION) BottomNavigationBar(
                 selectedDestination = selectedDestination,

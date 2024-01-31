@@ -5,7 +5,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -27,13 +32,17 @@ fun RootNavGraph(
     navigationType: NavigationType,
 ) {
     val appState = rememberAppState()
+    var isNavBar by rememberSaveable {
+        mutableStateOf(false)
+    }
     Scaffold (
         snackbarHost = {
             SnackbarHost(
+                modifier = modifier.padding(bottom = if(isNavBar) 80.dp else 0.dp),
                 hostState = appState.snackbarHostState,
                 snackbar = { snackbarData ->
                     Snackbar(
-                        snackbarData,
+                        snackbarData
                     )
                 }
             )
@@ -59,12 +68,16 @@ fun RootNavGraph(
                     contentType = contentType,
                     navigationType = navigationType,
                     displayFeatures = displayFeatures,
-                    rootNavController = navController
+                    rootNavController = navController,
+                    appState = appState,
+                    onLaunch = {isNavBar = true},
+                    onDispose = {isNavBar = false}
                 )
             }
         }
     }
 }
+
 
 
 

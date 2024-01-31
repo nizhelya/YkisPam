@@ -24,10 +24,11 @@ fun LaunchScreen(
     modifier: Modifier = Modifier,
     restartApp: ( String) -> Unit,
     openAndPopUp: (String, String) -> Unit,
-    viewModel: ApartmentViewModel = hiltViewModel()
+    viewModel: ApartmentViewModel = hiltViewModel(),
 ) {
     val isUserSignedOut = viewModel.getAuthState().collectAsStateWithLifecycle().value
     val showError = viewModel.showError.collectAsState()
+
     Column(
         modifier =
         modifier

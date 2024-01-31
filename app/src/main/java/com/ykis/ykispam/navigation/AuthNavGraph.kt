@@ -10,7 +10,7 @@ import com.ykis.ykispam.pam.screens.auth.sign_up.SignUpViewModel
 import com.ykis.ykispam.pam.screens.auth.verify_email.VerifyEmailScreen
 
 fun NavGraphBuilder.authNavGraph(
-    navController : NavHostController
+    navController : NavHostController,
 ) {
     navigation(
         route = Graph.AUTHENTICATION,
