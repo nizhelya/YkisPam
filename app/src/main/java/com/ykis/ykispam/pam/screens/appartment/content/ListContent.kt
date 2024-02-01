@@ -68,6 +68,7 @@ fun ListContent(
     ) {
         Column(
             modifier = Modifier
+                .padding(top=8.dp)
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -156,12 +157,12 @@ fun ListContent(
                                     imageVector = Icons.TwoTone.FamilyRestroom,
                                     serviceName = stringResource(id = R.string.list_family),
                                     isSelected = setSelected?.let {
-                                        it == ContentDetail.FAMALY
+                                        it == ContentDetail.FAMILY
                                     } ?: false,
                                     navigateToDetail = navigateToDetail,
-                                    contentDetail = ContentDetail.FAMALY,
+                                    contentDetail = ContentDetail.FAMILY,
                                 ) {
-                                    setSelected = ContentDetail.FAMALY
+                                    setSelected = ContentDetail.FAMILY
                                 }
                                 if (showDialog) {
                                     HelpAlertCard(

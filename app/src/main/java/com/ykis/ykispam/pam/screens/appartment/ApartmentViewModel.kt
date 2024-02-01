@@ -122,7 +122,7 @@ class ApartmentViewModel @Inject constructor(
         _uiState.value = _uiState
             .value.copy(
                 isDetailOnlyOpen = false,
-                selectedContentDetail = ContentDetail.BTI
+                selectedContentDetail = ContentDetail.EMPTY
             )
     }
 

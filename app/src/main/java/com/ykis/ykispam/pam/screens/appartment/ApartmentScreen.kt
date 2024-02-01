@@ -14,6 +14,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
@@ -28,6 +29,8 @@ import com.ykis.ykispam.navigation.NavigationType
 import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.pam.screens.appartment.content.DetailContent
 import com.ykis.ykispam.pam.screens.appartment.content.ListContent
+import com.ykis.ykispam.rememberAppState
+import com.ykis.ykispam.theme.YkisPAMTheme
 
 
 @Composable
@@ -67,26 +70,16 @@ LaunchedEffect(key1 = baseUIState.addressId,key2 = baseUIState.apartments) {
     }
 }
 if (contentType == ContentType.DUAL_PANE) {
-    TwoPane(
-        first = {
-            ListContent(
-                appState = appState,
-                baseUIState = baseUIState,
-                deleteApartment = { deleteApartment(baseUIState.addressId, restartApp) },
-                navigateToDetail = navigateToDetail,
-                navigationType=navigationType
-            )
-        },
-        second = {
-                DetailContent(
-                    baseUIState = baseUIState,
-                    contentType = contentType,
-                    contentDetail = baseUIState.selectedContentDetail ?: ContentDetail.EMPTY,
-                )
-
-        },
-        strategy = HorizontalTwoPaneStrategy(splitFraction = 0.5f),
-        displayFeatures = displayFeatures
+    DualPanelContent(
+        appState = appState,
+        baseUIState = baseUIState,
+        deleteApartment = deleteApartment,
+        restartApp = restartApp,
+        navigateToDetail = navigateToDetail,
+        navigationType = navigationType,
+        contentType = contentType,
+        displayFeatures = displayFeatures,
+        closeDetailScreen = closeDetailScreen
     )
 } else {
     Box(modifier = modifier.fillMaxSize()) {
@@ -124,6 +117,45 @@ if (contentType == ContentType.DUAL_PANE) {
 
 }
 }
+@Composable
+fun DualPanelContent(
+    appState: YkisPamAppState,
+    baseUIState: BaseUIState,
+    deleteApartment:(addressId: Int, restartApp: (String) -> Unit)->Unit,
+    restartApp: (String) -> Unit,
+    navigateToDetail: (ContentDetail, ContentType) -> Unit,
+    //todo always Dual_pane
+    navigationType: NavigationType,
+    contentType: ContentType,
+    displayFeatures: List<DisplayFeature>,
+    closeDetailScreen: () -> Unit,
+
+    ) {
+    TwoPane(
+        modifier = Modifier.fillMaxSize(),
+        first = {
+            ListContent(
+                appState = appState,
+                baseUIState = baseUIState,
+                deleteApartment = { deleteApartment(baseUIState.addressId, restartApp) },
+                navigateToDetail = navigateToDetail,
+                navigationType = navigationType
+            )
+        },
+        second = {
+            DetailContent(
+                baseUIState = baseUIState,
+                contentType = contentType,
+                contentDetail = baseUIState.selectedContentDetail ?: ContentDetail.EMPTY,
+            ){
+                    closeDetailScreen()
+            }
+
+        },
+        strategy = HorizontalTwoPaneStrategy(splitFraction = 0.5f),
+        displayFeatures = displayFeatures
+    )
+}
 
 @Composable
 fun SinglePanelContent(
@@ -146,10 +178,10 @@ fun SinglePanelContent(
             baseUIState = baseUIState,
             contentType = contentType,
             contentDetail = baseUIState.selectedContentDetail
-        ) {
+        )
+        {
             closeDetailScreen()
         }
-
     } else {
         ListContent(
             modifier = modifier,

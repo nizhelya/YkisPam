@@ -5,6 +5,8 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.addCallback
 import androidx.activity.compose.setContent
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -30,10 +32,14 @@ class MainActivity : ComponentActivity() {
             YkisPAMTheme {
                 val windowSize = calculateWindowSizeClass(this)
                 val displayFeatures = calculateDisplayFeatures(this)
-                YkisPamApp(
-                    windowSize = windowSize,
-                    displayFeatures = displayFeatures
-                )
+                Surface (
+                    color = MaterialTheme.colorScheme.primary,
+                ){
+                    YkisPamApp(
+                        windowSize = windowSize,
+                        displayFeatures = displayFeatures
+                    )
+                }
             }
         }
         onBackPressedDispatcher.addCallback(this) {
