@@ -51,10 +51,10 @@ fun DetailContent(
     Card(modifier = modifier
         .animateContentSize()
         .fillMaxSize()
-        .padding(horizontal = 24.dp, vertical = 8.dp),
-        shape = MaterialTheme.shapes.medium,
+        .padding(horizontal = 24.dp),
+        shape = MaterialTheme.shapes.large,
         colors = CardDefaults.cardColors(
-            containerColor = if(contentDetail != ContentDetail.EMPTY) MaterialTheme.colorScheme.surfaceVariant else Color.Transparent
+            containerColor = if(contentDetail != ContentDetail.EMPTY) MaterialTheme.colorScheme.surfaceContainerHighest else Color.Transparent
         )
     ){
         Column(modifier = modifier.padding(horizontal = 16.dp)

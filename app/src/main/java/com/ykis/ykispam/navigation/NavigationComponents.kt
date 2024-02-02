@@ -24,16 +24,19 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddHome
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MenuOpen
 import androidx.compose.material.icons.twotone.Apartment
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -44,8 +47,8 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
+import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.material3.PermanentDrawerSheet
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -60,7 +63,6 @@ import androidx.compose.ui.unit.offset
 import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.composable.LogoImage
-import com.ykis.ykispam.core.composable.LogoImageShort
 
 @Composable
 fun ApartmentNavigationRail(
@@ -70,157 +72,79 @@ fun ApartmentNavigationRail(
     closeDetailScreen: () -> Unit,
     navigateToDestination: (String) -> Unit,
     setApartment: (Int) -> Unit,
-    onDrawerClicked: () -> Unit = {},
+    onDrawerClicked: () -> Unit,
 ) {
-    Surface {
-        NavigationRail(
-            modifier = Modifier
-                .fillMaxHeight()
-        ) {
-            Layout(
-                modifier = Modifier.widthIn(0.dp, 80.dp),
-                content = {
-                    Column(
-                        modifier = Modifier
-                            .layoutId(LayoutType.HEADER),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        NavigationRailItem(
-                            selected = false,
-                            onClick = onDrawerClicked,
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Default.Menu,
-                                    contentDescription = stringResource(id = R.string.navigation_drawer)
-                                )
-                            }
-                        )
-                        LogoImageShort()
-
-                        val apartmentLazyListState = rememberLazyListState()
-                        LazyColumn(
-                            horizontalAlignment = Alignment.Start,
-                            verticalArrangement = Arrangement.Top,
-                            state = apartmentLazyListState
-
-                        ) {
-
-                            items(items = baseUIState.apartments, key = { it.addressId }) {
-                                NavigationDrawerItem(
-                                    modifier = Modifier
-                                        .fillMaxWidth(),
-                                    // TODO: selected destination maybe always the same value
-                                    selected = baseUIState.selectedDestination == "$APARTMENT_SCREEN?$ADDRESS_ID={${it.addressId}}",
-                                    label = {
-                                        Text(
-                                            text = it.addressId.toString(),
-                                            style = MaterialTheme.typography.titleMedium,
-                                            modifier = Modifier.padding(start = 4.dp)
-                                        )
-                                    },
-                                    icon = {
-                                        Icon(
-                                            imageVector = Icons.TwoTone.Apartment,
-                                            contentDescription = ""
-                                        )
-
-                                    },
-                                    colors = NavigationDrawerItemDefaults.colors(
-                                        unselectedContainerColor = Color.Transparent
-                                    ),
-                                    onClick = {
-                                        setApartment(it.addressId)
-                                        closeDetailScreen()
-                                        navigateToDestination("$APARTMENT_SCREEN?$ADDRESS_ID={${it.addressId}}")
-                                        onDrawerClicked()
-
-                                    }
-                                )
-                            }
-                        }
-
-                    }
-                    Column(
-                        modifier = Modifier
-                            .layoutId(LayoutType.CONTENT)
-                            .verticalScroll(rememberScrollState()),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        NAV_RAIL_DESTINATIONS.forEach { replyDestination ->
-
-                            NavigationDrawerItem(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                selected = selectedDestination == replyDestination.route,
-                                label = {
-                                    Text(
-                                        text = stringResource(id = replyDestination.labelId),
-                                        modifier = Modifier.padding(horizontal = 16.dp)
-                                    )
-                                },
-                                icon = {
-                                    Icon(
-                                        imageVector = replyDestination.selectedIcon,
-                                        contentDescription = stringResource(
-                                            id = replyDestination.labelId
-                                        )
-                                    )
-                                },
-                                colors = NavigationDrawerItemDefaults.colors(
-                                    unselectedContainerColor = Color.Transparent
-                                ),
-                                onClick = { navigateToDestination(replyDestination.route) }
-                            )
-                        }
-                    }
-                },
-                measurePolicy = { measurables, constraints ->
-                    lateinit var headerMeasurable: Measurable
-                    lateinit var contentMeasurable: Measurable
-                    measurables.forEach {
-                        when (it.layoutId) {
-                            LayoutType.HEADER -> headerMeasurable = it
-                            LayoutType.CONTENT -> contentMeasurable = it
-                            else -> error("Unknown layoutId encountered!")
-                        }
-                    }
-
-                    val headerPlaceable = headerMeasurable.measure(constraints)
-                    val contentPlaceable = contentMeasurable.measure(
-                        constraints.offset(vertical = -headerPlaceable.height)
+    NavigationRail(
+        modifier = Modifier
+            .fillMaxHeight()
+            .width(80.dp),
+        containerColor = MaterialTheme.colorScheme.surfaceContainer,
+        header= {
+                IconButton(onClick = { onDrawerClicked() }) {
+                    Icon(
+                        imageVector = Icons.Default.Menu,
+                        contentDescription = "Menu"
                     )
-                    layout(constraints.maxWidth, constraints.maxHeight) {
-                        // Place the header, this goes at the top
-                        headerPlaceable.placeRelative(0, 0)
-
-                        // Determine how much space is not taken up by the content
-                        val nonContentVerticalSpace = constraints.maxHeight - contentPlaceable.height
-
-                        val contentPlaceableY = when (navigationContentPosition) {
-                            // Figure out the place we want to place the content, with respect to the
-                            // parent (ignoring the header for now)
-                            NavigationContentPosition.TOP -> 0
-                            NavigationContentPosition.CENTER -> nonContentVerticalSpace / 2
-                        }
-                            // And finally, make sure we don't overlap with the header.
-                            .coerceAtLeast(headerPlaceable.height)
-
-                        contentPlaceable.placeRelative(0, contentPlaceableY)
-                    }
                 }
-            )
+                FloatingActionButton(
+                    shape = FloatingActionButtonDefaults.smallShape,
+                    onClick = {
+                        navigateToDestination(ADD_APARTMENT_SCREEN)
+                    },
+                    modifier = Modifier,
+                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.AddHome,
+                        contentDescription = stringResource(id = R.string.add_appartment),
+                    )
+                }
+        }
+            ) {
+        Column(
+            modifier=Modifier.fillMaxHeight().verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(12.dp , alignment = Alignment.CenterVertically)
+        ) {
+            NAV_RAIL_DESTINATIONS.forEach { replyDestination ->
+
+                NavigationRailItem(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    selected = selectedDestination == replyDestination.route,
+                    label = {
+                        Text(
+                            text = stringResource(id = replyDestination.labelId),
+                        )
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = if (selectedDestination == replyDestination.route) {
+                                replyDestination.selectedIcon
+                            } else replyDestination.unselectedIcon,
+
+                            contentDescription = stringResource(
+                                id = replyDestination.labelId
+                            )
+                        )
+                    },
+                    colors = NavigationRailItemDefaults.colors(
+                    ),
+                    onClick = { navigateToDestination(replyDestination.route) }
+                )
+            }
         }
     }
-
 }
-
 @Composable
 fun BottomNavigationBar(
     selectedDestination: String,
     onClick:(String) -> Unit
 ) {
-    NavigationBar(modifier = Modifier.fillMaxWidth()) {
+    NavigationBar(modifier = Modifier.fillMaxWidth()
+        , containerColor = MaterialTheme.colorScheme.surfaceContainer) {
         NAV_BAR_DESTINATIONS.forEach { destination ->
                 NavigationBarItem(
                     selected = selectedDestination.substringBefore("?") == destination.route,

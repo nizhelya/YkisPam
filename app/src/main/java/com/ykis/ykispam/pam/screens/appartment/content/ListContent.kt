@@ -68,7 +68,6 @@ fun ListContent(
     ) {
         Column(
             modifier = Modifier
-                .padding(top=8.dp)
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally

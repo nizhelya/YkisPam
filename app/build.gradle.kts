@@ -58,6 +58,10 @@ android {
 }
 
 dependencies {
+//    implementation("androidx.compose.material3:material3:1.1.2")
+//    implementation("androidx.compose.material3:material3-window-size-class:1.1.2")
+    implementation("androidx.compose.material3:material3-adaptive:1.0.0-alpha05")
+    implementation("androidx.compose.material3:material3-adaptive-navigation-suite:1.0.0-alpha02")
     implementation(libs.androidx.glance.appwidget)
 //    implementation(libs.firebase.auth)
     val composeBom = platform(libs.androidx.compose.bom)

@@ -13,6 +13,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -103,10 +104,10 @@ fun ApartmentTopAppBar(
     }
         TopAppBar(
             modifier = modifier,
-//            colors = TopAppBarDefaults.topAppBarColors(
-//                containerColor = MaterialTheme.colorScheme.onSecondary
-//
-//            ),
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
+
+            ),
             title = {
                 Column(
                     modifier = modifier.fillMaxWidth(),

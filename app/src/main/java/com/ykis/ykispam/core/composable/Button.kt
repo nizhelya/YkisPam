@@ -38,7 +38,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ykis.ykispam.theme.md_theme_dark_onSecondary
 
 @Composable
 fun BasicLinkButton(@StringRes text: Int, modifier: Modifier, action: () -> Unit) {

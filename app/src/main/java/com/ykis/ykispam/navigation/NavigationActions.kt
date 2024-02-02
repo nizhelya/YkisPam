@@ -23,7 +23,7 @@ import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.Church
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Payments
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Chat
 import androidx.compose.material.icons.outlined.Church
 import androidx.compose.material.icons.outlined.Home
@@ -57,7 +57,7 @@ val NAV_BAR_DESTINATIONS = listOf(
         labelId = R.string.house
     ),
     TopLevelDestination(
-        route = ADD_APARTMENT_SCREEN,
+        route = METER_SCREEN,
         selectedIcon = Icons.Filled.Church ,
         unselectedIcon = Icons.Outlined.Church,
         labelId = R.string.meters
@@ -79,13 +79,13 @@ val NAV_RAIL_DESTINATIONS = NAV_BAR_DESTINATIONS + listOf(
     TopLevelDestination(
         route = YkisRoute.ACCOUNT,
         selectedIcon = Icons.Default.AccountCircle,
-        unselectedIcon = Icons.Default.AccountCircle,
+        unselectedIcon = Icons.Outlined.AccountCircle,
         labelId = R.string.account
     ),
-    TopLevelDestination(
-        route = YkisRoute.SETTINGS,
-        selectedIcon = Icons.Default.Settings,
-        unselectedIcon = Icons.Default.Settings,
-        labelId = R.string.settings
-    )
+//    TopLevelDestination(
+//        route = YkisRoute.SETTINGS,
+//        selectedIcon = Icons.Default.Settings,
+//        unselectedIcon = Icons.Outlined.Settings,
+//        labelId = R.string.settings
+//    )
 )

@@ -87,38 +87,48 @@ fun MainApartmentScreen(
                 onClick = { navController.navigateWithPopUp(it, APARTMENT_SCREEN) })
         }
     ) { it ->
-        ApartmentNavGraph(
-            modifier = Modifier
-                .padding(
-                    start = if (navigationType != NavigationType.BOTTOM_NAVIGATION) 80.dp else 0.dp,
-                    bottom = it.calculateBottomPadding()
-                ),
-            contentType = contentType,
-            navigationType = navigationType,
-            displayFeatures = displayFeatures,
-            baseUIState = baseUIState,
-            navController = navController,
-            onDrawerClicked = {
-                coroutineScope.launch {
-                    drawerState.open()
-                }
-            },
-            apartmentViewModel = viewModel,
-            rootNavController = rootNavController
-
-        )
-        if (navigationType != NavigationType.BOTTOM_NAVIGATION) {
-            ApartmentNavigationRail(
+            ApartmentNavGraph(
+                modifier = Modifier
+                    .padding(
+                        start = if (navigationType != NavigationType.BOTTOM_NAVIGATION) 80.dp else 0.dp,
+                        bottom = it.calculateBottomPadding()
+                    ),
+                contentType = contentType,
+                navigationType = navigationType,
+                displayFeatures = displayFeatures,
                 baseUIState = baseUIState,
-                selectedDestination = selectedDestination,
-                navigationContentPosition = NavigationContentPosition.TOP,
-                closeDetailScreen = {viewModel.closeDetailScreen()},
-                navigateToDestination = { navController.navigateWithPopUp(it, APARTMENT_SCREEN) },
-                setApartment = {addressId ->viewModel.setApartment(addressId) }
+                navController = navController,
+                onDrawerClicked = {
+                    coroutineScope.launch {
+                        drawerState.open()
+                    }
+                },
+                apartmentViewModel = viewModel,
+                rootNavController = rootNavController
+
             )
+            if (navigationType != NavigationType.BOTTOM_NAVIGATION) {
+                ApartmentNavigationRail(
+                    baseUIState = baseUIState,
+                    selectedDestination = selectedDestination,
+                    navigationContentPosition = NavigationContentPosition.TOP,
+                    closeDetailScreen = { viewModel.closeDetailScreen() },
+                    navigateToDestination = {
+                        navController.navigateWithPopUp(
+                            it,
+                            APARTMENT_SCREEN
+                        )
+                    },
+                    setApartment = { addressId -> viewModel.setApartment(addressId) },
+                    onDrawerClicked = {
+                        coroutineScope.launch {
+                            drawerState.open()
+                        }
+                    }
+                )
+            }
         }
     }
-        }
 }
 
 @Composable
