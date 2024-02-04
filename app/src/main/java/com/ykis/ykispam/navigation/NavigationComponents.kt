@@ -1,34 +1,36 @@
-/*
- * Copyright 2022 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.ykis.ykispam.navigation
 
+import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddHome
@@ -45,12 +47,17 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
-import androidx.compose.material3.NavigationRail
+import androidx.compose.material3.NavigationRailDefaults
 import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.material3.PermanentDrawerSheet
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -58,115 +65,277 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
 import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.composable.LogoImage
 
+@Preview
+@Composable
+private fun PreviewRail() {
+    val isRailExpanded = rememberSaveable {
+        mutableStateOf(false)
+    }
+    ApartmentNavigationRail(
+        selectedDestination = METER_SCREEN,
+        isRailExpanded = isRailExpanded.value,
+        onMenuClick = { isRailExpanded.value = !isRailExpanded.value }
+    )
+}
+
+@Preview
+@Composable
+private fun PreviewExpandedRail() {
+    val isRailExpanded = rememberSaveable {
+        mutableStateOf(true)
+    }
+    ApartmentNavigationRail(
+        selectedDestination = METER_SCREEN,
+        isRailExpanded = isRailExpanded.value,
+        onMenuClick = { isRailExpanded.value = !isRailExpanded.value }
+    )
+}
+
+@Composable
+fun CustomNavigationRail(
+    currentWidth : Dp,
+    isRailExpanded: Boolean,
+    modifier: Modifier = Modifier,
+    containerColor: Color = NavigationRailDefaults.ContainerColor,
+    contentColor: Color = contentColorFor(containerColor),
+    header: @Composable (ColumnScope.() -> Unit)? = null,
+    windowInsets: WindowInsets = NavigationRailDefaults.windowInsets,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    Surface(
+        color = containerColor,
+        contentColor = contentColor,
+        modifier = modifier,
+    ) {
+        Column(
+            Modifier
+                // TODO: customize animateContentSize
+//                .animateContentSize(tween(7000))
+                .width(currentWidth)
+                .fillMaxSize()
+                .windowInsetsPadding(windowInsets)
+                .padding(vertical = 4.dp)
+                .selectableGroup(),
+//            horizontalAlignment = (if(isRailExpanded)Alignment.Start else Alignment.CenterHorizontally),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            if (header != null) {
+                header()
+                Spacer(Modifier.height(8.dp))
+            }
+            content()
+        }
+    }
+}
+
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun ApartmentNavigationRail(
-    baseUIState: BaseUIState,
+//    baseUIState: BaseUIState = BaseUIState(),
     selectedDestination: String,
-    navigationContentPosition: NavigationContentPosition,
-    closeDetailScreen: () -> Unit,
-    navigateToDestination: (String) -> Unit,
-    setApartment: (Int) -> Unit,
-    onDrawerClicked: () -> Unit,
+//    navigationContentPosition: NavigationContentPosition,
+//    closeDetailScreen: () -> Unit,
+    navigateToDestination: (String) -> Unit = {},
+//    setApartment: (Int) -> Unit,
+//    onDrawerClicked: () -> Unit,
+    isRailExpanded: Boolean,
+    onMenuClick: () -> Unit
 ) {
-    NavigationRail(
+    val currentWidth by animateDpAsState(
+        targetValue = if (isRailExpanded) 260.dp else 80.dp , tween (550), label = ""
+    )
+    Log.d("anim_test",currentWidth.toString())
+    val animatePadding = animateDpAsState(
+        targetValue = if(!isRailExpanded) 12.dp else 0.dp,
+        animationSpec =  tween( 250 , easing =  FastOutSlowInEasing), label = ""
+    )
+
+    CustomNavigationRail(
+        isRailExpanded = isRailExpanded,
         modifier = Modifier
-            .fillMaxHeight()
-            .width(80.dp),
+            .fillMaxHeight(),
         containerColor = MaterialTheme.colorScheme.surfaceContainer,
-        header= {
-                IconButton(onClick = { onDrawerClicked() }) {
-                    Icon(
-                        imageVector = Icons.Default.Menu,
-                        contentDescription = "Menu"
-                    )
-                }
-                FloatingActionButton(
-                    shape = FloatingActionButtonDefaults.smallShape,
-                    onClick = {
-                        navigateToDestination(ADD_APARTMENT_SCREEN)
-                    },
-                    modifier = Modifier,
-                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
+        header = {
+            IconButton(
+                onClick = { onMenuClick() },
+                modifier = Modifier.padding(start = 16.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Menu,
+                    contentDescription = "Menu"
+                )
+            }
+            FloatingActionButton(
+                shape = FloatingActionButtonDefaults.smallShape,
+                onClick = {
+                    navigateToDestination(ADD_APARTMENT_SCREEN)
+                },
+                modifier = Modifier
+                    .padding(start = 12.dp ,end = 12.dp)
+                    .widthIn(max=180.dp)
+                    .fillMaxWidth(),
+                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 16.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Default.AddHome,
                         contentDescription = stringResource(id = R.string.add_appartment),
                     )
+                    AnimatedVisibility(
+                        visible = isRailExpanded,
+                        exit = fadeOut()
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.add_appartment),
+                            modifier = Modifier
+                                .padding(start = 8.dp, top = 3.dp),
+                            maxLines = 1
+                        )
+                    }
                 }
-        }
-            ) {
+            }
+        },
+        currentWidth = currentWidth
+    ) {
         Column(
-            modifier=Modifier.fillMaxHeight().verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp , alignment = Alignment.CenterVertically)
+            modifier = Modifier.verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(animatePadding.value)
         ) {
             NAV_RAIL_DESTINATIONS.forEach { replyDestination ->
+                Box{
+                    NavigationRailItem(
+                        modifier = Modifier
+//                            .padding(horizontal = 12.dp)
+//                            .fillMaxWidth()
+                        ,
+                        selected = selectedDestination == replyDestination.route,
+                        label =
+                        if (!isRailExpanded) {
+                            {
+                                Text(
+                                    ""
+                                )
+                            }
+                        } else {
+                            null
+                        },
+                        icon = {
+                            Row(
+                                modifier = Modifier.width(if (isRailExpanded) 220.dp else 24.dp),
+//                                modifier = Modifier.widthIn(min = 24.dp , max =220.dp).fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(
+                                    12.dp,
+                                    if (currentWidth == 260.dp) Alignment.Start else Alignment.CenterHorizontally
+                                ),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    modifier = Modifier
+//                                        .padding(start = 28.dp)
+                                        .size(24.dp),
+                                    imageVector = if (selectedDestination == replyDestination.route) {
+                                        replyDestination.selectedIcon
+                                    } else replyDestination.unselectedIcon,
 
-                NavigationRailItem(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    selected = selectedDestination == replyDestination.route,
-                    label = {
+                                    contentDescription = stringResource(
+                                        id = replyDestination.labelId
+                                    )
+                                )
+                                AnimatedVisibility(
+                                    visible = isRailExpanded,
+                                    exit = fadeOut(
+                                        tween(durationMillis = 400)
+                                    ),
+                                    enter = fadeIn(
+                                        tween(durationMillis = 550 , delayMillis = 150)
+                                    )
+
+                                ) {
+                                    if (isRailExpanded) {
+                                        Text(
+                                            text = stringResource(id = replyDestination.labelId),
+                                        )
+                                    }
+                                    }
+                                }
+                        },
+                        onClick = { navigateToDestination(replyDestination.route) }
+                    )
+                    androidx.compose.animation.AnimatedVisibility(
+                        visible = !isRailExpanded,
+                        modifier = Modifier
+                            .align(Alignment.Center),
+                        exit = fadeOut(
+                            tween(250)
+                        ),
+                        enter = fadeIn(
+                            tween(550)
+                        )
+
+                    ) {
                         Text(
+                            style = MaterialTheme.typography.labelMedium,
+                            color =
+                            if (selectedDestination == replyDestination.route) {
+                                NavigationRailItemDefaults.colors().selectedTextColor
+                            } else NavigationRailItemDefaults.colors().unselectedIconColor,
                             text = stringResource(id = replyDestination.labelId),
+                            modifier = Modifier
+                                .padding(top = 32.dp)
                         )
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = if (selectedDestination == replyDestination.route) {
-                                replyDestination.selectedIcon
-                            } else replyDestination.unselectedIcon,
+                    }
 
-                            contentDescription = stringResource(
-                                id = replyDestination.labelId
-                            )
-                        )
-                    },
-                    colors = NavigationRailItemDefaults.colors(
-                    ),
-                    onClick = { navigateToDestination(replyDestination.route) }
-                )
+                }
+
             }
         }
+
     }
 }
+
 @Composable
 fun BottomNavigationBar(
     selectedDestination: String,
-    onClick:(String) -> Unit
+    onClick: (String) -> Unit
 ) {
-    NavigationBar(modifier = Modifier.fillMaxWidth()
-        , containerColor = MaterialTheme.colorScheme.surfaceContainer) {
+    NavigationBar(
+        modifier = Modifier.fillMaxWidth(),
+        containerColor = MaterialTheme.colorScheme.surfaceContainer
+    ) {
         NAV_BAR_DESTINATIONS.forEach { destination ->
-                NavigationBarItem(
-                    selected = selectedDestination.substringBefore("?") == destination.route,
-                    onClick = {
+            NavigationBarItem(
+                selected = selectedDestination.substringBefore("?") == destination.route,
+                onClick = {
 //                        navigateToDestination(destination.route)
-                            onClick(destination.route)
-                              },
+                    onClick(destination.route)
+                },
 
-                    icon = {
-                        Icon(
-                            imageVector = if(selectedDestination.substringBefore("?") == destination.route){
-                                destination.selectedIcon
-                            }else destination.unselectedIcon,
-                            contentDescription = stringResource(id = destination.labelId)
-                        )
-                    },
-                    alwaysShowLabel = true,
-                    label = {Text(text =  stringResource(destination.labelId))}
-                )
-            }
+                icon = {
+                    Icon(
+                        imageVector = if (selectedDestination.substringBefore("?") == destination.route) {
+                            destination.selectedIcon
+                        } else destination.unselectedIcon,
+                        contentDescription = stringResource(id = destination.labelId)
+                    )
+                },
+                alwaysShowLabel = true,
+                label = { Text(text = stringResource(destination.labelId)) }
+            )
         }
     }
+}
 
 @Composable
 fun PermanentNavigationDrawerContent(

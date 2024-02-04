@@ -17,7 +17,8 @@ import com.ykis.ykispam.core.Constants.PHOTO_URL
 import com.ykis.ykispam.core.Constants.SIGN_IN_REQUEST
 import com.ykis.ykispam.core.Constants.SIGN_UP_REQUEST
 import com.ykis.ykispam.core.Constants.USERS
-import com.ykis.ykispam.core.Response.*
+import com.ykis.ykispam.core.Response.Failure
+import com.ykis.ykispam.core.Response.Success
 import com.ykis.ykispam.core.trace
 import com.ykis.ykispam.firebase.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.service.repo.OneTapSignInResponse
@@ -29,7 +30,6 @@ import com.ykis.ykispam.firebase.service.repo.SignInWithGoogleResponse
 import com.ykis.ykispam.firebase.service.repo.SignOutResponse
 import com.ykis.ykispam.firebase.service.repo.SignUpResponse
 import com.ykis.ykispam.firebase.service.repo.addUserFirestoreResponse
-
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.SharingStarted
@@ -74,7 +74,7 @@ class FirebaseServiceImpl @Inject constructor(
 //        get() = auth.currentUser?.uid.orEmpty()
 
     override val currentUser get() = auth.currentUser
-//    override val currentUser: Flow<User>
+//    override val currentUser: `Flow<User>
 //        get() = callbackFlow {
 //            val listener =
 //                FirebaseAuth.AuthStateListener { auth ->

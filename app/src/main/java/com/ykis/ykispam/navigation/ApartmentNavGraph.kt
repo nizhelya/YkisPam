@@ -3,14 +3,16 @@ package com.ykis.ykispam.navigation
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -54,31 +56,39 @@ fun MainApartmentScreen(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val selectedDestination =
         navBackStackEntry?.destination?.route ?: baseUIState.selectedDestination
+    var isRailExpanded by rememberSaveable {
+        mutableStateOf(false)
+    }
 
+    val railHeight = when {
+        navigationType != NavigationType.BOTTOM_NAVIGATION && isRailExpanded -> 260.dp
+        navigationType != NavigationType.BOTTOM_NAVIGATION && !isRailExpanded -> 80.dp
+        else -> 0.dp
+    }
     DisposableEffect(key1 = Unit) {
         onLaunch()
         onDispose {
             onDispose()
         }
     }
-    ModalNavigationDrawer(
-        drawerContent = {
-                ModalNavigationDrawerContent(
-                    baseUIState = baseUIState,
-                    selectedDestination = selectedDestination,
-                    navigationContentPosition =NavigationContentPosition.TOP,
-                    navigateToDestination = {navController.navigateWithPopUp(it , APARTMENT_SCREEN)},
-                    closeDetailScreen = {viewModel.closeDetailScreen()},
-                    setApartment= {addressId ->viewModel.setApartment(addressId) },
-                    onDrawerClicked = {
-                        coroutineScope.launch {
-                            drawerState.close()
-                        }
-                    }
-                )
-        },
-        drawerState = drawerState
-    ) {
+//    ModalNavigationDrawer(
+//        drawerContent = {
+//                ModalNavigationDrawerContent(
+//                    baseUIState = baseUIState,
+//                    selectedDestination = selectedDestination,
+//                    navigationContentPosition =NavigationContentPosition.TOP,
+//                    navigateToDestination = {navController.navigateWithPopUp(it , APARTMENT_SCREEN)},
+//                    closeDetailScreen = {viewModel.closeDetailScreen()},
+//                    setApartment= {addressId ->viewModel.setApartment(addressId) },
+//                    onDrawerClicked = {
+//                        coroutineScope.launch {
+//                            drawerState.close()
+//                        }
+//                    }
+//                )
+//        },
+//        drawerState = drawerState
+//    ) {
     Scaffold(
         snackbarHost = {appState.snackbarHostState},
         bottomBar = {
@@ -90,8 +100,8 @@ fun MainApartmentScreen(
             ApartmentNavGraph(
                 modifier = Modifier
                     .padding(
-                        start = if (navigationType != NavigationType.BOTTOM_NAVIGATION) 80.dp else 0.dp,
-                        bottom = it.calculateBottomPadding()
+                        start = railHeight,
+                        bottom = it.calculateBottomPadding(),
                     ),
                 contentType = contentType,
                 navigationType = navigationType,
@@ -109,26 +119,28 @@ fun MainApartmentScreen(
             )
             if (navigationType != NavigationType.BOTTOM_NAVIGATION) {
                 ApartmentNavigationRail(
-                    baseUIState = baseUIState,
+//                    baseUIState = baseUIState,
                     selectedDestination = selectedDestination,
-                    navigationContentPosition = NavigationContentPosition.TOP,
-                    closeDetailScreen = { viewModel.closeDetailScreen() },
+//                    navigationContentPosition = NavigationContentPosition.TOP,
+//                    closeDetailScreen = { viewModel.closeDetailScreen() },
                     navigateToDestination = {
                         navController.navigateWithPopUp(
                             it,
                             APARTMENT_SCREEN
                         )
                     },
-                    setApartment = { addressId -> viewModel.setApartment(addressId) },
-                    onDrawerClicked = {
-                        coroutineScope.launch {
-                            drawerState.open()
-                        }
-                    }
+//                    setApartment = { addressId -> viewModel.setApartment(addressId) },
+//                    onDrawerClicked = {
+//                        coroutineScope.launch {
+//                            drawerState.open()
+//                        }
+//                    },
+                    isRailExpanded = isRailExpanded,
+                    onMenuClick = {isRailExpanded = !isRailExpanded }
                 )
             }
         }
-    }
+//    }
 }
 
 @Composable

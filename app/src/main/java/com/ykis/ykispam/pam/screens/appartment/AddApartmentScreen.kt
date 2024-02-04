@@ -58,6 +58,7 @@ fun AddApartmentScreenContent(
     viewModel: ApartmentViewModel = hiltViewModel(),
     navController : NavHostController
 ) {
+    
     Log.d("viewModel_test" , "AddApartmentScreenContent:$viewModel")
     val secretCode by viewModel.secretCode.collectAsState()
     val keyboard = LocalSoftwareKeyboardController.current
