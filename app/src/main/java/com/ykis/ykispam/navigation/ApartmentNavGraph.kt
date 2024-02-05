@@ -3,6 +3,7 @@ package com.ykis.ykispam.navigation
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -71,32 +72,32 @@ fun MainApartmentScreen(
             onDispose()
         }
     }
-//    ModalNavigationDrawer(
-//        drawerContent = {
-//                ModalNavigationDrawerContent(
-//                    baseUIState = baseUIState,
-//                    selectedDestination = selectedDestination,
-//                    navigationContentPosition =NavigationContentPosition.TOP,
-//                    navigateToDestination = {navController.navigateWithPopUp(it , APARTMENT_SCREEN)},
-//                    closeDetailScreen = {viewModel.closeDetailScreen()},
-//                    setApartment= {addressId ->viewModel.setApartment(addressId) },
-//                    onDrawerClicked = {
-//                        coroutineScope.launch {
-//                            drawerState.close()
-//                        }
-//                    }
-//                )
-//        },
-//        drawerState = drawerState
-//    ) {
-    Scaffold(
-        snackbarHost = {appState.snackbarHostState},
-        bottomBar = {
-            if (navigationType == NavigationType.BOTTOM_NAVIGATION) BottomNavigationBar(
-                selectedDestination = selectedDestination,
-                onClick = { navController.navigateWithPopUp(it, APARTMENT_SCREEN) })
-        }
-    ) { it ->
+    ModalNavigationDrawer(
+        drawerContent = {
+                ModalNavigationDrawerContent(
+                    baseUIState = baseUIState,
+                    selectedDestination = selectedDestination,
+                    navigationContentPosition =NavigationContentPosition.TOP,
+                    navigateToDestination = {navController.navigateWithPopUp(it , APARTMENT_SCREEN)},
+                    closeDetailScreen = {viewModel.closeDetailScreen()},
+                    setApartment= {addressId ->viewModel.setApartment(addressId) },
+                    onDrawerClicked = {
+                        coroutineScope.launch {
+                            drawerState.close()
+                        }
+                    }
+                )
+        },
+        drawerState = drawerState
+    ) {
+        Scaffold(
+            snackbarHost = { appState.snackbarHostState },
+            bottomBar = {
+                if (navigationType == NavigationType.BOTTOM_NAVIGATION) BottomNavigationBar(
+                    selectedDestination = selectedDestination,
+                    onClick = { navController.navigateWithPopUp(it, APARTMENT_SCREEN) })
+            }
+        ) { it ->
             ApartmentNavGraph(
                 modifier = Modifier
                     .padding(
@@ -119,28 +120,19 @@ fun MainApartmentScreen(
             )
             if (navigationType != NavigationType.BOTTOM_NAVIGATION) {
                 ApartmentNavigationRail(
-//                    baseUIState = baseUIState,
                     selectedDestination = selectedDestination,
-//                    navigationContentPosition = NavigationContentPosition.TOP,
-//                    closeDetailScreen = { viewModel.closeDetailScreen() },
                     navigateToDestination = {
                         navController.navigateWithPopUp(
                             it,
                             APARTMENT_SCREEN
                         )
                     },
-//                    setApartment = { addressId -> viewModel.setApartment(addressId) },
-//                    onDrawerClicked = {
-//                        coroutineScope.launch {
-//                            drawerState.open()
-//                        }
-//                    },
                     isRailExpanded = isRailExpanded,
-                    onMenuClick = {isRailExpanded = !isRailExpanded }
+                    onMenuClick = { isRailExpanded = !isRailExpanded },
                 )
             }
         }
-//    }
+    }
 }
 
 @Composable
