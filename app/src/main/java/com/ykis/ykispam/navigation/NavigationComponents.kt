@@ -66,13 +66,11 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
-import androidx.compose.ui.unit.sp
 import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.composable.LogoImage
@@ -146,16 +144,13 @@ fun ApartmentNavigationRail(
         targetValue = if (isRailExpanded) 260.dp else 80.dp, tween(550), label = ""
     )
     val animateItemHeight by animateDpAsState(
-        targetValue = if (!isRailExpanded) 24.dp else 56.dp,
-        tween(400), label = ""
-    )
-    val animateItemWidth by animateDpAsState(
-        targetValue = if(isRailExpanded) 204.dp else 24.dp,
+        targetValue = if (isRailExpanded) 56.dp else 24.dp,
         tween(550), label = ""
     )
     val animatePadding = animateDpAsState(
-        targetValue = if (!isRailExpanded) 12.dp else 0.dp,
-        animationSpec = tween(850, easing = FastOutSlowInEasing), label = ""
+        targetValue = if (!isRailExpanded) 12.dp else -8.dp,
+        animationSpec =
+        tween(550, easing = FastOutSlowInEasing), label = ""
     )
     CustomNavigationRail(
         modifier = Modifier
@@ -209,46 +204,35 @@ fun ApartmentNavigationRail(
     ) {
         Column(
             modifier = Modifier
+                .fillMaxWidth()
                 .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(animatePadding.value)
         ) {
             NAV_RAIL_DESTINATIONS.forEach { replyDestination ->
                 Box {
                     Box(
-                        modifier = Modifier.padding(
-                            start = if (!isRailExpanded) {
-                                0.dp
-                            } else if (selectedDestination == replyDestination.route) {
-                                12.dp
-                            } else 28.dp
-                        )
                     ) {
                         NavigationRailItem(
-                            modifier = Modifier
-                                .align(Alignment.CenterStart),
+                            modifier = Modifier.padding(horizontal = 28.dp),
                             selected = selectedDestination == replyDestination.route,
                             label = {
                                 Text(
+                                    modifier = Modifier.size(if (isRailExpanded) 0.dp else 12.dp),
                                     text = "",
-                                    style = TextStyle(
-                                        fontSize = if (isRailExpanded) 0.sp else 12.sp
-                                    )
                                 )
                             },
                             icon = {
                                 Row(
                                     modifier = Modifier
-                                        .height(animateItemHeight)
-                                        .width(animateItemWidth),
+                                        .fillMaxWidth()
+                                        .height(animateItemHeight),
                                     horizontalArrangement = Arrangement.spacedBy(
-                                        12.dp,
-                                        Alignment.Start
+                                        12.dp
                                     ),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Icon(
-                                        modifier = Modifier
-                                            .size(24.dp),
                                         imageVector = if (selectedDestination == replyDestination.route) {
                                             replyDestination.selectedIcon
                                         } else replyDestination.unselectedIcon,
@@ -260,14 +244,12 @@ fun ApartmentNavigationRail(
                                     AnimatedVisibility(
                                         visible = isRailExpanded,
                                         exit = fadeOut(
-                                            tween(durationMillis = 400)
+                                            tween(durationMillis = 700)
                                         )
-                                                + shrinkHorizontally()
-                                        ,
+                                                + shrinkHorizontally(),
                                         enter = fadeIn(
                                             tween(durationMillis = 550, delayMillis = 150)
                                         )
-
                                     ) {
                                         Text(
                                             text = stringResource(id = replyDestination.labelId),
@@ -285,13 +267,12 @@ fun ApartmentNavigationRail(
                             .align(Alignment.CenterStart),
                         exit =
                         fadeOut(
-                            tween(300)
+                            tween(200)
                         )
                                 + shrinkVertically(
-                            tween(500)
-                        )
-                        ,
-                        enter =  fadeIn(
+                            tween(320)
+                        ),
+                        enter = fadeIn(
                             tween(300)
                         )
                                 + expandVertically(
