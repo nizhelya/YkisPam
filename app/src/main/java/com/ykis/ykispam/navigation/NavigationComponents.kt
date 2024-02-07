@@ -89,7 +89,7 @@ private fun PreviewRail() {
         mutableStateOf(false)
     }
     ApartmentNavigationRail(
-        selectedDestination = METER_SCREEN,
+        selectedDestination = MeterScreen.route,
         isRailExpanded = isRailExpanded.value,
         onMenuClick = { isRailExpanded.value = !isRailExpanded.value },
         baseUIState = BaseUIState(
@@ -104,7 +104,7 @@ private fun PreviewExpandedRail() {
         mutableStateOf(true)
     }
     ApartmentNavigationRail(
-        selectedDestination = METER_SCREEN,
+        selectedDestination = MeterScreen.route,
         isRailExpanded = isRailExpanded.value,
         onMenuClick = { isRailExpanded.value = !isRailExpanded.value },
         baseUIState = BaseUIState(
@@ -151,7 +151,7 @@ fun ApartmentNavigationRail(
     navigateToDestination: (String) -> Unit = {},
     isRailExpanded: Boolean,
     onMenuClick: () -> Unit,
-    navigateToApartment : (String) -> Unit = {}
+    navigateToApartment : (Int) -> Unit = {}
 ) {
     val transition = updateTransition(targetState = isRailExpanded , label = "Is Rail expanded")
     val alpha by transition.animateFloat(
@@ -195,7 +195,7 @@ fun ApartmentNavigationRail(
             FloatingActionButton(
                 shape = FloatingActionButtonDefaults.smallShape,
                 onClick = {
-                    navigateToDestination(ADD_APARTMENT_SCREEN)
+                    navigateToDestination(AddApartmentScreen.route)
                 },
                 modifier = Modifier
                     .padding(start = 12.dp, end = 12.dp)

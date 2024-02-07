@@ -1,6 +1,5 @@
 package com.ykis.ykispam.navigation
 
-import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
@@ -21,19 +20,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import androidx.window.layout.DisplayFeature
 import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.YkisPamAppState
 import com.ykis.ykispam.pam.screens.appartment.AddApartmentScreenContent
 import com.ykis.ykispam.pam.screens.appartment.ApartmentScreen
 import com.ykis.ykispam.pam.screens.appartment.ApartmentViewModel
-import com.ykis.ykispam.pam.screens.launch.LaunchScreen
 import com.ykis.ykispam.pam.screens.meter.MeterScreen
 import com.ykis.ykispam.pam.screens.profile.ProfileScreen
 import com.ykis.ykispam.pam.screens.service.ServiceListScreen
@@ -62,8 +58,6 @@ fun MainApartmentScreen(
     var isRailExpanded by rememberSaveable {
         mutableStateOf(false)
     }
-    Log.d("navigation_test", "base:${baseUIState.selectedDestination}\nselectedDestination::$selectedDestination")
-
 
     val railHeight = when {
         navigationType != NavigationType.BOTTOM_NAVIGATION && isRailExpanded -> 260.dp
@@ -135,8 +129,8 @@ fun MainApartmentScreen(
                     onMenuClick = { isRailExpanded = !isRailExpanded },
                     baseUIState = baseUIState,
                     navigateToApartment = {
-                        route->
-                        navController.cleanNavigateTo(route)
+                        addressId->
+                        navController.navigateToApartment(addressId)
                     }
                 )
             }
@@ -162,9 +156,9 @@ fun ApartmentNavGraph(
         modifier = modifier,
         navController = navController,
         route = Graph.APARTMENT,
-        startDestination = "$APARTMENT_SCREEN$ADDRESS_ID_ARG"
+        startDestination = ApartmentScreen.routeWithArgs
     ) {
-        composable(YkisRoute.ACCOUNT) {
+        composable(ProfileScreen.route) {
 
             ProfileScreen(
                 appState = appState,
@@ -172,28 +166,12 @@ fun ApartmentNavGraph(
                 cleanNavigateToDestination = {rootNavController.cleanNavigateTo(it)},
             )
         }
-        composable(YkisRoute.CHAT) {
+        composable(ChatScreen.route) {
             EmptyScreen(
                 popUpScreen = { navController.popBackStack()},
             )
         }
-        composable(YkisRoute.MESSAGE) {
-            EmptyScreen(
-                popUpScreen = {navController.popBackStack() },
-            )
-        }
-        composable(YkisRoute.OSBB) {
-            EmptyScreen(
-                popUpScreen = { navController.popBackStack() },
-            )
-        }
-        composable(YkisRoute.EXITAPP) {
-            LaunchScreen(
-                restartApp = { route -> navController.cleanNavigateTo(route) },
-                openAndPopUp = { route, popUp -> navController.navigateWithPopUp(route, popUp) },
-            )
-        }
-        composable(ADD_APARTMENT_SCREEN) {
+        composable(AddApartmentScreen.route) {
             AddApartmentScreenContent(
                 viewModel = apartmentViewModel,
                 navController = navController
@@ -204,19 +182,17 @@ fun ApartmentNavGraph(
 //            )
         }
 
-        composable(YkisRoute.SETTINGS) {
+        composable(SettingsScreen.route) {
             SettingsScreen(popUpScreen = { navController.popBackStack() })
         }
 
         composable(
-            route = "$APARTMENT_SCREEN$ADDRESS_ID_ARG",
-            arguments = listOf(
-                navArgument(ADDRESS_ID) { type = NavType.StringType},
-            )
+            route = ApartmentScreen.routeWithArgs,
+            arguments = ApartmentScreen.arguments
         ) {
                 navBackStackEntry->
             val addressIdArg =
-                navBackStackEntry.arguments?.getString(ADDRESS_ID)
+                navBackStackEntry.arguments?.getInt(ApartmentScreen.addressIdArg)
             ApartmentScreen(
                 openScreen = { route -> navController.navigate(route) },
                 restartApp = { route ->  navController.cleanNavigateTo(route) },
@@ -231,13 +207,13 @@ fun ApartmentNavGraph(
                 getApartments = {apartmentViewModel.initialize()},
                 deleteApartment = {addressId, restartApp ->  apartmentViewModel.deleteApartment(addressId, restartApp)},
                 onDrawerClicked = onDrawerClicked,
-                addressId = addressIdArg!!.toInt()
+                addressId = addressIdArg!!
             )
         }
-        composable(METER_SCREEN) {
+        composable(MeterScreen.route) {
             MeterScreen()
         }
-        composable(SERVICE_LIST_SCREEN) {
+        composable(ServiceListScreen.route) {
             ServiceListScreen()
         }
     }

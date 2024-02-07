@@ -29,16 +29,6 @@ import androidx.compose.material.icons.outlined.Payments
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.ykis.ykispam.R
 
-object YkisRoute {
-    const val ACCOUNT = "ProfileScreen"
-    const val OSBB = "OsbbScreen"
-    const val CHAT = "ChatScreen"
-    const val MESSAGE = "MessageScreen"
-    const val SETTINGS = "SettingsScreen"
-    const val ADDAPARTMENT = "AddApartmentScreen"
-    const val EXITAPP = "ExitApp"
-}
-
 data class TopLevelDestination(
     val route: String = "",
     val selectedIcon: ImageVector = Icons.Default.Adjust,
@@ -55,19 +45,19 @@ val NAV_BAR_DESTINATIONS = listOf(
 //        labelId = R.string.house
 //    ),
     TopLevelDestination(
-        route = METER_SCREEN,
+            route = MeterScreen.route,
         selectedIcon = Icons.Filled.Church ,
         unselectedIcon = Icons.Outlined.Church,
         labelId = R.string.meters
     ),
     TopLevelDestination(
-        route = SERVICE_LIST_SCREEN,
+        route = ServiceListScreen.route,
         selectedIcon = Icons.Filled.Payments,
         unselectedIcon = Icons.Outlined.Payments,
         labelId = R.string.accrued
     ),
     TopLevelDestination(
-        route = YkisRoute.CHAT,
+        route = ChatScreen.route,
         selectedIcon = Icons.Filled.Chat,
         unselectedIcon = Icons.Outlined.Chat,
         labelId = R.string.chat,
@@ -75,7 +65,7 @@ val NAV_BAR_DESTINATIONS = listOf(
 )
 val NAV_RAIL_DESTINATIONS = NAV_BAR_DESTINATIONS + listOf(
     TopLevelDestination(
-        route = YkisRoute.ACCOUNT,
+        route = ProfileScreen.route,
         selectedIcon = Icons.Default.AccountCircle,
         unselectedIcon = Icons.Outlined.AccountCircle,
         labelId = R.string.account

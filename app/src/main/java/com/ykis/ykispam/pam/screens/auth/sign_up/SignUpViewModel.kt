@@ -31,7 +31,7 @@ import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.firebase.service.repo.ReloadUserResponse
 import com.ykis.ykispam.firebase.service.repo.SendEmailVerificationResponse
 import com.ykis.ykispam.firebase.service.repo.SignUpResponse
-import com.ykis.ykispam.navigation.LAUNCH_SCREEN
+import com.ykis.ykispam.navigation.LaunchScreen
 import com.ykis.ykispam.pam.screens.auth.sign_up.components.SignUpUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -122,12 +122,9 @@ class SignUpViewModel @Inject constructor(
         launchCatching {
             _sendEmailVerificationResponse.value = Response.Loading
             _sendEmailVerificationResponse.value = firebaseService.sendEmailVerification()
-            openScreen(LAUNCH_SCREEN)
+            openScreen(LaunchScreen.route)
         }
 
-    }
-    fun navigateToLaunchScreen(restartApp: (String) -> Unit) {
-        restartApp(LAUNCH_SCREEN)
     }
     fun reloadUser() {
         launchCatching {
@@ -135,8 +132,10 @@ class SignUpViewModel @Inject constructor(
             _reloadUserResponse.value = firebaseService.reloadFirebaseUser()
         }
     }
+
+    // TODO: remove this
     fun navigateBack(openScreen: (String) -> Unit) {
-        openScreen(LAUNCH_SCREEN)
+        openScreen(LaunchScreen.route)
     }
     override fun onCleared() {
         Log.d("sharedViewModel", "vm is cleared!")

@@ -15,15 +15,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ykis.ykispam.navigation.APARTMENT_SCREEN
-import com.ykis.ykispam.pam.data.remote.api.ApiService.Companion.ADDRESS_ID
 import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 
 @Composable
 fun ApartmentListItem(
     modifier: Modifier = Modifier,
     apartment : ApartmentEntity,
-    onClick : (String)->Unit = {}
+    onClick : (Int)->Unit = {}
 ) {
     Row(
         modifier = modifier
@@ -31,7 +29,7 @@ fun ApartmentListItem(
             .fillMaxWidth()
             .padding(start=4.dp)
             .clickable {
-                       onClick("$APARTMENT_SCREEN?$ADDRESS_ID={${apartment.addressId}}")
+                       onClick(apartment.addressId)
             },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)

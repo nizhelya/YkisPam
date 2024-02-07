@@ -38,7 +38,7 @@ import com.ykis.ykispam.YkisPamAppState
 import com.ykis.ykispam.core.Constants.REVOKE_ACCESS_MESSAGE
 import com.ykis.ykispam.core.Constants.SIGN_OUT
 import com.ykis.ykispam.navigation.Graph
-import com.ykis.ykispam.navigation.LAUNCH_SCREEN
+import com.ykis.ykispam.navigation.LaunchScreen
 import com.ykis.ykispam.pam.screens.profile.components.ProfileTopBar
 import com.ykis.ykispam.pam.screens.profile.components.RevokeAccess
 import com.ykis.ykispam.pam.screens.profile.components.SignOut
@@ -86,7 +86,7 @@ fun ProfileScreen(
     RevokeAccess(
         navigateToAuthScreen = { accessRevoked ->
             if (accessRevoked) {
-                cleanNavigateToDestination(LAUNCH_SCREEN)
+                cleanNavigateToDestination(LaunchScreen.route)
             }
         },
         showSnackBar = {

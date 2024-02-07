@@ -8,7 +8,7 @@ import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 @Composable
 fun ApartmentList(
     apartmentList: List<ApartmentEntity>,
-    onClick : (String) ->Unit
+    onClick : (Int) ->Unit
 ) {
     LazyColumn() {
         items(

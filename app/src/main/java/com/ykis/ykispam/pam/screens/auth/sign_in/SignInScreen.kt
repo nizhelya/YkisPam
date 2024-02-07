@@ -37,9 +37,9 @@ import com.ykis.ykispam.core.ext.smallSpacer
 import com.ykis.ykispam.core.ext.textButton
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.core.snackbar.SnackbarMessage.Companion.toSnackbarMessage
+import com.ykis.ykispam.navigation.LaunchScreen
 import com.ykis.ykispam.pam.screens.auth.sign_in.components.OneTapSignIn
 import com.ykis.ykispam.pam.screens.auth.sign_in.components.SignInWithGoogle
-import com.ykis.ykispam.navigation.LAUNCH_SCREEN
 import com.ykis.ykispam.R.drawable as AppIcon
 import com.ykis.ykispam.R.string as AppText
 
@@ -150,7 +150,7 @@ fun SignInScreen(
     SignInWithGoogle(
         navigateToHomeScreen = { signedIn ->
             if (signedIn) {
-                navigateToDestination(LAUNCH_SCREEN)
+                navigateToDestination(LaunchScreen.route)
             }
         }
     )

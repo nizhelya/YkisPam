@@ -52,9 +52,9 @@ fun RootNavGraph(
             modifier = modifier
                 .padding(paddingValues = paddingValues),
             navController = navController,
-            startDestination = LAUNCH_SCREEN,
+            startDestination = LaunchScreen.route,
         ) {
-            composable(LAUNCH_SCREEN) {
+            composable(LaunchScreen.route) {
                 LaunchScreen(
                     restartApp = { route -> navController.cleanNavigateTo(route) },
                     openAndPopUp = { route, popUp -> navController.navigateWithPopUp(route, popUp) },

@@ -19,6 +19,7 @@ package com.ykis.ykispam.pam.screens.appartment
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.BaseViewModel
 import com.ykis.ykispam.R
+import com.ykis.ykispam.core.Constants.VERIFY_EMAIL_SCREEN
 import com.ykis.ykispam.core.Response
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.firebase.service.repo.FirebaseService
@@ -29,8 +30,7 @@ import com.ykis.ykispam.navigation.APARTMENT_SCREEN
 import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.navigation.Graph
-import com.ykis.ykispam.navigation.LAUNCH_SCREEN
-import com.ykis.ykispam.navigation.VERIFY_EMAIL_SCREEN
+import com.ykis.ykispam.navigation.LaunchScreen
 import com.ykis.ykispam.pam.data.cache.apartment.ApartmentCacheImpl
 import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.pam.data.remote.core.NetworkHandler
@@ -105,7 +105,7 @@ class ApartmentViewModel @Inject constructor(
             if (isEmailVerified) {
                 restartApp(Graph.APARTMENT)
             } else {
-                openAndPopUp(VERIFY_EMAIL_SCREEN, LAUNCH_SCREEN)
+                openAndPopUp(VERIFY_EMAIL_SCREEN, LaunchScreen.route)
             }
         }
     }
@@ -142,7 +142,6 @@ class ApartmentViewModel @Inject constructor(
 
         }
     }
-//визивається дваждьІ
     fun setApartment(addressId: Int) {
         if (addressId != 0) {
             launchCatching {

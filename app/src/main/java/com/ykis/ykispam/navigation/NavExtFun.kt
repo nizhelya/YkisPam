@@ -18,3 +18,10 @@ fun NavHostController.navigateWithPopUp(route: String, popUp: String) {
         }
     }
 }
+fun NavHostController.navigateToApartment(addressId : Int){
+    this.navigate("${ApartmentScreen.route}/$addressId"){
+        popUpTo(0)
+        restoreState = false
+        launchSingleTop = true
+    }
+}

@@ -22,7 +22,7 @@ import com.google.accompanist.adaptive.TwoPane
 import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.R
 import com.ykis.ykispam.YkisPamAppState
-import com.ykis.ykispam.navigation.ADD_APARTMENT_SCREEN
+import com.ykis.ykispam.navigation.AddApartmentScreen
 import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.navigation.NavigationType
@@ -49,6 +49,7 @@ fun ApartmentScreen(
     deleteApartment:(addressId: Int, restartApp: (String) -> Unit)->Unit,
     addressId: Int
 ) {
+    Log.d("argument_test", "address_id : $addressId")
 //    baseUiState called 5 times
     LaunchedEffect(key1 = baseUIState.apartments) {
         getApartments()
@@ -97,7 +98,7 @@ if (contentType == ContentType.DUAL_PANE) {
         if (navigationType == NavigationType.BOTTOM_NAVIGATION && !baseUIState.isDetailOnlyOpen) {
             FloatingActionButton(
                 onClick = {
-                    openScreen(ADD_APARTMENT_SCREEN)
+                    openScreen(AddApartmentScreen.route)
                 },
                 modifier = Modifier
                     .padding(16.dp)
