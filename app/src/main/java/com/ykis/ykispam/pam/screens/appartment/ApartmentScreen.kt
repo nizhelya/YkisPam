@@ -1,5 +1,6 @@
 package com.ykis.ykispam.pam.screens.appartment
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -46,6 +47,7 @@ fun ApartmentScreen(
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
     onDrawerClicked: () -> Unit = {},
     deleteApartment:(addressId: Int, restartApp: (String) -> Unit)->Unit,
+    addressId: Int
 ) {
 //    baseUiState called 5 times
     LaunchedEffect(key1 = baseUIState.apartments) {
@@ -54,12 +56,12 @@ fun ApartmentScreen(
             closeDetailScreen()
         }
     }
-
-LaunchedEffect(key1 = baseUIState.addressId,key2 = baseUIState.apartments) {
-    if(baseUIState.apartment == ApartmentEntity()&& baseUIState.apartments.isNotEmpty()){
+    Log.d("navigation_test", "addressId:$addressId")
+LaunchedEffect(key1 = addressId,key2 = baseUIState.apartments) {
+    if(baseUIState.apartment == ApartmentEntity() && baseUIState.apartments.isNotEmpty()){
         setApartment(baseUIState.apartments.first().addressId)
     }else {
-        setApartment(baseUIState.addressId)
+        setApartment(addressId)
     }
 
     if (contentType == ContentType.SINGLE_PANE && !baseUIState.isDetailOnlyOpen) {

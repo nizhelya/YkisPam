@@ -67,6 +67,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -75,6 +76,7 @@ import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.R
 import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.pam.domain.service.ServiceEntity
+import com.ykis.ykispam.theme.YkisPAMTheme
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -155,7 +157,7 @@ fun ServiceDetailItem(
                     .horizontalScroll(rememberScrollState())
                     .padding(horizontal = 18.dp),
                 verticalAlignment = Alignment.Bottom,
-                horizontalArrangement = Arrangement.Start,
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 ColumnItemInTable(
                     alignment = Alignment.Start,
@@ -410,6 +412,12 @@ fun EmptyListScreen(modifier: Modifier = Modifier,
 }
 
 
-
-
+@Preview(device = "spec:width=1500px,height=3640px,dpi=440")
+@Composable
+private fun Test() {
+    YkisPAMTheme {
+        ServiceDetailItem()
+    }
+    
+}
 

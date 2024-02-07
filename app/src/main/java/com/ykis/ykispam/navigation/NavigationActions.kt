@@ -21,12 +21,10 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Adjust
 import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.Church
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Payments
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Chat
 import androidx.compose.material.icons.outlined.Church
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Payments
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.ykis.ykispam.R
@@ -50,12 +48,12 @@ data class TopLevelDestination(
 
 
 val NAV_BAR_DESTINATIONS = listOf(
-    TopLevelDestination(
-        route = APARTMENT_SCREEN,
-        selectedIcon = Icons.Filled.Home,
-        unselectedIcon = Icons.Outlined.Home,
-        labelId = R.string.house
-    ),
+//    TopLevelDestination(
+//        route = APARTMENT_SCREEN,
+//        selectedIcon = Icons.Filled.Home,
+//        unselectedIcon = Icons.Outlined.Home,
+//        labelId = R.string.house
+//    ),
     TopLevelDestination(
         route = METER_SCREEN,
         selectedIcon = Icons.Filled.Church ,

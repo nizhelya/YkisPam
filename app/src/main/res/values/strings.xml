@@ -114,7 +114,7 @@
     <string name="add_flat_secret_сode">За допомогою секретного коду</string>
     <string name="add_flat_authenticator_сode">За допомогою згенерованого коду</string>
 
-    <string name="list_appartment">Перелік квартир</string>
+    <string name="list_apartment">Мої квартири</string>
     <string name="list_family">Склад сім\'ї</string>
     <string name="bti">БТІ</string>
     <string name="add_appartment">Додати квартиру</string>

@@ -2,8 +2,11 @@ package com.ykis.ykispam.navigation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -35,6 +38,7 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddHome
+import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MenuOpen
 import androidx.compose.material.icons.twotone.Apartment
@@ -61,6 +65,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Measurable
@@ -73,7 +78,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
 import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.R
+import com.ykis.ykispam.core.composable.ApartmentList
 import com.ykis.ykispam.core.composable.LogoImage
+import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 
 @Preview
 @Composable
@@ -85,9 +92,11 @@ private fun PreviewRail() {
         selectedDestination = METER_SCREEN,
         isRailExpanded = isRailExpanded.value,
         onMenuClick = { isRailExpanded.value = !isRailExpanded.value },
+        baseUIState = BaseUIState(
+            apartments = listOf(ApartmentEntity(address = "Хіміків 14/33"))
+        )
     )
 }
-
 @Preview
 @Composable
 private fun PreviewExpandedRail() {
@@ -98,6 +107,9 @@ private fun PreviewExpandedRail() {
         selectedDestination = METER_SCREEN,
         isRailExpanded = isRailExpanded.value,
         onMenuClick = { isRailExpanded.value = !isRailExpanded.value },
+        baseUIState = BaseUIState(
+            apartments = listOf(ApartmentEntity(address = "Хіміків 14/33"))
+        )
     )
 }
 
@@ -132,14 +144,28 @@ fun CustomNavigationRail(
         }
     }
 }
-
 @Composable
 fun ApartmentNavigationRail(
+    baseUIState: BaseUIState,
     selectedDestination: String,
     navigateToDestination: (String) -> Unit = {},
     isRailExpanded: Boolean,
     onMenuClick: () -> Unit,
+    navigateToApartment : (String) -> Unit = {}
 ) {
+    val transition = updateTransition(targetState = isRailExpanded , label = "Is Rail expanded")
+    val alpha by transition.animateFloat(
+        label = "alpha",
+        transitionSpec ={ tween(350 , delayMillis =450 )}
+    ) {
+        if(it) 1f else 0f
+    }
+    val height by transition.animateDp(
+        label = "height",
+        transitionSpec ={ tween(550 , delayMillis = 250)}
+    ) {
+        if(it)144.dp else 0.dp
+    }
     val currentWidth by animateDpAsState(
         targetValue = if (isRailExpanded) 260.dp else 80.dp, tween(550), label = ""
     )
@@ -188,7 +214,7 @@ fun ApartmentNavigationRail(
                     )
                     AnimatedVisibility(
                         visible = isRailExpanded,
-                        exit = fadeOut() + shrinkHorizontally()
+                        exit = shrinkHorizontally()
                     ) {
                         Text(
                             text = stringResource(id = R.string.add_appartment),
@@ -202,99 +228,121 @@ fun ApartmentNavigationRail(
         },
         currentWidth = currentWidth
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.spacedBy(animatePadding.value)
-        ) {
-            NAV_RAIL_DESTINATIONS.forEach { replyDestination ->
-                Box {
-                    Box(
-                    ) {
-                        NavigationRailItem(
-                            modifier = Modifier.padding(horizontal = 28.dp),
-                            selected = selectedDestination == replyDestination.route,
-                            label = {
-                                Text(
-                                    modifier = Modifier.size(if (isRailExpanded) 0.dp else 12.dp),
-                                    text = "",
-                                )
-                            },
-                            icon = {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(animateItemHeight),
-                                    horizontalArrangement = Arrangement.spacedBy(
-                                        12.dp
-                                    ),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Icon(
-                                        imageVector = if (selectedDestination == replyDestination.route) {
-                                            replyDestination.selectedIcon
-                                        } else replyDestination.unselectedIcon,
-
-                                        contentDescription = stringResource(
-                                            id = replyDestination.labelId
-                                        )
-                                    )
-                                    AnimatedVisibility(
-                                        visible = isRailExpanded,
-                                        exit = fadeOut(
-                                            tween(durationMillis = 700)
-                                        )
-                                                + shrinkHorizontally(),
-                                        enter = fadeIn(
-                                            tween(durationMillis = 550, delayMillis = 150)
-                                        )
-                                    ) {
-                                        Text(
-                                            text = stringResource(id = replyDestination.labelId),
-                                        )
-                                    }
-                                }
-                            },
-                            onClick = { navigateToDestination(replyDestination.route) }
+        Column(modifier = Modifier.fillMaxWidth()){
+                Column(modifier = Modifier
+                    .fillMaxWidth()
+                    .alpha(alpha)
+                    .height(height)) {
+                    Row(modifier = Modifier.fillMaxWidth()) {
+//                         TODO: change it to string
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = "Мої квартириии"
+                    )
+                        Icon(
+                            imageVector = Icons.Default.ExpandLess,
+                            contentDescription = null,
                         )
                     }
-                    androidx.compose.animation.AnimatedVisibility(
-                        visible = !isRailExpanded,
-                        modifier = Modifier
-                            .width(80.dp)
-                            .align(Alignment.CenterStart),
-                        exit =
-                        fadeOut(
-                            tween(200)
-                        )
-                                + shrinkVertically(
-                            tween(320)
-                        ),
-                        enter = fadeIn(
-                            tween(300)
-                        )
-                                + expandVertically(
-                            tween(500)
-                        )
-                    ) {
-                        Text(
-                            style = MaterialTheme.typography.labelMedium,
-                            color =
-                            if (selectedDestination == replyDestination.route) {
-                                NavigationRailItemDefaults.colors().selectedTextColor
-                            } else NavigationRailItemDefaults.colors().unselectedIconColor,
-                            text = stringResource(id = replyDestination.labelId),
+                    ApartmentList(
+                        apartmentList = baseUIState.apartments,
+                        onClick = navigateToApartment
+                    )
+                }
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.spacedBy(animatePadding.value, Alignment.Top)
+            ) {
+                NAV_RAIL_DESTINATIONS.forEach { replyDestination ->
+                    Box {
+                        Box(
+                        ) {
+                            NavigationRailItem(
+                                modifier = Modifier.padding(horizontal = 28.dp),
+                                selected = selectedDestination == replyDestination.route,
+                                label = {
+                                    Text(
+                                        modifier = Modifier.size(if (isRailExpanded) 0.dp else 12.dp),
+                                        text = "",
+                                    )
+                                },
+                                icon = {
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(animateItemHeight),
+                                        horizontalArrangement = Arrangement.spacedBy(
+                                            12.dp
+                                        ),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Icon(
+                                            imageVector = if (selectedDestination == replyDestination.route) {
+                                                replyDestination.selectedIcon
+                                            } else replyDestination.unselectedIcon,
+
+                                            contentDescription = stringResource(
+                                                id = replyDestination.labelId
+                                            )
+                                        )
+                                        AnimatedVisibility(
+                                            visible = isRailExpanded,
+                                            exit = fadeOut(
+                                                tween(durationMillis = 700)
+                                            )
+                                                    + shrinkHorizontally(),
+                                            enter = fadeIn(
+                                                tween(durationMillis = 550, delayMillis = 150)
+                                            )
+                                        ) {
+                                            Text(
+                                                text = stringResource(id = replyDestination.labelId),
+                                            )
+                                        }
+                                    }
+                                },
+                                onClick = { navigateToDestination(replyDestination.route) }
+                            )
+                        }
+                        androidx.compose.animation.AnimatedVisibility(
+                            visible = !isRailExpanded,
                             modifier = Modifier
-                                .padding(top = 32.dp),
-                            textAlign = TextAlign.Center
-                        )
+                                .width(80.dp)
+                                .align(Alignment.CenterStart),
+                            exit =
+                            fadeOut(
+                                tween(200)
+                            )
+                                    + shrinkVertically(
+                                tween(320)
+                            ),
+                            enter = fadeIn(
+                                tween(300)
+                            )
+                                    + expandVertically(
+                                tween(500)
+                            )
+                        ) {
+                            Text(
+                                style = MaterialTheme.typography.labelMedium,
+                                color =
+                                if (selectedDestination == replyDestination.route) {
+                                    NavigationRailItemDefaults.colors().selectedTextColor
+                                } else NavigationRailItemDefaults.colors().unselectedIconColor,
+                                text = stringResource(id = replyDestination.labelId),
+                                modifier = Modifier
+                                    .padding(top = 32.dp),
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                 }
             }
-        }
-
     }
 }
 
@@ -542,7 +590,7 @@ fun ModalNavigationDrawerContent(
                                     unselectedContainerColor = Color.Transparent
                                 ),
                                 onClick = {
-                                    setApartment(it.addressId)
+//                                    setApartment(it.addressId)
                                     closeDetailScreen()
                                     navigateToDestination("$APARTMENT_SCREEN?$ADDRESS_ID=${it.addressId}")
                                     onDrawerClicked()
