@@ -2,9 +2,13 @@ package com.ykis.ykispam.navigation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.expandVertically
@@ -13,6 +17,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +29,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
@@ -38,12 +44,13 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddHome
-import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MenuOpen
 import androidx.compose.material.icons.twotone.Apartment
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -63,9 +70,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Measurable
@@ -76,6 +85,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
+import com.google.android.gms.common.util.CollectionUtils.listOf
 import com.ykis.ykispam.BaseUIState
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.composable.ApartmentList
@@ -153,18 +163,35 @@ fun ApartmentNavigationRail(
     onMenuClick: () -> Unit,
     navigateToApartment : (Int) -> Unit = {}
 ) {
+    var showApartmentList by rememberSaveable {
+        mutableStateOf(true)
+    }
+    val apartmentListHeight =
+        when{
+           baseUIState.apartments.size  >= 3  && showApartmentList-> 152.dp
+            baseUIState.apartments.size == 2  && showApartmentList-> 130.dp
+            baseUIState.apartments.size == 1  && showApartmentList-> 82.dp
+            !showApartmentList -> 34.dp
+            else -> 0.dp
+        }
     val transition = updateTransition(targetState = isRailExpanded , label = "Is Rail expanded")
     val alpha by transition.animateFloat(
         label = "alpha",
-        transitionSpec ={ tween(350 , delayMillis =450 )}
+        transitionSpec ={
+            if(isRailExpanded) {
+                tween(400 , delayMillis =150 )
+            }else tween(250)
+        }
     ) {
         if(it) 1f else 0f
     }
     val height by transition.animateDp(
-        label = "height",
-        transitionSpec ={ tween(550 , delayMillis = 250)}
+        label = "",
+        transitionSpec = {
+            tween(300 , delayMillis = 250)
+        }
     ) {
-        if(it)144.dp else 0.dp
+        if(it) 134.dp else 0.dp
     }
     val currentWidth by animateDpAsState(
         targetValue = if (isRailExpanded) 260.dp else 80.dp, tween(550), label = ""
@@ -177,6 +204,11 @@ fun ApartmentNavigationRail(
         targetValue = if (!isRailExpanded) 12.dp else -8.dp,
         animationSpec =
         tween(550, easing = FastOutSlowInEasing), label = ""
+    )
+    val rotationIcon by animateFloatAsState(
+        targetValue = if(showApartmentList) 180f else 0f,
+        animationSpec = spring(Spring.DampingRatioLowBouncy, Spring.StiffnessLow),
+        label = "Icon rotation"
     )
     CustomNavigationRail(
         modifier = Modifier
@@ -228,30 +260,49 @@ fun ApartmentNavigationRail(
         },
         currentWidth = currentWidth
     ) {
-        Column(modifier = Modifier.fillMaxWidth()){
                 Column(modifier = Modifier
                     .fillMaxWidth()
-                    .alpha(alpha)
-                    .height(height)) {
-                    Row(modifier = Modifier.fillMaxWidth()) {
+                    .alpha(alpha = alpha)
+                    .heightIn(max = height)
+                )
+                {
+                    Row(modifier = Modifier
+                        .height(42.dp)
+                        .fillMaxWidth()
+                        .clickable {
+                            showApartmentList = !showApartmentList
+                        },
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
 //                         TODO: change it to string
                     Text(
-                        modifier = Modifier.weight(1f),
-                        text = "Мої квартириии"
+                        modifier = Modifier.weight(1f).padding(start = 14.dp),
+                        text = "Мої квартири",
+                        style = MaterialTheme.typography.titleMedium,
                     )
-                        Icon(
-                            imageVector = Icons.Default.ExpandLess,
-                            contentDescription = null,
-                        )
+                            Icon(
+                                modifier = Modifier.padding(end=14.dp).rotate(rotationIcon),
+                                imageVector = Icons.Default.ExpandMore,
+                                contentDescription = null,
+                            )
                     }
-                    ApartmentList(
-                        apartmentList = baseUIState.apartments,
-                        onClick = navigateToApartment
-                    )
+                    HorizontalDivider()
+                    AnimatedVisibility(
+                        visible = showApartmentList,
+                        enter =  expandVertically(tween(350 , easing = LinearOutSlowInEasing)),
+                        exit = shrinkVertically(tween(250 , easing = LinearOutSlowInEasing))
+                    ) {
+                            ApartmentList(
+                                apartmentList = baseUIState.apartments,
+                                onClick = navigateToApartment,
+                                currentAddressId = baseUIState.addressId
+                            )
+                    }
+                    HorizontalDivider()
                 }
-            }
             Column(
                 modifier = Modifier
+                    .padding(top = 4.dp)
                     .fillMaxSize()
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState()),

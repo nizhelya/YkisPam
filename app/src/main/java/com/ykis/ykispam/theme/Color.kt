@@ -73,3 +73,12 @@ val surfaceContainerDark = Color(0xFF1E2025)
 val surfaceContainerHighDark = Color(0xFF282A2F)
 val surfaceContainerHighestDark = Color(0xFF33353A)
 
+val selectedElementLight = Color(0xFF136d34)
+val onSelectedElementLight = Color(0xFFFFFFFF)
+val selectedElementContainerLight = Color(0xFFa0f6ad)
+val onSelectedElementContainerLight = Color(0xFF00210a)
+
+val selectedElementDark = Color(0xFF85d993)
+val onSelectedElementDark = Color(0XFF003916)
+val selectedElementContainerDark = Color(0xFF005323)
+val onSelectedElementContainerDark = Color(0xFFa0f6ad)

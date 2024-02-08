@@ -2,16 +2,52 @@ package com.ykis.ykispam.theme
 
 import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 // Material 3 color schemes
+
+@Immutable
+data class ExtendedColorScheme(
+    val selectedElement: ColorFamily,
+)
+
+
+@Immutable
+data class ColorFamily(
+    val color: Color,
+    val onColor: Color,
+    val colorContainer: Color,
+    val onColorContainer: Color
+)
+
+val extendedDark = ExtendedColorScheme(
+    selectedElement = ColorFamily(
+        selectedElementDark ,
+        onSelectedElementDark,
+        selectedElementContainerDark,
+        onSelectedElementContainerDark
+    )
+)
+val extendedLight = ExtendedColorScheme(
+    selectedElement = ColorFamily(
+        selectedElementLight ,
+        onSelectedElementLight,
+        selectedElementContainerLight,
+        onSelectedElementContainerLight
+    )
+)
+val ColorScheme.extendedColor: ExtendedColorScheme @Composable
+get() = if (!isSystemInDarkTheme()) extendedLight else extendedDark
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -105,7 +141,8 @@ fun YkisPAMTheme(
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colors.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = useDarkTheme
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars =
+                useDarkTheme
         }
     }
     MaterialTheme(
@@ -114,20 +151,3 @@ fun YkisPAMTheme(
         shapes = shapes
     )
 }
-//@Composable
-//fun YkisPAMTheme(
-//    useDarkTheme: Boolean = isSystemInDarkTheme(),
-//    content: @Composable() () -> Unit
-//) {
-//    val colors = if (!useDarkTheme) {
-//        LightColors
-//    } else {
-//        DarkColors
-//    }
-//
-//    MaterialTheme(
-//        colorScheme = colors,
-//        content = content,
-//        shapes = shapes
-//    )
-//}
