@@ -12,7 +12,8 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.google.accompanist.adaptive.calculateDisplayFeatures
-import com.ykis.ykispam.theme.YkisPAMTheme
+import com.ykis.ykispam.ui.YkisPamApp
+import com.ykis.ykispam.ui.theme.YkisPAMTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

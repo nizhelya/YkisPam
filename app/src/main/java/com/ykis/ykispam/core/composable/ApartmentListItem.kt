@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.theme.extendedColor
+import com.ykis.ykispam.ui.theme.extendedColor
 
 @Composable
 fun ApartmentListItem(
