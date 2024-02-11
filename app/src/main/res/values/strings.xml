@@ -69,7 +69,7 @@
     <string name="generic_error">Что-то пошло не так. Пожалуйста попытайтесь снова.</string>
     <string name="email_error">Пожалуйста введите правильный email.</string>
     <string name="try_again">Спробуйте знову</string>
-    <string name="profile">профіль користувача</string>
+    <string name="profile">Профіль користувача</string>
 
     <!-- LoginScreen -->
     <string name="sign_in">Вхід по електронній пошті</string>

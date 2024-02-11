@@ -71,6 +71,7 @@ fun BasicField(
 //                color = Color(0xFFFFB945)
             )
         },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         value = value,
         onValueChange = { onNewValue(it) },
         placeholder = { Text(stringResource(id = placeholder)) }

@@ -19,7 +19,6 @@ package com.ykis.ykispam.navigation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -28,7 +27,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -36,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ykis.ykispam.R
+import com.ykis.ykispam.pam.screens.appartment.ApartmentViewModel
 import com.ykis.ykispam.pam.screens.appbars.AddAppBar
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 
@@ -44,18 +43,17 @@ import com.ykis.ykispam.ui.theme.YkisPAMTheme
 fun EmptyScreen(
     modifier: Modifier = Modifier,
     popUpScreen: () -> Unit,
-    viewModel: EmptyViewModel = hiltViewModel()
+    viewModel: ApartmentViewModel = hiltViewModel()
 
 
 ) {
     EmptyScreenContent(
-        onBackPressed = { viewModel.navigateBack(popUpScreen) },
+        onBackPressed = { popUpScreen},
 
         )
 }
 
 
-@OptIn(ExperimentalComposeUiApi::class)
 @ExperimentalMaterial3Api
 @Composable
 fun EmptyScreenContent(
@@ -64,25 +62,18 @@ fun EmptyScreenContent(
 ) {
     Column(
         modifier = Modifier
-            .padding(4.dp)
-            .fillMaxWidth()
-            .fillMaxHeight(),
+                .fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(all = 8.dp),
-            horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.Top
-        ) {
+            // TODO: make this appBar universal
             AddAppBar(
                 modifier,
                 "",
                 stringResource(id = R.string.full_name),
-                onBackPressed = { onBackPressed() })
-        }
+                onBackPressed = { onBackPressed() },
+                canNavigateBack = true
+            )
 
         Row(
             modifier = Modifier

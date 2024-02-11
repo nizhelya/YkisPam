@@ -7,9 +7,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -22,20 +21,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.R
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddAppBar(
     modifier: Modifier = Modifier,
     label: String,
     address: String,
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
+    canNavigateBack : Boolean
 ) {
 
     TopAppBar(
         modifier = modifier,
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.onSecondary
+            containerColor = MaterialTheme.colorScheme.surfaceContainer
         ),
         title = {
             Column(
@@ -56,20 +55,16 @@ fun AddAppBar(
             }
         },
         navigationIcon = {
-
-            FilledIconButton(
-                onClick = onBackPressed,
-                modifier = Modifier.padding(8.dp),
-                colors = IconButtonDefaults.filledIconButtonColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onSurface
-                )
-            ) {
-                Icon(
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = stringResource(id = R.string.back_button),
-                    modifier = Modifier.size(14.dp)
-                )
+            if(canNavigateBack) {
+                IconButton(
+                    onClick = onBackPressed,
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = stringResource(id = R.string.back_button),
+                        modifier = Modifier.size(24.dp),
+                    )
+                }
             }
         },
     )
@@ -78,5 +73,5 @@ fun AddAppBar(
 @Preview
 @Composable
 private fun PreviewAddAppBar() {
-    AddAppBar(label = "Label", address = "Хіміків 12/140" , onBackPressed = {})
+    AddAppBar(label = "Label", address = "Хіміків 12/140" , onBackPressed = {} , canNavigateBack = true)
 }

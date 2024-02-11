@@ -55,7 +55,7 @@ fun ProfileTopBar(
     TopAppBar(
         modifier = modifier,
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.inverseOnSurface
+            containerColor = MaterialTheme.colorScheme.surfaceContainer
         ),
         title = {
             Column(
@@ -71,18 +71,16 @@ fun ProfileTopBar(
         },
         navigationIcon = {
 
-            FilledIconButton(
+            IconButton(
                 onClick = navigateBack,
-                modifier = Modifier.padding(8.dp),
                 colors = IconButtonDefaults.filledIconButtonColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
                     contentColor = MaterialTheme.colorScheme.onSurface
                 )
             ) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = stringResource(id = R.string.back_button),
-                    modifier = Modifier.size(14.dp)
+                    modifier = Modifier.size(24.dp)
                 )
             }
         },

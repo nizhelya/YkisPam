@@ -105,8 +105,7 @@ fun ApartmentTopAppBar(
         TopAppBar(
             modifier = modifier,
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
-
+                containerColor = MaterialTheme.colorScheme.background
             ),
             title = {
                 Column(

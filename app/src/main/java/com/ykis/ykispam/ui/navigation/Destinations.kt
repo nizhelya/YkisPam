@@ -78,7 +78,10 @@ object ApartmentScreen : Destination{
     val routeWithArgs = "$route/{$addressIdArg}"
 
     val arguments = listOf(
-        navArgument(addressIdArg) {type = NavType.IntType}
+        navArgument(addressIdArg) {
+            type = NavType.IntType
+            defaultValue = 0
+        }
     )
 
 }

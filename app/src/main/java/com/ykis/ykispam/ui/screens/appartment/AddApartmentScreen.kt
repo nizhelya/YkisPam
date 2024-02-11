@@ -1,14 +1,12 @@
 package com.ykis.ykispam.pam.screens.appartment
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -28,7 +26,7 @@ import androidx.navigation.NavHostController
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.composable.BasicField
 import com.ykis.ykispam.core.composable.BasicImageButton
-import com.ykis.ykispam.navigation.cleanNavigateTo
+import com.ykis.ykispam.navigation.navigateToApartment
 import com.ykis.ykispam.pam.screens.appbars.AddAppBar
 import com.ykis.ykispam.R.string as AppText
 
@@ -56,17 +54,15 @@ fun AddApartmentScreenContent(
     modifier: Modifier = Modifier,
     isSelected: Boolean = false,
     viewModel: ApartmentViewModel = hiltViewModel(),
-    navController : NavHostController
+    navController : NavHostController,
+    canNavigateBack : Boolean
 ) {
     
-    Log.d("viewModel_test" , "AddApartmentScreenContent:$viewModel")
     val secretCode by viewModel.secretCode.collectAsState()
     val keyboard = LocalSoftwareKeyboardController.current
     Column(
         modifier = Modifier
-            .padding(4.dp)
-            .widthIn(0.dp, 460.dp)
-            .fillMaxHeight(),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -74,7 +70,8 @@ fun AddApartmentScreenContent(
             modifier = Modifier,
             stringResource(id = R.string.add_flat_secret_сode),
             stringResource(id = R.string.add_appartment),
-            onBackPressed = {viewModel.navigateBack{ navController.popBackStack()}}
+            onBackPressed = {viewModel.navigateBack{ navController.popBackStack()}},
+            canNavigateBack = canNavigateBack
         )
         Card(
             modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -138,7 +135,10 @@ fun AddApartmentScreenContent(
                         )
                         {
                             keyboard?.hide()
-                            viewModel.addApartment { route -> navController.cleanNavigateTo(route) }
+                            viewModel.addApartment {
+                                addressId->
+                                navController.navigateToApartment(addressId)
+                            }
                         }
 
                     }

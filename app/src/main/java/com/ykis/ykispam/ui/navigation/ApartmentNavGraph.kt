@@ -2,6 +2,7 @@ package com.ykis.ykispam.navigation
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
@@ -9,6 +10,7 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,8 +29,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
-import com.ykis.ykispam.ui.BaseUIState
-import com.ykis.ykispam.ui.YkisPamAppState
 import com.ykis.ykispam.pam.screens.appartment.AddApartmentScreenContent
 import com.ykis.ykispam.pam.screens.appartment.ApartmentScreen
 import com.ykis.ykispam.pam.screens.appartment.ApartmentViewModel
@@ -36,6 +36,8 @@ import com.ykis.ykispam.pam.screens.meter.MeterScreen
 import com.ykis.ykispam.pam.screens.profile.ProfileScreen
 import com.ykis.ykispam.pam.screens.service.ServiceListScreen
 import com.ykis.ykispam.pam.screens.settings.SettingsScreen
+import com.ykis.ykispam.ui.BaseUIState
+import com.ykis.ykispam.ui.YkisPamAppState
 import com.ykis.ykispam.ui.rememberAppState
 import kotlinx.coroutines.launch
 
@@ -75,45 +77,72 @@ fun MainApartmentScreen(
             onDispose()
         }
     }
-    if(navigationType==NavigationType.BOTTOM_NAVIGATION) {
-        ModalNavigationDrawer(
-            drawerContent = {
-                ModalNavigationDrawerContent(
-                    baseUIState = baseUIState,
-                    selectedDestination = selectedDestination,
-                    navigateToDestination = {
-                        coroutineScope.launch {
-                            drawerState.close()
-                            navController.navigateWithPopUp(it, APARTMENT_SCREEN)
-                        }
-                    },
-                    onMenuClick = {
-                        coroutineScope.launch {
-                            drawerState.close()
-                        }
-                    },
-                    navigateToApartment = { addressId ->
-                        coroutineScope.launch {
-                            drawerState.close()
-                            navController.navigateToApartment(addressId)
-                        }
+    if(baseUIState.apartments.isNotEmpty()) {
+        if (navigationType == NavigationType.BOTTOM_NAVIGATION) {
+            ModalNavigationDrawer(
+                drawerContent = {
+                    ModalNavigationDrawerContent(
+                        baseUIState = baseUIState,
+                        selectedDestination = selectedDestination,
+                        navigateToDestination = {
+                            coroutineScope.launch {
+                                drawerState.close()
+                                navController.navigateWithPopUp(it, APARTMENT_SCREEN)
+                            }
+                        },
+                        onMenuClick = {
+                            coroutineScope.launch {
+                                drawerState.close()
+                            }
+                        },
+                        navigateToApartment = { addressId ->
+                            coroutineScope.launch {
+                                drawerState.close()
+                                navController.navigateToApartment(addressId)
+                            }
 
+                        }
+                    )
+                },
+                drawerState = drawerState
+            ) {
+                Scaffold(
+                    snackbarHost = { appState.snackbarHostState },
+                    bottomBar = {
+                        BottomNavigationBar(
+                            selectedDestination = selectedDestination,
+                            onClick = { navController.navigateWithPopUp(it, APARTMENT_SCREEN) })
                     }
-                )
-            },
-            drawerState = drawerState
-        ) {
+                ) { it ->
+                    ApartmentNavGraph(
+                        modifier = Modifier
+                            .padding(
+                                bottom = it.calculateBottomPadding(),
+                            ),
+                        contentType = contentType,
+                        navigationType = navigationType,
+                        displayFeatures = displayFeatures,
+                        baseUIState = baseUIState,
+                        navController = navController,
+                        onDrawerClicked = {
+                            coroutineScope.launch {
+                                drawerState.open()
+                            }
+                        },
+                        apartmentViewModel = viewModel,
+                        rootNavController = rootNavController
+
+                    )
+                }
+            }
+        } else {
             Scaffold(
                 snackbarHost = { appState.snackbarHostState },
-                bottomBar = {
-                    BottomNavigationBar(
-                        selectedDestination = selectedDestination,
-                        onClick = { navController.navigateWithPopUp(it, APARTMENT_SCREEN) })
-                }
             ) { it ->
                 ApartmentNavGraph(
                     modifier = Modifier
                         .padding(
+                            start = railWidth,
                             bottom = it.calculateBottomPadding(),
                         ),
                     contentType = contentType,
@@ -130,53 +159,44 @@ fun MainApartmentScreen(
                     rootNavController = rootNavController
 
                 )
+                ApartmentNavigationRail(
+                    selectedDestination = selectedDestination,
+                    navigateToDestination = {
+                        navController.navigateWithPopUp(
+                            it,
+                            APARTMENT_SCREEN
+                        )
+                    },
+                    isRailExpanded = isRailExpanded,
+                    onMenuClick = { isRailExpanded = !isRailExpanded },
+                    baseUIState = baseUIState,
+                    navigateToApartment = { addressId ->
+                        navController.navigateToApartment(addressId)
+                    },
+                    railWidth = railWidth,
+                )
+
             }
         }
-    }else {
-        Scaffold(
-            snackbarHost = { appState.snackbarHostState },
-        ) { it ->
-            ApartmentNavGraph(
-                modifier = Modifier
-                    .padding(
-                        start = railWidth,
-                        bottom = it.calculateBottomPadding(),
-                    ),
-                contentType = contentType,
-                navigationType = navigationType,
-                displayFeatures = displayFeatures,
-                baseUIState = baseUIState,
-                navController = navController,
-                onDrawerClicked = {
-                    coroutineScope.launch {
-                        drawerState.open()
-                    }
-                },
-                apartmentViewModel = viewModel,
-                rootNavController = rootNavController
+    }else{
+        ApartmentNavGraph(
+            modifier = Modifier.fillMaxSize(),
+            contentType = contentType,
+            navigationType = navigationType,
+            displayFeatures = displayFeatures,
+            baseUIState = baseUIState,
+            navController = navController,
+            onDrawerClicked = {
+                coroutineScope.launch {
+                    drawerState.open()
+                }
+            },
+            apartmentViewModel = viewModel,
+            rootNavController = rootNavController
 
-            )
-            ApartmentNavigationRail(
-                        selectedDestination = selectedDestination,
-                        navigateToDestination = {
-                            navController.navigateWithPopUp(
-                                it,
-                                APARTMENT_SCREEN
-                            )
-                        },
-                        isRailExpanded = isRailExpanded,
-                        onMenuClick = { isRailExpanded = !isRailExpanded },
-                        baseUIState = baseUIState,
-                        navigateToApartment = { addressId ->
-                            navController.navigateToApartment(addressId)
-                        },
-                        railWidth = railWidth
-                    )
-
-        }
+        )
     }
 }
-
 @Composable
 fun ApartmentNavGraph(
     modifier: Modifier = Modifier,
@@ -190,12 +210,16 @@ fun ApartmentNavGraph(
     rootNavController: NavHostController
 ) {
     val appState = rememberAppState()
-
+    LaunchedEffect(key1 = true) {
+        apartmentViewModel.initialize()
+    }
     NavHost(
         modifier = modifier,
         navController = navController,
         route = Graph.APARTMENT,
-        startDestination = ApartmentScreen.routeWithArgs
+        startDestination = if(baseUIState.apartments.isEmpty()){
+            AddApartmentScreen.route
+        }else ApartmentScreen.routeWithArgs
     ) {
         composable(ProfileScreen.route) {
 
@@ -213,7 +237,8 @@ fun ApartmentNavGraph(
         composable(AddApartmentScreen.route) {
             AddApartmentScreenContent(
                 viewModel = apartmentViewModel,
-                navController = navController
+                navController = navController,
+                canNavigateBack = navController.previousBackStackEntry != null
             )
 //            AddApartmentScreen(
 //                popUpScreen = { appState.popUp() },

@@ -16,8 +16,8 @@ limitations under the License.
 
 package com.ykis.ykispam.pam.screens.appartment
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.ykis.ykispam.ui.BaseViewModel
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.Constants.VERIFY_EMAIL_SCREEN
 import com.ykis.ykispam.core.Response
@@ -40,6 +40,7 @@ import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.pam.domain.apartment.request.DeleteFlatByUser
 import com.ykis.ykispam.pam.domain.apartment.request.GetApartments
 import com.ykis.ykispam.pam.domain.apartment.request.UpdateBti
+import com.ykis.ykispam.ui.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -187,7 +188,7 @@ class ApartmentViewModel @Inject constructor(
         _secretCode.value = newValue
     }
 
-    fun addApartment(restartApp: (String) -> Unit) {
+    fun addApartment(restartApp: (Int) -> Unit) {
         if (_secretCode.value.isBlank()) {
             SnackbarManager.showMessage(R.string.empty_field_error)
             return
@@ -199,17 +200,16 @@ class ApartmentViewModel @Inject constructor(
                         it, _resultResponse
                     )
                 }
-                if (_resultResponse.value!!.success == 1) {
+                if (_resultResponse.value?.success == 1) {
                     _uiState.value = _uiState.value.copy(
                         addressId = _resultResponse.value!!.addressId
                     )
                     getApartmentsByUser(true)
                     SnackbarManager.showMessage(R.string.success_add_flat)
                     // TODO: rename fun restartApp
-                    restartApp(APARTMENT_SCREEN)
+                    restartApp(uiState.value.addressId)
                     _secretCode.value = ""
                 }
-
             }
         }
 
@@ -219,6 +219,7 @@ class ApartmentViewModel @Inject constructor(
         response: GetSimpleResponse,
         result: MutableStateFlow<GetSimpleResponse?>,
     ) {
+        Log.d("result_test", response.success.toString())
         result.value = response
     }
 

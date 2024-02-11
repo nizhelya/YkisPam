@@ -72,10 +72,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.common.util.CollectionUtils.listOf
-import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.composable.ApartmentList
 import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
+import com.ykis.ykispam.ui.BaseUIState
 
 @Preview
 @Composable
@@ -149,7 +149,8 @@ fun ApartmentNavigationRail(
     isRailExpanded: Boolean,
     onMenuClick: () -> Unit,
     navigateToApartment : (Int) -> Unit = {},
-    railWidth : Dp
+    railWidth : Dp,
+    maxApartmentListHeight : Dp = 134.dp
 ) {
     var showApartmentList by rememberSaveable {
         mutableStateOf(true)
@@ -171,7 +172,7 @@ fun ApartmentNavigationRail(
             tween(450 , delayMillis = 100)
         }
     ) {
-        if(it) 134.dp else 0.dp
+        if(it) maxApartmentListHeight else 0.dp
     }
     val animateItemHeight by animateDpAsState(
         targetValue = if (isRailExpanded) 56.dp else 24.dp,
@@ -424,7 +425,8 @@ fun ModalNavigationDrawerContent(
             onMenuClick = onMenuClick,
             navigateToDestination = navigateToDestination,
             navigateToApartment = navigateToApartment,
-            railWidth = 320.dp
+            railWidth = 320.dp,
+            maxApartmentListHeight = 178.dp
         )
     }
 }
