@@ -38,6 +38,9 @@ import com.ykis.ykispam.pam.screens.service.ServiceListScreen
 import com.ykis.ykispam.pam.screens.settings.SettingsScreen
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.YkisPamAppState
+import com.ykis.ykispam.ui.navigation.components.ApartmentNavigationRail
+import com.ykis.ykispam.ui.navigation.components.BottomNavigationBar
+import com.ykis.ykispam.ui.navigation.components.ModalNavigationDrawerContent
 import com.ykis.ykispam.ui.rememberAppState
 import kotlinx.coroutines.launch
 
@@ -65,12 +68,6 @@ fun MainApartmentScreen(
     val railWidth by animateDpAsState(
         targetValue = if (isRailExpanded) 260.dp else 80.dp, tween(550), label = ""
     )
-//    val railHeight = when {
-//        navigationType != NavigationType.BOTTOM_NAVIGATION && isRailExpanded -> 260.dp
-//        navigationType != NavigationType.BOTTOM_NAVIGATION && !isRailExpanded -> 80.dp
-//        else -> 0.dp
-//    }
-
     DisposableEffect(key1 = Unit) {
         onLaunch()
         onDispose {
