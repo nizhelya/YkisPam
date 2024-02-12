@@ -1,15 +1,15 @@
-package com.ykis.ykispam.pam.data
+package com.ykis.ykispam.data
 
-import com.ykis.ykispam.pam.data.cache.heat.meter.HeatMeterCache
-import com.ykis.ykispam.pam.data.cache.user.UserCache
-import com.ykis.ykispam.pam.domain.family.request.BooleanInt
-import com.ykis.ykispam.pam.domain.heat.meter.HeatMeterEntity
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.flatMap
-import com.ykis.ykispam.pam.domain.type.onNext
-import com.ykis.ykispam.pam.data.remote.heat.meter.HeatMeterRemote
-import com.ykis.ykispam.pam.domain.heat.meter.HeatMeterRepository
-import com.ykis.ykispam.pam.domain.type.Failure
+import com.ykis.ykispam.data.cache.heat.meter.HeatMeterCache
+import com.ykis.ykispam.data.cache.user.UserCache
+import com.ykis.ykispam.domain.family.request.BooleanInt
+import com.ykis.ykispam.domain.heat.meter.HeatMeterEntity
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.flatMap
+import com.ykis.ykispam.domain.type.onNext
+import com.ykis.ykispam.data.remote.heat.meter.HeatMeterRemote
+import com.ykis.ykispam.domain.heat.meter.HeatMeterRepository
+import com.ykis.ykispam.domain.type.Failure
 
 
 import javax.inject.Inject

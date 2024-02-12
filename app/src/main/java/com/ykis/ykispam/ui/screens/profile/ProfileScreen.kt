@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.profile
+package com.ykis.ykispam.ui.screens.profile
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,11 +37,11 @@ import com.ykis.ykispam.R
 import com.ykis.ykispam.ui.YkisPamAppState
 import com.ykis.ykispam.core.Constants.REVOKE_ACCESS_MESSAGE
 import com.ykis.ykispam.core.Constants.SIGN_OUT
-import com.ykis.ykispam.navigation.Graph
-import com.ykis.ykispam.navigation.LaunchScreen
-import com.ykis.ykispam.pam.screens.profile.components.ProfileTopBar
-import com.ykis.ykispam.pam.screens.profile.components.RevokeAccess
-import com.ykis.ykispam.pam.screens.profile.components.SignOut
+import com.ykis.ykispam.ui.navigation.Graph
+import com.ykis.ykispam.ui.navigation.LaunchScreen
+import com.ykis.ykispam.ui.screens.appbars.ProfileTopBar
+import com.ykis.ykispam.ui.screens.profile.components.RevokeAccess
+import com.ykis.ykispam.ui.screens.profile.components.SignOut
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 import kotlinx.coroutines.launch
 

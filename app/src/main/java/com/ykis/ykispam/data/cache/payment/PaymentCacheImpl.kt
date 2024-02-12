@@ -1,7 +1,7 @@
-package com.ykis.ykispam.pam.data.cache.payment
+package com.ykis.ykispam.data.cache.payment
 
-import com.ykis.ykispam.pam.data.cache.dao.PaymentDao
-import com.ykis.ykispam.pam.domain.payment.PaymentEntity
+import com.ykis.ykispam.data.cache.dao.PaymentDao
+import com.ykis.ykispam.domain.payment.PaymentEntity
 import javax.inject.Inject
 import javax.inject.Singleton
 

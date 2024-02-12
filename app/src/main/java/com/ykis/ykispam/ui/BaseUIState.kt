@@ -1,10 +1,10 @@
 package com.ykis.ykispam.ui
 
-import com.ykis.ykispam.navigation.ADDRESS_ID_ARG
-import com.ykis.ykispam.navigation.APARTMENT_SCREEN
-import com.ykis.ykispam.navigation.ContentDetail
-import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.pam.domain.payment.PaymentItemEntity
+import com.ykis.ykispam.ui.navigation.ADDRESS_ID_ARG
+import com.ykis.ykispam.ui.navigation.APARTMENT_SCREEN
+import com.ykis.ykispam.ui.navigation.ContentDetail
+import com.ykis.ykispam.domain.apartment.ApartmentEntity
+import com.ykis.ykispam.domain.payment.PaymentItemEntity
 
 data class BaseUIState(
     val uid: String? = null,

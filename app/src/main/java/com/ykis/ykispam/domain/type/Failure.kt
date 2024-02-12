@@ -1,24 +1,24 @@
-package com.ykis.ykispam.pam.domain.type
+package com.ykis.ykispam.domain.type
 
 /**
  * Базовый класс для обработки ошибок / сбоев / исключений. */
 
 sealed class Failure {
-    object NetworkConnectionError : Failure()
-    object ServerError : Failure()
-    object TokenError : Failure()
-    object CantSendEmailError : Failure()
+    data object NetworkConnectionError : Failure()
+    data object ServerError : Failure()
+    data object TokenError : Failure()
+    data object CantSendEmailError : Failure()
 
-    object FlatAlreadyInDataBase : Failure()
-    object IncorrectCode : Failure()
+    data object FlatAlreadyInDataBase : Failure()
+    data object IncorrectCode : Failure()
 
-    object MissingFields : Failure()
-    object FailDeleteFlat : Failure()
-    object FailUpdateBti : Failure()
-    object FailAddReading : Failure()
-    object FailIncorrectReading : Failure()
+    data object MissingFields : Failure()
+    data object FailDeleteFlat : Failure()
+    data object FailUpdateBti : Failure()
+    data object FailAddReading : Failure()
+    data object FailIncorrectReading : Failure()
 
-    object NoSavedAccountsError : Failure()
+    data object NoSavedAccountsError : Failure()
 
-    object FilePickError : Failure()
+    data object FilePickError : Failure()
 }

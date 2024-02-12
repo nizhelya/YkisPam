@@ -1,7 +1,7 @@
 package com.ykis.ykispam.core
 
 sealed class Response<out T> {
-    object Loading: Response<Nothing>()
+    data object Loading: Response<Nothing>()
 
     data class Success<out T>(
         val data: T?

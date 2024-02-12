@@ -1,6 +1,6 @@
-package com.ykis.ykispam.pam.data.cache.payment
+package com.ykis.ykispam.data.cache.payment
 
-import com.ykis.ykispam.pam.domain.payment.PaymentEntity
+import com.ykis.ykispam.domain.payment.PaymentEntity
 
 interface PaymentCache {
     fun addPayments(payments: List<PaymentEntity>)

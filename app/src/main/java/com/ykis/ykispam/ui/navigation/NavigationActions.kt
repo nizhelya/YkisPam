@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.ykis.ykispam.navigation
+package com.ykis.ykispam.ui.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Chat
+import androidx.compose.material.icons.automirrored.outlined.Chat
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Adjust
-import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.Church
 import androidx.compose.material.icons.filled.Payments
 import androidx.compose.material.icons.outlined.AccountCircle
-import androidx.compose.material.icons.outlined.Chat
 import androidx.compose.material.icons.outlined.Church
 import androidx.compose.material.icons.outlined.Payments
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -58,8 +58,8 @@ val NAV_BAR_DESTINATIONS = listOf(
     ),
     TopLevelDestination(
         route = ChatScreen.route,
-        selectedIcon = Icons.Filled.Chat,
-        unselectedIcon = Icons.Outlined.Chat,
+        selectedIcon = Icons.AutoMirrored.Filled.Chat,
+        unselectedIcon = Icons.AutoMirrored.Outlined.Chat,
         labelId = R.string.chat,
     )
 )

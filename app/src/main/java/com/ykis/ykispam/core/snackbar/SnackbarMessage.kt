@@ -18,7 +18,6 @@ package com.ykis.ykispam.core.snackbar
 
 import android.content.res.Resources
 import androidx.annotation.StringRes
-import com.ykis.ykispam.core.Constants
 import com.ykis.ykispam.core.Constants.INCORRECT_CODE
 import com.ykis.ykispam.core.Constants.NO_FLAT_DELETE
 import com.ykis.ykispam.core.Constants.NO_USER_IDENTIFIER

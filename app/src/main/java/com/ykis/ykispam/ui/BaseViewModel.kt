@@ -20,12 +20,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.R
-import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.core.snackbar.SnackbarManager.showMessage
 import com.ykis.ykispam.core.snackbar.SnackbarMessage.Companion.toSnackbarMessage
 import com.ykis.ykispam.firebase.service.repo.LogService
-import com.ykis.ykispam.pam.domain.type.Failure
-import com.ykis.ykispam.pam.domain.type.HandleOnce
+import com.ykis.ykispam.domain.type.Failure
+import com.ykis.ykispam.domain.type.HandleOnce
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,8 +36,8 @@ import kotlinx.coroutines.launch
 open class BaseViewModel(
     private val logService: LogService,
 ) : ViewModel() {
-    var failureData: MutableLiveData<HandleOnce<Failure>> = MutableLiveData()
-    var progressData: MutableLiveData<Boolean> = MutableLiveData()
+    private var failureData: MutableLiveData<HandleOnce<Failure>> = MutableLiveData()
+    private var progressData: MutableLiveData<Boolean> = MutableLiveData()
 
     val _uiState = MutableStateFlow(BaseUIState(loading = true))
     val uiState: StateFlow<BaseUIState> = _uiState.asStateFlow()
@@ -72,7 +71,7 @@ open class BaseViewModel(
         viewModelScope.launch(
             CoroutineExceptionHandler { _, throwable ->
                 if (snackbar) {
-                    SnackbarManager.showMessage(throwable.toSnackbarMessage())
+                    showMessage(throwable.toSnackbarMessage())
                 }
                 logService.logNonFatalCrash(throwable)
             },

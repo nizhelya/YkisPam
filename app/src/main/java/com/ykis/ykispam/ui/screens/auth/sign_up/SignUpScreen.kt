@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.auth.sign_up
+package com.ykis.ykispam.ui.screens.auth.sign_up
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,7 +23,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -39,13 +38,12 @@ import com.ykis.ykispam.core.ext.card
 import com.ykis.ykispam.core.ext.spacer
 import com.ykis.ykispam.core.ext.textButton
 import com.ykis.ykispam.core.snackbar.SnackbarManager
-import com.ykis.ykispam.pam.screens.auth.sign_up.components.AgreementChekBox
-import com.ykis.ykispam.pam.screens.auth.sign_up.components.SignUp
-import com.ykis.ykispam.pam.screens.auth.sign_up.components.SignUpTopBar
+import com.ykis.ykispam.ui.screens.auth.sign_up.components.AgreementChekBox
+import com.ykis.ykispam.ui.screens.auth.sign_up.components.SignUp
+import com.ykis.ykispam.ui.screens.auth.sign_up.components.SignUpTopBar
 import com.ykis.ykispam.R.drawable as AppIcon
 import com.ykis.ykispam.R.string as AppText
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SignUpScreen(
     openScreen: (String) -> Unit,

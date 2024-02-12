@@ -1,10 +1,10 @@
-package com.ykis.ykispam.pam.data.cache.dao
+package com.ykis.ykispam.data.cache.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
+import com.ykis.ykispam.domain.apartment.ApartmentEntity
 
 @Dao
 interface ApartmentDao {

@@ -1,8 +1,8 @@
-package com.ykis.ykispam.pam.domain.address
+package com.ykis.ykispam.domain.address
 
-import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
+import com.ykis.ykispam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
 
 
 interface AddressRepository {

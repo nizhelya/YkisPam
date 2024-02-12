@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-package com.ykis.ykispam.navigation
+package com.ykis.ykispam.ui.navigation
 
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -24,29 +24,29 @@ interface Destination{
     val route:String
 }
 
-object LaunchScreen : Destination{
+object LaunchScreen : Destination {
     override val route: String = "LaunchScreen"
 }
 
-object SignInScreen : Destination{
+object SignInScreen : Destination {
     override val route: String
         get() = "SignInScreen"
 }
-object VerifyEmailScreen : Destination{
+object VerifyEmailScreen : Destination {
     override val route: String
         get() = "VerifyEmailScreen"
 
 }
-object SignUpScreen :Destination{
+object SignUpScreen : Destination {
     override val route: String
         get() = "SignUpScreen"
 }
-object AddApartmentScreen : Destination{
+object AddApartmentScreen : Destination {
     override val route: String
         get() = "AddApartmentScreen"
 
 }
-object MeterScreen : Destination{
+object MeterScreen : Destination {
     override val route: String
         get() = "MeterScreen"
 
@@ -55,22 +55,22 @@ object ServiceListScreen : Destination {
     override val route: String
         get() = "ServiceListScreen"
 }
-object ChatScreen : Destination{
+object ChatScreen : Destination {
     override val route: String
         get() = "ChatScreen"
 
 }
-object ProfileScreen : Destination{
+object ProfileScreen : Destination {
     override val route: String
         get() = "ProfileScreen"
 
 }
-object SettingsScreen : Destination{
+object SettingsScreen : Destination {
     override val route: String
         get() = "SettingsScreen"
 
 }
-object ApartmentScreen : Destination{
+object ApartmentScreen : Destination {
     override val route: String
         get() = "ApartmentScreen"
     const val addressIdArg = "address_id"

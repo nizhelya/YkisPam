@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.domain.address
+package com.ykis.ykispam.domain.address
 
 import com.squareup.moshi.Json
 

@@ -14,9 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-package com.ykis.ykispam.pam.screens.auth.sign_up.components
-
-import kotlin.reflect.KProperty
+package com.ykis.ykispam.ui.screens.auth.sign_up.components
 
 data class SignUpUiState(
     val email: String = "",

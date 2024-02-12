@@ -70,10 +70,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.common.util.CollectionUtils
 import com.ykis.ykispam.R
-import com.ykis.ykispam.navigation.AddApartmentScreen
-import com.ykis.ykispam.navigation.MeterScreen
-import com.ykis.ykispam.navigation.NAV_RAIL_DESTINATIONS
-import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
+import com.ykis.ykispam.ui.navigation.AddApartmentScreen
+import com.ykis.ykispam.ui.navigation.MeterScreen
+import com.ykis.ykispam.ui.navigation.NAV_RAIL_DESTINATIONS
+import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.ui.BaseUIState
 @Preview
 @Composable
@@ -177,7 +177,7 @@ fun ApartmentNavigationRail(
         tween(550), label = ""
     )
     val animatePadding = animateDpAsState(
-        targetValue = if (!isRailExpanded) 12.dp else -8.dp,
+        targetValue = if (!isRailExpanded) 12.dp else 8.dp,
         animationSpec =
         tween(550, easing = FastOutSlowInEasing), label = ""
     )
@@ -290,8 +290,7 @@ fun ApartmentNavigationRail(
         ) {
             NAV_RAIL_DESTINATIONS.forEach { replyDestination ->
                 Box {
-                    Box(
-                    ) {
+                    Box {
                         NavigationRailItem(
                             modifier = Modifier.padding(horizontal = 28.dp),
                             selected = selectedDestination == replyDestination.route,

@@ -1,9 +1,9 @@
-package com.ykis.ykispam.pam.data.remote.appartment
+package com.ykis.ykispam.data.remote.appartment
 
-import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
-import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
+import com.ykis.ykispam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.domain.apartment.ApartmentEntity
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
 
 interface ApartmentRemote {
     fun getApartmentsByUser(uid: String): Either<Failure, List<ApartmentEntity>>

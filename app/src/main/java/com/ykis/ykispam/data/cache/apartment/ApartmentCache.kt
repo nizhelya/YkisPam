@@ -1,6 +1,6 @@
-package com.ykis.ykispam.pam.data.cache.apartment
+package com.ykis.ykispam.data.cache.apartment
 
-import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
+import com.ykis.ykispam.domain.apartment.ApartmentEntity
 
 
 interface ApartmentCache {

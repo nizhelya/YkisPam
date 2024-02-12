@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.data.remote.core
+package com.ykis.ykispam.data.remote.core
 
 open class BaseResponse(
     var success: Int,

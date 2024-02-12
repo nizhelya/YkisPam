@@ -1,7 +1,7 @@
-package com.ykis.ykispam.pam.data.remote.payment
+package com.ykis.ykispam.data.remote.payment
 
-import com.ykis.ykispam.pam.data.remote.core.BaseResponse
-import com.ykis.ykispam.pam.domain.payment.PaymentEntity
+import com.ykis.ykispam.data.remote.core.BaseResponse
+import com.ykis.ykispam.domain.payment.PaymentEntity
 
 class GetPaymentResponse(
     success: Int,

@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.appartment
+package com.ykis.ykispam.ui.screens.appartment
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -26,8 +25,8 @@ import androidx.navigation.NavHostController
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.composable.BasicField
 import com.ykis.ykispam.core.composable.BasicImageButton
-import com.ykis.ykispam.navigation.navigateToApartment
-import com.ykis.ykispam.pam.screens.appbars.AddAppBar
+import com.ykis.ykispam.ui.navigation.navigateToApartment
+import com.ykis.ykispam.ui.screens.appbars.AddAppBar
 import com.ykis.ykispam.R.string as AppText
 
 
@@ -48,7 +47,6 @@ import com.ykis.ykispam.R.string as AppText
 //    )
 //}
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AddApartmentScreenContent(
     modifier: Modifier = Modifier,

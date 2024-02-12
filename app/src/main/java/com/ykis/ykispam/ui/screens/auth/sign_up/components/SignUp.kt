@@ -1,11 +1,11 @@
-package com.ykis.ykispam.pam.screens.auth.sign_up.components
+package com.ykis.ykispam.ui.screens.auth.sign_up.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import com.ykis.ykispam.core.ProgressBar
 import com.ykis.ykispam.core.Response
-import com.ykis.ykispam.pam.screens.auth.sign_up.SignUpViewModel
+import com.ykis.ykispam.ui.screens.auth.sign_up.SignUpViewModel
 
 @Composable
 fun SignUp(

@@ -1,11 +1,11 @@
-package com.ykis.ykispam.pam.data.remote.address
+package com.ykis.ykispam.data.remote.address
 
-import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
-import com.ykis.ykispam.pam.data.remote.core.Request
-import com.ykis.ykispam.pam.data.remote.api.ApiService
-import com.ykis.ykispam.pam.domain.address.AddressEntity
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
+import com.ykis.ykispam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.data.remote.core.Request
+import com.ykis.ykispam.data.remote.api.ApiService
+import com.ykis.ykispam.domain.address.AddressEntity
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -104,14 +104,14 @@ class AddressRemoteImpl @Inject constructor(
 
     private fun createGetBlocksMap(uid: String): Map<String, String> {
         val map = HashMap<String, String>()
-        map.put(ApiService.UID, uid)
+        map[ApiService.UID] = uid
         return map
     }
 
     private fun createGetStreetsMap(blockId: Int, uid: String): Map<String, String> {
         val map = HashMap<String, String>()
-        map.put(ApiService.BLOCK_ID, blockId.toString())
-        map.put(ApiService.UID, uid)
+        map[ApiService.BLOCK_ID] = blockId.toString()
+        map[ApiService.UID] = uid
         return map
     }
 
@@ -121,26 +121,26 @@ class AddressRemoteImpl @Inject constructor(
         uid: String
     ): Map<String, String> {
         val map = HashMap<String, String>()
-        map.put(ApiService.STREET_ID, streetId.toString())
-        map.put(ApiService.BLOCK_ID, blockId.toString())
-        map.put(ApiService.UID, uid)
+        map[ApiService.STREET_ID] = streetId.toString()
+        map[ApiService.BLOCK_ID] = blockId.toString()
+        map[ApiService.UID] = uid
 
         return map
     }
 
     private fun createGetFlatsMap(houseId: Int,uid: String): Map<String, String> {
         val map = HashMap<String, String>()
-        map.put(ApiService.HOUSE_ID, houseId.toString())
-        map.put(ApiService.UID, uid)
+        map[ApiService.HOUSE_ID] = houseId.toString()
+        map[ApiService.UID] = uid
 
         return map
     }
 
     private fun createAddFlatsMap(kod: String, uid: String,email: String): Map<String, String> {
         val map = HashMap<String, String>()
-        map.put(ApiService.KOD, kod)
-        map.put(ApiService.UID, uid)
-        map.put(ApiService.EMAIL, email)
+        map[ApiService.KOD] = kod
+        map[ApiService.UID] = uid
+        map[ApiService.EMAIL] = email
 
 
         return map

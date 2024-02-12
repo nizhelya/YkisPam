@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-package com.ykis.ykispam.pam.screens.appartment
+package com.ykis.ykispam.ui.screens.appartment
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
@@ -25,21 +25,20 @@ import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.firebase.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.firebase.service.repo.SignOutResponse
-import com.ykis.ykispam.navigation.ADDRESS_ID
-import com.ykis.ykispam.navigation.APARTMENT_SCREEN
-import com.ykis.ykispam.navigation.ContentDetail
-import com.ykis.ykispam.navigation.ContentType
-import com.ykis.ykispam.navigation.Graph
-import com.ykis.ykispam.navigation.LaunchScreen
-import com.ykis.ykispam.pam.data.cache.apartment.ApartmentCacheImpl
-import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
-import com.ykis.ykispam.pam.data.remote.core.NetworkHandler
-import com.ykis.ykispam.pam.domain.address.AddressEntity
-import com.ykis.ykispam.pam.domain.address.request.AddFlatByUser
-import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.pam.domain.apartment.request.DeleteFlatByUser
-import com.ykis.ykispam.pam.domain.apartment.request.GetApartments
-import com.ykis.ykispam.pam.domain.apartment.request.UpdateBti
+import com.ykis.ykispam.ui.navigation.ADDRESS_ID
+import com.ykis.ykispam.ui.navigation.APARTMENT_SCREEN
+import com.ykis.ykispam.ui.navigation.ContentDetail
+import com.ykis.ykispam.ui.navigation.ContentType
+import com.ykis.ykispam.ui.navigation.Graph
+import com.ykis.ykispam.ui.navigation.LaunchScreen
+import com.ykis.ykispam.data.cache.apartment.ApartmentCacheImpl
+import com.ykis.ykispam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.data.remote.core.NetworkHandler
+import com.ykis.ykispam.domain.address.AddressEntity
+import com.ykis.ykispam.domain.address.request.AddFlatByUser
+import com.ykis.ykispam.domain.apartment.ApartmentEntity
+import com.ykis.ykispam.domain.apartment.request.DeleteFlatByUser
+import com.ykis.ykispam.domain.apartment.request.GetApartments
 import com.ykis.ykispam.ui.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -54,7 +53,6 @@ class ApartmentViewModel @Inject constructor(
     private val getApartmentsUseCase: GetApartments,
     private val deleteFlatByUser: DeleteFlatByUser,
     private val addFlatByUser: AddFlatByUser,
-    private val updateBtiUseCase: UpdateBti,
     private val apartmentCacheImpl: ApartmentCacheImpl,
     private val networkHandler: NetworkHandler,
     private val logService: LogService,
@@ -147,17 +145,17 @@ class ApartmentViewModel @Inject constructor(
         if (addressId != 0) {
             launchCatching {
                 _apartment.value = apartmentCacheImpl.getApartmentById(addressId)
-                _uiState.value = _apartment.value?.let {
+                _uiState.value = _apartment.value.let {
                     _uiState.value.copy(
-                        apartment = _apartment.value!!,
-                        addressId = _apartment.value!!.addressId,
-                        address = _apartment.value!!.address,
-                        houseId = _apartment.value!!.houseId,
-                        osmdId = _apartment.value!!.osmdId,
-                        osbb = _apartment.value!!.osbb,
-                        selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${_apartment.value!!.addressId}}"
+                        apartment = _apartment.value,
+                        addressId = _apartment.value.addressId,
+                        address = _apartment.value.address,
+                        houseId = _apartment.value.houseId,
+                        osmdId = _apartment.value.osmdId,
+                        osbb = _apartment.value.osbb,
+                        selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${_apartment.value.addressId}}"
                     )
-                }!!
+                }
 
             }
         }
@@ -166,13 +164,13 @@ class ApartmentViewModel @Inject constructor(
     private fun getFlatFromCache(addressId: Int) {
         _apartment.value = apartmentCacheImpl.getApartmentById(addressId)
         _uiState.value = _uiState.value.copy(
-            apartment = _apartment.value!!,
-            addressId = _apartment.value!!.addressId,
-            address = _apartment.value!!.address,
-            houseId = _apartment.value!!.houseId,
-            osmdId = _apartment.value!!.osmdId,
-            osbb = _apartment.value!!.osbb,
-            selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${_apartment.value!!.addressId}}"
+            apartment = _apartment.value,
+            addressId = _apartment.value.addressId,
+            address = _apartment.value.address,
+            houseId = _apartment.value.houseId,
+            osmdId = _apartment.value.osmdId,
+            osbb = _apartment.value.osbb,
+            selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${_apartment.value.addressId}}"
         )
     }
 
@@ -276,12 +274,7 @@ class ApartmentViewModel @Inject constructor(
             observeApartments()
         }
     }
-    fun signOut() {
-        launchCatching {
-            signOutResponse.value = Response.Loading
-            signOutResponse.value = firebaseService.signOut()
-        }
-    }
+
 }
 
 

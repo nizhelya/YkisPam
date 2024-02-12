@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.settings
+package com.ykis.ykispam.ui.screens.settings
 
 import com.ykis.ykispam.ui.BaseViewModel
 import com.ykis.ykispam.firebase.service.repo.ConfigurationService

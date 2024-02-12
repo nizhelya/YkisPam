@@ -1,7 +1,7 @@
-package com.ykis.ykispam.pam.data.cache.service
+package com.ykis.ykispam.data.cache.service
 
-import com.ykis.ykispam.pam.data.cache.dao.ServiceDao
-import com.ykis.ykispam.pam.domain.service.ServiceEntity
+import com.ykis.ykispam.data.cache.dao.ServiceDao
+import com.ykis.ykispam.domain.service.ServiceEntity
 import javax.inject.Inject
 import javax.inject.Singleton
 

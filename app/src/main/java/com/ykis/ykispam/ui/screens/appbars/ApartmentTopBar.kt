@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.appbars
+package com.ykis.ykispam.ui.screens.appbars
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,8 +30,8 @@ import com.ykis.ykispam.core.composable.DialogCancelButton
 import com.ykis.ykispam.core.composable.DialogConfirmButton
 import com.ykis.ykispam.core.composable.RegularCardEditor
 import com.ykis.ykispam.core.ext.card
-import com.ykis.ykispam.navigation.NavigationType
-import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
+import com.ykis.ykispam.ui.navigation.NavigationType
+import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import kotlinx.coroutines.launch
 import com.ykis.ykispam.R.string as AppText
 

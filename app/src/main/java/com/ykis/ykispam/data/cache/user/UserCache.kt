@@ -1,8 +1,8 @@
-package com.ykis.ykispam.pam.data.cache.user
+package com.ykis.ykispam.data.cache.user
 
 import com.ykis.ykispam.firebase.entity.UserFirebase
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
 
 interface UserCache {
     fun getCurrentUser(): Either<Failure, UserFirebase>

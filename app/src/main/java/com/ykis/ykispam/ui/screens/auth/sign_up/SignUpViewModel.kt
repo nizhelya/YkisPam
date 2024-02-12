@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-package com.ykis.ykispam.pam.screens.auth.sign_up
+package com.ykis.ykispam.ui.screens.auth.sign_up
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
@@ -31,8 +31,8 @@ import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.firebase.service.repo.ReloadUserResponse
 import com.ykis.ykispam.firebase.service.repo.SendEmailVerificationResponse
 import com.ykis.ykispam.firebase.service.repo.SignUpResponse
-import com.ykis.ykispam.navigation.LaunchScreen
-import com.ykis.ykispam.pam.screens.auth.sign_up.components.SignUpUiState
+import com.ykis.ykispam.ui.navigation.LaunchScreen
+import com.ykis.ykispam.ui.screens.auth.sign_up.components.SignUpUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

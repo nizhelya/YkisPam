@@ -1,8 +1,8 @@
-package com.ykis.ykispam.pam.domain.apartment.request
+package com.ykis.ykispam.domain.apartment.request
 
-import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.pam.domain.apartment.ApartmentRepository
-import com.ykis.ykispam.pam.domain.interactor.UseCase
+import com.ykis.ykispam.domain.apartment.ApartmentEntity
+import com.ykis.ykispam.domain.apartment.ApartmentRepository
+import com.ykis.ykispam.domain.interactor.UseCase
 import javax.inject.Inject
 
 class GetFlatById @Inject constructor(

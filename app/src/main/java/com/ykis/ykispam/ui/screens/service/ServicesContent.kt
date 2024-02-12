@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ykis.ykispam.pam.screens.service
+package com.ykis.ykispam.ui.screens.service
 
 import android.util.Log
 import androidx.compose.animation.animateContentSize
@@ -44,7 +44,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
@@ -74,8 +73,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.R
-import com.ykis.ykispam.navigation.ContentDetail
-import com.ykis.ykispam.pam.domain.service.ServiceEntity
+import com.ykis.ykispam.ui.navigation.ContentDetail
+import com.ykis.ykispam.domain.service.ServiceEntity
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -218,7 +217,7 @@ fun ListServiceDetails(
 ) {
     if(listServiceEntity.isEmpty()){
         EmptyListScreen()
-    }else LazyColumn() {
+    }else LazyColumn {
         items(items = listServiceEntity) { serviceDetail ->
             ServiceDetailItem(serviceEntity = serviceDetail)
         }
@@ -286,7 +285,7 @@ fun ColumnItemInTable(
     summary: String
 ) {
     var componentWidth by remember { mutableStateOf(0.dp) }
-    val density = LocalDensity.current;
+    val density = LocalDensity.current
     Column(horizontalAlignment = alignment, verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier
             .onGloballyPositioned {
@@ -338,7 +337,6 @@ fun DividerInTable(componentWidth: Dp, modifier: Modifier = Modifier) {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilterChipSample(
     text: String,

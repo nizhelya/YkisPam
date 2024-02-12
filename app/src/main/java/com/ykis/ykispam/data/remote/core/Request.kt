@@ -1,7 +1,7 @@
-package com.ykis.ykispam.pam.data.remote.core
+package com.ykis.ykispam.data.remote.core
 
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
 import retrofit2.Call
 import retrofit2.Response
 import javax.inject.Inject

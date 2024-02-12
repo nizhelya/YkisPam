@@ -1,8 +1,8 @@
-package com.ykis.ykispam.pam.data.remote.family
+package com.ykis.ykispam.data.remote.family
 
-import com.ykis.ykispam.pam.domain.family.FamilyEntity
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
+import com.ykis.ykispam.domain.family.FamilyEntity
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
 
 interface FamilyRemote {
     fun getFamilyFromFlat(

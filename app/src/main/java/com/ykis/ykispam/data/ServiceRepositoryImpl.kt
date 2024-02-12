@@ -1,15 +1,15 @@
-package com.ykis.ykispam.pam.data
+package com.ykis.ykispam.data
 
-import com.ykis.ykispam.pam.data.cache.service.ServiceCache
-import com.ykis.ykispam.pam.data.cache.user.UserCache
-import com.ykis.ykispam.pam.data.remote.service.ServiceRemote
-import com.ykis.ykispam.pam.domain.service.ServiceEntity
-import com.ykis.ykispam.pam.domain.service.ServiceRepository
-import com.ykis.ykispam.pam.domain.service.request.ServiceParams
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
-import com.ykis.ykispam.pam.domain.type.flatMap
-import com.ykis.ykispam.pam.domain.type.onNext
+import com.ykis.ykispam.data.cache.service.ServiceCache
+import com.ykis.ykispam.data.cache.user.UserCache
+import com.ykis.ykispam.data.remote.service.ServiceRemote
+import com.ykis.ykispam.domain.service.ServiceEntity
+import com.ykis.ykispam.domain.service.ServiceRepository
+import com.ykis.ykispam.domain.service.request.ServiceParams
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
+import com.ykis.ykispam.domain.type.flatMap
+import com.ykis.ykispam.domain.type.onNext
 import javax.inject.Inject
 
 class ServiceRepositoryImpl @Inject constructor(

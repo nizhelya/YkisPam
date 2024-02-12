@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.auth.sign_in.components
+package com.ykis.ykispam.ui.screens.auth.sign_in.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -6,7 +6,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.gms.auth.api.identity.BeginSignInResult
 import com.ykis.ykispam.core.ProgressBar
 import com.ykis.ykispam.core.Response
-import com.ykis.ykispam.pam.screens.auth.sign_in.SignInViewModel
+import com.ykis.ykispam.ui.screens.auth.sign_in.SignInViewModel
 
 @Composable
 fun OneTapSignIn(

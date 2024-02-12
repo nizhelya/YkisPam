@@ -1,4 +1,4 @@
-package com.ykis.ykispam.navigation
+package com.ykis.ykispam.ui.navigation
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -16,7 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
-import com.ykis.ykispam.pam.screens.launch.LaunchScreen
+import com.ykis.ykispam.ui.screens.launch.LaunchScreen
 import com.ykis.ykispam.ui.rememberAppState
 
 object Graph {

@@ -1,8 +1,8 @@
-package com.ykis.ykispam.pam.data.remote.water.meter
+package com.ykis.ykispam.data.remote.water.meter
 
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
-import com.ykis.ykispam.pam.domain.water.meter.WaterMeterEntity
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
+import com.ykis.ykispam.domain.water.meter.WaterMeterEntity
 
 interface WaterMeterRemote {
     fun getWaterMeter(

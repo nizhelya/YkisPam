@@ -1,11 +1,11 @@
-package com.ykis.ykispam.pam.domain.heat.meter.request
+package com.ykis.ykispam.domain.heat.meter.request
 
-import com.ykis.ykispam.pam.data.HeatMeterRepositoryImpl
-import com.ykis.ykispam.pam.domain.family.request.BooleanInt
-import com.ykis.ykispam.pam.domain.heat.meter.HeatMeterEntity
-import com.ykis.ykispam.pam.domain.interactor.UseCase
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
+import com.ykis.ykispam.data.HeatMeterRepositoryImpl
+import com.ykis.ykispam.domain.family.request.BooleanInt
+import com.ykis.ykispam.domain.heat.meter.HeatMeterEntity
+import com.ykis.ykispam.domain.interactor.UseCase
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
 import javax.inject.Inject
 
 class GetHeatMeter @Inject constructor(

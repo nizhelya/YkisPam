@@ -1,19 +1,18 @@
 
-package com.ykis.ykispam.pam.screens.bti
+package com.ykis.ykispam.ui.screens.bti
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.ykis.ykispam.ui.BaseViewModel
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.ext.isValidEmail
 import com.ykis.ykispam.core.snackbar.SnackbarManager
+import com.ykis.ykispam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.data.remote.core.NetworkHandler
+import com.ykis.ykispam.domain.apartment.ApartmentEntity
+import com.ykis.ykispam.domain.apartment.request.GetApartments
+import com.ykis.ykispam.domain.apartment.request.UpdateBti
 import com.ykis.ykispam.firebase.service.repo.LogService
-import com.ykis.ykispam.pam.data.cache.apartment.ApartmentCacheImpl
-import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
-import com.ykis.ykispam.pam.data.remote.core.NetworkHandler
-import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.pam.domain.apartment.request.GetApartments
-import com.ykis.ykispam.pam.domain.apartment.request.UpdateBti
+import com.ykis.ykispam.ui.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,7 +24,6 @@ import javax.inject.Inject
 class BtiViewModel @Inject constructor(
     private val getApartmentsUseCase: GetApartments,
     private val updateBtiUseCase: UpdateBti,
-    private val apartmentCacheImpl: ApartmentCacheImpl,
     private val networkHandler: NetworkHandler,
     private val logService: LogService,
 ) : BaseViewModel(logService) {
@@ -34,14 +32,12 @@ class BtiViewModel @Inject constructor(
     private val isConnected: Boolean get() = networkHandler.isConnected
     private val networkType: Int get() = networkHandler.networkType
 
-    private val _contactUiState = MutableStateFlow<ContactUIState>(ContactUIState())
+    private val _contactUiState = MutableStateFlow(ContactUIState())
     val contactUIState : StateFlow<ContactUIState> = _contactUiState.asStateFlow()
 
 
     private val email
         get() = _contactUiState.value.email
-    private val phone
-        get() = _contactUiState.value.phone
 
     fun onEmailChange(newValue: String) {
         _contactUiState.value = _contactUiState.value.copy(email = newValue)
@@ -80,7 +76,7 @@ class BtiViewModel @Inject constructor(
 //        )
 //    }
 
-    fun getBtiFromCache(addressId: Int) {
+    private fun getBtiFromCache(addressId: Int) {
 //        viewModelScope.launch {
 //            _apartment.value = apartmentCacheImpl.getApartmentById(addressId)
 //            contactUiState.value = contactUiState.value.copy(

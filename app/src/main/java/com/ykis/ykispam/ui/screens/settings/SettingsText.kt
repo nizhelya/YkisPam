@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.settings
+package com.ykis.ykispam.ui.screens.settings
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

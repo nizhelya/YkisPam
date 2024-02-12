@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.domain.type
+package com.ykis.ykispam.domain.type
 
 /**
  * Represents a value of one of two possible types (a disjoint union).

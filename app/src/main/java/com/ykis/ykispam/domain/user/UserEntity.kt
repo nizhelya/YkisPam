@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.domain.user
+package com.ykis.ykispam.domain.user
 
 
 data class UserEntity(

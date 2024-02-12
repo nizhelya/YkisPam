@@ -1,9 +1,4 @@
-package com.ykis.ykispam.pam.screens.bti
-
-import com.ykis.ykispam.navigation.ADDRESS_ID_ARG
-import com.ykis.ykispam.navigation.APARTMENT_SCREEN
-import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.pam.domain.payment.PaymentItemEntity
+package com.ykis.ykispam.ui.screens.bti
 
 data class ContactUIState(
     val addressId: Int = 0,

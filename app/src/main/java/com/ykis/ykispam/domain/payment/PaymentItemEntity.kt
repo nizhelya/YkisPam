@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.domain.payment
+package com.ykis.ykispam.domain.payment
 
 
 data class PaymentItemEntity(

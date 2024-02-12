@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.appartment.content
+package com.ykis.ykispam.ui.screens.appartment.content
 
 /*
  * Copyright 2022 The Android Open Source Project
@@ -28,12 +28,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.ykis.ykispam.navigation.ContentDetail
-import com.ykis.ykispam.navigation.ContentType
-import com.ykis.ykispam.pam.screens.appbars.DetailAppBar
-import com.ykis.ykispam.pam.screens.bti.BtiPanelContent
-import com.ykis.ykispam.pam.screens.family.FamilyContent
-import com.ykis.ykispam.pam.screens.service.ServicesContent
+import com.ykis.ykispam.ui.navigation.ContentDetail
+import com.ykis.ykispam.ui.navigation.ContentType
+import com.ykis.ykispam.ui.screens.appbars.DetailAppBar
+import com.ykis.ykispam.ui.screens.bti.BtiPanelContent
+import com.ykis.ykispam.ui.screens.family.FamilyContent
+import com.ykis.ykispam.ui.screens.service.ServicesContent
 import com.ykis.ykispam.ui.BaseUIState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,16 +50,14 @@ fun DetailContent(
     Card(
         modifier = modifier
             .fillMaxSize(),
-        shape = if(contentType==ContentType.DUAL_PANE)MaterialTheme.shapes.large else RoundedCornerShape(0.dp),
+        shape = if(contentType== ContentType.DUAL_PANE)MaterialTheme.shapes.large else RoundedCornerShape(0.dp),
         colors = CardDefaults.cardColors(
             containerColor = if (contentDetail != ContentDetail.EMPTY && contentType == ContentType.DUAL_PANE) {
                 MaterialTheme.colorScheme.surfaceContainerHighest
             } else Color.Transparent
         )
     ) {
-        Column(
-//            modifier = modifier.padding(horizontal = 16.dp)
-        ) {
+        Column {
             if (contentDetail != ContentDetail.EMPTY)
                 DetailAppBar(
                    contentType =  contentType,

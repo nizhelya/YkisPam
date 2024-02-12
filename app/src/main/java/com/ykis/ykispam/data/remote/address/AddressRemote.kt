@@ -1,9 +1,9 @@
-package com.ykis.ykispam.pam.data.remote.address
+package com.ykis.ykispam.data.remote.address
 
-import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
-import com.ykis.ykispam.pam.domain.address.AddressEntity
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
+import com.ykis.ykispam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.domain.address.AddressEntity
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
 
 interface AddressRemote {
     fun getBlocks(uid: String): Either<Failure, List<AddressEntity>>

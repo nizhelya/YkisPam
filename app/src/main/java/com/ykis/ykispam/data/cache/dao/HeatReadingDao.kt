@@ -1,9 +1,9 @@
-package com.ykis.ykispam.pam.data.cache.dao
+package com.ykis.ykispam.data.cache.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
-import com.ykis.ykispam.pam.domain.heat.reading.HeatReadingEntity
+import com.ykis.ykispam.domain.heat.reading.HeatReadingEntity
 import androidx.room.Query
 
 

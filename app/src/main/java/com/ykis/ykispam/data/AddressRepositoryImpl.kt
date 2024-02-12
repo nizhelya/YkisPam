@@ -1,13 +1,13 @@
-package com.ykis.ykispam.pam.data
+package com.ykis.ykispam.data
 
-import com.ykis.ykispam.pam.data.cache.user.UserCache
-import com.ykis.ykispam.pam.domain.address.AddressEntity
-import com.ykis.ykispam.pam.domain.address.AddressRepository
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
-import com.ykis.ykispam.pam.domain.type.flatMap
-import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
-import com.ykis.ykispam.pam.data.remote.address.AddressRemote
+import com.ykis.ykispam.data.cache.user.UserCache
+import com.ykis.ykispam.domain.address.AddressEntity
+import com.ykis.ykispam.domain.address.AddressRepository
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
+import com.ykis.ykispam.domain.type.flatMap
+import com.ykis.ykispam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.data.remote.address.AddressRemote
 import javax.inject.Inject
 
 class AddressRepositoryImpl @Inject constructor(

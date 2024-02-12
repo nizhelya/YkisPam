@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.auth.sign_in
+package com.ykis.ykispam.ui.screens.auth.sign_in
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,8 +15,8 @@ import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.firebase.service.repo.OneTapSignInResponse
 import com.ykis.ykispam.firebase.service.repo.SignInResponse
 import com.ykis.ykispam.firebase.service.repo.SignInWithGoogleResponse
-import com.ykis.ykispam.navigation.LaunchScreen
-import com.ykis.ykispam.pam.screens.auth.sign_in.components.SingInUiState
+import com.ykis.ykispam.ui.navigation.LaunchScreen
+import com.ykis.ykispam.ui.screens.auth.sign_in.components.SingInUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import com.ykis.ykispam.R.string as AppText
@@ -62,7 +62,7 @@ class SignInViewModel @Inject constructor(
             return
         }
 
-        launchCatching() {
+        launchCatching {
                 firebaseService.firebaseSignInWithEmailAndPassword(email, password)
             openScreen(LaunchScreen.route)
         }

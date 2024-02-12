@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.launch
+package com.ykis.ykispam.ui.screens.launch
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,7 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ykis.ykispam.core.composable.BasicButton
 import com.ykis.ykispam.core.ext.basicButton
-import com.ykis.ykispam.pam.screens.appartment.ApartmentViewModel
+import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
 import com.ykis.ykispam.R.string as AppText
 
 @Composable

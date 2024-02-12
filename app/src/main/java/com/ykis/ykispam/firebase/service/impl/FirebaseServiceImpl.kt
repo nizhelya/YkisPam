@@ -116,7 +116,7 @@ class FirebaseServiceImpl @Inject constructor(
 
     override  fun getProvider(viewModelScope: CoroutineScope): String {
         val user = auth.currentUser
-        var providerId:String = ""
+        var providerId = ""
 
         user?.let {
             for (profile in it.providerData) {
@@ -187,7 +187,7 @@ class FirebaseServiceImpl @Inject constructor(
         }
     }
 
-    fun FirebaseUser.toUser() = mapOf(
+    private fun FirebaseUser.toUser() = mapOf(
         DISPLAY_NAME to displayName,
         PROVIDER_ID to providerId,
         EMAIL to email,

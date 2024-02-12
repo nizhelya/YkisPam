@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.bti
+package com.ykis.ykispam.ui.screens.bti
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,7 +21,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -33,9 +32,9 @@ import com.ykis.ykispam.R
 import com.ykis.ykispam.core.composable.BasicImageButton
 import com.ykis.ykispam.core.composable.EmailField
 import com.ykis.ykispam.core.composable.PhoneField
-import com.ykis.ykispam.navigation.ContentDetail
-import com.ykis.ykispam.navigation.ContentType
-import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
+import com.ykis.ykispam.ui.navigation.ContentDetail
+import com.ykis.ykispam.ui.navigation.ContentType
+import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 
 
@@ -69,7 +68,6 @@ fun BtiPanelContent(
         )
 }
 
-    @OptIn(ExperimentalComposeUiApi::class)
     @ExperimentalMaterial3Api
     @Composable
     fun BtiContent(

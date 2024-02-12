@@ -1,11 +1,11 @@
-package com.ykis.ykispam.pam.screens.profile.components
+package com.ykis.ykispam.ui.screens.profile.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import com.ykis.ykispam.core.ProgressBar
 import com.ykis.ykispam.core.Response
-import com.ykis.ykispam.pam.screens.profile.ProfileViewModel
+import com.ykis.ykispam.ui.screens.profile.ProfileViewModel
 
 @Composable
 fun SignOut(

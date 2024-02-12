@@ -1,11 +1,11 @@
-package com.ykis.ykispam.pam.screens.family
+package com.ykis.ykispam.ui.screens.family
 
 import com.ykis.ykispam.ui.BaseViewModel
 import com.ykis.ykispam.firebase.service.repo.LogService
-import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.pam.domain.family.FamilyEntity
-import com.ykis.ykispam.pam.domain.family.request.BooleanInt
-import com.ykis.ykispam.pam.domain.family.request.GetFamilyFromFlat
+import com.ykis.ykispam.domain.apartment.ApartmentEntity
+import com.ykis.ykispam.domain.family.FamilyEntity
+import com.ykis.ykispam.domain.family.request.BooleanInt
+import com.ykis.ykispam.domain.family.request.GetFamilyFromFlat
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,7 +18,7 @@ class FamilyListViewModel @Inject constructor(
     private val logService: LogService,
 ) : BaseViewModel(logService) {
 
-    private val _apartment = MutableStateFlow<ApartmentEntity>(ApartmentEntity())
+    private val _apartment = MutableStateFlow(ApartmentEntity())
     val apartment: StateFlow<ApartmentEntity> get() = _apartment.asStateFlow()
 
     private val _family = MutableStateFlow<List<FamilyEntity>>(emptyList())

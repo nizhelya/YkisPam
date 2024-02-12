@@ -1,4 +1,4 @@
-package com.ykis.ykispam.navigation
+package com.ykis.ykispam.ui.navigation
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -29,13 +29,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
-import com.ykis.ykispam.pam.screens.appartment.AddApartmentScreenContent
-import com.ykis.ykispam.pam.screens.appartment.ApartmentScreen
-import com.ykis.ykispam.pam.screens.appartment.ApartmentViewModel
-import com.ykis.ykispam.pam.screens.meter.MeterScreen
-import com.ykis.ykispam.pam.screens.profile.ProfileScreen
-import com.ykis.ykispam.pam.screens.service.ServiceListScreen
-import com.ykis.ykispam.pam.screens.settings.SettingsScreen
+import com.ykis.ykispam.ui.screens.EmptyScreen
+import com.ykis.ykispam.ui.screens.appartment.AddApartmentScreenContent
+import com.ykis.ykispam.ui.screens.appartment.ApartmentScreen
+import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
+import com.ykis.ykispam.ui.screens.meter.MeterScreen
+import com.ykis.ykispam.ui.screens.profile.ProfileScreen
+import com.ykis.ykispam.ui.screens.service.ServiceListScreen
+import com.ykis.ykispam.ui.screens.settings.SettingsScreen
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.YkisPamAppState
 import com.ykis.ykispam.ui.navigation.components.ApartmentNavigationRail
@@ -110,7 +111,7 @@ fun MainApartmentScreen(
                             selectedDestination = selectedDestination,
                             onClick = { navController.navigateWithPopUp(it, APARTMENT_SCREEN) })
                     }
-                ) { it ->
+                ) {
                     ApartmentNavGraph(
                         modifier = Modifier
                             .padding(

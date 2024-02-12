@@ -1,11 +1,11 @@
-package com.ykis.ykispam.pam.data.remote.heat.reading
+package com.ykis.ykispam.data.remote.heat.reading
 
-import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
-import com.ykis.ykispam.pam.data.remote.api.ApiService
-import com.ykis.ykispam.pam.data.remote.core.Request
-import com.ykis.ykispam.pam.domain.heat.reading.HeatReadingEntity
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
+import com.ykis.ykispam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.data.remote.api.ApiService
+import com.ykis.ykispam.data.remote.core.Request
+import com.ykis.ykispam.domain.heat.reading.HeatReadingEntity
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -74,8 +74,8 @@ class HeatReadingRemoteImpl @Inject constructor(
         uid: String
     ): Map<String, String> {
         val map = HashMap<String, String>()
-        map.put(ApiService.TEPLOMER_ID, teplomerId.toString())
-        map.put(ApiService.UID, uid)
+        map[ApiService.TEPLOMER_ID] = teplomerId.toString()
+        map[ApiService.UID] = uid
         return map
     }
 
@@ -86,10 +86,10 @@ class HeatReadingRemoteImpl @Inject constructor(
         uid: String
     ): Map<String, String> {
         val map = HashMap<String, String>()
-        map.put(ApiService.TEPLOMER_ID, teplomerId.toString())
-        map.put(ApiService.NEW_VALUE, newValue.toString())
-        map.put(ApiService.CURRENT_VALUE, currentValue.toString())
-        map.put(ApiService.UID, uid)
+        map[ApiService.TEPLOMER_ID] = teplomerId.toString()
+        map[ApiService.NEW_VALUE] = newValue.toString()
+        map[ApiService.CURRENT_VALUE] = currentValue.toString()
+        map[ApiService.UID] = uid
         return map
     }
 
@@ -98,8 +98,8 @@ class HeatReadingRemoteImpl @Inject constructor(
         uid: String
     ): Map<String, String> {
         val map = HashMap<String, String>()
-        map.put(ApiService.POK_ID, pokId.toString())
-        map.put(ApiService.UID, uid)
+        map[ApiService.POK_ID] = pokId.toString()
+        map[ApiService.UID] = uid
         return map
     }
 }

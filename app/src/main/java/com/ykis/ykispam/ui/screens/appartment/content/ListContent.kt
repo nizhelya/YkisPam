@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.appartment.content
+package com.ykis.ykispam.ui.screens.appartment.content
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -40,10 +40,10 @@ import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.R
 import com.ykis.ykispam.ui.YkisPamAppState
 import com.ykis.ykispam.core.composable.HelpAlertCard
-import com.ykis.ykispam.navigation.ContentDetail
-import com.ykis.ykispam.navigation.ContentType
-import com.ykis.ykispam.navigation.NavigationType
-import com.ykis.ykispam.pam.screens.appbars.ApartmentTopAppBar
+import com.ykis.ykispam.ui.navigation.ContentDetail
+import com.ykis.ykispam.ui.navigation.ContentType
+import com.ykis.ykispam.ui.navigation.NavigationType
+import com.ykis.ykispam.ui.screens.appbars.ApartmentTopAppBar
 
 
 @Composable

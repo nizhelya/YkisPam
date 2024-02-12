@@ -1,11 +1,11 @@
-package com.ykis.ykispam.pam.domain.address.request
+package com.ykis.ykispam.domain.address.request
 
-import com.ykis.ykispam.pam.domain.address.AddressEntity
-import com.ykis.ykispam.pam.domain.address.AddressRepository
-import com.ykis.ykispam.pam.domain.interactor.UseCase
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
-import com.ykis.ykispam.pam.domain.type.None
+import com.ykis.ykispam.domain.address.AddressEntity
+import com.ykis.ykispam.domain.address.AddressRepository
+import com.ykis.ykispam.domain.interactor.UseCase
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
+import com.ykis.ykispam.domain.type.None
 import javax.inject.Inject
 
 class GetBlocks @Inject constructor(

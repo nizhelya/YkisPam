@@ -1,10 +1,10 @@
-package com.ykis.ykispam.pam.domain.heat.reading
+package com.ykis.ykispam.domain.heat.reading
 
-import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
-import com.ykis.ykispam.pam.domain.family.request.BooleanInt
-import com.ykis.ykispam.pam.domain.heat.reading.request.AddHeatReadingParams
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
+import com.ykis.ykispam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.domain.family.request.BooleanInt
+import com.ykis.ykispam.domain.heat.reading.request.AddHeatReadingParams
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
 
 interface HeatReadingRepository {
     fun getHeatReading(params: BooleanInt): Either<Failure, List<HeatReadingEntity>>

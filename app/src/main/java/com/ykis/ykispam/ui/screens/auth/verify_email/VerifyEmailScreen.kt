@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.auth.verify_email
+package com.ykis.ykispam.ui.screens.auth.verify_email
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,10 +22,10 @@ import com.ykis.ykispam.core.composable.BasicToolbar
 import com.ykis.ykispam.core.composable.LogoImage
 import com.ykis.ykispam.core.ext.spacer
 import com.ykis.ykispam.core.snackbar.SnackbarManager
-import com.ykis.ykispam.navigation.LaunchScreen
-import com.ykis.ykispam.pam.screens.auth.sign_up.SignUpViewModel
-import com.ykis.ykispam.pam.screens.auth.verify_email.components.ReloadUser
-import com.ykis.ykispam.pam.screens.auth.verify_email.components.SendEmailVerification
+import com.ykis.ykispam.ui.navigation.LaunchScreen
+import com.ykis.ykispam.ui.screens.auth.sign_up.SignUpViewModel
+import com.ykis.ykispam.ui.screens.auth.verify_email.components.ReloadUser
+import com.ykis.ykispam.ui.screens.auth.verify_email.components.SendEmailVerification
 import com.ykis.ykispam.R.string as AppText
 
 @Composable

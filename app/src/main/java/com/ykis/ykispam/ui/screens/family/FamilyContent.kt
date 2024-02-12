@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ykis.ykispam.pam.screens.family
+package com.ykis.ykispam.ui.screens.family
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,7 +31,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -49,13 +48,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.R
-import com.ykis.ykispam.navigation.ContentDetail
-import com.ykis.ykispam.navigation.ContentType
-import com.ykis.ykispam.pam.domain.family.FamilyEntity
+import com.ykis.ykispam.domain.family.FamilyEntity
+import com.ykis.ykispam.ui.BaseUIState
+import com.ykis.ykispam.ui.navigation.ContentDetail
+import com.ykis.ykispam.ui.navigation.ContentType
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FamilyContent(
     modifier: Modifier = Modifier,

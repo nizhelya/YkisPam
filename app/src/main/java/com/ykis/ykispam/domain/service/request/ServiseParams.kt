@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.domain.service.request
+package com.ykis.ykispam.domain.service.request
 
 
 data class ServiceParams(

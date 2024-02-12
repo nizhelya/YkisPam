@@ -1,8 +1,8 @@
-package com.ykis.ykispam.pam.data.remote.payment
+package com.ykis.ykispam.data.remote.payment
 
-import com.ykis.ykispam.pam.domain.payment.PaymentEntity
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
+import com.ykis.ykispam.domain.payment.PaymentEntity
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
 
 interface PaymentRemote {
     fun getFlatPayments(

@@ -1,8 +1,8 @@
-package com.ykis.ykispam.pam.data.remote.water.reading
+package com.ykis.ykispam.data.remote.water.reading
 
 import com.squareup.moshi.Json
-import com.ykis.ykispam.pam.data.remote.core.BaseResponse
-import com.ykis.ykispam.pam.domain.water.reading.WaterReadingEntity
+import com.ykis.ykispam.data.remote.core.BaseResponse
+import com.ykis.ykispam.domain.water.reading.WaterReadingEntity
 
 class GetWaterReadingResponse(
     success: Int,

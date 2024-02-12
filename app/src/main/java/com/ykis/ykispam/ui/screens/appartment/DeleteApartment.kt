@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.appartment
+package com.ykis.ykispam.ui.screens.appartment
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme

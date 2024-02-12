@@ -12,11 +12,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.R.string as AppText
@@ -66,13 +64,13 @@ fun HelpAlertCard(
             dismissButton = {
                 DialogCancelButton(text = AppText.ok) {
                     showWarningDialog = false
-                    onShowDialogChange(showWarningDialog)
+                    onShowDialogChange(false)
                 }
             },
             confirmButton = { },
             onDismissRequest = {
                 showWarningDialog = false
-                onShowDialogChange(showWarningDialog)
+                onShowDialogChange(false)
             }
 
         )

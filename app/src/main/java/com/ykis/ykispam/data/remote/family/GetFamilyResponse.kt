@@ -1,7 +1,7 @@
-package com.ykis.ykispam.pam.data.remote.family
+package com.ykis.ykispam.data.remote.family
 
-import com.ykis.ykispam.pam.data.remote.core.BaseResponse
-import com.ykis.ykispam.pam.domain.family.FamilyEntity
+import com.ykis.ykispam.data.remote.core.BaseResponse
+import com.ykis.ykispam.domain.family.FamilyEntity
 
 class GetFamilyResponse(
     success: Int,

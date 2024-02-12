@@ -1,7 +1,7 @@
-package com.ykis.ykispam.pam.data.cache.apartment
+package com.ykis.ykispam.data.cache.apartment
 
-import com.ykis.ykispam.pam.data.cache.dao.ApartmentDao
-import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
+import com.ykis.ykispam.data.cache.dao.ApartmentDao
+import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import javax.inject.Inject
 import javax.inject.Singleton
 

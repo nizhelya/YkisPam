@@ -1,8 +1,8 @@
-package com.ykis.ykispam.pam.data.remote.heat.meter
+package com.ykis.ykispam.data.remote.heat.meter
 
-import com.ykis.ykispam.pam.domain.heat.meter.HeatMeterEntity
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
+import com.ykis.ykispam.domain.heat.meter.HeatMeterEntity
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
 
 interface HeatMeterRemote {
     fun getHeatMeter(

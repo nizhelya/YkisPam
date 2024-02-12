@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.appartment.content
+package com.ykis.ykispam.ui.screens.appartment.content
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,18 +17,18 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import com.ykis.ykispam.navigation.ContentDetail
-import com.ykis.ykispam.navigation.ContentType
+import com.ykis.ykispam.ui.navigation.ContentDetail
+import com.ykis.ykispam.ui.navigation.ContentType
 
 
 @Composable
 fun ListItem(
     modifier: Modifier = Modifier,
     imageVector: ImageVector,
-    serviceName: String ,
+    serviceName: String,
     isSelected: Boolean = false,
     contentDetail: ContentDetail,
-    navigateToDetail: (ContentDetail,ContentType) -> Unit,
+    navigateToDetail: (ContentDetail, ContentType) -> Unit,
     isSelectable: (ContentDetail) -> Unit
 
 
@@ -38,7 +38,7 @@ fun ListItem(
         if (isSelected)
             modifier
                 .padding(horizontal = 16.dp, vertical = 8.dp)
-                .semantics { selected = isSelected }
+                .semantics { selected = true }
         else modifier.padding(horizontal = 16.dp, vertical = 8.dp)
     Card(
         modifier = semanticsModifier.clickable {

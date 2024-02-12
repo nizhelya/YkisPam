@@ -20,7 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
+import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.ui.theme.extendedColor
 
 @Composable
@@ -32,7 +32,7 @@ fun ApartmentListItem(
 ) {
     val borderWidth by animateDpAsState(
         targetValue = if(apartment.addressId==currentAddressId) 3.dp else (-1).dp,
-        animationSpec = spring(Spring.DampingRatioNoBouncy , Spring.StiffnessLow)
+        animationSpec = spring(Spring.DampingRatioNoBouncy , Spring.StiffnessLow), label = ""
 
     )
     Row(

@@ -1,8 +1,8 @@
-package com.ykis.ykispam.pam.data.remote.service
+package com.ykis.ykispam.data.remote.service
 
-import com.ykis.ykispam.pam.domain.service.ServiceEntity
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
+import com.ykis.ykispam.domain.service.ServiceEntity
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
 
 interface ServiceRemote {
     fun getFlatServices(

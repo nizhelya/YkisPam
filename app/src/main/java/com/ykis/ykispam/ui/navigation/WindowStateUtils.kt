@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ykis.ykispam.navigation
+package com.ykis.ykispam.ui.navigation
 
 import android.graphics.Rect
 import androidx.window.layout.FoldingFeature
@@ -26,7 +26,7 @@ import kotlin.contracts.contract
  */
 
 sealed interface DevicePosture {
-    object NormalPosture : DevicePosture
+    data object NormalPosture : DevicePosture
 
     data class BookPosture(
         val hingePosition: Rect

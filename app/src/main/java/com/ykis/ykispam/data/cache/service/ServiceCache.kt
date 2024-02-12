@@ -1,6 +1,6 @@
-package com.ykis.ykispam.pam.data.cache.service
+package com.ykis.ykispam.data.cache.service
 
-import com.ykis.ykispam.pam.domain.service.ServiceEntity
+import com.ykis.ykispam.domain.service.ServiceEntity
 
 interface ServiceCache {
     fun addService(service: List<ServiceEntity>)

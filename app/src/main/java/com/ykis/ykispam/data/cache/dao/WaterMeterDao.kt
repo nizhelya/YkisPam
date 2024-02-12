@@ -1,10 +1,10 @@
-package com.ykis.ykispam.pam.data.cache.dao
+package com.ykis.ykispam.data.cache.dao
 
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
-import com.ykis.ykispam.pam.domain.water.meter.WaterMeterEntity
+import com.ykis.ykispam.domain.water.meter.WaterMeterEntity
 import androidx.room.Query
 
 @Dao

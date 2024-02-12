@@ -1,9 +1,9 @@
-package com.ykis.ykispam.pam.domain.payment.request
+package com.ykis.ykispam.domain.payment.request
 
-import com.ykis.ykispam.pam.data.PaymentRepositoryImpl
-import com.ykis.ykispam.pam.domain.family.request.BooleanInt
-import com.ykis.ykispam.pam.domain.interactor.UseCase
-import com.ykis.ykispam.pam.domain.payment.PaymentEntity
+import com.ykis.ykispam.data.PaymentRepositoryImpl
+import com.ykis.ykispam.domain.family.request.BooleanInt
+import com.ykis.ykispam.domain.interactor.UseCase
+import com.ykis.ykispam.domain.payment.PaymentEntity
 import javax.inject.Inject
 
 class GetFlatPayment @Inject constructor(

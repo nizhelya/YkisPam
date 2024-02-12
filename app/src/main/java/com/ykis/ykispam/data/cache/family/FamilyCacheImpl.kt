@@ -1,7 +1,7 @@
-package com.ykis.ykispam.pam.data.cache.family
+package com.ykis.ykispam.data.cache.family
 
-import com.ykis.ykispam.pam.data.cache.dao.FamilyDao
-import com.ykis.ykispam.pam.domain.family.FamilyEntity
+import com.ykis.ykispam.data.cache.dao.FamilyDao
+import com.ykis.ykispam.domain.family.FamilyEntity
 import javax.inject.Inject
 import javax.inject.Singleton
 

@@ -1,20 +1,21 @@
-package com.ykis.ykispam.navigation
+package com.ykis.ykispam.ui.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.ykis.ykispam.pam.screens.auth.sign_in.SignInScreen
-import com.ykis.ykispam.pam.screens.auth.sign_up.SignUpScreen
-import com.ykis.ykispam.pam.screens.auth.sign_up.SignUpViewModel
-import com.ykis.ykispam.pam.screens.auth.verify_email.VerifyEmailScreen
+import com.ykis.ykispam.ui.screens.auth.sign_in.SignInScreen
+import com.ykis.ykispam.ui.screens.auth.sign_up.SignUpScreen
+import com.ykis.ykispam.ui.screens.auth.sign_up.SignUpViewModel
+import com.ykis.ykispam.ui.screens.auth.verify_email.VerifyEmailScreen
 
 fun NavGraphBuilder.authNavGraph(
     navController : NavHostController,
 ) {
     navigation(
         route = Graph.AUTHENTICATION,
-        startDestination = SignInScreen.route ){
+        startDestination = SignInScreen.route
+    ){
         composable(SignUpScreen.route) {
             entry ->
             val signUpViewModel = entry.sharedViewModel<SignUpViewModel>(navController)

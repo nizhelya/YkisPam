@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-package com.ykis.ykispam.pam.screens.auth.sign_in.components
+package com.ykis.ykispam.ui.screens.auth.sign_in.components
 
 data class SingInUiState(
     val email: String = "",

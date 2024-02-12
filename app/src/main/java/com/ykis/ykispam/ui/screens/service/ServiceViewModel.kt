@@ -1,10 +1,10 @@
-package com.ykis.ykispam.pam.screens.service
+package com.ykis.ykispam.ui.screens.service
 
 import com.ykis.ykispam.ui.BaseViewModel
 import com.ykis.ykispam.firebase.service.repo.LogService
-import com.ykis.ykispam.pam.domain.service.ServiceEntity
-import com.ykis.ykispam.pam.domain.service.request.ServiceParams
-import com.ykis.ykispam.pam.domain.service.request.getFlatService
+import com.ykis.ykispam.domain.service.ServiceEntity
+import com.ykis.ykispam.domain.service.request.ServiceParams
+import com.ykis.ykispam.domain.service.request.GetFlatService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ServiceViewModel @Inject constructor(
-    private val getFlatServiceUseCase: getFlatService,
+    private val getFlatServiceUseCase: GetFlatService,
     private val logService: LogService
 ) : BaseViewModel(logService) {
 

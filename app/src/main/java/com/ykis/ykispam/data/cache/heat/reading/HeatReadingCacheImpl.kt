@@ -1,7 +1,7 @@
-package com.ykis.ykispam.pam.data.cache.heat.reading
+package com.ykis.ykispam.data.cache.heat.reading
 
-import com.ykis.ykispam.pam.data.cache.dao.HeatReadingDao
-import com.ykis.ykispam.pam.domain.heat.reading.HeatReadingEntity
+import com.ykis.ykispam.data.cache.dao.HeatReadingDao
+import com.ykis.ykispam.domain.heat.reading.HeatReadingEntity
 import javax.inject.Inject
 import javax.inject.Singleton
 

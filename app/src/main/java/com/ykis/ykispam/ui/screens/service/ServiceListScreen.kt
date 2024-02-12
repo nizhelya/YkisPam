@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.service
+package com.ykis.ykispam.ui.screens.service
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ykis.ykispam.navigation
+package com.ykis.ykispam.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,8 +34,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ykis.ykispam.R
-import com.ykis.ykispam.pam.screens.appartment.ApartmentViewModel
-import com.ykis.ykispam.pam.screens.appbars.AddAppBar
+import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
+import com.ykis.ykispam.ui.screens.appbars.AddAppBar
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

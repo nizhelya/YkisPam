@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -60,30 +59,17 @@ fun RegularCardEditor(
     CardEditor(title, icon, content, onEditClick, modifier)
 }
 
-@Composable
-fun InfoCardEditor(
-    @StringRes title: Int,
-    @DrawableRes icon: Int,
-    content: String,
-    modifier: Modifier,
-    onEditClick: () -> Unit
-) {
-    CardEditorInfo(title, icon, content, onEditClick,  modifier)
-}
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CardEditor(
     @StringRes title: Int,
     @DrawableRes icon: Int,
     content: String,
     onEditClick: () -> Unit,
-//    highlightColor: Color,
     modifier: Modifier
 
 ) {
     Card(
-//        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.background),
         modifier = modifier
             .widthIn(0.dp, 480.dp)
             .padding(16.dp),
@@ -94,13 +80,11 @@ private fun CardEditor(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = modifier
-//                .fillMaxWidth()
                 .padding(16.dp)
         ) {
             Column(modifier = modifier.weight(1f)) {
                 Text(
                     stringResource(title),
-//                    color = highlightColor
                 )
             }
 
@@ -118,7 +102,6 @@ private fun CardEditor(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CardEditorInfo(
     @StringRes title: Int,

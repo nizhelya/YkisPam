@@ -1,8 +1,8 @@
-package com.ykis.ykispam.pam.domain.payment
+package com.ykis.ykispam.domain.payment
 
-import com.ykis.ykispam.pam.domain.family.request.BooleanInt
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
+import com.ykis.ykispam.domain.family.request.BooleanInt
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
 
 interface PaymentRepository {
     fun getFlatPayment(params: BooleanInt): Either<Failure, List<PaymentEntity>>

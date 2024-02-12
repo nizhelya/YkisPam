@@ -1,9 +1,8 @@
-package com.ykis.ykispam.pam.domain.apartment
+package com.ykis.ykispam.domain.apartment
 
-import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
-import kotlinx.coroutines.flow.Flow
+import com.ykis.ykispam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
 
 interface ApartmentRepository {
     suspend  fun getApartmentsByUser(needFetch: Boolean): Either<Failure, List<ApartmentEntity>>

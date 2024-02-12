@@ -1,6 +1,6 @@
-package com.ykis.ykispam.pam.data.cache.water.meter
+package com.ykis.ykispam.data.cache.water.meter
 
-import com.ykis.ykispam.pam.domain.water.meter.WaterMeterEntity
+import com.ykis.ykispam.domain.water.meter.WaterMeterEntity
 
 interface WaterMeterCache {
     fun insertWaterMeter(waterMeters: List<WaterMeterEntity>)

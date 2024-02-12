@@ -1,6 +1,6 @@
-package com.ykis.ykispam.pam.data.cache.family
+package com.ykis.ykispam.data.cache.family
 
-import com.ykis.ykispam.pam.domain.family.FamilyEntity
+import com.ykis.ykispam.domain.family.FamilyEntity
 
 interface FamilyCache {
     fun addFamilyByUser(family: List<FamilyEntity>)

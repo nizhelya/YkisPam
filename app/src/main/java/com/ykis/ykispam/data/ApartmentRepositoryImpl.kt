@@ -1,24 +1,23 @@
-package com.ykis.ykispam.pam.data
+package com.ykis.ykispam.data
 
-import com.ykis.ykispam.pam.data.cache.apartment.ApartmentCache
-import com.ykis.ykispam.pam.data.cache.family.FamilyCache
-import com.ykis.ykispam.pam.data.cache.heat.meter.HeatMeterCache
-import com.ykis.ykispam.pam.data.cache.heat.reading.HeatReadingCache
-import com.ykis.ykispam.pam.data.cache.payment.PaymentCache
-import com.ykis.ykispam.pam.data.cache.service.ServiceCache
-import com.ykis.ykispam.pam.data.cache.user.UserCache
-import com.ykis.ykispam.pam.data.cache.water.meter.WaterMeterCache
-import com.ykis.ykispam.pam.data.cache.water.reading.WaterReadingCache
-import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.pam.domain.apartment.ApartmentRepository
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
-import com.ykis.ykispam.pam.domain.type.flatMap
-import com.ykis.ykispam.pam.domain.type.map
-import com.ykis.ykispam.pam.domain.type.onNext
-import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
-import com.ykis.ykispam.pam.data.remote.appartment.ApartmentRemote
-import kotlinx.coroutines.flow.Flow
+import com.ykis.ykispam.data.cache.apartment.ApartmentCache
+import com.ykis.ykispam.data.cache.family.FamilyCache
+import com.ykis.ykispam.data.cache.heat.meter.HeatMeterCache
+import com.ykis.ykispam.data.cache.heat.reading.HeatReadingCache
+import com.ykis.ykispam.data.cache.payment.PaymentCache
+import com.ykis.ykispam.data.cache.service.ServiceCache
+import com.ykis.ykispam.data.cache.user.UserCache
+import com.ykis.ykispam.data.cache.water.meter.WaterMeterCache
+import com.ykis.ykispam.data.cache.water.reading.WaterReadingCache
+import com.ykis.ykispam.domain.apartment.ApartmentEntity
+import com.ykis.ykispam.domain.apartment.ApartmentRepository
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
+import com.ykis.ykispam.domain.type.flatMap
+import com.ykis.ykispam.domain.type.map
+import com.ykis.ykispam.domain.type.onNext
+import com.ykis.ykispam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.data.remote.appartment.ApartmentRemote
 import javax.inject.Inject
 
 
@@ -38,7 +37,7 @@ class ApartmentRepositoryImpl @Inject constructor(
 
     override suspend fun getApartmentsByUser(needFetch: Boolean): Either<Failure, List<ApartmentEntity>> {
         return userCache.getCurrentUser()
-            .flatMap {
+            .flatMap { it ->
                 if (needFetch) {
                     return@flatMap apartmentRemote.getApartmentsByUser(it.uid)
 

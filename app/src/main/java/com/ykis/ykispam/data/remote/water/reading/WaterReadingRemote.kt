@@ -1,9 +1,9 @@
-package com.ykis.ykispam.pam.data.remote.water.reading
+package com.ykis.ykispam.data.remote.water.reading
 
-import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
-import com.ykis.ykispam.pam.domain.water.reading.WaterReadingEntity
+import com.ykis.ykispam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
+import com.ykis.ykispam.domain.water.reading.WaterReadingEntity
 
 interface WaterReadingRemote {
     fun getWaterReadings(

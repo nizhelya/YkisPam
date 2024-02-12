@@ -1,10 +1,10 @@
-package com.ykis.ykispam.pam.data.remote.water.meter
+package com.ykis.ykispam.data.remote.water.meter
 
-import com.ykis.ykispam.pam.data.remote.api.ApiService
-import com.ykis.ykispam.pam.data.remote.core.Request
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
-import com.ykis.ykispam.pam.domain.water.meter.WaterMeterEntity
+import com.ykis.ykispam.data.remote.api.ApiService
+import com.ykis.ykispam.data.remote.core.Request
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
+import com.ykis.ykispam.domain.water.meter.WaterMeterEntity
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -36,8 +36,8 @@ class WaterMeterRemoteImpl @Inject constructor(
         uid: String
     ): Map<String, String> {
         val map = HashMap<String, String>()
-        map.put(ApiService.ADDRESS_ID, addressId.toString())
-        map.put(ApiService.UID, uid)
+        map[ApiService.ADDRESS_ID] = addressId.toString()
+        map[ApiService.UID] = uid
         return map
     }
 

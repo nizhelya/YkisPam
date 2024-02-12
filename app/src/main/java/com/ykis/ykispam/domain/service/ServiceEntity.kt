@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.domain.service
+package com.ykis.ykispam.domain.service
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

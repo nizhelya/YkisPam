@@ -1,15 +1,15 @@
-package com.ykis.ykispam.pam.data
+package com.ykis.ykispam.data
 
-import com.ykis.ykispam.pam.data.cache.payment.PaymentCache
-import com.ykis.ykispam.pam.data.cache.user.UserCache
-import com.ykis.ykispam.pam.data.remote.payment.PaymentRemote
-import com.ykis.ykispam.pam.domain.family.request.BooleanInt
-import com.ykis.ykispam.pam.domain.payment.PaymentEntity
-import com.ykis.ykispam.pam.domain.payment.PaymentRepository
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
-import com.ykis.ykispam.pam.domain.type.flatMap
-import com.ykis.ykispam.pam.domain.type.onNext
+import com.ykis.ykispam.data.cache.payment.PaymentCache
+import com.ykis.ykispam.data.cache.user.UserCache
+import com.ykis.ykispam.data.remote.payment.PaymentRemote
+import com.ykis.ykispam.domain.family.request.BooleanInt
+import com.ykis.ykispam.domain.payment.PaymentEntity
+import com.ykis.ykispam.domain.payment.PaymentRepository
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
+import com.ykis.ykispam.domain.type.flatMap
+import com.ykis.ykispam.domain.type.onNext
 import javax.inject.Inject
 
 class PaymentRepositoryImpl @Inject constructor(

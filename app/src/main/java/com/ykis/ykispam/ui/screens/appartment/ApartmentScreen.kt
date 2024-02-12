@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.appartment
+package com.ykis.ykispam.ui.screens.appartment
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
@@ -11,12 +11,12 @@ import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
-import com.ykis.ykispam.navigation.ContentDetail
-import com.ykis.ykispam.navigation.ContentType
-import com.ykis.ykispam.navigation.NavigationType
-import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.pam.screens.appartment.content.DetailContent
-import com.ykis.ykispam.pam.screens.appartment.content.ListContent
+import com.ykis.ykispam.ui.navigation.ContentDetail
+import com.ykis.ykispam.ui.navigation.ContentType
+import com.ykis.ykispam.ui.navigation.NavigationType
+import com.ykis.ykispam.domain.apartment.ApartmentEntity
+import com.ykis.ykispam.ui.screens.appartment.content.DetailContent
+import com.ykis.ykispam.ui.screens.appartment.content.ListContent
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.YkisPamAppState
 

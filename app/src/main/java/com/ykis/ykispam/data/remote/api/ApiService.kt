@@ -1,16 +1,16 @@
-package com.ykis.ykispam.pam.data.remote.api
+package com.ykis.ykispam.data.remote.api
 
-import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
-import com.ykis.ykispam.pam.data.remote.address.GetAddressResponse
-import com.ykis.ykispam.pam.data.remote.appartment.GetApartmentsResponse
-import com.ykis.ykispam.pam.data.remote.family.GetFamilyResponse
-import com.ykis.ykispam.pam.data.remote.heat.meter.GetHeatMeterResponse
-import com.ykis.ykispam.pam.data.remote.heat.reading.GetHeatReadingResponse
-import com.ykis.ykispam.pam.data.remote.payment.GetPaymentResponse
-import com.ykis.ykispam.pam.data.remote.service.GetServiceResponse
-import com.ykis.ykispam.pam.data.remote.water.meter.GetWaterMeterResponse
-import com.ykis.ykispam.pam.data.remote.water.reading.GetWaterReadingResponse
-import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
+import com.ykis.ykispam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.data.remote.address.GetAddressResponse
+import com.ykis.ykispam.data.remote.appartment.GetApartmentsResponse
+import com.ykis.ykispam.data.remote.family.GetFamilyResponse
+import com.ykis.ykispam.data.remote.heat.meter.GetHeatMeterResponse
+import com.ykis.ykispam.data.remote.heat.reading.GetHeatReadingResponse
+import com.ykis.ykispam.data.remote.payment.GetPaymentResponse
+import com.ykis.ykispam.data.remote.service.GetServiceResponse
+import com.ykis.ykispam.data.remote.water.meter.GetWaterMeterResponse
+import com.ykis.ykispam.data.remote.water.reading.GetWaterReadingResponse
+import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import retrofit2.Call
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
@@ -19,7 +19,7 @@ import retrofit2.http.POST
 
 interface ApiService {
     companion object {
-        const val SERVER_URL = "https://is.yuzhny.com/YkisMobileRest"
+        private const val SERVER_URL = "https://is.yuzhny.com/YkisMobileRest"
 //        const val SERVER_URL = "http://10.0.2.2/YkisPAM/YkisMobileRest"
 //        const val SERVER_URL = "http://192.168.0.177/MobYkis/YkisMobileRest"
 
@@ -61,13 +61,11 @@ interface ApiService {
         const val NEW_VALUE = "new_value"
         const val CURRENT_VALUE = "current_value"
         const val KOD = "kod"
-        const val QTY = "qty"
         const val SERVICE = "service"
         const val TOTAL = "total"
         const val PHONE = "phone"
         const val EMAIL = "email"
         const val BLOCK_ID = "raion_id"
-        const val PARAM_TOKEN = "token"
 
     }
 

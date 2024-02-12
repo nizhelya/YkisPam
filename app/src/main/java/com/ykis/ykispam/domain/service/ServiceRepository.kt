@@ -1,8 +1,8 @@
-package com.ykis.ykispam.pam.domain.service
+package com.ykis.ykispam.domain.service
 
-import com.ykis.ykispam.pam.domain.service.request.ServiceParams
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
+import com.ykis.ykispam.domain.service.request.ServiceParams
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
 
 interface ServiceRepository {
     fun getFlatService(params: ServiceParams): Either<Failure, List<ServiceEntity>>

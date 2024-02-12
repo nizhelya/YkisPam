@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.domain.payment
+package com.ykis.ykispam.domain.payment
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

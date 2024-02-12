@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.profile
+package com.ykis.ykispam.ui.screens.profile
 
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.ui.BaseViewModel

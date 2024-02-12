@@ -14,12 +14,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.window.layout.DisplayFeature
 import androidx.window.layout.FoldingFeature
 import com.ykis.ykispam.core.snackbar.SnackbarManager
-import com.ykis.ykispam.navigation.ContentType
-import com.ykis.ykispam.navigation.DevicePosture
-import com.ykis.ykispam.navigation.NavigationType
-import com.ykis.ykispam.navigation.RootNavGraph
-import com.ykis.ykispam.navigation.isBookPosture
-import com.ykis.ykispam.navigation.isSeparating
+import com.ykis.ykispam.ui.navigation.ContentType
+import com.ykis.ykispam.ui.navigation.DevicePosture
+import com.ykis.ykispam.ui.navigation.NavigationType
+import com.ykis.ykispam.ui.navigation.RootNavGraph
+import com.ykis.ykispam.ui.navigation.isBookPosture
+import com.ykis.ykispam.ui.navigation.isSeparating
 import kotlinx.coroutines.CoroutineScope
 
 

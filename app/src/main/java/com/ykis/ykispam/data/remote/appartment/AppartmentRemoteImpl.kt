@@ -1,11 +1,11 @@
-package com.ykis.ykispam.pam.data.remote.appartment
+package com.ykis.ykispam.data.remote.appartment
 
-import com.ykis.ykispam.pam.data.remote.GetSimpleResponse
-import com.ykis.ykispam.pam.data.remote.core.Request
-import com.ykis.ykispam.pam.data.remote.api.ApiService
-import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.pam.domain.type.Either
-import com.ykis.ykispam.pam.domain.type.Failure
+import com.ykis.ykispam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.data.remote.core.Request
+import com.ykis.ykispam.data.remote.api.ApiService
+import com.ykis.ykispam.domain.apartment.ApartmentEntity
+import com.ykis.ykispam.domain.type.Either
+import com.ykis.ykispam.domain.type.Failure
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -75,7 +75,7 @@ class ApartmentRemoteImpl @Inject constructor(
 
     private fun createGetApartmentsByUserMap(uid: String): Map<String, String> {
         val map = HashMap<String, String>()
-        map.put(ApiService.UID, uid)
+        map[ApiService.UID] = uid
         return map
     }
 
@@ -84,8 +84,8 @@ class ApartmentRemoteImpl @Inject constructor(
         uid: String
     ): Map<String, String> {
         val map = HashMap<String, String>()
-        map.put(ApiService.PARAM_ADDRESS_ID, addressId.toString())
-        map.put(ApiService.UID, uid)
+        map[ApiService.PARAM_ADDRESS_ID] = addressId.toString()
+        map[ApiService.UID] = uid
         return map
     }
 
@@ -96,10 +96,10 @@ class ApartmentRemoteImpl @Inject constructor(
         uid: String
     ): Map<String, String> {
         val map = HashMap<String, String>()
-        map.put(ApiService.ADDRESS_ID, addressId.toString())
-        map.put(ApiService.PHONE, phone)
-        map.put(ApiService.EMAIL, email)
-        map.put(ApiService.UID, uid)
+        map[ApiService.ADDRESS_ID] = addressId.toString()
+        map[ApiService.PHONE] = phone
+        map[ApiService.EMAIL] = email
+        map[ApiService.UID] = uid
         return map
     }
 }

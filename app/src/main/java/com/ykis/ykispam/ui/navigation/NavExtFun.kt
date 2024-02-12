@@ -1,4 +1,4 @@
-package com.ykis.ykispam.navigation
+package com.ykis.ykispam.ui.navigation
 
 import androidx.navigation.NavHostController
 

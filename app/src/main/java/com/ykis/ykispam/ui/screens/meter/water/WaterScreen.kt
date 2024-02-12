@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ykis.ykispam.pam.screens.meter.water
+package com.ykis.ykispam.ui.screens.meter.water
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -39,7 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ykis.ykispam.R
-import com.ykis.ykispam.pam.screens.appartment.ApartmentViewModel
+import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
 
 @Composable
 fun WaterScreen(
@@ -59,16 +59,12 @@ fun WaterScreen(
             .fillMaxWidth()
             .fillMaxHeight()
     ) {
-        apartment.let {
-            it.address.let { address ->
-                Text(
-                    text = address,
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-            }
-        }
+        Text(
+            text = apartment.address,
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onSurface
+        )
 
         Row(
             modifier = Modifier
@@ -125,15 +121,13 @@ fun WaterScreen(
 
 
                         ) {
-                            apartment?.let {
-                                Text(
-                                    text = it.nanim,
-                                    //                                            color = MaterialTheme.colors.primary,
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    modifier = Modifier.padding(start = 8.dp),
-                        //                                            textAlign = TextAlign.Center
-                                )
-                            }
+                            Text(
+                                text = apartment.nanim,
+                                //                                            color = MaterialTheme.colors.primary,
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.padding(start = 8.dp),
+                                //                                            textAlign = TextAlign.Center
+                            )
 
                         }
                         Row(
@@ -186,7 +180,7 @@ fun WaterScreen(
 
                                     )
                                 Text(
-                                    text = apartment?.areaFull.toString(),
+                                    text = apartment.areaFull.toString(),
 //                                                color = MaterialTheme.colors.primary,
                                     style = MaterialTheme.typography.bodyMedium,
 
@@ -206,7 +200,7 @@ fun WaterScreen(
 
                                     )
                                 Text(
-                                    text = apartment?.areaLife.toString(),
+                                    text = apartment.areaLife.toString(),
 //                                                color = MaterialTheme.colors.primary,
                                     style = MaterialTheme.typography.bodyMedium,
                                 )
@@ -224,7 +218,7 @@ fun WaterScreen(
                                     style = MaterialTheme.typography.titleSmall
                                 )
                                 Text(
-                                    text = apartment?.areaDop.toString(),
+                                    text = apartment.areaDop.toString(),
 //                                                color = MaterialTheme.colors.primary,
                                     style = MaterialTheme.typography.bodyMedium,
                                 )
@@ -242,7 +236,7 @@ fun WaterScreen(
                                     style = MaterialTheme.typography.titleSmall
                                 )
                                 Text(
-                                    text = apartment?.areaOtopl.toString(),
+                                    text = apartment.areaOtopl.toString(),
 //                                                color = MaterialTheme.colors.primary,
                                     style = MaterialTheme.typography.bodyMedium,
                                 )
@@ -299,7 +293,7 @@ fun WaterScreen(
                                         style = MaterialTheme.typography.titleSmall
                                     )
                                     Text(
-                                        text = apartment?.tenant.toString(),
+                                        text = apartment.tenant.toString(),
 //                                                color = MaterialTheme.colors.primary,
                                         style = MaterialTheme.typography.bodyMedium,
                                         textAlign = TextAlign.Center,
@@ -325,7 +319,7 @@ fun WaterScreen(
                                         style = MaterialTheme.typography.titleSmall
                                     )
                                     Text(
-                                        text = apartment?.podnan.toString(),
+                                        text = apartment.podnan.toString(),
 //                                                color = MaterialTheme.colors.primary,
                                         style = MaterialTheme.typography.bodyMedium,
                                     )
@@ -349,7 +343,7 @@ fun WaterScreen(
                                         style = MaterialTheme.typography.titleSmall
                                     )
                                     Text(
-                                        text = apartment?.absent.toString(),
+                                        text = apartment.absent.toString(),
 //                                                color = MaterialTheme.colors.primary,
                                         style = MaterialTheme.typography.bodyMedium,
                                     )
@@ -411,7 +405,7 @@ fun WaterScreen(
                                         style = MaterialTheme.typography.titleSmall
                                     )
                                     Text(
-                                        text = apartment?.room.toString(),
+                                        text = apartment.room.toString(),
 //                                                color = MaterialTheme.colors.primary,
                                         style = MaterialTheme.typography.bodyMedium,
                                     )
@@ -436,7 +430,7 @@ fun WaterScreen(
                                         style = MaterialTheme.typography.titleSmall
                                     )
                                     Text(
-                                        text = if (apartment?.privat.toString() == "1") {
+                                        text = if (apartment.privat.toString() == "1") {
                                             stringResource(R.string.private_ok)
                                         } else {
                                             stringResource(R.string.private_no)
@@ -464,7 +458,7 @@ fun WaterScreen(
                                         style = MaterialTheme.typography.titleSmall
                                     )
                                     Text(
-                                        text = if (apartment?.lift.toString() == "1") {
+                                        text = if (apartment.lift.toString() == "1") {
                                             stringResource(R.string.private_ok)
                                         } else {
                                             stringResource(R.string.private_no)
@@ -511,13 +505,11 @@ fun WaterScreen(
                                         style = MaterialTheme.typography.titleSmall,
                                         modifier = Modifier.padding(end = 4.dp)
                                     )
-                                    apartment?.let {
-                                        Text(
-                                            text = it.order,
-                                //                                                    color = MaterialTheme.colors.primary,
-                                            style = MaterialTheme.typography.bodyMedium,
-                                        )
-                                    }
+                                    Text(
+                                        text = apartment.order,
+                                        //                                                    color = MaterialTheme.colors.primary,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                    )
                                 }
 
                             }
@@ -559,13 +551,11 @@ fun WaterScreen(
                                         style = MaterialTheme.typography.titleSmall,
                                         modifier = Modifier.padding(end = 4.dp)
                                     )
-                                    apartment?.let {
-                                        Text(
-                                            text = it.dataOrder,
-                                //                                                    color = MaterialTheme.colors.primary,
-                                            style = MaterialTheme.typography.bodyMedium,
-                                        )
-                                    }
+                                    Text(
+                                        text = apartment.dataOrder,
+                                        //                                                    color = MaterialTheme.colors.primary,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                    )
                                 }
                             }
 
@@ -626,13 +616,11 @@ fun WaterScreen(
                                         style = MaterialTheme.typography.titleSmall,
                                         modifier = Modifier.padding(end = 4.dp)
                                     )
-                                    apartment?.let {
-                                        Text(
-                                            text = it.phone,
-                                //                                                    color = MaterialTheme.colors.primary,
-                                            style = MaterialTheme.typography.bodyMedium,
-                                        )
-                                    }
+                                    Text(
+                                        text = apartment.phone,
+                                        //                                                    color = MaterialTheme.colors.primary,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                    )
                                 }
 
                             }
@@ -675,13 +663,10 @@ fun WaterScreen(
                                         style = MaterialTheme.typography.titleSmall,
                                         modifier = Modifier.padding(end = 4.dp)
                                     )
-                                    apartment?.let {
-                                        Text(
-                                            text = it.email,
-                                //   color = MaterialTheme.colors.primary,
-                                            style = MaterialTheme.typography.bodyMedium,
-                                        )
-                                    }
+                                    Text(
+                                        text = apartment.email,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                    )
                                 }
 
                             }

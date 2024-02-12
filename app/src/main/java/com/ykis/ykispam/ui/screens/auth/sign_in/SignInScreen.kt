@@ -1,4 +1,4 @@
-package com.ykis.ykispam.pam.screens.auth.sign_in
+package com.ykis.ykispam.ui.screens.auth.sign_in
 
 import android.app.Activity.RESULT_OK
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -17,7 +17,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -37,14 +36,13 @@ import com.ykis.ykispam.core.ext.smallSpacer
 import com.ykis.ykispam.core.ext.textButton
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.core.snackbar.SnackbarMessage.Companion.toSnackbarMessage
-import com.ykis.ykispam.navigation.LaunchScreen
-import com.ykis.ykispam.pam.screens.auth.sign_in.components.OneTapSignIn
-import com.ykis.ykispam.pam.screens.auth.sign_in.components.SignInWithGoogle
+import com.ykis.ykispam.ui.navigation.LaunchScreen
+import com.ykis.ykispam.ui.screens.auth.sign_in.components.OneTapSignIn
+import com.ykis.ykispam.ui.screens.auth.sign_in.components.SignInWithGoogle
 import com.ykis.ykispam.R.drawable as AppIcon
 import com.ykis.ykispam.R.string as AppText
 
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SignInScreen(
     //почему две функции
