@@ -17,10 +17,9 @@ package com.ykis.ykispam.pam.screens.appartment.content
  */
 
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,13 +28,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.pam.screens.appbars.DetailAppBar
 import com.ykis.ykispam.pam.screens.bti.BtiPanelContent
 import com.ykis.ykispam.pam.screens.family.FamilyContent
 import com.ykis.ykispam.pam.screens.service.ServicesContent
+import com.ykis.ykispam.ui.BaseUIState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,19 +47,25 @@ fun DetailContent(
 
 
 ) {
-    Card(modifier = modifier
-        .animateContentSize()
-        .fillMaxSize()
-        .padding(horizontal = 24.dp),
-        shape = MaterialTheme.shapes.large,
+    Card(
+        modifier = modifier
+            .fillMaxSize(),
+        shape = if(contentType==ContentType.DUAL_PANE)MaterialTheme.shapes.large else RoundedCornerShape(0.dp),
         colors = CardDefaults.cardColors(
-            containerColor = if(contentDetail != ContentDetail.EMPTY) MaterialTheme.colorScheme.surfaceContainerHighest else Color.Transparent
+            containerColor = if (contentDetail != ContentDetail.EMPTY && contentType == ContentType.DUAL_PANE) {
+                MaterialTheme.colorScheme.surfaceContainerHighest
+            } else Color.Transparent
         )
-    ){
-        Column(modifier = modifier.padding(horizontal = 16.dp)
+    ) {
+        Column(
+//            modifier = modifier.padding(horizontal = 16.dp)
         ) {
-            if(contentDetail != ContentDetail.EMPTY)
-                DetailAppBar(modifier, contentType, baseUIState, contentDetail) {
+            if (contentDetail != ContentDetail.EMPTY)
+                DetailAppBar(
+                   contentType =  contentType,
+                    baseUIState = baseUIState,
+                    contentDetail =  contentDetail
+                ) {
                     onBackPressed()
                 }
             when (contentDetail) {
@@ -108,62 +113,7 @@ fun DetailContent(
             }
         }
     }
-
-
-
-
-
-
-
-           /* if (contentDetail != ContentDetail.EMPTY && contentType == ContentType.DUAL_PANE ) {
-                DetailAppBar(modifier, contentType, baseUIState, contentDetail) {
-                    onBackPressed()
-                }
-            }
-            when (contentDetail) {
-                ContentDetail.BTI -> BtiPanelContent(
-                    contentType = contentType,
-                    contentDetail = contentDetail,
-                    baseUIState = baseUIState,
-                    onBackPressed = onBackPressed
-                )
-
-                ContentDetail.FAMILY -> FamilyContent(
-                    contentType = contentType,
-                    contentDetail = contentDetail,
-                    baseUIState = baseUIState,
-                    onBackPressed = onBackPressed
-                )
-
-                ContentDetail.OSBB -> ServicesContent(
-                    contentDetail = contentDetail,
-                    baseUIState = baseUIState,
-                )
-
-                ContentDetail.WATER_SERVICE -> ServicesContent(
-                    contentDetail = contentDetail,
-                    baseUIState = baseUIState,
-                )
-
-                ContentDetail.WARM_SERVICE -> ServicesContent(
-                    contentDetail = contentDetail,
-                    baseUIState = baseUIState,
-                )
-
-                ContentDetail.GARBAGE_SERVICE -> ServicesContent(
-                    contentDetail = contentDetail,
-                    baseUIState = baseUIState,
-                )
-
-                ContentDetail.PAYMENTS -> ServicesContent(
-                    contentDetail = contentDetail,
-                    baseUIState = baseUIState,
-                )
-
-                else -> EmptyDetail(
-                )
-            }*/
-        }
+}
 
 
 

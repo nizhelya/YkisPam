@@ -1,4 +1,4 @@
-package com.ykis.ykispam.core.composable
+package com.ykis.ykispam.ui.navigation.components
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState

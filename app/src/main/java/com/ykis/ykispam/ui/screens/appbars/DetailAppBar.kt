@@ -27,10 +27,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.R
 import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.ContentType
+import com.ykis.ykispam.ui.BaseUIState
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,7 +47,7 @@ fun DetailAppBar(
             modifier = modifier,
             colors = TopAppBarDefaults.topAppBarColors(
                 // TODO: change this color into surface
-                containerColor = MaterialTheme.colorScheme.onSecondary
+                containerColor = MaterialTheme.colorScheme.surfaceContainer
             ),
             title = {
                 Column(
@@ -59,7 +59,7 @@ fun DetailAppBar(
                     Text(
                         text = baseUIState.apartment.address,
                         style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Row(

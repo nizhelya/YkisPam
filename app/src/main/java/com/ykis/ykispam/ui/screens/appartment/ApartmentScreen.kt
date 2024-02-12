@@ -3,20 +3,22 @@ package com.ykis.ykispam.pam.screens.appartment
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
-import com.ykis.ykispam.ui.BaseUIState
-import com.ykis.ykispam.ui.YkisPamAppState
 import com.ykis.ykispam.navigation.ContentDetail
 import com.ykis.ykispam.navigation.ContentType
 import com.ykis.ykispam.navigation.NavigationType
 import com.ykis.ykispam.pam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.pam.screens.appartment.content.DetailContent
 import com.ykis.ykispam.pam.screens.appartment.content.ListContent
+import com.ykis.ykispam.ui.BaseUIState
+import com.ykis.ykispam.ui.YkisPamAppState
 
 
 @Composable
@@ -111,6 +113,7 @@ fun DualPanelContent(
         },
         second = {
             DetailContent(
+                modifier = Modifier.padding(horizontal = 24.dp),
                 baseUIState = baseUIState,
                 contentType = contentType,
                 contentDetail = baseUIState.selectedContentDetail ?: ContentDetail.EMPTY,

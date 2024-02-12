@@ -70,7 +70,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.common.util.CollectionUtils
 import com.ykis.ykispam.R
-import com.ykis.ykispam.core.composable.ApartmentList
 import com.ykis.ykispam.navigation.AddApartmentScreen
 import com.ykis.ykispam.navigation.MeterScreen
 import com.ykis.ykispam.navigation.NAV_RAIL_DESTINATIONS

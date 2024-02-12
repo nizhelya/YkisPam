@@ -1,4 +1,4 @@
-package com.ykis.ykispam.core.composable
+package com.ykis.ykispam.ui.navigation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
@@ -19,7 +19,7 @@ fun ApartmentList(
     onClick : (Int) ->Unit
 ) {
     LazyColumn(
-        modifier = modifier.background(color = MaterialTheme.colorScheme.surfaceContainerHighest)
+        modifier = modifier.background(color = MaterialTheme.colorScheme.surfaceContainerHighest),
     ) {
         item{
             Spacer(modifier = Modifier.height(4.dp))
