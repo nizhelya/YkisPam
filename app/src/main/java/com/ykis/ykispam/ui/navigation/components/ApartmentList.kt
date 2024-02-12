@@ -19,7 +19,7 @@ fun ApartmentList(
     onClick : (Int) ->Unit
 ) {
     LazyColumn(
-        modifier = modifier.background(color = MaterialTheme.colorScheme.surfaceContainerHighest),
+//        modifier = modifier.background(color = MaterialTheme.colorScheme.primary),
     ) {
         item{
             Spacer(modifier = Modifier.height(4.dp))
