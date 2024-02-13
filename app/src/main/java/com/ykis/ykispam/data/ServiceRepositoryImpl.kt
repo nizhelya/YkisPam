@@ -11,11 +11,11 @@ import com.ykis.ykispam.domain.type.Failure
 import com.ykis.ykispam.domain.type.flatMap
 import com.ykis.ykispam.domain.type.onNext
 import javax.inject.Inject
-
+import javax.inject.Singleton
+/*
 class ServiceRepositoryImpl @Inject constructor(
     private val serviceCache: ServiceCache,
     private val serviceRemote: ServiceRemote,
-
     private val userCache: UserCache
 ) : ServiceRepository {
     override fun getFlatService(params: ServiceParams): Either<Failure, List<ServiceEntity>> {
@@ -57,5 +57,26 @@ class ServiceRepositoryImpl @Inject constructor(
 
     override fun getTotalFlatService(addressId: Int): Either<Failure, ServiceEntity?> {
         return Either.Right(serviceCache.getTotalDebt(addressId))
+    }
+
+    override suspend fun newGetFlatService(params: ServiceParams): List<ServiceEntity> {
+        TODO("Not yet implemented")
+    }
+}
+*/
+class NewServiceRepositoryImpl @Inject constructor(
+    private val api : ServiceRemote
+):ServiceRepository{
+    override fun getFlatService(params: ServiceParams): Either<Failure, List<ServiceEntity>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getTotalFlatService(addressId: Int): Either<Failure, ServiceEntity?> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun newGetFlatService(params: ServiceParams): List<ServiceEntity> {
+        val response = api.newGetFlatServices(params)
+        return response
     }
 }

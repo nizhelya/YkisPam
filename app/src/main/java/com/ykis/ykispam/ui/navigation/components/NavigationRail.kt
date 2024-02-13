@@ -1,9 +1,6 @@
 package com.ykis.ykispam.ui.navigation.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.EnterExitState
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.Spring
@@ -19,7 +16,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -143,7 +139,6 @@ fun CustomNavigationRail(
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun ApartmentNavigationRail(
     baseUIState: BaseUIState,
@@ -182,7 +177,7 @@ fun ApartmentNavigationRail(
         tween(550), label = ""
     )
     val animatePadding = animateDpAsState(
-        targetValue = if (!isRailExpanded) 12.dp else 8.dp,
+        targetValue = if (!isRailExpanded) 12.dp else (-8).dp,
         animationSpec =
         tween(550, easing = FastOutSlowInEasing), label = ""
     )
@@ -242,14 +237,14 @@ fun ApartmentNavigationRail(
         currentWidth = railWidth
     ) {
         Column(modifier = Modifier
-            .padding(horizontal = 12.dp)
+            .fillMaxWidth()
             .alpha(alpha = alpha)
             .heightIn(max = height)
-            .background(color = MaterialTheme.colorScheme.surfaceContainer)
         )
         {
             Row(modifier = Modifier
                 .height(42.dp)
+                .fillMaxWidth()
                 .clickable {
                     showApartmentList = !showApartmentList
                 },
@@ -257,14 +252,14 @@ fun ApartmentNavigationRail(
             ) {
                 Text(
                     modifier = Modifier
-                        .weight(1f),
-//                        .padding(start = 14.dp),
+                        .weight(1f)
+                        .padding(start = 14.dp),
                     text = stringResource(id = R.string.list_apartment),
                     style = MaterialTheme.typography.titleMedium,
                 )
                 Icon(
                     modifier = Modifier
-//                        .padding(end = 14.dp)
+                        .padding(end = 14.dp)
                         .rotate(rotationIcon),
                     imageVector = Icons.Default.ExpandMore,
                     contentDescription = null,
@@ -276,13 +271,11 @@ fun ApartmentNavigationRail(
                 enter =  expandVertically(tween(350 , easing = LinearOutSlowInEasing)),
                 exit = shrinkVertically(tween(250 , easing = LinearOutSlowInEasing))
             ) {
-                    ApartmentList(
-                        apartmentList = baseUIState.apartments,
-                        onClick = navigateToApartment,
-                        currentAddressId = baseUIState.addressId
-                    )
-
-
+                ApartmentList(
+                    apartmentList = baseUIState.apartments,
+                    onClick = navigateToApartment,
+                    currentAddressId = baseUIState.addressId
+                )
             }
             HorizontalDivider()
         }

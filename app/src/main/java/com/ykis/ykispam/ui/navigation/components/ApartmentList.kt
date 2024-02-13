@@ -19,7 +19,7 @@ fun ApartmentList(
     onClick : (Int) ->Unit
 ) {
     LazyColumn(
-//        modifier = modifier.background(color = MaterialTheme.colorScheme.primary),
+        modifier = modifier.background(color = MaterialTheme.colorScheme.surfaceContainerHighest),
     ) {
         item{
             Spacer(modifier = Modifier.height(4.dp))
@@ -30,12 +30,12 @@ fun ApartmentList(
                 it.addressId
             }
         ){
-            apartment->
-                ApartmentListItem(
-                    apartment = apartment,
-                    onClick = onClick,
-                    currentAddressId = currentAddressId
-                )
+                apartment->
+            ApartmentListItem(
+                apartment = apartment,
+                onClick = onClick,
+                currentAddressId = currentAddressId
+            )
         }
         item{
             Spacer(modifier = Modifier.height(4.dp))

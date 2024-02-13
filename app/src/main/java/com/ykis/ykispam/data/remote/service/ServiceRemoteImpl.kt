@@ -3,6 +3,7 @@ package com.ykis.ykispam.data.remote.service
 import com.ykis.ykispam.data.remote.api.ApiService
 import com.ykis.ykispam.data.remote.core.Request
 import com.ykis.ykispam.domain.service.ServiceEntity
+import com.ykis.ykispam.domain.service.request.ServiceParams
 import com.ykis.ykispam.domain.type.Either
 import com.ykis.ykispam.domain.type.Failure
 import javax.inject.Inject
@@ -37,6 +38,11 @@ class ServiceRemoteImpl @Inject constructor(
             it.services
         }
     }
+
+    override suspend fun newGetFlatServices(params: ServiceParams): List<ServiceEntity> {
+        TODO("Not yet implemented")
+    }
+
 
 
     private fun createGetFlatServiceMap(

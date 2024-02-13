@@ -3,7 +3,6 @@ package com.ykis.ykispam.ui.navigation.components
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -19,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
@@ -39,10 +37,10 @@ fun ApartmentListItem(
     )
     Row(
         modifier = modifier
-            .background(color = MaterialTheme.colorScheme.surfaceContainer)
+            .padding(horizontal = 16.dp)
             .border(
                 width = borderWidth,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.extendedColor.selectedElement.color,
                 shape = MaterialTheme.shapes.extraSmall
             )
             .height(36.dp)
@@ -53,7 +51,7 @@ fun ApartmentListItem(
         verticalAlignment = Alignment.CenterVertically,
     ){
         Icon(
-            modifier = Modifier.padding(start = 16.dp, end = 8.dp),
+            modifier = Modifier.padding(horizontal = 8.dp),
             imageVector = Icons.Default.Home,
             contentDescription = null
         )
