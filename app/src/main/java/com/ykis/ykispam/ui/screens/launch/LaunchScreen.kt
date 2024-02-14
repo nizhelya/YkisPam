@@ -1,5 +1,8 @@
 package com.ykis.ykispam.ui.screens.launch
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,7 +45,11 @@ fun LaunchScreen(
                 viewModel.onAppStart(isUserSignedOut, openAndPopUp,restartApp)
             }
         } else {
-            CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+            AnimatedVisibility(visible = true,
+                enter = fadeIn(tween(delayMillis = 250))) {
+                CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+            }
+
         }
     }
     LaunchedEffect(key1 = isUserSignedOut) {

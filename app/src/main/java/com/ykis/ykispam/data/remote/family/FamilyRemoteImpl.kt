@@ -3,8 +3,11 @@ package com.ykis.ykispam.data.remote.family
 import com.ykis.ykispam.data.remote.core.Request
 import com.ykis.ykispam.data.remote.api.ApiService
 import com.ykis.ykispam.domain.family.FamilyEntity
+import com.ykis.ykispam.domain.family.request.FamilyParams
 import com.ykis.ykispam.domain.type.Either
 import com.ykis.ykispam.domain.type.Failure
+import retrofit2.await
+import retrofit2.awaitResponse
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,7 +18,7 @@ class FamilyRemoteImpl @Inject constructor(
 ) : FamilyRemote {
 
 
-    private fun createGetFamilyFromFlatMap(
+    private fun createGetFamilyListMap(
         addressId: Int,
         uid: String
     ): Map<String, String> {
@@ -30,8 +33,8 @@ class FamilyRemoteImpl @Inject constructor(
         uid: String
     ): Either<Failure, List<FamilyEntity>> {
         return request.make(
-            apiService.getFamilyFromFlat(
-                createGetFamilyFromFlatMap(
+            apiService.getFamilyList(
+                createGetFamilyListMap(
                     addressId,
                     uid
                 )
@@ -40,4 +43,14 @@ class FamilyRemoteImpl @Inject constructor(
             it.family
         }
     }
+
+    override suspend fun getFamilyList(params: FamilyParams): List<FamilyEntity> {
+       return apiService.getFamilyList(
+           createGetFamilyListMap(
+               addressId = params.addressId,
+               uid = params.uid
+           )
+       ).await().family
+    }
+
 }

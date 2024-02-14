@@ -185,16 +185,14 @@ object AppModule {
     @Singleton
     @Provides
     fun provideFamilyRepository(
-        familyCache: FamilyCache,
         familyRemote: FamilyRemote,
-        userCache: UserCache
     ): FamilyRepository {
-        return FamilyRepositoryImpl(familyCache , familyRemote, userCache )
+        return FamilyRepositoryImpl( familyRemote )
     }
 
     @Singleton
     @Provides
-    fun provideNewServiceRepository(
+    fun provideServiceRepository(
         serviceRemote: ServiceRemote,
     ): ServiceRepository {
         return ServiceRepositoryImpl(api = serviceRemote )

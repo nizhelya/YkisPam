@@ -75,10 +75,7 @@ fun DetailContent(
                 )
 
                 ContentDetail.FAMILY -> FamilyContent(
-                    contentType = contentType,
-                    contentDetail = contentDetail,
                     baseUIState = baseUIState,
-                    onBackPressed = onBackPressed
                 )
 
                 ContentDetail.OSBB -> ServicesContent(

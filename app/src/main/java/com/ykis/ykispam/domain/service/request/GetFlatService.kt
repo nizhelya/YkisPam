@@ -35,10 +35,9 @@ class GetFlatServices @Inject constructor(
                 year = params.year,
                 service = params.service,
                 total = params.total,
-                needFetch = params.needFetch
             ))
+            delay(60)
             database.serviceDao().insertService(response)
-            delay(250)
             emit(Resource.Success(response))
         }catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "Unexpected error!"))

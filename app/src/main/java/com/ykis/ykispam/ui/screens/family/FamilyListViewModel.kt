@@ -1,54 +1,44 @@
 package com.ykis.ykispam.ui.screens.family
 
+import androidx.lifecycle.viewModelScope
+import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.ui.BaseViewModel
 import com.ykis.ykispam.firebase.service.repo.LogService
-import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.domain.family.FamilyEntity
-import com.ykis.ykispam.domain.family.request.BooleanInt
-import com.ykis.ykispam.domain.family.request.GetFamilyFromFlat
+import com.ykis.ykispam.domain.family.request.FamilyParams
+import com.ykis.ykispam.domain.family.request.GetFamilyList
+import com.ykis.ykispam.ui.screens.service.ServiceState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
 class FamilyListViewModel @Inject constructor(
-    private val getFamilyFromFlat: GetFamilyFromFlat,
+    private val getFamilyListUseCase: GetFamilyList,
     private val logService: LogService,
 ) : BaseViewModel(logService) {
 
-    private val _apartment = MutableStateFlow(ApartmentEntity())
-    val apartment: StateFlow<ApartmentEntity> get() = _apartment.asStateFlow()
+    private val _state = MutableStateFlow<FamilyState>(FamilyState())
+    val state : StateFlow<FamilyState> = _state.asStateFlow()
 
-    private val _family = MutableStateFlow<List<FamilyEntity>>(emptyList())
-    val family : StateFlow<List<FamilyEntity>> = _family.asStateFlow()
-
-//    var contactUiState = mutableStateOf(ApartmentEntity())
-//        private set
-
-    fun getFamily(addressId:Int , needFetch: Boolean = false) {
-        getFamilyFromFlat(BooleanInt(int = addressId , needFetch = needFetch)) { it ->
-            it.either(::handleFailure) {
-                handleFamily(
-                    it, !needFetch ,addressId
-                )
+    fun getFamilyList(uid:String, addressId:Int) {
+        this.getFamilyListUseCase(FamilyParams(uid , addressId)).onEach {
+                result->
+            when(result){
+                is Resource.Success -> {
+                    this._state.value = FamilyState(familyList = result.data ?: emptyList() , isLoading = false)
+                }
+                is Resource.Error -> {
+                    this._state.value = FamilyState(error = result.message ?: "Unexpected error!")
+                }
+                is Resource.Loading -> {
+                    this._state.value = FamilyState(isLoading = true)
+                }
             }
-        }
+        }.launchIn(this.viewModelScope)
     }
-    private fun handleFamily(families: List<FamilyEntity>, fromCache: Boolean, addressId: Int) {
-        _family.value = families
-        updateProgress(false)
-
-        if (fromCache) {
-            updateProgress(true)
-            getFamily(addressId, true)
-        }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        getFamilyFromFlat.unsubscribe()
-    }
-
 }

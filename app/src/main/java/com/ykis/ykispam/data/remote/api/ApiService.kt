@@ -104,7 +104,7 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST(GET_FAMILY)
-    fun getFamilyFromFlat(@FieldMap params: Map<String, String>): Call<GetFamilyResponse>
+    fun getFamilyList(@FieldMap params: Map<String, String>): Call<GetFamilyResponse>
 
     @FormUrlEncoded
     @POST(CHECK_ADD_FLAT)

@@ -11,34 +11,14 @@ import com.ykis.ykispam.domain.type.flatMap
 import com.ykis.ykispam.domain.type.map
 import com.ykis.ykispam.domain.type.onNext
 import com.ykis.ykispam.data.remote.family.FamilyRemote
+import com.ykis.ykispam.domain.family.request.FamilyParams
 import javax.inject.Inject
 
 class FamilyRepositoryImpl @Inject constructor(
-    private val familyCache: FamilyCache,
     private val familyRemote: FamilyRemote,
-    private val userCache: UserCache
 ) : FamilyRepository {
-    override fun getFamilyFromFlat(params: BooleanInt): Either<Failure, List<FamilyEntity>> {
-        return userCache.getCurrentUser()
-            .flatMap {
-                return@flatMap if (params.needFetch) {
-                    familyRemote.getFamilyFromFlat(params.int, it.uid)
-                } else {
-                    Either.Right(
-                        familyCache.getFamilyFromFlat(params.int)
-                    )
-                }
-            }
-            .map { it ->
-                it.sortedBy {
-                    it.lastname
-                }
-            }
-            .onNext {
-                it.map {
-                    familyCache.addFamilyByUser(listOf(it))
-                }
-            }
+    override suspend fun getFamilyList(params: FamilyParams): List<FamilyEntity> {
+        return familyRemote.getFamilyList(params)
     }
 
 }

@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
-import com.ykis.ykispam.ui.screens.service.ServiceState
 
 @HiltViewModel
 class ServiceViewModel @Inject constructor(
@@ -25,7 +24,7 @@ class ServiceViewModel @Inject constructor(
     val state: StateFlow<ServiceState> = _state.asStateFlow()
 
 
-     fun newGetDetailService(params: ServiceParams){
+     fun getDetailService(params: ServiceParams){
         this.getFlatServiceUseCase(
             params = params
         ).onEach {

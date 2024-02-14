@@ -17,7 +17,6 @@
 package com.ykis.ykispam.ui.screens.service
 
 import android.util.Log
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
@@ -56,7 +55,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -101,7 +99,7 @@ fun ServicesContent(
 
     LaunchedEffect(key1 = selectedChip) {
         baseUIState.uid?.let {
-            viewModel.newGetDetailService(
+            viewModel.getDetailService(
                 params = ServiceParams(
                     uid = it,
                     addressId = baseUIState.apartment.addressId,
@@ -115,7 +113,6 @@ fun ServicesContent(
                 },
                 year = selectedChip,
                 total = 0,
-                    needFetch = true
                 )
             )
         }
@@ -264,14 +261,15 @@ fun ServiceDetailContent(
             androidx.compose.animation.AnimatedVisibility(
                 modifier = Modifier.align(Alignment.Center),
                 visible = state.isLoading,
-                exit = fadeOut()
+                exit = fadeOut(),
+                enter = fadeIn(tween(delayMillis = 150))
             ) {
                 CircularProgressIndicator()
             }
             androidx.compose.animation.AnimatedVisibility(
                 visible = !state.isLoading,
-                enter = fadeIn(tween(500)),
-                exit = fadeOut()
+                enter = fadeIn(tween(300)),
+                exit = fadeOut(tween(100))
             ) {
                 ListServiceDetails(listServiceEntity = serviceEntyties , isLoading = state.isLoading)
             }

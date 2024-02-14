@@ -88,6 +88,8 @@ class ApartmentViewModel @Inject constructor(
     private val _showError = MutableStateFlow(false)
     val showError :StateFlow<Boolean> = _showError.asStateFlow()
 
+    private val _showSplash = MutableStateFlow(true)
+    val showSplash = _showSplash.asStateFlow()
 
     fun getAuthState() = firebaseService.getAuthState(viewModelScope)
 

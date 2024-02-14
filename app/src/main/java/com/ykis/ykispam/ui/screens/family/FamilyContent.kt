@@ -16,21 +16,26 @@
 
 package com.ykis.ykispam.ui.screens.family
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -57,49 +62,50 @@ import com.ykis.ykispam.ui.navigation.ContentType
 @Composable
 fun FamilyContent(
     modifier: Modifier = Modifier,
-    contentType: ContentType,
-    contentDetail: ContentDetail,
     baseUIState: BaseUIState,
-    onBackPressed: () -> Unit,
     viewModel: FamilyListViewModel = hiltViewModel(),
-
-    ) {
-
+) {
     LaunchedEffect(key1 = baseUIState.apartment) {
-        viewModel.getFamily(baseUIState.apartment.addressId)
+        viewModel.getFamilyList(baseUIState.uid ?: "", baseUIState.addressId)
     }
 
-    val family by viewModel.family.collectAsState()
-    // TODO: delete rememberLazyState
-    val familyLazyListState = rememberLazyListState()
+    val state by viewModel.state.collectAsState()
 
-    Column(
+    Box(
         modifier = Modifier
-            .padding(4.dp)
-            .fillMaxWidth()
-            .fillMaxHeight(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally,
+            .padding(horizontal = 4.dp)
+            .fillMaxSize()
     ) {
-
-        FamilyList(
-            family = family,
-            familyLazyListState = familyLazyListState,
-            modifier = modifier,
-        )
+        AnimatedVisibility(
+            visible = !state.isLoading,
+            enter = fadeIn(tween(200)),
+            exit = fadeOut(tween(100))
+        ) {
+            FamilyList(
+                familyList = state.familyList,
+                modifier = modifier,
+            )
+        }
+        AnimatedVisibility(
+            modifier = Modifier.align(Alignment.Center),
+            visible = state.isLoading,
+            exit = fadeOut(),
+            enter = fadeIn(tween(delayMillis = 150))
+        ) {
+            CircularProgressIndicator()
+        }
     }
 }
 
 @Composable
 fun FamilyList(
-    family: List<FamilyEntity>,
-    familyLazyListState: LazyListState,
+    familyList: List<FamilyEntity>,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(modifier = modifier, state = familyLazyListState) {
+    LazyColumn(modifier = modifier) {
 
-        items(items = family, key = { it.recId }) { people ->
-            FamilyListItem(people = people)
+        items(items = familyList, key = { it.recId }) { person ->
+            FamilyListItem(person = person)
         }
     }
 }
@@ -107,7 +113,7 @@ fun FamilyList(
 @Composable
 fun FamilyListItem(
     modifier: Modifier = Modifier,
-    people: FamilyEntity,
+    person: FamilyEntity,
 
     ) {
     Card(
@@ -142,12 +148,12 @@ fun FamilyListItem(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = people.surname + " " + people.fistname,
+                        text = person.surname + " " + person.fistname,
                         style = MaterialTheme.typography.bodyLarge
                     )
 
                     Text(
-                        text = people.lastname,
+                        text = person.lastname,
                         style = MaterialTheme.typography.bodyLarge,
                     )
                 }
@@ -176,7 +182,7 @@ fun FamilyListItem(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = people.rodstvo,
+                        text = person.rodstvo,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
@@ -204,7 +210,7 @@ fun FamilyListItem(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = people.born,
+                        text = person.born,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
@@ -232,7 +238,7 @@ fun FamilyListItem(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = people.document,
+                        text = person.document,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
@@ -260,7 +266,7 @@ fun FamilyListItem(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = people.inn,
+                        text = person.inn,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
