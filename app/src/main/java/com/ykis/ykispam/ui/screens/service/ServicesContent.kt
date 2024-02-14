@@ -17,9 +17,13 @@
 package com.ykis.ykispam.ui.screens.service
 
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
@@ -44,6 +48,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
@@ -71,10 +76,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.R
 import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.domain.service.ServiceEntity
+import com.ykis.ykispam.domain.service.request.ServiceParams
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -94,6 +101,23 @@ fun ServicesContent(
 
     LaunchedEffect(key1 = selectedChip) {
         baseUIState.uid?.let {
+            viewModel.newGetDetailService(
+                params = ServiceParams(
+                    uid = it,
+                    addressId = baseUIState.apartment.addressId,
+                    houseId = baseUIState.apartment.houseId,
+                    service = when (contentDetail) {
+                    ContentDetail.OSBB -> 4.toByte()
+                    ContentDetail.WATER_SERVICE -> 1.toByte()
+                    ContentDetail.WARM_SERVICE -> 2.toByte()
+                    ContentDetail.GARBAGE_SERVICE -> 3.toByte()
+                    else -> 4.toByte()
+                },
+                year = selectedChip,
+                total = 0,
+                    needFetch = true
+                )
+            )
 //            viewModel.getDetailService(
 //                uid = it,
 //                addressId = baseUIState.apartment.addressId,
@@ -110,11 +134,12 @@ fun ServicesContent(
 //            )
         }
     }
-    val serviceDetail by viewModel.serviceDetail.collectAsState()
+    val serviceDetail by viewModel.state.collectAsStateWithLifecycle()
 
     ServiceDetailContent(
+        state = serviceDetail,
         year = year,
-        serviceEntyties = serviceDetail,
+        serviceEntyties = serviceDetail.services,
         onSelectedChanged = { selectedChip = it },
         selectedChip = selectedChip
     )
@@ -214,8 +239,9 @@ fun ServiceDetailItem(
 @Composable
 fun ListServiceDetails(
     listServiceEntity: List<ServiceEntity> = listOf(ServiceEntity(), ServiceEntity()),
+    isLoading : Boolean
 ) {
-    if(listServiceEntity.isEmpty()){
+    if(listServiceEntity.isEmpty() && !isLoading){
         EmptyListScreen()
     }else LazyColumn {
         items(items = listServiceEntity) { serviceDetail ->
@@ -226,6 +252,7 @@ fun ListServiceDetails(
 
 @Composable
 fun ServiceDetailContent(
+    state : ServiceState,
     year:String,
     serviceEntyties: List<ServiceEntity>,
     selectedChip: String,
@@ -243,12 +270,27 @@ fun ServiceDetailContent(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
-
         GroupFilterChip(
             list = years, selectedChip = selectedChip,
             onSelectedChanged = onSelectedChanged
         )
-        ListServiceDetails(listServiceEntity = serviceEntyties)
+        Box(modifier = Modifier.fillMaxSize()){
+            androidx.compose.animation.AnimatedVisibility(
+                modifier = Modifier.align(Alignment.Center),
+                visible = state.isLoading,
+                exit = fadeOut()
+            ) {
+                CircularProgressIndicator()
+            }
+            androidx.compose.animation.AnimatedVisibility(
+                visible = !state.isLoading,
+                enter = fadeIn(tween(500)),
+                exit = fadeOut()
+            ) {
+                ListServiceDetails(listServiceEntity = serviceEntyties , isLoading = state.isLoading)
+            }
+        }
+
     }
 }
 

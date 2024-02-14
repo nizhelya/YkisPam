@@ -7,6 +7,7 @@ import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
 
+// TODO: remove this 
 @Singleton
 class Request @Inject constructor(private val networkHandler: NetworkHandler) {
 

@@ -12,7 +12,7 @@ interface ServiceDao {
     fun insertService(service: List<ServiceEntity>)
 
     @Query("select * from service where address_id = :addressId and service = :service order by data DESC")
-    fun getServiceFromFlat(addressId: Int, service: String): List<ServiceEntity>
+    fun getServiceDetail(addressId: Int, service: String): List<ServiceEntity>
 
     @Query("delete from service")
     fun deleteAllService()

@@ -11,8 +11,8 @@ import com.ykis.ykispam.data.ApartmentRepositoryImpl
 import com.ykis.ykispam.data.FamilyRepositoryImpl
 import com.ykis.ykispam.data.HeatMeterRepositoryImpl
 import com.ykis.ykispam.data.HeatReadingRepositoryImpl
-import com.ykis.ykispam.data.NewServiceRepositoryImpl
 import com.ykis.ykispam.data.PaymentRepositoryImpl
+import com.ykis.ykispam.data.ServiceRepositoryImpl
 import com.ykis.ykispam.data.WaterMeterRepositoryImpl
 import com.ykis.ykispam.data.WaterReadingRepositoryImpl
 import com.ykis.ykispam.data.cache.apartment.ApartmentCache
@@ -192,24 +192,12 @@ object AppModule {
         return FamilyRepositoryImpl(familyCache , familyRemote, userCache )
     }
 
-//    @Singleton
-//    @Provides
-//    fun provideServiceRepository(
-//        serviceCache: ServiceCache,
-//        serviceRemote: ServiceRemote,
-//        userCache: UserCache
-//    ): ServiceRepository {
-//        return ServiceRepositoryImpl(serviceCache , serviceRemote, userCache )
-//    }
-
     @Singleton
     @Provides
     fun provideNewServiceRepository(
-//        serviceCache: ServiceCache,
         serviceRemote: ServiceRemote,
-//        userCache: UserCache
     ): ServiceRepository {
-        return NewServiceRepositoryImpl(api = serviceRemote )
+        return ServiceRepositoryImpl(api = serviceRemote )
     }
 
     @Singleton

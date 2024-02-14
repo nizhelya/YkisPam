@@ -6,45 +6,26 @@ import com.ykis.ykispam.domain.service.ServiceEntity
 import com.ykis.ykispam.domain.service.request.ServiceParams
 import com.ykis.ykispam.domain.type.Either
 import com.ykis.ykispam.domain.type.Failure
+import retrofit2.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ServiceRemoteImpl @Inject constructor(
-    private val request: Request,
     private val apiService: ApiService
 ) : ServiceRemote {
-    override fun getFlatServices(
-        uid: String,
-        addressId: Int,
-        houseId: Int,
-        year: String,
-        service: Byte,
-        total: Byte,
-    ): Either<Failure, List<ServiceEntity>> {
-        return request.make(
-            apiService.getFlatService(
+    override suspend fun getFlatDetailServices(params: ServiceParams): List<ServiceEntity> {
+        return apiService.getFlatService(
                 createGetFlatServiceMap(
-                    uid,
-                    addressId,
-                    houseId,
-                    year,
-                    service,
-                    total,
+                    params.uid,
+                    params.addressId,
+                    params.houseId,
+                    params.year,
+                    params.service,
+                    params.total
                 )
-            )
-        )
-        {
-            it.services
-        }
+            ).await().services
     }
-
-    override suspend fun newGetFlatServices(params: ServiceParams): List<ServiceEntity> {
-        TODO("Not yet implemented")
-    }
-
-
-
     private fun createGetFlatServiceMap(
         uid: String,
         addressId: Int,
