@@ -118,20 +118,6 @@ fun ServicesContent(
                     needFetch = true
                 )
             )
-//            viewModel.getDetailService(
-//                uid = it,
-//                addressId = baseUIState.apartment.addressId,
-//                houseId = baseUIState.apartment.houseId,
-//                service = when (contentDetail) {
-//                    ContentDetail.OSBB -> 4.toByte()
-//                    ContentDetail.WATER_SERVICE -> 1.toByte()
-//                    ContentDetail.WARM_SERVICE -> 2.toByte()
-//                    ContentDetail.GARBAGE_SERVICE -> 3.toByte()
-//                    else -> 4.toByte()
-//                },
-//                year = selectedChip,
-//                total = 0
-//            )
         }
     }
     val serviceDetail by viewModel.state.collectAsStateWithLifecycle()

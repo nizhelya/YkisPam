@@ -46,7 +46,6 @@ class ApartmentRepositoryImpl @Inject constructor(
                             apartmentCache.deleteAllApartments()
                         }
                         .onNext {
-
                             familyCache.deleteAllFamily()
                             serviceCache.deleteAllService()
                             paymentCache.deleteAllPayment()

@@ -43,7 +43,6 @@ class GetFlatServices @Inject constructor(
         }catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "Unexpected error!"))
         } catch (e: IOException) {
-            // Load cache data if there is not internet connection
             val serviceDetailList = database.serviceDao().getServiceDetail(
                 addressId = params.addressId,
                 service =  when (params.service) {
@@ -51,8 +50,9 @@ class GetFlatServices @Inject constructor(
                     2.toByte() -> "teplo"
                     3.toByte() -> "tbo"
                     else -> "kv"
-                }
-            ) // TODO move this to the repository
+                },
+                year = params.year
+            )
             if (serviceDetailList.isNotEmpty()) {
                 emit(Resource.Success(serviceDetailList))
                 return@flow

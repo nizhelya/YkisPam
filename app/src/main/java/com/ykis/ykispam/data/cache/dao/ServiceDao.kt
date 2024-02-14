@@ -11,8 +11,8 @@ interface ServiceDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertService(service: List<ServiceEntity>)
 
-    @Query("select * from service where address_id = :addressId and service = :service order by data DESC")
-    fun getServiceDetail(addressId: Int, service: String): List<ServiceEntity>
+    @Query("select * from service where address_id = :addressId and service = :service and strftime('%Y', data) = :year order by data DESC")
+    fun getServiceDetail(addressId: Int, service: String , year:String): List<ServiceEntity>
 
     @Query("delete from service")
     fun deleteAllService()

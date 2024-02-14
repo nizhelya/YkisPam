@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.ui.BaseViewModel
 import com.ykis.ykispam.firebase.service.repo.LogService
-import com.ykis.ykispam.domain.service.ServiceEntity
 import com.ykis.ykispam.domain.service.request.GetFlatServices
 import com.ykis.ykispam.domain.service.request.ServiceParams
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,12 +13,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
+import com.ykis.ykispam.ui.screens.service.ServiceState
 
-data class ServiceState(
-    val services: List<ServiceEntity> = emptyList(),
-    val error : String = "",
-    val isLoading:Boolean = true
-)
 @HiltViewModel
 class ServiceViewModel @Inject constructor(
     private val getFlatServiceUseCase: GetFlatServices,
