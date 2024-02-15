@@ -1,20 +1,16 @@
 
 package com.ykis.ykispam.ui.screens.bti
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.core.ext.isValidEmail
 import com.ykis.ykispam.core.snackbar.SnackbarManager
-import com.ykis.ykispam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.data.remote.core.NetworkHandler
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.domain.apartment.request.GetApartmentList
 import com.ykis.ykispam.domain.apartment.request.UpdateBti
 import com.ykis.ykispam.firebase.service.repo.LogService
-import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BtiViewModel @Inject constructor(
     private val getApartmentListUseCase: GetApartmentList,
-    private val updateBtiUseCase: UpdateBti,
+    private val updateBti: UpdateBti,
     private val networkHandler: NetworkHandler,
     private val logService: LogService,
 ) : BaseViewModel(logService) {
@@ -52,16 +48,6 @@ class BtiViewModel @Inject constructor(
         _contactUiState.value = _contactUiState.value.copy(phone = newValue)
     }
 
-    private val _apartment = MutableLiveData<ApartmentEntity>()
-    val apartment: LiveData<ApartmentEntity> get() = _apartment
-
-
-//    private val _apartments = MutableLiveData<List<ApartmentEntity>>()
-////    val apartments: LiveData<List<ApartmentEntity>> get() = _apartments
-
-
-    private val _resultText = MutableLiveData<GetSimpleResponse>()
-
     fun initialize(apartmentEntity: ApartmentEntity) {
         _contactUiState.value = _contactUiState.value.copy(
             addressId = apartmentEntity.addressId,
@@ -70,67 +56,30 @@ class BtiViewModel @Inject constructor(
             phone = apartmentEntity.phone,
         )
     }
-
-    fun getApartmentList(){
-//        this.getApartmentListUseCase(uiState.value.uid ?: "").onEach {
-//                result->
-//            when(result){
-//                is Resource.Success -> {
-//                    this._uiState.value = BaseUIState(apartments = result.data ?: emptyList() , isLoading = false)
-//                }
-//                is Resource.Error -> {
-//                    this._uiState.value = BaseUIState(error = result.message ?: "Unexpected error!")
-//                }
-//                is Resource.Loading -> {
-//                    this._uiState.value = BaseUIState(isLoading = true)
-//                }
-//            }
-//        }.launchIn(this.viewModelScope)
-    }
-
-
-    fun onUpdateBti() {
+    fun onUpdateBti(uid : String) {
         if (!email.isValidEmail()) {
             SnackbarManager.showMessage(R.string.email_error)
             return
         }
-
-        launchCatching {
-            if (isConnected && networkType != 0) {
-                updateBtiUseCase(
-                    ApartmentEntity(
-                        addressId = _contactUiState.value.addressId,
-                        address = _contactUiState.value.address,
-                        phone = _contactUiState.value.phone,
-                        email = _contactUiState.value.email
-                    )
-                ) { it ->
-                    it.either(::handleFailure) {
-                        handleResultText(
-                            it, _resultText
-                        )
-                    }
-
+        this.updateBti(
+            ApartmentEntity(
+                addressId = _contactUiState.value.addressId,
+                address = _contactUiState.value.address,
+                phone = _contactUiState.value.phone,
+                email = _contactUiState.value.email,
+                uid = uid
+            )
+        ).onEach {
+                result->
+            when(result){
+                is Resource.Success -> {
+                    SnackbarManager.showMessage(R.string.updated)
                 }
-            } else {
-                SnackbarManager.showMessage(R.string.error_server_appartment)
-//                getBtiFromCache(_contactUiState.value.addressId)
+                is Resource.Error -> {
+                    SnackbarManager.showMessage(result.resourceMessage)
+                }
+                is Resource.Loading -> {}
             }
-
-        }
-    }
-
-    private fun handleResultText(
-        response: GetSimpleResponse,
-        result: MutableLiveData<GetSimpleResponse>
-    ) {
-        result.value = response
-        if (result.value!!.success == 1) {
-            SnackbarManager.showMessage(R.string.updated)
-            getApartmentList()
-        } else {
-            SnackbarManager.showMessage(R.string.error_update)
-//            getBtiFromCache(_contactUiState.value.addressId)
-        }
+        }.launchIn(this.viewModelScope)
     }
 }

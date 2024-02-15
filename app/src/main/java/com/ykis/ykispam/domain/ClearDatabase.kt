@@ -1,5 +1,6 @@
 package com.ykis.ykispam.domain
 
+import android.util.Log
 import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.data.cache.database.AppDatabase
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
@@ -13,7 +14,6 @@ class ClearDatabase @Inject constructor(
 ){
     operator fun invoke () : Flow<Resource<String>> = flow{
         try{
-            emit(Resource.Loading())
             database.familyDao().deleteAllFamily()
             database.serviceDao().deleteAllService()
             database.paymentDao().deleteAllPayment()
@@ -21,9 +21,9 @@ class ClearDatabase @Inject constructor(
             database.heatMeterDao().deleteAllHeatMeter()
             database.waterReadingDao().deleteAllWaterReadings()
             database.heatReadingDao().deleteAllHeatReadings()
-            emit(Resource.Success("The database was cleared successfully"))
+            Log.d("database","The database was cleared")
         }catch (e:Exception){
-            emit(Resource.Error("Error. Try again"))
+            Log.d("database", "The database wasn't cleared ")
         }
     }
 }

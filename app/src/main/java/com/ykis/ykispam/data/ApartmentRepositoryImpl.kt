@@ -18,56 +18,14 @@ import com.ykis.ykispam.domain.type.map
 import com.ykis.ykispam.domain.type.onNext
 import com.ykis.ykispam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.data.remote.appartment.ApartmentRemote
+import com.ykis.ykispam.data.remote.core.BaseResponse
 import javax.inject.Inject
 
 
 class ApartmentRepositoryImpl @Inject constructor(
     private val apartmentRemote: ApartmentRemote,
-    private val apartmentCache: ApartmentCache,
-    private val familyCache: FamilyCache,
-    private val serviceCache: ServiceCache,
-    private val paymentCache: PaymentCache,
-    private val waterMeterCache: WaterMeterCache,
-    private val heatMeterCache: HeatMeterCache,
-    private val waterReadingCache: WaterReadingCache,
-    private val heatReadingCache: HeatReadingCache,
     private val userCache: UserCache
 ) : ApartmentRepository {
-    private val addressIdList = mutableListOf<Int>()
-
-//    override suspend fun getApartmentsByUser(needFetch: Boolean): Either<Failure, List<ApartmentEntity>> {
-//        return userCache.getCurrentUser()
-//            .flatMap { it ->
-//                if (needFetch) {
-//                    return@flatMap apartmentRemote.getApartmentsByUser(it.uid)
-//
-//                        .map { it.sortedBy { it.address } }
-//                        .onNext {
-//                            apartmentCache.deleteAllApartments()
-//                        }
-//                        .onNext {
-//                            familyCache.deleteAllFamily()
-//                            serviceCache.deleteAllService()
-//                            paymentCache.deleteAllPayment()
-//                            waterMeterCache.deleteAllWaterMeter()
-//                            heatMeterCache.deleteAllHeatMeter()
-//                            waterReadingCache.deleteAllWaterReading()
-//                            heatReadingCache.deleteAllHeatReading()
-////                            addressIdList.clear()
-//                        }
-//                        .onNext {
-//                            it.map {
-//                                apartmentCache.addApartmentByUser(listOf(it))
-//                            }
-//                        }
-//                } else {
-//                    return@flatMap Either.Right(apartmentCache.getApartmentsByUser())
-//                        .map { it.sortedBy { it.address } }
-//                }
-//            }
-//    }
-
-
     override fun deleteFlatByUser(
         addressId: Int
     ): Either<Failure, GetSimpleResponse> {
@@ -103,5 +61,9 @@ class ApartmentRepositoryImpl @Inject constructor(
 
     override suspend fun getApartmentList(uid: String): List<ApartmentEntity> {
         return apartmentRemote.getApartmentList(uid)
+    }
+
+    override suspend fun newUpdateBti(params : ApartmentEntity): BaseResponse {
+        return apartmentRemote.newUpdateBti(params)
     }
 }

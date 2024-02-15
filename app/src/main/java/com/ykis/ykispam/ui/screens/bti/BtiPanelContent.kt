@@ -63,7 +63,7 @@ fun BtiPanelContent(
         onBackPressed = onBackPressed,
         onEmailChange = viewModel::onEmailChange,
         onPhoneChange = viewModel::onPhoneChange,
-        onUpdateBti = { viewModel.onUpdateBti() },
+        onUpdateBti = { baseUIState.uid?.let { viewModel.onUpdateBti(it) } },
 
         )
 }

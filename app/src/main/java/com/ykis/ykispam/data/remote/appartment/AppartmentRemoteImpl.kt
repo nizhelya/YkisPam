@@ -3,6 +3,7 @@ package com.ykis.ykispam.data.remote.appartment
 import com.ykis.ykispam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.data.remote.core.Request
 import com.ykis.ykispam.data.remote.api.ApiService
+import com.ykis.ykispam.data.remote.core.BaseResponse
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.domain.type.Either
 import com.ykis.ykispam.domain.type.Failure
@@ -33,7 +34,7 @@ class ApartmentRemoteImpl @Inject constructor(
     ): Either<Failure, GetSimpleResponse> {
         return request.make(
             apiService.deleteFlatByUser(
-                createRequestByAddressId(addressId,uid)
+                createRequestByAddressId(addressId, uid)
             )
         ) {
             it
@@ -67,7 +68,8 @@ class ApartmentRemoteImpl @Inject constructor(
         return request.make(
             apiService.getFlatById(
                 createRequestByAddressId(
-                    addressId,uid)
+                    addressId, uid
+                )
             )
         ) {
             it.apartments[0]
@@ -79,7 +81,19 @@ class ApartmentRemoteImpl @Inject constructor(
             createGetApartmentListMap(
                 uid
             )
+            // TODO: read about Call class
         ).await().apartments
+    }
+
+    override suspend fun newUpdateBti(params: ApartmentEntity): BaseResponse {
+        return apiService.updateBti(
+            createUpdateBti(
+                addressId = params.addressId,
+                phone = params.phone,
+                email = params.email,
+                uid = params.uid ?: ""
+            )
+        ).await()
     }
 
     private fun createGetApartmentListMap(uid: String): Map<String, String> {

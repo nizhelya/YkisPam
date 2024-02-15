@@ -1,6 +1,7 @@
 package com.ykis.ykispam.domain.apartment
 
 import com.ykis.ykispam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.data.remote.core.BaseResponse
 import com.ykis.ykispam.domain.type.Either
 import com.ykis.ykispam.domain.type.Failure
 
@@ -11,4 +12,5 @@ interface ApartmentRepository {
     fun getFlatById(addressId: Int): Either<Failure, ApartmentEntity>
 
     suspend fun getApartmentList(uid : String) : List<ApartmentEntity>
+    suspend fun newUpdateBti(params : ApartmentEntity) : BaseResponse
 }

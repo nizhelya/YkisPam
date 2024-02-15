@@ -161,17 +161,8 @@ object AppModule {
     fun provideApartmentRepository(
         apartmentRemote: ApartmentRemote,
         userCache: UserCache,
-        firebaseService: FirebaseService,
-        familyCache: FamilyCache,
-        serviceCache: ServiceCache,
-        paymentCache: PaymentCache,
-        waterMeterCache: WaterMeterCache,
-        heatMeterCache : HeatMeterCache,
-        waterReadingCache: WaterReadingCache,
-        heatReadingCache: HeatReadingCache,
-        apartmentCache: ApartmentCache
     ): ApartmentRepository {
-        return ApartmentRepositoryImpl(apartmentRemote,apartmentCache, familyCache,serviceCache, paymentCache,waterMeterCache , heatMeterCache,waterReadingCache, heatReadingCache,userCache)
+        return ApartmentRepositoryImpl(apartmentRemote,userCache)
     }
 
     @Singleton
