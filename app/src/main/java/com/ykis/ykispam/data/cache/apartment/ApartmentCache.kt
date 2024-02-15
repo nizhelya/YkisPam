@@ -4,7 +4,7 @@ import com.ykis.ykispam.domain.apartment.ApartmentEntity
 
 
 interface ApartmentCache {
-    fun addApartmentByUser(apartment:List<ApartmentEntity>)
+    fun insertApartmentList(apartment:List<ApartmentEntity>)
     fun getApartmentsByUser():List<ApartmentEntity>
 
     fun deleteAllApartments()

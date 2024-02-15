@@ -11,12 +11,12 @@ class ApartmentCacheImpl @Inject constructor(
 ): ApartmentCache {
 
 
-    override fun addApartmentByUser(apartment: List<ApartmentEntity>) {
-        apartmentDao.addApartmentByUser(apartment)
+    override fun insertApartmentList(apartment: List<ApartmentEntity>) {
+        apartmentDao.insertApartmentList(apartment)
     }
 
     override fun getApartmentsByUser(): List<ApartmentEntity> {
-        return apartmentDao.getApartmentsByUser()
+        return apartmentDao.getApartmentList()
     }
 
 

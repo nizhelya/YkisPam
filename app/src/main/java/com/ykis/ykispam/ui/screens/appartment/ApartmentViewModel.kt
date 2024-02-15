@@ -19,18 +19,9 @@ package com.ykis.ykispam.ui.screens.appartment
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.R
-import com.ykis.ykispam.core.Constants.VERIFY_EMAIL_SCREEN
+import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.core.Response
 import com.ykis.ykispam.core.snackbar.SnackbarManager
-import com.ykis.ykispam.firebase.service.repo.FirebaseService
-import com.ykis.ykispam.firebase.service.repo.LogService
-import com.ykis.ykispam.firebase.service.repo.SignOutResponse
-import com.ykis.ykispam.ui.navigation.ADDRESS_ID
-import com.ykis.ykispam.ui.navigation.APARTMENT_SCREEN
-import com.ykis.ykispam.ui.navigation.ContentDetail
-import com.ykis.ykispam.ui.navigation.ContentType
-import com.ykis.ykispam.ui.navigation.Graph
-import com.ykis.ykispam.ui.navigation.LaunchScreen
 import com.ykis.ykispam.data.cache.apartment.ApartmentCacheImpl
 import com.ykis.ykispam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.data.remote.core.NetworkHandler
@@ -38,19 +29,32 @@ import com.ykis.ykispam.domain.address.AddressEntity
 import com.ykis.ykispam.domain.address.request.AddFlatByUser
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.domain.apartment.request.DeleteFlatByUser
-import com.ykis.ykispam.domain.apartment.request.GetApartments
+import com.ykis.ykispam.domain.apartment.request.GetApartmentList
+import com.ykis.ykispam.firebase.service.repo.FirebaseService
+import com.ykis.ykispam.firebase.service.repo.LogService
+import com.ykis.ykispam.firebase.service.repo.SignOutResponse
+import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.BaseViewModel
+import com.ykis.ykispam.ui.navigation.ADDRESS_ID
+import com.ykis.ykispam.ui.navigation.APARTMENT_SCREEN
+import com.ykis.ykispam.ui.navigation.ContentDetail
+import com.ykis.ykispam.ui.navigation.ContentType
+import com.ykis.ykispam.ui.navigation.Graph
+import com.ykis.ykispam.ui.navigation.LaunchScreen
+import com.ykis.ykispam.ui.navigation.VerifyEmailScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 
 @HiltViewModel
 class ApartmentViewModel @Inject constructor(
     private val firebaseService: FirebaseService,
-    private val getApartmentsUseCase: GetApartments,
+    private val getApartmentList: GetApartmentList,
     private val deleteFlatByUser: DeleteFlatByUser,
     private val addFlatByUser: AddFlatByUser,
     private val apartmentCacheImpl: ApartmentCacheImpl,
@@ -106,7 +110,7 @@ class ApartmentViewModel @Inject constructor(
             if (isEmailVerified) {
                 restartApp(Graph.APARTMENT)
             } else {
-                openAndPopUp(VERIFY_EMAIL_SCREEN, LaunchScreen.route)
+                openAndPopUp(VerifyEmailScreen.route, LaunchScreen.route)
             }
         }
     }
@@ -114,9 +118,10 @@ class ApartmentViewModel @Inject constructor(
 
 
     fun initialize() {
-        if (uid.isNotEmpty()) {
-            observeApartments()
-        }
+//        if (uid.isNotEmpty()) {
+            getApartmentList()
+//            observeApartments()
+//        }
     }
 
     fun closeDetailScreen() {
@@ -128,20 +133,20 @@ class ApartmentViewModel @Inject constructor(
     }
 
     private fun observeApartments() {
-        launchCatching {
+//        launchCatching {
             _uiState.value = _uiState.value.copy(
                 uid = uid,
                 displayName = displayName,
                 email = email,
             )
             if (isConnected && networkType != 0) {
-                getApartmentsByUser( true)
+                getApartmentList()
             } else {
                 SnackbarManager.showMessage(R.string.error_server_appartment)
-                getApartmentsByUser(false)
+                getApartmentList()
             }
 
-        }
+//        }
     }
     fun setApartment(addressId: Int) {
         if (addressId != 0) {
@@ -204,7 +209,7 @@ class ApartmentViewModel @Inject constructor(
                     _uiState.value = _uiState.value.copy(
                         addressId = _resultResponse.value!!.addressId
                     )
-                    getApartmentsByUser(true)
+                    getApartmentList()
                     SnackbarManager.showMessage(R.string.success_add_flat)
                     // TODO: rename fun restartApp
                     restartApp(uiState.value.addressId)
@@ -223,29 +228,21 @@ class ApartmentViewModel @Inject constructor(
         result.value = response
     }
 
-    fun getApartmentsByUser( needFetch: Boolean = true) {
-        getApartmentsUseCase(needFetch) { it ->
-            if (it.isRight) {
-                it.either(::handleFailure) {
-                    handleApartments(it, !needFetch)
+    fun getApartmentList(){
+        this.getApartmentList(uid).onEach {
+                result->
+            when(result){
+                is Resource.Success -> {
+                    this._uiState.value = _uiState.value.copy(apartments = result.data ?: emptyList() , isLoading = false)
                 }
-
+                is Resource.Error -> {
+                    this._uiState.value = _uiState.value.copy(error = result.message ?: "Unexpected error!")
+                }
+                is Resource.Loading -> {
+                    this._uiState.value = _uiState.value.copy(isLoading = true)
+                }
             }
-        }
-    }
-
-    private fun handleApartments(apartments: List<ApartmentEntity>, fromCache: Boolean) {
-        _uiState.value = _uiState.value.copy(
-            isDetailOnlyOpen = false,
-            apartments = apartments
-        )
-        updateProgress(false)
-
-        if (fromCache) {
-            updateProgress(true)
-            getApartmentsByUser(true)
-        }
-        updateProgress(true)
+        }.launchIn(this.viewModelScope)
     }
 
     fun deleteApartment(addressId: Int, restartApp: (String) -> Unit) {

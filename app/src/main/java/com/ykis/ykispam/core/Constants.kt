@@ -8,8 +8,8 @@ object Constants {
     const val SIGN_OUT = "Вийти з аккаунта"
 
     //Screens
-    const val SIGN_UP_SCREEN = "Sign up"
-    const val VERIFY_EMAIL_SCREEN = "Verify email"
+//    const val SIGN_UP_SCREEN = "Sign up"
+//    const val VERIFY_EMAIL_SCREEN = "Verify email"
 
     //Labels
 

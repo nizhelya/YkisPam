@@ -6,6 +6,7 @@ import com.ykis.ykispam.data.remote.api.ApiService
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.domain.type.Either
 import com.ykis.ykispam.domain.type.Failure
+import retrofit2.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,8 +18,8 @@ class ApartmentRemoteImpl @Inject constructor(
 
     override fun getApartmentsByUser(uid: String): Either<Failure, List<ApartmentEntity>> {
         return request.make(
-            apiService.getApartmentsByUser(
-                createGetApartmentsByUserMap(uid)
+            apiService.getApartmentList(
+                createGetApartmentListMap(uid)
             )
         ) {
             it.apartments
@@ -73,7 +74,15 @@ class ApartmentRemoteImpl @Inject constructor(
         }
     }
 
-    private fun createGetApartmentsByUserMap(uid: String): Map<String, String> {
+    override suspend fun getApartmentList(uid: String): List<ApartmentEntity> {
+        return apiService.getApartmentList(
+            createGetApartmentListMap(
+                uid
+            )
+        ).await().apartments
+    }
+
+    private fun createGetApartmentListMap(uid: String): Map<String, String> {
         val map = HashMap<String, String>()
         map[ApiService.UID] = uid
         return map

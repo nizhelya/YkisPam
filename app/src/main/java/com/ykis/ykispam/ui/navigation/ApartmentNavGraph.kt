@@ -1,5 +1,6 @@
 package com.ykis.ykispam.ui.navigation
 
+import android.util.Log
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -57,7 +59,7 @@ fun MainApartmentScreen(
     onLaunch : () -> Unit,
     onDispose : () -> Unit
 ) {
-    val baseUIState by viewModel.uiState.collectAsState()
+    val baseUIState by viewModel.uiState.collectAsStateWithLifecycle()
     val drawerState = DrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -215,9 +217,11 @@ fun ApartmentNavGraph(
         modifier = modifier,
         navController = navController,
         route = Graph.APARTMENT,
-        startDestination = if(baseUIState.apartments.isEmpty()){
+        startDestination =
+        if(baseUIState.apartments.isEmpty()){
             AddApartmentScreen.route
-        }else ApartmentScreen.routeWithArgs
+        }else
+            ApartmentScreen.routeWithArgs
     ) {
         composable(ProfileScreen.route) {
 

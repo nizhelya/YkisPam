@@ -35,37 +35,37 @@ class ApartmentRepositoryImpl @Inject constructor(
 ) : ApartmentRepository {
     private val addressIdList = mutableListOf<Int>()
 
-    override suspend fun getApartmentsByUser(needFetch: Boolean): Either<Failure, List<ApartmentEntity>> {
-        return userCache.getCurrentUser()
-            .flatMap { it ->
-                if (needFetch) {
-                    return@flatMap apartmentRemote.getApartmentsByUser(it.uid)
-
-                        .map { it.sortedBy { it.address } }
-                        .onNext {
-                            apartmentCache.deleteAllApartments()
-                        }
-                        .onNext {
-                            familyCache.deleteAllFamily()
-                            serviceCache.deleteAllService()
-                            paymentCache.deleteAllPayment()
-                            waterMeterCache.deleteAllWaterMeter()
-                            heatMeterCache.deleteAllHeatMeter()
-                            waterReadingCache.deleteAllWaterReading()
-                            heatReadingCache.deleteAllHeatReading()
-                            addressIdList.clear()
-                        }
-                        .onNext {
-                            it.map {
-                                apartmentCache.addApartmentByUser(listOf(it))
-                            }
-                        }
-                } else {
-                    return@flatMap Either.Right(apartmentCache.getApartmentsByUser())
-                        .map { it.sortedBy { it.address } }
-                }
-            }
-    }
+//    override suspend fun getApartmentsByUser(needFetch: Boolean): Either<Failure, List<ApartmentEntity>> {
+//        return userCache.getCurrentUser()
+//            .flatMap { it ->
+//                if (needFetch) {
+//                    return@flatMap apartmentRemote.getApartmentsByUser(it.uid)
+//
+//                        .map { it.sortedBy { it.address } }
+//                        .onNext {
+//                            apartmentCache.deleteAllApartments()
+//                        }
+//                        .onNext {
+//                            familyCache.deleteAllFamily()
+//                            serviceCache.deleteAllService()
+//                            paymentCache.deleteAllPayment()
+//                            waterMeterCache.deleteAllWaterMeter()
+//                            heatMeterCache.deleteAllHeatMeter()
+//                            waterReadingCache.deleteAllWaterReading()
+//                            heatReadingCache.deleteAllHeatReading()
+////                            addressIdList.clear()
+//                        }
+//                        .onNext {
+//                            it.map {
+//                                apartmentCache.addApartmentByUser(listOf(it))
+//                            }
+//                        }
+//                } else {
+//                    return@flatMap Either.Right(apartmentCache.getApartmentsByUser())
+//                        .map { it.sortedBy { it.address } }
+//                }
+//            }
+//    }
 
 
     override fun deleteFlatByUser(
@@ -99,5 +99,9 @@ class ApartmentRepositoryImpl @Inject constructor(
     override fun getFlatById(addressId: Int): Either<Failure, ApartmentEntity> {
         return userCache.getCurrentUser()
             .flatMap { return@flatMap apartmentRemote.getFlatById(addressId, it.uid) }
+    }
+
+    override suspend fun getApartmentList(uid: String): List<ApartmentEntity> {
+        return apartmentRemote.getApartmentList(uid)
     }
 }

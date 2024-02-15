@@ -73,7 +73,7 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST(GET_MY_FLATS)
-    fun getApartmentsByUser(@FieldMap params: Map<String, String>): Call<GetApartmentsResponse>
+    fun getApartmentList(@FieldMap params: Map<String, String>): Call<GetApartmentsResponse>
 
     @FormUrlEncoded
     @POST(GET_MY_FLATS)

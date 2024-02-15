@@ -6,7 +6,6 @@ import androidx.compose.runtime.setValue
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.AuthCredential
 import com.ykis.ykispam.ui.BaseViewModel
-import com.ykis.ykispam.core.Constants.SIGN_UP_SCREEN
 import com.ykis.ykispam.core.Response
 import com.ykis.ykispam.core.ext.isValidEmail
 import com.ykis.ykispam.core.snackbar.SnackbarManager
@@ -16,6 +15,7 @@ import com.ykis.ykispam.firebase.service.repo.OneTapSignInResponse
 import com.ykis.ykispam.firebase.service.repo.SignInResponse
 import com.ykis.ykispam.firebase.service.repo.SignInWithGoogleResponse
 import com.ykis.ykispam.ui.navigation.LaunchScreen
+import com.ykis.ykispam.ui.navigation.SignUpScreen
 import com.ykis.ykispam.ui.screens.auth.sign_in.components.SingInUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -98,7 +98,7 @@ class SignInViewModel @Inject constructor(
 
     fun onSignUpClick(openScreen: (String) -> Unit) {
         launchCatching {
-            openScreen(SIGN_UP_SCREEN)
+            openScreen(SignUpScreen.route)
         }
     }
 

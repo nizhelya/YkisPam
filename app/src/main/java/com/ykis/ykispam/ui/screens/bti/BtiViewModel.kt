@@ -3,26 +3,31 @@ package com.ykis.ykispam.ui.screens.bti
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.R
+import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.core.ext.isValidEmail
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.data.remote.core.NetworkHandler
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.domain.apartment.request.GetApartments
+import com.ykis.ykispam.domain.apartment.request.GetApartmentList
 import com.ykis.ykispam.domain.apartment.request.UpdateBti
 import com.ykis.ykispam.firebase.service.repo.LogService
+import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 
 @HiltViewModel
 class BtiViewModel @Inject constructor(
-    private val getApartmentsUseCase: GetApartments,
+    private val getApartmentListUseCase: GetApartmentList,
     private val updateBtiUseCase: UpdateBti,
     private val networkHandler: NetworkHandler,
     private val logService: LogService,
@@ -56,6 +61,7 @@ class BtiViewModel @Inject constructor(
 
 
     private val _resultText = MutableLiveData<GetSimpleResponse>()
+
     fun initialize(apartmentEntity: ApartmentEntity) {
         _contactUiState.value = _contactUiState.value.copy(
             addressId = apartmentEntity.addressId,
@@ -65,51 +71,23 @@ class BtiViewModel @Inject constructor(
         )
     }
 
-//    fun setSelectedEmail(addressId: Int ) {
-//        /**
-//         * We only set isDetailOnlyOpen to true when it's only single pane layout
-//         */
-//        val email = uiState.value.apartment.find { it.addressId == addressId }
-//        _uiState.value = _uiState.value.copy(
-//            selectedEmail = email,
-//            isDetailOnlyOpen = contentType == ReplyContentType.SINGLE_PANE
-//        )
-//    }
-
-    private fun getBtiFromCache(addressId: Int) {
-//        viewModelScope.launch {
-//            _apartment.value = apartmentCacheImpl.getApartmentById(addressId)
-//            contactUiState.value = contactUiState.value.copy(
-//                addressId = _apartment.value!!.addressId,
-//                address = if (_apartment.value!!.address.isNullOrEmpty()) {
-//                    ""
-//                } else {
-//                    _apartment.value!!.address
-//                },
-//                email = _apartment.value!!.email,
-//                phone = _apartment.value!!.phone,
-//            )
-//
-//        }
+    fun getApartmentList(){
+//        this.getApartmentListUseCase(uiState.value.uid ?: "").onEach {
+//                result->
+//            when(result){
+//                is Resource.Success -> {
+//                    this._uiState.value = BaseUIState(apartments = result.data ?: emptyList() , isLoading = false)
+//                }
+//                is Resource.Error -> {
+//                    this._uiState.value = BaseUIState(error = result.message ?: "Unexpected error!")
+//                }
+//                is Resource.Loading -> {
+//                    this._uiState.value = BaseUIState(isLoading = true)
+//                }
+//            }
+//        }.launchIn(this.viewModelScope)
     }
 
-    fun getApartmentsByUser(needFetch: Boolean = true) {
-        getApartmentsUseCase(needFetch) { it ->
-
-            if (it.isRight) {
-                it.either(::handleFailure) {
-                    handleApartments(it)
-                }
-
-            }
-        }
-    }
-
-    private fun handleApartments(apartments: List<ApartmentEntity>) {
-//        _apartments.value = apartments
-
-
-    }
 
     fun onUpdateBti() {
         if (!email.isValidEmail()) {
@@ -136,12 +114,10 @@ class BtiViewModel @Inject constructor(
                 }
             } else {
                 SnackbarManager.showMessage(R.string.error_server_appartment)
-                getBtiFromCache(_contactUiState.value.addressId)
+//                getBtiFromCache(_contactUiState.value.addressId)
             }
 
         }
-//        openScreen("$BTI_SCREEN?$ADDRESS_ID=${contactUiState.value.addressId},$ADDRESS=${contactUiState.value.address}")
-
     }
 
     private fun handleResultText(
@@ -151,18 +127,10 @@ class BtiViewModel @Inject constructor(
         result.value = response
         if (result.value!!.success == 1) {
             SnackbarManager.showMessage(R.string.updated)
-            getApartmentsByUser(true)
+            getApartmentList()
         } else {
             SnackbarManager.showMessage(R.string.error_update)
-            getBtiFromCache(_contactUiState.value.addressId)
+//            getBtiFromCache(_contactUiState.value.addressId)
         }
     }
-
-    override fun onCleared() {
-        super.onCleared()
-        getApartmentsUseCase.unsubscribe()
-        updateBtiUseCase.unsubscribe()
-    }
-
-
 }

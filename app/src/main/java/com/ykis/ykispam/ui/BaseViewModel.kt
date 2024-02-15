@@ -39,7 +39,7 @@ open class BaseViewModel(
     private var failureData: MutableLiveData<HandleOnce<Failure>> = MutableLiveData()
     private var progressData: MutableLiveData<Boolean> = MutableLiveData()
 
-    val _uiState = MutableStateFlow(BaseUIState(loading = true))
+    val _uiState = MutableStateFlow(BaseUIState(isLoading = true))
     val uiState: StateFlow<BaseUIState> = _uiState.asStateFlow()
 
     protected fun handleFailure(failure: Failure) {

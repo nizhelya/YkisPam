@@ -21,4 +21,6 @@ interface ApartmentRemote {
     ): Either<Failure, GetSimpleResponse>
 
     fun getFlatById(addressId: Int,uid: String): Either<Failure, ApartmentEntity>
+
+    suspend fun getApartmentList(uid:String) : List<ApartmentEntity>
 }

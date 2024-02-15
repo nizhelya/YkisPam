@@ -1,14 +1,35 @@
 package com.ykis.ykispam.domain.apartment.request
 
+import com.ykis.ykispam.core.Resource
+import com.ykis.ykispam.data.cache.database.AppDatabase
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.domain.apartment.ApartmentRepository
-import com.ykis.ykispam.domain.interactor.UseCase
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
-class GetApartments @Inject constructor(
-    private val apartmentRepository: ApartmentRepository
-) : UseCase<List<ApartmentEntity>, Boolean>() {
+class GetApartmentList @Inject constructor(
+    private val repository: ApartmentRepository,
+    private val database : AppDatabase
+){
+    operator fun invoke (uid : String) : Flow<Resource<List<ApartmentEntity>?>> = flow{
+        try{
+            emit(Resource.Loading())
 
-    override suspend fun run(needFetch: Boolean) =
-        apartmentRepository.getApartmentsByUser(needFetch)
+            val response = repository.getApartmentList(uid)
+            database.apartmentDao().insertApartmentList(response)
+            emit(Resource.Success(response))
+        }catch (e: HttpException) {
+            emit(Resource.Error(e.localizedMessage ?: "Unexpected error!"))
+        } catch (e: IOException) {
+            val apartmentList = database.apartmentDao().getApartmentList()
+            if (apartmentList.isNotEmpty()) {
+                emit(Resource.Success(apartmentList))
+                return@flow
+            }
+            emit(Resource.Error("Check your internet connection"))
+        }
+    }
 }
