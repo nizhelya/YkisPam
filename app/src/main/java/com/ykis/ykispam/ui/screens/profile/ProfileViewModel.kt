@@ -3,6 +3,7 @@ package com.ykis.ykispam.ui.screens.profile
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.ui.BaseViewModel
 import com.ykis.ykispam.core.Response
+import com.ykis.ykispam.domain.ClearDatabase
 import com.ykis.ykispam.firebase.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.firebase.service.repo.RevokeAccessResponse
@@ -10,11 +11,13 @@ import com.ykis.ykispam.firebase.service.repo.SignOutResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
 import javax.inject.Inject
 
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
+    private val clearDatabase: ClearDatabase,
     private val firebaseService: FirebaseService,
     private val logService: LogService
 ) : BaseViewModel(logService) {
@@ -36,6 +39,7 @@ class ProfileViewModel @Inject constructor(
             _signOutResponse.value = Response.Loading
             _signOutResponse.value = firebaseService.signOut()
         }
+        this.clearDatabase().launchIn(this.viewModelScope)
     }
 
     fun revokeAccess() {

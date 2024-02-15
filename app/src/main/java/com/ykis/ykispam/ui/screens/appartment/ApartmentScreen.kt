@@ -41,6 +41,7 @@ fun ApartmentScreen(
     addressId: Int
 ) {
 //    baseUiState called 5 times
+
     LaunchedEffect(key1 = baseUIState.apartments) {
         getApartments()
         if (contentType == ContentType.SINGLE_PANE && !baseUIState.isDetailOnlyOpen) {
@@ -58,6 +59,7 @@ fun ApartmentScreen(
             closeDetailScreen()
         }
     }
+
     if (contentType == ContentType.DUAL_PANE) {
         DualPanelContent(
             appState = appState,

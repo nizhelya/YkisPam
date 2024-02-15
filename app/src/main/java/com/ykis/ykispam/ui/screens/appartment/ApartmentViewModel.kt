@@ -118,10 +118,9 @@ class ApartmentViewModel @Inject constructor(
 
 
     fun initialize() {
-//        if (uid.isNotEmpty()) {
-            getApartmentList()
-//            observeApartments()
-//        }
+        if (uid.isNotEmpty()) {
+            observeApartments()
+        }
     }
 
     fun closeDetailScreen() {
@@ -133,7 +132,7 @@ class ApartmentViewModel @Inject constructor(
     }
 
     private fun observeApartments() {
-//        launchCatching {
+        launchCatching {
             _uiState.value = _uiState.value.copy(
                 uid = uid,
                 displayName = displayName,
@@ -145,8 +144,7 @@ class ApartmentViewModel @Inject constructor(
                 SnackbarManager.showMessage(R.string.error_server_appartment)
                 getApartmentList()
             }
-
-//        }
+        }
     }
     fun setApartment(addressId: Int) {
         if (addressId != 0) {
