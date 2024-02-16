@@ -3,6 +3,7 @@ package com.ykis.ykispam.data.remote.api
 import com.ykis.ykispam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.data.remote.address.GetAddressResponse
 import com.ykis.ykispam.data.remote.appartment.GetApartmentsResponse
+import com.ykis.ykispam.data.remote.appartment.GetApartmentResponse
 import com.ykis.ykispam.data.remote.family.GetFamilyResponse
 import com.ykis.ykispam.data.remote.heat.meter.GetHeatMeterResponse
 import com.ykis.ykispam.data.remote.heat.reading.GetHeatReadingResponse
@@ -78,9 +79,10 @@ interface ApiService {
     @FormUrlEncoded
     @POST(GET_MY_FLATS)
     fun getAllApartmentsByUser(@FieldMap params: Map<String, String>): Call<List<ApartmentEntity>>
+
     @FormUrlEncoded
-    @POST(GET_MY_FLATS)
-    fun getApartments(userId:String): Call<GetApartmentsResponse>
+    @POST(GET_FLAT)
+    fun getApartment(@FieldMap params: Map<String, String>): Call<GetApartmentResponse>
 
     @FormUrlEncoded
     @POST(GET_BLOCKS)

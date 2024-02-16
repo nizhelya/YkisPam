@@ -106,8 +106,7 @@ fun DetailAppBar(
             },
             navigationIcon = {
                 IconButton(
-                    onClick = onBackPressed,
-                    modifier = Modifier.padding(start = 16.dp),
+                    onClick = onBackPressed
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,

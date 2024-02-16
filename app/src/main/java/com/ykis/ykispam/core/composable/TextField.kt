@@ -78,7 +78,8 @@ fun EmailField(value: String, onNewValue: (String) -> Unit, modifier: Modifier =
         singleLine = true,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp, 4.dp, 16.dp, 4.dp),
+//            .padding(16.dp, 4.dp, 16.dp, 4.dp)
+        ,
         label = {
             Text(
                 style = MaterialTheme.typography.bodyLarge,
@@ -94,14 +95,15 @@ fun EmailField(value: String, onNewValue: (String) -> Unit, modifier: Modifier =
 @Composable
 fun PhoneField(value: String, onNewValue: (String) -> Unit, modifier: Modifier = Modifier) {
     OutlinedTextField(
-        singleLine = true,
+//        singleLine = true,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp, 4.dp, 16.dp, 4.dp),
+//            .padding(16.dp, 4.dp, 16.dp, 4.dp),
+                ,
         label = {
             Text(
                 style = MaterialTheme.typography.bodyLarge,
-                text = stringResource(id = R.string.phone_colon)
+                text = stringResource(id = R.string.phone)
             )
         },
         value = value,

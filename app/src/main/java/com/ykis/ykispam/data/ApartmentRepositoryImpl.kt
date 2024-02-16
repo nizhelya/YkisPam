@@ -66,4 +66,8 @@ class ApartmentRepositoryImpl @Inject constructor(
     override suspend fun newUpdateBti(params : ApartmentEntity): BaseResponse {
         return apartmentRemote.newUpdateBti(params)
     }
+
+    override suspend fun getApartment(addressId: Int, uid: String): ApartmentEntity {
+        return apartmentRemote.getApartment(addressId , uid)
+    }
 }

@@ -96,6 +96,15 @@ class ApartmentRemoteImpl @Inject constructor(
         ).await()
     }
 
+    override suspend fun getApartment(addressId: Int, uid: String): ApartmentEntity {
+        return apiService.getApartment(
+            createRequestByAddressId(
+                addressId = addressId,
+                uid = uid
+            )
+        ).await().apartment
+    }
+
     private fun createGetApartmentListMap(uid: String): Map<String, String> {
         val map = HashMap<String, String>()
         map[ApiService.UID] = uid

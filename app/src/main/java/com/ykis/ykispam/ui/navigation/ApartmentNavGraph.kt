@@ -270,10 +270,12 @@ fun ApartmentNavGraph(
                 closeDetailScreen = {apartmentViewModel.closeDetailScreen()},
                 setApartment = {addressId ->apartmentViewModel.setApartment(addressId) },
                 navigateToDetail = {contentDetail, pane ->  apartmentViewModel.setSelectedDetail(contentDetail, pane) },
+                getApartment = {apartmentViewModel.getApartment()},
                 getApartments = {apartmentViewModel.initialize()},
                 deleteApartment = {addressId, restartApp ->  apartmentViewModel.deleteApartment(addressId, restartApp)},
                 onDrawerClicked = onDrawerClicked,
-                addressId = addressIdArg!!
+                addressId = addressIdArg!!,
+                apartmentViewModel = apartmentViewModel
             )
         }
         composable(MeterScreen.route) {

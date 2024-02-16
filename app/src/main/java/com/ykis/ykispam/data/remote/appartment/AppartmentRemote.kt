@@ -25,4 +25,5 @@ interface ApartmentRemote {
 
     suspend fun getApartmentList(uid:String) : List<ApartmentEntity>
     suspend fun newUpdateBti(params : ApartmentEntity) : BaseResponse
+    suspend fun getApartment(addressId: Int , uid:String) : ApartmentEntity
 }

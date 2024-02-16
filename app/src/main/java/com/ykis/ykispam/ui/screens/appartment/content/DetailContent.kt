@@ -35,6 +35,7 @@ import com.ykis.ykispam.ui.screens.bti.BtiPanelContent
 import com.ykis.ykispam.ui.screens.family.FamilyContent
 import com.ykis.ykispam.ui.screens.service.ServicesContent
 import com.ykis.ykispam.ui.BaseUIState
+import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,10 +44,9 @@ fun DetailContent(
     baseUIState: BaseUIState,
     contentType: ContentType,
     contentDetail: ContentDetail,
-    onBackPressed: () -> Unit = {}
-
-
-) {
+    apartmentViewModel: ApartmentViewModel,
+    onBackPressed: () -> Unit = {},
+    ) {
     Card(
         modifier = modifier
             .fillMaxSize(),
@@ -68,10 +68,8 @@ fun DetailContent(
                 }
             when (contentDetail) {
                 ContentDetail.BTI -> BtiPanelContent(
-                    contentType = contentType,
-                    contentDetail = contentDetail,
                     baseUIState = baseUIState,
-                    onBackPressed = onBackPressed
+                    viewModel = apartmentViewModel
                 )
 
                 ContentDetail.FAMILY -> FamilyContent(

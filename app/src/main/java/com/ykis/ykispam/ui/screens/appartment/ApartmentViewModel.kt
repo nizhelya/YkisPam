@@ -21,6 +21,7 @@ import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.core.Response
+import com.ykis.ykispam.core.ext.isValidEmail
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.data.cache.apartment.ApartmentCacheImpl
 import com.ykis.ykispam.data.remote.GetSimpleResponse
@@ -29,7 +30,9 @@ import com.ykis.ykispam.domain.address.AddressEntity
 import com.ykis.ykispam.domain.address.request.AddFlatByUser
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.domain.apartment.request.DeleteFlatByUser
+import com.ykis.ykispam.domain.apartment.request.GetApartment
 import com.ykis.ykispam.domain.apartment.request.GetApartmentList
+import com.ykis.ykispam.domain.apartment.request.UpdateBti
 import com.ykis.ykispam.firebase.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.firebase.service.repo.SignOutResponse
@@ -42,6 +45,7 @@ import com.ykis.ykispam.ui.navigation.ContentType
 import com.ykis.ykispam.ui.navigation.Graph
 import com.ykis.ykispam.ui.navigation.LaunchScreen
 import com.ykis.ykispam.ui.navigation.VerifyEmailScreen
+import com.ykis.ykispam.ui.screens.bti.ContactUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -54,12 +58,14 @@ import javax.inject.Inject
 @HiltViewModel
 class ApartmentViewModel @Inject constructor(
     private val firebaseService: FirebaseService,
-    private val getApartmentList: GetApartmentList,
+    private val getApartmentListUseCase: GetApartmentList,
+    private val getApartmentUseCase : GetApartment,
     private val deleteFlatByUser: DeleteFlatByUser,
     private val addFlatByUser: AddFlatByUser,
     private val apartmentCacheImpl: ApartmentCacheImpl,
     private val networkHandler: NetworkHandler,
     private val logService: LogService,
+    private val updateBti: UpdateBti
 ) : BaseViewModel(logService) {
 
     private val isEmailVerified get() = firebaseService.currentUser?.isEmailVerified ?: false
@@ -91,9 +97,6 @@ class ApartmentViewModel @Inject constructor(
     // LaunchScreen
     private val _showError = MutableStateFlow(false)
     val showError :StateFlow<Boolean> = _showError.asStateFlow()
-
-    private val _showSplash = MutableStateFlow(true)
-    val showSplash = _showSplash.asStateFlow()
 
     fun getAuthState() = firebaseService.getAuthState(viewModelScope)
 
@@ -132,6 +135,7 @@ class ApartmentViewModel @Inject constructor(
     }
 
     private fun observeApartments() {
+        Log.d("get_apartment_test" , "observeApartments")
         launchCatching {
             _uiState.value = _uiState.value.copy(
                 uid = uid,
@@ -166,21 +170,7 @@ class ApartmentViewModel @Inject constructor(
         }
     }
 
-    private fun getFlatFromCache(addressId: Int) {
-        _apartment.value = apartmentCacheImpl.getApartmentById(addressId)
-        _uiState.value = _uiState.value.copy(
-            apartment = _apartment.value,
-            addressId = _apartment.value.addressId,
-            address = _apartment.value.address,
-            houseId = _apartment.value.houseId,
-            osmdId = _apartment.value.osmdId,
-            osbb = _apartment.value.osbb,
-            selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${_apartment.value.addressId}}"
-        )
-    }
-
     fun setSelectedDetail(contentDetail: ContentDetail, contentType: ContentType) {
-
         _uiState.value = _uiState.value.copy(
             selectedContentDetail = contentDetail,
             isDetailOnlyOpen = contentType == ContentType.SINGLE_PANE
@@ -225,9 +215,78 @@ class ApartmentViewModel @Inject constructor(
         Log.d("result_test", response.success.toString())
         result.value = response
     }
+    private val _contactUiState = MutableStateFlow(ContactUIState(
+        email = _uiState.value.apartment.email,
+        phone = _uiState.value.apartment.phone,
+        addressId = _uiState.value.addressId,
+        address = _uiState.value.address.toString()
+    ))
+    val contactUIState : StateFlow<ContactUIState> = _contactUiState.asStateFlow()
+
+    fun initialContactState(baseUIState: BaseUIState){
+        _contactUiState.value = ContactUIState(
+            email = _uiState.value.apartment.email,
+            phone = _uiState.value.apartment.phone,
+            addressId = _uiState.value.addressId,
+            address = _uiState.value.address.toString()
+        )
+    }
+
+    fun onEmailChange(newValue: String) {
+        _contactUiState.value = _contactUiState.value.copy(email = newValue)
+    }
+
+    fun onPhoneChange(newValue: String) {
+        _contactUiState.value = _contactUiState.value.copy(phone = newValue)
+    }
+
+    fun onUpdateBti(uid : String) {
+        if (!email.isValidEmail() && email.isNotEmpty()) {
+            SnackbarManager.showMessage(R.string.email_error)
+            return
+        }
+        this.updateBti(
+            ApartmentEntity(
+                addressId = _contactUiState.value.addressId,
+                address = _contactUiState.value.address,
+                phone = _contactUiState.value.phone,
+                email = _contactUiState.value.email,
+                uid = uid
+            )
+        ).onEach {
+                result->
+            when(result){
+                is Resource.Success -> {
+                    SnackbarManager.showMessage(R.string.updated)
+                    getApartment()
+                }
+                is Resource.Error -> {
+                    SnackbarManager.showMessage(result.resourceMessage)
+                }
+                is Resource.Loading -> {}
+            }
+        }.launchIn(this.viewModelScope)
+    }
+
+    fun getApartment(){
+        this.getApartmentUseCase(uiState.value.addressId, uid).onEach {
+            result ->
+                when(result){
+                    is Resource.Success -> {
+                        this._uiState.value = _uiState.value.copy(apartment = result.data ?: ApartmentEntity() , isLoading = false)
+                    }
+                    is Resource.Error -> {
+                        this._uiState.value = _uiState.value.copy(error = result.message ?: "Unexpected error!")
+                    }
+                    is Resource.Loading -> {
+                        this._uiState.value = _uiState.value.copy(isLoading = true)
+                    }
+                }
+        }.launchIn(this.viewModelScope)
+    }
 
     fun getApartmentList(){
-        this.getApartmentList(uid).onEach {
+        this.getApartmentListUseCase(uid).onEach {
                 result->
             when(result){
                 is Resource.Success -> {

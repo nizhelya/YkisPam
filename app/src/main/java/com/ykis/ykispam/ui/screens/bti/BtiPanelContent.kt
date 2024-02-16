@@ -35,6 +35,7 @@ import com.ykis.ykispam.core.composable.PhoneField
 import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.navigation.ContentType
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
+import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 
 
@@ -42,47 +43,39 @@ import com.ykis.ykispam.ui.theme.YkisPAMTheme
 @Composable
 fun BtiPanelContent(
     modifier: Modifier = Modifier,
-    contentType: ContentType,
-    contentDetail: ContentDetail,
     baseUIState: BaseUIState,
-    onBackPressed: () -> Unit,
-    viewModel: BtiViewModel = hiltViewModel(),
+    viewModel: ApartmentViewModel
 ) {
-
-    LaunchedEffect(key1 = baseUIState.apartment) {
-        viewModel.initialize(baseUIState.apartment)
+    LaunchedEffect(key1 = baseUIState.addressId) {
+        viewModel.initialContactState(baseUIState)
     }
     val contactUiState by viewModel.contactUIState.collectAsState()
 
     BtiContent(
         modifier = modifier,
         baseUIState = baseUIState,
-        contentType = contentType,
-        contentDetail = contentDetail,
         contactUiState = contactUiState,
-        onBackPressed = onBackPressed,
         onEmailChange = viewModel::onEmailChange,
         onPhoneChange = viewModel::onPhoneChange,
-        onUpdateBti = { baseUIState.uid?.let { viewModel.onUpdateBti(it) } },
+        onUpdateBti = {
+            baseUIState.uid?.let { viewModel.onUpdateBti(it) }
+        },
 
         )
 }
 
-    @ExperimentalMaterial3Api
-    @Composable
-    fun BtiContent(
-        modifier: Modifier = Modifier,
-        baseUIState: BaseUIState,
-        contentType: ContentType,
-        contentDetail: ContentDetail,
-        contactUiState: ContactUIState,
-        onBackPressed: () -> Unit,
-        onEmailChange: (String) -> Unit,
-        onPhoneChange: (String) -> Unit,
-        onUpdateBti: () -> Unit,
-    ) {
-        val keyboard = LocalSoftwareKeyboardController.current
-        Column(
+@ExperimentalMaterial3Api
+@Composable
+fun BtiContent(
+    modifier: Modifier = Modifier,
+    baseUIState: BaseUIState,
+    contactUiState: ContactUIState,
+    onEmailChange: (String) -> Unit,
+    onPhoneChange: (String) -> Unit,
+    onUpdateBti: () -> Unit,
+) {
+//        val keyboard = LocalSoftwareKeyboardController.current
+    Column(
         modifier = Modifier
             .padding(4.dp)
             .verticalScroll(rememberScrollState())
@@ -666,98 +659,13 @@ fun BtiPanelContent(
                 }
             }
         }
-        Card(
-            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.onSecondary
-            )
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(4.dp)
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.contacts),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.outline,
-                        modifier = Modifier
-                            .padding(4.dp)
-                            .weight(1f),
-
-                        )
-                    BasicImageButton(
-                        R.string.update,
-                        R.drawable.ic_check,
-                        modifier = Modifier,
-                    )
-                    {
-                        keyboard?.hide()
-                        onUpdateBti()
-                    }
-
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(
-                        modifier = Modifier.weight(1f),
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .padding(
-                                    start = 0.dp,
-                                    top = 4.dp,
-                                    end = 4.dp,
-                                    bottom = 4.dp
-                                ),
-                            horizontalArrangement = Arrangement.Start,
-                            verticalAlignment = Alignment.CenterVertically
-
-                        ) {
-
-                            PhoneField(contactUiState.phone, onPhoneChange, modifier)
-
-                        }
-                    }
-
-
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(
-                        modifier = Modifier.weight(1f),
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .padding(
-                                    start = 0.dp,
-                                    top = 4.dp,
-                                    end = 4.dp,
-                                    bottom = 4.dp
-                                ),
-                            horizontalArrangement = Arrangement.Start,
-                            verticalAlignment = Alignment.CenterVertically
-
-                        ) {
-
-                            EmailField(contactUiState.email, onEmailChange, modifier)
-
-                        }
-                    }
-                }
-            }
-        }
+        ContactsCard(
+            phone = contactUiState.phone,
+            email = contactUiState.email,
+            onEmailChange = onEmailChange,
+            onPhoneChange = onPhoneChange,
+            onUpdateBti = onUpdateBti
+        )
     }
 }
 
@@ -769,10 +677,11 @@ fun BtiContentPreview() {
         BtiContent(
             modifier = Modifier,
             baseUIState = BaseUIState(apartment = ApartmentEntity()),
-            contentType = ContentType.SINGLE_PANE,
-            contentDetail = ContentDetail.BTI,
-            contactUiState = ContactUIState(addressId = 6314, address = "Гр.Десанту 21 кв.71", email = "nizelskiy.sergey@gmail.com"),
-            onBackPressed = { },
+            contactUiState = ContactUIState(
+                addressId = 6314,
+                address = "Гр.Десанту 21 кв.71",
+                email = "nizelskiy.sergey@gmail.com"
+            ),
             onEmailChange = { },
             onPhoneChange = { },
             onUpdateBti = {},

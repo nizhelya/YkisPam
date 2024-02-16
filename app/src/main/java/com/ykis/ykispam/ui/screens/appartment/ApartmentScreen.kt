@@ -35,10 +35,12 @@ fun ApartmentScreen(
     closeDetailScreen: () -> Unit,
     getApartments: () -> Unit,
     setApartment: (Int) -> Unit,
+    getApartment : () -> Unit,
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
     onDrawerClicked: () -> Unit = {},
     deleteApartment: (addressId: Int, restartApp: (String) -> Unit) -> Unit,
-    addressId: Int
+    addressId: Int,
+    apartmentViewModel: ApartmentViewModel
 ) {
 //    baseUiState called 5 times
 
@@ -70,7 +72,8 @@ fun ApartmentScreen(
             navigationType = navigationType,
             contentType = contentType,
             displayFeatures = displayFeatures,
-            closeDetailScreen = closeDetailScreen
+            closeDetailScreen = closeDetailScreen,
+            apartmentViewModel = apartmentViewModel
         )
     } else {
         Box(modifier = modifier.fillMaxSize()) {
@@ -83,7 +86,8 @@ fun ApartmentScreen(
                 deleteApartment = { deleteApartment(baseUIState.addressId, restartApp) },
                 navigateToDetail = navigateToDetail,
                 onDrawerClicked = onDrawerClicked,
-                navigationType = navigationType
+                navigationType = navigationType,
+                apartmentViewModel = apartmentViewModel
             )
         }
     }
@@ -100,6 +104,7 @@ fun DualPanelContent(
     navigationType: NavigationType,
     contentType: ContentType,
     displayFeatures: List<DisplayFeature>,
+    apartmentViewModel: ApartmentViewModel,
     closeDetailScreen: () -> Unit,
 
     ) {
@@ -120,6 +125,7 @@ fun DualPanelContent(
                 baseUIState = baseUIState,
                 contentType = contentType,
                 contentDetail = baseUIState.selectedContentDetail ?: ContentDetail.EMPTY,
+                apartmentViewModel = apartmentViewModel
             ) {
                 closeDetailScreen()
             }
@@ -140,8 +146,9 @@ fun SinglePanelContent(
     deleteApartment: () -> Unit,
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
     onDrawerClicked: () -> Unit,
-    navigationType: NavigationType
-) {
+    navigationType: NavigationType,
+    apartmentViewModel: ApartmentViewModel
+    ) {
 
     if (baseUIState.selectedContentDetail != null && baseUIState.isDetailOnlyOpen) {
         BackHandler {
@@ -150,7 +157,8 @@ fun SinglePanelContent(
         DetailContent(
             baseUIState = baseUIState,
             contentType = contentType,
-            contentDetail = baseUIState.selectedContentDetail
+            contentDetail = baseUIState.selectedContentDetail,
+            apartmentViewModel = apartmentViewModel
         )
         {
             closeDetailScreen()
