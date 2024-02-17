@@ -68,7 +68,10 @@ fun AddApartmentScreenContent(
             modifier = Modifier,
             stringResource(id = R.string.add_flat_secret_сode),
             stringResource(id = R.string.add_appartment),
-            onBackPressed = {viewModel.navigateBack{ navController.popBackStack()}},
+            onBackPressed = {
+                navController.popBackStack()
+                viewModel.onSecretCodeChange("")
+                            },
             canNavigateBack = canNavigateBack
         )
         Card(
@@ -129,7 +132,8 @@ fun AddApartmentScreenContent(
                         BasicImageButton(
                             AppText.add,
                             R.drawable.ic_stat_name,
-                            modifier = Modifier
+                            modifier = Modifier,
+                            enabled = secretCode.isNotEmpty()
                         )
                         {
                             keyboard?.hide()
@@ -138,7 +142,6 @@ fun AddApartmentScreenContent(
                                 navController.navigateToApartment(addressId)
                             }
                         }
-
                     }
                 }
             }

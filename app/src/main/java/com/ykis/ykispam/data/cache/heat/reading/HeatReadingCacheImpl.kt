@@ -21,8 +21,8 @@ class HeatReadingCacheImpl @Inject constructor(
         heatReadingDao.deleteAllHeatReadings()
     }
 
-    override fun deleteHeatReadingFromFlat(addressId: List<Int>) {
-        heatReadingDao.deleteHeatReadingFromFlat(addressId)
+    override fun deleteHeatReadingsByApartment(addressIds: List<Int>) {
+        heatReadingDao.deleteHeatReadingsByApartment(addressIds)
     }
 
 

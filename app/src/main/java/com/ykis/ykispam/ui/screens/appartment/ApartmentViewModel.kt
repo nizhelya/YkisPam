@@ -24,19 +24,19 @@ import com.ykis.ykispam.core.Response
 import com.ykis.ykispam.core.ext.isValidEmail
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.data.cache.apartment.ApartmentCacheImpl
+import com.ykis.ykispam.data.cache.database.AppDatabase
 import com.ykis.ykispam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.data.remote.core.NetworkHandler
 import com.ykis.ykispam.domain.address.AddressEntity
-import com.ykis.ykispam.domain.address.request.AddFlatByUser
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.domain.apartment.request.DeleteFlatByUser
+import com.ykis.ykispam.domain.apartment.request.AddApartment
+import com.ykis.ykispam.domain.apartment.request.DeleteApartment
 import com.ykis.ykispam.domain.apartment.request.GetApartment
 import com.ykis.ykispam.domain.apartment.request.GetApartmentList
 import com.ykis.ykispam.domain.apartment.request.UpdateBti
 import com.ykis.ykispam.firebase.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.firebase.service.repo.SignOutResponse
-import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.BaseViewModel
 import com.ykis.ykispam.ui.navigation.ADDRESS_ID
 import com.ykis.ykispam.ui.navigation.APARTMENT_SCREEN
@@ -51,7 +51,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -60,9 +62,11 @@ class ApartmentViewModel @Inject constructor(
     private val firebaseService: FirebaseService,
     private val getApartmentListUseCase: GetApartmentList,
     private val getApartmentUseCase : GetApartment,
-    private val deleteFlatByUser: DeleteFlatByUser,
-    private val addFlatByUser: AddFlatByUser,
+//    private val deleteFlatByUser: DeleteFlatByUser,
+    private val deleteApartmentUseCase : DeleteApartment,
+    private val addApartmentUseCase : AddApartment,
     private val apartmentCacheImpl: ApartmentCacheImpl,
+    private val database : AppDatabase,
     private val networkHandler: NetworkHandler,
     private val logService: LogService,
     private val updateBti: UpdateBti
@@ -73,11 +77,6 @@ class ApartmentViewModel @Inject constructor(
 
     private val displayName get() = firebaseService.displayName
     val email get() = firebaseService.email
-
-    private val signOutResponse = MutableStateFlow<SignOutResponse>(Response.Success(false))
-
-    private val _resultResponse = MutableStateFlow<GetSimpleResponse?>(null)
-
 
     private val _apartment = MutableStateFlow<ApartmentEntity>(ApartmentEntity())
     val apartment: StateFlow<ApartmentEntity> get() = _apartment.asStateFlow()
@@ -99,6 +98,10 @@ class ApartmentViewModel @Inject constructor(
     val showError :StateFlow<Boolean> = _showError.asStateFlow()
 
     fun getAuthState() = firebaseService.getAuthState(viewModelScope)
+
+
+    private val _contactUiState = MutableStateFlow(ContactUIState())
+    val contactUIState : StateFlow<ContactUIState> = _contactUiState.asStateFlow()
 
     fun onAppStart(
         isUserSignedOut: Boolean,
@@ -135,38 +138,31 @@ class ApartmentViewModel @Inject constructor(
     }
 
     private fun observeApartments() {
-        Log.d("get_apartment_test" , "observeApartments")
-        launchCatching {
             _uiState.value = _uiState.value.copy(
                 uid = uid,
                 displayName = displayName,
                 email = email,
             )
-            if (isConnected && networkType != 0) {
-                getApartmentList()
-            } else {
-                SnackbarManager.showMessage(R.string.error_server_appartment)
-                getApartmentList()
-            }
-        }
+        getApartmentList()
     }
     fun setApartment(addressId: Int) {
         if (addressId != 0) {
-            launchCatching {
-                _apartment.value = apartmentCacheImpl.getApartmentById(addressId)
-                _uiState.value = _apartment.value.let {
-                    _uiState.value.copy(
-                        apartment = _apartment.value,
-                        addressId = _apartment.value.addressId,
-                        address = _apartment.value.address,
-                        houseId = _apartment.value.houseId,
-                        osmdId = _apartment.value.osmdId,
-                        osbb = _apartment.value.osbb,
-                        selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${_apartment.value.addressId}}"
-                    )
-                }
+            try {
+                _apartment.value = database.apartmentDao().getFlatById(addressId)
+                _uiState.value =   _uiState.value.copy(
+                    apartment = _apartment.value,
+                    addressId = _apartment.value.addressId,
+                    address = _apartment.value.address,
+                    houseId = _apartment.value.houseId,
+                    osmdId = _apartment.value.osmdId,
+                    osbb = _apartment.value.osbb ?: "",
+                    selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${_apartment.value.addressId}}"
+                )
 
+            }catch (e:Exception){
+                Log.d("apartment_test", e.message.toString())
             }
+
         }
     }
 
@@ -182,20 +178,13 @@ class ApartmentViewModel @Inject constructor(
     }
 
     fun addApartment(restartApp: (Int) -> Unit) {
-        if (_secretCode.value.isBlank()) {
-            SnackbarManager.showMessage(R.string.empty_field_error)
-            return
-        }
-        launchCatching {
-                addFlatByUser(secretCode.value) { it ->
-                it.either(::handleFailure) {
-                    handleResultText(
-                        it, _resultResponse
-                    )
-                }
-                if (_resultResponse.value?.success == 1) {
+        this.addApartmentUseCase(
+            code = secretCode.value, uid = uid
+        ).onEach { result ->
+            when (result) {
+                is Resource.Success -> {
                     _uiState.value = _uiState.value.copy(
-                        addressId = _resultResponse.value!!.addressId
+                        addressId = result.data!!.addressId
                     )
                     getApartmentList()
                     SnackbarManager.showMessage(R.string.success_add_flat)
@@ -203,27 +192,17 @@ class ApartmentViewModel @Inject constructor(
                     restartApp(uiState.value.addressId)
                     _secretCode.value = ""
                 }
+
+                is Resource.Error -> {
+                    SnackbarManager.showMessage(result.resourceMessage)
+                }
+
+                is Resource.Loading -> {}
             }
-        }
+        }.launchIn(this.viewModelScope)
 
     }
-
-    private fun handleResultText(
-        response: GetSimpleResponse,
-        result: MutableStateFlow<GetSimpleResponse?>,
-    ) {
-        Log.d("result_test", response.success.toString())
-        result.value = response
-    }
-    private val _contactUiState = MutableStateFlow(ContactUIState(
-        email = _uiState.value.apartment.email,
-        phone = _uiState.value.apartment.phone,
-        addressId = _uiState.value.addressId,
-        address = _uiState.value.address.toString()
-    ))
-    val contactUIState : StateFlow<ContactUIState> = _contactUiState.asStateFlow()
-
-    fun initialContactState(baseUIState: BaseUIState){
+    fun initialContactState(){
         _contactUiState.value = ContactUIState(
             email = _uiState.value.apartment.email,
             phone = _uiState.value.apartment.phone,
@@ -268,7 +247,7 @@ class ApartmentViewModel @Inject constructor(
         }.launchIn(this.viewModelScope)
     }
 
-    fun getApartment(){
+    private fun getApartment(){
         this.getApartmentUseCase(uiState.value.addressId, uid).onEach {
             result ->
                 when(result){
@@ -302,35 +281,27 @@ class ApartmentViewModel @Inject constructor(
         }.launchIn(this.viewModelScope)
     }
 
-    fun deleteApartment(addressId: Int, restartApp: (String) -> Unit) {
-        launchCatching {
-
-            if (addressId != 0) {
-                deleteFlatByUser(addressId) { it ->
-                    it.either(::handleFailure) {
-                        handleResultTextDelete(
-                            it, _resultResponse
-                        )
-                    }
+    fun deleteApartment() {
+        this.deleteApartmentUseCase(
+            addressId = uiState.value.addressId,
+            uid = uid
+        ).onEach {
+            result->
+            when(result){
+                is Resource.Success -> {
+                    _uiState.value.apartment = ApartmentEntity()
+                    SnackbarManager.showMessage(R.string.success_delete_flat)
+                    getApartmentList()
                 }
-
+                is Resource.Error -> {
+                    this._uiState.value = _uiState.value.copy(error = result.message ?: "Unexpected error!")
+                }
+                is Resource.Loading -> {
+                }
             }
-        }
-        _uiState.value.apartment = ApartmentEntity()
+        }.launchIn(this.viewModelScope)
+
     }
-
-
-    private fun handleResultTextDelete(
-        response: GetSimpleResponse,
-        result: MutableStateFlow<GetSimpleResponse?>
-    ) {
-        result.value = response
-        if (result.value!!.success == 1) {
-            SnackbarManager.showMessage(R.string.success_delete_flat)
-            observeApartments()
-        }
-    }
-
 }
 
 

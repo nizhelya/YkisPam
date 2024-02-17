@@ -260,8 +260,6 @@ fun ApartmentNavGraph(
             val addressIdArg =
                 navBackStackEntry.arguments?.getInt(ApartmentScreen.addressIdArg)
             ApartmentScreen(
-                openScreen = { route -> navController.navigate(route) },
-                restartApp = { route ->  navController.cleanNavigateTo(route) },
                 appState = appState,
                 contentType = contentType,
                 baseUIState = baseUIState,
@@ -270,9 +268,8 @@ fun ApartmentNavGraph(
                 closeDetailScreen = {apartmentViewModel.closeDetailScreen()},
                 setApartment = {addressId ->apartmentViewModel.setApartment(addressId) },
                 navigateToDetail = {contentDetail, pane ->  apartmentViewModel.setSelectedDetail(contentDetail, pane) },
-                getApartment = {apartmentViewModel.getApartment()},
                 getApartments = {apartmentViewModel.initialize()},
-                deleteApartment = {addressId, restartApp ->  apartmentViewModel.deleteApartment(addressId, restartApp)},
+                deleteApartment = { apartmentViewModel.deleteApartment()},
                 onDrawerClicked = onDrawerClicked,
                 addressId = addressIdArg!!,
                 apartmentViewModel = apartmentViewModel

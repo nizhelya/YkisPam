@@ -17,4 +17,7 @@ interface WaterMeterDao {
 
     @Query("delete from water_meter")
     fun deleteAllWaterMeter()
+    @Query("delete from water_meter where address_id not in (:addressIds)")
+    fun deleteWaterMeterByApartment(addressIds: List<Int>)
+
 }

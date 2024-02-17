@@ -47,7 +47,7 @@ fun BtiPanelContent(
     viewModel: ApartmentViewModel
 ) {
     LaunchedEffect(key1 = baseUIState.addressId) {
-        viewModel.initialContactState(baseUIState)
+        viewModel.initialContactState()
     }
     val contactUiState by viewModel.contactUIState.collectAsState()
 

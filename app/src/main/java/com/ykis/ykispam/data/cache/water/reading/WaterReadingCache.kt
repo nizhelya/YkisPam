@@ -6,5 +6,5 @@ interface WaterReadingCache {
     fun insertWaterReading(waterReading: List<WaterReadingEntity>)
     fun getWaterReading(vodomerId: Int): List<WaterReadingEntity>
     fun deleteAllWaterReading()
-    fun deleteWaterReadingFromFlat(addressId:List<Int>)
+    fun deleteWaterReadingByApartment(addressIds:List<Int>)
 }

@@ -6,5 +6,5 @@ interface HeatReadingCache {
     fun insertHeatReading(heatReading: List<HeatReadingEntity>)
     fun getHeatReading(teplomerId: Int): List<HeatReadingEntity>
     fun deleteAllHeatReading()
-    fun deleteHeatReadingFromFlat(addressId: List<Int>)
+    fun deleteHeatReadingsByApartment(addressIds:List<Int>)
 }

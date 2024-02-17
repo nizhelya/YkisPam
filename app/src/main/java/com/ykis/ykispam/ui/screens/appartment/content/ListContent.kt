@@ -216,7 +216,7 @@ fun ListContent(
                                     ListItem(
                                         modifier = modifier,
                                         imageVector = Icons.TwoTone.CorporateFare,
-                                        serviceName = baseUIState.apartment.osbb,
+                                        serviceName = baseUIState.apartment.osbb.toString(),
                                         isSelected = setSelected?.let {
                                             it == ContentDetail.OSBB
                                         } ?: false,

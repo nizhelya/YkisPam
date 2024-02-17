@@ -85,7 +85,7 @@ class AddressRemoteImpl @Inject constructor(
         email:String
     ): Either<Failure, GetSimpleResponse> {
         return request.make(
-            apiService.addFlatsByUser(
+            apiService.addApartment(
                 createAddFlatsMap(
                     kod,
                     uid,
@@ -138,7 +138,7 @@ class AddressRemoteImpl @Inject constructor(
 
     private fun createAddFlatsMap(kod: String, uid: String,email: String): Map<String, String> {
         val map = HashMap<String, String>()
-        map[ApiService.KOD] = kod
+        map[ApiService.CODE] = kod
         map[ApiService.UID] = uid
         map[ApiService.EMAIL] = email
 

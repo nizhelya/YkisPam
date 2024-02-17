@@ -20,4 +20,8 @@ class HeatMeterCacheImpl @Inject constructor(
     override fun deleteAllHeatMeter() {
         heatMeterDao.deleteAllHeatMeter()
     }
+
+    override fun deleteHeatMeterByApartment(addressIds: List<Int>) {
+        heatMeterDao.deleteHeatMeterByApartment(addressIds)
+    }
 }

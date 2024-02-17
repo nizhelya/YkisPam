@@ -20,6 +20,8 @@ interface ServiceDao {
     @Query("select *  from service where address_id = :addressId and service = 'total'")
     fun getTotalDebt(addressId: Int): ServiceEntity?
 
+    @Query("delete from service where address_id not in (:addressIds)")
+    fun deleteServiceByApartment(addressIds: List<Int>)
 
 
 }

@@ -150,7 +150,7 @@ fun DetailAppBar(
                             text = when (contentDetail) {
                                 ContentDetail.BTI -> stringResource(id = R.string.bti)
                                 ContentDetail.FAMILY -> stringResource(id = R.string.list_family)
-                                ContentDetail.OSBB -> baseUIState.apartment.osbb
+                                ContentDetail.OSBB -> baseUIState.apartment.osbb.toString()
                                 ContentDetail.WATER_SERVICE -> stringResource(id = R.string.vodokanal)
                                 ContentDetail.WARM_SERVICE -> stringResource(id = R.string.ytke)
                                 ContentDetail.GARBAGE_SERVICE -> stringResource(id = R.string.yzhtrans)

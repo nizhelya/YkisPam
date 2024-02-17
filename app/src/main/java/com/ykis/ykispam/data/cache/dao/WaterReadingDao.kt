@@ -18,6 +18,7 @@ interface WaterReadingDao {
     @Query("delete from water_reading")
     fun deleteAllWaterReadings()
 
-    @Query("delete from water_reading where address_id not in (:addressId)")
-    fun deleteWaterReadingFromFlat(addressId: List<Int>)
+    @Query("delete from water_reading where address_id not in (:addressIds)")
+    fun deleteWaterReadingByApartment(addressIds: List<Int>)
+
 }

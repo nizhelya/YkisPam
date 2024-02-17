@@ -15,11 +15,24 @@ class GetApartmentList @Inject constructor(
     private val database : AppDatabase
 ){
     operator fun invoke (uid : String) : Flow<Resource<List<ApartmentEntity>?>> = flow{
+        val addressIdList = mutableListOf<Int>()
         try{
             emit(Resource.Loading())
 
             val response = repository.getApartmentList(uid)
+            database.apartmentDao().deleteAllApartments()
             database.apartmentDao().insertApartmentList(response)
+            for(i in response){
+                addressIdList.add(i.addressId)
+            }
+            database.familyDao().deleteFamilyByApartment(addressIdList)
+            database.serviceDao().deleteServiceByApartment(addressIdList)
+            database.paymentDao().deletePaymentByApartment(addressIdList)
+            database.waterMeterDao().deleteWaterMeterByApartment(addressIdList)
+            database.heatMeterDao().deleteHeatMeterByApartment(addressIdList)
+            database.heatReadingDao().deleteHeatReadingsByApartment(addressIdList)
+            database.waterReadingDao().deleteWaterReadingByApartment(addressIdList)
+            addressIdList.clear()
             emit(Resource.Success(response))
         }catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "Unexpected error!"))

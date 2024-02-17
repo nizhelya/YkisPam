@@ -15,4 +15,7 @@ interface HeatMeterDao {
     fun getHeatMeter(addressId:Int): List<HeatMeterEntity>
     @Query("delete from heat_meter")
     fun deleteAllHeatMeter()
+    @Query("delete from heat_meter where address_id not in (:addressIds)")
+    fun deleteHeatMeterByApartment(addressIds: List<Int>)
+
 }

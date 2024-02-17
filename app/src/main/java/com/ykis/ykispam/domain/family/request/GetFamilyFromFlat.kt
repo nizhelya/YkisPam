@@ -25,7 +25,7 @@ class GetFamilyList @Inject constructor(
         }catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "Unexpected error!"))
         } catch (e: IOException) {
-            val familyList = database.familyDao().getFamilyFromFlat(
+            val familyList = database.familyDao().getFamilyByApartment(
                 addressId = params.addressId
             )
             if (familyList.isNotEmpty()) {

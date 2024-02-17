@@ -14,16 +14,18 @@ interface ApartmentRemote {
         uid: String
     ): Either<Failure, GetSimpleResponse>
 
-    fun updateBti(
-        addressId: Int,
-        phone: String,
-        email: String,
-        uid: String
-    ): Either<Failure, GetSimpleResponse>
+//    fun updateBti(
+//        addressId: Int,
+//        phone: String,
+//        email: String,
+//        uid: String
+//    ): Either<Failure, GetSimpleResponse>
 
     fun getFlatById(addressId: Int,uid: String): Either<Failure, ApartmentEntity>
 
     suspend fun getApartmentList(uid:String) : List<ApartmentEntity>
-    suspend fun newUpdateBti(params : ApartmentEntity) : BaseResponse
+    suspend fun updateBti(params : ApartmentEntity) : BaseResponse
     suspend fun getApartment(addressId: Int , uid:String) : ApartmentEntity
+    suspend fun deleteApartment(addressId :Int , uid:String) : BaseResponse
+    suspend fun addApartment(code:String , uid:String ,  email:String):GetSimpleResponse
 }

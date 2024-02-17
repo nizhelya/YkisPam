@@ -11,7 +11,9 @@ interface FamilyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFamily(appartment:List<FamilyEntity>)
     @Query("select * from family where address_id = :addressId")
-    fun getFamilyFromFlat(addressId:Int): List<FamilyEntity>
+    fun getFamilyByApartment(addressId:Int): List<FamilyEntity>
     @Query("delete from family")
     fun deleteAllFamily()
+    @Query("delete from family where address_id not in (:addressIds)")
+    fun deleteFamilyByApartment(addressIds: List<Int>)
 }

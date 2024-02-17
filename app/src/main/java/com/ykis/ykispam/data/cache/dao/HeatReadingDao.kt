@@ -16,6 +16,7 @@ interface HeatReadingDao {
     @Query("delete from heat_reading")
     fun deleteAllHeatReadings()
 
-    @Query("delete from heat_reading where address_id not in (:addressId)")
-    fun deleteHeatReadingFromFlat(addressId: List<Int>)
+    @Query("delete from heat_reading where address_id not in (:addressIds)")
+    fun deleteHeatReadingsByApartment(addressIds: List<Int>)
+
 }

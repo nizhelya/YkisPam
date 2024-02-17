@@ -61,7 +61,7 @@ interface ApiService {
         const val POK_ID = "pok_id"
         const val NEW_VALUE = "new_value"
         const val CURRENT_VALUE = "current_value"
-        const val KOD = "kod"
+        const val CODE = "kod"
         const val SERVICE = "service"
         const val TOTAL = "total"
         const val PHONE = "phone"
@@ -102,7 +102,7 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST(ADD_FLAT_BY_USER)
-    fun addFlatsByUser(@FieldMap params: Map<String, String>): Call<GetSimpleResponse>
+    fun addApartment(@FieldMap params: Map<String, String>): Call<GetSimpleResponse>
 
     @FormUrlEncoded
     @POST(GET_FAMILY)
@@ -114,7 +114,7 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST(DELETE_FLAT)
-    fun deleteFlatByUser(@FieldMap params: Map<String, String>): Call<GetSimpleResponse>
+    fun deleteApartment(@FieldMap params: Map<String, String>): Call<GetSimpleResponse>
 
     @FormUrlEncoded
     @POST(UPDATE_BTI)

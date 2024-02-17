@@ -96,7 +96,7 @@ data class ApartmentEntity(
     @Json(name = "osmd_id")
     @ColumnInfo(name = "osmd_id")
     val osmdId: Int = 0,
-    val osbb: String = "Unknown",
+    val osbb: String? = "Unknown",
     @Json(name = "what_change")
     @ColumnInfo(name = "what_change")
     val whatChange: String = "Unknown",

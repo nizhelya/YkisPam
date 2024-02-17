@@ -8,4 +8,6 @@ interface PaymentCache {
     fun deleteAllPayment()
     fun getYearsFromFlat(addressId: Int): List<Int>
     suspend fun getPaymentFromYearFlat(addressId: Int, year: Int): List<PaymentEntity>
+
+    fun deletePaymentByApartment(addressIds:List<Int>)
 }

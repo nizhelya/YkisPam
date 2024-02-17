@@ -6,4 +6,5 @@ interface WaterMeterCache {
     fun insertWaterMeter(waterMeters: List<WaterMeterEntity>)
     fun getWaterMeter(addressId: Int): List<WaterMeterEntity>
     fun deleteAllWaterMeter()
+    fun deleteWaterMeterByApartment(addressIds:List<Int>)
 }

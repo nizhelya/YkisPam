@@ -25,5 +25,7 @@ class ServiceCacheImpl @Inject constructor(
         return serviceDao.getTotalDebt(addressId)
     }
 
-
+    override fun deleteServiceByApartment(addressIds: List<Int>) {
+        serviceDao.deleteServiceByApartment(addressIds)
+    }
 }

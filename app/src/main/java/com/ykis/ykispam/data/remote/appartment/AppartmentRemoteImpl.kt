@@ -33,28 +33,8 @@ class ApartmentRemoteImpl @Inject constructor(
         uid: String
     ): Either<Failure, GetSimpleResponse> {
         return request.make(
-            apiService.deleteFlatByUser(
+            apiService.deleteApartment(
                 createRequestByAddressId(addressId, uid)
-            )
-        ) {
-            it
-        }
-    }
-
-    override fun updateBti(
-        addressId: Int,
-        phone: String,
-        email: String,
-        uid: String,
-    ): Either<Failure, GetSimpleResponse> {
-        return request.make(
-            apiService.updateBti(
-                createUpdateBti(
-                    addressId,
-                    phone,
-                    email,
-                    uid
-                )
             )
         ) {
             it
@@ -85,7 +65,7 @@ class ApartmentRemoteImpl @Inject constructor(
         ).await().apartments
     }
 
-    override suspend fun newUpdateBti(params: ApartmentEntity): BaseResponse {
+    override suspend fun updateBti(params: ApartmentEntity): BaseResponse {
         return apiService.updateBti(
             createUpdateBti(
                 addressId = params.addressId,
@@ -103,6 +83,24 @@ class ApartmentRemoteImpl @Inject constructor(
                 uid = uid
             )
         ).await().apartment
+    }
+
+    override suspend fun deleteApartment(addressId: Int, uid: String): BaseResponse {
+        return apiService.deleteApartment(
+            createRequestByAddressId(
+                addressId,uid
+            )
+        ).await()
+    }
+
+    override suspend fun addApartment(code: String , uid:String , email: String): GetSimpleResponse {
+        return apiService.addApartment(
+            createAddApartmentMap(
+                code = code,
+                uid = uid,
+                email = email
+            )
+        ).await()
     }
 
     private fun createGetApartmentListMap(uid: String): Map<String, String> {
@@ -132,6 +130,13 @@ class ApartmentRemoteImpl @Inject constructor(
         map[ApiService.PHONE] = phone
         map[ApiService.EMAIL] = email
         map[ApiService.UID] = uid
+        return map
+    }
+    private fun createAddApartmentMap(code: String, uid: String ,email: String): Map<String, String> {
+        val map = HashMap<String, String>()
+        map[ApiService.CODE] = code
+        map[ApiService.UID] = uid
+        map[ApiService.EMAIL] = email
         return map
     }
 }

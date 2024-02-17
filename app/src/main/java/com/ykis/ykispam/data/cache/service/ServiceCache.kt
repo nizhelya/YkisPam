@@ -7,7 +7,7 @@ interface ServiceCache {
     fun getServiceDetail(addressId: Int, service: String, year:String): List<ServiceEntity>
     fun deleteAllService()
     fun getTotalDebt(addressId: Int): ServiceEntity?
-
+    fun deleteServiceByApartment(addressIds: List<Int>)
 
 
 }

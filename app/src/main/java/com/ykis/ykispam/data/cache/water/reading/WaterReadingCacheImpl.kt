@@ -21,7 +21,8 @@ class WaterReadingCacheImpl @Inject constructor(
         waterReadingDao.deleteAllWaterReadings()
     }
 
-    override fun deleteWaterReadingFromFlat(addressId: List<Int>) {
-        waterReadingDao.deleteWaterReadingFromFlat(addressId)
+    override fun deleteWaterReadingByApartment(addressIds: List<Int>) {
+        waterReadingDao.deleteWaterReadingByApartment(addressIds)
     }
+
 }

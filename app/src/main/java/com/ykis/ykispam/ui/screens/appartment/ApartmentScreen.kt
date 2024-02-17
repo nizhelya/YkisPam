@@ -25,8 +25,6 @@ import com.ykis.ykispam.ui.YkisPamAppState
 @Composable
 fun ApartmentScreen(
     modifier: Modifier = Modifier,
-    openScreen: (String) -> Unit,
-    restartApp: (String) -> Unit,
     appState: YkisPamAppState,
     contentType: ContentType,
     baseUIState: BaseUIState,
@@ -35,10 +33,9 @@ fun ApartmentScreen(
     closeDetailScreen: () -> Unit,
     getApartments: () -> Unit,
     setApartment: (Int) -> Unit,
-    getApartment : () -> Unit,
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
     onDrawerClicked: () -> Unit = {},
-    deleteApartment: (addressId: Int, restartApp: (String) -> Unit) -> Unit,
+    deleteApartment: () -> Unit,
     addressId: Int,
     apartmentViewModel: ApartmentViewModel
 ) {
@@ -67,7 +64,6 @@ fun ApartmentScreen(
             appState = appState,
             baseUIState = baseUIState,
             deleteApartment = deleteApartment,
-            restartApp = restartApp,
             navigateToDetail = navigateToDetail,
             navigationType = navigationType,
             contentType = contentType,
@@ -83,7 +79,7 @@ fun ApartmentScreen(
                 appState = appState,
                 baseUIState = baseUIState,
                 closeDetailScreen = closeDetailScreen,
-                deleteApartment = { deleteApartment(baseUIState.addressId, restartApp) },
+                deleteApartment = { deleteApartment() },
                 navigateToDetail = navigateToDetail,
                 onDrawerClicked = onDrawerClicked,
                 navigationType = navigationType,
@@ -97,8 +93,7 @@ fun ApartmentScreen(
 fun DualPanelContent(
     appState: YkisPamAppState,
     baseUIState: BaseUIState,
-    deleteApartment: (addressId: Int, restartApp: (String) -> Unit) -> Unit,
-    restartApp: (String) -> Unit,
+    deleteApartment: () -> Unit,
     navigateToDetail: (ContentDetail, ContentType) -> Unit,
     //todo always Dual_pane
     navigationType: NavigationType,
@@ -114,7 +109,7 @@ fun DualPanelContent(
             ListContent(
                 appState = appState,
                 baseUIState = baseUIState,
-                deleteApartment = { deleteApartment(baseUIState.addressId, restartApp) },
+                deleteApartment = { deleteApartment() },
                 navigateToDetail = navigateToDetail,
                 navigationType = navigationType
             )

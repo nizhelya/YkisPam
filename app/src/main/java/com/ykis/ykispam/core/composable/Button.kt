@@ -38,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.glance.appwidget.Tracing.enabled
 
 @Composable
 fun BasicLinkButton(@StringRes text: Int, modifier: Modifier, action: () -> Unit) {
@@ -75,25 +76,17 @@ fun BasicImageButton(
     @StringRes text: Int,
     @DrawableRes img: Int,
     modifier: Modifier,
+    enabled : Boolean = true,
     action: () -> Unit
 ) {
     Button(
+        enabled = enabled,
         onClick = action,
         modifier = modifier,
-        shape = RoundedCornerShape(20.dp),
-        elevation = ButtonDefaults.buttonElevation(
-            defaultElevation = 10.dp,
-            pressedElevation = 8.dp,
-            disabledElevation = 0.dp,
-            hoveredElevation = 4.dp,
-            focusedElevation = 4.dp
-        ),
         colors =
         ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.onSecondary,
             contentColorFor(backgroundColor = MaterialTheme.colorScheme.secondary),
-//            containerColor = Color(0xFF3A4C2B),
-//            contentColor = Color(0xFFFFB945),
         )
     ) {
         Image(
@@ -104,10 +97,7 @@ fun BasicImageButton(
         )
         Text(
             text = stringResource(text),
-            fontSize = 16.sp,
             color = MaterialTheme.colorScheme.secondary,
-            modifier = Modifier.padding(start = 8.dp)
-
         )
     }
 }
