@@ -160,7 +160,7 @@ class ApartmentViewModel @Inject constructor(
                 )
 
             }catch (e:Exception){
-                Log.d("apartment_test", e.message.toString())
+                SnackbarManager.showMessage(e.message.toString())
             }
 
         }
@@ -247,21 +247,41 @@ class ApartmentViewModel @Inject constructor(
         }.launchIn(this.viewModelScope)
     }
 
-    private fun getApartment(){
-        this.getApartmentUseCase(uiState.value.addressId, uid).onEach {
-            result ->
+    fun getApartment(addressId: Int = uiState.value.addressId ){
+        try {
+            this.getApartmentUseCase(addressId = addressId, uid).onEach {
+                    result ->
                 when(result){
                     is Resource.Success -> {
-                        this._uiState.value = _uiState.value.copy(apartment = result.data ?: ApartmentEntity() , isLoading = false)
+                        this._uiState.value = _uiState.value.copy(
+                            mainLoading = false,
+                            apartment = result.data ?: ApartmentEntity(),
+                            addressId = result.data!!.addressId,
+                            address = result.data.address,
+                            houseId = result.data.houseId,
+                            osmdId =result.data.osmdId,
+                            osbb = result.data.osbb.toString(),
+                            selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${result.data.addressId}}"
+                        )
+                        Log.d("loading_test" , result.data.toString())
                     }
                     is Resource.Error -> {
-                        this._uiState.value = _uiState.value.copy(error = result.message ?: "Unexpected error!")
+                        this._uiState.value = _uiState.value.copy(
+                            error = result.message ?: "Unexpected error!",
+                            mainLoading = false
+                        )
                     }
                     is Resource.Loading -> {
-                        this._uiState.value = _uiState.value.copy(isLoading = true)
+                        this._uiState.value = _uiState.value.copy(
+                            mainLoading = true
+                        )
                     }
                 }
-        }.launchIn(this.viewModelScope)
+            }.launchIn(this.viewModelScope)
+        }catch (e:Exception){
+            SnackbarManager.showMessage("aaaa")
+        }
+
     }
 
     fun getApartmentList(){
@@ -269,13 +289,21 @@ class ApartmentViewModel @Inject constructor(
                 result->
             when(result){
                 is Resource.Success -> {
-                    this._uiState.value = _uiState.value.copy(apartments = result.data ?: emptyList() , isLoading = false)
+                    this._uiState.value = _uiState.value.copy(
+                        apartments = result.data ?: emptyList() ,
+                        mainLoading = false
+                    )
+
+                    Log.d("loading_test" ,"success")
                 }
                 is Resource.Error -> {
-                    this._uiState.value = _uiState.value.copy(error = result.message ?: "Unexpected error!")
+                    this._uiState.value = _uiState.value.copy(
+                        error = result.message ?: "Unexpected error!",
+                        mainLoading = false
+                    )
                 }
                 is Resource.Loading -> {
-                    this._uiState.value = _uiState.value.copy(isLoading = true)
+                    this._uiState.value = _uiState.value.copy(mainLoading = true)
                 }
             }
         }.launchIn(this.viewModelScope)
@@ -289,14 +317,23 @@ class ApartmentViewModel @Inject constructor(
             result->
             when(result){
                 is Resource.Success -> {
-                    _uiState.value.apartment = ApartmentEntity()
                     SnackbarManager.showMessage(R.string.success_delete_flat)
                     getApartmentList()
+                    this._uiState.value = _uiState.value.copy(
+                        mainLoading   = false,
+                        apartment = ApartmentEntity()
+                    )
                 }
                 is Resource.Error -> {
-                    this._uiState.value = _uiState.value.copy(error = result.message ?: "Unexpected error!")
+                    this._uiState.value = _uiState.value.copy(
+                        error = result.message ?: "Unexpected error!",
+                        mainLoading = false
+                    )
                 }
                 is Resource.Loading -> {
+                    _uiState.value = _uiState.value.copy(
+                        mainLoading = true
+                    )
                 }
             }
         }.launchIn(this.viewModelScope)

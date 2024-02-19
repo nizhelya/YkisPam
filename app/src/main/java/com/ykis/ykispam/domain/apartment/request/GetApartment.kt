@@ -3,6 +3,7 @@ package com.ykis.ykispam.domain.apartment.request
 import android.util.Log
 import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.core.snackbar.SnackbarManager
+import com.ykis.ykispam.core.snackbar.SnackbarMessage
 import com.ykis.ykispam.data.cache.database.AppDatabase
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.domain.apartment.ApartmentRepository
@@ -19,13 +20,14 @@ class GetApartment @Inject constructor(
     operator fun invoke (addressId : Int ,uid : String) : Flow<Resource<ApartmentEntity?>> = flow{
         try{
             emit(Resource.Loading())
-
             val response = repository.getApartment(addressId , uid)
             database.apartmentDao().insertApartmentList(listOf(response))
             emit(Resource.Success(response))
         }catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "Unexpected error!"))
         } catch (e: Exception) {
+            val apartment = database.apartmentDao().getFlatById(addressId = addressId)
+            emit(Resource.Success(apartment))
             SnackbarManager.showMessage(e.message.toString())
             emit(Resource.Error("Check your internet connection"))
         }

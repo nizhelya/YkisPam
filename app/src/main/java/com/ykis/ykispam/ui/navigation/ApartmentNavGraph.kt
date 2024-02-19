@@ -1,14 +1,21 @@
 package com.ykis.ykispam.ui.navigation
 
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -19,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -53,11 +61,11 @@ fun MainApartmentScreen(
     navigationType: NavigationType,
     displayFeatures: List<DisplayFeature>,
     navController: NavHostController = rememberNavController(),
-    viewModel : ApartmentViewModel = hiltViewModel(),
+    viewModel: ApartmentViewModel = hiltViewModel(),
     rootNavController: NavHostController,
     appState: YkisPamAppState,
-    onLaunch : () -> Unit,
-    onDispose : () -> Unit
+    onLaunch: () -> Unit,
+    onDispose: () -> Unit
 ) {
     val baseUIState by viewModel.uiState.collectAsStateWithLifecycle()
     val drawerState = DrawerState(initialValue = DrawerValue.Closed)
@@ -73,11 +81,12 @@ fun MainApartmentScreen(
     )
     DisposableEffect(key1 = Unit) {
         onLaunch()
+        viewModel.initialize()
         onDispose {
             onDispose()
         }
     }
-    if(baseUIState.apartments.isNotEmpty()) {
+    if (baseUIState.apartments.isNotEmpty()) {
         if (navigationType == NavigationType.BOTTOM_NAVIGATION) {
             ModalNavigationDrawer(
                 drawerContent = {
@@ -130,7 +139,8 @@ fun MainApartmentScreen(
                             }
                         },
                         apartmentViewModel = viewModel,
-                        rootNavController = rootNavController
+                        rootNavController = rootNavController,
+                        firstDestination = ApartmentScreen.routeWithArgs
 
                     )
                 }
@@ -156,7 +166,8 @@ fun MainApartmentScreen(
                         }
                     },
                     apartmentViewModel = viewModel,
-                    rootNavController = rootNavController
+                    rootNavController = rootNavController,
+                    firstDestination = ApartmentScreen.routeWithArgs
 
                 )
                 ApartmentNavigationRail(
@@ -178,7 +189,7 @@ fun MainApartmentScreen(
 
             }
         }
-    }else{
+    } else {
         ApartmentNavGraph(
             modifier = Modifier.fillMaxSize(),
             contentType = contentType,
@@ -192,11 +203,13 @@ fun MainApartmentScreen(
                 }
             },
             apartmentViewModel = viewModel,
-            rootNavController = rootNavController
+            rootNavController = rootNavController ,
+            firstDestination = AddApartmentScreen.route
 
         )
     }
 }
+
 @Composable
 fun ApartmentNavGraph(
     modifier: Modifier = Modifier,
@@ -207,82 +220,93 @@ fun ApartmentNavGraph(
     onDrawerClicked: () -> Unit = {},
     navController: NavHostController = rememberNavController(),
     apartmentViewModel: ApartmentViewModel,
-    rootNavController: NavHostController
+    rootNavController: NavHostController,
+    firstDestination:String
 ) {
     val appState = rememberAppState()
-    LaunchedEffect(key1 = true) {
-        apartmentViewModel.initialize()
-    }
-    NavHost(
-        modifier = modifier,
-        navController = navController,
-        route = Graph.APARTMENT,
-        startDestination =
-        if(baseUIState.apartments.isEmpty()){
-            AddApartmentScreen.route
-        }else
-            ApartmentScreen.routeWithArgs
-    ) {
-        composable(ProfileScreen.route) {
-
-            ProfileScreen(
-                appState = appState,
-                popUpScreen = { navController.popBackStack() },
-                cleanNavigateToDestination = {rootNavController.cleanNavigateTo(it)},
-            )
-        }
-        composable(ChatScreen.route) {
-            EmptyScreen(
-                popUpScreen = { navController.popBackStack()},
-            )
-        }
-        composable(AddApartmentScreen.route) {
-            AddApartmentScreenContent(
-                viewModel = apartmentViewModel,
-                navController = navController,
-                canNavigateBack = navController.previousBackStackEntry != null
-            )
-//            AddApartmentScreen(
-//                popUpScreen = { appState.popUp() },
-//                restartApp = { route -> appState.clearAndNavigate(route) },
-//            )
-        }
-
-        composable(SettingsScreen.route) {
-            SettingsScreen(popUpScreen = { navController.popBackStack() })
-        }
-
-        composable(
-            route = ApartmentScreen.routeWithArgs,
-            arguments = ApartmentScreen.arguments
+    Box(modifier = Modifier.fillMaxSize()) {
+        AnimatedVisibility(
+            modifier = Modifier.align(Alignment.Center),
+            visible = baseUIState.mainLoading,
+            exit = fadeOut(),
+            enter = fadeIn()
         ) {
-                navBackStackEntry->
-            val addressIdArg =
-                navBackStackEntry.arguments?.getInt(ApartmentScreen.addressIdArg)
-            ApartmentScreen(
-                appState = appState,
-                contentType = contentType,
-                baseUIState = baseUIState,
-                navigationType = navigationType,
-                displayFeatures = displayFeatures,
-                closeDetailScreen = {apartmentViewModel.closeDetailScreen()},
-                setApartment = {addressId ->apartmentViewModel.setApartment(addressId) },
-                navigateToDetail = {contentDetail, pane ->  apartmentViewModel.setSelectedDetail(contentDetail, pane) },
-                getApartments = {apartmentViewModel.initialize()},
-                deleteApartment = { apartmentViewModel.deleteApartment()},
-                onDrawerClicked = onDrawerClicked,
-                addressId = addressIdArg!!,
-                apartmentViewModel = apartmentViewModel
-            )
-        }
-        composable(MeterScreen.route) {
-            MeterScreen()
-        }
-        composable(ServiceListScreen.route) {
-            ServiceListScreen()
+            CircularProgressIndicator()
         }
     }
+        AnimatedVisibility(
+            visible =  !baseUIState.mainLoading,
+            exit = fadeOut(tween(delayMillis = 100)),
+            enter = fadeIn(tween(delayMillis = 100))
+        ) {
+            NavHost(
+                modifier = modifier,
+                navController = navController,
+                route = Graph.APARTMENT,
+                startDestination = firstDestination
+            ) {
+                composable(ProfileScreen.route) {
+
+                    ProfileScreen(
+                        appState = appState,
+                        popUpScreen = { navController.popBackStack() },
+                        cleanNavigateToDestination = {rootNavController.cleanNavigateTo(it)},
+                    )
+                }
+                composable(ChatScreen.route) {
+                    EmptyScreen(
+                        popUpScreen = { navController.popBackStack()},
+                    )
+                }
+                composable(AddApartmentScreen.route) {
+                    AddApartmentScreenContent(
+                        viewModel = apartmentViewModel,
+                        navController = navController,
+                        canNavigateBack = navController.previousBackStackEntry != null
+                    )
+                    //            AddApartmentScreen(
+                    //                popUpScreen = { appState.popUp() },
+                    //                restartApp = { route -> appState.clearAndNavigate(route) },
+                    //            )
+                }
+
+                composable(SettingsScreen.route) {
+                    SettingsScreen(popUpScreen = { navController.popBackStack() })
+                }
+
+                composable(
+                    route = ApartmentScreen.routeWithArgs,
+                    arguments = ApartmentScreen.arguments
+                ) {
+                        navBackStackEntry->
+                    val addressIdArg =
+                        navBackStackEntry.arguments?.getInt(ApartmentScreen.addressIdArg)
+                    ApartmentScreen(
+                        appState = appState,
+                        contentType = contentType,
+                        baseUIState = baseUIState,
+                        navigationType = navigationType,
+                        displayFeatures = displayFeatures,
+                        closeDetailScreen = {apartmentViewModel.closeDetailScreen()},
+                        setApartment = {addressId ->apartmentViewModel.setApartment(addressId) },
+                        navigateToDetail = {contentDetail, pane ->  apartmentViewModel.setSelectedDetail(contentDetail, pane) },
+                        getApartments = {apartmentViewModel.initialize()},
+                        deleteApartment = { apartmentViewModel.deleteApartment()},
+                        onDrawerClicked = onDrawerClicked,
+                        addressId = addressIdArg!!,
+                        apartmentViewModel = apartmentViewModel,
+                    )
+                }
+                composable(MeterScreen.route) {
+                    MeterScreen()
+                }
+                composable(ServiceListScreen.route) {
+                    ServiceListScreen()
+                }
+            }
+        }
 }
+
 @Composable
 inline fun <reified T : ViewModel> NavBackStackEntry.sharedViewModel(
     navController: NavHostController,

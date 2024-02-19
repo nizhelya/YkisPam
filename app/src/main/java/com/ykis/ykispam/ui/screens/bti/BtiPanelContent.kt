@@ -660,6 +660,7 @@ fun BtiContent(
             }
         }
         ContactsCard(
+            baseUIState = baseUIState,
             phone = contactUiState.phone,
             email = contactUiState.email,
             onEmailChange = onEmailChange,

@@ -31,7 +31,9 @@ fun LaunchScreen(
 ) {
     val isUserSignedOut = viewModel.getAuthState().collectAsStateWithLifecycle().value
     val showError = viewModel.showError.collectAsState()
-
+    LaunchedEffect(key1 = isUserSignedOut) {
+        viewModel.onAppStart(isUserSignedOut, openAndPopUp,restartApp)
+    }
     Column(
         modifier =
         modifier
@@ -44,15 +46,6 @@ fun LaunchScreen(
             BasicButton(AppText.try_again, Modifier.basicButton()) {
                 viewModel.onAppStart(isUserSignedOut, openAndPopUp,restartApp)
             }
-        } else {
-            AnimatedVisibility(visible = true,
-                enter = fadeIn(tween(delayMillis = 250))) {
-                CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
-            }
-
         }
-    }
-    LaunchedEffect(key1 = isUserSignedOut) {
-        viewModel.onAppStart(isUserSignedOut, openAndPopUp,restartApp)
     }
 }

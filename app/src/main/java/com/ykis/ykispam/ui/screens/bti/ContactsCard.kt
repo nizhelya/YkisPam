@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
@@ -24,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.glance.Button
 import com.ykis.ykispam.R
@@ -34,8 +36,9 @@ import com.ykis.ykispam.ui.BaseUIState
 
 @Composable
 fun ContactsCard(
-    onUpdateBti : () -> Unit,
     modifier : Modifier = Modifier,
+    baseUIState: BaseUIState = BaseUIState(),
+    onUpdateBti : () -> Unit,
     phone : String,
     email : String,
     onEmailChange: (String) -> Unit,
@@ -126,9 +129,12 @@ fun ContactsCard(
     }
     if(openDialog.value){
         ChangeContactsDialog(
+            baseUIState = baseUIState,
             onDismissRequest = { openDialog.value = false},
             phone = phone,
             email = email ,
+            previousPhone = baseUIState.apartment.phone,
+            previousEmail = baseUIState.apartment.email,
             onEmailChange = onEmailChange,
             onPhoneChange = onPhoneChange,
             onUpdateClick = onUpdateBti
@@ -139,35 +145,63 @@ fun ContactsCard(
 @Composable
 fun ChangeContactsDialog(
     modifier: Modifier = Modifier,
+    baseUIState: BaseUIState,
     onDismissRequest: () -> Unit,
     onUpdateClick : () -> Unit,
     phone : String,
     email : String,
+    previousPhone:String,
+    previousEmail:String,
     onEmailChange: (String) -> Unit,
     onPhoneChange: (String) -> Unit,
 ) {
-    Dialog(onDismissRequest = { onDismissRequest()}) {
-        Card {
+    Dialog(
+        onDismissRequest = { onDismissRequest()},
+    ) {
+        Card(
+            modifier = modifier.widthIn(min = 280.dp , max =560.dp)
+        ) {
             Column(
                 modifier = modifier.padding(all = 24.dp)
             ){
-                PhoneField(value =phone , onNewValue =onPhoneChange )
+                Icon(
+                    tint = MaterialTheme.colorScheme.secondary,
+                    modifier = modifier.fillMaxWidth(),
+                    imageVector = Icons.Default.Edit ,
+                    contentDescription = "edit"
+                )
+                Text(
+                    text = stringResource(R.string.update_bti),
+                    fontSize = 22.sp,
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = modifier.padding(vertical = 16.dp),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                PhoneField(modifier = modifier.padding(bottom = 5.dp),value = phone , onNewValue =onPhoneChange )
                 EmailField(value = email, onNewValue =onEmailChange )
                 Row(
                     modifier = modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End
                 ) {
-                    TextButton(onClick = { onDismissRequest() }) {
-                        Text(
-                            text = "Відмінити"
-                        )
-                    }
                     TextButton(onClick = {
                         onDismissRequest()
-                        onUpdateClick()
+                        onEmailChange(previousEmail)
+                        onPhoneChange(previousPhone)
                     }) {
                         Text(
-                            "Оновити"
+                            text = stringResource(id = R.string.cancel)
+                        )
+                    }
+                    TextButton(
+                        onClick = {
+                        onDismissRequest()
+                        onUpdateClick()
+                    },
+                        enabled = (previousEmail != email ||previousPhone != phone )
+
+                        ) {
+                        Text(
+                            stringResource(R.string.change)
                         )
                     }
                 }
@@ -185,4 +219,21 @@ private fun PreviewContactsCard() {
         onPhoneChange = {},
         onUpdateBti = {}
     )
+}
+
+@Preview
+@Composable
+private fun PreviewDialog() {
+    ChangeContactsDialog(
+        baseUIState = BaseUIState(),
+        onDismissRequest = { /*TODO*/ },
+        onUpdateClick = { /*TODO*/ },
+        phone = BaseUIState().apartment.phone,
+        email = BaseUIState().apartment.email,
+        previousPhone = "+380000000",
+        previousEmail = "example@gmail.com",
+        onEmailChange = {}
+    ) {
+        
+    }
 }

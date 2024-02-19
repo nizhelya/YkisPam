@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
+import com.google.android.play.core.integrity.ap
 import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.navigation.ContentType
 import com.ykis.ykispam.ui.navigation.NavigationType
@@ -39,21 +40,13 @@ fun ApartmentScreen(
     addressId: Int,
     apartmentViewModel: ApartmentViewModel
 ) {
-//    baseUiState called 5 times
 
-    LaunchedEffect(key1 = baseUIState.apartments) {
-        getApartments()
-        if (contentType == ContentType.SINGLE_PANE && !baseUIState.isDetailOnlyOpen) {
-            closeDetailScreen()
-        }
-    }
     LaunchedEffect(key1 = addressId, key2 = baseUIState.apartments) {
         if (baseUIState.apartment == ApartmentEntity() && baseUIState.apartments.isNotEmpty()) {
-            setApartment(baseUIState.apartments.first().addressId)
+            apartmentViewModel.getApartment(baseUIState.apartments.first().addressId)
         } else {
-            setApartment(addressId)
+            apartmentViewModel.getApartment(addressId)
         }
-
         if (contentType == ContentType.SINGLE_PANE && !baseUIState.isDetailOnlyOpen) {
             closeDetailScreen()
         }

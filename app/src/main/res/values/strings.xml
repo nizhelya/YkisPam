@@ -347,5 +347,7 @@
 
     <string name="no_payment">Немає платежів</string>
     <string name="no_payment_year">За цей рік платежів не знайдено</string>
+    <string name="update_bti">Змінити контактні дані?</string>
+    <string name="change">Змінити</string>
 
 </resources>

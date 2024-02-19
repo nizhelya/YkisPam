@@ -95,11 +95,8 @@ fun EmailField(value: String, onNewValue: (String) -> Unit, modifier: Modifier =
 @Composable
 fun PhoneField(value: String, onNewValue: (String) -> Unit, modifier: Modifier = Modifier) {
     OutlinedTextField(
-//        singleLine = true,
-        modifier = Modifier
-            .fillMaxWidth()
-//            .padding(16.dp, 4.dp, 16.dp, 4.dp),
-                ,
+        modifier = modifier
+            .fillMaxWidth(),
         label = {
             Text(
                 style = MaterialTheme.typography.bodyLarge,
@@ -145,8 +142,7 @@ private fun PasswordField(
 
     OutlinedTextField(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp, 4.dp, 16.dp, 4.dp),
+            .fillMaxWidth() ,
         label = {
             Text(
                 text = stringResource(id = placeholder)

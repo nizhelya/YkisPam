@@ -4,13 +4,7 @@ import com.ykis.ykispam.R
 import com.ykis.ykispam.core.ExceptionWithResourceMessage
 import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.data.remote.GetSimpleResponse
-import com.ykis.ykispam.data.remote.core.BaseResponse
-import com.ykis.ykispam.domain.address.AddressRepository
-import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.domain.apartment.ApartmentRepository
-import com.ykis.ykispam.domain.interactor.UseCase
-import com.ykis.ykispam.domain.type.Either
-import com.ykis.ykispam.domain.type.Failure
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
