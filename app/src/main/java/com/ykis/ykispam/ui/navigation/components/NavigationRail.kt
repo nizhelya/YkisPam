@@ -88,7 +88,8 @@ private fun PreviewRail() {
         baseUIState = BaseUIState(
             apartments = CollectionUtils.listOf(ApartmentEntity(address = "Хіміків 14/33"))
         ),
-        railWidth = 80.dp
+        railWidth = 80.dp,
+        isApartmentsEmpty = false
     )
 }
 @Preview
@@ -104,7 +105,8 @@ private fun PreviewExpandedRail() {
         baseUIState = BaseUIState(
             apartments = CollectionUtils.listOf(ApartmentEntity(address = "Хіміків 14/33"))
         ),
-        railWidth = 260.dp
+        railWidth = 260.dp,
+        isApartmentsEmpty = false
     )
 }
 @Composable
@@ -148,7 +150,8 @@ fun ApartmentNavigationRail(
     onMenuClick: () -> Unit,
     navigateToApartment : (Int) -> Unit = {},
     railWidth : Dp,
-    maxApartmentListHeight : Dp = 134.dp
+    maxApartmentListHeight : Dp = 134.dp,
+    isApartmentsEmpty : Boolean
 ) {
     var showApartmentList by rememberSaveable {
         mutableStateOf(true)
@@ -236,48 +239,52 @@ fun ApartmentNavigationRail(
         },
         currentWidth = railWidth
     ) {
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .alpha(alpha = alpha)
-            .heightIn(max = height)
-        )
-        {
-            Row(modifier = Modifier
-                .height(42.dp)
-                .fillMaxWidth()
-                .clickable {
-                    showApartmentList = !showApartmentList
-                },
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
+        if(!isApartmentsEmpty){
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .alpha(alpha = alpha)
+                    .heightIn(max = height)
+            )
+            {
+                Row(
                     modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 14.dp),
-                    text = stringResource(id = R.string.list_apartment),
-                    style = MaterialTheme.typography.titleMedium,
-                )
-                Icon(
-                    modifier = Modifier
-                        .padding(end = 14.dp)
-                        .rotate(rotationIcon),
-                    imageVector = Icons.Default.ExpandMore,
-                    contentDescription = null,
-                )
+                        .height(42.dp)
+                        .fillMaxWidth()
+                        .clickable {
+                            showApartmentList = !showApartmentList
+                        },
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(start = 14.dp),
+                        text = stringResource(id = R.string.list_apartment),
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                    Icon(
+                        modifier = Modifier
+                            .padding(end = 14.dp)
+                            .rotate(rotationIcon),
+                        imageVector = Icons.Default.ExpandMore,
+                        contentDescription = null,
+                    )
+                }
+                HorizontalDivider()
+                AnimatedVisibility(
+                    visible = showApartmentList,
+                    enter = expandVertically(tween(350, easing = LinearOutSlowInEasing)),
+                    exit = shrinkVertically(tween(250, easing = LinearOutSlowInEasing))
+                ) {
+                    ApartmentList(
+                        apartmentList = baseUIState.apartments,
+                        onClick = navigateToApartment,
+                        currentAddressId = baseUIState.addressId
+                    )
+                }
+                HorizontalDivider()
             }
-            HorizontalDivider()
-            AnimatedVisibility(
-                visible = showApartmentList,
-                enter =  expandVertically(tween(350 , easing = LinearOutSlowInEasing)),
-                exit = shrinkVertically(tween(250 , easing = LinearOutSlowInEasing))
-            ) {
-                ApartmentList(
-                    apartmentList = baseUIState.apartments,
-                    onClick = navigateToApartment,
-                    currentAddressId = baseUIState.addressId
-                )
-            }
-            HorizontalDivider()
         }
         Column(
             modifier = Modifier
@@ -289,85 +296,87 @@ fun ApartmentNavigationRail(
             verticalArrangement = Arrangement.spacedBy(animatePadding.value, Alignment.Top)
         ) {
             NAV_RAIL_DESTINATIONS.forEach { replyDestination ->
-                Box {
+                if (replyDestination.alwaysVisible || !isApartmentsEmpty) {
                     Box {
-                        NavigationRailItem(
-                            modifier = Modifier.padding(horizontal = 28.dp),
-                            selected = selectedDestination == replyDestination.route,
-                            label = {
-                                Text(
-                                    modifier = Modifier.size(if (isRailExpanded) 0.dp else 12.dp),
-                                    text = "",
-                                )
-                            },
-                            icon = {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(animateItemHeight),
-                                    horizontalArrangement = Arrangement.spacedBy(
-                                        12.dp
-                                    ),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Icon(
-                                        imageVector = if (selectedDestination == replyDestination.route) {
-                                            replyDestination.selectedIcon
-                                        } else replyDestination.unselectedIcon,
-
-                                        contentDescription = stringResource(
-                                            id = replyDestination.labelId
-                                        )
+                        Box {
+                            NavigationRailItem(
+                                modifier = Modifier.padding(horizontal = 28.dp),
+                                selected = selectedDestination == replyDestination.route,
+                                label = {
+                                    Text(
+                                        modifier = Modifier.size(if (isRailExpanded) 0.dp else 12.dp),
+                                        text = "",
                                     )
-                                    AnimatedVisibility(
-                                        visible = isRailExpanded,
-                                        exit = fadeOut(
-                                            tween(durationMillis = 700)
-                                        )
-                                                + shrinkHorizontally(),
-                                        enter = fadeIn(
-                                            tween(durationMillis = 550, delayMillis = 150)
-                                        )
+                                },
+                                icon = {
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(animateItemHeight),
+                                        horizontalArrangement = Arrangement.spacedBy(
+                                            12.dp
+                                        ),
+                                        verticalAlignment = Alignment.CenterVertically
                                     ) {
-                                        Text(
-                                            text = stringResource(id = replyDestination.labelId),
+                                        Icon(
+                                            imageVector = if (selectedDestination == replyDestination.route) {
+                                                replyDestination.selectedIcon
+                                            } else replyDestination.unselectedIcon,
+
+                                            contentDescription = stringResource(
+                                                id = replyDestination.labelId
+                                            )
                                         )
+                                        AnimatedVisibility(
+                                            visible = isRailExpanded,
+                                            exit = fadeOut(
+                                                tween(durationMillis = 700)
+                                            )
+                                                    + shrinkHorizontally(),
+                                            enter = fadeIn(
+                                                tween(durationMillis = 550, delayMillis = 150)
+                                            )
+                                        ) {
+                                            Text(
+                                                text = stringResource(id = replyDestination.labelId),
+                                            )
+                                        }
                                     }
-                                }
-                            },
-                            onClick = { navigateToDestination(replyDestination.route) }
-                        )
-                    }
-                    androidx.compose.animation.AnimatedVisibility(
-                        visible = !isRailExpanded,
-                        modifier = Modifier
-                            .width(80.dp)
-                            .align(Alignment.CenterStart),
-                        exit =
-                        fadeOut(
-                            tween(200)
-                        )
-                                + shrinkVertically(
-                            tween(320)
-                        ),
-                        enter = fadeIn(
-                            tween(300)
-                        )
-                                + expandVertically(
-                            tween(500)
-                        )
-                    ) {
-                        Text(
-                            style = MaterialTheme.typography.labelMedium,
-                            color =
-                            if (selectedDestination == replyDestination.route) {
-                                NavigationRailItemDefaults.colors().selectedTextColor
-                            } else NavigationRailItemDefaults.colors().unselectedIconColor,
-                            text = stringResource(id = replyDestination.labelId),
+                                },
+                                onClick = { navigateToDestination(replyDestination.route) }
+                            )
+                        }
+                        androidx.compose.animation.AnimatedVisibility(
+                            visible = !isRailExpanded,
                             modifier = Modifier
-                                .padding(top = 32.dp),
-                            textAlign = TextAlign.Center
-                        )
+                                .width(80.dp)
+                                .align(Alignment.CenterStart),
+                            exit =
+                            fadeOut(
+                                tween(200)
+                            )
+                                    + shrinkVertically(
+                                tween(320)
+                            ),
+                            enter = fadeIn(
+                                tween(300)
+                            )
+                                    + expandVertically(
+                                tween(500)
+                            )
+                        ) {
+                            Text(
+                                style = MaterialTheme.typography.labelMedium,
+                                color =
+                                if (selectedDestination == replyDestination.route) {
+                                    NavigationRailItemDefaults.colors().selectedTextColor
+                                } else NavigationRailItemDefaults.colors().unselectedIconColor,
+                                text = stringResource(id = replyDestination.labelId),
+                                modifier = Modifier
+                                    .padding(top = 32.dp),
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                 }
             }

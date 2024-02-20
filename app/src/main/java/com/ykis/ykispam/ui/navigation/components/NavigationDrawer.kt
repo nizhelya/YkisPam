@@ -11,7 +11,8 @@ fun ModalNavigationDrawerContent(
     selectedDestination: String,
     navigateToDestination: (String) -> Unit,
     onMenuClick: () -> Unit = {},
-    navigateToApartment: (Int) -> Unit
+    navigateToApartment: (Int) -> Unit,
+    isApartmentsEmpty : Boolean
 ) {
     ModalDrawerSheet {
         ApartmentNavigationRail(
@@ -22,7 +23,8 @@ fun ModalNavigationDrawerContent(
             navigateToDestination = navigateToDestination,
             navigateToApartment = navigateToApartment,
             railWidth = 320.dp,
-            maxApartmentListHeight = 178.dp
+            maxApartmentListHeight = 178.dp,
+            isApartmentsEmpty = isApartmentsEmpty
         )
     }
 }

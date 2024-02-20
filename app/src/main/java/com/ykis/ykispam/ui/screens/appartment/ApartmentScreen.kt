@@ -38,11 +38,11 @@ fun ApartmentScreen(
     onDrawerClicked: () -> Unit = {},
     deleteApartment: () -> Unit,
     addressId: Int,
-    apartmentViewModel: ApartmentViewModel
+    apartmentViewModel: ApartmentViewModel,
 ) {
 
     LaunchedEffect(key1 = addressId, key2 = baseUIState.apartments) {
-        if (baseUIState.apartment == ApartmentEntity() && baseUIState.apartments.isNotEmpty()) {
+        if (addressId  == 0 && baseUIState.apartments.isNotEmpty()) {
             apartmentViewModel.getApartment(baseUIState.apartments.first().addressId)
         } else {
             apartmentViewModel.getApartment(addressId)

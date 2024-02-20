@@ -25,6 +25,7 @@ import androidx.navigation.NavHostController
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.composable.BasicField
 import com.ykis.ykispam.core.composable.BasicImageButton
+import com.ykis.ykispam.ui.navigation.NavigationType
 import com.ykis.ykispam.ui.navigation.navigateToApartment
 import com.ykis.ykispam.ui.screens.appbars.AddAppBar
 import com.ykis.ykispam.R.string as AppText
@@ -53,7 +54,9 @@ fun AddApartmentScreenContent(
     isSelected: Boolean = false,
     viewModel: ApartmentViewModel = hiltViewModel(),
     navController : NavHostController,
-    canNavigateBack : Boolean
+    canNavigateBack : Boolean,
+    onDrawerClicked : () -> Unit,
+    navigationType: NavigationType
 ) {
     
     val secretCode by viewModel.secretCode.collectAsState()
@@ -72,7 +75,9 @@ fun AddApartmentScreenContent(
                 navController.popBackStack()
                 viewModel.onSecretCodeChange("")
                             },
-            canNavigateBack = canNavigateBack
+            canNavigateBack = canNavigateBack,
+            onDrawerClicked = onDrawerClicked,
+            navigationType = navigationType
         )
         Card(
             modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),

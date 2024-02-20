@@ -23,9 +23,11 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Adjust
 import androidx.compose.material.icons.filled.Church
 import androidx.compose.material.icons.filled.Payments
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Church
 import androidx.compose.material.icons.outlined.Payments
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.ykis.ykispam.R
 
@@ -34,6 +36,7 @@ data class TopLevelDestination(
     val selectedIcon: ImageVector = Icons.Default.Adjust,
     val unselectedIcon: ImageVector = Icons.Default.Adjust,
     val labelId: Int,
+    val alwaysVisible : Boolean
 )
 
 
@@ -48,19 +51,23 @@ val NAV_BAR_DESTINATIONS = listOf(
             route = MeterScreen.route,
         selectedIcon = Icons.Filled.Church ,
         unselectedIcon = Icons.Outlined.Church,
-        labelId = R.string.meters
+        labelId = R.string.meters,
+        alwaysVisible = false
     ),
     TopLevelDestination(
         route = ServiceListScreen.route,
         selectedIcon = Icons.Filled.Payments,
         unselectedIcon = Icons.Outlined.Payments,
-        labelId = R.string.accrued
+        labelId = R.string.accrued,
+        alwaysVisible = false
+
     ),
     TopLevelDestination(
         route = ChatScreen.route,
         selectedIcon = Icons.AutoMirrored.Filled.Chat,
         unselectedIcon = Icons.AutoMirrored.Outlined.Chat,
         labelId = R.string.chat,
+        alwaysVisible = false
     )
 )
 val NAV_RAIL_DESTINATIONS = NAV_BAR_DESTINATIONS + listOf(
@@ -68,12 +75,14 @@ val NAV_RAIL_DESTINATIONS = NAV_BAR_DESTINATIONS + listOf(
         route = ProfileScreen.route,
         selectedIcon = Icons.Default.AccountCircle,
         unselectedIcon = Icons.Outlined.AccountCircle,
-        labelId = R.string.account
+        labelId = R.string.account,
+        alwaysVisible = true
     ),
-//    TopLevelDestination(
-//        route = YkisRoute.SETTINGS,
-//        selectedIcon = Icons.Default.Settings,
-//        unselectedIcon = Icons.Outlined.Settings,
-//        labelId = R.string.settings
-//    )
+    TopLevelDestination(
+        route = SettingsScreen.route,
+        selectedIcon = Icons.Default.Settings,
+        unselectedIcon = Icons.Outlined.Settings,
+        labelId = R.string.settings,
+        alwaysVisible = true
+    )
 )

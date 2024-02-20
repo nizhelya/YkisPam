@@ -39,6 +39,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
+import com.google.android.play.integrity.internal.f
 import com.ykis.ykispam.ui.screens.EmptyScreen
 import com.ykis.ykispam.ui.screens.appartment.AddApartmentScreenContent
 import com.ykis.ykispam.ui.screens.appartment.ApartmentScreen
@@ -86,7 +87,7 @@ fun MainApartmentScreen(
             onDispose()
         }
     }
-    if (baseUIState.apartments.isNotEmpty()) {
+
         if (navigationType == NavigationType.BOTTOM_NAVIGATION) {
             ModalNavigationDrawer(
                 drawerContent = {
@@ -110,7 +111,8 @@ fun MainApartmentScreen(
                                 navController.navigateToApartment(addressId)
                             }
 
-                        }
+                        },
+                        isApartmentsEmpty = baseUIState.apartments.isEmpty()
                     )
                 },
                 drawerState = drawerState
@@ -118,9 +120,11 @@ fun MainApartmentScreen(
                 Scaffold(
                     snackbarHost = { appState.snackbarHostState },
                     bottomBar = {
-                        BottomNavigationBar(
-                            selectedDestination = selectedDestination,
-                            onClick = { navController.navigateWithPopUp(it, APARTMENT_SCREEN) })
+                        if(baseUIState.apartments.isNotEmpty()) {
+                            BottomNavigationBar(
+                                selectedDestination = selectedDestination,
+                                onClick = { navController.navigateWithPopUp(it, APARTMENT_SCREEN) })
+                        }
                     }
                 ) {
                     ApartmentNavGraph(
@@ -140,7 +144,7 @@ fun MainApartmentScreen(
                         },
                         apartmentViewModel = viewModel,
                         rootNavController = rootNavController,
-                        firstDestination = ApartmentScreen.routeWithArgs
+                        firstDestination =  if(baseUIState.apartments.isNotEmpty()) ApartmentScreen.routeWithArgs else AddApartmentScreen.route
 
                     )
                 }
@@ -185,29 +189,10 @@ fun MainApartmentScreen(
                         navController.navigateToApartment(addressId)
                     },
                     railWidth = railWidth,
+                    isApartmentsEmpty = baseUIState.apartments.isEmpty()
                 )
-
             }
         }
-    } else {
-        ApartmentNavGraph(
-            modifier = Modifier.fillMaxSize(),
-            contentType = contentType,
-            navigationType = navigationType,
-            displayFeatures = displayFeatures,
-            baseUIState = baseUIState,
-            navController = navController,
-            onDrawerClicked = {
-                coroutineScope.launch {
-                    drawerState.open()
-                }
-            },
-            apartmentViewModel = viewModel,
-            rootNavController = rootNavController ,
-            firstDestination = AddApartmentScreen.route
-
-        )
-    }
 }
 
 @Composable
@@ -217,7 +202,7 @@ fun ApartmentNavGraph(
     navigationType: NavigationType,
     displayFeatures: List<DisplayFeature>,
     baseUIState: BaseUIState,
-    onDrawerClicked: () -> Unit = {},
+    onDrawerClicked: () -> Unit,
     navController: NavHostController = rememberNavController(),
     apartmentViewModel: ApartmentViewModel,
     rootNavController: NavHostController,
@@ -228,16 +213,16 @@ fun ApartmentNavGraph(
         AnimatedVisibility(
             modifier = Modifier.align(Alignment.Center),
             visible = baseUIState.mainLoading,
-            exit = fadeOut(),
-            enter = fadeIn()
+            exit = fadeOut(tween(delayMillis = 200)),
+            enter = fadeIn(tween(delayMillis = 200))
         ) {
             CircularProgressIndicator()
         }
     }
         AnimatedVisibility(
             visible =  !baseUIState.mainLoading,
-            exit = fadeOut(tween(delayMillis = 100)),
-            enter = fadeIn(tween(delayMillis = 100))
+            exit = fadeOut(tween(delayMillis = 200)),
+            enter = fadeIn(tween(delayMillis = 200))
         ) {
             NavHost(
                 modifier = modifier,
@@ -262,7 +247,9 @@ fun ApartmentNavGraph(
                     AddApartmentScreenContent(
                         viewModel = apartmentViewModel,
                         navController = navController,
-                        canNavigateBack = navController.previousBackStackEntry != null
+                        canNavigateBack = navController.previousBackStackEntry != null,
+                        onDrawerClicked = onDrawerClicked,
+                        navigationType = navigationType
                     )
                     //            AddApartmentScreen(
                     //                popUpScreen = { appState.popUp() },
@@ -291,7 +278,7 @@ fun ApartmentNavGraph(
                         setApartment = {addressId ->apartmentViewModel.setApartment(addressId) },
                         navigateToDetail = {contentDetail, pane ->  apartmentViewModel.setSelectedDetail(contentDetail, pane) },
                         getApartments = {apartmentViewModel.initialize()},
-                        deleteApartment = { apartmentViewModel.deleteApartment()},
+                        deleteApartment = { apartmentViewModel.deleteApartment(navController.navigateToApartment(0))},
                         onDrawerClicked = onDrawerClicked,
                         addressId = addressIdArg!!,
                         apartmentViewModel = apartmentViewModel,

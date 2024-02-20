@@ -34,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ykis.ykispam.R
+import com.ykis.ykispam.ui.navigation.NavigationType
 import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
 import com.ykis.ykispam.ui.screens.appbars.AddAppBar
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
@@ -72,7 +73,9 @@ fun EmptyScreenContent(
                 "",
                 stringResource(id = R.string.full_name),
                 onBackPressed = { onBackPressed() },
-                canNavigateBack = true
+                canNavigateBack = true,
+                onDrawerClicked = {},
+                navigationType = NavigationType.BOTTOM_NAVIGATION
             )
 
         Row(

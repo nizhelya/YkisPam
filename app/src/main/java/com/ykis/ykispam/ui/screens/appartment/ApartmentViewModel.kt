@@ -20,12 +20,10 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.Resource
-import com.ykis.ykispam.core.Response
 import com.ykis.ykispam.core.ext.isValidEmail
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.data.cache.apartment.ApartmentCacheImpl
 import com.ykis.ykispam.data.cache.database.AppDatabase
-import com.ykis.ykispam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.data.remote.core.NetworkHandler
 import com.ykis.ykispam.domain.address.AddressEntity
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
@@ -36,7 +34,6 @@ import com.ykis.ykispam.domain.apartment.request.GetApartmentList
 import com.ykis.ykispam.domain.apartment.request.UpdateBti
 import com.ykis.ykispam.firebase.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.service.repo.LogService
-import com.ykis.ykispam.firebase.service.repo.SignOutResponse
 import com.ykis.ykispam.ui.BaseViewModel
 import com.ykis.ykispam.ui.navigation.ADDRESS_ID
 import com.ykis.ykispam.ui.navigation.APARTMENT_SCREEN
@@ -51,9 +48,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -291,10 +286,9 @@ class ApartmentViewModel @Inject constructor(
                 is Resource.Success -> {
                     this._uiState.value = _uiState.value.copy(
                         apartments = result.data ?: emptyList() ,
+                        apartment = if(!result.data.isNullOrEmpty()) result.data[0] else ApartmentEntity(),
                         mainLoading = false
                     )
-
-                    Log.d("loading_test" ,"success")
                 }
                 is Resource.Error -> {
                     this._uiState.value = _uiState.value.copy(
@@ -309,7 +303,9 @@ class ApartmentViewModel @Inject constructor(
         }.launchIn(this.viewModelScope)
     }
 
-    fun deleteApartment() {
+    fun deleteApartment(
+        resetAddressId :  Unit
+    ) {
         this.deleteApartmentUseCase(
             addressId = uiState.value.addressId,
             uid = uid
@@ -320,9 +316,9 @@ class ApartmentViewModel @Inject constructor(
                     SnackbarManager.showMessage(R.string.success_delete_flat)
                     getApartmentList()
                     this._uiState.value = _uiState.value.copy(
-                        mainLoading   = false,
-                        apartment = ApartmentEntity()
+                        mainLoading   = false
                     )
+                    resetAddressId
                 }
                 is Resource.Error -> {
                     this._uiState.value = _uiState.value.copy(

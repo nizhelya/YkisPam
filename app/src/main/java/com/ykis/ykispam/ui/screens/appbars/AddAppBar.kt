@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,21 +21,24 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.R
+import com.ykis.ykispam.ui.navigation.NavigationType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddAppBar(
     modifier: Modifier = Modifier,
-    label: String,
-    address: String,
+    subtitle: String,
+    title: String,
     onBackPressed: () -> Unit,
-    canNavigateBack : Boolean
+    canNavigateBack : Boolean,
+    onDrawerClicked : () -> Unit,
+    navigationType: NavigationType
 ) {
 
     TopAppBar(
         modifier = modifier,
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
         ),
         title = {
             Column(
@@ -42,20 +46,30 @@ fun AddAppBar(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = address,
+                    text = title,
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
                     modifier = Modifier.padding(top = 4.dp),
-                    text = label,
+                    text = subtitle,
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.outline
                 )
             }
         },
         navigationIcon = {
-            if(canNavigateBack) {
+            if(!canNavigateBack && navigationType == NavigationType.BOTTOM_NAVIGATION) {
+                IconButton(
+                        onClick = onDrawerClicked
+                        ) {
+                    Icon(
+                        imageVector = Icons.Default.Menu,
+                        contentDescription = stringResource(id = R.string.back_button),
+                        modifier = Modifier.size(24.dp),
+                    )
+                }
+            }else if(canNavigateBack) {
                 IconButton(
                     onClick = onBackPressed,
                 ) {
@@ -73,5 +87,5 @@ fun AddAppBar(
 @Preview
 @Composable
 private fun PreviewAddAppBar() {
-    AddAppBar(label = "Label", address = "Хіміків 12/140" , onBackPressed = {} , canNavigateBack = true)
+    AddAppBar(subtitle = "За допомогою секретного коду", title = "Додати квартиру" , onBackPressed = {} , canNavigateBack = false, onDrawerClicked = {} , navigationType = NavigationType.BOTTOM_NAVIGATION)
 }
