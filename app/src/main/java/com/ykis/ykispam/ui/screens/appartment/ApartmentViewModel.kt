@@ -140,27 +140,6 @@ class ApartmentViewModel @Inject constructor(
             )
         getApartmentList()
     }
-    fun setApartment(addressId: Int) {
-        if (addressId != 0) {
-            try {
-                _apartment.value = database.apartmentDao().getFlatById(addressId)
-                _uiState.value =   _uiState.value.copy(
-                    apartment = _apartment.value,
-                    addressId = _apartment.value.addressId,
-                    address = _apartment.value.address,
-                    houseId = _apartment.value.houseId,
-                    osmdId = _apartment.value.osmdId,
-                    osbb = _apartment.value.osbb ?: "",
-                    selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${_apartment.value.addressId}}"
-                )
-
-            }catch (e:Exception){
-                SnackbarManager.showMessage(e.message.toString())
-            }
-
-        }
-    }
-
     fun setSelectedDetail(contentDetail: ContentDetail, contentType: ContentType) {
         _uiState.value = _uiState.value.copy(
             selectedContentDetail = contentDetail,
@@ -174,17 +153,17 @@ class ApartmentViewModel @Inject constructor(
 
     fun addApartment(restartApp: (Int) -> Unit) {
         this.addApartmentUseCase(
-            code = secretCode.value, uid = uid
+            code = secretCode.value, uid = uid , email = email
         ).onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     _uiState.value = _uiState.value.copy(
                         addressId = result.data!!.addressId
                     )
-                    getApartmentList()
+                    getApartmentList{
+                        restartApp(uiState.value.addressId)
+                    }
                     SnackbarManager.showMessage(R.string.success_add_flat)
-                    // TODO: rename fun restartApp
-                    restartApp(uiState.value.addressId)
                     _secretCode.value = ""
                 }
 
@@ -202,7 +181,7 @@ class ApartmentViewModel @Inject constructor(
             email = _uiState.value.apartment.email,
             phone = _uiState.value.apartment.phone,
             addressId = _uiState.value.addressId,
-            address = _uiState.value.address.toString()
+            address = _uiState.value.address
         )
     }
 
@@ -243,52 +222,53 @@ class ApartmentViewModel @Inject constructor(
     }
 
     fun getApartment(addressId: Int = uiState.value.addressId ){
-        try {
             this.getApartmentUseCase(addressId = addressId, uid).onEach {
                     result ->
                 when(result){
                     is Resource.Success -> {
                         this._uiState.value = _uiState.value.copy(
-                            mainLoading = false,
                             apartment = result.data ?: ApartmentEntity(),
                             addressId = result.data!!.addressId,
                             address = result.data.address,
                             houseId = result.data.houseId,
                             osmdId =result.data.osmdId,
                             osbb = result.data.osbb.toString(),
-                            selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${result.data.addressId}}"
+                            selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${result.data.addressId}}",
+                                                       apartmentLoading = false,
                         )
-                        Log.d("loading_test" , result.data.toString())
                     }
                     is Resource.Error -> {
                         this._uiState.value = _uiState.value.copy(
                             error = result.message ?: "Unexpected error!",
-                            mainLoading = false
+                            apartmentLoading = false
                         )
                     }
                     is Resource.Loading -> {
                         this._uiState.value = _uiState.value.copy(
-                            mainLoading = true
+                            apartmentLoading = true
                         )
                     }
                 }
             }.launchIn(this.viewModelScope)
-        }catch (e:Exception){
-            SnackbarManager.showMessage("aaaa")
-        }
-
     }
 
-    fun getApartmentList(){
+    fun getApartmentList(onSuccess: ()->Unit ={}){
         this.getApartmentListUseCase(uid).onEach {
                 result->
             when(result){
                 is Resource.Success -> {
                     this._uiState.value = _uiState.value.copy(
                         apartments = result.data ?: emptyList() ,
+                        addressId = if(!result.data.isNullOrEmpty()) result.data[0].addressId else 0,
                         apartment = if(!result.data.isNullOrEmpty()) result.data[0] else ApartmentEntity(),
                         mainLoading = false
                     )
+                    if(uiState.value.apartments.isEmpty()){
+                        this._uiState.value = _uiState.value.copy(
+                            apartmentLoading = false
+                        )
+                    }
+                    onSuccess()
                 }
                 is Resource.Error -> {
                     this._uiState.value = _uiState.value.copy(
@@ -325,6 +305,7 @@ class ApartmentViewModel @Inject constructor(
                         error = result.message ?: "Unexpected error!",
                         mainLoading = false
                     )
+                    SnackbarManager.showMessage(result.resourceMessage)
                 }
                 is Resource.Loading -> {
                     _uiState.value = _uiState.value.copy(

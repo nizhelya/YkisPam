@@ -56,13 +56,13 @@ class ApartmentRemoteImpl @Inject constructor(
         }
     }
 
-    override suspend fun getApartmentList(uid: String): List<ApartmentEntity> {
+    override suspend fun getApartmentList(uid: String): GetApartmentsResponse {
         return apiService.getApartmentList(
             createGetApartmentListMap(
                 uid
             )
             // TODO: read about Call class
-        ).await().apartments
+        ).await()
     }
 
     override suspend fun updateBti(params: ApartmentEntity): BaseResponse {
@@ -76,13 +76,13 @@ class ApartmentRemoteImpl @Inject constructor(
         ).await()
     }
 
-    override suspend fun getApartment(addressId: Int, uid: String): ApartmentEntity {
+    override suspend fun getApartment(addressId: Int, uid: String): GetApartmentResponse {
         return apiService.getApartment(
             createRequestByAddressId(
                 addressId = addressId,
                 uid = uid
             )
-        ).await().apartment
+        ).await()
     }
 
     override suspend fun deleteApartment(addressId: Int, uid: String): BaseResponse {

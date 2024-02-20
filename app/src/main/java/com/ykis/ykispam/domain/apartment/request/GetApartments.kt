@@ -2,6 +2,7 @@ package com.ykis.ykispam.domain.apartment.request
 
 import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.data.cache.database.AppDatabase
+import com.ykis.ykispam.data.remote.appartment.GetApartmentsResponse
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.domain.apartment.ApartmentRepository
 import kotlinx.coroutines.flow.Flow
@@ -14,15 +15,15 @@ class GetApartmentList @Inject constructor(
     private val repository: ApartmentRepository,
     private val database : AppDatabase
 ){
-    operator fun invoke (uid : String) : Flow<Resource<List<ApartmentEntity>?>> = flow{
+    operator fun invoke (uid : String) : Flow<Resource<List<ApartmentEntity>?>>  = flow{
         val addressIdList = mutableListOf<Int>()
         try{
             emit(Resource.Loading())
 
             val response = repository.getApartmentList(uid)
             database.apartmentDao().deleteAllApartments()
-            database.apartmentDao().insertApartmentList(response)
-            for(i in response){
+            database.apartmentDao().insertApartmentList(response.apartments)
+            for(i in response.apartments){
                 addressIdList.add(i.addressId)
             }
             database.familyDao().deleteFamilyByApartment(addressIdList)
@@ -33,10 +34,10 @@ class GetApartmentList @Inject constructor(
             database.heatReadingDao().deleteHeatReadingsByApartment(addressIdList)
             database.waterReadingDao().deleteWaterReadingByApartment(addressIdList)
             addressIdList.clear()
-            emit(Resource.Success(response))
+            emit(Resource.Success(response.apartments))
         }catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "Unexpected error!"))
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             val apartmentList = database.apartmentDao().getApartmentList()
             if (apartmentList.isNotEmpty()) {
                 emit(Resource.Success(apartmentList))

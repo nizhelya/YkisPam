@@ -12,10 +12,10 @@ import javax.inject.Inject
 class AddApartment @Inject constructor(
     private val repository: ApartmentRepository,
 ){
-    operator fun invoke (code : String , uid:String) : Flow<Resource<GetSimpleResponse>> = flow {
+    operator fun invoke (code : String , uid:String ,email : String) : Flow<Resource<GetSimpleResponse>> = flow {
         try {
             emit(Resource.Loading())
-            val response = repository.addApartmentUser(code , uid)
+            val response = repository.addApartmentUser(code , uid , email)
             if(response.success==1){
                 emit(Resource.Success(response))
             }else if(response.message == "FlatAlreadyInDataBase") {

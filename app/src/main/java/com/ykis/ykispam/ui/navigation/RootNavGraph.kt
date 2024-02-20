@@ -1,6 +1,5 @@
 package com.ykis.ykispam.ui.navigation
 
-import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
@@ -33,13 +32,22 @@ fun RootNavGraph(
     navigationType: NavigationType,
 ) {
     val appState = rememberAppState()
-    var isNavBar by rememberSaveable {
+    var isMainScreen by rememberSaveable {
         mutableStateOf(false)
+    }
+    var isRailExpanded by rememberSaveable {
+        mutableStateOf(false)
+    }
+    val padding = when{
+        navigationType == NavigationType.NAVIGATION_RAIL  && !isRailExpanded && isMainScreen-> Modifier.padding(start = 80.dp)
+        navigationType == NavigationType.BOTTOM_NAVIGATION && isMainScreen-> Modifier.padding(bottom = 80.dp)
+        navigationType == NavigationType.NAVIGATION_RAIL && isRailExpanded && isMainScreen -> Modifier.padding(start = 260.dp)
+        else -> Modifier.padding(0.dp)
     }
     Scaffold (
         snackbarHost = {
             SnackbarHost(
-                modifier = modifier.padding(bottom = if(isNavBar) 80.dp else 0.dp),
+                modifier = padding,
                 hostState = appState.snackbarHostState,
                 snackbar = { snackbarData ->
                     Snackbar(
@@ -71,8 +79,10 @@ fun RootNavGraph(
                     displayFeatures = displayFeatures,
                     rootNavController = navController,
                     appState = appState,
-                    onLaunch = {isNavBar = true},
-                    onDispose = {isNavBar = false}
+                    onLaunch = {isMainScreen = true},
+                    onDispose = {isMainScreen = false},
+                    isRailExpanded = isRailExpanded,
+                    onMenuClick = { isRailExpanded = !isRailExpanded }
                 )
             }
         }

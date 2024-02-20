@@ -26,5 +26,6 @@ data class BaseUIState(
     val selectedDestination: String = "$APARTMENT_SCREEN$ADDRESS_ID_ARG",
     val isLoading: Boolean = false,
     val mainLoading: Boolean = true,
+    val apartmentLoading : Boolean = true,
     val error: String? = null
 )

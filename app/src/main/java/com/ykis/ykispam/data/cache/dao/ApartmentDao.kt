@@ -9,7 +9,7 @@ import com.ykis.ykispam.domain.apartment.ApartmentEntity
 @Dao
 interface ApartmentDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertApartmentList(apartment:List<ApartmentEntity>)
 
     @Query("delete from apartment")

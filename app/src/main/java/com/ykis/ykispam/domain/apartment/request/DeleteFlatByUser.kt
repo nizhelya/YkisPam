@@ -11,6 +11,8 @@ import com.ykis.ykispam.domain.apartment.ApartmentRepository
 import com.ykis.ykispam.domain.interactor.UseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 class DeleteFlatByUser @Inject constructor(
@@ -35,7 +37,10 @@ class DeleteApartment @Inject constructor(
             else throw ExceptionWithResourceMessage(R.string.error_delete_flat)
         } catch (e: ExceptionWithResourceMessage) {
             emit(Resource.Error(resourceMessage = e.resourceMessage,message = null))
-        }catch (ex:Exception){
+        }catch (e:IOException){
+            emit(Resource.Error(resourceMessage = R.string.error_network_delete))
+        }
+        catch (ex:Exception){
             emit(Resource.Error(message = ex.message ))
         }
     }

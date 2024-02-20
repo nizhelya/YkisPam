@@ -9,14 +9,11 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true )
 @Entity(tableName = "apartment")
 data class ApartmentEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-    @Json(name = "user_id")
-    @ColumnInfo(name = "user_id")
-    val userId: Int = 0,
+    // TODO: remove uid 
     val uid: String? = null,
     @Json(name = "address_id")
     @ColumnInfo(name = "address_id")
+    @PrimaryKey
     val addressId: Int = 0,
     val address: String = "",
     val email: String = "example@email.com",

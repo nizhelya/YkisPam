@@ -8,6 +8,8 @@ import com.ykis.ykispam.domain.type.Failure
 import com.ykis.ykispam.domain.type.flatMap
 import com.ykis.ykispam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.data.remote.appartment.ApartmentRemote
+import com.ykis.ykispam.data.remote.appartment.GetApartmentResponse
+import com.ykis.ykispam.data.remote.appartment.GetApartmentsResponse
 import com.ykis.ykispam.data.remote.core.BaseResponse
 import javax.inject.Inject
 
@@ -32,7 +34,7 @@ class ApartmentRepositoryImpl @Inject constructor(
             .flatMap { return@flatMap apartmentRemote.getFlatById(addressId, it.uid) }
     }
 
-    override suspend fun getApartmentList(uid: String): List<ApartmentEntity> {
+    override suspend fun getApartmentList(uid: String): GetApartmentsResponse {
         return apartmentRemote.getApartmentList(uid)
     }
 
@@ -40,7 +42,7 @@ class ApartmentRepositoryImpl @Inject constructor(
         return apartmentRemote.updateBti(params)
     }
 
-    override suspend fun getApartment(addressId: Int, uid: String): ApartmentEntity {
+    override suspend fun getApartment(addressId: Int, uid: String): GetApartmentResponse {
         return apartmentRemote.getApartment(addressId , uid)
     }
 
@@ -48,7 +50,7 @@ class ApartmentRepositoryImpl @Inject constructor(
         return apartmentRemote.deleteApartment(addressId , uid)
     }
 
-    override suspend fun addApartmentUser(code: String ,uid :String): GetSimpleResponse {
-        return apartmentRemote.addApartment(code , uid , email= "rshulik74@stud.op.edu.ua")
+    override suspend fun addApartmentUser(code: String ,uid :String , email : String): GetSimpleResponse {
+        return apartmentRemote.addApartment(code , uid , email)
     }
 }

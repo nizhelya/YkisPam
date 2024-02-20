@@ -8,6 +8,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerState
@@ -28,6 +29,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
@@ -66,17 +68,16 @@ fun MainApartmentScreen(
     rootNavController: NavHostController,
     appState: YkisPamAppState,
     onLaunch: () -> Unit,
-    onDispose: () -> Unit
-) {
+    onDispose: () -> Unit,
+    isRailExpanded: Boolean,
+    onMenuClick: () -> Unit
+    ) {
     val baseUIState by viewModel.uiState.collectAsStateWithLifecycle()
     val drawerState = DrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val selectedDestination =
         navBackStackEntry?.destination?.route ?: baseUIState.selectedDestination
-    var isRailExpanded by rememberSaveable {
-        mutableStateOf(false)
-    }
     val railWidth by animateDpAsState(
         targetValue = if (isRailExpanded) 260.dp else 80.dp, tween(550), label = ""
     )
@@ -171,7 +172,7 @@ fun MainApartmentScreen(
                     },
                     apartmentViewModel = viewModel,
                     rootNavController = rootNavController,
-                    firstDestination = ApartmentScreen.routeWithArgs
+                    firstDestination = if(baseUIState.apartments.isNotEmpty()) ApartmentScreen.routeWithArgs else AddApartmentScreen.route
 
                 )
                 ApartmentNavigationRail(
@@ -183,7 +184,7 @@ fun MainApartmentScreen(
                         )
                     },
                     isRailExpanded = isRailExpanded,
-                    onMenuClick = { isRailExpanded = !isRailExpanded },
+                    onMenuClick = onMenuClick,
                     baseUIState = baseUIState,
                     navigateToApartment = { addressId ->
                         navController.navigateToApartment(addressId)
@@ -209,23 +210,22 @@ fun ApartmentNavGraph(
     firstDestination:String
 ) {
     val appState = rememberAppState()
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = modifier.fillMaxSize()) {
         AnimatedVisibility(
             modifier = Modifier.align(Alignment.Center),
             visible = baseUIState.mainLoading,
-            exit = fadeOut(tween(delayMillis = 200)),
-            enter = fadeIn(tween(delayMillis = 200))
+            exit = fadeOut(tween(delayMillis = 300)),
+            enter = fadeIn(tween(delayMillis = 300))
         ) {
             CircularProgressIndicator()
         }
-    }
         AnimatedVisibility(
-            visible =  !baseUIState.mainLoading,
-            exit = fadeOut(tween(delayMillis = 200)),
-            enter = fadeIn(tween(delayMillis = 200))
+            visible = !baseUIState.mainLoading,
+            exit = fadeOut(tween(delayMillis = 300)),
+            enter = fadeIn(tween(delayMillis = 300))
         ) {
             NavHost(
-                modifier = modifier,
+                modifier = Modifier.fillMaxSize(),
                 navController = navController,
                 route = Graph.APARTMENT,
                 startDestination = firstDestination
@@ -235,12 +235,12 @@ fun ApartmentNavGraph(
                     ProfileScreen(
                         appState = appState,
                         popUpScreen = { navController.popBackStack() },
-                        cleanNavigateToDestination = {rootNavController.cleanNavigateTo(it)},
+                        cleanNavigateToDestination = { rootNavController.cleanNavigateTo(it) },
                     )
                 }
                 composable(ChatScreen.route) {
                     EmptyScreen(
-                        popUpScreen = { navController.popBackStack()},
+                        popUpScreen = { navController.popBackStack() },
                     )
                 }
                 composable(AddApartmentScreen.route) {
@@ -264,8 +264,7 @@ fun ApartmentNavGraph(
                 composable(
                     route = ApartmentScreen.routeWithArgs,
                     arguments = ApartmentScreen.arguments
-                ) {
-                        navBackStackEntry->
+                ) { navBackStackEntry ->
                     val addressIdArg =
                         navBackStackEntry.arguments?.getInt(ApartmentScreen.addressIdArg)
                     ApartmentScreen(
@@ -274,11 +273,20 @@ fun ApartmentNavGraph(
                         baseUIState = baseUIState,
                         navigationType = navigationType,
                         displayFeatures = displayFeatures,
-                        closeDetailScreen = {apartmentViewModel.closeDetailScreen()},
-                        setApartment = {addressId ->apartmentViewModel.setApartment(addressId) },
-                        navigateToDetail = {contentDetail, pane ->  apartmentViewModel.setSelectedDetail(contentDetail, pane) },
-                        getApartments = {apartmentViewModel.initialize()},
-                        deleteApartment = { apartmentViewModel.deleteApartment(navController.navigateToApartment(0))},
+                        closeDetailScreen = { apartmentViewModel.closeDetailScreen() },
+                        navigateToDetail = { contentDetail, pane ->
+                            apartmentViewModel.setSelectedDetail(
+                                contentDetail,
+                                pane
+                            )
+                        },
+                        deleteApartment = {
+                            apartmentViewModel.deleteApartment(
+                                navController.navigateToApartment(
+                                    0
+                                )
+                            )
+                        },
                         onDrawerClicked = onDrawerClicked,
                         addressId = addressIdArg!!,
                         apartmentViewModel = apartmentViewModel,
@@ -292,6 +300,7 @@ fun ApartmentNavGraph(
                 }
             }
         }
+    }
 }
 
 @Composable
