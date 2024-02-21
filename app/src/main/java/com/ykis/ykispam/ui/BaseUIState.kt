@@ -1,10 +1,8 @@
 package com.ykis.ykispam.ui
 
-import com.ykis.ykispam.ui.navigation.ADDRESS_ID_ARG
-import com.ykis.ykispam.ui.navigation.APARTMENT_SCREEN
-import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.domain.payment.PaymentItemEntity
+import com.ykis.ykispam.ui.navigation.ContentDetail
 
 data class BaseUIState(
     val uid: String? = null,
@@ -23,7 +21,6 @@ data class BaseUIState(
     val osbb: String = "",
     val addressNumber: String? = null,
     val isDetailOnlyOpen: Boolean = false,
-    val selectedDestination: String = "$APARTMENT_SCREEN$ADDRESS_ID_ARG",
     val isLoading: Boolean = false,
     val mainLoading: Boolean = true,
     val apartmentLoading : Boolean = true,

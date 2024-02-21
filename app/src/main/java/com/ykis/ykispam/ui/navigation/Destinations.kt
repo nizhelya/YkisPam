@@ -85,6 +85,30 @@ object ApartmentScreen : Destination {
     )
 
 }
+object BtiScreen : Destination{
+    override val route: String
+        get() = "BtiScreen"
+
+}
+object FamilyScreen : Destination{
+    override val route: String
+        get() = "FamilyScreen"
+
+}
+object InfoApartmentScreen : Destination{
+    override val route: String
+        get() = "InfoApartmentScreen"
+    const val addressIdArg = "address_id"
+
+    val routeWithArgs = "${route}/{$addressIdArg}"
+
+    val arguments = listOf(
+        navArgument(addressIdArg) {
+            type = NavType.IntType
+            defaultValue = 0
+        }
+    )
+}
 //const val LAUNCH_SCREEN = "LaunchScreen"
 //const val SIGN_IN_SCREEN = "SignInScreen"
 //const val VERIFY_EMAIL_SCREEN = "VerifyEmailScreen"
@@ -92,8 +116,6 @@ object ApartmentScreen : Destination {
 const val APARTMENT_SCREEN = "ApartmentScreen"
 //const val ADD_APARTMENT_SCREEN = "AddApartmentScreen"
 
-const val BTI_SCREEN = "BtiScreen"
-const val FAMILY_SCREEN = "FamilyScreen"
 const val WATER_SCREEN = "WaterScreen"
 const val SERVICE_DETAIL_SCREEN ="ServiceDetailScreen"
 //const val METER_SCREEN = "MeterScreen"

@@ -1,5 +1,6 @@
 package com.ykis.ykispam.ui.navigation
 
+import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
@@ -16,8 +17,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
-import com.ykis.ykispam.ui.screens.launch.LaunchScreen
 import com.ykis.ykispam.ui.rememberAppState
+import com.ykis.ykispam.ui.screens.launch.LaunchScreen
 
 object Graph {
     const val AUTHENTICATION = "auth_graph"
@@ -31,6 +32,7 @@ fun RootNavGraph(
     displayFeatures: List<DisplayFeature>,
     navigationType: NavigationType,
 ) {
+    Log.d("nav_test" , "third " + navController.toString())
     val appState = rememberAppState()
     var isMainScreen by rememberSaveable {
         mutableStateOf(false)

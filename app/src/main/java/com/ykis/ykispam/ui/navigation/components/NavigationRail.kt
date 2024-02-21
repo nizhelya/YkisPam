@@ -70,11 +70,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.common.util.CollectionUtils
 import com.ykis.ykispam.R
+import com.ykis.ykispam.domain.apartment.ApartmentEntity
+import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.navigation.AddApartmentScreen
 import com.ykis.ykispam.ui.navigation.MeterScreen
 import com.ykis.ykispam.ui.navigation.NAV_RAIL_DESTINATIONS
-import com.ykis.ykispam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.ui.BaseUIState
+
 @Preview
 @Composable
 private fun PreviewRail() {
@@ -192,7 +193,7 @@ fun ApartmentNavigationRail(
     CustomNavigationRail(
         modifier = Modifier
             .fillMaxHeight(),
-        containerColor = MaterialTheme.colorScheme.surfaceContainer,
+        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
         header = {
             IconButton(
                 onClick = { onMenuClick() },
@@ -301,7 +302,7 @@ fun ApartmentNavigationRail(
                         Box {
                             NavigationRailItem(
                                 modifier = Modifier.padding(horizontal = 28.dp),
-                                selected = selectedDestination == replyDestination.route,
+                                selected = selectedDestination.substringBefore("/") == replyDestination.route.substringBefore("/"),
                                 label = {
                                     Text(
                                         modifier = Modifier.size(if (isRailExpanded) 0.dp else 12.dp),
@@ -319,7 +320,7 @@ fun ApartmentNavigationRail(
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
                                         Icon(
-                                            imageVector = if (selectedDestination == replyDestination.route) {
+                                            imageVector = if (selectedDestination.substringBefore("/") == replyDestination.route.substringBefore("/")) {
                                                 replyDestination.selectedIcon
                                             } else replyDestination.unselectedIcon,
 

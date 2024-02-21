@@ -4,6 +4,6 @@ import com.ykis.ykispam.domain.family.FamilyEntity
 
 data class FamilyState(
     val familyList: List<FamilyEntity> = emptyList(),
-    val isLoading:Boolean = true,
+    val isLoading:Boolean = false,
     val error : String = ""
 )

@@ -16,7 +16,6 @@
 
 package com.ykis.ykispam.ui.screens.family
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -25,7 +24,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -57,8 +55,6 @@ import coil.request.ImageRequest
 import com.ykis.ykispam.R
 import com.ykis.ykispam.domain.family.FamilyEntity
 import com.ykis.ykispam.ui.BaseUIState
-import com.ykis.ykispam.ui.navigation.ContentDetail
-import com.ykis.ykispam.ui.navigation.ContentType
 
 @Composable
 fun FamilyContent(
@@ -78,8 +74,8 @@ fun FamilyContent(
     ) {
         AnimatedVisibility(
             visible = !state.isLoading,
-            enter = fadeIn(tween(200)),
-            exit = fadeOut(tween(100))
+            enter = fadeIn(tween(delayMillis =500)),
+            exit = fadeOut(tween(delayMillis =500))
         ) {
             FamilyList(
                 familyList = state.familyList,
@@ -89,8 +85,8 @@ fun FamilyContent(
         AnimatedVisibility(
             modifier = Modifier.align(Alignment.Center),
             visible = state.isLoading,
-            exit = fadeOut(),
-            enter = fadeIn(tween(delayMillis = 150))
+            exit = fadeOut(tween(delayMillis =500)),
+            enter = fadeIn(tween(delayMillis =500))
         ) {
             CircularProgressIndicator()
         }

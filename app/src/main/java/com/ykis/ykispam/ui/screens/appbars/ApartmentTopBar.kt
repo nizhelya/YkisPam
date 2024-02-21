@@ -24,14 +24,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.R
-import com.ykis.ykispam.ui.YkisPamAppState
 import com.ykis.ykispam.core.composable.DangerousCardEditor
 import com.ykis.ykispam.core.composable.DialogCancelButton
 import com.ykis.ykispam.core.composable.DialogConfirmButton
 import com.ykis.ykispam.core.composable.RegularCardEditor
 import com.ykis.ykispam.core.ext.card
-import com.ykis.ykispam.ui.navigation.NavigationType
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
+import com.ykis.ykispam.ui.YkisPamAppState
+import com.ykis.ykispam.ui.navigation.NavigationType
 import kotlinx.coroutines.launch
 import com.ykis.ykispam.R.string as AppText
 
@@ -105,7 +105,7 @@ fun ApartmentTopAppBar(
         TopAppBar(
             modifier = modifier,
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.background
+                containerColor = MaterialTheme.colorScheme.surfaceContainer
             ),
             title = {
                 Column(

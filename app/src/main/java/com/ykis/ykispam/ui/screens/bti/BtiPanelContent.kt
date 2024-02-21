@@ -39,7 +39,6 @@ import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 
 
-@ExperimentalMaterial3Api
 @Composable
 fun BtiPanelContent(
     modifier: Modifier = Modifier,
@@ -64,7 +63,6 @@ fun BtiPanelContent(
         )
 }
 
-@ExperimentalMaterial3Api
 @Composable
 fun BtiContent(
     modifier: Modifier = Modifier,
@@ -671,7 +669,6 @@ fun BtiContent(
 }
 
 @Preview(showBackground = true)
-@ExperimentalMaterial3Api
 @Composable
 fun BtiContentPreview() {
     YkisPAMTheme {

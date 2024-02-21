@@ -8,28 +8,19 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
@@ -41,21 +32,21 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
-import com.google.android.play.integrity.internal.f
-import com.ykis.ykispam.ui.screens.EmptyScreen
-import com.ykis.ykispam.ui.screens.appartment.AddApartmentScreenContent
-import com.ykis.ykispam.ui.screens.appartment.ApartmentScreen
-import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
-import com.ykis.ykispam.ui.screens.meter.MeterScreen
-import com.ykis.ykispam.ui.screens.profile.ProfileScreen
-import com.ykis.ykispam.ui.screens.service.ServiceListScreen
-import com.ykis.ykispam.ui.screens.settings.SettingsScreen
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.YkisPamAppState
 import com.ykis.ykispam.ui.navigation.components.ApartmentNavigationRail
 import com.ykis.ykispam.ui.navigation.components.BottomNavigationBar
 import com.ykis.ykispam.ui.navigation.components.ModalNavigationDrawerContent
 import com.ykis.ykispam.ui.rememberAppState
+import com.ykis.ykispam.ui.screens.EmptyScreen
+import com.ykis.ykispam.ui.screens.appartment.AddApartmentScreenContent
+import com.ykis.ykispam.ui.screens.appartment.ApartmentScreen
+import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
+import com.ykis.ykispam.ui.screens.appartment.InfoApartmentScreen
+import com.ykis.ykispam.ui.screens.meter.MeterScreen
+import com.ykis.ykispam.ui.screens.profile.ProfileScreen
+import com.ykis.ykispam.ui.screens.service.ServiceListScreen
+import com.ykis.ykispam.ui.screens.settings.SettingsScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -77,7 +68,8 @@ fun MainApartmentScreen(
     val coroutineScope = rememberCoroutineScope()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val selectedDestination =
-        navBackStackEntry?.destination?.route ?: baseUIState.selectedDestination
+        navBackStackEntry?.destination?.route ?: InfoApartmentScreen.routeWithArgs
+    Log.d("nav_test" , navController.toString())
     val railWidth by animateDpAsState(
         targetValue = if (isRailExpanded) 260.dp else 80.dp, tween(550), label = ""
     )
@@ -98,7 +90,7 @@ fun MainApartmentScreen(
                         navigateToDestination = {
                             coroutineScope.launch {
                                 drawerState.close()
-                                navController.navigateWithPopUp(it, APARTMENT_SCREEN)
+                                navController.navigateWithPopUp(it, InfoApartmentScreen.route)
                             }
                         },
                         onMenuClick = {
@@ -109,7 +101,7 @@ fun MainApartmentScreen(
                         navigateToApartment = { addressId ->
                             coroutineScope.launch {
                                 drawerState.close()
-                                navController.navigateToApartment(addressId)
+                                navController.navigateToInfoApartment(addressId)
                             }
 
                         },
@@ -124,7 +116,8 @@ fun MainApartmentScreen(
                         if(baseUIState.apartments.isNotEmpty()) {
                             BottomNavigationBar(
                                 selectedDestination = selectedDestination,
-                                onClick = { navController.navigateWithPopUp(it, APARTMENT_SCREEN) })
+                                onClick = { navController.navigateWithPopUp(it , InfoApartmentScreen.route) }
+                            )
                         }
                     }
                 ) {
@@ -145,7 +138,7 @@ fun MainApartmentScreen(
                         },
                         apartmentViewModel = viewModel,
                         rootNavController = rootNavController,
-                        firstDestination =  if(baseUIState.apartments.isNotEmpty()) ApartmentScreen.routeWithArgs else AddApartmentScreen.route
+                        firstDestination =  if(baseUIState.apartments.isNotEmpty()) InfoApartmentScreen.routeWithArgs else AddApartmentScreen.route
 
                     )
                 }
@@ -172,7 +165,7 @@ fun MainApartmentScreen(
                     },
                     apartmentViewModel = viewModel,
                     rootNavController = rootNavController,
-                    firstDestination = if(baseUIState.apartments.isNotEmpty()) ApartmentScreen.routeWithArgs else AddApartmentScreen.route
+                    firstDestination = if(baseUIState.apartments.isNotEmpty()) InfoApartmentScreen.routeWithArgs else AddApartmentScreen.route
 
                 )
                 ApartmentNavigationRail(
@@ -180,14 +173,14 @@ fun MainApartmentScreen(
                     navigateToDestination = {
                         navController.navigateWithPopUp(
                             it,
-                            APARTMENT_SCREEN
+                            InfoApartmentScreen.route
                         )
                     },
                     isRailExpanded = isRailExpanded,
                     onMenuClick = onMenuClick,
                     baseUIState = baseUIState,
                     navigateToApartment = { addressId ->
-                        navController.navigateToApartment(addressId)
+                        navController.navigateToInfoApartment(addressId)
                     },
                     railWidth = railWidth,
                     isApartmentsEmpty = baseUIState.apartments.isEmpty()
@@ -204,11 +197,13 @@ fun ApartmentNavGraph(
     displayFeatures: List<DisplayFeature>,
     baseUIState: BaseUIState,
     onDrawerClicked: () -> Unit,
-    navController: NavHostController = rememberNavController(),
+    navController: NavHostController,
     apartmentViewModel: ApartmentViewModel,
     rootNavController: NavHostController,
     firstDestination:String
 ) {
+    Log.d("nav_test" , "Second" + navController.toString())
+
     val appState = rememberAppState()
     Box(modifier = modifier.fillMaxSize()) {
         AnimatedVisibility(
@@ -282,7 +277,7 @@ fun ApartmentNavGraph(
                         },
                         deleteApartment = {
                             apartmentViewModel.deleteApartment(
-                                navController.navigateToApartment(
+                                navController.navigateToInfoApartment(
                                     0
                                 )
                             )
@@ -297,6 +292,29 @@ fun ApartmentNavGraph(
                 }
                 composable(ServiceListScreen.route) {
                     ServiceListScreen()
+                }
+                composable(
+                    route = InfoApartmentScreen.routeWithArgs,
+                    arguments = InfoApartmentScreen.arguments
+                ){
+                    navBackStackEntry->
+                    val addressIdArg =
+                    navBackStackEntry.arguments?.getInt(InfoApartmentScreen.addressIdArg)
+                    InfoApartmentScreen(
+                        baseUIState = baseUIState,
+                        apartmentViewModel = apartmentViewModel,
+                        deleteApartment = {
+                            apartmentViewModel.deleteApartment(
+                                navController.navigateToInfoApartment(
+                                    0
+                                )
+                            )
+                        },
+                        onDrawerClicked = onDrawerClicked,
+                        appState = appState,
+                        addressId = addressIdArg!!,
+                        navigationType = navigationType
+                    )
                 }
             }
         }

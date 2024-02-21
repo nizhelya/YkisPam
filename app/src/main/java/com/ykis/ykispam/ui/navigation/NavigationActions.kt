@@ -22,10 +22,16 @@ import androidx.compose.material.icons.automirrored.outlined.Chat
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Adjust
 import androidx.compose.material.icons.filled.Church
+import androidx.compose.material.icons.filled.Group
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Payments
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Church
+import androidx.compose.material.icons.outlined.Group
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Payments
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -36,17 +42,38 @@ data class TopLevelDestination(
     val selectedIcon: ImageVector = Icons.Default.Adjust,
     val unselectedIcon: ImageVector = Icons.Default.Adjust,
     val labelId: Int,
-    val alwaysVisible : Boolean
+    val alwaysVisible : Boolean,
+)
+
+data class TabItem(
+    val titleId : Int,
+    val selectedIcon: ImageVector,
+    val unselectedIcon: ImageVector,
+)
+
+val INFO_APARTMENT_TAB_ITEM = listOf<TabItem>(
+    TabItem(
+        titleId = R.string.bti,
+        selectedIcon = Icons.Filled.Home,
+        unselectedIcon = Icons.Outlined.Home,
+    ),
+    TabItem(
+        titleId = R.string.list_family,
+        selectedIcon = Icons.Filled.Group,
+        unselectedIcon = Icons.Outlined.Group,
+    )
 )
 
 
 val NAV_BAR_DESTINATIONS = listOf(
-//    TopLevelDestination(
-//        route = APARTMENT_SCREEN,
-//        selectedIcon = Icons.Filled.Home,
-//        unselectedIcon = Icons.Outlined.Home,
-//        labelId = R.string.house
-//    ),
+    TopLevelDestination(
+        route = InfoApartmentScreen.route + "/0",
+        selectedIcon = Icons.Filled.Info,
+        unselectedIcon = Icons.Outlined.Info,
+        labelId = R.string.info,
+        alwaysVisible = false,
+
+    ),
     TopLevelDestination(
             route = MeterScreen.route,
         selectedIcon = Icons.Filled.Church ,

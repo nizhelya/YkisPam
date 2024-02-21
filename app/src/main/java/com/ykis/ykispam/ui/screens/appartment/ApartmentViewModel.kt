@@ -16,7 +16,6 @@ limitations under the License.
 
 package com.ykis.ykispam.ui.screens.appartment
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.Resource
@@ -35,8 +34,6 @@ import com.ykis.ykispam.domain.apartment.request.UpdateBti
 import com.ykis.ykispam.firebase.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.ui.BaseViewModel
-import com.ykis.ykispam.ui.navigation.ADDRESS_ID
-import com.ykis.ykispam.ui.navigation.APARTMENT_SCREEN
 import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.navigation.ContentType
 import com.ykis.ykispam.ui.navigation.Graph
@@ -233,8 +230,7 @@ class ApartmentViewModel @Inject constructor(
                             houseId = result.data.houseId,
                             osmdId =result.data.osmdId,
                             osbb = result.data.osbb.toString(),
-                            selectedDestination = "$APARTMENT_SCREEN?$ADDRESS_ID={${result.data.addressId}}",
-                                                       apartmentLoading = false,
+                            apartmentLoading = false,
                         )
                     }
                     is Resource.Error -> {

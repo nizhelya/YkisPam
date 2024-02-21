@@ -1,5 +1,6 @@
 package com.ykis.ykispam.ui.navigation.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -14,22 +15,23 @@ import com.ykis.ykispam.ui.navigation.NAV_BAR_DESTINATIONS
 @Composable
 fun BottomNavigationBar(
     selectedDestination: String,
-    onClick: (String) -> Unit
+    onClick: (String) -> Unit,
 ) {
+    Log.d("nav_test", "xxx ${selectedDestination}")
     NavigationBar(
         modifier = Modifier.fillMaxWidth(),
         containerColor = MaterialTheme.colorScheme.surfaceContainer
     ) {
         NAV_BAR_DESTINATIONS.forEach { destination ->
             NavigationBarItem(
-                selected = selectedDestination.substringBefore("?") == destination.route,
+                selected = selectedDestination.substringBefore("/") == destination.route.substringBefore("/"),
                 onClick = {
                     onClick(destination.route)
                 },
 
                 icon = {
                     Icon(
-                        imageVector = if (selectedDestination.substringBefore("?") == destination.route) {
+                        imageVector = if (selectedDestination == destination.route) {
                             destination.selectedIcon
                         } else destination.unselectedIcon,
                         contentDescription = stringResource(id = destination.labelId)
