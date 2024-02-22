@@ -43,7 +43,7 @@ fun VerifyEmailScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {
-        BasicToolbar(AppText.verify_email, isFullScreen = true)
+        BasicToolbar(AppText.verify_email)
 
         Spacer(modifier = Modifier.spacer())
         LogoImage()

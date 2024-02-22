@@ -1,5 +1,6 @@
 package com.ykis.ykispam.data
 
+import com.ykis.ykispam.data.remote.service.GetServiceResponse
 import com.ykis.ykispam.data.remote.service.ServiceRemote
 import com.ykis.ykispam.domain.service.ServiceEntity
 import com.ykis.ykispam.domain.service.ServiceRepository
@@ -11,5 +12,8 @@ class ServiceRepositoryImpl @Inject constructor(
 ):ServiceRepository{
     override suspend fun getFlatDetailService(params: ServiceParams): List<ServiceEntity> {
         return api.getFlatDetailServices(params)
+    }
+    override suspend fun getTotalDebtService(params: ServiceParams): GetServiceResponse {
+        return api.getTotalDebtService(params)
     }
 }

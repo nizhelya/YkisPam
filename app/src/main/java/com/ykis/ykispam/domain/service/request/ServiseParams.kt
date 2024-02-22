@@ -6,7 +6,6 @@ data class ServiceParams(
     val addressId:Int,
     val houseId:Int ,
     val service:Byte,
-    // TODO: remove total
     val total:Byte,
     val year : String ,
 )

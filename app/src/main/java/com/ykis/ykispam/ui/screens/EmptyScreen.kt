@@ -36,7 +36,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ykis.ykispam.R
 import com.ykis.ykispam.ui.navigation.NavigationType
 import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
-import com.ykis.ykispam.ui.screens.appbars.AddAppBar
+import com.ykis.ykispam.ui.components.appbars.AddAppBar
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

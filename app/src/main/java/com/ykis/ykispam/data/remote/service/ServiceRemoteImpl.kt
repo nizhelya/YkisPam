@@ -1,11 +1,8 @@
 package com.ykis.ykispam.data.remote.service
 
 import com.ykis.ykispam.data.remote.api.ApiService
-import com.ykis.ykispam.data.remote.core.Request
 import com.ykis.ykispam.domain.service.ServiceEntity
 import com.ykis.ykispam.domain.service.request.ServiceParams
-import com.ykis.ykispam.domain.type.Either
-import com.ykis.ykispam.domain.type.Failure
 import retrofit2.await
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -26,6 +23,20 @@ class ServiceRemoteImpl @Inject constructor(
                 )
             ).await().services
     }
+
+    override suspend fun getTotalDebtService(params: ServiceParams): GetServiceResponse {
+        return apiService.getFlatService(
+            createGetFlatServiceMap(
+                params.uid,
+                params.addressId,
+                params.houseId,
+                params.year,
+                params.service,
+                params.total
+            )
+        ).await()
+    }
+
     private fun createGetFlatServiceMap(
         uid: String,
         addressId: Int,

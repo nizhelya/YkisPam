@@ -1,4 +1,4 @@
-package com.ykis.ykispam.ui.screens.appbars
+package com.ykis.ykispam.ui.components.appbars
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

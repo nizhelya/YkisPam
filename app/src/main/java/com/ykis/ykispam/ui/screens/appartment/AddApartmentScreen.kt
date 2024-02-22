@@ -27,7 +27,7 @@ import com.ykis.ykispam.core.composable.BasicField
 import com.ykis.ykispam.core.composable.BasicImageButton
 import com.ykis.ykispam.ui.navigation.NavigationType
 import com.ykis.ykispam.ui.navigation.navigateToInfoApartment
-import com.ykis.ykispam.ui.screens.appbars.AddAppBar
+import com.ykis.ykispam.ui.components.appbars.AddAppBar
 import com.ykis.ykispam.R.string as AppText
 
 

@@ -75,11 +75,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.R
-import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.domain.service.ServiceEntity
 import com.ykis.ykispam.domain.service.request.ServiceParams
+import com.ykis.ykispam.ui.BaseUIState
+import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -117,7 +117,7 @@ fun ServicesContent(
             )
         }
     }
-    val serviceDetail by viewModel.state.collectAsStateWithLifecycle()
+    val serviceDetail by viewModel.detailState.collectAsStateWithLifecycle()
 
     ServiceDetailContent(
         state = serviceDetail,

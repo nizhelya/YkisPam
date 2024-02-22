@@ -1,4 +1,4 @@
-package com.ykis.ykispam.ui.screens.appbars
+package com.ykis.ykispam.ui.components.appbars
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -105,7 +105,7 @@ fun ApartmentTopAppBar(
         TopAppBar(
             modifier = modifier,
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainer
+               containerColor = MaterialTheme.colorScheme.surfaceContainer
             ),
             title = {
                 Column(

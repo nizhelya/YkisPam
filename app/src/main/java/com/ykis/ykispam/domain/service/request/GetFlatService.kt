@@ -1,22 +1,11 @@
 package com.ykis.ykispam.domain.service.request
 
-import android.util.Log
-import com.google.android.play.integrity.internal.i
 import com.ykis.ykispam.core.Resource
-import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.data.cache.database.AppDatabase
-import com.ykis.ykispam.data.cache.service.ServiceCache
-import com.ykis.ykispam.data.cache.user.UserCache
-import com.ykis.ykispam.data.remote.service.ServiceRemote
-import com.ykis.ykispam.domain.interactor.UseCase
 import com.ykis.ykispam.domain.service.ServiceEntity
 import com.ykis.ykispam.domain.service.ServiceRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.launchIn
-import okhttp3.Dispatcher
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -36,7 +25,6 @@ class GetFlatServices @Inject constructor(
                 service = params.service,
                 total = params.total,
             ))
-            delay(60)
             database.serviceDao().insertService(response)
             emit(Resource.Success(response))
         }catch (e: HttpException) {

@@ -19,15 +19,19 @@ import androidx.core.view.WindowCompat
 @Immutable
 data class ExtendedColorScheme(
     val selectedElement: ColorFamily,
+    val sectorColor1 : ColorFamily,
+    val sectorColor2 : ColorFamily,
+    val sectorColor3 : ColorFamily,
+    val sectorColor4 : ColorFamily,
 )
 
 
 @Immutable
 data class ColorFamily(
     val color: Color,
-    val onColor: Color,
-    val colorContainer: Color,
-    val onColorContainer: Color
+    val onColor: Color?=null,
+    val colorContainer: Color?=null,
+    val onColorContainer: Color?=null
 )
 
 val extendedDark = ExtendedColorScheme(
@@ -36,7 +40,19 @@ val extendedDark = ExtendedColorScheme(
         onSelectedElementDark,
         selectedElementContainerDark,
         onSelectedElementContainerDark
-    )
+    ),
+    sectorColor1 = ColorFamily(
+        sectorColor1ContainerDark,
+    ),
+    sectorColor2 = ColorFamily(
+        sectorColor2ContainerDark
+    ),
+    sectorColor3 = ColorFamily(
+        sectorColor3ContainerDark
+    ),
+    sectorColor4 = ColorFamily(
+        sectorColor4ContainerDark
+    ),
 )
 val extendedLight = ExtendedColorScheme(
     selectedElement = ColorFamily(
@@ -44,7 +60,19 @@ val extendedLight = ExtendedColorScheme(
         onSelectedElementLight,
         selectedElementContainerLight,
         onSelectedElementContainerLight
-    )
+    ),
+    sectorColor1 = ColorFamily(
+        sectorColor1ContainerLight,
+    ),
+    sectorColor2 = ColorFamily(
+        sectorColor2ContainerLight
+    ),
+    sectorColor3 = ColorFamily(
+        sectorColor3ContainerLight
+    ),
+    sectorColor4 = ColorFamily(
+        sectorColor4ContainerLight
+    ),
 )
 val ColorScheme.extendedColor: ExtendedColorScheme
     @Composable

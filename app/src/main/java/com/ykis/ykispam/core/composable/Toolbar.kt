@@ -58,8 +58,7 @@ fun BackIcon(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BasicToolbar(
-    @StringRes title: Int,
-    isFullScreen: Boolean
+    @StringRes title: Int
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -68,8 +67,7 @@ fun BasicToolbar(
         title = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = if (isFullScreen) Alignment.CenterHorizontally
-                else Alignment.Start
+                horizontalAlignment =Alignment.CenterHorizontally
             ) {
                 Text(
                     text = stringResource(title),

@@ -30,7 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.navigation.ContentType
-import com.ykis.ykispam.ui.screens.appbars.DetailAppBar
+import com.ykis.ykispam.ui.components.appbars.DetailAppBar
 import com.ykis.ykispam.ui.screens.bti.BtiPanelContent
 import com.ykis.ykispam.ui.screens.family.FamilyContent
 import com.ykis.ykispam.ui.screens.service.ServicesContent

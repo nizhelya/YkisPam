@@ -74,7 +74,7 @@ fun SignInScreen(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            BasicToolbar(AppText.login_details, isFullScreen = true)
+            BasicToolbar(AppText.login_details)
             Spacer(modifier = Modifier.smallSpacer())
             LogoImage()
             Spacer(modifier = Modifier.smallSpacer())

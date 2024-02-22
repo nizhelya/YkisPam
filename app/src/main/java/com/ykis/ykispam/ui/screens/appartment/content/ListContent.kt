@@ -43,7 +43,7 @@ import com.ykis.ykispam.core.composable.HelpAlertCard
 import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.navigation.ContentType
 import com.ykis.ykispam.ui.navigation.NavigationType
-import com.ykis.ykispam.ui.screens.appbars.ApartmentTopAppBar
+import com.ykis.ykispam.ui.components.appbars.ApartmentTopAppBar
 
 
 @Composable

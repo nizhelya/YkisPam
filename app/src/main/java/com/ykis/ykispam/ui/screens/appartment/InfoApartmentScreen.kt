@@ -29,7 +29,7 @@ import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.YkisPamAppState
 import com.ykis.ykispam.ui.navigation.INFO_APARTMENT_TAB_ITEM
 import com.ykis.ykispam.ui.navigation.NavigationType
-import com.ykis.ykispam.ui.screens.appbars.ApartmentTopAppBar
+import com.ykis.ykispam.ui.components.appbars.ApartmentTopAppBar
 import com.ykis.ykispam.ui.screens.bti.BtiPanelContent
 import com.ykis.ykispam.ui.screens.family.FamilyContent
 
