@@ -19,35 +19,32 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ykis.ykispam.R
 import com.ykis.ykispam.domain.service.request.ServiceParams
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.components.appbars.DefaultAppBar
+import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.navigation.NavigationType
-import com.ykis.ykispam.ui.screens.service.ServiceViewModel
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 import com.ykis.ykispam.ui.theme.extendedColor
 
 @Composable
 fun ServiceListScreen(
-    viewModel : ServiceViewModel = hiltViewModel(),
+    totalDebtState: TotalDebtState,
     baseUIState: BaseUIState,
     navigationType: NavigationType,
     onDrawerClick : () -> Unit,
+    getTotalServiceDebt: (ServiceParams) -> Unit,
+    onServiceClick :(ContentDetail)->Unit
 ) {
-    val totalDebtState by viewModel.totalDebtState.collectAsStateWithLifecycle()
-
     LaunchedEffect(key1 = true) {
-        viewModel.getTotalServiceDebt(
+        getTotalServiceDebt(
             ServiceParams(
                 uid = baseUIState.uid!!,
                 addressId = baseUIState.addressId,
@@ -63,25 +60,30 @@ fun ServiceListScreen(
                 name = baseUIState.osbb,
                 color = MaterialTheme.colorScheme.extendedColor.sectorColor4.color,
                 debt = totalDebtState.totalDebt.dolg4!!.toFloat(),
-                icon = Icons.Default.CorporateFare
+                icon = Icons.Default.CorporateFare,
+                contentDetail = ContentDetail.OSBB
             ),
             TotalServiceDebt(
                 name = stringResource( R.string.vodokanal),
                 color = MaterialTheme.colorScheme.extendedColor.sectorColor1.color,
                 debt = totalDebtState.totalDebt.dolg1!!.toFloat(),
-                icon = Icons.Default.Water
+                icon = Icons.Default.Water,
+                contentDetail = ContentDetail.WATER_SERVICE
+
             ),
             TotalServiceDebt(
                 name = stringResource(id =  R.string.ytke),
                 color = MaterialTheme.colorScheme.extendedColor.sectorColor2.color,
                 debt = totalDebtState.totalDebt.dolg2!!.toFloat(),
-                icon = Icons.Default.HotTub
+                icon = Icons.Default.HotTub,
+                contentDetail = ContentDetail.WARM_SERVICE
             ),
             TotalServiceDebt(
                 name = stringResource(id =R.string.yzhtrans),
                 color = MaterialTheme.colorScheme.extendedColor.sectorColor3.color,
                 debt = totalDebtState.totalDebt.dolg3!!.toFloat(),
-                icon = Icons.Default.Commute
+                icon = Icons.Default.Commute,
+                contentDetail = ContentDetail.GARBAGE_SERVICE
             ),
     )
     Column(
@@ -123,7 +125,10 @@ fun ServiceListScreen(
                             color = it.color,
                             title = it.name,
                             debt = it.debt,
-                            icon = it.icon
+                            icon = it.icon,
+                            onClick = {
+                                onServiceClick(it.contentDetail)
+                            }
                         )
                     },
                 )
@@ -141,19 +146,22 @@ private fun PreviewRow() {
                     color = Color.Blue,
                     title = stringResource(id = R.string.yzhtrans),
                     debt = 564.00f,
-                    icon = Icons.Default.GasMeter
+                    icon = Icons.Default.GasMeter,
+                    onClick = {}
                 )
                 ServiceRow(
                     color = Color.Blue,
                     title = stringResource(id = R.string.yzhtrans),
                     debt = 564.00f,
-                    icon = Icons.Default.GasMeter
+                    icon = Icons.Default.GasMeter,
+                    onClick = {}
                 )
                 ServiceRow(
                     color = Color.Blue,
                     title = stringResource(id = R.string.yzhtrans),
                     debt = 564.00f,
-                    icon = Icons.Default.GasMeter
+                    icon = Icons.Default.GasMeter,
+                    onClick = {}
                 )
             }
         }

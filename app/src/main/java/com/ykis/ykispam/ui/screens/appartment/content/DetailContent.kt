@@ -17,92 +17,71 @@ package com.ykis.ykispam.ui.screens.appartment.content
  */
 
 
+import androidx.compose.animation.core.EaseOutCubic
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import com.ykis.ykispam.ui.BaseUIState
+import com.ykis.ykispam.ui.components.appbars.DetailAppBar
 import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.navigation.ContentType
-import com.ykis.ykispam.ui.components.appbars.DetailAppBar
-import com.ykis.ykispam.ui.screens.bti.BtiPanelContent
-import com.ykis.ykispam.ui.screens.family.FamilyContent
-import com.ykis.ykispam.ui.screens.service.ServicesContent
-import com.ykis.ykispam.ui.BaseUIState
-import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailContent(
     modifier: Modifier = Modifier,
     baseUIState: BaseUIState,
     contentType: ContentType,
     contentDetail: ContentDetail,
-    apartmentViewModel: ApartmentViewModel,
-    onBackPressed: () -> Unit = {},
-    ) {
-    Card(
-        modifier = modifier
-            .fillMaxSize(),
-        shape = if(contentType== ContentType.DUAL_PANE)MaterialTheme.shapes.large else RoundedCornerShape(0.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = if (contentDetail != ContentDetail.EMPTY && contentType == ContentType.DUAL_PANE) {
-                MaterialTheme.colorScheme.surfaceContainerHighest
-            } else Color.Transparent
+    onBackPressed: () -> Unit,
+    detailContent: @Composable () -> Unit
+) {
+    androidx.compose.animation.AnimatedVisibility(
+        visible = contentDetail != ContentDetail.EMPTY,
+        enter = slideInVertically(
+            tween(
+                durationMillis = 550,
+                easing = EaseOutCubic
+            ),
+            initialOffsetY = {
+                it
+            },
+        )+ fadeIn(
+            tween(
+                durationMillis = 400
+            )
+        ),
+        exit = slideOutVertically(
+            targetOffsetY = { it }
         )
+        + fadeOut()
     ) {
-        Column {
-            if (contentDetail != ContentDetail.EMPTY)
-                DetailAppBar(
-                   contentType =  contentType,
-                    baseUIState = baseUIState,
-                    contentDetail =  contentDetail
-                ) {
-                    onBackPressed()
-                }
-            when (contentDetail) {
-                ContentDetail.BTI -> BtiPanelContent(
-                    baseUIState = baseUIState,
-                    viewModel = apartmentViewModel
-                )
-
-                ContentDetail.FAMILY -> FamilyContent(
-                    baseUIState = baseUIState,
-                )
-
-                ContentDetail.OSBB -> ServicesContent(
-                    contentDetail = contentDetail,
-                    baseUIState = baseUIState,
-                )
-
-                ContentDetail.WATER_SERVICE -> ServicesContent(
-                    contentDetail = contentDetail,
-                    baseUIState = baseUIState,
-                )
-
-                ContentDetail.WARM_SERVICE -> ServicesContent(
-                    contentDetail = contentDetail,
-                    baseUIState = baseUIState,
-                )
-
-                ContentDetail.GARBAGE_SERVICE -> ServicesContent(
-                    contentDetail = contentDetail,
-                    baseUIState = baseUIState,
-                )
-
-                ContentDetail.PAYMENTS -> ServicesContent(
-                    contentDetail = contentDetail,
-                    baseUIState = baseUIState,
-                )
-
-                else -> EmptyDetail(
-                )
+        Card(
+            modifier = modifier
+                .fillMaxSize(),
+            shape = MaterialTheme.shapes.large,
+            colors = CardDefaults.cardColors(
+                containerColor =
+                    MaterialTheme.colorScheme.surfaceContainerHighest
+            )
+        ) {
+            Column {
+                    DetailAppBar(
+                        contentType = contentType,
+                        baseUIState = baseUIState,
+                        contentDetail = contentDetail
+                    ) {
+                        onBackPressed()
+                    }
+                detailContent()
             }
         }
     }

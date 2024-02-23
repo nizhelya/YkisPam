@@ -45,7 +45,7 @@ import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
 import com.ykis.ykispam.ui.screens.appartment.InfoApartmentScreen
 import com.ykis.ykispam.ui.screens.meter.MeterScreen
 import com.ykis.ykispam.ui.screens.profile.ProfileScreen
-import com.ykis.ykispam.ui.screens.service.list.ServiceListScreen
+import com.ykis.ykispam.ui.screens.service.MainServiceScreen
 import com.ykis.ykispam.ui.screens.settings.SettingsScreen
 import kotlinx.coroutines.launch
 
@@ -165,7 +165,7 @@ fun MainApartmentScreen(
                     },
                     apartmentViewModel = viewModel,
                     rootNavController = rootNavController,
-                    firstDestination = if(baseUIState.apartments.isNotEmpty()) InfoApartmentScreen.routeWithArgs else AddApartmentScreen.route
+                        firstDestination = if(baseUIState.apartments.isNotEmpty()) InfoApartmentScreen.routeWithArgs else AddApartmentScreen.route
 
                 )
                 ApartmentNavigationRail(
@@ -291,10 +291,12 @@ fun ApartmentNavGraph(
                     MeterScreen()
                 }
                 composable(ServiceListScreen.route) {
-                    ServiceListScreen(
+                    MainServiceScreen(
                         baseUIState = baseUIState,
                         navigationType = navigationType,
-                        onDrawerClick = onDrawerClicked
+                        onDrawerClick = onDrawerClicked,
+                        displayFeature = displayFeatures,
+                        contentType = contentType,
                     )
                 }
                 composable(

@@ -1,6 +1,5 @@
 package com.ykis.ykispam.ui.screens.appartment
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -18,15 +17,17 @@ import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
-import com.google.android.play.core.integrity.ap
+import com.ykis.ykispam.ui.BaseUIState
+import com.ykis.ykispam.ui.YkisPamAppState
 import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.navigation.ContentType
 import com.ykis.ykispam.ui.navigation.NavigationType
-import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.ui.screens.appartment.content.DetailContent
+import com.ykis.ykispam.ui.screens.appartment.content.EmptyDetail
 import com.ykis.ykispam.ui.screens.appartment.content.ListContent
-import com.ykis.ykispam.ui.BaseUIState
-import com.ykis.ykispam.ui.YkisPamAppState
+import com.ykis.ykispam.ui.screens.bti.BtiPanelContent
+import com.ykis.ykispam.ui.screens.family.FamilyContent
+import com.ykis.ykispam.ui.screens.service.ServicesContent
 
 
 @Composable
@@ -114,6 +115,7 @@ fun DualPanelContent(
     closeDetailScreen: () -> Unit,
 
     ) {
+    val contentDetail = baseUIState.selectedContentDetail
     TwoPane(
         modifier = Modifier.fillMaxSize(),
         first = {
@@ -130,10 +132,47 @@ fun DualPanelContent(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 baseUIState = baseUIState,
                 contentType = ContentType.DUAL_PANE,
+                onBackPressed = {apartmentViewModel.setSelectedDetail(ContentDetail.EMPTY, contentType = ContentType.DUAL_PANE)},
                 contentDetail = baseUIState.selectedContentDetail ?: ContentDetail.EMPTY,
-                apartmentViewModel = apartmentViewModel
             ) {
-                closeDetailScreen()
+                when (contentDetail) {
+                    ContentDetail.BTI -> BtiPanelContent(
+                        baseUIState = baseUIState,
+                        viewModel = apartmentViewModel
+                    )
+
+                    ContentDetail.FAMILY -> FamilyContent(
+                        baseUIState = baseUIState,
+                    )
+
+                    ContentDetail.OSBB -> ServicesContent(
+                        contentDetail = contentDetail,
+                        baseUIState = baseUIState,
+                    )
+
+                    ContentDetail.WATER_SERVICE -> ServicesContent(
+                        contentDetail = contentDetail,
+                        baseUIState = baseUIState,
+                    )
+
+                    ContentDetail.WARM_SERVICE -> ServicesContent(
+                        contentDetail = contentDetail,
+                        baseUIState = baseUIState,
+                    )
+
+                    ContentDetail.GARBAGE_SERVICE -> ServicesContent(
+                        contentDetail = contentDetail,
+                        baseUIState = baseUIState,
+                    )
+
+                    ContentDetail.PAYMENTS -> ServicesContent(
+                        contentDetail = contentDetail,
+                        baseUIState = baseUIState,
+                    )
+
+                    else -> EmptyDetail(
+                    )
+                }
             }
 
         },
@@ -156,6 +195,7 @@ fun SinglePanelContent(
     apartmentViewModel: ApartmentViewModel
     ) {
 
+    val contentDetail = baseUIState.selectedContentDetail
     if (baseUIState.selectedContentDetail != null && baseUIState.isDetailOnlyOpen) {
         BackHandler {
             closeDetailScreen()
@@ -164,10 +204,47 @@ fun SinglePanelContent(
             baseUIState = baseUIState,
             contentType = contentType,
             contentDetail = baseUIState.selectedContentDetail,
-            apartmentViewModel = apartmentViewModel
+            onBackPressed = closeDetailScreen
         )
         {
-            closeDetailScreen()
+            when (contentDetail) {
+                ContentDetail.BTI -> BtiPanelContent(
+                    baseUIState = baseUIState,
+                    viewModel = apartmentViewModel
+                )
+
+                ContentDetail.FAMILY -> FamilyContent(
+                    baseUIState = baseUIState,
+                )
+
+                ContentDetail.OSBB -> ServicesContent(
+                    contentDetail = contentDetail,
+                    baseUIState = baseUIState,
+                )
+
+                ContentDetail.WATER_SERVICE -> ServicesContent(
+                    contentDetail = contentDetail,
+                    baseUIState = baseUIState,
+                )
+
+                ContentDetail.WARM_SERVICE -> ServicesContent(
+                    contentDetail = contentDetail,
+                    baseUIState = baseUIState,
+                )
+
+                ContentDetail.GARBAGE_SERVICE -> ServicesContent(
+                    contentDetail = contentDetail,
+                    baseUIState = baseUIState,
+                )
+
+                ContentDetail.PAYMENTS -> ServicesContent(
+                    contentDetail = contentDetail,
+                    baseUIState = baseUIState,
+                )
+
+                else -> EmptyDetail(
+                )
+            }
         }
     } else {
         ListContent(

@@ -7,13 +7,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.twotone.Commute
-import androidx.compose.material.icons.twotone.CorporateFare
-import androidx.compose.material.icons.twotone.FamilyRestroom
-import androidx.compose.material.icons.twotone.Home
-import androidx.compose.material.icons.twotone.HotTub
-import androidx.compose.material.icons.twotone.MonetizationOn
-import androidx.compose.material.icons.twotone.Water
+import androidx.compose.material.icons.filled.Commute
+import androidx.compose.material.icons.filled.CorporateFare
+import androidx.compose.material.icons.filled.FamilyRestroom
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.HotTub
+import androidx.compose.material.icons.filled.MonetizationOn
+import androidx.compose.material.icons.filled.Water
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -40,7 +40,7 @@ fun DetailAppBar(
     contentType: ContentType,
     baseUIState: BaseUIState,
     contentDetail: ContentDetail,
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
 ) {
     if (contentType == ContentType.SINGLE_PANE) {
         TopAppBar(
@@ -71,15 +71,15 @@ fun DetailAppBar(
                             modifier = Modifier
                                 .padding(4.dp),
                             imageVector = when (contentDetail) {
-                                ContentDetail.BTI -> Icons.TwoTone.Home
-                                ContentDetail.FAMILY -> Icons.TwoTone.FamilyRestroom
-                                ContentDetail.OSBB -> Icons.TwoTone.CorporateFare
-                                ContentDetail.WATER_SERVICE -> Icons.TwoTone.Water
-                                ContentDetail.WARM_SERVICE -> Icons.TwoTone.HotTub
-                                ContentDetail.GARBAGE_SERVICE -> Icons.TwoTone.Commute
-                                ContentDetail.PAYMENTS -> Icons.TwoTone.MonetizationOn
-                                // TODO: make empty
-                                else -> Icons.TwoTone.Home
+                                ContentDetail.BTI -> Icons.Default.Home
+                                ContentDetail.FAMILY -> Icons.Default.FamilyRestroom
+                                ContentDetail.OSBB -> Icons.Default.CorporateFare
+                                ContentDetail.WATER_SERVICE -> Icons.Default.Water
+                                ContentDetail.WARM_SERVICE -> Icons.Default.HotTub
+                                ContentDetail.GARBAGE_SERVICE -> Icons.Default.Commute
+                                ContentDetail.PAYMENTS -> Icons.Default.MonetizationOn
+//                                 TODO: make empty
+                                else -> Icons.Default.Home
                             },
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.outline
@@ -94,7 +94,7 @@ fun DetailAppBar(
                                 ContentDetail.WARM_SERVICE -> stringResource(id = R.string.ytke)
                                 ContentDetail.GARBAGE_SERVICE -> stringResource(id = R.string.yzhtrans)
                                 ContentDetail.PAYMENTS -> stringResource(id = R.string.payment_list)
-                                // TODO: make empty
+//                                 TODO: make empty
                                 else -> stringResource(id = R.string.bti)
                             },
                             style = MaterialTheme.typography.labelMedium,
@@ -133,15 +133,15 @@ fun DetailAppBar(
                             modifier = Modifier
                                 .padding(8.dp),
                             imageVector = when (contentDetail) {
-                                ContentDetail.BTI -> Icons.TwoTone.Home
-                                ContentDetail.FAMILY -> Icons.TwoTone.FamilyRestroom
-                                ContentDetail.OSBB -> Icons.TwoTone.CorporateFare
-                                ContentDetail.WATER_SERVICE -> Icons.TwoTone.Water
-                                ContentDetail.WARM_SERVICE -> Icons.TwoTone.HotTub
-                                ContentDetail.GARBAGE_SERVICE -> Icons.TwoTone.Commute
-                                ContentDetail.PAYMENTS -> Icons.TwoTone.MonetizationOn
+                                ContentDetail.BTI -> Icons.Default.Home
+                                ContentDetail.FAMILY -> Icons.Default.FamilyRestroom
+                                ContentDetail.OSBB -> Icons.Default.CorporateFare
+                                ContentDetail.WATER_SERVICE -> Icons.Default.Water
+                                ContentDetail.WARM_SERVICE -> Icons.Default.HotTub
+                                ContentDetail.GARBAGE_SERVICE -> Icons.Default.Commute
+                                ContentDetail.PAYMENTS -> Icons.Default.MonetizationOn
                                 // TODO: make empty
-                                else -> Icons.TwoTone.Home
+                                else -> Icons.Default.Home
                             },
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.outline

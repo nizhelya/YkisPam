@@ -2,12 +2,12 @@ package com.ykis.ykispam.ui.screens.service
 
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.core.Resource
-import com.ykis.ykispam.domain.service.ServiceEntity
 import com.ykis.ykispam.domain.service.request.GetFlatServices
 import com.ykis.ykispam.domain.service.request.GetTotalDebtServices
 import com.ykis.ykispam.domain.service.request.ServiceParams
 import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.ui.BaseViewModel
+import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.screens.service.list.TotalDebtState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,11 +30,11 @@ class ServiceViewModel @Inject constructor(
     private val _totalDebtState = MutableStateFlow<TotalDebtState>(TotalDebtState())
     val totalDebtState = _totalDebtState.asStateFlow()
 
-    private val _totalDebt = MutableStateFlow<ServiceEntity?>(null)
-    val totalDebt : StateFlow<ServiceEntity?> get() = _totalDebt.asStateFlow()
-
-    private val _totalServiceDebt = MutableStateFlow<List<Float>>(emptyList())
-    val totalServiceDebt: StateFlow<List<Float>> = _totalServiceDebt.asStateFlow()
+    fun setContentDetail (contentDetail: ContentDetail){
+        _totalDebtState.value = _totalDebtState.value.copy(
+            serviceDetail = contentDetail
+        )
+    }
 
     fun getTotalServiceDebt(params: ServiceParams){
         this.getTotalDebtServices(

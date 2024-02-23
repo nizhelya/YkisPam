@@ -94,38 +94,39 @@ fun ServicesContent(
     val date = Date()
     val year = SimpleDateFormat("yyyy", Locale("uk")).format(Date(date.time))
 
-
+    val serviceDetail by viewModel.detailState.collectAsStateWithLifecycle()
     var selectedChip by rememberSaveable {mutableStateOf(year)}
 
-    LaunchedEffect(key1 = selectedChip) {
-        baseUIState.uid?.let {
-            viewModel.getDetailService(
-                params = ServiceParams(
-                    uid = it,
-                    addressId = baseUIState.apartment.addressId,
-                    houseId = baseUIState.apartment.houseId,
-                    service = when (contentDetail) {
-                    ContentDetail.OSBB -> 4.toByte()
-                    ContentDetail.WATER_SERVICE -> 1.toByte()
-                    ContentDetail.WARM_SERVICE -> 2.toByte()
-                    ContentDetail.GARBAGE_SERVICE -> 3.toByte()
-                    else -> 4.toByte()
-                },
-                year = selectedChip,
-                total = 0,
+    LaunchedEffect(key1 = selectedChip , key2 = contentDetail) {
+        if(contentDetail!=ContentDetail.EMPTY){
+            baseUIState.uid?.let {
+                viewModel.getDetailService(
+                    params = ServiceParams(
+                        uid = it,
+                        addressId = baseUIState.apartment.addressId,
+                        houseId = baseUIState.apartment.houseId,
+                        service = when (contentDetail) {
+                            ContentDetail.OSBB -> 4.toByte()
+                            ContentDetail.WATER_SERVICE -> 1.toByte()
+                            ContentDetail.WARM_SERVICE -> 2.toByte()
+                            ContentDetail.GARBAGE_SERVICE -> 3.toByte()
+                            else -> 4.toByte()
+                        },
+                        year = selectedChip,
+                        total = 0,
+                    )
                 )
-            )
+            }
         }
-    }
-    val serviceDetail by viewModel.detailState.collectAsStateWithLifecycle()
 
-    ServiceDetailContent(
-        state = serviceDetail,
-        year = year,
-        serviceEntyties = serviceDetail.services,
-        onSelectedChanged = { selectedChip = it },
-        selectedChip = selectedChip
-    )
+    }
+        ServiceDetailContent(
+            state = serviceDetail,
+            year = year,
+            serviceEntyties = serviceDetail.services,
+            onSelectedChanged = { selectedChip = it },
+            selectedChip = selectedChip
+        )
 }
 
 @Composable
@@ -133,8 +134,8 @@ fun ServiceDetailItem(
     modifier: Modifier = Modifier,
     serviceEntity: ServiceEntity = ServiceEntity()
 ) {
+    val scrollState = rememberScrollState()
     val dateUnix = SimpleDateFormat("yyyy-MM-dd").parse(serviceEntity.data)
-
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.onSecondary,
@@ -153,70 +154,69 @@ fun ServiceDetailItem(
             Text(
                 text = SimpleDateFormat("LLLL yyyy", Locale("uk")).format(Date(dateUnix.time))
                     .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() },
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontWeight = FontWeight.Bold,
-                    ), modifier = modifier
-                        .padding(16.dp)
-                )
-            Row(
-                modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState())
-                    .padding(horizontal = 18.dp),
-                verticalAlignment = Alignment.Bottom,
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                ColumnItemInTable(
-                    alignment = Alignment.Start,
-                    value1 = serviceEntity.service1.toString(),
-                    value2 = serviceEntity.service2.toString(),
-                    value3 = serviceEntity.service3.toString(),
-                    value4 = serviceEntity.service4.toString(),
-                    header = stringResource(id = R.string.services),
-                    summary = stringResource(id = R.string.summary)
-                )
-                ColumnItemInTable(
-                    alignment = Alignment.End,
-                    value1 = serviceEntity.zadol1.toString(),
-                    value2 = serviceEntity.zadol2.toString(),
-                    value3 = serviceEntity.zadol3.toString(),
-                    value4 = serviceEntity.zadol4.toString(),
-                    header = stringResource(id = R.string.start_debt),
-                    summary = serviceEntity.nachisleno.toString()
-                )
-                ColumnItemInTable(
-                    alignment = Alignment.End,
-                    value1 = serviceEntity.nachisleno1.toString(),
-                    value2 = serviceEntity.nachisleno2.toString(),
-                    value3 = serviceEntity.nachisleno3.toString(),
-                    value4 = serviceEntity.nachisleno4.toString(),
-                    header = stringResource(id = R.string.paid),
-                    summary = serviceEntity.nachisleno.toString()
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontWeight = FontWeight.Bold,
+                ), modifier = modifier
+                    .padding(16.dp)
+            )
+                Row(
+                    modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(scrollState)
+                        .padding(horizontal = 18.dp),
+                    verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    ColumnItemInTable(
+                        alignment = Alignment.Start,
+                        value1 = serviceEntity.service1.toString(),
+                        value2 = serviceEntity.service2.toString(),
+                        value3 = serviceEntity.service3.toString(),
+                        value4 = serviceEntity.service4.toString(),
+                        header = stringResource(id = R.string.services),
+                        summary = stringResource(id = R.string.summary)
+                    )
+                    ColumnItemInTable(
+                        alignment = Alignment.End,
+                        value1 = serviceEntity.zadol1.toString(),
+                        value2 = serviceEntity.zadol2.toString(),
+                        value3 = serviceEntity.zadol3.toString(),
+                        value4 = serviceEntity.zadol4.toString(),
+                        header = stringResource(id = R.string.start_debt),
+                        summary = serviceEntity.nachisleno.toString()
+                    )
+                    ColumnItemInTable(
+                        alignment = Alignment.End,
+                        value1 = serviceEntity.nachisleno1.toString(),
+                        value2 = serviceEntity.nachisleno2.toString(),
+                        value3 = serviceEntity.nachisleno3.toString(),
+                        value4 = serviceEntity.nachisleno4.toString(),
+                        header = stringResource(id = R.string.paid),
+                        summary = serviceEntity.nachisleno.toString()
 
-                )
-                ColumnItemInTable(
-                    alignment = Alignment.End,
-                    value1 = serviceEntity.oplacheno1.toString(),
-                    value2 = serviceEntity.oplacheno2.toString(),
-                    value3 = serviceEntity.oplacheno3.toString(),
-                    value4 = serviceEntity.oplacheno4.toString(),
-                    header = stringResource(id = R.string.accrued_text),
-                    summary = serviceEntity.oplacheno.toString()
+                    )
+                    ColumnItemInTable(
+                        alignment = Alignment.End,
+                        value1 = serviceEntity.oplacheno1.toString(),
+                        value2 = serviceEntity.oplacheno2.toString(),
+                        value3 = serviceEntity.oplacheno3.toString(),
+                        value4 = serviceEntity.oplacheno4.toString(),
+                        header = stringResource(id = R.string.accrued_text),
+                        summary = serviceEntity.oplacheno.toString()
 
-                )
-                ColumnItemInTable(
-                    alignment = Alignment.End,
-                    value1 = serviceEntity.dolg1.toString(),
-                    value2 = serviceEntity.dolg2.toString(),
-                    value3 = serviceEntity.dolg3.toString(),
-                    value4 = serviceEntity.dolg4.toString(),
-                    header = stringResource(id = R.string.end_debt),
-                    summary = serviceEntity.dolg.toString()
-                )
+                    )
+                    ColumnItemInTable(
+                        alignment = Alignment.End,
+                        value1 = serviceEntity.dolg1.toString(),
+                        value2 = serviceEntity.dolg2.toString(),
+                        value3 = serviceEntity.dolg3.toString(),
+                        value4 = serviceEntity.dolg4.toString(),
+                        header = stringResource(id = R.string.end_debt),
+                        summary = serviceEntity.dolg.toString()
+                    )
+                }
             }
         }
-    }
-
 }
 
 @Composable
@@ -248,6 +248,7 @@ fun ServiceDetailContent(
     }
     Column(
         modifier = Modifier
+            .background(MaterialTheme.colorScheme.background)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -295,6 +296,7 @@ fun NumberInTable(text: String, modifier: Modifier = Modifier) {
             lineHeight = 24.sp,
             letterSpacing = 0.15.sp
         ),
+
         modifier = modifier.padding(horizontal = 4.dp)
     )
 }
@@ -323,7 +325,7 @@ fun ColumnItemInTable(
     )
     {
         HeaderInTable(header)
-        Spacer(modifier = modifier.widthIn(min = componentWidth))
+        Spacer(modifier = Modifier.widthIn(min = componentWidth))
             Column(
                 horizontalAlignment = alignment,
                 verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -440,7 +442,11 @@ fun EmptyListScreen(modifier: Modifier = Modifier,
 @Composable
 private fun Test() {
     YkisPAMTheme {
-        ServiceDetailItem()
+        ServiceDetailItem(
+            serviceEntity = ServiceEntity(
+                service2 = "aaaaaaaaaaaaaaaaaaaaaaaaaa"
+            )
+        )
     }
     
 }
