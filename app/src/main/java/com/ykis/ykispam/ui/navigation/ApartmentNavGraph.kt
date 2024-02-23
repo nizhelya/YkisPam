@@ -45,7 +45,7 @@ import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
 import com.ykis.ykispam.ui.screens.appartment.InfoApartmentScreen
 import com.ykis.ykispam.ui.screens.meter.MeterScreen
 import com.ykis.ykispam.ui.screens.profile.ProfileScreen
-import com.ykis.ykispam.ui.screens.service.ServiceListScreen
+import com.ykis.ykispam.ui.screens.service.list.ServiceListScreen
 import com.ykis.ykispam.ui.screens.settings.SettingsScreen
 import kotlinx.coroutines.launch
 

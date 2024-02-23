@@ -1,4 +1,4 @@
-package com.ykis.ykispam.ui.screens.service
+package com.ykis.ykispam.ui.screens.service.list
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector

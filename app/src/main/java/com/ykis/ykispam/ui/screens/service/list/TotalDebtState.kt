@@ -1,4 +1,4 @@
-package com.ykis.ykispam.ui.screens.service
+package com.ykis.ykispam.ui.screens.service.list
 
 import com.ykis.ykispam.domain.service.ServiceEntity
 

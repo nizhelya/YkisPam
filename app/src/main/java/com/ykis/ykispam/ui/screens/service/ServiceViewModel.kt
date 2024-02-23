@@ -8,6 +8,7 @@ import com.ykis.ykispam.domain.service.request.GetTotalDebtServices
 import com.ykis.ykispam.domain.service.request.ServiceParams
 import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.ui.BaseViewModel
+import com.ykis.ykispam.ui.screens.service.list.TotalDebtState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -34,15 +35,6 @@ class ServiceViewModel @Inject constructor(
 
     private val _totalServiceDebt = MutableStateFlow<List<Float>>(emptyList())
     val totalServiceDebt: StateFlow<List<Float>> = _totalServiceDebt.asStateFlow()
-
-
-
-    val i = ServiceEntity(
-        dolg1 = 340.00,
-        dolg2 = 745.66,
-        dolg3 = 121.3,
-        dolg4 = 34.90
-    )
 
     fun getTotalServiceDebt(params: ServiceParams){
         this.getTotalDebtServices(
