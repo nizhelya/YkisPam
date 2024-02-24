@@ -51,7 +51,7 @@ data class TabItem(
     val unselectedIcon: ImageVector,
 )
 
-val INFO_APARTMENT_TAB_ITEM = listOf<TabItem>(
+val INFO_APARTMENT_TAB_ITEM = listOf(
     TabItem(
         titleId = R.string.bti,
         selectedIcon = Icons.Filled.Home,

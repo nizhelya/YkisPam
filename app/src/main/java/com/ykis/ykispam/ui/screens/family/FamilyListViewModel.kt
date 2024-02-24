@@ -2,12 +2,10 @@ package com.ykis.ykispam.ui.screens.family
 
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.core.Resource
-import com.ykis.ykispam.ui.BaseViewModel
-import com.ykis.ykispam.firebase.service.repo.LogService
-import com.ykis.ykispam.domain.family.FamilyEntity
 import com.ykis.ykispam.domain.family.request.FamilyParams
 import com.ykis.ykispam.domain.family.request.GetFamilyList
-import com.ykis.ykispam.ui.screens.service.ServiceState
+import com.ykis.ykispam.firebase.service.repo.LogService
+import com.ykis.ykispam.ui.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,7 +20,7 @@ class FamilyListViewModel @Inject constructor(
     private val logService: LogService,
 ) : BaseViewModel(logService) {
 
-    private val _state = MutableStateFlow<FamilyState>(FamilyState())
+    private val _state = MutableStateFlow(FamilyState())
     val state : StateFlow<FamilyState> = _state.asStateFlow()
 
     fun getFamilyList(uid:String, addressId:Int) {

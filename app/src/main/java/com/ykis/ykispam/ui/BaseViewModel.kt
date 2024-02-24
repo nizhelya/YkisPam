@@ -19,12 +19,11 @@ package com.ykis.ykispam.ui
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ykis.ykispam.R
 import com.ykis.ykispam.core.snackbar.SnackbarManager.showMessage
 import com.ykis.ykispam.core.snackbar.SnackbarMessage.Companion.toSnackbarMessage
-import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.domain.type.Failure
 import com.ykis.ykispam.domain.type.HandleOnce
+import com.ykis.ykispam.firebase.service.repo.LogService
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -42,29 +41,7 @@ open class BaseViewModel(
     val _uiState = MutableStateFlow(BaseUIState(isLoading = true))
     val uiState: StateFlow<BaseUIState> = _uiState.asStateFlow()
 
-    protected fun handleFailure(failure: Failure) {
-        this.failureData.value = HandleOnce(failure)
-        updateProgress(false)
-        when (failure) {
-            is Failure.FailUpdateBti -> showMessage(R.string.error_update)
-            is Failure.FailAddReading -> showMessage(R.string.error_add_reading)
-            is Failure.FailIncorrectReading -> showMessage(R.string.error_incorrect_reading)
-            is Failure.MissingFields -> showMessage(R.string.error_missing_fields)
-            is Failure.FailDeleteFlat -> showMessage(R.string.error_delete_flat)
-            is Failure.IncorrectCode -> showMessage(R.string.error_incorrect_code)
-            is Failure.FlatAlreadyInDataBase -> showMessage(R.string.error_flat_in_db)
-            is Failure.NetworkConnectionError -> showMessage(R.string.error_network)
-            is Failure.ServerError -> showMessage(R.string.error_server)
-            is Failure.CantSendEmailError -> showMessage(R.string.error_cant_send_email)
-            else -> {
-                showMessage(R.string.error_server)
-            }
-        }
-    }
 
-    protected fun updateProgress(progress: Boolean) {
-        this.progressData.value = progress
-    }
 
 
     fun launchCatching(snackbar: Boolean = true, block: suspend CoroutineScope.() -> Unit) =

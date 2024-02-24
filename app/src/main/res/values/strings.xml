@@ -15,6 +15,8 @@
     <string name="web_client_id">126951826811-gp5ltjphmgg9gam22dku7rogbl6b8nk1.apps.googleusercontent.com</string>
     <!-- Dialogs -->
     <string name="sign_out_title">Вихід?</string>
+    <string name="exit_app">Натисніть ще раз, щоб вийти з програми</string>
+
     <string name="sign_out_description">Вам доведеться знову увійти до системи, щоб побачити свої події.</string>
     <string name="delete_account_title">Видалити акаунт?</string>
     <string name="delete_account_description">Ви втратите всі свої події, а ваш обліковий запис буде видалено. Ця дія необоротна.</string>

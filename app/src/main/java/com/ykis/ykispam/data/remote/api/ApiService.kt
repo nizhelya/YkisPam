@@ -2,8 +2,8 @@ package com.ykis.ykispam.data.remote.api
 
 import com.ykis.ykispam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.data.remote.address.GetAddressResponse
-import com.ykis.ykispam.data.remote.appartment.GetApartmentsResponse
 import com.ykis.ykispam.data.remote.appartment.GetApartmentResponse
+import com.ykis.ykispam.data.remote.appartment.GetApartmentsResponse
 import com.ykis.ykispam.data.remote.family.GetFamilyResponse
 import com.ykis.ykispam.data.remote.heat.meter.GetHeatMeterResponse
 import com.ykis.ykispam.data.remote.heat.reading.GetHeatReadingResponse
@@ -11,7 +11,6 @@ import com.ykis.ykispam.data.remote.payment.GetPaymentResponse
 import com.ykis.ykispam.data.remote.service.GetServiceResponse
 import com.ykis.ykispam.data.remote.water.meter.GetWaterMeterResponse
 import com.ykis.ykispam.data.remote.water.reading.GetWaterReadingResponse
-import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import retrofit2.Call
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
@@ -45,7 +44,6 @@ interface ApiService {
         const val GET_HEAT_METER = "getHeatMeter.php"
         const val GET_WATER_READINGS = "getWaterReadings.php"
         const val GET_HEAT_READINGS = "getHeatReadings.php"
-        const val CHECK_ADD_FLAT = "checkAddFlat.php"
         const val ADD_NEW_WATER_READING = "addCurrentWaterReading.php"
         const val ADD_NEW_HEAT_READING = "addCurrentHeatReading.php"
         const val DELETE_CURRENT_WATER_READING = "deleteCurrentWaterReading.php"
@@ -77,10 +75,6 @@ interface ApiService {
     fun getApartmentList(@FieldMap params: Map<String, String>): Call<GetApartmentsResponse>
 
     @FormUrlEncoded
-    @POST(GET_MY_FLATS)
-    fun getAllApartmentsByUser(@FieldMap params: Map<String, String>): Call<List<ApartmentEntity>>
-
-    @FormUrlEncoded
     @POST(GET_FLAT)
     fun getApartment(@FieldMap params: Map<String, String>): Call<GetApartmentResponse>
 
@@ -107,10 +101,6 @@ interface ApiService {
     @FormUrlEncoded
     @POST(GET_FAMILY)
     fun getFamilyList(@FieldMap params: Map<String, String>): Call<GetFamilyResponse>
-
-    @FormUrlEncoded
-    @POST(CHECK_ADD_FLAT)
-    fun checkCode(@FieldMap params: Map<String, String>): Call<GetSimpleResponse>
 
     @FormUrlEncoded
     @POST(DELETE_FLAT)

@@ -17,7 +17,7 @@ fun BottomNavigationBar(
     selectedDestination: String,
     onClick: (String) -> Unit,
 ) {
-    Log.d("nav_test", "xxx ${selectedDestination}")
+    Log.d("nav_test", "xxx $selectedDestination")
     NavigationBar(
         modifier = Modifier.fillMaxWidth(),
         containerColor = MaterialTheme.colorScheme.surfaceContainer

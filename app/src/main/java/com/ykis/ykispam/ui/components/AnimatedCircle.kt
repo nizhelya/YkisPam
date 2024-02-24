@@ -97,7 +97,7 @@ private enum class AnimatedCircleProgress { START, END }
 private fun PreviewAnimatedCircle() {
     YkisPAMTheme {
         AnimatedCircle(
-            proportions = listOf<Float>(25f , 33f ,10f ,32f),
+            proportions = listOf(25f , 33f ,10f ,32f),
             colors = listOf(Color.Red , Color.Blue , Color.Green , Color.White) )
     }
 }

@@ -2,13 +2,11 @@ package com.ykis.ykispam.domain.apartment.request
 
 import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.data.cache.database.AppDatabase
-import com.ykis.ykispam.data.remote.appartment.GetApartmentsResponse
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.domain.apartment.ApartmentRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
-import java.io.IOException
 import javax.inject.Inject
 
 class GetApartmentList @Inject constructor(

@@ -5,7 +5,6 @@ import android.content.Context
 import androidx.room.Room
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.ykis.ykispam.firebase.service.repo.FirebaseService
 import com.ykis.ykispam.data.AddressRepositoryImpl
 import com.ykis.ykispam.data.ApartmentRepositoryImpl
 import com.ykis.ykispam.data.FamilyRepositoryImpl
@@ -15,7 +14,6 @@ import com.ykis.ykispam.data.PaymentRepositoryImpl
 import com.ykis.ykispam.data.ServiceRepositoryImpl
 import com.ykis.ykispam.data.WaterMeterRepositoryImpl
 import com.ykis.ykispam.data.WaterReadingRepositoryImpl
-import com.ykis.ykispam.data.cache.apartment.ApartmentCache
 import com.ykis.ykispam.data.cache.dao.ApartmentDao
 import com.ykis.ykispam.data.cache.dao.FamilyDao
 import com.ykis.ykispam.data.cache.dao.HeatMeterDao
@@ -25,11 +23,9 @@ import com.ykis.ykispam.data.cache.dao.ServiceDao
 import com.ykis.ykispam.data.cache.dao.WaterMeterDao
 import com.ykis.ykispam.data.cache.dao.WaterReadingDao
 import com.ykis.ykispam.data.cache.database.AppDatabase
-import com.ykis.ykispam.data.cache.family.FamilyCache
 import com.ykis.ykispam.data.cache.heat.meter.HeatMeterCache
 import com.ykis.ykispam.data.cache.heat.reading.HeatReadingCache
 import com.ykis.ykispam.data.cache.payment.PaymentCache
-import com.ykis.ykispam.data.cache.service.ServiceCache
 import com.ykis.ykispam.data.cache.user.UserCache
 import com.ykis.ykispam.data.cache.water.meter.WaterMeterCache
 import com.ykis.ykispam.data.cache.water.reading.WaterReadingCache

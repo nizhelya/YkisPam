@@ -24,10 +24,10 @@ class ServiceViewModel @Inject constructor(
     private val logService: LogService
 ) : BaseViewModel(logService) {
 
-    private val _detailState = MutableStateFlow<ServiceState>(ServiceState())
+    private val _detailState = MutableStateFlow(ServiceState())
     val detailState: StateFlow<ServiceState> = _detailState.asStateFlow()
 
-    private val _totalDebtState = MutableStateFlow<TotalDebtState>(TotalDebtState())
+    private val _totalDebtState = MutableStateFlow(TotalDebtState())
     val totalDebtState = _totalDebtState.asStateFlow()
 
     fun setContentDetail (contentDetail: ContentDetail){

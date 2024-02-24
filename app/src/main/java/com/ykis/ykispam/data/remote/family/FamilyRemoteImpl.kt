@@ -1,13 +1,12 @@
 package com.ykis.ykispam.data.remote.family
 
-import com.ykis.ykispam.data.remote.core.Request
 import com.ykis.ykispam.data.remote.api.ApiService
+import com.ykis.ykispam.data.remote.core.Request
 import com.ykis.ykispam.domain.family.FamilyEntity
 import com.ykis.ykispam.domain.family.request.FamilyParams
 import com.ykis.ykispam.domain.type.Either
 import com.ykis.ykispam.domain.type.Failure
 import retrofit2.await
-import retrofit2.awaitResponse
 import javax.inject.Inject
 import javax.inject.Singleton
 

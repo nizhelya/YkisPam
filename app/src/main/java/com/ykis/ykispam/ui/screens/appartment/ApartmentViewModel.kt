@@ -21,8 +21,6 @@ import com.ykis.ykispam.R
 import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.core.ext.isValidEmail
 import com.ykis.ykispam.core.snackbar.SnackbarManager
-import com.ykis.ykispam.data.cache.apartment.ApartmentCacheImpl
-import com.ykis.ykispam.data.cache.database.AppDatabase
 import com.ykis.ykispam.data.remote.core.NetworkHandler
 import com.ykis.ykispam.domain.address.AddressEntity
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
@@ -54,11 +52,8 @@ class ApartmentViewModel @Inject constructor(
     private val firebaseService: FirebaseService,
     private val getApartmentListUseCase: GetApartmentList,
     private val getApartmentUseCase : GetApartment,
-//    private val deleteFlatByUser: DeleteFlatByUser,
     private val deleteApartmentUseCase : DeleteApartment,
     private val addApartmentUseCase : AddApartment,
-    private val apartmentCacheImpl: ApartmentCacheImpl,
-    private val database : AppDatabase,
     private val networkHandler: NetworkHandler,
     private val logService: LogService,
     private val updateBti: UpdateBti
@@ -70,7 +65,7 @@ class ApartmentViewModel @Inject constructor(
     private val displayName get() = firebaseService.displayName
     val email get() = firebaseService.email
 
-    private val _apartment = MutableStateFlow<ApartmentEntity>(ApartmentEntity())
+    private val _apartment = MutableStateFlow(ApartmentEntity())
     val apartment: StateFlow<ApartmentEntity> get() = _apartment.asStateFlow()
 
 
@@ -78,9 +73,6 @@ class ApartmentViewModel @Inject constructor(
     private val _address = MutableStateFlow<List<AddressEntity>>(emptyList())
     val address: StateFlow<List<AddressEntity>> get() = _address.asStateFlow()
 
-
-    private val isConnected: Boolean get() = networkHandler.isConnected
-    private val networkType: Int get() = networkHandler.networkType
 
     private val _secretCode = MutableStateFlow("")
     val secretCode : StateFlow<String> = _secretCode.asStateFlow()

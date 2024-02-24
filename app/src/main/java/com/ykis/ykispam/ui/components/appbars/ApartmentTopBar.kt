@@ -24,55 +24,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.R
-import com.ykis.ykispam.core.composable.DangerousCardEditor
 import com.ykis.ykispam.core.composable.DialogCancelButton
 import com.ykis.ykispam.core.composable.DialogConfirmButton
-import com.ykis.ykispam.core.composable.RegularCardEditor
-import com.ykis.ykispam.core.ext.card
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.ui.YkisPamAppState
 import com.ykis.ykispam.ui.navigation.NavigationType
 import kotlinx.coroutines.launch
-import com.ykis.ykispam.R.string as AppText
 
-@Composable
-private fun ExitApp(exitApp: () -> Unit) {
-    var showWarningDialog by remember { mutableStateOf(false) }
-
-    RegularCardEditor(AppText.sign_out, R.drawable.ic_exit, "", Modifier.card()) {
-        showWarningDialog = true
-    }
-
-    if (showWarningDialog) {
-        AlertDialog(
-            title = { Text(stringResource(AppText.sign_out_title)) },
-            text = { Text(stringResource(AppText.sign_out_description)) },
-            dismissButton = { DialogCancelButton(AppText.cancel) { showWarningDialog = false } },
-            confirmButton = {
-                DialogConfirmButton(AppText.sign_out) {
-                    exitApp()
-                    showWarningDialog = false
-                }
-            },
-            onDismissRequest = { showWarningDialog = false }
-        )
-    }
-}
-
-
-@Composable
-private fun OpenSettingsScreen(openSettingsScreen: () -> Unit) {
-
-    DangerousCardEditor(
-        AppText.settings,
-        R.drawable.ic_settings,
-        "",
-        Modifier.card()
-    ) {
-        openSettingsScreen()
-    }
-
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
