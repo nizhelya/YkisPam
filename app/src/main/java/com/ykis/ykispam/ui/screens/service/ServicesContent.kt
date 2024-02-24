@@ -98,7 +98,6 @@ fun ServicesContent(
     var selectedChip by rememberSaveable {mutableStateOf(year)}
 
     LaunchedEffect(key1 = selectedChip , key2 = contentDetail) {
-        if(contentDetail!=ContentDetail.EMPTY){
             baseUIState.uid?.let {
                 viewModel.getDetailService(
                     params = ServiceParams(
@@ -116,7 +115,6 @@ fun ServicesContent(
                         total = 0,
                     )
                 )
-            }
         }
 
     }
@@ -248,7 +246,6 @@ fun ServiceDetailContent(
     }
     Column(
         modifier = Modifier
-            .background(MaterialTheme.colorScheme.background)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,

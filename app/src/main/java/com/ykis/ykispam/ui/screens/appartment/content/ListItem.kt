@@ -18,7 +18,6 @@ import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.ui.navigation.ContentDetail
-import com.ykis.ykispam.ui.navigation.ContentType
 
 
 @Composable
@@ -28,7 +27,7 @@ fun ListItem(
     serviceName: String,
     isSelected: Boolean = false,
     contentDetail: ContentDetail,
-    navigateToDetail: (ContentDetail, ContentType) -> Unit,
+    navigateToDetail: (ContentDetail) -> Unit,
     isSelectable: (ContentDetail) -> Unit
 
 
@@ -42,7 +41,7 @@ fun ListItem(
         else modifier.padding(horizontal = 16.dp, vertical = 8.dp)
     Card(
         modifier = semanticsModifier.clickable {
-            navigateToDetail(contentDetail, ContentType.SINGLE_PANE)
+            navigateToDetail(contentDetail)
             (if(!isSelected) contentDetail else null)?.let { isSelectable(it) }
         },
         colors = CardDefaults.cardColors(

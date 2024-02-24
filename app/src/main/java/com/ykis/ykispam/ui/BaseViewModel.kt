@@ -16,13 +16,10 @@ limitations under the License.
 
 package com.ykis.ykispam.ui
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.core.snackbar.SnackbarManager.showMessage
 import com.ykis.ykispam.core.snackbar.SnackbarMessage.Companion.toSnackbarMessage
-import com.ykis.ykispam.domain.type.Failure
-import com.ykis.ykispam.domain.type.HandleOnce
 import com.ykis.ykispam.firebase.service.repo.LogService
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -35,8 +32,6 @@ import kotlinx.coroutines.launch
 open class BaseViewModel(
     private val logService: LogService,
 ) : ViewModel() {
-    private var failureData: MutableLiveData<HandleOnce<Failure>> = MutableLiveData()
-    private var progressData: MutableLiveData<Boolean> = MutableLiveData()
 
     val _uiState = MutableStateFlow(BaseUIState(isLoading = true))
     val uiState: StateFlow<BaseUIState> = _uiState.asStateFlow()

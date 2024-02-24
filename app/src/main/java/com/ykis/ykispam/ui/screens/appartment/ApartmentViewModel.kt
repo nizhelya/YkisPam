@@ -33,7 +33,6 @@ import com.ykis.ykispam.firebase.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.ui.BaseViewModel
 import com.ykis.ykispam.ui.navigation.ContentDetail
-import com.ykis.ykispam.ui.navigation.ContentType
 import com.ykis.ykispam.ui.navigation.Graph
 import com.ykis.ykispam.ui.navigation.LaunchScreen
 import com.ykis.ykispam.ui.navigation.VerifyEmailScreen
@@ -114,10 +113,9 @@ class ApartmentViewModel @Inject constructor(
     }
 
     fun closeDetailScreen() {
-        _uiState.value = _uiState
-            .value.copy(
-                isDetailOnlyOpen = false,
-                selectedContentDetail = ContentDetail.EMPTY
+        _uiState.value = _uiState.value.copy(
+                showDetail = false
+
             )
     }
 
@@ -129,10 +127,10 @@ class ApartmentViewModel @Inject constructor(
             )
         getApartmentList()
     }
-    fun setSelectedDetail(contentDetail: ContentDetail, contentType: ContentType) {
+    fun setSelectedDetail(contentDetail: ContentDetail) {
         _uiState.value = _uiState.value.copy(
             selectedContentDetail = contentDetail,
-            isDetailOnlyOpen = contentType == ContentType.SINGLE_PANE
+            showDetail = true
         )
     }
 
@@ -228,7 +226,7 @@ class ApartmentViewModel @Inject constructor(
                     is Resource.Error -> {
                         this._uiState.value = _uiState.value.copy(
                             error = result.message ?: "Unexpected error!",
-                            apartmentLoading = false
+                           apartmentLoading = false
                         )
                     }
                     is Resource.Loading -> {

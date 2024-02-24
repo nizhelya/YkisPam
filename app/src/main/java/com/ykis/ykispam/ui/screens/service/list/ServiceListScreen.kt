@@ -1,5 +1,6 @@
 package com.ykis.ykispam.ui.screens.service.list
 
+import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -7,7 +8,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Commute
 import androidx.compose.material.icons.filled.CorporateFare
@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.R
 import com.ykis.ykispam.domain.service.request.ServiceParams
 import com.ykis.ykispam.ui.BaseUIState
@@ -103,15 +102,15 @@ fun ServiceListScreen(
         ) {
             androidx.compose.animation.AnimatedVisibility(
                 visible = totalDebtState.isLoading,
-                exit = fadeOut(tween(delayMillis = 300)),
-                enter = fadeIn(tween(delayMillis = 300))
+                exit = fadeOut(tween(delayMillis = 500)),
+                enter = fadeIn(tween(delayMillis = 500))
             ) {
                 CircularProgressIndicator()
             }
             androidx.compose.animation.AnimatedVisibility(
                 visible = !totalDebtState.isLoading,
-                exit = fadeOut(tween(delayMillis = 300)),
-                enter = fadeIn(tween(delayMillis = 300))
+                exit = fadeOut(tween(delayMillis = 500)),
+                enter = fadeIn(tween(delayMillis = 500))
             ) {
                 ServiceListStateless(
                     modifier = Modifier.fillMaxSize(),
@@ -141,7 +140,7 @@ fun ServiceListScreen(
 private fun PreviewRow() {
     YkisPAMTheme {
         Card {
-            Column(modifier = Modifier.padding(12.dp)) {
+            Column {
                 ServiceRow(
                     color = Color.Blue,
                     title = stringResource(id = R.string.yzhtrans),

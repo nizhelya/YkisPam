@@ -42,10 +42,11 @@ fun DetailContent(
     contentType: ContentType,
     contentDetail: ContentDetail,
     onBackPressed: () -> Unit,
+    showDetail : Boolean,
     detailContent: @Composable () -> Unit
 ) {
     androidx.compose.animation.AnimatedVisibility(
-        visible = contentDetail != ContentDetail.EMPTY,
+        visible = showDetail ,
         enter = slideInVertically(
             tween(
                 durationMillis = 550,
@@ -70,7 +71,7 @@ fun DetailContent(
             shape = MaterialTheme.shapes.large,
             colors = CardDefaults.cardColors(
                 containerColor =
-                    MaterialTheme.colorScheme.surfaceContainerHighest
+                    MaterialTheme.colorScheme.surfaceContainer
             )
         ) {
             Column {

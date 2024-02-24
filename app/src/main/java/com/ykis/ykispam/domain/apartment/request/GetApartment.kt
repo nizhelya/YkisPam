@@ -19,8 +19,8 @@ class GetApartment @Inject constructor(
     operator fun invoke (addressId : Int ,uid : String) : Flow<Resource<ApartmentEntity>> = flow{
         try{
             emit(Resource.Loading())
+            emit(Resource.Success(database.apartmentDao().getFlatById(addressId = addressId)))
             val response = repository.getApartment(addressId , uid)
-
             if(response.success==1){
                 database.apartmentDao().insertApartmentList(listOf(response.apartment))
                 emit(Resource.Success(response.apartment))

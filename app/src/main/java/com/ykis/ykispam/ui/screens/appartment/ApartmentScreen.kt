@@ -23,7 +23,6 @@ import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.navigation.ContentType
 import com.ykis.ykispam.ui.navigation.NavigationType
 import com.ykis.ykispam.ui.screens.appartment.content.DetailContent
-import com.ykis.ykispam.ui.screens.appartment.content.EmptyDetail
 import com.ykis.ykispam.ui.screens.appartment.content.ListContent
 import com.ykis.ykispam.ui.screens.bti.BtiPanelContent
 import com.ykis.ykispam.ui.screens.family.FamilyContent
@@ -39,7 +38,7 @@ fun ApartmentScreen(
     navigationType: NavigationType,
     displayFeatures: List<DisplayFeature>,
     closeDetailScreen: () -> Unit,
-    navigateToDetail: (ContentDetail, ContentType) -> Unit,
+    navigateToDetail: (ContentDetail) -> Unit,
     onDrawerClicked: () -> Unit = {},
     deleteApartment: () -> Unit,
     addressId: Int,
@@ -109,11 +108,10 @@ fun DualPanelContent(
     appState: YkisPamAppState,
     baseUIState: BaseUIState,
     deleteApartment: () -> Unit,
-    navigateToDetail: (ContentDetail, ContentType) -> Unit,
+    navigateToDetail: (ContentDetail) -> Unit,
     displayFeatures: List<DisplayFeature>,
     apartmentViewModel: ApartmentViewModel,
-    closeDetailScreen: () -> Unit,
-
+    closeDetailScreen: () -> Unit
     ) {
     val contentDetail = baseUIState.selectedContentDetail
     TwoPane(
@@ -132,8 +130,9 @@ fun DualPanelContent(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 baseUIState = baseUIState,
                 contentType = ContentType.DUAL_PANE,
-                onBackPressed = {apartmentViewModel.setSelectedDetail(ContentDetail.EMPTY, contentType = ContentType.DUAL_PANE)},
-                contentDetail = baseUIState.selectedContentDetail ?: ContentDetail.EMPTY,
+                onBackPressed = {apartmentViewModel.closeDetailScreen()},
+                contentDetail = baseUIState.selectedContentDetail,
+                showDetail = baseUIState.showDetail
             ) {
                 when (contentDetail) {
                     ContentDetail.BTI -> BtiPanelContent(
@@ -169,9 +168,6 @@ fun DualPanelContent(
                         contentDetail = contentDetail,
                         baseUIState = baseUIState,
                     )
-
-                    else -> EmptyDetail(
-                    )
                 }
             }
 
@@ -189,14 +185,14 @@ fun SinglePanelContent(
     baseUIState: BaseUIState,
     closeDetailScreen: () -> Unit,
     deleteApartment: () -> Unit,
-    navigateToDetail: (ContentDetail, ContentType) -> Unit,
+    navigateToDetail: (ContentDetail) -> Unit,
     onDrawerClicked: () -> Unit,
     navigationType: NavigationType,
     apartmentViewModel: ApartmentViewModel
     ) {
 
     val contentDetail = baseUIState.selectedContentDetail
-    if (baseUIState.selectedContentDetail != null && baseUIState.isDetailOnlyOpen) {
+    if (baseUIState.showDetail) {
         BackHandler {
             closeDetailScreen()
         }
@@ -204,7 +200,8 @@ fun SinglePanelContent(
             baseUIState = baseUIState,
             contentType = contentType,
             contentDetail = baseUIState.selectedContentDetail,
-            onBackPressed = closeDetailScreen
+            onBackPressed = closeDetailScreen,
+            showDetail = baseUIState.showDetail
         )
         {
             when (contentDetail) {
@@ -240,9 +237,6 @@ fun SinglePanelContent(
                 ContentDetail.PAYMENTS -> ServicesContent(
                     contentDetail = contentDetail,
                     baseUIState = baseUIState,
-                )
-
-                else -> EmptyDetail(
                 )
             }
         }

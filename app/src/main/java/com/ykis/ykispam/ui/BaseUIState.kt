@@ -11,7 +11,7 @@ data class BaseUIState(
     val email: String? = null,
     val photoUrl: String? = null,
     var apartment: ApartmentEntity = ApartmentEntity(),
-    val selectedContentDetail: ContentDetail? = null,
+    val selectedContentDetail: ContentDetail = ContentDetail.BTI,
     val apartments: List<ApartmentEntity> = emptyList(),
     val paymentItems: List<PaymentItemEntity> = emptyList(),
     val osmdId: Int = 0,
@@ -24,5 +24,6 @@ data class BaseUIState(
     val isLoading: Boolean = false,
     val mainLoading: Boolean = true,
     val apartmentLoading : Boolean = true,
-    val error: String? = null
+    val error: String? = null,
+    val showDetail : Boolean = false
 )

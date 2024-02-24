@@ -30,9 +30,15 @@ class ServiceViewModel @Inject constructor(
     private val _totalDebtState = MutableStateFlow(TotalDebtState())
     val totalDebtState = _totalDebtState.asStateFlow()
 
-    fun setContentDetail (contentDetail: ContentDetail){
+    fun setContentDetail (contentDetail: ContentDetail , showDetail : Boolean){
         _totalDebtState.value = _totalDebtState.value.copy(
-            serviceDetail = contentDetail
+            serviceDetail = contentDetail,
+            showDetail = showDetail
+        )
+    }
+    fun closeContentDetail(){
+        _totalDebtState.value = _totalDebtState.value.copy(
+            showDetail = false
         )
     }
 
@@ -43,13 +49,15 @@ class ServiceViewModel @Inject constructor(
             result ->
             when(result){
                 is Resource.Success -> {
-                    this._totalDebtState.value = TotalDebtState(totalDebt = result.data!! , isLoading = false)
+                    this._totalDebtState.value = this._totalDebtState.value.copy(
+                       totalDebt = result.data!! , isLoading = false
+                    )
                 }
                 is Resource.Error -> {
 
                 }
                 is Resource.Loading -> {
-                    this._totalDebtState.value = TotalDebtState(isLoading = true)
+                    this._totalDebtState.value = this._totalDebtState.value.copy(isLoading = true)
                 }
             }
         }.launchIn(this.viewModelScope)

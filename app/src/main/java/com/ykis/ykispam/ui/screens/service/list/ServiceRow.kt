@@ -40,15 +40,12 @@ fun ServiceRow(
 ) {
     val formattedDebt = formatDebt(debt)
     Box(modifier = modifier.clickable {
-
+        onClick()
     }){
         Row(
             modifier = modifier
                 .padding(start = 12.dp ,end = 8.dp)
                 .height(68.dp)
-                .clickable {
-                    onClick()
-                }
                 .clearAndSetSemantics {
                     contentDescription =
                         "Ваш борг для компанії $title становить $debt"

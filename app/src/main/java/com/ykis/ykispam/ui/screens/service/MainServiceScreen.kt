@@ -1,8 +1,10 @@
 package com.ykis.ykispam.ui.screens.service
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -43,7 +45,7 @@ fun MainServiceScreen(
                     onDrawerClick = onDrawerClick,
                     totalDebtState = totalDebtState,
                     getTotalServiceDebt = { params -> viewModel.getTotalServiceDebt(params = params)},
-                    onServiceClick = {contentDetail -> viewModel.setContentDetail(contentDetail)}
+                    onServiceClick = {contentDetail -> viewModel.setContentDetail(contentDetail , showDetail = true)}
                 )
                           },
             secondScreen = {
@@ -52,7 +54,8 @@ fun MainServiceScreen(
                     baseUIState = baseUIState,
                     contentType = ContentType.DUAL_PANE,
                     contentDetail = totalDebtState.serviceDetail,
-                    onBackPressed = {viewModel.setContentDetail(ContentDetail.EMPTY)},
+                    onBackPressed = {viewModel.closeContentDetail()},
+                    showDetail = totalDebtState.showDetail,
                     detailContent = {
                             ServicesContent(
                                 contentDetail = contentDetail,
@@ -89,28 +92,32 @@ fun SinglePanelService(
     contentType: ContentType
 ) {
 
-    if( contentDetail == ContentDetail.EMPTY){
+    if(!totalDebtState.showDetail){
         ServiceListScreen(
             baseUIState =baseUIState ,
             navigationType = navigationType,
             onDrawerClick = onDrawerClick,
             totalDebtState = totalDebtState,
             getTotalServiceDebt = { params -> viewModel.getTotalServiceDebt(params = params)},
-            onServiceClick = { viewModel.setContentDetail(it)}
+            onServiceClick = {content -> viewModel.setContentDetail(contentDetail = content, showDetail = true)}
         )
     }
 
     AnimatedVisibility(
-        visible = contentDetail!=ContentDetail.EMPTY
+        visible = totalDebtState.showDetail
     ) {
-        Column {
+        Column(
+            modifier = modifier.background(
+                MaterialTheme.colorScheme.background
+            )
+        ){
             DetailAppBar(
                 contentType = contentType,
                 baseUIState = baseUIState,
                 contentDetail = contentDetail
             )
              {
-                viewModel.setContentDetail(ContentDetail.EMPTY)
+                viewModel.closeContentDetail()
             }
             ServicesContent(
                 contentDetail = contentDetail,

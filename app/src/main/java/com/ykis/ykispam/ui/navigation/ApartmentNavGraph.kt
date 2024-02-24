@@ -69,7 +69,6 @@ fun MainApartmentScreen(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val selectedDestination =
         navBackStackEntry?.destination?.route ?: InfoApartmentScreen.routeWithArgs
-    Log.d("nav_test" , navController.toString())
     val railWidth by animateDpAsState(
         targetValue = if (isRailExpanded) 260.dp else 80.dp, tween(550), label = ""
     )
@@ -202,8 +201,7 @@ fun ApartmentNavGraph(
     rootNavController: NavHostController,
     firstDestination:String
 ) {
-    Log.d("nav_test" , "Second" + navController.toString())
-
+    Log.d("visible_test" , baseUIState.mainLoading.toString())
     val appState = rememberAppState()
     Box(modifier = modifier.fillMaxSize()) {
         AnimatedVisibility(
@@ -269,10 +267,9 @@ fun ApartmentNavGraph(
                         navigationType = navigationType,
                         displayFeatures = displayFeatures,
                         closeDetailScreen = { apartmentViewModel.closeDetailScreen() },
-                        navigateToDetail = { contentDetail, pane ->
+                        navigateToDetail = { contentDetail ->
                             apartmentViewModel.setSelectedDetail(
-                                contentDetail,
-                                pane
+                                contentDetail
                             )
                         },
                         deleteApartment = {

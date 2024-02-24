@@ -46,7 +46,6 @@ fun DetailAppBar(
         TopAppBar(
             modifier = modifier,
             colors = TopAppBarDefaults.topAppBarColors(
-                // TODO: change this color into surface
                 containerColor = MaterialTheme.colorScheme.surfaceContainer
             ),
             title = {
@@ -78,8 +77,6 @@ fun DetailAppBar(
                                 ContentDetail.WARM_SERVICE -> Icons.Default.HotTub
                                 ContentDetail.GARBAGE_SERVICE -> Icons.Default.Commute
                                 ContentDetail.PAYMENTS -> Icons.Default.MonetizationOn
-//                                 TODO: make empty
-                                else -> Icons.Default.Home
                             },
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.outline
@@ -94,8 +91,6 @@ fun DetailAppBar(
                                 ContentDetail.WARM_SERVICE -> stringResource(id = R.string.ytke)
                                 ContentDetail.GARBAGE_SERVICE -> stringResource(id = R.string.yzhtrans)
                                 ContentDetail.PAYMENTS -> stringResource(id = R.string.payment_list)
-//                                 TODO: make empty
-                                else -> stringResource(id = R.string.bti)
                             },
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -140,8 +135,6 @@ fun DetailAppBar(
                                 ContentDetail.WARM_SERVICE -> Icons.Default.HotTub
                                 ContentDetail.GARBAGE_SERVICE -> Icons.Default.Commute
                                 ContentDetail.PAYMENTS -> Icons.Default.MonetizationOn
-                                // TODO: make empty
-                                else -> Icons.Default.Home
                             },
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.outline
@@ -155,8 +148,6 @@ fun DetailAppBar(
                                 ContentDetail.WARM_SERVICE -> stringResource(id = R.string.ytke)
                                 ContentDetail.GARBAGE_SERVICE -> stringResource(id = R.string.yzhtrans)
                                 ContentDetail.PAYMENTS -> stringResource(id = R.string.payment_list)
-                                // TODO: make empty
-                                else -> stringResource(id = R.string.bti)
                             },
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant

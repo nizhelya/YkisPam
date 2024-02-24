@@ -1,6 +1,5 @@
 package com.ykis.ykispam.ui.navigation.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -17,7 +16,6 @@ fun BottomNavigationBar(
     selectedDestination: String,
     onClick: (String) -> Unit,
 ) {
-    Log.d("nav_test", "xxx $selectedDestination")
     NavigationBar(
         modifier = Modifier.fillMaxWidth(),
         containerColor = MaterialTheme.colorScheme.surfaceContainer

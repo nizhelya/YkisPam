@@ -36,14 +36,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.R
-import com.ykis.ykispam.ui.YkisPamAppState
 import com.ykis.ykispam.core.composable.HelpAlertCard
-import com.ykis.ykispam.ui.navigation.ContentDetail
-import com.ykis.ykispam.ui.navigation.ContentType
-import com.ykis.ykispam.ui.navigation.NavigationType
+import com.ykis.ykispam.ui.BaseUIState
+import com.ykis.ykispam.ui.YkisPamAppState
 import com.ykis.ykispam.ui.components.appbars.ApartmentTopAppBar
+import com.ykis.ykispam.ui.navigation.ContentDetail
+import com.ykis.ykispam.ui.navigation.NavigationType
 
 
 @Composable
@@ -52,7 +51,7 @@ fun ListContent(
     appState: YkisPamAppState,
     baseUIState: BaseUIState,
     deleteApartment: () -> Unit,
-    navigateToDetail: (ContentDetail, ContentType) -> Unit,
+    navigateToDetail: (ContentDetail) -> Unit,
     onDrawerClicked: () -> Unit = {},
     navigationType: NavigationType
 ) {
