@@ -75,7 +75,6 @@ fun InfoApartmentScreen(
         ) {
             INFO_APARTMENT_TAB_ITEM.forEachIndexed { index, tabItem ->
                 LeadingIconTab(
-                    modifier = modifier.height(64.dp),
                     selected = selectedTab==index,
                     onClick = { selectedTab = index },
                     text = {
