@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LeadingIconTab
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
@@ -73,7 +74,7 @@ fun InfoApartmentScreen(
             containerColor = MaterialTheme.colorScheme.background
         ) {
             INFO_APARTMENT_TAB_ITEM.forEachIndexed { index, tabItem ->
-                Tab(
+                LeadingIconTab(
                     modifier = modifier.height(64.dp),
                     selected = selectedTab==index,
                     onClick = { selectedTab = index },
