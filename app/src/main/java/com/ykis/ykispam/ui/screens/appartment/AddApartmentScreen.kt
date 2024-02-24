@@ -31,22 +31,6 @@ import com.ykis.ykispam.ui.components.appbars.AddAppBar
 import com.ykis.ykispam.R.string as AppText
 
 
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Composable
-//fun AddApartmentScreen(
-//    popUpScreen: () -> Unit,
-//    restartApp: (String) -> Unit,
-//    onBackPressed: () -> Unit = {},
-//    viewModel: ApartmentViewModel = hiltViewModel()
-//) {
-//    Log.d("state_test","AddApartmentScreen:${viewModel._uiState.collectAsState().value.addressId}")
-//    AddApartmentScreenContent(
-//        viewModel=viewModel,
-//        onSecretCodeChange = viewModel::onSecretCodeChange,
-//        addApartment = { viewModel.addApartment(restartApp) },
-//        onBackPressed = { viewModel.navigateBack(popUpScreen) },
-//    )
-//}
 
 @Composable
 fun AddApartmentScreenContent(
