@@ -10,16 +10,6 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-//
-//class GetWaterMeter @Inject constructor(
-//    private val waterMeterRepositoryImpl: WaterMeterRepositoryImpl
-//) : UseCase<List<WaterMeterEntity>, BooleanInt>() {
-//
-//    override suspend fun run(params: BooleanInt): Either<Failure, List<WaterMeterEntity>> {
-//        return waterMeterRepositoryImpl.getWaterMeter(params)
-//    }
-//}
-
 
 class GetWaterMeterList @Inject constructor(
     private val repository:WaterMeterRepository,

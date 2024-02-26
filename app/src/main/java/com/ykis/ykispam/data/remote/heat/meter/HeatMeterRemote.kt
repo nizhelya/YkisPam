@@ -9,4 +9,6 @@ interface HeatMeterRemote {
         addressId: Int,
         uid: String
     ): Either<Failure, List<HeatMeterEntity>>
+
+    suspend fun getHeatMeterList(addressId: Int,uid: String) : GetHeatMeterResponse
 }

@@ -21,17 +21,21 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Adjust
 import androidx.compose.material.icons.filled.Church
 import androidx.compose.material.icons.filled.Group
+import androidx.compose.material.icons.filled.HeatPump
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Payments
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.WaterDrop
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Church
 import androidx.compose.material.icons.outlined.Group
+import androidx.compose.material.icons.outlined.HeatPump
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Payments
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.WaterDrop
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.ykis.ykispam.R
 
@@ -61,6 +65,20 @@ val INFO_APARTMENT_TAB_ITEM = listOf(
         unselectedIcon = Icons.Outlined.Group,
     )
 )
+
+val METER_TAB_ITEM = listOf(
+    TabItem(
+        titleId = R.string.water_meter,
+        selectedIcon = Icons.Filled.WaterDrop,
+        unselectedIcon = Icons.Outlined.WaterDrop,
+    ),
+    TabItem(
+        titleId = R.string.heat_meter,
+        selectedIcon = Icons.Filled.HeatPump,
+        unselectedIcon = Icons.Outlined.HeatPump,
+    )
+)
+
 
 
 val NAV_BAR_DESTINATIONS = listOf(

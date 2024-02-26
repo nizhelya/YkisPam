@@ -1,4 +1,4 @@
-package com.ykis.ykispam.ui.screens.service
+package com.ykis.ykispam.ui.screens.meter.water
 
 import com.ykis.ykispam.domain.water.meter.WaterMeterEntity
 

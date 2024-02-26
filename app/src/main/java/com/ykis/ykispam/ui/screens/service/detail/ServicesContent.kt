@@ -57,6 +57,7 @@ import com.ykis.ykispam.R
 import com.ykis.ykispam.domain.service.ServiceEntity
 import com.ykis.ykispam.domain.service.request.ServiceParams
 import com.ykis.ykispam.ui.BaseUIState
+import com.ykis.ykispam.ui.components.EmptyListState
 import com.ykis.ykispam.ui.components.GroupFilterChip
 import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.screens.service.ServiceViewModel
@@ -142,7 +143,7 @@ fun ServiceDetailItem(
                     modifier
                         .fillMaxWidth()
                         .horizontalScroll(scrollState)
-                        .padding(start = 16.dp , end = 16.dp , bottom = 12.dp)
+                        .padding(start = 16.dp, end = 16.dp, bottom = 12.dp)
                     ,
                     verticalAlignment = Alignment.Bottom,
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -211,7 +212,10 @@ fun ListServiceDetails(
 ) {
 
     if(listServiceEntity.isEmpty() && !isLoading){
-        EmptyListScreen()
+        EmptyListState(
+            title = stringResource(id = R.string.no_payment),
+            subtitle = stringResource(id = R.string.no_payment_year)
+        )
     }else LazyColumn {
         items(items = listServiceEntity) { serviceDetail ->
             ServiceDetailItem(serviceEntity = serviceDetail)

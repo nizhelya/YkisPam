@@ -5,6 +5,7 @@ import com.ykis.ykispam.data.remote.core.Request
 import com.ykis.ykispam.domain.heat.meter.HeatMeterEntity
 import com.ykis.ykispam.domain.type.Either
 import com.ykis.ykispam.domain.type.Failure
+import retrofit2.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,7 +19,7 @@ class HeatMeterRemoteImpl @Inject constructor(
         uid: String
     ): Either<Failure, List<HeatMeterEntity>> {
         return request.make(
-            apiService.getHeatMeter(
+            apiService.getHeatMeterList(
                 createGetHeatMeterMap(
                     addressId,
                     uid
@@ -28,6 +29,14 @@ class HeatMeterRemoteImpl @Inject constructor(
         {
             it.heatMeters
         }
+    }
+
+    override suspend fun getHeatMeterList(addressId: Int, uid: String): GetHeatMeterResponse {
+        return apiService.getHeatMeterList(
+            createGetHeatMeterMap(
+                addressId, uid
+            )
+        ).await()
     }
 
 

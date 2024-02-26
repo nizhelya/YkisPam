@@ -356,6 +356,8 @@
     <string name="on_the_test">На перевірці</string>
     <string name="suspended">Призупинен</string>
     <string name="works">Працює</string>
+    <string name="no_meters">Немає лічільників</string>
+    <string name="no_heat_meters">Теплові лічільникі не знайдено</string>
 
 
 </resources>

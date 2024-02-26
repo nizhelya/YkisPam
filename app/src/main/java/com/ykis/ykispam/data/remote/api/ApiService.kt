@@ -140,7 +140,7 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST(GET_HEAT_METER)
-    fun getHeatMeter(@FieldMap params: Map<String, String>): Call<GetHeatMeterResponse>
+    fun getHeatMeterList(@FieldMap params: Map<String, String>): Call<GetHeatMeterResponse>
 
     @FormUrlEncoded
     @POST(GET_HEAT_READINGS)

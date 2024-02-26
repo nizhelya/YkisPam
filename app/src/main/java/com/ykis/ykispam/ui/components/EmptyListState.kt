@@ -1,4 +1,4 @@
-package com.ykis.ykispam.ui.screens.service.detail
+package com.ykis.ykispam.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -19,8 +18,10 @@ import androidx.compose.ui.unit.sp
 import com.ykis.ykispam.R
 
 @Composable
-fun EmptyListScreen(modifier: Modifier = Modifier,
-                    useDarkTheme: Boolean = isSystemInDarkTheme()
+fun EmptyListState(modifier: Modifier = Modifier,
+                   useDarkTheme: Boolean = isSystemInDarkTheme(),
+                   title : String,
+                   subtitle : String = ""
 ) {
     val paintRes = if(useDarkTheme){
         R.drawable.ic_empty_box_dark
@@ -32,13 +33,13 @@ fun EmptyListScreen(modifier: Modifier = Modifier,
         .padding(bottom = 48.dp) , horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center) {
         Image(painter = painterResource(id = paintRes), contentDescription = null)
-        Text(text = stringResource(R.string.no_payment), style = TextStyle(
+        Text(text = title, style = TextStyle(
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp,
             lineHeight = 24.sp,
             letterSpacing = 0.15.sp
         )
         )
-        Text(text = stringResource(R.string.no_payment_year))
+        Text(text = subtitle)
     }
 }

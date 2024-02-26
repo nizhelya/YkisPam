@@ -1,6 +1,5 @@
 package com.ykis.ykispam.ui.navigation
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -201,7 +200,6 @@ fun ApartmentNavGraph(
     rootNavController: NavHostController,
     firstDestination:String
 ) {
-    Log.d("visible_test" , baseUIState.mainLoading.toString())
     val appState = rememberAppState()
     Box(modifier = modifier.fillMaxSize()) {
         AnimatedVisibility(
