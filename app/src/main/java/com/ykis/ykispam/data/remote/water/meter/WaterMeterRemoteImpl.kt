@@ -5,6 +5,7 @@ import com.ykis.ykispam.data.remote.core.Request
 import com.ykis.ykispam.domain.type.Either
 import com.ykis.ykispam.domain.type.Failure
 import com.ykis.ykispam.domain.water.meter.WaterMeterEntity
+import retrofit2.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,7 +19,7 @@ class WaterMeterRemoteImpl @Inject constructor(
         uid: String
     ): Either<Failure, List<WaterMeterEntity>> {
         return request.make(
-            apiService.getWaterMeter(
+            apiService.getWaterMeterList(
                 createGetWaterMeterMap(
                     addressId,
                     uid
@@ -28,6 +29,15 @@ class WaterMeterRemoteImpl @Inject constructor(
         {
             it.waterMeters
         }
+    }
+
+    override suspend fun getWaterMeterList(addressId: Int, uid: String): GetWaterMeterResponse {
+        return apiService.getWaterMeterList(
+            createGetWaterMeterMap(
+                addressId = addressId,
+                uid = uid
+            )
+        ).await()
     }
 
 

@@ -9,4 +9,6 @@ interface WaterMeterRemote {
         addressId: Int,
         uid: String
     ): Either<Failure, List<WaterMeterEntity>>
+
+    suspend fun getWaterMeterList(addressId: Int, uid:String):GetWaterMeterResponse
 }

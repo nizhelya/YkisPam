@@ -124,7 +124,7 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST(GET_WATER_METER)
-    fun getWaterMeter(@FieldMap params: Map<String, String>): Call<GetWaterMeterResponse>
+    fun getWaterMeterList(@FieldMap params: Map<String, String>): Call<GetWaterMeterResponse>
 
     @FormUrlEncoded
     @POST(GET_WATER_READINGS)

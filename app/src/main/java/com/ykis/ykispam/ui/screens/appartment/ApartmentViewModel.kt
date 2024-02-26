@@ -16,7 +16,6 @@ limitations under the License.
 
 package com.ykis.ykispam.ui.screens.appartment
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.Resource
@@ -207,10 +206,9 @@ class ApartmentViewModel @Inject constructor(
                     result ->
                 when(result){
                     is Resource.Success -> {
-                        Log.d("flow_test", result.data!!.email.toString())
                         this._uiState.value = _uiState.value.copy(
                             apartment = result.data ?: ApartmentEntity(),
-                            addressId = result.data.addressId,
+                            addressId = result.data!!.addressId,
                             address = result.data.address,
                             houseId = result.data.houseId,
                             osmdId =result.data.osmdId,

@@ -352,6 +352,10 @@
     <string name="update_bti">Змінити контактні дані?</string>
     <string name="change">Змінити</string>
     <string name="uah">₴</string>
+    <string name="written_off">Списан</string>
+    <string name="on_the_test">На перевірці</string>
+    <string name="suspended">Призупинен</string>
+    <string name="works">Працює</string>
 
 
 </resources>

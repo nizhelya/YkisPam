@@ -1,6 +1,5 @@
 package com.ykis.ykispam.ui.screens.bti
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -41,7 +40,6 @@ fun ContactsCard(
     onEmailChange: (String) -> Unit,
     onPhoneChange: (String) -> Unit,
 ) {
-    Log.d("flow_test", "state  "+ baseUIState.apartment.email)
     val openDialog = remember { mutableStateOf(false) }
     Card(
         modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),

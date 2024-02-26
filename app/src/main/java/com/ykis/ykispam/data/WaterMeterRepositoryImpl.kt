@@ -2,6 +2,7 @@ package com.ykis.ykispam.data
 
 import com.ykis.ykispam.data.cache.user.UserCache
 import com.ykis.ykispam.data.cache.water.meter.WaterMeterCache
+import com.ykis.ykispam.data.remote.water.meter.GetWaterMeterResponse
 import com.ykis.ykispam.data.remote.water.meter.WaterMeterRemote
 import com.ykis.ykispam.domain.family.request.BooleanInt
 import com.ykis.ykispam.domain.type.Either
@@ -33,5 +34,9 @@ class WaterMeterRepositoryImpl @Inject constructor(
                     waterMeterCache.insertWaterMeter(listOf(it))
                 }
             }
+    }
+
+    override suspend fun getWaterMeterList(addressId: Int, uid: String):GetWaterMeterResponse{
+        return waterMeterRemote.getWaterMeterList(addressId,uid)
     }
 }

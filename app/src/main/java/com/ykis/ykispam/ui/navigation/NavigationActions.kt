@@ -17,8 +17,6 @@
 package com.ykis.ykispam.ui.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Chat
-import androidx.compose.material.icons.automirrored.outlined.Chat
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Adjust
 import androidx.compose.material.icons.filled.Church
@@ -89,15 +87,13 @@ val NAV_BAR_DESTINATIONS = listOf(
         alwaysVisible = false
 
     ),
-    TopLevelDestination(
-        route = ChatScreen.route,
-        selectedIcon = Icons.AutoMirrored.Filled.Chat,
-        unselectedIcon = Icons.AutoMirrored.Outlined.Chat,
-        labelId = R.string.chat,
-        alwaysVisible = false
-    )
-)
-val NAV_RAIL_DESTINATIONS = NAV_BAR_DESTINATIONS + listOf(
+//    TopLevelDestination(
+//        route = ChatScreen.route,
+//        selectedIcon = Icons.AutoMirrored.Filled.Chat,
+//        unselectedIcon = Icons.AutoMirrored.Outlined.Chat,
+//        labelId = R.string.chat,
+//        alwaysVisible = false
+//    )
     TopLevelDestination(
         route = ProfileScreen.route,
         selectedIcon = Icons.Default.AccountCircle,
@@ -105,6 +101,9 @@ val NAV_RAIL_DESTINATIONS = NAV_BAR_DESTINATIONS + listOf(
         labelId = R.string.account,
         alwaysVisible = true
     ),
+
+)
+val NAV_RAIL_DESTINATIONS = NAV_BAR_DESTINATIONS + listOf(
     TopLevelDestination(
         route = SettingsScreen.route,
         selectedIcon = Icons.Default.Settings,

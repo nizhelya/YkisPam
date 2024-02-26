@@ -285,7 +285,11 @@ fun ApartmentNavGraph(
                     )
                 }
                 composable(MeterScreen.route) {
-                    MeterScreen()
+                    MeterScreen(
+                        baseUIState = baseUIState,
+                        navigationType = navigationType,
+                        onDrawerClick = onDrawerClicked
+                    )
                 }
                 composable(ServiceListScreen.route) {
                     MainServiceScreen(
