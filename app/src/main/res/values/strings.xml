@@ -304,7 +304,7 @@
     <string name="error_missing_fields">В запросе отсутствует поле</string>
     <string name="error_flat_in_db">Ви вже додали цю квартиру</string>
     <string name="error_add_apartment">Не вдалося додати квартиру</string>
-    <string name="error_incorrect_code">Не правильний код</string>
+    <string name="error_incorrect_code">Неправильний код</string>
     <string name="error_server">Помилка сервера</string>
     <string name="error_server_appartment">Немає доступу до Інтернету \n Перевірте підключення по WiFi\nЗавантаження локальних даних </string>
     <string name="error_network_wifi">Немає доступу до Інтернету \n Перевірте підключення по WI-FI </string>

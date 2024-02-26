@@ -1,5 +1,6 @@
 package com.ykis.ykispam.ui.screens.service
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.navigation.ContentType
 import com.ykis.ykispam.ui.navigation.NavigationType
 import com.ykis.ykispam.ui.screens.appartment.content.DetailContent
+import com.ykis.ykispam.ui.screens.service.detail.ServicesContent
 import com.ykis.ykispam.ui.screens.service.list.ServiceListScreen
 import com.ykis.ykispam.ui.screens.service.list.TotalDebtState
 
@@ -106,6 +108,9 @@ fun SinglePanelService(
     AnimatedVisibility(
         visible = totalDebtState.showDetail
     ) {
+        BackHandler {
+            viewModel.closeContentDetail()
+        }
         Column(
             modifier = modifier.background(
                 MaterialTheme.colorScheme.background

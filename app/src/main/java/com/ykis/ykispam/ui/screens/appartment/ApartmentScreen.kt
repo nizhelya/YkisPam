@@ -26,7 +26,7 @@ import com.ykis.ykispam.ui.screens.appartment.content.DetailContent
 import com.ykis.ykispam.ui.screens.appartment.content.ListContent
 import com.ykis.ykispam.ui.screens.bti.BtiPanelContent
 import com.ykis.ykispam.ui.screens.family.FamilyContent
-import com.ykis.ykispam.ui.screens.service.ServicesContent
+import com.ykis.ykispam.ui.screens.service.detail.ServicesContent
 
 
 @Composable

@@ -22,8 +22,8 @@ class GetApartment @Inject constructor(
             emit(Resource.Success(database.apartmentDao().getFlatById(addressId = addressId)))
             val response = repository.getApartment(addressId , uid)
             if(response.success==1){
-                database.apartmentDao().insertApartmentList(listOf(response.apartment))
                 emit(Resource.Success(response.apartment))
+                database.apartmentDao().insertApartmentList(listOf(response.apartment))
             }else throw ExceptionWithResourceMessage(R.string.generic_error)
 
         }catch (e:ExceptionWithResourceMessage) {

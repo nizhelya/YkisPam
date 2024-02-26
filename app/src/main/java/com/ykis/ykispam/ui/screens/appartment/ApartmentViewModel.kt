@@ -16,13 +16,13 @@ limitations under the License.
 
 package com.ykis.ykispam.ui.screens.appartment
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.core.ext.isValidEmail
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.data.remote.core.NetworkHandler
-import com.ykis.ykispam.domain.address.AddressEntity
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.domain.apartment.request.AddApartment
 import com.ykis.ykispam.domain.apartment.request.DeleteApartment
@@ -66,12 +66,6 @@ class ApartmentViewModel @Inject constructor(
 
     private val _apartment = MutableStateFlow(ApartmentEntity())
     val apartment: StateFlow<ApartmentEntity> get() = _apartment.asStateFlow()
-
-
-    // TODO: delete address
-    private val _address = MutableStateFlow<List<AddressEntity>>(emptyList())
-    val address: StateFlow<List<AddressEntity>> get() = _address.asStateFlow()
-
 
     private val _secretCode = MutableStateFlow("")
     val secretCode : StateFlow<String> = _secretCode.asStateFlow()
@@ -213,14 +207,21 @@ class ApartmentViewModel @Inject constructor(
                     result ->
                 when(result){
                     is Resource.Success -> {
+                        Log.d("flow_test", result.data!!.email.toString())
                         this._uiState.value = _uiState.value.copy(
                             apartment = result.data ?: ApartmentEntity(),
-                            addressId = result.data!!.addressId,
+                            addressId = result.data.addressId,
                             address = result.data.address,
                             houseId = result.data.houseId,
                             osmdId =result.data.osmdId,
                             osbb = result.data.osbb.toString(),
                             apartmentLoading = false,
+                        )
+                        this._contactUiState.value = _contactUiState.value.copy(
+                            addressId = result.data.addressId,
+                            email = result.data.email,
+                            phone = result.data.phone,
+                            address = result.data.address
                         )
                     }
                     is Resource.Error -> {
@@ -231,7 +232,7 @@ class ApartmentViewModel @Inject constructor(
                     }
                     is Resource.Loading -> {
                         this._uiState.value = _uiState.value.copy(
-                            apartmentLoading = true
+                             apartmentLoading = true
                         )
                     }
                 }
@@ -303,7 +304,3 @@ class ApartmentViewModel @Inject constructor(
 
     }
 }
-
-
-
-

@@ -1,5 +1,6 @@
 package com.ykis.ykispam.ui.screens.bti
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -41,7 +42,7 @@ fun BtiPanelContent(
         viewModel.initialContactState()
     }
     val contactUiState by viewModel.contactUIState.collectAsState()
-
+    Log.d("flow_test", "bti "+baseUIState.apartment.email)
     BtiContent(
         modifier = modifier,
         baseUIState = baseUIState,
@@ -656,6 +657,7 @@ fun BtiContent(
             onPhoneChange = onPhoneChange,
             onUpdateBti = onUpdateBti
         )
+        Log.d("flow_test", "contacts "+ contactUiState.email)
     }
 }
 

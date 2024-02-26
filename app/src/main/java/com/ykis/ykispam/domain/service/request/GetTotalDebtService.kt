@@ -12,13 +12,6 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-/*class GetTotalDebtService @Inject constructor(
-    private val serviceRepository: ServiceRepositoryImpl
-) : UseCase<ServiceEntity?, Int>() {
-
-    override suspend fun run(params: Int) = serviceRepository.getTotalFlatService(params)
-}*/
-
 class GetTotalDebtServices @Inject constructor(
     private val repository: ServiceRepository,
     private val database : AppDatabase
@@ -42,6 +35,10 @@ class GetTotalDebtServices @Inject constructor(
             emit(Resource.Error(e.localizedMessage ?: "Unexpected error!"))
         } catch (e: IOException) {
             emit(Resource.Error("Check your internet connection"))
+            val totalDebt = database.serviceDao().getTotalDebt(params.addressId)
+                if(totalDebt!=null){
+                    emit(Resource.Success(totalDebt))
+                }
         }
     }
 }

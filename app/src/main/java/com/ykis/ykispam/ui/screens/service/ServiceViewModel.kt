@@ -8,6 +8,7 @@ import com.ykis.ykispam.domain.service.request.ServiceParams
 import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.ui.BaseViewModel
 import com.ykis.ykispam.ui.navigation.ContentDetail
+import com.ykis.ykispam.ui.screens.service.detail.ServiceState
 import com.ykis.ykispam.ui.screens.service.list.TotalDebtState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -69,7 +70,7 @@ class ServiceViewModel @Inject constructor(
             result->
             when(result){
                 is Resource.Success -> {
-                    this._detailState.value = ServiceState(services = result.data ?: emptyList() , isLoading = false)
+                    this._detailState.value = ServiceState(services = result.data ?: emptyList(), isLoading = false)
                 }
                 is Resource.Error -> {
                     this._detailState.value = ServiceState(error = result.message ?: "Unexpected error!")

@@ -16,11 +16,12 @@ class AddApartment @Inject constructor(
         try {
             emit(Resource.Loading())
             val response = repository.addApartmentUser(code , uid , email)
-            if(response.success==1){
-                emit(Resource.Success(response))
-            }else if(response.message == "FlatAlreadyInDataBase") {
-                throw ExceptionWithResourceMessage(R.string.error_flat_in_db)
-            }else throw ExceptionWithResourceMessage(R.string.error_add_apartment)
+            when {
+                response.success == 1 -> emit(Resource.Success(response))
+                response.message == "FlatAlreadyInDataBase" -> throw ExceptionWithResourceMessage(R.string.error_flat_in_db)
+                response.message == "IncorrectCode" -> throw ExceptionWithResourceMessage(R.string.error_incorrect_code)
+                else -> throw ExceptionWithResourceMessage(R.string.error_add_apartment)
+            }
         }
         catch (e: ExceptionWithResourceMessage) {
             emit(Resource.Error(resourceMessage = e.resourceMessage,message = null))

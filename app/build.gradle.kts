@@ -135,6 +135,8 @@ dependencies {
 //    Xpay
 //    implementation(libs.pustovitandriy.xpay.android.sdk)
 //    implementation("com.github.pustovitandriy:XPAY_Android_SDK:1.0.0")
+        implementation("io.github.oleksandrbalan:lazytable:1.7.0")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)

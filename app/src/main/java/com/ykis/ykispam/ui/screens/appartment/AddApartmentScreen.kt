@@ -13,7 +13,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -25,11 +27,10 @@ import androidx.navigation.NavHostController
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.composable.BasicField
 import com.ykis.ykispam.core.composable.BasicImageButton
+import com.ykis.ykispam.ui.components.appbars.AddAppBar
 import com.ykis.ykispam.ui.navigation.NavigationType
 import com.ykis.ykispam.ui.navigation.navigateToInfoApartment
-import com.ykis.ykispam.ui.components.appbars.AddAppBar
 import com.ykis.ykispam.R.string as AppText
-
 
 
 @Composable
@@ -44,6 +45,11 @@ fun AddApartmentScreenContent(
 ) {
     
     val secretCode by viewModel.secretCode.collectAsState()
+    val buttonEnabled by remember {
+        derivedStateOf{
+            secretCode.isNotEmpty()
+        }
+    }
     val keyboard = LocalSoftwareKeyboardController.current
     Column(
         modifier = Modifier
@@ -122,7 +128,7 @@ fun AddApartmentScreenContent(
                             AppText.add,
                             R.drawable.ic_stat_name,
                             modifier = Modifier,
-                            enabled = secretCode.isNotEmpty()
+                            enabled = buttonEnabled
                         )
                         {
                             keyboard?.hide()
