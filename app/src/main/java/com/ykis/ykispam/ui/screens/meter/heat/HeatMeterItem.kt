@@ -5,9 +5,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -44,45 +44,48 @@ fun HeatMeterItem(
             alpha = 1f
         }
     }
-    Column(
-        modifier = modifier.alpha(alpha)
-    ) {
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
+    OutlinedCard(modifier = modifier.padding(vertical = 8.dp , horizontal = 4.dp)) {
+        Column(
+            modifier = modifier.alpha(alpha)
         ) {
-            Icon(
+            Row(
                 modifier = modifier
-                    .padding(horizontal = 12.dp)
-                    .size(48.dp),
-                painter = painterResource(id = R.drawable.ic_heat_meter),
-                contentDescription = null
-            )
-            Column(modifier = modifier.weight(1f)) {
-                Text(
-                    text = heatMeter.model,
-                    style = MaterialTheme.typography.titleLarge
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    modifier = modifier
+                        .padding(horizontal = 12.dp)
+                        .size(48.dp),
+                    painter = painterResource(id = R.drawable.ic_heat_meter),
+                    contentDescription = null
                 )
-                Row {
+                Column(modifier = modifier.weight(1f)) {
                     Text(
-                        text = stringResource(id = R.string.number_colon)
+                        text = heatMeter.model,
+                        style = MaterialTheme.typography.titleLarge
                     )
+                    Row {
+                        Text(
+                            text = stringResource(id = R.string.number_colon)
+                        )
+                        Text(
+                            modifier = Modifier.padding(start = 4.dp),
+                            text = heatMeter.number
+                        )
+                    }
                     Text(
-                        modifier = Modifier.padding(start = 4.dp),
-                        text = heatMeter.number
+                        style = MaterialTheme.typography.titleMedium,
+                        text = statusText
                     )
-                }
-                Text(
-                    style = MaterialTheme.typography.titleMedium,
-                    text = statusText
-                )
 
+                }
             }
+//        HorizontalDivider()
         }
-        HorizontalDivider()
     }
+
 }
 @Preview(showBackground = true)
 @Composable

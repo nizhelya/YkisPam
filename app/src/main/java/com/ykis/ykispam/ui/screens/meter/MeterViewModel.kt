@@ -30,6 +30,9 @@ class MeterViewModel @Inject constructor(
     private val _heatMeterState = MutableStateFlow(HeatMeterState())
     val heatMeterState = _heatMeterState.asStateFlow()
 
+    private val _showDetail = MutableStateFlow(true)
+    val showDetail = _showDetail.asStateFlow()
+
     fun getWaterMeterList(uid:String, addressId:Int) {
         this.getWaterMeterListUseCase(addressId, uid).onEach {
                 result->

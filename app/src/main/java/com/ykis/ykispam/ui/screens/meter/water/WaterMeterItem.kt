@@ -5,9 +5,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -48,11 +50,10 @@ fun WaterMeterItem(
             alpha = 1f
         }
     }
-    Column(
-        modifier = modifier.alpha(alpha)
-    ) {
+    OutlinedCard(modifier = modifier.padding(vertical = 4.dp , horizontal = 8.dp)) {
         Row(
             modifier = modifier
+                .alpha(alpha)
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -93,8 +94,12 @@ fun WaterMeterItem(
                 )
 
             }
-        }
-        HorizontalDivider()
+        Icon(
+            modifier = modifier.padding(end = 36.dp),
+            imageVector = Icons.Default.ChevronRight,
+            contentDescription = null
+        )
+    }
     }
 }
 @Preview(showBackground = true)

@@ -42,7 +42,7 @@ import com.ykis.ykispam.ui.screens.appartment.AddApartmentScreenContent
 import com.ykis.ykispam.ui.screens.appartment.ApartmentScreen
 import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
 import com.ykis.ykispam.ui.screens.appartment.InfoApartmentScreen
-import com.ykis.ykispam.ui.screens.meter.MeterScreen
+import com.ykis.ykispam.ui.screens.meter.MainMeterScreen
 import com.ykis.ykispam.ui.screens.profile.ProfileScreen
 import com.ykis.ykispam.ui.screens.service.MainServiceScreen
 import com.ykis.ykispam.ui.screens.settings.SettingsScreen
@@ -283,10 +283,12 @@ fun ApartmentNavGraph(
                     )
                 }
                 composable(MeterScreen.route) {
-                    MeterScreen(
+                    MainMeterScreen(
                         baseUIState = baseUIState,
                         navigationType = navigationType,
-                        onDrawerClick = onDrawerClicked
+                        onDrawerClick = onDrawerClicked,
+                        contentType = contentType,
+                        displayFeature = displayFeatures
                     )
                 }
                 composable(ServiceListScreen.route) {

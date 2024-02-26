@@ -1,11 +1,13 @@
 package com.ykis.ykispam.ui.screens.meter.water
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.screens.meter.MeterViewModel
@@ -20,7 +22,9 @@ fun WaterMeterList(
     LaunchedEffect(key1 = baseUIState.addressId) {
         viewModel.getWaterMeterList(baseUIState.uid!!,baseUIState.addressId)
     }
-    LazyColumn {
+    LazyColumn(
+        contentPadding = PaddingValues(top = 8.dp)
+    ) {
         items(
             waterMeterState.waterMeterList
         ) { waterMeter ->
