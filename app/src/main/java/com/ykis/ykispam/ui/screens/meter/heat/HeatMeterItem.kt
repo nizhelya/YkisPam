@@ -44,24 +44,24 @@ fun HeatMeterItem(
             alpha = 1f
         }
     }
-    OutlinedCard(modifier = modifier.padding(vertical = 8.dp , horizontal = 4.dp)) {
+    OutlinedCard(modifier = modifier) {
         Column(
-            modifier = modifier.alpha(alpha)
+            modifier = Modifier.alpha(alpha)
         ) {
             Row(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
-                    modifier = modifier
+                    modifier = Modifier
                         .padding(horizontal = 12.dp)
                         .size(48.dp),
                     painter = painterResource(id = R.drawable.ic_heat_meter),
                     contentDescription = null
                 )
-                Column(modifier = modifier.weight(1f)) {
+                Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = heatMeter.model,
                         style = MaterialTheme.typography.titleLarge

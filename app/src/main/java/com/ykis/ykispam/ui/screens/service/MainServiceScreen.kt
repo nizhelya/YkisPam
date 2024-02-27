@@ -4,12 +4,10 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.layout.DisplayFeature
@@ -47,12 +45,11 @@ fun MainServiceScreen(
                     onDrawerClick = onDrawerClick,
                     totalDebtState = totalDebtState,
                     getTotalServiceDebt = { params -> viewModel.getTotalServiceDebt(params = params)},
-                    onServiceClick = {contentDetail -> viewModel.setContentDetail(contentDetail , showDetail = true)}
+                    onServiceClick = {contentDetail -> viewModel.setContentDetail(contentDetail)}
                 )
                           },
             secondScreen = {
                 DetailContent(
-                    modifier = Modifier.padding(horizontal = 24.dp),
                     baseUIState = baseUIState,
                     contentType = ContentType.DUAL_PANE,
                     contentDetail = totalDebtState.serviceDetail,
@@ -101,7 +98,7 @@ fun SinglePanelService(
             onDrawerClick = onDrawerClick,
             totalDebtState = totalDebtState,
             getTotalServiceDebt = { params -> viewModel.getTotalServiceDebt(params = params)},
-            onServiceClick = {content -> viewModel.setContentDetail(contentDetail = content, showDetail = true)}
+            onServiceClick = {content -> viewModel.setContentDetail(contentDetail = content)}
         )
     }
 

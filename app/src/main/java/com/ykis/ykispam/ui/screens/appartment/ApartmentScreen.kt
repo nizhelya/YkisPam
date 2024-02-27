@@ -164,7 +164,7 @@ fun DualPanelContent(
                         baseUIState = baseUIState,
                     )
 
-                    ContentDetail.PAYMENTS -> ServicesContent(
+                    else -> ServicesContent(
                         contentDetail = contentDetail,
                         baseUIState = baseUIState,
                     )
@@ -234,7 +234,7 @@ fun SinglePanelContent(
                     baseUIState = baseUIState,
                 )
 
-                ContentDetail.PAYMENTS -> ServicesContent(
+                else -> ServicesContent(
                     contentDetail = contentDetail,
                     baseUIState = baseUIState,
                 )

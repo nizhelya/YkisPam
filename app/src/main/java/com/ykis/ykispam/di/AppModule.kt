@@ -27,7 +27,6 @@ import com.ykis.ykispam.data.cache.heat.meter.HeatMeterCache
 import com.ykis.ykispam.data.cache.heat.reading.HeatReadingCache
 import com.ykis.ykispam.data.cache.payment.PaymentCache
 import com.ykis.ykispam.data.cache.user.UserCache
-import com.ykis.ykispam.data.cache.water.meter.WaterMeterCache
 import com.ykis.ykispam.data.cache.water.reading.WaterReadingCache
 import com.ykis.ykispam.data.remote.address.AddressRemote
 import com.ykis.ykispam.data.remote.api.ApiService
@@ -197,11 +196,9 @@ object AppModule {
     @Singleton
     @Provides
     fun provideWaterMeterRepository(
-        waterMeterCache: WaterMeterCache,
         waterMeterRemote: WaterMeterRemote,
-        userCache: UserCache
     ): WaterMeterRepository {
-        return  WaterMeterRepositoryImpl(waterMeterCache ,waterMeterRemote , userCache)
+        return  WaterMeterRepositoryImpl(waterMeterRemote)
     }
     @Singleton
     @Provides

@@ -19,7 +19,6 @@ package com.ykis.ykispam.ui.navigation
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Adjust
-import androidx.compose.material.icons.filled.Church
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.HeatPump
 import androidx.compose.material.icons.filled.Home
@@ -28,7 +27,6 @@ import androidx.compose.material.icons.filled.Payments
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.WaterDrop
 import androidx.compose.material.icons.outlined.AccountCircle
-import androidx.compose.material.icons.outlined.Church
 import androidx.compose.material.icons.outlined.Group
 import androidx.compose.material.icons.outlined.HeatPump
 import androidx.compose.material.icons.outlined.Home
@@ -36,7 +34,9 @@ import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Payments
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.WaterDrop
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import com.ykis.ykispam.R
 
 data class TopLevelDestination(
@@ -81,30 +81,33 @@ val METER_TAB_ITEM = listOf(
 
 
 
-val NAV_BAR_DESTINATIONS = listOf(
-    TopLevelDestination(
-        route = InfoApartmentScreen.route + "/0",
-        selectedIcon = Icons.Filled.Info,
-        unselectedIcon = Icons.Outlined.Info,
-        labelId = R.string.info,
-        alwaysVisible = false,
+val NAV_BAR_DESTINATIONS :List<TopLevelDestination>
+@Composable
+get(){
+    return listOf(
+        TopLevelDestination(
+            route = InfoApartmentScreen.route + "/0",
+            selectedIcon = Icons.Filled.Info,
+            unselectedIcon = Icons.Outlined.Info,
+            labelId = R.string.info,
+            alwaysVisible = false,
 
-    ),
-    TopLevelDestination(
+            ),
+        TopLevelDestination(
             route = MeterScreen.route,
-        selectedIcon = Icons.Filled.Church ,
-        unselectedIcon = Icons.Outlined.Church,
-        labelId = R.string.meters,
-        alwaysVisible = false
-    ),
-    TopLevelDestination(
-        route = ServiceListScreen.route,
-        selectedIcon = Icons.Filled.Payments,
-        unselectedIcon = Icons.Outlined.Payments,
-        labelId = R.string.accrued,
-        alwaysVisible = false
+            selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_valve_filled),
+            unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_valve_outline),
+            labelId = R.string.meters,
+            alwaysVisible = false
+        ),
+        TopLevelDestination(
+            route = ServiceListScreen.route,
+            selectedIcon = Icons.Filled.Payments,
+            unselectedIcon = Icons.Outlined.Payments,
+            labelId = R.string.accrued,
+            alwaysVisible = false
 
-    ),
+        ),
 //    TopLevelDestination(
 //        route = ChatScreen.route,
 //        selectedIcon = Icons.AutoMirrored.Filled.Chat,
@@ -112,21 +115,28 @@ val NAV_BAR_DESTINATIONS = listOf(
 //        labelId = R.string.chat,
 //        alwaysVisible = false
 //    )
-    TopLevelDestination(
-        route = ProfileScreen.route,
-        selectedIcon = Icons.Default.AccountCircle,
-        unselectedIcon = Icons.Outlined.AccountCircle,
-        labelId = R.string.account,
-        alwaysVisible = true
-    ),
+        TopLevelDestination(
+            route = ProfileScreen.route,
+            selectedIcon = Icons.Default.AccountCircle,
+            unselectedIcon = Icons.Outlined.AccountCircle,
+            labelId = R.string.account,
+            alwaysVisible = true
+        ),
 
-)
-val NAV_RAIL_DESTINATIONS = NAV_BAR_DESTINATIONS + listOf(
-    TopLevelDestination(
-        route = SettingsScreen.route,
-        selectedIcon = Icons.Default.Settings,
-        unselectedIcon = Icons.Outlined.Settings,
-        labelId = R.string.settings,
-        alwaysVisible = true
-    )
-)
+        )
+    }
+ 
+val NAV_RAIL_DESTINATIONS :List<TopLevelDestination>
+@Composable
+get(){
+  return   NAV_BAR_DESTINATIONS + listOf(
+      TopLevelDestination(
+          route = SettingsScreen.route,
+          selectedIcon = Icons.Default.Settings,
+          unselectedIcon = Icons.Outlined.Settings,
+          labelId = R.string.settings,
+          alwaysVisible = true
+      )
+  )  
+}
+  

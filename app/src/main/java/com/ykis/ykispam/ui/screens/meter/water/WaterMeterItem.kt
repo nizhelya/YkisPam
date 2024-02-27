@@ -35,37 +35,37 @@ fun WaterMeterItem(
     when {
         waterMeter.spisan.isTrue() ->{
             statusText = stringResource(R.string.written_off)
-            alpha =0.5f
+            alpha =0.4f
         }
         waterMeter.out.isTrue() -> {
             statusText = stringResource(R.string.on_the_test)
-            alpha =0.5f
+            alpha =0.4f
         }
         waterMeter.paused.isTrue() ->{
             statusText = stringResource(R.string.suspended)
-            alpha =0.5f
+            alpha =0.4f
         }
         else -> {
             statusText = stringResource(R.string.works)
             alpha = 1f
         }
     }
-    OutlinedCard(modifier = modifier.padding(vertical = 4.dp , horizontal = 8.dp)) {
+    OutlinedCard(modifier = modifier) {
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .alpha(alpha)
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                modifier = modifier
+                modifier =  Modifier
                     .padding(horizontal = 12.dp)
                     .size(48.dp),
                 painter = painterResource(id = R.drawable.ic_water_meter),
                 contentDescription = null
             )
-            Column(modifier = modifier.weight(1f)) {
+            Column(modifier =  Modifier.weight(1f)) {
                 Text(
                     text = waterMeter.model,
                     style = MaterialTheme.typography.titleLarge
@@ -95,7 +95,7 @@ fun WaterMeterItem(
 
             }
         Icon(
-            modifier = modifier.padding(end = 36.dp),
+            modifier = Modifier.padding(end = 36.dp),
             imageVector = Icons.Default.ChevronRight,
             contentDescription = null
         )

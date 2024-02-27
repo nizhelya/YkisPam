@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Commute
@@ -25,7 +26,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.R
 import com.ykis.ykispam.ui.BaseUIState
@@ -68,7 +71,8 @@ fun DetailAppBar(
                     ) {
                         Icon(
                             modifier = Modifier
-                                .padding(4.dp),
+                                .padding(4.dp)
+                                .size(24.dp),
                             imageVector = when (contentDetail) {
                                 ContentDetail.BTI -> Icons.Default.Home
                                 ContentDetail.FAMILY -> Icons.Default.FamilyRestroom
@@ -77,6 +81,8 @@ fun DetailAppBar(
                                 ContentDetail.WARM_SERVICE -> Icons.Default.HotTub
                                 ContentDetail.GARBAGE_SERVICE -> Icons.Default.Commute
                                 ContentDetail.PAYMENTS -> Icons.Default.MonetizationOn
+                                    ContentDetail.WATER_METER -> ImageVector.vectorResource(id = R.drawable.ic_water_meter)
+                                    ContentDetail.HEAT_METER -> ImageVector.vectorResource(id = R.drawable.ic_heat_meter)
                             },
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.outline
@@ -91,6 +97,8 @@ fun DetailAppBar(
                                 ContentDetail.WARM_SERVICE -> stringResource(id = R.string.ytke)
                                 ContentDetail.GARBAGE_SERVICE -> stringResource(id = R.string.yzhtrans)
                                 ContentDetail.PAYMENTS -> stringResource(id = R.string.payment_list)
+                                ContentDetail.WATER_METER -> stringResource(id = R.string.water_meter_label)
+                                ContentDetail.HEAT_METER -> stringResource(id = R.string.heat_meter_label)
                             },
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -126,7 +134,8 @@ fun DetailAppBar(
                     ) {
                         Icon(
                             modifier = Modifier
-                                .padding(8.dp),
+                                .padding(8.dp)
+                                .size(24.dp),
                             imageVector = when (contentDetail) {
                                 ContentDetail.BTI -> Icons.Default.Home
                                 ContentDetail.FAMILY -> Icons.Default.FamilyRestroom
@@ -135,6 +144,8 @@ fun DetailAppBar(
                                 ContentDetail.WARM_SERVICE -> Icons.Default.HotTub
                                 ContentDetail.GARBAGE_SERVICE -> Icons.Default.Commute
                                 ContentDetail.PAYMENTS -> Icons.Default.MonetizationOn
+                                ContentDetail.WATER_METER -> ImageVector.vectorResource(id = R.drawable.ic_water_meter)
+                                ContentDetail.HEAT_METER -> ImageVector.vectorResource(id = R.drawable.ic_heat_meter)
                             },
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.outline
@@ -148,6 +159,8 @@ fun DetailAppBar(
                                 ContentDetail.WARM_SERVICE -> stringResource(id = R.string.ytke)
                                 ContentDetail.GARBAGE_SERVICE -> stringResource(id = R.string.yzhtrans)
                                 ContentDetail.PAYMENTS -> stringResource(id = R.string.payment_list)
+                                ContentDetail.WATER_METER -> stringResource(id = R.string.water_meter_label)
+                                ContentDetail.HEAT_METER -> stringResource(id = R.string.heat_meter_label)
                             },
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant

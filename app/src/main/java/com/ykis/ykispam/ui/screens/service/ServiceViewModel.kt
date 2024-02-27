@@ -31,10 +31,10 @@ class ServiceViewModel @Inject constructor(
     private val _totalDebtState = MutableStateFlow(TotalDebtState())
     val totalDebtState = _totalDebtState.asStateFlow()
 
-    fun setContentDetail (contentDetail: ContentDetail , showDetail : Boolean){
+    fun setContentDetail (contentDetail: ContentDetail){
         _totalDebtState.value = _totalDebtState.value.copy(
             serviceDetail = contentDetail,
-            showDetail = showDetail
+            showDetail = true
         )
     }
     fun closeContentDetail(){
