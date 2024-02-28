@@ -308,6 +308,8 @@ fun ApartmentNavGraph(
                     val addressIdArg =
                     navBackStackEntry.arguments?.getInt(InfoApartmentScreen.addressIdArg)
                     InfoApartmentScreen(
+                        contentType = contentType,
+                        displayFeatures = displayFeatures,
                         baseUIState = baseUIState,
                         apartmentViewModel = apartmentViewModel,
                         deleteApartment = {
