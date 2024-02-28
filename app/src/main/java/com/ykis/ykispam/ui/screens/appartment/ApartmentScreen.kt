@@ -5,18 +5,31 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Group
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.twotone.Person
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
+import com.ykis.ykispam.R
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.YkisPamAppState
 import com.ykis.ykispam.ui.navigation.ContentDetail
@@ -176,7 +189,77 @@ fun DualPanelContent(
         displayFeatures = displayFeatures
     )
 }
+@Composable
+fun DualPanelContentNew(
+    appState: YkisPamAppState,
+    baseUIState: BaseUIState,
+    displayFeatures: List<DisplayFeature>,
+    apartmentViewModel: ApartmentViewModel
 
+) {
+    TwoPane(
+        modifier = Modifier.fillMaxSize(),
+        first = {
+            Column {
+                Row(modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+                )
+                {
+                    Icon(
+                        imageVector = Icons.Filled.Home,
+                        contentDescription = "Info",
+                        tint = MaterialTheme.colorScheme.outline
+                    )
+                    Text(
+                        text = stringResource(id = R.string.bti),
+                        style = MaterialTheme.typography.bodyLarge
+
+                    )
+                }
+                Row(modifier = Modifier
+                    .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center) {
+                    BtiPanelContent(
+                        baseUIState = baseUIState,
+                        viewModel = apartmentViewModel
+                    )
+                }
+            }
+
+
+        },
+        second = {
+            Column {
+                Row(modifier = Modifier
+                    .fillMaxWidth(),
+//                    .padding(bottom = 4.dp),
+                    horizontalArrangement = Arrangement.Center
+                )
+                {
+                    Icon(
+                        imageVector = Icons.Filled.Group,
+                        contentDescription = "Info",
+                        tint = MaterialTheme.colorScheme.outline
+                    )
+                    Text(
+                        text = stringResource(id = R.string.list_family),
+                        style = MaterialTheme.typography.bodyLarge
+
+                    )
+                }
+                Row(modifier = Modifier
+                    .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center) {
+                    FamilyContent(baseUIState = baseUIState)
+
+                }
+            }
+        },
+        strategy = HorizontalTwoPaneStrategy(splitFraction = 0.5f),
+        displayFeatures = displayFeatures
+    )
+}
 @Composable
 fun SinglePanelContent(
     modifier: Modifier = Modifier,

@@ -25,9 +25,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.window.layout.DisplayFeature
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.YkisPamAppState
 import com.ykis.ykispam.ui.components.appbars.ApartmentTopAppBar
+import com.ykis.ykispam.ui.navigation.ContentType
 import com.ykis.ykispam.ui.navigation.INFO_APARTMENT_TAB_ITEM
 import com.ykis.ykispam.ui.navigation.NavigationType
 import com.ykis.ykispam.ui.screens.bti.BtiPanelContent
@@ -37,19 +40,21 @@ import com.ykis.ykispam.ui.screens.family.FamilyContent
 @Composable
 fun InfoApartmentScreen(
     modifier: Modifier = Modifier,
+    contentType: ContentType,
+    displayFeatures: List<DisplayFeature>,
     baseUIState: BaseUIState,
-    apartmentViewModel : ApartmentViewModel,
+    apartmentViewModel: ApartmentViewModel,
     appState: YkisPamAppState,
-    deleteApartment: () -> Unit ,
-    onDrawerClicked: () -> Unit ,
+    deleteApartment: () -> Unit,
+    onDrawerClicked: () -> Unit,
     navigationType: NavigationType,
-    addressId : Int
-    ) {
-    var selectedTab by rememberSaveable{
+    addressId: Int
+) {
+    var selectedTab by rememberSaveable {
         mutableIntStateOf(0)
     }
     LaunchedEffect(key1 = addressId, key2 = baseUIState.apartments) {
-        if(baseUIState.apartments.isNotEmpty()) {
+        if (baseUIState.apartments.isNotEmpty()) {
             if (addressId == 0) {
                 apartmentViewModel.getApartment(baseUIState.apartments.first().addressId)
             } else {
@@ -57,41 +62,50 @@ fun InfoApartmentScreen(
             }
         }
     }
+
     Column(modifier = Modifier.fillMaxSize()) {
         ApartmentTopAppBar(
-            appState =appState ,
+            appState = appState,
             apartment = baseUIState.apartment,
             isButtonAction = baseUIState.apartments.isNotEmpty(),
-            onButtonAction = {deleteApartment()},
+            onButtonAction = { deleteApartment() },
             onButtonPressed = { onDrawerClicked() },
             navigationType = navigationType
         )
-        PrimaryTabRow(
-            selectedTabIndex = selectedTab ,
-            containerColor = MaterialTheme.colorScheme.background
-        ) {
-            INFO_APARTMENT_TAB_ITEM.forEachIndexed { index, tabItem ->
-                LeadingIconTab(
-                    selected = selectedTab==index,
-                    onClick = { selectedTab = index },
-                    text = {
-                        Text(text = stringResource( tabItem.titleId))
-                    },
-                    icon = {
-                        Icon (
-                           imageVector = if(index == selectedTab) tabItem.selectedIcon else tabItem.unselectedIcon,
-                            contentDescription = stringResource( tabItem.titleId)
-                        )
-                    }
-                )
+        if (contentType == ContentType.DUAL_PANE) {
+            DualPanelContentNew(
+                appState = appState,
+                baseUIState = baseUIState,
+                displayFeatures = displayFeatures,
+                apartmentViewModel = apartmentViewModel
+            )
+        } else {
+            PrimaryTabRow(
+                selectedTabIndex = selectedTab,
+                containerColor = MaterialTheme.colorScheme.background
+            ) {
+                INFO_APARTMENT_TAB_ITEM.forEachIndexed { index, tabItem ->
+                    LeadingIconTab(
+                        selected = selectedTab == index,
+                        onClick = { selectedTab = index },
+                        text = {
+                            Text(text = stringResource(tabItem.titleId))
+                        },
+                        icon = {
+                            Icon(
+                                imageVector = if (index == selectedTab) tabItem.selectedIcon else tabItem.unselectedIcon,
+                                contentDescription = stringResource(tabItem.titleId)
+                            )
+                        }
+                    )
 
+                }
             }
-        }
 
             Box(
-                modifier=modifier.fillMaxSize(),
+                modifier = modifier.fillMaxSize(),
                 contentAlignment = Alignment.TopCenter
-            ){
+            ) {
                 AnimatedContent(
                     targetState = selectedTab,
                     transitionSpec = {
@@ -106,14 +120,16 @@ fun InfoApartmentScreen(
                     label = "",
                 ) { targetState ->
                     when (targetState) {
-                        0 ->  BtiPanelContent(
-                            baseUIState =baseUIState , viewModel = apartmentViewModel
+                        0 -> BtiPanelContent(
+                            baseUIState = baseUIState, viewModel = apartmentViewModel
                         )
+
                         else -> FamilyContent(baseUIState = baseUIState)
                     }
                 }
             }
-            
         }
 
+    }
 }
+
