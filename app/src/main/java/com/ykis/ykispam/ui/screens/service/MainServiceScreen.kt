@@ -13,11 +13,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.layout.DisplayFeature
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.components.BaseDualPanelContent
+import com.ykis.ykispam.ui.components.DetailContent
 import com.ykis.ykispam.ui.components.appbars.DetailAppBar
 import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.navigation.ContentType
 import com.ykis.ykispam.ui.navigation.NavigationType
-import com.ykis.ykispam.ui.screens.appartment.content.DetailContent
 import com.ykis.ykispam.ui.screens.service.detail.ServicesContent
 import com.ykis.ykispam.ui.screens.service.list.ServiceListScreen
 import com.ykis.ykispam.ui.screens.service.list.TotalDebtState

@@ -237,7 +237,7 @@
     <string name="date_colon">Дата:</string>
     <string name="next">Продовжити</string>
     //WaterMeter
-    <string name="water_detail_text">Технічна характеристика</string>
+    <string name="water_detail_text">Технічні характеристики</string>
     <string name="xp">Характеристика приміщення</string>
     <string name="number_colon">Номер:</string>
     <string name="place_colon">Місце:</string>
@@ -251,7 +251,8 @@
     <string name="stoki_colon">Стоки:</string>
     <string name="general_colon">Спільний:</string>
     <string name="stop_colon">Призупинено:</string>
-    <string name="water_history_colon">Історія показань приладів обліку води:</string>
+    <string name="meter_history_colon">Історія показань приладів обліку води:</string>
+    <string name="reading_history">Історія показань</string>
     <string name="reading_added">Показання додани</string>
     <string name="spisan_colon">Списан:</string>
     <string name="out_colon">На перевірці:</string>
@@ -264,7 +265,7 @@
     <string name="qty_cube_colon">Куб раз:</string>
     <string name="cube_day_colon">Куб/день:</string>
     <string name="period">Період</string>
-    <string name="last_readings">Останні показання</string>
+    <string name="last_reading">Останнє показання</string>
     <string name="last_colon">Попереднє :</string>
     <string name="current_colon">Поточне :</string>
     <string name="cubs_colon">Кубів:</string>
@@ -285,7 +286,7 @@
     //addReadingDialog
     <string name="new_reading">Нове показання</string>
     <string name="current_reading">Поточне показання</string>
-    <string name="add_reading">Додати нове показання</string>
+    <string name="add_reading">Додати нове</string>
     <string name="delete_reading">Видалити показання</string>
     //deleteReadingDialog
     <string name="delete_reading_title">Видалити останнє показання?</string>

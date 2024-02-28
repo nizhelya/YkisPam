@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
@@ -50,7 +51,12 @@ fun WaterMeterItem(
             alpha = 1f
         }
     }
-    OutlinedCard(modifier = modifier) {
+    OutlinedCard(
+        modifier = modifier,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.background
+        )
+    ) {
         Row(
             modifier = Modifier
                 .alpha(alpha)
@@ -59,7 +65,7 @@ fun WaterMeterItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                modifier =  Modifier
+                modifier = Modifier
                     .padding(horizontal = 12.dp)
                     .size(48.dp),
                 painter = painterResource(id = R.drawable.ic_water_meter),

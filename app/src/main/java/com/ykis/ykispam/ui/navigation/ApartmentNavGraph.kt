@@ -39,7 +39,6 @@ import com.ykis.ykispam.ui.navigation.components.ModalNavigationDrawerContent
 import com.ykis.ykispam.ui.rememberAppState
 import com.ykis.ykispam.ui.screens.EmptyScreen
 import com.ykis.ykispam.ui.screens.appartment.AddApartmentScreenContent
-import com.ykis.ykispam.ui.screens.appartment.ApartmentScreen
 import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
 import com.ykis.ykispam.ui.screens.appartment.InfoApartmentScreen
 import com.ykis.ykispam.ui.screens.meter.MainMeterScreen
@@ -250,37 +249,6 @@ fun ApartmentNavGraph(
 
                 composable(SettingsScreen.route) {
                     SettingsScreen(popUpScreen = { navController.popBackStack() })
-                }
-
-                composable(
-                    route = ApartmentScreen.routeWithArgs,
-                    arguments = ApartmentScreen.arguments
-                ) { navBackStackEntry ->
-                    val addressIdArg =
-                        navBackStackEntry.arguments?.getInt(ApartmentScreen.addressIdArg)
-                    ApartmentScreen(
-                        appState = appState,
-                        contentType = contentType,
-                        baseUIState = baseUIState,
-                        navigationType = navigationType,
-                        displayFeatures = displayFeatures,
-                        closeDetailScreen = { apartmentViewModel.closeDetailScreen() },
-                        navigateToDetail = { contentDetail ->
-                            apartmentViewModel.setSelectedDetail(
-                                contentDetail
-                            )
-                        },
-                        deleteApartment = {
-                            apartmentViewModel.deleteApartment(
-                                navController.navigateToInfoApartment(
-                                    0
-                                )
-                            )
-                        },
-                        onDrawerClicked = onDrawerClicked,
-                        addressId = addressIdArg!!,
-                        apartmentViewModel = apartmentViewModel,
-                    )
                 }
                 composable(MeterScreen.route) {
                     MainMeterScreen(

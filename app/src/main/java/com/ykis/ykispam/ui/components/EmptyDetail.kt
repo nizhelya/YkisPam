@@ -1,4 +1,4 @@
-package com.ykis.ykispam.ui.screens.appartment.content
+package com.ykis.ykispam.ui.components
 
 import androidx.compose.runtime.Composable
 

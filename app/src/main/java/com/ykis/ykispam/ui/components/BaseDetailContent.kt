@@ -1,21 +1,4 @@
-package com.ykis.ykispam.ui.screens.appartment.content
-
-/*
- * Copyright 2022 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
+package com.ykis.ykispam.ui.components
 
 import androidx.compose.animation.core.EaseOutCubic
 import androidx.compose.animation.core.tween
@@ -65,7 +48,7 @@ fun DetailContent(
         exit = slideOutVertically(
             targetOffsetY = { it }
         )
-        + fadeOut()
+                + fadeOut()
     ) {
         Card(
             modifier = modifier
@@ -74,28 +57,19 @@ fun DetailContent(
             shape = MaterialTheme.shapes.large,
             colors = CardDefaults.cardColors(
                 containerColor =
-                    MaterialTheme.colorScheme.surfaceContainer
+                MaterialTheme.colorScheme.surfaceContainer
             )
         ) {
             Column {
-                    DetailAppBar(
-                        contentType = contentType,
-                        baseUIState = baseUIState,
-                        contentDetail = contentDetail
-                    ) {
-                        onBackPressed()
-                    }
+                DetailAppBar(
+                    contentType = contentType,
+                    baseUIState = baseUIState,
+                    contentDetail = contentDetail
+                ) {
+                    onBackPressed()
+                }
                 detailContent()
             }
         }
     }
 }
-
-
-
-
-
-
-
-
-

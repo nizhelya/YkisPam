@@ -5,7 +5,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -16,12 +15,13 @@ import com.ykis.ykispam.domain.heat.meter.HeatMeterEntity
 import com.ykis.ykispam.domain.water.meter.WaterMeterEntity
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.components.BaseDualPanelContent
+import com.ykis.ykispam.ui.components.DetailContent
 import com.ykis.ykispam.ui.components.appbars.DetailAppBar
 import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.navigation.ContentType
 import com.ykis.ykispam.ui.navigation.NavigationType
-import com.ykis.ykispam.ui.screens.appartment.content.DetailContent
-import com.ykis.ykispam.ui.screens.appartment.content.EmptyDetail
+import com.ykis.ykispam.ui.components.EmptyDetail
+import com.ykis.ykispam.ui.screens.meter.heat.HeatMeterDetail
 import com.ykis.ykispam.ui.screens.meter.heat.HeatMeterState
 import com.ykis.ykispam.ui.screens.meter.water.WaterMeterDetail
 import com.ykis.ykispam.ui.screens.meter.water.WaterMeterState
@@ -63,6 +63,17 @@ fun MainMeterScreen(
                     onBackPressed = { viewModel.closeContentDetail()},
                     showDetail = showDetail
                 ) {
+                    when(contentDetail) {
+                        ContentDetail.WATER_METER -> {
+                            WaterMeterDetail(waterMeterEntity = waterMeterState.selectedWaterMeter)
+                        }
+
+                        ContentDetail.HEAT_METER ->{
+                            HeatMeterDetail(heatMeterEntity = heatMeterState.selectedHeatMeter)
+                        }
+
+                        else -> EmptyDetail()
+                    }
                 }
             }
         )
@@ -134,7 +145,7 @@ fun SinglePanelMeter(
                 ContentDetail.WATER_METER -> {
                     WaterMeterDetail(waterMeterEntity = waterMeterState.selectedWaterMeter)
                 }
-                ContentDetail.HEAT_METER -> Text(text = heatMeterState.selectedHeatMeter.model)
+                ContentDetail.HEAT_METER -> HeatMeterDetail(heatMeterEntity = heatMeterState.selectedHeatMeter)
 
                 else -> EmptyDetail()
             }

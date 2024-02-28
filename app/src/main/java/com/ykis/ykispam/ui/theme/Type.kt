@@ -1,6 +1,8 @@
 package com.ykis.ykispam.ui.theme
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
@@ -81,3 +83,13 @@ val replyTypography = Typography(
         letterSpacing = 0.5.sp
     )
 )
+
+val customTitleForCard : androidx.compose.ui.text.TextStyle
+    @Composable
+    get(){
+        // TODO: try with headline small 
+        return MaterialTheme.typography.titleMedium.copy(
+            fontWeight = FontWeight(350),
+            fontSize = 18.sp
+        )
+    }

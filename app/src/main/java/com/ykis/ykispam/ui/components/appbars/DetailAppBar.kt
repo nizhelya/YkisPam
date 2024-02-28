@@ -49,7 +49,7 @@ fun DetailAppBar(
         TopAppBar(
             modifier = modifier,
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainer
+                containerColor = MaterialTheme.colorScheme.surface
             ),
             title = {
                 Column(
@@ -61,7 +61,7 @@ fun DetailAppBar(
                     Text(
                         text = baseUIState.apartment.address,
                         style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onSurface
+//                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Row(
@@ -85,7 +85,7 @@ fun DetailAppBar(
                                     ContentDetail.HEAT_METER -> ImageVector.vectorResource(id = R.drawable.ic_heat_meter)
                             },
                             contentDescription = "",
-                            tint = MaterialTheme.colorScheme.outline
+                            tint = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
                             modifier = Modifier.padding(top = 4.dp),
@@ -101,7 +101,7 @@ fun DetailAppBar(
                                 ContentDetail.HEAT_METER -> stringResource(id = R.string.heat_meter_label)
                             },
                             style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                     }
 
@@ -114,10 +114,24 @@ fun DetailAppBar(
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = stringResource(id = R.string.back_button),
+                        tint = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
             },
+            actions = {
+                if(contentDetail == ContentDetail.WATER_METER || contentDetail == ContentDetail.HEAT_METER)
+                    IconButton(
+                        onClick = {},
+                    ){
+                        Icon(
+                            imageVector = ImageVector.vectorResource(R.drawable.ic_history),
+                            contentDescription = "Історія показань",
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+
+            }
         )
 
     } else {
