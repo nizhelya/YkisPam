@@ -28,6 +28,7 @@ fun DetailContent(
     contentDetail: ContentDetail,
     onBackPressed: () -> Unit,
     showDetail : Boolean,
+    onActionButtonClick : () -> Unit ={},
     detailContent: @Composable () -> Unit
 ) {
     androidx.compose.animation.AnimatedVisibility(
@@ -64,7 +65,8 @@ fun DetailContent(
                 DetailAppBar(
                     contentType = contentType,
                     baseUIState = baseUIState,
-                    contentDetail = contentDetail
+                    contentDetail = contentDetail,
+                    onActionButtonClick = onActionButtonClick
                 ) {
                     onBackPressed()
                 }

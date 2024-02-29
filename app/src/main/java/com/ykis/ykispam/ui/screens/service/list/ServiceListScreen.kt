@@ -1,9 +1,7 @@
 package com.ykis.ykispam.ui.screens.service.list
 
-import android.util.Log
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -96,43 +94,39 @@ fun ServiceListScreen(
             canNavigateBack = false,
             navigationType = navigationType
         )
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            androidx.compose.animation.AnimatedVisibility(
-                visible = totalDebtState.isLoading,
-                exit = fadeOut(tween(delayMillis = 500)),
-                enter = fadeIn(tween(delayMillis = 500))
+            Crossfade(
+                modifier = Modifier.fillMaxSize(),
+                animationSpec = tween(delayMillis = 500),
+                targetState =totalDebtState.isLoading, label = ""
             ) {
-                CircularProgressIndicator()
+                isLoading->
+                    if(isLoading){
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator()
+                        }
+                    }else ServiceListStateless(
+                        modifier = Modifier.fillMaxSize(),
+                        items = totalServiceDebtList,
+                        debts = { totalServiceDebtList -> totalServiceDebtList.debt },
+                        colors = { totalServiceDebtList -> totalServiceDebtList.color },
+                        total = totalDebtState.totalDebt.dolg!!.toFloat(),
+                        circleLabel = stringResource(R.string.summary),
+                        rows = {
+                            ServiceRow(
+                                color = it.color,
+                                title = it.name,
+                                debt = it.debt,
+                                icon = it.icon,
+                                onClick = {
+                                    onServiceClick(it.contentDetail)
+                                }
+                            )
+                        },
+                    )
             }
-            androidx.compose.animation.AnimatedVisibility(
-                visible = !totalDebtState.isLoading,
-                exit = fadeOut(tween(delayMillis = 500)),
-                enter = fadeIn(tween(delayMillis = 500))
-            ) {
-                ServiceListStateless(
-                    modifier = Modifier.fillMaxSize(),
-                    items = totalServiceDebtList,
-                    debts = { totalServiceDebtList -> totalServiceDebtList.debt },
-                    colors = { totalServiceDebtList -> totalServiceDebtList.color },
-                    total = totalDebtState.totalDebt.dolg!!.toFloat(),
-                    circleLabel = stringResource(R.string.summary),
-                    rows = {
-                        ServiceRow(
-                            color = it.color,
-                            title = it.name,
-                            debt = it.debt,
-                            icon = it.icon,
-                            onClick = {
-                                onServiceClick(it.contentDetail)
-                            }
-                        )
-                    },
-                )
-            }
-        }
     }
 }
 @Preview(showBackground = true)

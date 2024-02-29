@@ -22,10 +22,10 @@ data class HeatReadingEntity(
     val dateReading: String = "Unknown",
     @Json(name = "date_ot")
     @ColumnInfo(name = "date_ot")
-    val dateOt: String = "Unknown",
+    val dateOt: String = "2024-01-01",
     @Json(name = "date_do")
     @ColumnInfo(name = "date_do")
-    val dateDo: String = "Unknown",
+    val dateDo: String = "2024-01-01",
     val edizm: String = "Unknown",
     val koef: String = "Unknown",
     val days: Short = 0,

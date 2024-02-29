@@ -6,6 +6,7 @@ import com.ykis.ykispam.data.remote.core.Request
 import com.ykis.ykispam.domain.type.Either
 import com.ykis.ykispam.domain.type.Failure
 import com.ykis.ykispam.domain.water.reading.WaterReadingEntity
+import retrofit2.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,7 +15,7 @@ class WaterReadingRemoteImpl @Inject constructor(
     private val request: Request,
     private val apiService: ApiService
 ) : WaterReadingRemote {
-    override fun getWaterReadings(
+    override fun getWaterReading(
         vodomerId: Int,
         uid: String
     ): Either<Failure, List<WaterReadingEntity>> {
@@ -67,6 +68,14 @@ class WaterReadingRemoteImpl @Inject constructor(
         {
             it
         }
+    }
+
+    override suspend fun getWaterReadings(vodomerId: Int, uid: String):GetWaterReadingResponse  {
+        return apiService.getWaterReadings(
+            createGetWaterReadingMap(
+                vodomerId, uid
+            )
+        ).await()
     }
 
     private fun createGetWaterReadingMap(

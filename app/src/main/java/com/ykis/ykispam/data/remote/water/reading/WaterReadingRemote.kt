@@ -6,7 +6,7 @@ import com.ykis.ykispam.domain.type.Failure
 import com.ykis.ykispam.domain.water.reading.WaterReadingEntity
 
 interface WaterReadingRemote {
-    fun getWaterReadings(
+    fun getWaterReading(
         vodomerId: Int,
         uid: String
     ): Either<Failure, List<WaterReadingEntity>>
@@ -22,4 +22,9 @@ interface WaterReadingRemote {
         pokId: Int,
         uid: String
     ): Either<Failure, GetSimpleResponse>
+
+    suspend fun getWaterReadings(
+        vodomerId: Int,
+        uid:String
+    ):GetWaterReadingResponse
 }

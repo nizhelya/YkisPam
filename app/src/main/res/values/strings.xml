@@ -264,7 +264,7 @@
     <string name="days_colon">Днів:</string>
     <string name="qty_cube_colon">Куб раз:</string>
     <string name="cube_day_colon">Куб/день:</string>
-    <string name="period">Період</string>
+    <string name="period_colon">Період:</string>
     <string name="last_reading">Останнє показання</string>
     <string name="last_colon">Попереднє :</string>
     <string name="current_colon">Поточне :</string>
@@ -361,6 +361,7 @@
     <string name="works">Працює</string>
     <string name="no_meters">Немає лічільників</string>
     <string name="no_heat_meters">Теплові лічільникі не знайдено</string>
+    <string name="date_format">З %1$s по %2$s</string>
 
 
 </resources>

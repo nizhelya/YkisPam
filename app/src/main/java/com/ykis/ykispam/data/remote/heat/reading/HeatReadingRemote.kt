@@ -7,7 +7,7 @@ import com.ykis.ykispam.domain.type.Failure
 
 
 interface HeatReadingRemote {
-    fun getHeatReadings(
+    fun getHeatReading(
         teplomerId: Int,
         uid: String
     ): Either<Failure, List<HeatReadingEntity>>
@@ -23,4 +23,9 @@ interface HeatReadingRemote {
         pokId: Int,
         uid: String
     ): Either<Failure, GetSimpleResponse>
+
+
+    suspend fun getHeatReadings(
+        teplomerId: Int, uid:String
+    ):GetHeatReadingResponse
 }

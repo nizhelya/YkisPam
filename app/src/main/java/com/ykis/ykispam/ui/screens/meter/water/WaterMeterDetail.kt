@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.ext.isTrue
 import com.ykis.ykispam.domain.water.meter.WaterMeterEntity
+import com.ykis.ykispam.domain.water.reading.WaterReadingEntity
+import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.components.LabelTextWithCheckBox
 import com.ykis.ykispam.ui.components.LabelTextWithText
 import com.ykis.ykispam.ui.screens.meter.LastReadingCard
@@ -30,15 +33,23 @@ import com.ykis.ykispam.ui.theme.customTitleForCard
 @Composable
 fun WaterMeterDetail(
     modifier: Modifier = Modifier,
-    waterMeterEntity: WaterMeterEntity
+    baseUIState: BaseUIState,
+    waterMeterEntity: WaterMeterEntity,
+    lastReading: WaterReadingEntity,
+    getLastReading:()->Unit
 ) {
+    LaunchedEffect(key1 = baseUIState.addressId, key2 = waterMeterEntity.vodomerId) {
+        getLastReading()
+    }
     Column(
         modifier = modifier
             .verticalScroll(rememberScrollState())
             .fillMaxSize()
             .padding(start = 4.dp, end = 4.dp)
     ) {
-        LastReadingCard()
+        LastReadingCard(
+            lastReading =lastReading
+        )
         HorizontalDivider(
             modifier = modifier.padding(vertical = 4.dp)
         )
@@ -136,9 +147,12 @@ fun WaterMeterDetail(
 private fun PreviewWaterMeterDetail() {
     YkisPAMTheme {
         WaterMeterDetail(
+            baseUIState = BaseUIState(),
             waterMeterEntity = WaterMeterEntity(
                 model = "GLS 3 ULTRA"
-            )
+            ),
+            lastReading = WaterReadingEntity(),
+            getLastReading = {}
         )
     }
 }

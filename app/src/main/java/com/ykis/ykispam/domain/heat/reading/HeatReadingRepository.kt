@@ -1,6 +1,7 @@
 package com.ykis.ykispam.domain.heat.reading
 
 import com.ykis.ykispam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.data.remote.heat.reading.GetHeatReadingResponse
 import com.ykis.ykispam.domain.family.request.BooleanInt
 import com.ykis.ykispam.domain.heat.reading.request.AddHeatReadingParams
 import com.ykis.ykispam.domain.type.Either
@@ -11,4 +12,5 @@ interface HeatReadingRepository {
     fun addNewHeatReading(params: AddHeatReadingParams): Either<Failure, GetSimpleResponse>
     fun deleteCurrentHeatReading(params: Int): Either<Failure, GetSimpleResponse>
 
+    suspend fun getHeatReadings(teplomerId:Int , uid:String) : GetHeatReadingResponse
 }

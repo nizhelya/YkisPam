@@ -3,6 +3,7 @@ package com.ykis.ykispam.data
 import com.ykis.ykispam.data.cache.user.UserCache
 import com.ykis.ykispam.data.cache.water.reading.WaterReadingCache
 import com.ykis.ykispam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.data.remote.water.reading.GetWaterReadingResponse
 import com.ykis.ykispam.data.remote.water.reading.WaterReadingRemote
 import com.ykis.ykispam.domain.family.request.BooleanInt
 import com.ykis.ykispam.domain.type.Either
@@ -24,7 +25,7 @@ class WaterReadingRepositoryImpl @Inject constructor(
         return userCache.getCurrentUser()
             .flatMap {
                 return@flatMap if (params.needFetch) {
-                    waterReadingRemote.getWaterReadings(params.int, it.uid)
+                    waterReadingRemote.getWaterReading(params.int, it.uid)
                 } else {
                     Either.Right(
                         waterReadingCache.getWaterReading(params.int)
@@ -64,4 +65,9 @@ class WaterReadingRepositoryImpl @Inject constructor(
                 )
             }
     }
+
+    override suspend fun getWaterReadings(vodomerId: Int, uid: String): GetWaterReadingResponse {
+        return waterReadingRemote.getWaterReadings(vodomerId, uid)
+    }
+
 }

@@ -43,6 +43,7 @@ fun DetailAppBar(
     contentType: ContentType,
     baseUIState: BaseUIState,
     contentDetail: ContentDetail,
+    onActionButtonClick : () -> Unit ={},
     onBackPressed: () -> Unit,
 ) {
     if (contentType == ContentType.SINGLE_PANE) {
@@ -83,6 +84,8 @@ fun DetailAppBar(
                                 ContentDetail.PAYMENTS -> Icons.Default.MonetizationOn
                                     ContentDetail.WATER_METER -> ImageVector.vectorResource(id = R.drawable.ic_water_meter)
                                     ContentDetail.HEAT_METER -> ImageVector.vectorResource(id = R.drawable.ic_heat_meter)
+                                ContentDetail.WATER_READINGS ->  ImageVector.vectorResource(id = R.drawable.ic_reading)
+                                ContentDetail.HEAT_READINGS ->  ImageVector.vectorResource(id = R.drawable.ic_reading)
                             },
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.onSurface
@@ -99,6 +102,8 @@ fun DetailAppBar(
                                 ContentDetail.PAYMENTS -> stringResource(id = R.string.payment_list)
                                 ContentDetail.WATER_METER -> stringResource(id = R.string.water_meter_label)
                                 ContentDetail.HEAT_METER -> stringResource(id = R.string.heat_meter_label)
+                                ContentDetail.WATER_READINGS -> stringResource(id = R.string.reading_history)
+                                ContentDetail.HEAT_READINGS -> stringResource(id = R.string.reading_history)
                             },
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurface
@@ -122,11 +127,11 @@ fun DetailAppBar(
             actions = {
                 if(contentDetail == ContentDetail.WATER_METER || contentDetail == ContentDetail.HEAT_METER)
                     IconButton(
-                        onClick = {},
+                        onClick = onActionButtonClick,
                     ){
                         Icon(
                             imageVector = ImageVector.vectorResource(R.drawable.ic_history),
-                            contentDescription = "Історія показань",
+                            contentDescription = stringResource(id = R.string.reading_history),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
@@ -160,6 +165,8 @@ fun DetailAppBar(
                                 ContentDetail.PAYMENTS -> Icons.Default.MonetizationOn
                                 ContentDetail.WATER_METER -> ImageVector.vectorResource(id = R.drawable.ic_water_meter)
                                 ContentDetail.HEAT_METER -> ImageVector.vectorResource(id = R.drawable.ic_heat_meter)
+                                ContentDetail.WATER_READINGS -> ImageVector.vectorResource(id = R.drawable.ic_reading)
+                                ContentDetail.HEAT_READINGS -> ImageVector.vectorResource(id = R.drawable.ic_reading)
                             },
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.outline
@@ -175,6 +182,8 @@ fun DetailAppBar(
                                 ContentDetail.PAYMENTS -> stringResource(id = R.string.payment_list)
                                 ContentDetail.WATER_METER -> stringResource(id = R.string.water_meter_label)
                                 ContentDetail.HEAT_METER -> stringResource(id = R.string.heat_meter_label)
+                                ContentDetail.WATER_READINGS -> stringResource(id = R.string.reading_history)
+                                ContentDetail.HEAT_READINGS -> stringResource(id = R.string.reading_history)
                             },
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -190,6 +199,19 @@ fun DetailAppBar(
                         contentDescription = stringResource(id = R.string.back_button),
                     )
                 }
+
+            },
+            actions = {
+                if(contentDetail == ContentDetail.WATER_METER || contentDetail == ContentDetail.HEAT_METER)
+                    IconButton(
+                        onClick = onActionButtonClick,
+                    ){
+                        Icon(
+                            imageVector = ImageVector.vectorResource(R.drawable.ic_history),
+                            contentDescription = stringResource(id = R.string.reading_history),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
 
             }
         )

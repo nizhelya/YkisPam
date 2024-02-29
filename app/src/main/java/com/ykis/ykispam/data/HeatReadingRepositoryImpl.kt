@@ -3,6 +3,7 @@ package com.ykis.ykispam.data
 import com.ykis.ykispam.data.cache.heat.reading.HeatReadingCache
 import com.ykis.ykispam.data.cache.user.UserCache
 import com.ykis.ykispam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.data.remote.heat.reading.GetHeatReadingResponse
 import com.ykis.ykispam.data.remote.heat.reading.HeatReadingRemote
 import com.ykis.ykispam.domain.family.request.BooleanInt
 import com.ykis.ykispam.domain.heat.reading.HeatReadingEntity
@@ -24,7 +25,7 @@ class HeatReadingRepositoryImpl @Inject constructor(
         return userCache.getCurrentUser()
             .flatMap {
                 return@flatMap if (params.needFetch) {
-                    heatReadingRemote.getHeatReadings(params.int, it.uid)
+                    heatReadingRemote.getHeatReading(params.int, it.uid)
                 } else {
                     Either.Right(
                         heatReadingCache.getHeatReading(params.int)
@@ -63,6 +64,10 @@ class HeatReadingRepositoryImpl @Inject constructor(
                     params, it.uid
                 )
             }
+    }
+
+    override suspend fun getHeatReadings(teplomerId: Int, uid: String): GetHeatReadingResponse {
+        return heatReadingRemote.getHeatReadings(teplomerId, uid)
     }
 
 }

@@ -3,10 +3,14 @@ package com.ykis.ykispam.ui.screens.meter
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.core.Resource
+import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.domain.heat.meter.HeatMeterEntity
 import com.ykis.ykispam.domain.heat.meter.request.GetHeatMeterList
+import com.ykis.ykispam.domain.heat.reading.request.GetHeatReadings
 import com.ykis.ykispam.domain.water.meter.WaterMeterEntity
 import com.ykis.ykispam.domain.water.meter.request.GetWaterMeterList
+import com.ykis.ykispam.domain.water.reading.WaterReadingEntity
+import com.ykis.ykispam.domain.water.reading.request.GetWaterReadings
 import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.ui.BaseViewModel
 import com.ykis.ykispam.ui.navigation.ContentDetail
@@ -23,7 +27,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MeterViewModel @Inject constructor(
     private val getWaterMeterListUseCase : GetWaterMeterList,
+    private val getWaterReadingsUseCase : GetWaterReadings,
     private val getHeatMeterListUseCase : GetHeatMeterList,
+    private val getHeatReadingsUseCase:GetHeatReadings,
     private val logService: LogService
 ) : BaseViewModel(logService) {
 
@@ -46,15 +52,19 @@ class MeterViewModel @Inject constructor(
                 is Resource.Success -> {
                     this._waterMeterState.value = _waterMeterState.value.copy(
                         waterMeterList = result.data ?: emptyList(),
-                        isLoading = false
+                        // TODO: make loading
+                        isMetersLoading = false
                     )
                 }
                 is Resource.Error -> {
-                    this._waterMeterState.value = _waterMeterState.value.copy(error = result.message ?: "Unexpected error!")
+                    this._waterMeterState.value = _waterMeterState.value.copy(
+                        error = result.message ?: "Unexpected error!",
+                        isMetersLoading = true
+                    )
                 }
                 is Resource.Loading -> {
                     this._waterMeterState.value = _waterMeterState.value.copy(
-                        isLoading = true
+                        isMetersLoading = true
                     )
                 }
             }
@@ -103,5 +113,57 @@ class MeterViewModel @Inject constructor(
 
     fun closeContentDetail(){
         _showDetail.value = false
+    }
+
+    fun getWaterReadings(uid:String, vodomerId:Int) {
+        this.getWaterReadingsUseCase(vodomerId, uid).onEach {
+                result->
+            when(result){
+                is Resource.Success -> {
+                    this._waterMeterState.value = waterMeterState.value.copy(waterReadings = result.data ?: emptyList(),
+                        isReadingsLoading = false,
+                        lastReading = result.data?.last() ?: WaterReadingEntity()
+                    )
+                }
+                is Resource.Error -> {
+                    SnackbarManager.showMessage(result.message!!)
+                    this._waterMeterState.value = waterMeterState.value.copy(
+                        isReadingsLoading = true
+                    )
+                }
+                is Resource.Loading -> {
+                    this._waterMeterState.value = waterMeterState.value.copy(
+                        isReadingsLoading = true
+                    )
+                }
+            }
+        }.launchIn(this.viewModelScope)
+    }
+    fun getHeatReadings(uid:String, teplomerId:Int) {
+        this.getHeatReadingsUseCase(teplomerId, uid).onEach {
+                result->
+            when(result){
+                is Resource.Success -> {
+                    this._heatMeterState.value = heatMeterState.value.copy(
+                        heatReadings = result.data ?: emptyList(),
+                        isReadingsLoading = false,
+                    )
+                }
+                is Resource.Error -> {
+                    SnackbarManager.showMessage(result.message!!)
+                    this._heatMeterState.value = heatMeterState.value.copy(
+                        isReadingsLoading = true
+                    )
+                }
+                is Resource.Loading -> {
+                    this._heatMeterState.value = heatMeterState.value.copy(
+                        isReadingsLoading = true
+                    )
+                }
+            }
+        }.launchIn(this.viewModelScope)
+    }
+    fun setContentDetail(contentDetail: ContentDetail){
+        _contentDetail.value = contentDetail
     }
 }

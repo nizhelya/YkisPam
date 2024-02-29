@@ -120,7 +120,7 @@ fun ServiceDetailItem(
             containerColor = MaterialTheme.colorScheme.secondaryContainer,
             contentColor = MaterialTheme.colorScheme.onSecondaryContainer
         ), modifier = modifier
-            .padding(horizontal = 8.dp, vertical = 8.dp)
+            .padding(all = 8.dp)
             .animateContentSize(
                 animationSpec = spring(
                     dampingRatio = Spring.DampingRatioMediumBouncy,

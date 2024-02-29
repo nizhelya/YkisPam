@@ -130,15 +130,16 @@ data class ApartmentEntity(
     val diametr: Double = 0.00,
     @Json(name = "dvodomer_id")
     @ColumnInfo(name = "dvodomer_id")
-    val dvodomer_id: Int = 0,
+    // TODO: make by camelCase
+    val dvodomerId: Int = 0,
     @Json(name = "dteplomer_id")
     @ColumnInfo(name = "dteplomer_id")
-    val dteplomer_id: Int = 0,
+    val dteplomerId: Int = 0,
 
     val operator: String = "Unknown",
     @Json(name = "data_in")
     @ColumnInfo(name = "data_in")
-    val data_in: String = "Unknown",
+    val dataIn: String = "Unknown",
     val ipay: Int = 0,
     val pb: Int = 0,
     val mtb: Int = 0

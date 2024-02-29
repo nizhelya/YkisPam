@@ -6,6 +6,7 @@ import com.ykis.ykispam.data.remote.core.Request
 import com.ykis.ykispam.domain.heat.reading.HeatReadingEntity
 import com.ykis.ykispam.domain.type.Either
 import com.ykis.ykispam.domain.type.Failure
+import retrofit2.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,7 +15,7 @@ class HeatReadingRemoteImpl @Inject constructor(
     private val request: Request,
     private val apiService: ApiService
 ) : HeatReadingRemote {
-    override fun getHeatReadings(
+    override fun getHeatReading(
         teplomerId: Int,
         uid: String
     ): Either<Failure, List<HeatReadingEntity>> {
@@ -67,6 +68,14 @@ class HeatReadingRemoteImpl @Inject constructor(
         {
             it
         }
+    }
+
+    override suspend fun getHeatReadings(teplomerId: Int, uid: String): GetHeatReadingResponse {
+        return apiService.getHeatReadings(
+            createGetHeatReadingMap(
+                teplomerId,uid
+            )
+        ).await()
     }
 
     private fun createGetHeatReadingMap(

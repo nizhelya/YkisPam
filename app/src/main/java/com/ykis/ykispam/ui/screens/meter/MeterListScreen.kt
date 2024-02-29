@@ -13,10 +13,6 @@ import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -43,12 +39,12 @@ fun MeterListScreen(
     onHeatMeterClick : (HeatMeterEntity) ->Unit,
     waterMeterState: WaterMeterState,
     heatMeterState: HeatMeterState,
+    selectedTab:Int,
+    onTabClick:(Int)->Unit,
     onDrawerClick: () ->Unit,
 )
 {
-    var selectedTab by rememberSaveable{
-        mutableIntStateOf(0)
-    }
+
     Row(modifier.fillMaxSize()){
         Column(Modifier.weight(1f)) {
             DefaultAppBar(
@@ -65,7 +61,7 @@ fun MeterListScreen(
                 METER_TAB_ITEM.forEachIndexed { index, tabItem ->
                     LeadingIconTab(
                         selected = selectedTab==index,
-                        onClick = { selectedTab = index },
+                        onClick = {onTabClick(index)},
                         text = {
                             Text(text = stringResource( tabItem.titleId))
                         },

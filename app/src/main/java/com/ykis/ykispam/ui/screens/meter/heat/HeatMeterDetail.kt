@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.ext.isTrue
 import com.ykis.ykispam.domain.heat.meter.HeatMeterEntity
+import com.ykis.ykispam.domain.water.reading.WaterReadingEntity
 import com.ykis.ykispam.ui.components.LabelTextWithCheckBox
 import com.ykis.ykispam.ui.components.LabelTextWithText
 import com.ykis.ykispam.ui.screens.meter.LastReadingCard
@@ -38,7 +39,9 @@ fun HeatMeterDetail(
             .fillMaxSize()
             .padding(start = 8.dp, end = 8.dp, top = 8.dp)
     ) {
-        LastReadingCard()
+        LastReadingCard(
+            lastReading = WaterReadingEntity(),
+        )
         HorizontalDivider(
             modifier = modifier.padding(vertical = 4.dp)
         )

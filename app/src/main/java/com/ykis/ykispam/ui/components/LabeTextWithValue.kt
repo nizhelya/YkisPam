@@ -15,8 +15,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun LabelTextWithText(
     modifier: Modifier = Modifier,
-    labelText: String,
-    valueText:String
+    labelText: String = "",
+    valueText:String =""
 ) {
     Row(
         modifier = modifier.height(24.dp),
@@ -27,8 +27,8 @@ fun LabelTextWithText(
             style = MaterialTheme.typography.titleMedium
         )
         Text(
-            modifier = modifier.padding(start = 8.dp),
-            text = valueText,
+            modifier = Modifier.padding(start = 8.dp),
+            text = valueText
         )
     }
 }
