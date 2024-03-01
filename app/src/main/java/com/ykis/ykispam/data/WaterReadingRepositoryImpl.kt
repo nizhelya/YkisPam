@@ -3,7 +3,8 @@ package com.ykis.ykispam.data
 import com.ykis.ykispam.data.cache.user.UserCache
 import com.ykis.ykispam.data.cache.water.reading.WaterReadingCache
 import com.ykis.ykispam.data.remote.GetSimpleResponse
-import com.ykis.ykispam.data.remote.water.reading.GetWaterReadingResponse
+import com.ykis.ykispam.data.remote.water.reading.GetLastWaterReadingResponse
+import com.ykis.ykispam.data.remote.water.reading.GetWaterReadingsResponse
 import com.ykis.ykispam.data.remote.water.reading.WaterReadingRemote
 import com.ykis.ykispam.domain.family.request.BooleanInt
 import com.ykis.ykispam.domain.type.Either
@@ -21,29 +22,6 @@ class WaterReadingRepositoryImpl @Inject constructor(
     private val waterReadingRemote: WaterReadingRemote,
     private val userCache: UserCache
 ) : WaterReadingRepository {
-    override fun getWaterReading(params: BooleanInt): Either<Failure, List<WaterReadingEntity>> {
-        return userCache.getCurrentUser()
-            .flatMap {
-                return@flatMap if (params.needFetch) {
-                    waterReadingRemote.getWaterReading(params.int, it.uid)
-                } else {
-                    Either.Right(
-                        waterReadingCache.getWaterReading(params.int)
-                    )
-                }
-            }
-//            .onNext {
-//                waterReadingCache.deleteAllReading()
-//            }
-            .map {
-                it.sortedByDescending { it.pokId }
-            }
-            .onNext {
-                it.map {
-                    waterReadingCache.insertWaterReading(listOf(it))
-                }
-            }
-    }
 
     override fun addNewWaterReading(params: AddReadingParams): Either<Failure, GetSimpleResponse> {
         return userCache.getCurrentUser()
@@ -66,8 +44,15 @@ class WaterReadingRepositoryImpl @Inject constructor(
             }
     }
 
-    override suspend fun getWaterReadings(vodomerId: Int, uid: String): GetWaterReadingResponse {
+    override suspend fun getWaterReadings(vodomerId: Int, uid: String): GetWaterReadingsResponse {
         return waterReadingRemote.getWaterReadings(vodomerId, uid)
+    }
+
+    override suspend fun getLastWaterReading(
+        vodomerId: Int,
+        uid: String
+    ): GetLastWaterReadingResponse {
+        return waterReadingRemote.getLastWaterReading(vodomerId, uid)
     }
 
 }

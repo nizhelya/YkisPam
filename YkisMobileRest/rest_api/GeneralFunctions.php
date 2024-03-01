@@ -1,8 +1,6 @@
 <?php
 $DBOperations_path = "../sql/DBOperations.php";
 include($DBOperations_path);
-//$DBOperationsMtb_path = "../sql/DBOperationsMtb.php";
-//include($DBOperationsMtb_path);
 
 class GeneralFunctionsClass
 {
@@ -13,10 +11,13 @@ class GeneralFunctionsClass
     
     public function getFlatById($resultApartments)
     {
-        $apartments = array();
         while ($rowApartment = mysqli_fetch_array($resultApartments)) {
             $apartment = array(
                 'address_id' => $rowApartment['address_id'],
+                'raion_id' => $rowApartment['raion_id'],
+                'house_id' => $rowApartment['house_id'],
+                'osbb' => $rowApartment['osbb'],
+                'kod' => $rowApartment['kod'],
                 'address' => $rowApartment['address'],
                 'nanim' => $rowApartment['nanim'],
                 'fio' => $rowApartment['fio'],
@@ -27,21 +28,18 @@ class GeneralFunctionsClass
                 'area_dop' => $rowApartment['area_dop'],
                 'area_balk' => $rowApartment['area_balk'],
                 'area_otopl' => $rowApartment['area_otopl'],
-
-                'tenant' => $rowApartment['tenant'],
-                'podnan' => $rowApartment['podnan'],
-                'absent' => $rowApartment['absent'],
-                'email' => $rowApartment['email'],
-                'phone' => $rowApartment['phone'],
-                'raion_id' => $rowApartment['raion_id'],
-                'house_id' => $rowApartment['house_id'],
-                'tenant_tbo' => $rowApartment['tenant_tbo'],
                 'room' => $rowApartment['room'],
                 'privat' => $rowApartment['privat'],
+                'tenant' => $rowApartment['tenant'],
+                'tenant_tbo' => $rowApartment['tenant_tbo'],
+                'podnan' => $rowApartment['podnan'],
+                'absent' => $rowApartment['absent'],
                 'subsidia' => $rowApartment['subsidia'],
                 'vxvoda' => $rowApartment['vxvoda'],
                 'teplomer' => $rowApartment['teplomer'],
                 'distributor' => $rowApartment['distributor'],
+                'dvodomer_id' => $rowApartment['dvodomer_id'],
+                'dteplomer_id' => $rowApartment['dteplomer_id'],
                 'lift' => $rowApartment['lift'],
                 'kvartplata' => $rowApartment['kvartplata'],
                 'otoplenie' => $rowApartment['otoplenie'],
@@ -52,22 +50,6 @@ class GeneralFunctionsClass
                 'avoda' => $rowApartment['avoda'],
                 'astoki' => $rowApartment['astoki'],
                 'tbo' => $rowApartment['tbo'],
-                'aggr_kv' => $rowApartment['aggr_kv'],
-                'aggr_voda' => $rowApartment['aggr_voda'],
-                'aggr_teplo' => $rowApartment['aggr_teplo'],
-                'aggr_tbo' => $rowApartment['aggr_tbo'],
-                'boiler' => $rowApartment['boiler'],
-                'enaudit' => $rowApartment['enaudit'],
-                'heated' => $rowApartment['heated'],
-                'ztp' => $rowApartment['ztp'],
-                'ovu' => $rowApartment['ovu'],
-                'paused' => $rowApartment['paused'],
-                'osmd' => $rowApartment['osmd'],
-                'osmd_id' => $rowApartment['osmd_id'],
-                'osbb' => $rowApartment['osbb'],
-                'what_change' => $rowApartment['what_change'],
-                'data_change' => $rowApartment['data_change'],
-                'enaudit_id' => $rowApartment['enaudit_id'],
                 'tarif_kv' => $rowApartment['tarif_kv'],
                 'tarif_ot' => $rowApartment['tarif_ot'],
                 'tarif_aot' => $rowApartment['tarif_aot'],
@@ -75,25 +57,41 @@ class GeneralFunctionsClass
                 'tarif_xv' => $rowApartment['tarif_xv'],
                 'tarif_st' => $rowApartment['tarif_st'],
                 'tarif_tbo' => $rowApartment['tarif_tbo'],
+                'aggr_kv' => $rowApartment['aggr_kv'],
+                'aggr_voda' => $rowApartment['aggr_voda'],
+                'aggr_teplo' => $rowApartment['aggr_teplo'],
+                'aggr_tbo' => $rowApartment['aggr_tbo'],
+                'boiler' => $rowApartment['boiler'],
+                'enaudit' => $rowApartment['enaudit'],
+                'enaudit_id' => $rowApartment['enaudit_id'],
                 'tne' => $rowApartment['tne'],
                 'kte' => $rowApartment['kte'],
                 'length' => $rowApartment['length'],
                 'diametr' => $rowApartment['diametr'],
-                'dvodomer_id' => $rowApartment['dvodomer_id'],
-                'dteplomer_id' => $rowApartment['dteplomer_id'],
-                'data_in' => $rowApartment['data_in'],
+                'heated' => $rowApartment['heated'],
+                'ztp' => $rowApartment['ztp'],
+                'ovu' => $rowApartment['ovu'],
+                'paused' => $rowApartment['paused'],
+                'phone' => $rowApartment['phone'],
+                'email' => $rowApartment['email'],
+                'osmd' => $rowApartment['osmd'],
+                'osmd_id' => $rowApartment['osmd_id'],
+                'ipay' => $rowApartment['ipay'],
+                'mtb' => $rowApartment['mtb'],
+                'pb' => $rowApartment['pb'],
+                'what_change' => $rowApartment['what_change'],
                 'operator' => $rowApartment['operator'],
-                'kod' => $rowApartment['kod']
+                'data_change' => $rowApartment['data_change'],
+                'data_in' => $rowApartment['data_in']
             );
 
-            $apartments[] = $apartment;
         }
-        return $apartments;
+        return $apartment;
     }
 
     public function getApartmentsByUser($resultApartmentsMyflat)
     {
-         //  $dbOperationsObject = new DBOperations();
+//           $dbOperationsObject = new DBOperations();
 
         $apartments = array();
   
@@ -608,6 +606,41 @@ class GeneralFunctionsClass
             $requestData["Partner"] =  $partner;
             $requestData["Data"] = json_encode($data);
         return $requestData;
+    }
+    public function getLastWaterReading($resultWater)
+    {
+        while ($row = mysqli_fetch_array($resultWater)) {
+            $waterReading = array(
+                'pok_id'=>$row['pok_id'],
+                'vodomer_id'=>$row['vodomer_id'],
+                'address_id'=>$row['address_id'],
+//                'date_readings'=>$row['data'],
+                'date_ot'=>$row['date_ot'],
+                'date_do'=>$row['date_do'],
+                'days'=>$row['days'],
+                'last'=>$row['pred'],
+                'current'=>$row['tek'],
+                'kub'=>$row['kub'],
+                'avg'=>$row['avg'],
+                'tarif_xv'=>$row['tarif_xv'],
+                'xvoda'=>$row['xvoda'],
+                'tarif_st'=>$row['tarif_st'],
+                'stoki'=>$row['stoki'],
+                'date_st'=>$row['date_st'],
+                'date_fin'=>$row['date_fin'],
+                'pok_ot'=>$row['pok_ot'],
+                'pok_do'=>$row['pok_do'],
+                'rday'=>$row['rday'],
+                'mday'=>$row['mday'],
+                'kub_day'=>$row['kub_day'],
+                'qty_kub'=>$row['qty_kub'],
+                'data_in'=>$row['data_in'],
+                'operator'=>$row['operator'],
+                'address_id'=>$row['address_id']
+
+            );
+        }
+        return $waterReading;
     }
 
 }

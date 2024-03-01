@@ -3,11 +3,10 @@ $response = array();
 
 include_once "GeneralFunctions.php";
 
-if (isset($_POST['vodomer_id']) && !empty($_POST['vodomer_id']) && isset($_POST['user_id']) && !empty($_POST['user_id']) &&
-    isset($_POST['token']) && !empty($_POST['token']))   {
+if (isset($_POST['vodomer_id']) && !empty($_POST['vodomer_id'])  &&
+    isset($_POST['uid']) && !empty($_POST['uid']))   {
     $vodomer_id = $_POST['vodomer_id'];
-    $user_id = $_POST['user_id'];
-    $token = $_POST['token'];
+    $uid = $_POST['uid'];
     $dbOperationsObject = new DBOperations();
     $generalFunctionsObject = new GeneralFunctionsClass();
 

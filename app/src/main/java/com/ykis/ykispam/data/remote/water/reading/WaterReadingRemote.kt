@@ -26,5 +26,7 @@ interface WaterReadingRemote {
     suspend fun getWaterReadings(
         vodomerId: Int,
         uid:String
-    ):GetWaterReadingResponse
+    ):GetWaterReadingsResponse
+
+    suspend fun getLastWaterReading(vodomerId: Int , uid:String):GetLastWaterReadingResponse
 }

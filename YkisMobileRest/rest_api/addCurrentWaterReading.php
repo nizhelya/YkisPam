@@ -10,15 +10,12 @@ if (isset($_POST['vodomer_id']) &&
     !empty($_POST['current_value']) &&
     isset($_POST['new_value']) &&
     !empty($_POST['new_value']) &&
-    isset($_POST['user_id']) &&
-    !empty($_POST['user_id'])&&
-    isset($_POST['token']) &&
-    !empty($_POST['token']))   {
+    isset($_POST['uid']) &&
+    !empty($_POST['uid']))   {
     $vodomer_id = $_POST['vodomer_id'];
     $current_value = $_POST['current_value'];
     $new_value = $_POST['new_value'];
-    $user_id = $_POST['user_id'];
-    $token = $_POST['token'];
+    $uid = $_POST['uid'];
     $date = Date("Ymd");
     $dbOperationsObject = new DBOperations();
     $generalFunctionsObject = new GeneralFunctionsClass();

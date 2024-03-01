@@ -4,13 +4,10 @@ include_once "GeneralFunctions.php";
 $response = array();
 
 
-if (isset($_POST['address_id']) && !empty($_POST['address_id']) &&
-     isset($_POST['user_id']) && !empty($_POST['user_id']) &&
-    isset($_POST['token']) && !empty($_POST['token'])
-) {
+if (!empty($_POST['address_id']) && !empty($_POST['uid']))
+ {
     $address_id = $_POST['address_id'];
-    $user_id = $_POST['user_id'];
-    $token = $_POST['token'];
+    $uid = $_POST['uid'];
     $dbOperationsObject = new DBOperations();
     $generalFunctionsObject = new GeneralFunctionsClass();
 
@@ -19,14 +16,12 @@ if (isset($_POST['address_id']) && !empty($_POST['address_id']) &&
 
         $response["success"] = 1;
         $response["message"] = "Успешно";
-        $response["appartments"] = $appartments;
+        $response["apartment"] = $apartments;
 
-        echo json_encode($response);
 
-  
-} else {
+ } else {
     $response["success"] = 0;
     $response["message"] = "Required field(s) is missing";
-    echo json_encode($response);
 }
+echo json_encode($response);
 

@@ -70,8 +70,19 @@ class WaterReadingRemoteImpl @Inject constructor(
         }
     }
 
-    override suspend fun getWaterReadings(vodomerId: Int, uid: String):GetWaterReadingResponse  {
+    override suspend fun getWaterReadings(vodomerId: Int, uid: String):GetWaterReadingsResponse  {
         return apiService.getWaterReadings(
+            createGetWaterReadingMap(
+                vodomerId, uid
+            )
+        ).await()
+    }
+
+    override suspend fun getLastWaterReading(
+        vodomerId: Int,
+        uid: String
+    ): GetLastWaterReadingResponse {
+        return apiService.getLastWaterReading(
             createGetWaterReadingMap(
                 vodomerId, uid
             )

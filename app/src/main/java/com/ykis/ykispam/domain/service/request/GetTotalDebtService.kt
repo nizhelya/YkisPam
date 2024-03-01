@@ -3,6 +3,7 @@ package com.ykis.ykispam.domain.service.request
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.ExceptionWithResourceMessage
 import com.ykis.ykispam.core.Resource
+import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.data.cache.database.AppDatabase
 import com.ykis.ykispam.domain.service.ServiceEntity
 import com.ykis.ykispam.domain.service.ServiceRepository
@@ -36,9 +37,12 @@ class GetTotalDebtServices @Inject constructor(
         } catch (e: IOException) {
             emit(Resource.Error("Check your internet connection"))
             val totalDebt = database.serviceDao().getTotalDebt(params.addressId)
-                if(totalDebt!=null){
-                    emit(Resource.Success(totalDebt))
-                }
+            if(totalDebt!=null){
+                emit(Resource.Success(totalDebt))
+            }
+        }catch (e:ExceptionWithResourceMessage
+        ){
+            SnackbarManager.showMessage(e.resourceMessage)
         }
     }
 }

@@ -6,14 +6,10 @@ include_once "GeneralFunctions.php";
 
 if (isset($_POST['pok_id']) &&
     !empty($_POST['pok_id'])  &&
-    isset($_POST['user_id']) &&
-    !empty($_POST['user_id'])&&
-    isset($_POST['token']) &&
-    !empty($_POST['token']))   {
+       isset($_POST['uid']) &&
+    !empty($_POST['uid']))   {
     $pok_id = $_POST['pok_id'];
-    $address_id = $_POST['address_id'];
-    $user_id = $_POST['user_id'];
-    $token = $_POST['token'];
+    $uid = $_POST['uid'];
     $date = Date("Ymd");
     $dbOperationsObject = new DBOperations();
     $generalFunctionsObject = new GeneralFunctionsClass();

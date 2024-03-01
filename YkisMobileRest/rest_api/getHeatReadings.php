@@ -4,11 +4,9 @@ $response = array();
 include_once "GeneralFunctions.php";
 
 if (isset($_POST['teplomer_id']) && !empty($_POST['teplomer_id']) &&
-    isset($_POST['user_id']) && !empty($_POST['user_id']) &&
-    isset($_POST['token']) && !empty($_POST['token']))   {
+    isset($_POST['uid']) && !empty($_POST['uid']))   {
     $teplomer_id = $_POST['teplomer_id'];
-    $user_id = $_POST['user_id'];
-    $token = $_POST['token'];
+    $uid = $_POST['uid'];
     $dbOperationsObject = new DBOperations();
     $generalFunctionsObject = new GeneralFunctionsClass();
 

@@ -5,12 +5,12 @@ include_once "GeneralFunctions.php";
 //print(1)
 $response = array();
 
-if ( isset($_POST['uid']) ) {
+if ( isset($_POST['uid'])  && !empty($_POST['uid'])) {
 
     $uid = $_POST['uid'];
     $dbOperationsObject = new DBOperations();
     $generalFunctionsObject = new GeneralFunctionsClass();
-
+//
         $resultApartments = $dbOperationsObject->getApartmentsByUser($uid);
         $apartments = $generalFunctionsObject->getApartmentsByUser($resultApartments);
         $response["success"] = 1;

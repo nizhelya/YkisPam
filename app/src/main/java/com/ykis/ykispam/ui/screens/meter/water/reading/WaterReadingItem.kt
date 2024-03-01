@@ -66,7 +66,7 @@ fun WaterReadingItem(
                     LabelTextWithText(
                         modifier = modifier.weight(0.5f),
                         labelText = stringResource(id = R.string.current_colon) ,
-                        valueText = reading.currant.toString()
+                        valueText = reading.current.toString()
                     )
                 }
 

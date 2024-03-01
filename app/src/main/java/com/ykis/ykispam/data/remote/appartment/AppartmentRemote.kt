@@ -7,7 +7,6 @@ import com.ykis.ykispam.domain.type.Either
 import com.ykis.ykispam.domain.type.Failure
 
 interface ApartmentRemote {
-    fun getApartmentsByUser(uid: String): Either<Failure, List<ApartmentEntity>>
 
     fun deleteFlatByUser(
         addressId: Int,

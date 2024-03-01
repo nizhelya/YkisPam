@@ -10,7 +10,8 @@ import com.ykis.ykispam.data.remote.heat.reading.GetHeatReadingResponse
 import com.ykis.ykispam.data.remote.payment.GetPaymentResponse
 import com.ykis.ykispam.data.remote.service.GetServiceResponse
 import com.ykis.ykispam.data.remote.water.meter.GetWaterMeterResponse
-import com.ykis.ykispam.data.remote.water.reading.GetWaterReadingResponse
+import com.ykis.ykispam.data.remote.water.reading.GetLastWaterReadingResponse
+import com.ykis.ykispam.data.remote.water.reading.GetWaterReadingsResponse
 import retrofit2.Call
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
@@ -19,9 +20,9 @@ import retrofit2.http.POST
 
 interface ApiService {
     companion object {
-        private const val SERVER_URL = "https://is.yuzhny.com/YkisMobileRest"
+//        private const val SERVER_URL = "https://is.yuzhny.com/YkisMobileRest"
 //        const val SERVER_URL = "http://10.0.2.2/YkisPAM/YkisMobileRest"
-//        const val SERVER_URL = "http://192.168.0.177/MobYkis/YkisMobileRest"
+        const val SERVER_URL = "http://192.168.0.106/YkisPAM/YkisMobileRest"
 
 //        const val SERVER_URL = "http://192.168.0.177/YkisPAM/YkisMobileRest"
 
@@ -48,6 +49,7 @@ interface ApiService {
         const val ADD_NEW_HEAT_READING = "addCurrentHeatReading.php"
         const val DELETE_CURRENT_WATER_READING = "deleteCurrentWaterReading.php"
         const val DELETE_CURRENT_HEAT_READING = "deleteCurrentHeatReading.php"
+        const val GET_LAST_WATER_READING = "getLastWaterReading.php"
         const val PARAM_ADDRESS_ID = "address_id"
         const val UID = "uid"
         const val YEAR = "year"
@@ -73,6 +75,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST(GET_MY_FLATS)
     fun getApartmentList(@FieldMap params: Map<String, String>): Call<GetApartmentsResponse>
+//    fun getApartmentList(@Query("uid") uid:String): Call<GetApartmentsResponse>
 
     @FormUrlEncoded
     @POST(GET_FLAT)
@@ -128,7 +131,11 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST(GET_WATER_READINGS)
-    fun getWaterReadings(@FieldMap params: Map<String, String>): Call<GetWaterReadingResponse>
+    fun getWaterReadings(@FieldMap params: Map<String, String>): Call<GetWaterReadingsResponse>
+
+    @FormUrlEncoded
+    @POST(GET_LAST_WATER_READING)
+    fun getLastWaterReading(@FieldMap params: Map<String, String>): Call<GetLastWaterReadingResponse>
 
     @FormUrlEncoded
     @POST(ADD_NEW_WATER_READING)

@@ -96,8 +96,8 @@ fun MainMeterScreen(
                                     waterMeterEntity = waterMeterState.selectedWaterMeter,
                                     baseUIState = baseUIState,
                                     getLastReading = {
-                                        viewModel.getWaterReadings(
-                                            vodomerId = waterMeterState.lastReading.vodomerId,
+                                        viewModel.getLastWaterReading(
+                                            vodomerId = waterMeterState.selectedWaterMeter.vodomerId,
                                             uid = baseUIState.uid!!
                                         )
                                     },
@@ -228,8 +228,8 @@ fun SinglePanelMeter(
                             waterMeterEntity = waterMeterState.selectedWaterMeter,
                             baseUIState = baseUIState,
                             getLastReading = {
-                                viewModel.getWaterReadings(
-                                    vodomerId = waterMeterState.lastReading.vodomerId,
+                                viewModel.getLastWaterReading(
+                                    vodomerId = waterMeterState.selectedWaterMeter.vodomerId,
                                     uid = baseUIState.uid!!
                                 )
                             },

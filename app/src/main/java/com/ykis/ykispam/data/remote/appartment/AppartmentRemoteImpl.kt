@@ -1,9 +1,9 @@
 package com.ykis.ykispam.data.remote.appartment
 
 import com.ykis.ykispam.data.remote.GetSimpleResponse
-import com.ykis.ykispam.data.remote.core.Request
 import com.ykis.ykispam.data.remote.api.ApiService
 import com.ykis.ykispam.data.remote.core.BaseResponse
+import com.ykis.ykispam.data.remote.core.Request
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.domain.type.Either
 import com.ykis.ykispam.domain.type.Failure
@@ -16,16 +16,6 @@ class ApartmentRemoteImpl @Inject constructor(
     private val request: Request,
     private val apiService: ApiService
 ) : ApartmentRemote {
-
-    override fun getApartmentsByUser(uid: String): Either<Failure, List<ApartmentEntity>> {
-        return request.make(
-            apiService.getApartmentList(
-                createGetApartmentListMap(uid)
-            )
-        ) {
-            it.apartments
-        }
-    }
 
 
     override fun deleteFlatByUser(
