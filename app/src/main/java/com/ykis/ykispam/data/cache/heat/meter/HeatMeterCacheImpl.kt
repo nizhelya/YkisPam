@@ -1,7 +1,7 @@
 package com.ykis.ykispam.data.cache.heat.meter
 
 import com.ykis.ykispam.data.cache.dao.HeatMeterDao
-import com.ykis.ykispam.domain.heat.meter.HeatMeterEntity
+import com.ykis.ykispam.domain.meter.heat.meter.HeatMeterEntity
 import javax.inject.Inject
 import javax.inject.Singleton
 

@@ -1,4 +1,4 @@
-package com.ykis.ykispam.domain.heat.meter
+package com.ykis.ykispam.domain.meter.heat.meter
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

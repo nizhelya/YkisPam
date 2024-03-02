@@ -14,12 +14,12 @@ import com.ykis.ykispam.data.cache.dao.WaterMeterDao
 import com.ykis.ykispam.data.cache.dao.WaterReadingDao
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.domain.family.FamilyEntity
-import com.ykis.ykispam.domain.heat.meter.HeatMeterEntity
-import com.ykis.ykispam.domain.heat.reading.HeatReadingEntity
+import com.ykis.ykispam.domain.meter.heat.meter.HeatMeterEntity
+import com.ykis.ykispam.domain.meter.heat.reading.HeatReadingEntity
 import com.ykis.ykispam.domain.payment.PaymentEntity
 import com.ykis.ykispam.domain.service.ServiceEntity
-import com.ykis.ykispam.domain.water.meter.WaterMeterEntity
-import com.ykis.ykispam.domain.water.reading.WaterReadingEntity
+import com.ykis.ykispam.domain.meter.water.meter.WaterMeterEntity
+import com.ykis.ykispam.domain.meter.water.reading.WaterReadingEntity
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 import javax.inject.Provider

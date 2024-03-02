@@ -440,4 +440,12 @@ SELECT t1.`rec_id` , t1.`address_id`,t1.`address`, t1.`god`, t1.`data`,sum(t1.`k
         $result = mysqli_query($com->getDb(), $sql);
         return $result;
     }
+
+    public function getLastHeatReading($teplomer_id)
+    {
+        $com = new DbConnect();
+        $sql = 'Select * from YIS.PTEPLOMER  where teplomer_id = '.$teplomer_id.' ORDER BY pok_id DESC LIMIT 1';
+        $result = mysqli_query($com->getDb(), $sql);
+        return $result;
+    }
 }

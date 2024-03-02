@@ -90,6 +90,6 @@ val customTitleForCard : androidx.compose.ui.text.TextStyle
         // TODO: try with headline small 
         return MaterialTheme.typography.titleMedium.copy(
             fontWeight = FontWeight(350),
-            fontSize = 18.sp
+            fontSize = 20.sp
         )
     }

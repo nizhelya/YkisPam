@@ -3,9 +3,10 @@ package com.ykis.ykispam.data.remote.water.reading
 import com.ykis.ykispam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.data.remote.api.ApiService
 import com.ykis.ykispam.data.remote.core.Request
+import com.ykis.ykispam.domain.meter.water.AddReadingParams
+import com.ykis.ykispam.domain.meter.water.reading.WaterReadingEntity
 import com.ykis.ykispam.domain.type.Either
 import com.ykis.ykispam.domain.type.Failure
-import com.ykis.ykispam.domain.water.reading.WaterReadingEntity
 import retrofit2.await
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -85,6 +86,17 @@ class WaterReadingRemoteImpl @Inject constructor(
         return apiService.getLastWaterReading(
             createGetWaterReadingMap(
                 vodomerId, uid
+            )
+        ).await()
+    }
+
+    override suspend fun addWaterReading(params: AddReadingParams): GetSimpleResponse {
+        return apiService.addNewWaterReading(
+            createAddNewReadingMap(
+                vodomerId = params.meterId,
+                currentValue = params.currentValue,
+                newValue = params.newValue,
+                uid = params.uid
             )
         ).await()
     }

@@ -4,7 +4,7 @@ package com.ykis.ykispam.data.cache.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
-import com.ykis.ykispam.domain.heat.meter.HeatMeterEntity
+import com.ykis.ykispam.domain.meter.heat.meter.HeatMeterEntity
 import androidx.room.Query
 
 @Dao

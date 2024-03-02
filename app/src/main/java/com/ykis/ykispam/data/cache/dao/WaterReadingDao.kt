@@ -4,7 +4,7 @@ package com.ykis.ykispam.data.cache.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
-import com.ykis.ykispam.domain.water.reading.WaterReadingEntity
+import com.ykis.ykispam.domain.meter.water.reading.WaterReadingEntity
 import androidx.room.Query
 
 @Dao

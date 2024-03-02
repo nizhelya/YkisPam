@@ -4,14 +4,18 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.core.snackbar.SnackbarManager
-import com.ykis.ykispam.domain.heat.meter.HeatMeterEntity
-import com.ykis.ykispam.domain.heat.meter.request.GetHeatMeterList
-import com.ykis.ykispam.domain.heat.reading.request.GetHeatReadings
-import com.ykis.ykispam.domain.water.meter.WaterMeterEntity
-import com.ykis.ykispam.domain.water.meter.request.GetWaterMeterList
-import com.ykis.ykispam.domain.water.reading.WaterReadingEntity
-import com.ykis.ykispam.domain.water.reading.request.GetLastWaterReading
-import com.ykis.ykispam.domain.water.reading.request.GetWaterReadings
+import com.ykis.ykispam.domain.meter.heat.meter.HeatMeterEntity
+import com.ykis.ykispam.domain.meter.heat.meter.request.GetHeatMeterList
+import com.ykis.ykispam.domain.meter.heat.reading.HeatReadingEntity
+import com.ykis.ykispam.domain.meter.heat.reading.request.GetHeatReadings
+import com.ykis.ykispam.domain.meter.heat.reading.request.GetLastHeatReading
+import com.ykis.ykispam.domain.meter.water.AddReadingParams
+import com.ykis.ykispam.domain.meter.water.meter.WaterMeterEntity
+import com.ykis.ykispam.domain.meter.water.meter.request.GetWaterMeterList
+import com.ykis.ykispam.domain.meter.water.reading.WaterReadingEntity
+import com.ykis.ykispam.domain.meter.water.reading.request.AddWaterReading
+import com.ykis.ykispam.domain.meter.water.reading.request.GetLastWaterReading
+import com.ykis.ykispam.domain.meter.water.reading.request.GetWaterReadings
 import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.ui.BaseViewModel
 import com.ykis.ykispam.ui.navigation.ContentDetail
@@ -30,8 +34,10 @@ class MeterViewModel @Inject constructor(
     private val getWaterMeterListUseCase : GetWaterMeterList,
     private val getLastWaterReadingUseCase : GetLastWaterReading,
     private val getWaterReadingsUseCase : GetWaterReadings,
+    private val addWaterReadingUseCase: AddWaterReading,
     private val getHeatMeterListUseCase : GetHeatMeterList,
-    private val getHeatReadingsUseCase:GetHeatReadings,
+    private val getHeatReadingsUseCase: GetHeatReadings,
+    private val getLastHeatReadingUseCase: GetLastHeatReading,
     private val logService: LogService
 ) : BaseViewModel(logService) {
 
@@ -80,16 +86,18 @@ class MeterViewModel @Inject constructor(
                 is Resource.Success -> {
                     this._heatMeterState.value = _heatMeterState.value.copy(
                         heatMeterList = result.data ?: emptyList(),
-                        isLoading = false
+                        isMetersLoading = false
                     )
-                    Log.d("heat_test", result.data.toString())
                 }
                 is Resource.Error -> {
-                    this._heatMeterState.value = _heatMeterState.value.copy(error = result.message ?: "Unexpected error!")
+                    this._heatMeterState.value = _heatMeterState.value.copy(
+                        error = result.message ?: "Unexpected error!",
+                        isMetersLoading = false
+                    )
                 }
                 is Resource.Loading -> {
                     this._heatMeterState.value = _heatMeterState.value.copy(
-                        isLoading = true
+                        isMetersLoading = true
                     )
                 }
             }
@@ -148,16 +156,19 @@ class MeterViewModel @Inject constructor(
             when(result){
                 is Resource.Success -> {
                     this._waterMeterState.value = waterMeterState.value.copy(
-                        lastReading = result.data ?: WaterReadingEntity()
+                        lastWaterReading = result.data ?: WaterReadingEntity(),
+                        isLastReadingLoading = false
                     )
                 }
                 is Resource.Error -> {
                     SnackbarManager.showMessage(result.message!!)
                     this._waterMeterState.value = waterMeterState.value.copy(
+                        isLastReadingLoading = false
                     )
                 }
                 is Resource.Loading -> {
                     this._waterMeterState.value = waterMeterState.value.copy(
+                        isLastReadingLoading = true
                     )
                 }
             }
@@ -188,6 +199,74 @@ class MeterViewModel @Inject constructor(
             }
         }.launchIn(this.viewModelScope)
     }
+
+    fun getLastHeatReading(uid:String, teplomerId:Int) {
+        this.getLastHeatReadingUseCase(teplomerId, uid).onEach {
+                result->
+            when(result){
+                is Resource.Success -> {
+                    this._heatMeterState.value = heatMeterState.value.copy(
+                        lastHeatReading = result.data ?: HeatReadingEntity()
+                    )
+                }
+                is Resource.Error -> {
+                    SnackbarManager.showMessage(result.message!!)
+                    this._heatMeterState.value = heatMeterState.value.copy(
+                    )
+                }
+                is Resource.Loading -> {
+                    this._heatMeterState.value = heatMeterState.value.copy(
+                    )
+                }
+            }
+        }.launchIn(this.viewModelScope)
+    }
+
+    fun addWaterReading(
+        uid:String,
+        newValue:Int,
+        currentValue:Int,
+        vodomerId: Int
+    ){
+        this.addWaterReadingUseCase(
+            AddReadingParams(
+                uid = uid,
+                newValue = newValue,
+                currentValue = currentValue,
+                meterId = vodomerId
+            )
+        ).onEach {
+            result->
+             when(result){
+                 is Resource.Success -> {
+                     SnackbarManager.showMessage("Показання додани")
+                     this._waterMeterState.value = waterMeterState.value.copy(
+                         isLastReadingLoading = false
+                     )
+                     getLastWaterReading(uid , vodomerId)
+                 }
+                 is Resource.Error -> {
+                     SnackbarManager.showMessage(result.message!!)
+                     this._waterMeterState.value = waterMeterState.value.copy(
+                         isLastReadingLoading = false
+                     )
+                 }
+                 is Resource.Loading -> {
+                     this._waterMeterState.value = waterMeterState.value.copy(
+                         isLastReadingLoading = true
+
+                     )
+                 }
+             }
+        }.launchIn(this.viewModelScope)
+    }
+
+    fun onNewWaterReadingChange(newValue:String){
+        _waterMeterState.value = _waterMeterState.value.copy(
+            newWaterReading = newValue
+        )
+    }
+
     fun setContentDetail(contentDetail: ContentDetail){
         _contentDetail.value = contentDetail
     }

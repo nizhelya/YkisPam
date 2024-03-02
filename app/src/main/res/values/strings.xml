@@ -285,6 +285,7 @@
     <string name="coefficient_colon">Коефіцієнт переведення:</string>
     //addReadingDialog
     <string name="new_reading">Нове показання</string>
+    <string name="add_reading_title">Додати нове показання?</string>
     <string name="current_reading">Поточне показання</string>
     <string name="add_reading">Додати нове</string>
     <string name="delete_reading">Видалити показання</string>
@@ -361,7 +362,7 @@
     <string name="works">Працює</string>
     <string name="no_meters">Немає лічільників</string>
     <string name="no_heat_meters">Теплові лічільникі не знайдено</string>
-    <string name="date_format">З %1$s по %2$s</string>
+    <string name="date_format">з %1$s до %2$s</string>
 
 
 </resources>

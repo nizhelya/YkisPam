@@ -1,9 +1,10 @@
 package com.ykis.ykispam.data.remote.water.reading
 
 import com.ykis.ykispam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.domain.meter.water.AddReadingParams
+import com.ykis.ykispam.domain.meter.water.reading.WaterReadingEntity
 import com.ykis.ykispam.domain.type.Either
 import com.ykis.ykispam.domain.type.Failure
-import com.ykis.ykispam.domain.water.reading.WaterReadingEntity
 
 interface WaterReadingRemote {
     fun getWaterReading(
@@ -29,4 +30,5 @@ interface WaterReadingRemote {
     ):GetWaterReadingsResponse
 
     suspend fun getLastWaterReading(vodomerId: Int , uid:String):GetLastWaterReadingResponse
+    suspend fun addWaterReading(params:AddReadingParams):GetSimpleResponse
 }

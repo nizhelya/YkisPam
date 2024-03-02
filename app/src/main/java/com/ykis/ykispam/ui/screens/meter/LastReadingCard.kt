@@ -21,7 +21,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.R
-import com.ykis.ykispam.domain.water.reading.WaterReadingEntity
+import com.ykis.ykispam.domain.meter.heat.reading.HeatReadingEntity
+import com.ykis.ykispam.domain.meter.water.reading.WaterReadingEntity
+import com.ykis.ykispam.ui.screens.meter.heat.reading.HeatReadingItem
 import com.ykis.ykispam.ui.screens.meter.water.reading.WaterReadingItem
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 import com.ykis.ykispam.ui.theme.customTitleForCard
@@ -29,7 +31,8 @@ import com.ykis.ykispam.ui.theme.customTitleForCard
 @Composable
 fun LastReadingCard(
     modifier: Modifier = Modifier,
-    lastReading:WaterReadingEntity
+    onAddButtonClick: ()->Unit,
+    cardContent : @Composable () -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.End
@@ -40,7 +43,7 @@ fun LastReadingCard(
             text = stringResource(id = R.string.last_reading),
             style = customTitleForCard
         )
-        WaterReadingItem(reading = lastReading)
+        cardContent()
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.End
@@ -64,7 +67,9 @@ fun LastReadingCard(
         }
         Button(
             modifier = modifier.padding(horizontal = 4.dp),
-            onClick = {}
+            onClick = {
+                onAddButtonClick()
+            }
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -88,11 +93,23 @@ fun LastReadingCard(
     device = "id:pixel_6"
 )
 @Composable
-private fun PreviewLastReadingCard() {
+private fun PreviewLastWaterReadingCard() {
     YkisPAMTheme {
         LastReadingCard(
-            lastReading = WaterReadingEntity()
-        )
+            onAddButtonClick = {}
+        ){
+            WaterReadingItem(reading = WaterReadingEntity())
+        }
     }
 }
 
+@Composable
+private fun PreviewLastHeatReadingCard() {
+    YkisPAMTheme {
+        LastReadingCard(
+            onAddButtonClick = {}
+        ){
+            HeatReadingItem(reading = HeatReadingEntity())
+        }
+    }
+}

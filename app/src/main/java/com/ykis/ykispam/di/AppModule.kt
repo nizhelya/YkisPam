@@ -42,12 +42,12 @@ import com.ykis.ykispam.data.remote.water.reading.WaterReadingRemote
 import com.ykis.ykispam.domain.address.AddressRepository
 import com.ykis.ykispam.domain.apartment.ApartmentRepository
 import com.ykis.ykispam.domain.family.FamilyRepository
-import com.ykis.ykispam.domain.heat.meter.HeatMeterRepository
-import com.ykis.ykispam.domain.heat.reading.HeatReadingRepository
+import com.ykis.ykispam.domain.meter.heat.meter.HeatMeterRepository
+import com.ykis.ykispam.domain.meter.heat.reading.HeatReadingRepository
 import com.ykis.ykispam.domain.payment.PaymentRepository
 import com.ykis.ykispam.domain.service.ServiceRepository
-import com.ykis.ykispam.domain.water.meter.WaterMeterRepository
-import com.ykis.ykispam.domain.water.reading.WaterReadingRepository
+import com.ykis.ykispam.domain.meter.water.meter.WaterMeterRepository
+import com.ykis.ykispam.domain.meter.water.reading.WaterReadingRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

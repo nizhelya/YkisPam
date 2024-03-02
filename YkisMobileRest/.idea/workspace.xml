@@ -5,157 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e31f1904-1a5b-421b-8d77-afa4b572ea8b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/water/reading/GetLastWaterReadingResonse.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/water/reading/request/GetLastWaterReading.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2023-08-09T194929.404.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2023-08-09T195203.200.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2023-08-09T200523.200.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2023-08-09T200641.200.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2023-08-09T200728.200.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2023-08-09T201551.200.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2023-08-09T201607.200.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2023-08-09T201737.200.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2023-08-09T201904.200.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2023-08-09T212925.200.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2023-08-09T212938.200.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-client.cookies" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/heat/reading/GetLastHeatReadingResponse.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/heat/reading/request/GeatLastHeatReading.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/.idea/workspace.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/rest_api/GeneralFunctions.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/GeneralFunctions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/addCurrentHeatReading.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/addCurrentHeatReading.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/addCurrentWaterReading.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/addCurrentWaterReading.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/addMyFlatByUser.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/addMyFlatByUser.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/checkAddFlat.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/checkAddFlat.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/deleteApartment.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/deleteApartment.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/deleteCurrentHeatReading.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/deleteCurrentHeatReading.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/deleteCurrentWaterReading.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/deleteCurrentWaterReading.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/getApartmentsByUser.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/getApartmentsByUser.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/getBlocks.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/getBlocks.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/getFamilyFromFlat.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/getFamilyFromFlat.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/getFlatById.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/getFlatById.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/getFlatPayments.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/getFlatPayments.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/getFlatServices.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/getFlatServices.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/getFlatsFromHouse.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/getFlatsFromHouse.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/getHeatMeter.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/getHeatMeter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/getHeatReadings.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/getHeatReadings.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/getHousesFromStreet.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/getHousesFromStreet.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/getPaymentMtb.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/getPaymentMtb.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/getStreetsFromBlock.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/getStreetsFromBlock.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/getWaterMeter.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/getWaterMeter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/getWaterReadings.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/getWaterReadings.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/encrypt_decrypt.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/encrypt_decrypt.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/firebaseNotification.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/firebaseNotification.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/PHPMailerAutoload.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/PHPMailerAutoload.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/VERSION" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/VERSION" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/class.phpmailer.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/class.phpmailer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/class.phpmaileroauth.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/class.phpmaileroauth.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/class.phpmaileroauthgoogle.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/class.phpmaileroauthgoogle.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/class.pop3.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/class.pop3.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/class.smtp.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/class.smtp.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/contents.html" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/contents.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/contentsutf8.html" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/contentsutf8.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/scripts/XRegExp.js" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/scripts/XRegExp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/scripts/shAutoloader.js" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/scripts/shAutoloader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/scripts/shBrushPhp.js" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/scripts/shBrushPhp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/scripts/shLegacy.js" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/scripts/shLegacy.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shCore.css" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shCore.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shCoreDefault.css" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shCoreDefault.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shCoreDjango.css" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shCoreDjango.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shCoreEclipse.css" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shCoreEclipse.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shCoreEmacs.css" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shCoreEmacs.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shCoreFadeToGrey.css" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shCoreFadeToGrey.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shCoreMDUltra.css" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shCoreMDUltra.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shCoreMidnight.css" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shCoreMidnight.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shCoreRDark.css" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shCoreRDark.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shThemeAppleScript.css" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shThemeAppleScript.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shThemeDefault.css" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shThemeDefault.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shThemeDjango.css" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shThemeDjango.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shThemeEclipse.css" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shThemeEclipse.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shThemeEmacs.css" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shThemeEmacs.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shThemeFadeToGrey.css" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shThemeFadeToGrey.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shThemeMDUltra.css" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shThemeMDUltra.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shThemeMidnight.css" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shThemeMidnight.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shThemeRDark.css" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shThemeRDark.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shThemeVisualStudio.css" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/examples/styles/shThemeVisualStudio.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/extras/EasyPeasyICS.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/extras/EasyPeasyICS.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/extras/htmlfilter.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/extras/htmlfilter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/extras/ntlm_sasl_client.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/extras/ntlm_sasl_client.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/get_oauth_token.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/get_oauth_token.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-am.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-am.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-ar.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-ar.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-az.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-az.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-be.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-be.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-bg.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-bg.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-ca.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-ca.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-ch.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-ch.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-cs.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-cs.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-da.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-da.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-de.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-de.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-el.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-el.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-eo.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-eo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-es.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-es.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-et.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-et.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-fa.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-fa.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-fi.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-fi.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-fo.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-fo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-fr.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-fr.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-gl.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-gl.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-he.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-he.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-hr.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-hr.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-hu.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-hu.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-id.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-id.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-it.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-it.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-ja.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-ja.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-ka.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-ka.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-ko.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-ko.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-lt.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-lt.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-lv.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-lv.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-ms.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-ms.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-nb.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-nb.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-nl.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-nl.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-pl.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-pl.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-pt.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-pt.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-pt_br.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-pt_br.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-ro.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-ro.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-ru.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-ru.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-sk.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-sk.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-sl.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-sl.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-sr.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-sr.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-sv.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-sv.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-tr.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-tr.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-uk.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-uk.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-vi.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-vi.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-zh.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-zh.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-zh_cn.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/language/phpmailer.lang-zh_cn.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/nbproject/private/private.properties" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/nbproject/private/private.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/phpmailer/nbproject/project.properties" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/phpmailer/nbproject/project.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/utilities/sendPHPMail.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/utilities/sendPHPMail.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/DB.php" beforeDir="false" afterPath="$PROJECT_DIR$/sql/DB.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sql/DBOperations.php" beforeDir="false" afterPath="$PROJECT_DIR$/sql/DBOperations.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/WaterReadingRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/WaterReadingRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/HeatReadingRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/HeatReadingRepositoryImpl.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/api/ApiService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/api/ApiService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/appartment/AppartmentRemote.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/appartment/AppartmentRemote.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/appartment/AppartmentRemoteImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/appartment/AppartmentRemoteImpl.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/water/reading/GetWaterReadingResponse.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/water/reading/GetWaterReadingsResponse.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/water/reading/WaterReadingRemote.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/water/reading/WaterReadingRemote.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/water/reading/WaterReadingRemoteImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/water/reading/WaterReadingRemoteImpl.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/di/AppModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/di/AppModule.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/apartment/request/GetApartments.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/apartment/request/GetApartments.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/service/request/GetTotalDebtService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/service/request/GetTotalDebtService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/water/reading/WaterReadingEntity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/water/reading/WaterReadingEntity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/water/reading/WaterReadingRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/water/reading/WaterReadingRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/water/reading/request/GetWaterReading.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/water/reading/request/GetWaterReadings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/heat/reading/HeatReadingRemote.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/heat/reading/HeatReadingRemote.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/heat/reading/HeatReadingRemoteImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/heat/reading/HeatReadingRemoteImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/heat/reading/HeatReadingRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/heat/reading/HeatReadingRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/heat/reading/request/GetHeatReading.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/heat/reading/request/GetHeatReading.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/LastReadingCard.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/LastReadingCard.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/MainMeterScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/MainMeterScreen.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/MeterViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/MeterViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/water/reading/WaterReadingItem.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/water/reading/WaterReadingItem.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/../gradle/libs.versions.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/heat/HeatMeterDetail.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/heat/HeatMeterDetail.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/heat/HeatMeterState.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/heat/HeatMeterState.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/water/WaterMeterDetail.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/water/WaterMeterDetail.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/water/WaterMeterState.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/water/WaterMeterState.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -221,7 +89,8 @@
       <workItem from="1708110907477" duration="4639000" />
       <workItem from="1709226233767" duration="1844000" />
       <workItem from="1709318040255" duration="3947000" />
-      <workItem from="1709326696614" duration="1451000" />
+      <workItem from="1709326696614" duration="2051000" />
+      <workItem from="1709370224279" duration="2281000" />
     </task>
     <servers />
   </component>

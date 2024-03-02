@@ -2,7 +2,7 @@ package com.ykis.ykispam.data.remote.water.reading
 
 import com.squareup.moshi.Json
 import com.ykis.ykispam.data.remote.core.BaseResponse
-import com.ykis.ykispam.domain.water.reading.WaterReadingEntity
+import com.ykis.ykispam.domain.meter.water.reading.WaterReadingEntity
 
 class GetWaterReadingsResponse(
     success: Int,

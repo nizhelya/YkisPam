@@ -6,15 +6,11 @@ import com.ykis.ykispam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.data.remote.water.reading.GetLastWaterReadingResponse
 import com.ykis.ykispam.data.remote.water.reading.GetWaterReadingsResponse
 import com.ykis.ykispam.data.remote.water.reading.WaterReadingRemote
-import com.ykis.ykispam.domain.family.request.BooleanInt
+import com.ykis.ykispam.domain.meter.water.AddReadingParams
+import com.ykis.ykispam.domain.meter.water.reading.WaterReadingRepository
 import com.ykis.ykispam.domain.type.Either
 import com.ykis.ykispam.domain.type.Failure
 import com.ykis.ykispam.domain.type.flatMap
-import com.ykis.ykispam.domain.type.map
-import com.ykis.ykispam.domain.type.onNext
-import com.ykis.ykispam.domain.water.reading.WaterReadingEntity
-import com.ykis.ykispam.domain.water.reading.WaterReadingRepository
-import com.ykis.ykispam.domain.water.reading.request.AddReadingParams
 import javax.inject.Inject
 
 class WaterReadingRepositoryImpl @Inject constructor(
@@ -53,6 +49,10 @@ class WaterReadingRepositoryImpl @Inject constructor(
         uid: String
     ): GetLastWaterReadingResponse {
         return waterReadingRemote.getLastWaterReading(vodomerId, uid)
+    }
+
+    override suspend fun addWaterReading(params: AddReadingParams): GetSimpleResponse {
+        return waterReadingRemote.addWaterReading(params)
     }
 
 }

@@ -1,6 +1,6 @@
 package com.ykis.ykispam.data.cache.water.reading
 
-import com.ykis.ykispam.domain.water.reading.WaterReadingEntity
+import com.ykis.ykispam.domain.meter.water.reading.WaterReadingEntity
 
 interface WaterReadingCache {
     fun insertWaterReading(waterReading: List<WaterReadingEntity>)

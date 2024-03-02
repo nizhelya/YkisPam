@@ -17,8 +17,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.ykis.ykispam.R
-import com.ykis.ykispam.domain.heat.meter.HeatMeterEntity
-import com.ykis.ykispam.domain.water.meter.WaterMeterEntity
+import com.ykis.ykispam.domain.meter.heat.meter.HeatMeterEntity
+import com.ykis.ykispam.domain.meter.water.meter.WaterMeterEntity
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.components.appbars.DefaultAppBar
 import com.ykis.ykispam.ui.navigation.METER_TAB_ITEM

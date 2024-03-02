@@ -1,9 +1,9 @@
-package com.ykis.ykispam.domain.water.meter.request
+package com.ykis.ykispam.domain.meter.water.meter.request
 
 import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.data.cache.database.AppDatabase
-import com.ykis.ykispam.domain.water.meter.WaterMeterEntity
-import com.ykis.ykispam.domain.water.meter.WaterMeterRepository
+import com.ykis.ykispam.domain.meter.water.meter.WaterMeterEntity
+import com.ykis.ykispam.domain.meter.water.meter.WaterMeterRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 
 class GetWaterMeterList @Inject constructor(
-    private val repository:WaterMeterRepository,
+    private val repository: WaterMeterRepository,
     private val database: AppDatabase
 ) {
     operator fun invoke(addressId:Int , uid:String): Flow<Resource<List<WaterMeterEntity>?>> = flow {

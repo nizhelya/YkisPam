@@ -165,7 +165,7 @@ fun ChangeContactsDialog(
                     tint = MaterialTheme.colorScheme.secondary,
                     modifier = modifier.fillMaxWidth(),
                     imageVector = Icons.Default.Edit ,
-                    contentDescription = "edit"
+                    contentDescription = null
                 )
                 Text(
                     text = stringResource(R.string.update_bti),

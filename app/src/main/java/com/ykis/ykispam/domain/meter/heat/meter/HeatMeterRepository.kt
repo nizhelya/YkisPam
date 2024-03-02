@@ -1,4 +1,4 @@
-package com.ykis.ykispam.domain.heat.meter
+package com.ykis.ykispam.domain.meter.heat.meter
 
 import com.ykis.ykispam.data.remote.heat.meter.GetHeatMeterResponse
 import com.ykis.ykispam.domain.family.request.BooleanInt

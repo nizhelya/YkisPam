@@ -1,7 +1,7 @@
 package com.ykis.ykispam.data.cache.water.meter
 
 import com.ykis.ykispam.data.cache.dao.WaterMeterDao
-import com.ykis.ykispam.domain.water.meter.WaterMeterEntity
+import com.ykis.ykispam.domain.meter.water.meter.WaterMeterEntity
 import javax.inject.Inject
 import javax.inject.Singleton
 

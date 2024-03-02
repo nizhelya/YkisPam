@@ -1,6 +1,6 @@
 package com.ykis.ykispam.data.cache.heat.meter
 
-import com.ykis.ykispam.domain.heat.meter.HeatMeterEntity
+import com.ykis.ykispam.domain.meter.heat.meter.HeatMeterEntity
 
 interface HeatMeterCache {
     fun insertHeatMeter(waterMeters: List<HeatMeterEntity>)

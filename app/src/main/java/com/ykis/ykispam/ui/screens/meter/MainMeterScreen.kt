@@ -15,8 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.layout.DisplayFeature
-import com.ykis.ykispam.domain.heat.meter.HeatMeterEntity
-import com.ykis.ykispam.domain.water.meter.WaterMeterEntity
+import com.ykis.ykispam.core.ext.isTrue
+import com.ykis.ykispam.domain.meter.heat.meter.HeatMeterEntity
+import com.ykis.ykispam.domain.meter.water.meter.WaterMeterEntity
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.components.BaseDualPanelContent
 import com.ykis.ykispam.ui.components.DetailContent
@@ -101,12 +102,30 @@ fun MainMeterScreen(
                                             uid = baseUIState.uid!!
                                         )
                                     },
-                                    lastReading = waterMeterState.lastReading
+                                    lastReading = waterMeterState.lastWaterReading,
+                                    isWorking = !waterMeterState.selectedWaterMeter.spisan.isTrue()&& !waterMeterState.selectedWaterMeter.out.isTrue(),
+                                    isLastReadingLoading = waterMeterState.isLastReadingLoading,
+                                    newWaterReading = waterMeterState.newWaterReading,
+                                    onNewReadingChange = {newValue -> viewModel.onNewWaterReadingChange(newValue)},
+                                    addReading = {viewModel.addWaterReading(
+                                        uid = baseUIState.uid.toString(),
+                                        currentValue = waterMeterState.lastWaterReading.current,
+                                        newValue = waterMeterState.newWaterReading.toInt(),
+                                        vodomerId = waterMeterState.selectedWaterMeter.vodomerId
+                                    )}
                                 )
                             }
 
                             ContentDetail.HEAT_METER -> {
-                                HeatMeterDetail(heatMeterEntity = heatMeterState.selectedHeatMeter)
+                                HeatMeterDetail(
+                                    heatMeterEntity = heatMeterState.selectedHeatMeter,
+                                    getLastHeatReading = {
+                                        viewModel.getLastHeatReading(baseUIState.uid!!, heatMeterState.selectedHeatMeter.teplomerId)
+                                    },
+                                    baseUIState = baseUIState,
+                                    lastHeatReading = heatMeterState.lastHeatReading,
+                                    isWorking = !heatMeterState.selectedHeatMeter.spisan.isTrue()&& !heatMeterState.selectedHeatMeter.out.isTrue()
+                                )
                             }
 
                             ContentDetail.WATER_READINGS -> {
@@ -118,7 +137,8 @@ fun MainMeterScreen(
                                             baseUIState.uid!!,
                                             waterMeterState.selectedWaterMeter.vodomerId
                                         )
-                                    }
+                                    },
+
                                 )
                             }
 
@@ -233,12 +253,30 @@ fun SinglePanelMeter(
                                     uid = baseUIState.uid!!
                                 )
                             },
-                            lastReading = waterMeterState.lastReading
+                            lastReading = waterMeterState.lastWaterReading,
+                            isWorking =!waterMeterState.selectedWaterMeter.spisan.isTrue()&& !waterMeterState.selectedWaterMeter.out.isTrue(),
+                            isLastReadingLoading = waterMeterState.isLastReadingLoading,
+                            newWaterReading = waterMeterState.newWaterReading,
+                            onNewReadingChange = {newValue -> viewModel.onNewWaterReadingChange(newValue)},
+                            addReading = {viewModel.addWaterReading(
+                                uid = baseUIState.uid.toString(),
+                                currentValue = waterMeterState.lastWaterReading.current,
+                                newValue = waterMeterState.newWaterReading.toInt(),
+                                vodomerId = waterMeterState.selectedWaterMeter.vodomerId
+                            )}
                         )
                     }
 
                     ContentDetail.HEAT_METER -> {
-                        HeatMeterDetail(heatMeterEntity = heatMeterState.selectedHeatMeter)
+                        HeatMeterDetail(
+                            heatMeterEntity = heatMeterState.selectedHeatMeter,
+                            baseUIState = baseUIState,
+                            getLastHeatReading = {
+                                viewModel.getLastHeatReading(baseUIState.uid!!, heatMeterState.selectedHeatMeter.teplomerId)
+                            },
+                            lastHeatReading = heatMeterState.lastHeatReading,
+                            isWorking = !heatMeterState.selectedHeatMeter.spisan.isTrue()&& !heatMeterState.selectedHeatMeter.out.isTrue()
+                        )
                     }
 
                     ContentDetail.WATER_READINGS -> {
@@ -258,7 +296,7 @@ fun SinglePanelMeter(
                         HeatReadings(
                             baseUIState = baseUIState,
                             heatMeterState = heatMeterState,
-                            getHeatReadings = {}
+                            getHeatReadings = {viewModel.getHeatReadings(baseUIState.uid.toString() , heatMeterState.selectedHeatMeter.teplomerId)}
                         )
                     }
 

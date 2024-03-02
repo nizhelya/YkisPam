@@ -4,11 +4,12 @@ import com.ykis.ykispam.data.cache.heat.reading.HeatReadingCache
 import com.ykis.ykispam.data.cache.user.UserCache
 import com.ykis.ykispam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.data.remote.heat.reading.GetHeatReadingResponse
+import com.ykis.ykispam.data.remote.heat.reading.GetLastHeatReadingResponse
 import com.ykis.ykispam.data.remote.heat.reading.HeatReadingRemote
 import com.ykis.ykispam.domain.family.request.BooleanInt
-import com.ykis.ykispam.domain.heat.reading.HeatReadingEntity
-import com.ykis.ykispam.domain.heat.reading.HeatReadingRepository
-import com.ykis.ykispam.domain.heat.reading.request.AddHeatReadingParams
+import com.ykis.ykispam.domain.meter.heat.reading.HeatReadingEntity
+import com.ykis.ykispam.domain.meter.heat.reading.HeatReadingRepository
+import com.ykis.ykispam.domain.meter.heat.reading.request.AddHeatReadingParams
 import com.ykis.ykispam.domain.type.Either
 import com.ykis.ykispam.domain.type.Failure
 import com.ykis.ykispam.domain.type.flatMap
@@ -68,6 +69,13 @@ class HeatReadingRepositoryImpl @Inject constructor(
 
     override suspend fun getHeatReadings(teplomerId: Int, uid: String): GetHeatReadingResponse {
         return heatReadingRemote.getHeatReadings(teplomerId, uid)
+    }
+
+    override suspend fun getLastHeatReading(
+        teplomerId: Int,
+        uid: String
+    ): GetLastHeatReadingResponse {
+        return heatReadingRemote.getLastHeatReading(teplomerId, uid)
     }
 
 }

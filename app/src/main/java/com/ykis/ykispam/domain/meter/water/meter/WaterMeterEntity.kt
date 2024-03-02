@@ -1,4 +1,4 @@
-package com.ykis.ykispam.domain.water.meter
+package com.ykis.ykispam.domain.meter.water.meter
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

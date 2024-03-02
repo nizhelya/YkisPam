@@ -1,5 +1,7 @@
 package com.ykis.ykispam.ui.screens.meter.water
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -11,7 +13,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.ykis.ykispam.domain.water.meter.WaterMeterEntity
+import com.ykis.ykispam.core.ProgressBar
+import com.ykis.ykispam.domain.meter.water.meter.WaterMeterEntity
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.screens.meter.MeterViewModel
 
@@ -23,24 +26,33 @@ fun WaterMeterList(
     waterMeterState: WaterMeterState,
     onWaterMeterClick : (WaterMeterEntity) ->Unit
 ) {
+
     LaunchedEffect(key1 = baseUIState.addressId) {
         viewModel.getWaterMeterList(baseUIState.uid!!,baseUIState.addressId)
     }
-    LazyColumn(
-        contentPadding = PaddingValues(top = 8.dp)
+    Crossfade(
+        targetState = waterMeterState.isMetersLoading, label = "",
+        animationSpec = tween(delayMillis = 500)
     ) {
-        items(
-            waterMeterState.waterMeterList
-        ) { waterMeter ->
-            WaterMeterItem(
-                modifier = modifier
-                    .padding(vertical = 4.dp, horizontal = 8.dp)
-                    .clip(CardDefaults.outlinedShape)
-                    .clickable {
-                        onWaterMeterClick(waterMeter)
-                    },
-                waterMeter = waterMeter
-            )
-        }
+        isLoading->
+            if(isLoading){
+             ProgressBar()
+            }else LazyColumn(
+                contentPadding = PaddingValues(top = 8.dp)
+            ) {
+                items(
+                    waterMeterState.waterMeterList
+                ) { waterMeter ->
+                    WaterMeterItem(
+                        modifier = modifier
+                            .padding(vertical = 4.dp, horizontal = 8.dp)
+                            .clip(CardDefaults.outlinedShape)
+                            .clickable {
+                                onWaterMeterClick(waterMeter)
+                            },
+                        waterMeter = waterMeter
+                    )
+                }
+            }
     }
 }

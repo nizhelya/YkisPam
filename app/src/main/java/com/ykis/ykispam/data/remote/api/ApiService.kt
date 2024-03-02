@@ -7,6 +7,7 @@ import com.ykis.ykispam.data.remote.appartment.GetApartmentsResponse
 import com.ykis.ykispam.data.remote.family.GetFamilyResponse
 import com.ykis.ykispam.data.remote.heat.meter.GetHeatMeterResponse
 import com.ykis.ykispam.data.remote.heat.reading.GetHeatReadingResponse
+import com.ykis.ykispam.data.remote.heat.reading.GetLastHeatReadingResponse
 import com.ykis.ykispam.data.remote.payment.GetPaymentResponse
 import com.ykis.ykispam.data.remote.service.GetServiceResponse
 import com.ykis.ykispam.data.remote.water.meter.GetWaterMeterResponse
@@ -50,6 +51,7 @@ interface ApiService {
         const val DELETE_CURRENT_WATER_READING = "deleteCurrentWaterReading.php"
         const val DELETE_CURRENT_HEAT_READING = "deleteCurrentHeatReading.php"
         const val GET_LAST_WATER_READING = "getLastWaterReading.php"
+        const val GET_LAST_HEAT_READING = "getLastHeatReading.php"
         const val PARAM_ADDRESS_ID = "address_id"
         const val UID = "uid"
         const val YEAR = "year"
@@ -134,10 +136,6 @@ interface ApiService {
     fun getWaterReadings(@FieldMap params: Map<String, String>): Call<GetWaterReadingsResponse>
 
     @FormUrlEncoded
-    @POST(GET_LAST_WATER_READING)
-    fun getLastWaterReading(@FieldMap params: Map<String, String>): Call<GetLastWaterReadingResponse>
-
-    @FormUrlEncoded
     @POST(ADD_NEW_WATER_READING)
     fun addNewWaterReading(@FieldMap params: Map<String, String>): Call<GetSimpleResponse>
 
@@ -160,4 +158,12 @@ interface ApiService {
     @FormUrlEncoded
     @POST(DELETE_CURRENT_HEAT_READING)
     fun deleteCurrentHeatReading(@FieldMap params: Map<String, String>): Call<GetSimpleResponse>
+
+    @FormUrlEncoded
+    @POST(GET_LAST_WATER_READING)
+    fun getLastWaterReading(@FieldMap params: Map<String, String>): Call<GetLastWaterReadingResponse>
+
+    @FormUrlEncoded
+    @POST(GET_LAST_HEAT_READING)
+    fun getLastHeatReading(@FieldMap params: Map<String, String>): Call<GetLastHeatReadingResponse>
 }

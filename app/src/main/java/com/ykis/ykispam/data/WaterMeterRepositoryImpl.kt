@@ -2,7 +2,7 @@ package com.ykis.ykispam.data
 
 import com.ykis.ykispam.data.remote.water.meter.GetWaterMeterResponse
 import com.ykis.ykispam.data.remote.water.meter.WaterMeterRemote
-import com.ykis.ykispam.domain.water.meter.WaterMeterRepository
+import com.ykis.ykispam.domain.meter.water.meter.WaterMeterRepository
 import javax.inject.Inject
 
 class WaterMeterRepositoryImpl @Inject constructor(

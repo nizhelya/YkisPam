@@ -1,6 +1,6 @@
 package com.ykis.ykispam.data.cache.heat.reading
 
-import com.ykis.ykispam.domain.heat.reading.HeatReadingEntity
+import com.ykis.ykispam.domain.meter.heat.reading.HeatReadingEntity
 
 interface HeatReadingCache {
     fun insertHeatReading(heatReading: List<HeatReadingEntity>)

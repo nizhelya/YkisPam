@@ -1,4 +1,4 @@
-package com.ykis.ykispam.domain.heat.reading.request
+package com.ykis.ykispam.domain.meter.heat.reading.request
 
 import com.ykis.ykispam.data.HeatReadingRepositoryImpl
 import com.ykis.ykispam.data.remote.GetSimpleResponse

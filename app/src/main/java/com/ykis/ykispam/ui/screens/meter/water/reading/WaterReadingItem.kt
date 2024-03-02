@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.ext.isTrue
-import com.ykis.ykispam.domain.water.reading.WaterReadingEntity
+import com.ykis.ykispam.domain.meter.water.reading.WaterReadingEntity
 import com.ykis.ykispam.ui.components.LabelTextWithText
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 import com.ykis.ykispam.ui.theme.customTitleForCard
@@ -28,15 +28,16 @@ import java.util.Locale
 @Composable
 fun WaterReadingItem(
     modifier: Modifier = Modifier,
+    cardModifier: Modifier = Modifier,
     reading: WaterReadingEntity
 ) {
     val dateUnixOt = SimpleDateFormat("yyyy-MM-dd" , Locale("uk")).parse(reading.dateOt)
     val dateUnixDo = SimpleDateFormat("yyyy-MM-dd", Locale("uk")).parse(reading.dateDo)
     Column(modifier = modifier.fillMaxWidth()){
         Card(
-            modifier = modifier
+            modifier = cardModifier
                 .fillMaxWidth()
-                .padding(all = 8.dp),
+                .padding(horizontal = 4.dp),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(48.dp),
                 contentColor = MaterialTheme.colorScheme.onSecondaryContainer

@@ -3,7 +3,7 @@ package com.ykis.ykispam.data.remote.heat.reading
 import com.ykis.ykispam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.data.remote.api.ApiService
 import com.ykis.ykispam.data.remote.core.Request
-import com.ykis.ykispam.domain.heat.reading.HeatReadingEntity
+import com.ykis.ykispam.domain.meter.heat.reading.HeatReadingEntity
 import com.ykis.ykispam.domain.type.Either
 import com.ykis.ykispam.domain.type.Failure
 import retrofit2.await
@@ -76,6 +76,14 @@ class HeatReadingRemoteImpl @Inject constructor(
                 teplomerId,uid
             )
         ).await()
+    }
+
+    override suspend fun getLastHeatReading(teplomerId: Int , uid:String): GetLastHeatReadingResponse {
+       return apiService.getLastHeatReading(
+           createGetHeatReadingMap(
+               teplomerId, uid
+           )
+       ).await()
     }
 
     private fun createGetHeatReadingMap(
