@@ -3,6 +3,7 @@ package com.ykis.ykispam.data
 import com.ykis.ykispam.data.cache.heat.reading.HeatReadingCache
 import com.ykis.ykispam.data.cache.user.UserCache
 import com.ykis.ykispam.data.remote.GetSimpleResponse
+import com.ykis.ykispam.data.remote.core.BaseResponse
 import com.ykis.ykispam.data.remote.heat.reading.GetHeatReadingResponse
 import com.ykis.ykispam.data.remote.heat.reading.GetLastHeatReadingResponse
 import com.ykis.ykispam.data.remote.heat.reading.HeatReadingRemote
@@ -76,6 +77,10 @@ class HeatReadingRepositoryImpl @Inject constructor(
         uid: String
     ): GetLastHeatReadingResponse {
         return heatReadingRemote.getLastHeatReading(teplomerId, uid)
+    }
+
+    override suspend fun addHeatReading(params:  AddHeatReadingParams): BaseResponse {
+        return heatReadingRemote.addHeatReading(params)
     }
 
 }

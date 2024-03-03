@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.ext.isTrue
 import com.ykis.ykispam.domain.meter.heat.meter.HeatMeterEntity
+import com.ykis.ykispam.ui.components.LabelTextWithText
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 
 
@@ -66,23 +67,16 @@ fun HeatMeterItem(
                         text = heatMeter.model,
                         style = MaterialTheme.typography.titleLarge
                     )
-                    Row {
-                        Text(
-                            text = stringResource(id = R.string.number_colon)
-                        )
-                        Text(
-                            modifier = Modifier.padding(start = 4.dp),
-                            text = heatMeter.number
-                        )
-                    }
+                    LabelTextWithText(
+                        labelText = stringResource(id = R.string.number_colon),
+                        valueText = heatMeter.number
+                    )
                     Text(
-                        style = MaterialTheme.typography.titleMedium,
                         text = statusText
                     )
 
                 }
             }
-//        HorizontalDivider()
         }
     }
 

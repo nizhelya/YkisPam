@@ -15,11 +15,11 @@ if (isset($_POST['pok_id']) &&
     $generalFunctionsObject = new GeneralFunctionsClass();
 
     $result = $dbOperationsObject->deleteCurrentWaterReading($pok_id);
-    $results = $generalFunctionsObject->deleteCurrentReading($result);
-    if($results[0]["success"]==1){
+//    $results = $generalFunctionsObject->deleteCurrentReading($result);
+//    if($results[0]["success"]==1){
         $response["message"] = "Readings deleted successful";
-    }else $response["message"] = "Failed to delete readings" ;
-    $response["success"] = $results[0]["success"];
+//    }else $response["message"] = "Failed to delete readings" ;
+//    $response["success"] = $results[0]["success"];
     echo json_encode($response);
 } else {
     $response["success"] = 0;

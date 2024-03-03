@@ -2,8 +2,9 @@ package com.ykis.ykispam.data.remote.water.reading
 
 import com.ykis.ykispam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.data.remote.api.ApiService
+import com.ykis.ykispam.data.remote.core.BaseResponse
 import com.ykis.ykispam.data.remote.core.Request
-import com.ykis.ykispam.domain.meter.water.AddReadingParams
+import com.ykis.ykispam.domain.meter.water.reading.AddWaterReadingParams
 import com.ykis.ykispam.domain.meter.water.reading.WaterReadingEntity
 import com.ykis.ykispam.domain.type.Either
 import com.ykis.ykispam.domain.type.Failure
@@ -40,7 +41,7 @@ class WaterReadingRemoteImpl @Inject constructor(
         uid: String
     ): Either<Failure, GetSimpleResponse> {
         return request.make(
-            apiService.addNewWaterReading(
+            apiService.addWaterReading(
                 createAddNewReadingMap(
                     vodomerId,
                     newValue,
@@ -54,22 +55,7 @@ class WaterReadingRemoteImpl @Inject constructor(
         }
     }
 
-    override fun deleteCurrentWaterReading(
-        pokId: Int,
-        uid: String
-    ): Either<Failure, GetSimpleResponse> {
-        return request.make(
-            apiService.deleteCurrentWaterReading(
-                createDeleteWaterReadingMap(
-                    pokId,
-                    uid
-                )
-            )
-        )
-        {
-            it
-        }
-    }
+
 
     override suspend fun getWaterReadings(vodomerId: Int, uid: String):GetWaterReadingsResponse  {
         return apiService.getWaterReadings(
@@ -90,13 +76,21 @@ class WaterReadingRemoteImpl @Inject constructor(
         ).await()
     }
 
-    override suspend fun addWaterReading(params: AddReadingParams): GetSimpleResponse {
-        return apiService.addNewWaterReading(
+    override suspend fun addWaterReading(params: AddWaterReadingParams): GetSimpleResponse {
+        return apiService.addWaterReading(
             createAddNewReadingMap(
                 vodomerId = params.meterId,
                 currentValue = params.currentValue,
                 newValue = params.newValue,
                 uid = params.uid
+            )
+        ).await()
+    }
+
+    override suspend fun deleteLastReading(readingId: Int , uid:String): BaseResponse {
+        return apiService.deleteLastWaterReading(
+            createDeleteWaterReadingMap(
+                readingId, uid
             )
         ).await()
     }

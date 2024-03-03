@@ -6,19 +6,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,13 +23,10 @@ import androidx.compose.ui.window.Dialog
 import com.ykis.ykispam.R
 
 @Composable
-fun AddReadingDialog(
+fun DeleteReadingDialog(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
-    onAddClick: () -> Unit,
-    currentReading: String,
-    newReading:String,
-    onReadingChange: (String) -> Unit,
+    onDeleteClick: () -> Unit,
 ) {
     Dialog(
         onDismissRequest = { onDismissRequest() },
@@ -46,45 +40,18 @@ fun AddReadingDialog(
                 Icon(
                     tint = MaterialTheme.colorScheme.secondary,
                     modifier = modifier.fillMaxWidth(),
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_add_reading),
+                    imageVector = Icons.Default.Delete,
                     contentDescription = null
                 )
                 Text(
-                    text = stringResource(R.string.add_reading_title),
-                    fontSize = 22.sp,
+                    text = stringResource(R.string.delete_reading_title),
+                    fontSize = 20.sp,
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = modifier.padding(vertical = 16.dp),
-                    color = MaterialTheme.colorScheme.onSurface,
-                )
-                Text(
-                    modifier = modifier.padding(bottom = 16.dp),
-                    style = MaterialTheme.typography.bodyMedium,
-                    text= stringResource(R.string.add_reading_supporting_text)
-                )
-                OutlinedTextField(
-                    label = {
-                        Text(
-                            text = stringResource(id = R.string.current_reading)
-                        )
-                    },
-                    readOnly = true,
-                    value = currentReading,
-                    onValueChange = {}
-                )
-                OutlinedTextField(
-                    label = {
-                        Text(
-                            text = stringResource(id = R.string.new_reading)
-                        )
-                    },
-                    value = newReading,
-                    onValueChange = onReadingChange,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 Row(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .padding(top = 24.dp),
+                    modifier = modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End
                 ) {
                     TextButton(onClick = {
@@ -97,12 +64,12 @@ fun AddReadingDialog(
                     TextButton(
                         onClick = {
                             onDismissRequest()
-                            onAddClick()
+                            onDeleteClick()
                         },
-                        enabled = newReading!=""
+                        enabled = true
                     ) {
                         Text(
-                            stringResource(R.string.add)
+                            stringResource(R.string.delete)
                         )
                     }
                 }
@@ -114,11 +81,8 @@ fun AddReadingDialog(
 @Preview
 @Composable
 private fun PreviewDialog() {
-    AddReadingDialog(
+    DeleteReadingDialog(
         onDismissRequest = { },
-        onAddClick = { },
-        currentReading = 940.toString(),
-        newReading = "",
-        onReadingChange = {}
+        onDeleteClick = {}
     )
 }

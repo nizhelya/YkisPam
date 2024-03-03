@@ -5,25 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e31f1904-1a5b-421b-8d77-afa4b572ea8b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/heat/reading/GetLastHeatReadingResponse.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/heat/reading/request/GeatLastHeatReading.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/water/reading/request/DeleteLastWaterReading.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/components/BaseCard.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/DeleteReadingDialog.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest_api/GeneralFunctions.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/GeneralFunctions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/DBOperations.php" beforeDir="false" afterPath="$PROJECT_DIR$/sql/DBOperations.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/HeatReadingRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/HeatReadingRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rest_api/deleteCurrentWaterReading.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/deleteCurrentWaterReading.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/core/composable/HelpAlertCard.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/WaterReadingRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/WaterReadingRepositoryImpl.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/api/ApiService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/api/ApiService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/heat/reading/HeatReadingRemote.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/heat/reading/HeatReadingRemote.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/heat/reading/HeatReadingRemoteImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/heat/reading/HeatReadingRemoteImpl.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/heat/reading/HeatReadingRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/heat/reading/HeatReadingRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/heat/reading/request/GetHeatReading.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/heat/reading/request/GetHeatReading.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/water/reading/WaterReadingRemote.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/water/reading/WaterReadingRemote.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/water/reading/WaterReadingRemoteImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/water/reading/WaterReadingRemoteImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/water/reading/WaterReadingRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/water/reading/WaterReadingRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/water/reading/request/DeleteCurrentWaterReading.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/AddReadingDialog.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/AddReadingDialog.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/LastReadingCard.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/LastReadingCard.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/MainMeterScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/MainMeterScreen.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/MeterViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/MeterViewModel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/heat/HeatMeterDetail.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/heat/HeatMeterDetail.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/heat/HeatMeterState.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/heat/HeatMeterState.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/heat/reading/HeatReadingItem.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/heat/reading/HeatReadingItem.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/heat/reading/HeatReadings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/heat/reading/HeatReadings.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/water/WaterMeterDetail.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/water/WaterMeterDetail.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/water/WaterMeterState.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/water/WaterMeterState.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/water/reading/WaterReadingItem.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/water/reading/WaterReadingItem.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/water/reading/WaterReadings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/water/reading/WaterReadings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/theme/Type.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/theme/Type.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/../gradle/libs.versions.toml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,6 +97,8 @@
       <workItem from="1709318040255" duration="3947000" />
       <workItem from="1709326696614" duration="2051000" />
       <workItem from="1709370224279" duration="2281000" />
+      <workItem from="1709464584484" duration="3044000" />
+      <workItem from="1709484755353" duration="775000" />
     </task>
     <servers />
   </component>

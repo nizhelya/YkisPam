@@ -237,7 +237,7 @@
     <string name="date_colon">Дата:</string>
     <string name="next">Продовжити</string>
     //WaterMeter
-    <string name="water_detail_text">Технічні характеристики</string>
+    <string name="meter_detail_text">Технічні характеристики</string>
     <string name="xp">Характеристика приміщення</string>
     <string name="number_colon">Номер:</string>
     <string name="place_colon">Місце:</string>
@@ -363,6 +363,7 @@
     <string name="no_meters">Немає лічільників</string>
     <string name="no_heat_meters">Теплові лічільникі не знайдено</string>
     <string name="date_format">з %1$s до %2$s</string>
+    <string name="add_reading_supporting_text">Якщо ви помилково додали показання, то ви зможете видалити їх протягом сьогоднішнього дня</string>
 
 
 </resources>

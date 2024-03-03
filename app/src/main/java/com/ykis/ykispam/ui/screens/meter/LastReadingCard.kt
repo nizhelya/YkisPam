@@ -1,7 +1,6 @@
 package com.ykis.ykispam.ui.screens.meter
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,54 +16,42 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.R
-import com.ykis.ykispam.domain.meter.heat.reading.HeatReadingEntity
-import com.ykis.ykispam.domain.meter.water.reading.WaterReadingEntity
-import com.ykis.ykispam.ui.screens.meter.heat.reading.HeatReadingItem
-import com.ykis.ykispam.ui.screens.meter.water.reading.WaterReadingItem
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
-import com.ykis.ykispam.ui.theme.customTitleForCard
 
 @Composable
-fun LastReadingCard(
+fun LastReadingCardButtons(
     modifier: Modifier = Modifier,
     onAddButtonClick: ()->Unit,
-    cardContent : @Composable () -> Unit
+    onDeleteButtonClick:()->Unit,
+    showDeleteButton:Boolean =true,
 ) {
-    Column(
-        horizontalAlignment = Alignment.End
-    ) {
-        Text(
-            modifier = modifier.fillMaxWidth(),
-            textAlign = TextAlign.Start,
-            text = stringResource(id = R.string.last_reading),
-            style = customTitleForCard
-        )
-        cardContent()
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.End
     )
     {
-        TextButton(
-            onClick = { /*TODO*/ },
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+        if(showDeleteButton){
+            TextButton(
+                onClick = {onDeleteButtonClick()},
             ) {
-                Icon(
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = null
-                )
-                Text(
-                    text = stringResource(id = R.string.delete)
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = null
+                    )
+                    Text(
+                        text = stringResource(id = R.string.delete)
+                    )
+                }
             }
         }
+
         Button(
             modifier = modifier.padding(horizontal = 4.dp),
             onClick = {
@@ -85,7 +72,6 @@ fun LastReadingCard(
             }
         }
     }
-    }
 }
 
 @Preview(
@@ -95,21 +81,19 @@ fun LastReadingCard(
 @Composable
 private fun PreviewLastWaterReadingCard() {
     YkisPAMTheme {
-        LastReadingCard(
-            onAddButtonClick = {}
-        ){
-            WaterReadingItem(reading = WaterReadingEntity())
-        }
+        LastReadingCardButtons(
+            onAddButtonClick = {},
+            onDeleteButtonClick = {}
+        )
     }
 }
 
 @Composable
 private fun PreviewLastHeatReadingCard() {
     YkisPAMTheme {
-        LastReadingCard(
-            onAddButtonClick = {}
-        ){
-            HeatReadingItem(reading = HeatReadingEntity())
-        }
+        LastReadingCardButtons(
+            onAddButtonClick = {},
+            onDeleteButtonClick = {}
+        )
     }
 }

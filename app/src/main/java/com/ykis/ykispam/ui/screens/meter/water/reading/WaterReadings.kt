@@ -34,7 +34,7 @@ fun WaterReadings(
                 waterMeterState.waterReadings
             ){
                     waterReading->
-                WaterReadingItem(reading = waterReading)
+                    WaterReadingItem(reading = waterReading)
             }
         }
 

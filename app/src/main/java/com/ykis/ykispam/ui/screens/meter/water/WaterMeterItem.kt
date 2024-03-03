@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.ext.isTrue
 import com.ykis.ykispam.domain.meter.water.meter.WaterMeterEntity
+import com.ykis.ykispam.ui.components.LabelTextWithText
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 
 
@@ -76,26 +77,16 @@ fun WaterMeterItem(
                     text = waterMeter.model,
                     style = MaterialTheme.typography.titleLarge
                 )
-                Row {
-                    Text(
-                        text = stringResource(id = R.string.number_colon)
-                    )
-                    Text(
-                        modifier = Modifier.padding(start = 4.dp),
-                        text = waterMeter.nomer
-                    )
-                }
-                Row {
-                    Text(
-                        text = stringResource(id = R.string.place_colon)
-                    )
-                    Text(
-                        modifier = Modifier.padding(start = 4.dp),
-                        text = waterMeter.place
-                    )
-                }
+                LabelTextWithText(
+                    labelText = stringResource(id = R.string.number_colon),
+                    valueText = waterMeter.nomer
+                )
+                LabelTextWithText(
+                    labelText = stringResource(id = R.string.place_colon),
+                    valueText = waterMeter.place
+                )
                 Text(
-                    style = MaterialTheme.typography.titleMedium,
+//                    style = MaterialTheme.typography.titleMedium,
                     text = statusText
                 )
 

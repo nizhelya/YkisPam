@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import com.ykis.ykispam.core.ProgressBar
+import com.ykis.ykispam.core.ext.isTrue
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.screens.meter.heat.HeatMeterState
 
@@ -16,28 +17,29 @@ fun HeatReadings(
     modifier: Modifier = Modifier,
     baseUIState: BaseUIState,
     heatMeterState: HeatMeterState,
-    getHeatReadings: () ->Unit
+    getHeatReadings: () -> Unit
 ) {
-    LaunchedEffect(key1 = baseUIState.addressId , key2 = heatMeterState.selectedHeatMeter) {
+    LaunchedEffect(key1 = baseUIState.addressId, key2 = heatMeterState.selectedHeatMeter) {
         getHeatReadings()
     }
     Crossfade(
         targetState = heatMeterState.isReadingsLoading,
         label = "",
         animationSpec = tween(delayMillis = 300)
-    ) {
-            isLoading->
-        if(isLoading){
+    ) { isLoading ->
+        if (isLoading) {
             ProgressBar()
-        }else
-        LazyColumn {
-            items(
-                heatMeterState.heatReadings
-            ){
-                    heatReading->
-                    HeatReadingItem(reading = heatReading)
+        } else
+            LazyColumn {
+                items(
+                    heatMeterState.heatReadings
+                ) { heatReading ->
+                    HeatReadingItem(
+                        reading = heatReading,
+                        isAverage = heatReading.avg.isTrue()
+                    )
+                }
             }
-        }
 
     }
 }

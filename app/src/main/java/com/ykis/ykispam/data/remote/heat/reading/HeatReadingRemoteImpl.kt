@@ -2,7 +2,9 @@ package com.ykis.ykispam.data.remote.heat.reading
 
 import com.ykis.ykispam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.data.remote.api.ApiService
+import com.ykis.ykispam.data.remote.core.BaseResponse
 import com.ykis.ykispam.data.remote.core.Request
+import com.ykis.ykispam.domain.meter.heat.reading.AddHeatReadingParams
 import com.ykis.ykispam.domain.meter.heat.reading.HeatReadingEntity
 import com.ykis.ykispam.domain.type.Either
 import com.ykis.ykispam.domain.type.Failure
@@ -39,8 +41,8 @@ class HeatReadingRemoteImpl @Inject constructor(
         uid: String
     ): Either<Failure, GetSimpleResponse> {
         return request.make(
-            apiService.addNewHeatReading(
-                createAddNewReadingMap(
+            apiService.addHeatReading(
+                createAddReadingMap(
                     teplomerId,
                     newValue,
                     currentValue,
@@ -86,6 +88,17 @@ class HeatReadingRemoteImpl @Inject constructor(
        ).await()
     }
 
+    override suspend fun addHeatReading(params: AddHeatReadingParams): BaseResponse {
+        return apiService.addHeatReading(
+            createAddReadingMap(
+                teplomerId = params.meterId,
+                currentValue = params.currentValue,
+                newValue = params.newValue,
+                uid = params.uid
+            )
+        ).await()
+    }
+
     private fun createGetHeatReadingMap(
         teplomerId: Int,
         uid: String
@@ -96,7 +109,7 @@ class HeatReadingRemoteImpl @Inject constructor(
         return map
     }
 
-    private fun createAddNewReadingMap(
+    private fun createAddReadingMap(
         teplomerId: Int,
         newValue: Double,
         currentValue: Double,

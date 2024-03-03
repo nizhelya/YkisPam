@@ -4,6 +4,7 @@ import com.ykis.ykispam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.data.remote.address.GetAddressResponse
 import com.ykis.ykispam.data.remote.appartment.GetApartmentResponse
 import com.ykis.ykispam.data.remote.appartment.GetApartmentsResponse
+import com.ykis.ykispam.data.remote.core.BaseResponse
 import com.ykis.ykispam.data.remote.family.GetFamilyResponse
 import com.ykis.ykispam.data.remote.heat.meter.GetHeatMeterResponse
 import com.ykis.ykispam.data.remote.heat.reading.GetHeatReadingResponse
@@ -137,11 +138,11 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST(ADD_NEW_WATER_READING)
-    fun addNewWaterReading(@FieldMap params: Map<String, String>): Call<GetSimpleResponse>
+    fun addWaterReading(@FieldMap params: Map<String, String>): Call<GetSimpleResponse>
 
     @FormUrlEncoded
     @POST(DELETE_CURRENT_WATER_READING)
-    fun deleteCurrentWaterReading(@FieldMap params: Map<String, String>): Call<GetSimpleResponse>
+    fun deleteLastWaterReading(@FieldMap params: Map<String, String>): Call<BaseResponse>
 
     @FormUrlEncoded
     @POST(GET_HEAT_METER)
@@ -153,7 +154,7 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST(ADD_NEW_HEAT_READING)
-    fun addNewHeatReading(@FieldMap params: Map<String, String>): Call<GetSimpleResponse>
+    fun addHeatReading(@FieldMap params: Map<String, String>): Call<GetSimpleResponse>
 
     @FormUrlEncoded
     @POST(DELETE_CURRENT_HEAT_READING)
