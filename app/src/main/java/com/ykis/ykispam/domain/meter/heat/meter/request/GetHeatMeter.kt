@@ -1,7 +1,8 @@
 package com.ykis.ykispam.domain.meter.heat.meter.request
 
-import android.util.Log
+import com.ykis.ykispam.R
 import com.ykis.ykispam.core.Resource
+import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.data.cache.database.AppDatabase
 import com.ykis.ykispam.domain.meter.heat.meter.HeatMeterEntity
 import com.ykis.ykispam.domain.meter.heat.meter.HeatMeterRepository
@@ -11,14 +12,6 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-//class GetHeatMeter @Inject constructor(
-//    private val heatMeterRepositoryImpl: HeatMeterRepositoryImpl
-//) : UseCase<List<HeatMeterEntity>, BooleanInt>() {
-//
-//    override suspend fun run(params: BooleanInt): Either<Failure, List<HeatMeterEntity>> {
-//        return heatMeterRepositoryImpl.getHeatMeter(params)
-//    }
-//}
 class GetHeatMeterList @Inject constructor(
     private val repository: HeatMeterRepository,
     private val database: AppDatabase
@@ -29,21 +22,21 @@ class GetHeatMeterList @Inject constructor(
             val response = repository.getHeatMeterList(
                 addressId,uid
             )
-            Log.d("heat_test", "success" + response.success.toString())
-            Log.d("heat_test", "msg" + response.message.toString())
-//            if(response.success==1){
+            if(response.success==1){
                 emit(Resource.Success(response.heatMeters))
                 database.heatMeterDao().insertHeatMeter(response.heatMeters)
-//            }
+            }
         }catch (e: HttpException) {
-            emit(Resource.Error(e.localizedMessage ?: "Unexpected error!"))
+            SnackbarManager.showMessage(e.message())
+            emit(Resource.Error())
         } catch (e: IOException) {
-//            val MeterList = database.waterMeterDao().getWaterMeter(addressId)
-//            if(waterMeterList.isNotEmpty()){
-//                emit(Resource.Success(waterMeterList))
-//                return@flow
-//            }
-            emit(Resource.Error("Check your internet connection"))
+            val meterList = database.heatMeterDao().getHeatMeter(addressId)
+            if(meterList.isNotEmpty()){
+                emit(Resource.Success(meterList))
+                return@flow
+            }
+            SnackbarManager.showMessage(R.string.error_network)
+            emit(Resource.Error())
         }
     }
 }

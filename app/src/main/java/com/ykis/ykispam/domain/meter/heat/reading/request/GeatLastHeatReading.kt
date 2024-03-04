@@ -1,9 +1,11 @@
 package com.ykis.ykispam.domain.meter.heat.reading.request
 
+import com.ykis.ykispam.R
+import com.ykis.ykispam.core.Resource
+import com.ykis.ykispam.core.snackbar.SnackbarManager
+import com.ykis.ykispam.data.cache.database.AppDatabase
 import com.ykis.ykispam.domain.meter.heat.reading.HeatReadingEntity
 import com.ykis.ykispam.domain.meter.heat.reading.HeatReadingRepository
-import com.ykis.ykispam.core.Resource
-import com.ykis.ykispam.data.cache.database.AppDatabase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -22,20 +24,16 @@ class GetLastHeatReading @Inject constructor(
             )
             if(response.success==1){
                 emit(Resource.Success(response.heatReading))
-//                database.waterMeterDao().insertWaterMeter(response.waterMeters)
+                database.heatReadingDao().insertHeatReading(listOf(response.heatReading))
             }
         }catch (e: HttpException) {
-            emit(Resource.Error(e.localizedMessage ?: "Unexpected error!"))
+            SnackbarManager.showMessage(e.message())
+            emit(Resource.Error())
         } catch (e: IOException) {
-//            val waterMeterList = database.waterMeterDao().getWaterMeter(addressId)
-//            if(waterMeterList.isNotEmpty()){
-//                emit(Resource.Success(waterMeterList))
-//                return@flow
-//            }
-            emit(Resource.Error("Check your internet connection"))
+            val lastReading = database.heatReadingDao().getHeatReading(teplomerId).last()
+            emit(Resource.Success(lastReading))
+            SnackbarManager.showMessage(R.string.error_network)
+            emit(Resource.Error())
         }
-//        catch (e: Exception){
-//            SnackbarManager.showMessage(e.message.toString())
-//        }
     }
 }

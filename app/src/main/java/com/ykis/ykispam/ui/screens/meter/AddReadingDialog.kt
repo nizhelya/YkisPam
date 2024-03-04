@@ -33,6 +33,7 @@ fun AddReadingDialog(
     currentReading: String,
     newReading:String,
     onReadingChange: (String) -> Unit,
+    enabledButton:Boolean
 ) {
     Dialog(
         onDismissRequest = { onDismissRequest() },
@@ -62,6 +63,7 @@ fun AddReadingDialog(
                     text= stringResource(R.string.add_reading_supporting_text)
                 )
                 OutlinedTextField(
+                    modifier = modifier.fillMaxWidth(),
                     label = {
                         Text(
                             text = stringResource(id = R.string.current_reading)
@@ -72,6 +74,7 @@ fun AddReadingDialog(
                     onValueChange = {}
                 )
                 OutlinedTextField(
+                    modifier = modifier.fillMaxWidth(),
                     label = {
                         Text(
                             text = stringResource(id = R.string.new_reading)
@@ -79,7 +82,11 @@ fun AddReadingDialog(
                     },
                     value = newReading,
                     onValueChange = onReadingChange,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+
+
+                    )
                 )
                 Row(
                     modifier = modifier
@@ -99,7 +106,7 @@ fun AddReadingDialog(
                             onDismissRequest()
                             onAddClick()
                         },
-                        enabled = newReading!=""
+                        enabled = enabledButton
                     ) {
                         Text(
                             stringResource(R.string.add)
@@ -111,7 +118,7 @@ fun AddReadingDialog(
     }
 }
 
-@Preview
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewDialog() {
     AddReadingDialog(
@@ -119,6 +126,7 @@ private fun PreviewDialog() {
         onAddClick = { },
         currentReading = 940.toString(),
         newReading = "",
-        onReadingChange = {}
+        onReadingChange = {},
+        enabledButton = false
     )
 }

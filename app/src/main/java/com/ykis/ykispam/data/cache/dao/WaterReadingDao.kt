@@ -4,8 +4,8 @@ package com.ykis.ykispam.data.cache.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
-import com.ykis.ykispam.domain.meter.water.reading.WaterReadingEntity
 import androidx.room.Query
+import com.ykis.ykispam.domain.meter.water.reading.WaterReadingEntity
 
 @Dao
 interface WaterReadingDao {
@@ -13,7 +13,7 @@ interface WaterReadingDao {
     fun insertWaterReading(waterMeter: List<WaterReadingEntity>)
 
     @Query("select * from water_reading where vodomer_id = :vodomerId")
-    fun getWaterReading(vodomerId: Int): List<WaterReadingEntity>
+    fun getWaterReadings(vodomerId: Int): List<WaterReadingEntity>
 
     @Query("delete from water_reading")
     fun deleteAllWaterReadings()
@@ -21,4 +21,6 @@ interface WaterReadingDao {
     @Query("delete from water_reading where address_id not in (:addressIds)")
     fun deleteWaterReadingByApartment(addressIds: List<Int>)
 
+    @Query("delete from water_reading where pok_id = :readingId ")
+    fun deleteWaterReadingById(readingId:Int)
 }

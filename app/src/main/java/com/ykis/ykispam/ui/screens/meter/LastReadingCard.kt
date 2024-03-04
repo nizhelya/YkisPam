@@ -1,5 +1,8 @@
 package com.ykis.ykispam.ui.screens.meter
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,7 +36,11 @@ fun LastReadingCardButtons(
         horizontalArrangement = Arrangement.End
     )
     {
-        if(showDeleteButton){
+        AnimatedVisibility(
+            visible = showDeleteButton,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ){
             TextButton(
                 onClick = {onDeleteButtonClick()},
             ) {
@@ -53,7 +60,7 @@ fun LastReadingCardButtons(
         }
 
         Button(
-            modifier = modifier.padding(horizontal = 4.dp),
+            modifier = modifier.padding(horizontal = 8.dp),
             onClick = {
                 onAddButtonClick()
             }

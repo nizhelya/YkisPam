@@ -12,8 +12,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -58,6 +60,11 @@ fun WaterMeterDetail(
     }
     var showDeleteReadingDialog by rememberSaveable {
         mutableStateOf(false)
+    }
+    val enabledButton by remember(key1 =newWaterReading ,key2 = lastReading.current  ) {
+        derivedStateOf {
+            (newWaterReading.takeIf { it.isNotEmpty() }?.toInt() ?: 0) > lastReading.current
+        }
     }
     LaunchedEffect(key1 = baseUIState.addressId, key2 = waterMeterEntity.vodomerId) {
         if (isWorking) {
@@ -160,7 +167,8 @@ fun WaterMeterDetail(
             onAddClick = addReading,
             currentReading = lastReading.current.toString(),
             newReading = newWaterReading,
-            onReadingChange = onNewReadingChange
+            onReadingChange = onNewReadingChange,
+            enabledButton = enabledButton
         )
     }
     if (showDeleteReadingDialog) {

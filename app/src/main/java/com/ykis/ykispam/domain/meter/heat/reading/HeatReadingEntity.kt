@@ -30,13 +30,11 @@ data class HeatReadingEntity(
     val koef: String = "Unknown",
     val days: Short = 0,
     val last: Double = 0.0,
-    val currant: Double = 0.0,
+    val current: Double = 0.0,
     val gkal: Double = 0.0,
     val avg: Byte = 0,
     val tarif: Double = 0.0,
     val qty: Double = 0.0,
-//    val gkm2         : String= "Unknown",
-//    val otoplenie    : Double= 0.0,
     @Json(name = "pok_ot")
     @ColumnInfo(name = "pok_ot")
     val pokOt: String = "Unknown",

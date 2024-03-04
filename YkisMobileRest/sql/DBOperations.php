@@ -377,21 +377,21 @@ SELECT t1.`rec_id` , t1.`address_id`,t1.`address`, t1.`god`, t1.`data`,sum(t1.`k
         return mysqli_query($com->getDb(), $sql);
     }
 
-    public function addCurrentWaterReading($vodomer_id, $current_value,  $new_value, $date)
+    public function addCurrentWaterReading($uid,$vodomer_id, $current_value,  $new_value)
     {
         $com = new DbConnect();
 
-        $sql = 'CALL YISGRAND.input_new_pokaz_avodomer_mob('.$vodomer_id.' , "'.$current_value.'" ,"'.$new_value.'" ,"'.$date.'" , @success , @msg);';
+        $sql = 'CALL YISGRAND.input_new_pokaz_avodomer_mob("'.$uid.'" ,'.$vodomer_id.' , "'.$current_value.'" ,"'.$new_value.'" , @success , @msg);';
 //        print_r($sql);
         mysqli_query( $com->getDb(), $sql);
         $sqlCallBack = 'SELECT @success , @msg ';
         return mysqli_query( $com->getDb(), $sqlCallBack);
     }
 
-    public function deleteCurrentWaterReading($pok_id )
+    public function deleteCurrentWaterReading($uid,$pok_id)
     {
         $com = new DbConnect();
-        $sql = 'CALL YISGRAND.delete_pokaz_avodomera_mob('.$pok_id.' , @success , @msg);';
+        $sql = 'CALL YISGRAND.delete_pokaz_avodomera_mob("'.$uid.'" ,'.$pok_id.' , @success , @msg);';
 //        print_r($sql);
         mysqli_query( $com->getDb(), $sql);
         $sqlCallBack = 'SELECT @success , @msg ';
@@ -412,20 +412,20 @@ SELECT t1.`rec_id` , t1.`address_id`,t1.`address`, t1.`god`, t1.`data`,sum(t1.`k
         return mysqli_query($com->getDb(), $sql);
     }
 
-    public function addCurrentHeatReading( $teplomer_id,  $current_value, $new_value,  $date)
+    public function addCurrentHeatReading($uid, $teplomer_id,  $current_value, $new_value)
     {
         $com = new DbConnect();
 
-        $sql = 'CALL YISGRAND.input_new_pokaz_ateplomera_mob('.$teplomer_id.' , "'.$current_value.'" ,"'.$new_value.'" ,"'.$date.'" , @success , @msg);';
+        $sql = 'CALL YISGRAND.input_new_pokaz_ateplomera_mob("'.$uid.'", '.$teplomer_id.' , "'.$current_value.'" ,"'.$new_value.'" , @success , @msg)';
         mysqli_query( $com->getDb(), $sql);
         $sqlCallBack = 'SELECT @success , @msg ';
         return mysqli_query( $com->getDb(), $sqlCallBack);
     }
 
-    public function deleteCurrentHeatReading( $pok_id)
+    public function deleteCurrentHeatReading($uid,$pok_id)
     {
         $com = new DbConnect();
-        $sql = 'CALL YISGRAND.delete_pokaz_ateplomera_mob('.$pok_id.' , @success , @msg);';
+        $sql = 'CALL YISGRAND.delete_pokaz_ateplomera_mob("'.$uid.'" ,'.$pok_id.' , @success , @msg)';
 //        print_r($sql);
         mysqli_query( $com->getDb(), $sql);
         $sqlCallBack = 'SELECT @success , @msg ';

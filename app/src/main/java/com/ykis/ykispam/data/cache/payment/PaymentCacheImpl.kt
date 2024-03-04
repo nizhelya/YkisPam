@@ -29,7 +29,7 @@ class PaymentCacheImpl @Inject constructor(
         return paymentDao.getPaymentsFromYearsFlat(addressId, year)
     }
 
-    override fun deletePaymentByApartment(addressIds: List<Int>) {
+    override suspend fun deletePaymentByApartment(addressIds: List<Int>) {
         paymentDao.deletePaymentByApartment(addressIds)
     }
 }

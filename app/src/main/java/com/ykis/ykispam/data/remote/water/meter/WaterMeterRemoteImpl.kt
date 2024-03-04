@@ -1,14 +1,12 @@
 package com.ykis.ykispam.data.remote.water.meter
 
 import com.ykis.ykispam.data.remote.api.ApiService
-import com.ykis.ykispam.data.remote.core.Request
 import retrofit2.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class WaterMeterRemoteImpl @Inject constructor(
-    private val request: Request,
     private val apiService: ApiService
 ) : WaterMeterRemote {
 

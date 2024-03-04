@@ -1,6 +1,8 @@
 package com.ykis.ykispam.domain.meter.heat.reading.request
 
+import com.ykis.ykispam.R
 import com.ykis.ykispam.core.Resource
+import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.data.cache.database.AppDatabase
 import com.ykis.ykispam.domain.meter.heat.reading.HeatReadingEntity
 import com.ykis.ykispam.domain.meter.heat.reading.HeatReadingRepository
@@ -20,17 +22,18 @@ class GetHeatReadings @Inject constructor(
             val response = repository.getHeatReadings(teplomerId,uid)
             if(response.success==1){
                 emit(Resource.Success(response.heatReadings))
-//                database.waterMeterDao().insertWaterMeter(response.waterMeters)
+                database.heatReadingDao().insertHeatReading(response.heatReadings)
             }
         }catch (e: HttpException) {
-            emit(Resource.Error(e.localizedMessage ?: "Unexpected error!"))
+            SnackbarManager.showMessage(e.message())
+            emit(Resource.Error())
         } catch (e: IOException) {
-//            val waterMeterList = database.waterMeterDao().getWaterMeter(addressId)
-//            if(waterMeterList.isNotEmpty()){
-//                emit(Resource.Success(waterMeterList))
-//                return@flow
-//            }
-            emit(Resource.Error("Check your internet connection"))
+            val readingList = database.heatReadingDao().getHeatReading(teplomerId)
+            if(readingList.isNotEmpty()){
+                emit(Resource.Success(readingList))
+            }
+            SnackbarManager.showMessage(R.string.error_network)
+            emit(Resource.Error())
         }
     }
 }

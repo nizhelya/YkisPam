@@ -86,13 +86,12 @@ fun WaterMeterItem(
                     valueText = waterMeter.place
                 )
                 Text(
-//                    style = MaterialTheme.typography.titleMedium,
                     text = statusText
                 )
 
             }
         Icon(
-            modifier = Modifier.padding(end = 36.dp),
+            modifier = Modifier.padding(end = 24.dp),
             imageVector = Icons.Default.ChevronRight,
             contentDescription = null
         )

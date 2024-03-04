@@ -5,8 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.AuthCredential
-import com.ykis.ykispam.ui.BaseViewModel
-import com.ykis.ykispam.core.Response
+import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.core.ext.isValidEmail
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.firebase.service.repo.FirebaseService
@@ -14,6 +13,7 @@ import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.firebase.service.repo.OneTapSignInResponse
 import com.ykis.ykispam.firebase.service.repo.SignInResponse
 import com.ykis.ykispam.firebase.service.repo.SignInWithGoogleResponse
+import com.ykis.ykispam.ui.BaseViewModel
 import com.ykis.ykispam.ui.navigation.LaunchScreen
 import com.ykis.ykispam.ui.navigation.SignUpScreen
 import com.ykis.ykispam.ui.screens.auth.sign_in.components.SingInUiState
@@ -35,12 +35,14 @@ class SignInViewModel @Inject constructor(
 
     var singInUiState by mutableStateOf(SingInUiState())
         private set
-    var oneTapSignInResponse by mutableStateOf<OneTapSignInResponse>(Response.Success(null))
+    var oneTapSignInResponse by mutableStateOf<OneTapSignInResponse>(Resource.Success(
+        null
+    ))
         private set
-    var signInWithGoogleResponse by mutableStateOf<SignInWithGoogleResponse>(Response.Success(null))
+    var signInWithGoogleResponse by mutableStateOf<SignInWithGoogleResponse>(Resource.Success(false))
         private set
 
-    var signInResponse by mutableStateOf<SignInResponse>(Response.Success(false))
+    var signInResponse by mutableStateOf<SignInResponse>(Resource.Success(false))
 
     fun onEmailChange(newValue: String) {
         singInUiState = singInUiState.copy(email = newValue)
@@ -83,7 +85,7 @@ class SignInViewModel @Inject constructor(
 
     fun oneTapSignIn() {
         launchCatching {
-            oneTapSignInResponse = Response.Loading
+            oneTapSignInResponse = Resource.Loading()
             oneTapSignInResponse = firebaseService.oneTapSignInWithGoogle()
         }
     }
@@ -91,7 +93,7 @@ class SignInViewModel @Inject constructor(
 
     fun signInWithGoogle(googleCredential: AuthCredential) {
         launchCatching {
-            oneTapSignInResponse = Response.Loading
+            oneTapSignInResponse = Resource.Loading()
             signInWithGoogleResponse = firebaseService.firebaseSignInWithGoogle(googleCredential)
         }
     }

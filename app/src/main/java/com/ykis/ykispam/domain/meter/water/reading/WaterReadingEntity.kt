@@ -27,7 +27,7 @@ data class WaterReadingEntity(
     val dateDo: String = "2024-01-01",//
     val days: Int = 0,//
     val last: Int = 0,//
-    val current: Int = 0,//
+    val current: Int = 15,//
     val kub: Int = 0,//
     val avg: Byte = 0,//
     @Json(name = "pok_ot")

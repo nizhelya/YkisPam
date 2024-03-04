@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ykis.ykispam.core.ProgressBar
-import com.ykis.ykispam.core.Response
+import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.ui.screens.auth.sign_in.SignInViewModel
 
 
@@ -14,15 +14,15 @@ fun SignInWithGoogle(
     navigateToHomeScreen: (signedIn: Boolean) -> Unit
 ) {
     when (val signInWithGoogleResponse = viewModel.signInWithGoogleResponse) {
-        is Response.Loading -> ProgressBar()
-        is Response.Success -> signInWithGoogleResponse.data?.let { signedIn ->
+        is Resource.Loading -> ProgressBar()
+        is Resource.Success -> signInWithGoogleResponse.data?.let { signedIn ->
             LaunchedEffect(signedIn) {
                 navigateToHomeScreen(signedIn)
             }
         }
 
-        is Response.Failure -> LaunchedEffect(Unit) {
-            print(signInWithGoogleResponse.e)
+        is Resource.Error -> LaunchedEffect(Unit) {
+            print(signInWithGoogleResponse.message)
         }
 
     }

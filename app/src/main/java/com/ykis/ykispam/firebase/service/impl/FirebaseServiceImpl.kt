@@ -17,8 +17,8 @@ import com.ykis.ykispam.core.Constants.PHOTO_URL
 import com.ykis.ykispam.core.Constants.SIGN_IN_REQUEST
 import com.ykis.ykispam.core.Constants.SIGN_UP_REQUEST
 import com.ykis.ykispam.core.Constants.USERS
-import com.ykis.ykispam.core.Response.Failure
-import com.ykis.ykispam.core.Response.Success
+import com.ykis.ykispam.core.Resource
+
 import com.ykis.ykispam.core.trace
 import com.ykis.ykispam.firebase.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.service.repo.OneTapSignInResponse
@@ -98,9 +98,9 @@ class FirebaseServiceImpl @Inject constructor(
     override suspend fun sendEmailVerification(): SendEmailVerificationResponse {
         return try {
             auth.currentUser?.sendEmailVerification()?.await()
-            Success(true)
+            Resource.Success(true)
         } catch (e: Exception) {
-            Failure(e)
+            Resource.Error(e.message)
         }
     }
 
@@ -108,9 +108,9 @@ class FirebaseServiceImpl @Inject constructor(
     override suspend fun sendPasswordResetEmail(email: String): SendPasswordResetEmailResponse {
         return try {
             auth.sendPasswordResetEmail(email).await()
-            Success(true)
+            Resource.Success(true)
         } catch (e: Exception) {
-            Failure(e)
+            Resource.Error(e.message)
         }
     }
 
@@ -128,9 +128,9 @@ class FirebaseServiceImpl @Inject constructor(
     override suspend fun revokeAccessEmail(): RevokeAccessResponse {
         return try {
             auth.currentUser?.delete()?.await()
-            Success(true)
+            Resource.Success(true)
         } catch (e: Exception) {
-            Failure(e)
+            Resource.Error(e.message)
         }
     }
 
@@ -154,13 +154,13 @@ class FirebaseServiceImpl @Inject constructor(
     override suspend fun oneTapSignInWithGoogle(): OneTapSignInResponse {
         return try {
             val signInResult = oneTapClient.beginSignIn(signInRequest).await()
-            Success(signInResult)
+            Resource.Success(signInResult)
         } catch (e: Exception) {
             try {
                 val signUpResult = oneTapClient.beginSignIn(signUpRequest).await()
-                Success(signUpResult)
+                Resource.Success(signUpResult)
             } catch (e: Exception) {
-                Failure(e)
+                Resource.Error(e.message)
             }
         }
     }
@@ -174,9 +174,9 @@ class FirebaseServiceImpl @Inject constructor(
             if (isNewUser) {
                 addUserToFirestore()
             }
-            Success(true)
+            Resource.Success(true)
         } catch (e: Exception) {
-            Failure(e)
+            Resource.Error(e.message)
         }
     }
 
@@ -199,9 +199,9 @@ class FirebaseServiceImpl @Inject constructor(
         return try {
             oneTapClient.signOut().await()
             auth.signOut()
-            Success(true)
+            Resource.Success(true)
         } catch (e: Exception) {
-            Failure(e)
+            Resource.Error(e.message)
         }
     }
 
@@ -213,9 +213,9 @@ class FirebaseServiceImpl @Inject constructor(
                 oneTapClient.signOut().await()
                 delete().await()
             }
-            Success(true)
+            Resource.Success(true)
         } catch (e: Exception) {
-            Failure(e)
+            Resource.Error(e.message)
         }
     }
 
@@ -233,9 +233,9 @@ class FirebaseServiceImpl @Inject constructor(
 //    ): SignInResponse {
 //        return try {
 //            auth.signInWithEmailAndPassword(email, password).await()
-//            Success(true)
+//            Resource.Success(true)
 //        } catch (e: Exception) {
-//            Failure(e)
+//            Resource.Error(e.message)
 //        }
 //    }
     override suspend fun firebaseSignInWithEmailAndPassword(email: String, password: String) {
@@ -245,9 +245,9 @@ class FirebaseServiceImpl @Inject constructor(
     override suspend fun reloadFirebaseUser(): ReloadUserResponse {
         return try {
             auth.currentUser?.reload()?.await()
-            Success(true)
+            Resource.Success(true)
         } catch (e: Exception) {
-            Failure(e)
+            Resource.Error(e.message)
         }
     }
 
@@ -256,9 +256,9 @@ class FirebaseServiceImpl @Inject constructor(
     ): SignUpResponse {
         return try {
             auth.createUserWithEmailAndPassword(email, password).await()
-            Success(true)
+            Resource.Success(true)
         } catch (e: Exception) {
-            Failure(e)
+            Resource.Error(e.message)
         }
     }
 
@@ -266,9 +266,9 @@ class FirebaseServiceImpl @Inject constructor(
     override suspend fun addUserFirestore(): addUserFirestoreResponse {
         return try {
             addUserToFirestore()
-            Success(true)
+            Resource.Success(true)
         } catch (e: Exception) {
-            Failure(e)
+            Resource.Error(e.message)
         }
     }
 

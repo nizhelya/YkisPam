@@ -3,48 +3,15 @@ package com.ykis.ykispam.data.remote.appartment
 import com.ykis.ykispam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.data.remote.api.ApiService
 import com.ykis.ykispam.data.remote.core.BaseResponse
-import com.ykis.ykispam.data.remote.core.Request
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.domain.type.Either
-import com.ykis.ykispam.domain.type.Failure
 import retrofit2.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ApartmentRemoteImpl @Inject constructor(
-    private val request: Request,
     private val apiService: ApiService
 ) : ApartmentRemote {
-
-
-    override fun deleteFlatByUser(
-        addressId: Int,
-        uid: String
-    ): Either<Failure, GetSimpleResponse> {
-        return request.make(
-            apiService.deleteApartment(
-                createRequestByAddressId(addressId, uid)
-            )
-        ) {
-            it
-        }
-    }
-
-    override fun getFlatById(
-        addressId: Int,
-        uid: String
-    ): Either<Failure, ApartmentEntity> {
-        return request.make(
-            apiService.getFlatById(
-                createRequestByAddressId(
-                    addressId, uid
-                )
-            )
-        ) {
-            it.apartments[0]
-        }
-    }
 
     override suspend fun getApartmentList(uid: String): GetApartmentsResponse {
         return apiService.getApartmentList(

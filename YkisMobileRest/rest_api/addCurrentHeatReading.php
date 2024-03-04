@@ -1,4 +1,3 @@
-
 <?php
 $response = array();
 
@@ -10,20 +9,17 @@ if (isset($_POST['teplomer_id']) &&
     !empty($_POST['current_value']) &&
     isset($_POST['new_value']) &&
     !empty($_POST['new_value']) &&
-    isset($_POST['user_id']) &&
-    !empty($_POST['user_id'])&&
-    isset($_POST['token']) &&
-    !empty($_POST['token']))   {
+    isset($_POST['uid']) &&
+    !empty($_POST['uid']))   {
+    $uid  = $_POST['uid'];
     $teplomer_id = $_POST['teplomer_id'];
     $current_value = $_POST['current_value'];
     $new_value = $_POST['new_value'];
-    $user_id = $_POST['user_id'];
-    $token = $_POST['token'];
-    $date = Date("Ymd");
+    $token = $_POST['uid'];
     $dbOperationsObject = new DBOperations();
     $generalFunctionsObject = new GeneralFunctionsClass();
 
-    $result = $dbOperationsObject->addCurrentHeatReading($teplomer_id , $current_value , $new_value ,$date);
+    $result = $dbOperationsObject->addCurrentHeatReading($uid,$teplomer_id , $current_value , $new_value );
     $results = $generalFunctionsObject->addCurrentReading($result);
     $response["success"] = $results[0]["success"];
     $response["message"] = $results[0]["message"];

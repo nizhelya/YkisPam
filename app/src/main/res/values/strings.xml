@@ -302,7 +302,7 @@
     <string name="pay">Сплатити</string>
     <string name="two_numbers_after_comma">%.2f</string>
     //error
-    <string name="error_network">Немає доступу до Інтернету \n Перевірте підключення</string>
+    <string name="error_network">Немає доступу до Інтернету. Перевірте підключення</string>
     <string name="error_update">Не вдалося оновити дані</string>
     <string name="error_delete_flat">Не вдалося видалити квартиру</string>
     <string name="error_missing_fields">В запросе отсутствует поле</string>

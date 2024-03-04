@@ -5,31 +5,108 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e31f1904-1a5b-421b-8d77-afa4b572ea8b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/water/reading/request/DeleteLastWaterReading.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/components/BaseCard.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/DeleteReadingDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/heat/reading/request/DeleteLastHeatReading.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rest_api/GeneralFunctions.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/GeneralFunctions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rest_api/addCurrentHeatReading.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/addCurrentHeatReading.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rest_api/addCurrentWaterReading.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/addCurrentWaterReading.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rest_api/deleteCurrentHeatReading.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/deleteCurrentHeatReading.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rest_api/deleteCurrentWaterReading.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/deleteCurrentWaterReading.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/core/composable/HelpAlertCard.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rest_api/getLastHeatReading.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/getLastHeatReading.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rest_api/getLastWaterReading.php" beforeDir="false" afterPath="$PROJECT_DIR$/rest_api/getLastWaterReading.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql/DBOperations.php" beforeDir="false" afterPath="$PROJECT_DIR$/sql/DBOperations.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/core/Response.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/core/Response.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/core/ext/LifeCycleExt.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/AddressRepositoryImpl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/ApartmentRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/ApartmentRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/FamilyRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/FamilyRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/HeatMeterRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/HeatMeterRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/HeatReadingRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/HeatReadingRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/PaymentRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/PaymentRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/ServiceRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/ServiceRepositoryImpl.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/WaterReadingRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/WaterReadingRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/cache/dao/HeatReadingDao.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/cache/dao/HeatReadingDao.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/cache/dao/WaterReadingDao.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/cache/dao/WaterReadingDao.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/cache/payment/PaymentCache.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/cache/payment/PaymentCache.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/cache/payment/PaymentCacheImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/cache/payment/PaymentCacheImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/cache/user/UserCache.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/cache/user/UserCacheImpl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/cache/water/reading/WaterReadingCacheImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/cache/water/reading/WaterReadingCacheImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/address/AddressRemote.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/address/AddressRemoteImpl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/address/GetAddressResponse.kt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/api/ApiService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/api/ApiService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/appartment/AppartmentRemote.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/appartment/AppartmentRemote.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/appartment/AppartmentRemoteImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/appartment/AppartmentRemoteImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/core/LifeCycleExt.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/core/Request.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/family/FamilyRemote.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/family/FamilyRemote.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/family/FamilyRemoteImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/family/FamilyRemoteImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/heat/meter/HeatMeterRemote.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/heat/meter/HeatMeterRemote.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/heat/meter/HeatMeterRemoteImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/heat/meter/HeatMeterRemoteImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/heat/reading/HeatReadingRemote.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/heat/reading/HeatReadingRemote.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/heat/reading/HeatReadingRemoteImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/heat/reading/HeatReadingRemoteImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/payment/PaymentRemote.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/payment/PaymentRemote.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/payment/PaymentRemoteImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/payment/PaymentRemoteImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/water/meter/WaterMeterRemoteImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/water/meter/WaterMeterRemoteImpl.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/water/reading/WaterReadingRemote.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/water/reading/WaterReadingRemote.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/water/reading/WaterReadingRemoteImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/data/remote/water/reading/WaterReadingRemoteImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/di/ApartmentModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/di/ApartmentModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/di/AppModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/di/AppModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/address/AddressEntity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/address/AddressRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/address/request/GetBlocks.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/address/request/GetFlatsFromHouse.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/address/request/GetHousesFromStreet.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/address/request/GetStreetsFromBlock.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/apartment/ApartmentRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/apartment/ApartmentRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/apartment/request/DeleteFlatByUser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/apartment/request/DeleteFlatByUser.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/interactor/UseCase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/heat/meter/HeatMeterRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/heat/meter/HeatMeterRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/heat/meter/request/GetHeatMeter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/heat/meter/request/GetHeatMeter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/heat/reading/HeatReadingEntity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/heat/reading/HeatReadingEntity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/heat/reading/HeatReadingRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/heat/reading/HeatReadingRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/heat/reading/request/AddHeatReading.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/heat/reading/request/AddHeatReading.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/heat/reading/request/AddNewHeatReading.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/heat/reading/request/DeleteCurrentHeatReading.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/heat/reading/request/GeatLastHeatReading.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/heat/reading/request/GeatLastHeatReading.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/heat/reading/request/GetHeatReading.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/heat/reading/request/GetHeatReadings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/water/meter/request/GetWaterMeter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/water/meter/request/GetWaterMeter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/water/reading/WaterReadingEntity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/water/reading/WaterReadingEntity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/water/reading/WaterReadingRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/water/reading/WaterReadingRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/water/reading/request/DeleteCurrentWaterReading.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/water/reading/request/AddWaterReading.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/water/reading/request/AddWaterReading.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/water/reading/request/DeleteLastWaterReading.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/water/reading/request/DeleteLastWaterReading.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/water/reading/request/GetLastWaterReading.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/water/reading/request/GetLastWaterReading.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/water/reading/request/GetWaterReadings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/meter/water/reading/request/GetWaterReadings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/payment/PaymentRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/payment/PaymentRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/payment/request/GetFlatPayment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/payment/request/GetFlatPayment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/type/Either.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/type/Failure.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/type/HandleOnce.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/type/None.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/domain/user/UserEntity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/firebase/service/impl/FirebaseServiceImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/firebase/service/impl/FirebaseServiceImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/firebase/service/repo/FirebaseService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/firebase/service/repo/FirebaseService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/auth/sign_in/SignInViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/auth/sign_in/SignInViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/auth/sign_in/components/OneTapSignIn.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/auth/sign_in/components/OneTapSignIn.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/auth/sign_in/components/SignInWithGoogle.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/auth/sign_in/components/SignInWithGoogle.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/auth/sign_up/SignUpViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/auth/sign_up/SignUpViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/auth/sign_up/components/SignUp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/auth/sign_up/components/SignUp.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/auth/verify_email/components/ReloadUser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/auth/verify_email/components/ReloadUser.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/AddReadingDialog.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/AddReadingDialog.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/LastReadingCard.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/LastReadingCard.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/MainMeterScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/MainMeterScreen.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/MeterViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/MeterViewModel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/heat/HeatMeterDetail.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/heat/HeatMeterDetail.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/heat/HeatMeterItem.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/heat/HeatMeterItem.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/heat/HeatMeterState.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/heat/HeatMeterState.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/heat/reading/HeatReadingItem.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/heat/reading/HeatReadingItem.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/heat/reading/HeatReadings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/heat/reading/HeatReadings.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/water/WaterMeterDetail.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/water/WaterMeterDetail.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/water/reading/WaterReadingItem.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/water/reading/WaterReadingItem.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/water/reading/WaterReadings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/water/reading/WaterReadings.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/theme/Type.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/theme/Type.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/water/WaterMeterItem.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/meter/water/WaterMeterItem.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/profile/ProfileViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/profile/ProfileViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/profile/components/RevokeAccess.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/profile/components/RevokeAccess.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/profile/components/SignOut.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/ykis/ykispam/ui/screens/profile/components/SignOut.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/../gradle/libs.versions.toml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,6 +176,9 @@
       <workItem from="1709370224279" duration="2281000" />
       <workItem from="1709464584484" duration="3044000" />
       <workItem from="1709484755353" duration="775000" />
+      <workItem from="1709540601049" duration="3733000" />
+      <workItem from="1709580529596" duration="1912000" />
+      <workItem from="1709586960467" duration="180000" />
     </task>
     <servers />
   </component>

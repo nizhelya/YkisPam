@@ -10,8 +10,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -28,6 +30,7 @@ import com.ykis.ykispam.ui.components.BaseCard
 import com.ykis.ykispam.ui.components.LabelTextWithCheckBox
 import com.ykis.ykispam.ui.components.LabelTextWithText
 import com.ykis.ykispam.ui.screens.meter.AddReadingDialog
+import com.ykis.ykispam.ui.screens.meter.DeleteReadingDialog
 import com.ykis.ykispam.ui.screens.meter.LastReadingCardButtons
 import com.ykis.ykispam.ui.screens.meter.heat.reading.HeatReadingItemContent
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
@@ -39,13 +42,24 @@ fun HeatMeterDetail(
     baseUIState: BaseUIState,
     getLastHeatReading:()->Unit,
     lastHeatReading: HeatReadingEntity,
+    onNewReadingChange: (String) -> Unit,
+    newHeatReading: String,
+    addReading: () -> Unit,
+    deleteReading : ()->Unit,
     navigateToReadings: () -> Unit,
     isWorking : Boolean
 ) {
     var showAddReadingDialog by rememberSaveable {
         mutableStateOf(false)
     }
-
+    var showDeleteReadingDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
+    val enabledButton by remember {
+        derivedStateOf {
+            newHeatReading.toInt()>lastHeatReading.current
+        }
+    }
     LaunchedEffect(key1 = baseUIState.addressId , key2 = heatMeterEntity.teplomerId ) {
         if(isWorking){
             getLastHeatReading()
@@ -76,7 +90,9 @@ fun HeatMeterDetail(
                 onAddButtonClick = {
                                    showAddReadingDialog=true
                 },
-                onDeleteButtonClick = {}
+                onDeleteButtonClick = {
+                    showDeleteReadingDialog = true
+                }
             )
         }
         BaseCard(label = stringResource(id = R.string.meter_detail_text) ) {
@@ -131,12 +147,19 @@ fun HeatMeterDetail(
         AddReadingDialog(
             onDismissRequest = {
                 showAddReadingDialog = false
-//                onNewReadingChange("")
+                onNewReadingChange("")
             },
-            onAddClick = {},
-            currentReading = lastHeatReading.currant.toString(),
-            newReading = "",
-            onReadingChange = {}
+            onAddClick = addReading,
+            currentReading = lastHeatReading.current.toString(),
+            newReading = newHeatReading,
+            onReadingChange = onNewReadingChange,
+            enabledButton = enabledButton
+        )
+    }
+    if (showDeleteReadingDialog) {
+        DeleteReadingDialog(
+            onDismissRequest = { showDeleteReadingDialog = false },
+            onDeleteClick = { deleteReading() }
         )
     }
 }
@@ -154,7 +177,11 @@ private fun PreviewHeatMeterDetail() {
                 avg = 1
             ),
             isWorking = true,
-            navigateToReadings = {}
+            navigateToReadings = {},
+            onNewReadingChange = {},
+            newHeatReading = "",
+            addReading = {},
+            deleteReading = {}
         )
     }
 }

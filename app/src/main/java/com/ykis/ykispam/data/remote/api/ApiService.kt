@@ -1,7 +1,6 @@
 package com.ykis.ykispam.data.remote.api
 
 import com.ykis.ykispam.data.remote.GetSimpleResponse
-import com.ykis.ykispam.data.remote.address.GetAddressResponse
 import com.ykis.ykispam.data.remote.appartment.GetApartmentResponse
 import com.ykis.ykispam.data.remote.appartment.GetApartmentsResponse
 import com.ykis.ykispam.data.remote.core.BaseResponse
@@ -85,22 +84,6 @@ interface ApiService {
     fun getApartment(@FieldMap params: Map<String, String>): Call<GetApartmentResponse>
 
     @FormUrlEncoded
-    @POST(GET_BLOCKS)
-    fun getBlocks(@FieldMap params: Map<String, String>): Call<GetAddressResponse>
-
-    @FormUrlEncoded
-    @POST(GET_STREETS)
-    fun getStreetsFromBlock(@FieldMap params: Map<String, String>): Call<GetAddressResponse>
-
-    @FormUrlEncoded
-    @POST(GET_HOUSES)
-    fun getHousesFromStreet(@FieldMap params: Map<String, String>): Call<GetAddressResponse>
-
-    @FormUrlEncoded
-    @POST(GET_FLATS)
-    fun getFlatsFromHouse(@FieldMap params: Map<String, String>): Call<GetAddressResponse>
-
-    @FormUrlEncoded
     @POST(ADD_FLAT_BY_USER)
     fun addApartment(@FieldMap params: Map<String, String>): Call<GetSimpleResponse>
 
@@ -158,7 +141,7 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST(DELETE_CURRENT_HEAT_READING)
-    fun deleteCurrentHeatReading(@FieldMap params: Map<String, String>): Call<GetSimpleResponse>
+    fun deleteLastHeatReading(@FieldMap params: Map<String, String>): Call<GetSimpleResponse>
 
     @FormUrlEncoded
     @POST(GET_LAST_WATER_READING)

@@ -20,6 +20,6 @@ if (isset($_POST['teplomer_id']) && !empty($_POST['teplomer_id']) &&
 } else {
     $response["success"] = 0;
     $response["message"] = "Required field(s) is missing";
-    $response["water_readings"] = array();
+    $response["heat_reading"] = array();
     echo json_encode($response);
 }

@@ -12,5 +12,4 @@ class FamilyRepositoryImpl @Inject constructor(
     override suspend fun getFamilyList(params: FamilyParams): List<FamilyEntity> {
         return familyRemote.getFamilyList(params)
     }
-
 }

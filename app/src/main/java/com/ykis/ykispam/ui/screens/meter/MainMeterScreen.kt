@@ -118,6 +118,7 @@ fun MainMeterScreen(
                                     },
                                     deleteReading = {
                                         viewModel.deleteLastWaterReading(
+                                            waterMeterState.lastWaterReading.vodomerId,
                                             waterMeterState.lastWaterReading.pokId,
                                             baseUIState.uid.toString()
                                         )
@@ -136,6 +137,19 @@ fun MainMeterScreen(
                                     isWorking = !heatMeterState.selectedHeatMeter.spisan.isTrue()&& !heatMeterState.selectedHeatMeter.out.isTrue(),
                                     navigateToReadings = {
                                         viewModel.setContentDetail(ContentDetail.HEAT_READINGS)
+                                    },
+                                    newHeatReading = heatMeterState.newHeatReading,
+                                    onNewReadingChange = {
+                                            newValue -> viewModel.onNewHeatReadingChange(newValue.filter { it.isDefined() })
+                                    },
+                                    addReading = {viewModel.addHeatReading(
+                                        uid = baseUIState.uid.toString(),
+                                        teplomerId = heatMeterState.selectedHeatMeter.teplomerId,
+                                        currentValue = heatMeterState.lastHeatReading.current,
+                                        newValue = heatMeterState.newHeatReading.toDouble()
+                                    )},
+                                    deleteReading = {
+
                                     }
                                 )
                             }
@@ -281,6 +295,7 @@ fun SinglePanelMeter(
                             },
                             deleteReading = {
                                 viewModel.deleteLastWaterReading(
+                                    waterMeterState.lastWaterReading.vodomerId,
                                     waterMeterState.lastWaterReading.pokId,
                                     baseUIState.uid.toString()
                                 )
@@ -299,6 +314,23 @@ fun SinglePanelMeter(
                             isWorking = !heatMeterState.selectedHeatMeter.spisan.isTrue()&& !heatMeterState.selectedHeatMeter.out.isTrue(),
                             navigateToReadings = {
                                 viewModel.setContentDetail(ContentDetail.HEAT_READINGS)
+                            },
+                            newHeatReading = heatMeterState.newHeatReading,
+                            onNewReadingChange = {
+                                newValue -> viewModel.onNewHeatReadingChange(newValue.filter { it.isDefined() })
+                            },
+                            addReading = {viewModel.addHeatReading(
+                                uid = baseUIState.uid.toString(),
+                                teplomerId = heatMeterState.selectedHeatMeter.teplomerId,
+                                currentValue = heatMeterState.lastHeatReading.current,
+                                newValue = heatMeterState.newHeatReading.toDouble()
+                            )},
+                            deleteReading ={
+                                viewModel.deleteLastHeatReading(
+                                    readingId = heatMeterState.lastHeatReading.pokId,
+                                    teplomerId = heatMeterState.selectedHeatMeter.teplomerId,
+                                    uid = baseUIState.uid.toString()
+                                )
                             }
                         )
                     }

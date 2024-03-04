@@ -5,7 +5,6 @@ import android.content.Context
 import androidx.room.Room
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.ykis.ykispam.data.AddressRepositoryImpl
 import com.ykis.ykispam.data.ApartmentRepositoryImpl
 import com.ykis.ykispam.data.FamilyRepositoryImpl
 import com.ykis.ykispam.data.HeatMeterRepositoryImpl
@@ -23,12 +22,7 @@ import com.ykis.ykispam.data.cache.dao.ServiceDao
 import com.ykis.ykispam.data.cache.dao.WaterMeterDao
 import com.ykis.ykispam.data.cache.dao.WaterReadingDao
 import com.ykis.ykispam.data.cache.database.AppDatabase
-import com.ykis.ykispam.data.cache.heat.meter.HeatMeterCache
-import com.ykis.ykispam.data.cache.heat.reading.HeatReadingCache
 import com.ykis.ykispam.data.cache.payment.PaymentCache
-import com.ykis.ykispam.data.cache.user.UserCache
-import com.ykis.ykispam.data.cache.water.reading.WaterReadingCache
-import com.ykis.ykispam.data.remote.address.AddressRemote
 import com.ykis.ykispam.data.remote.api.ApiService
 import com.ykis.ykispam.data.remote.api.ApiService.Companion.BASE_URL
 import com.ykis.ykispam.data.remote.appartment.ApartmentRemote
@@ -39,15 +33,14 @@ import com.ykis.ykispam.data.remote.payment.PaymentRemote
 import com.ykis.ykispam.data.remote.service.ServiceRemote
 import com.ykis.ykispam.data.remote.water.meter.WaterMeterRemote
 import com.ykis.ykispam.data.remote.water.reading.WaterReadingRemote
-import com.ykis.ykispam.domain.address.AddressRepository
 import com.ykis.ykispam.domain.apartment.ApartmentRepository
 import com.ykis.ykispam.domain.family.FamilyRepository
 import com.ykis.ykispam.domain.meter.heat.meter.HeatMeterRepository
 import com.ykis.ykispam.domain.meter.heat.reading.HeatReadingRepository
-import com.ykis.ykispam.domain.payment.PaymentRepository
-import com.ykis.ykispam.domain.service.ServiceRepository
 import com.ykis.ykispam.domain.meter.water.meter.WaterMeterRepository
 import com.ykis.ykispam.domain.meter.water.reading.WaterReadingRepository
+import com.ykis.ykispam.domain.payment.PaymentRepository
+import com.ykis.ykispam.domain.service.ServiceRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -156,19 +149,10 @@ object AppModule {
     @Provides
     fun provideApartmentRepository(
         apartmentRemote: ApartmentRemote,
-        userCache: UserCache,
     ): ApartmentRepository {
-        return ApartmentRepositoryImpl(apartmentRemote,userCache)
+        return ApartmentRepositoryImpl(apartmentRemote)
     }
 
-    @Singleton
-    @Provides
-    fun provideAddressRepository(
-        addressRemote: AddressRemote,
-        userCache: UserCache,
-    ): AddressRepository {
-        return AddressRepositoryImpl(addressRemote,userCache)
-    }
     @Singleton
     @Provides
     fun provideFamilyRepository(
@@ -182,7 +166,7 @@ object AppModule {
     fun provideServiceRepository(
         serviceRemote: ServiceRemote,
     ): ServiceRepository {
-        return ServiceRepositoryImpl(api = serviceRemote )
+        return ServiceRepositoryImpl(serviceRemote = serviceRemote )
     }
 
     @Singleton
@@ -190,9 +174,8 @@ object AppModule {
     fun providePaymentRepository(
         paymentCache: PaymentCache,
         paymentRemote: PaymentRemote,
-        userCache: UserCache
     ): PaymentRepository {
-        return PaymentRepositoryImpl(paymentCache , paymentRemote, userCache )
+        return PaymentRepositoryImpl(paymentCache , paymentRemote)
     }
     @Singleton
     @Provides
@@ -204,29 +187,23 @@ object AppModule {
     @Singleton
     @Provides
     fun provideWaterReadingRepository(
-        waterReadingCache : WaterReadingCache,
         waterReadingRemote: WaterReadingRemote,
-        userCache: UserCache
     ): WaterReadingRepository {
-        return  WaterReadingRepositoryImpl(waterReadingCache ,waterReadingRemote , userCache)
+        return  WaterReadingRepositoryImpl(waterReadingRemote)
     }
     @Singleton
     @Provides
     fun provideHeatMeterRepository(
-        heatMeterCache: HeatMeterCache,
         heatMeterRemote: HeatMeterRemote,
-        userCache: UserCache
     ): HeatMeterRepository {
-        return  HeatMeterRepositoryImpl(heatMeterCache ,heatMeterRemote , userCache)
+        return  HeatMeterRepositoryImpl(heatMeterRemote)
     }
     @Singleton
     @Provides
     fun provideHeatReadingRepository(
-        heatReadingCache : HeatReadingCache,
         heatReadingRemote: HeatReadingRemote,
-        userCache: UserCache
     ): HeatReadingRepository {
-        return  HeatReadingRepositoryImpl(heatReadingCache ,heatReadingRemote , userCache)
+        return  HeatReadingRepositoryImpl(heatReadingRemote)
     }
 
     @ApplicationScope

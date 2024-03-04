@@ -1,4 +1,3 @@
-
 <?php
 $response = array();
 
@@ -16,11 +15,11 @@ if (isset($_POST['vodomer_id']) &&
     $current_value = $_POST['current_value'];
     $new_value = $_POST['new_value'];
     $uid = $_POST['uid'];
-    $date = Date("Ymd");
+
     $dbOperationsObject = new DBOperations();
     $generalFunctionsObject = new GeneralFunctionsClass();
 
-    $result = $dbOperationsObject->addCurrentWaterReading($vodomer_id , $current_value , $new_value ,$date);
+    $result = $dbOperationsObject->addCurrentWaterReading($uid,$vodomer_id , $current_value , $new_value );
     $results = $generalFunctionsObject->addCurrentReading($result);
     $response["success"] = $results[0]["success"];
     $response["message"] = $results[0]["message"];

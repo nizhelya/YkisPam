@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import com.ykis.ykispam.core.ProgressBar
-import com.ykis.ykispam.core.Response
+import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.ui.screens.profile.ProfileViewModel
 
 @Composable
@@ -13,14 +13,14 @@ fun SignOut(
     navigateToAuthScreen: (signedOut: Boolean) -> Unit
 ) {
     when(val signOutResponse = viewModel.signOutResponse.collectAsState().value) {
-        is Response.Loading -> ProgressBar()
-        is Response.Success -> signOutResponse.data?.let { signedOut ->
+        is Resource.Loading -> ProgressBar()
+        is Resource.Success -> signOutResponse.data?.let { signedOut ->
             LaunchedEffect(signedOut) {
                 navigateToAuthScreen(signedOut)
             }
         }
-        is Response.Failure -> LaunchedEffect(Unit) {
-            print(signOutResponse.e)
+        is Resource.Error -> LaunchedEffect(Unit) {
+            print(signOutResponse.message)
         }
     }
 }

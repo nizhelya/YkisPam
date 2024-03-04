@@ -3,60 +3,15 @@ package com.ykis.ykispam.data.remote.water.reading
 import com.ykis.ykispam.data.remote.GetSimpleResponse
 import com.ykis.ykispam.data.remote.api.ApiService
 import com.ykis.ykispam.data.remote.core.BaseResponse
-import com.ykis.ykispam.data.remote.core.Request
 import com.ykis.ykispam.domain.meter.water.reading.AddWaterReadingParams
-import com.ykis.ykispam.domain.meter.water.reading.WaterReadingEntity
-import com.ykis.ykispam.domain.type.Either
-import com.ykis.ykispam.domain.type.Failure
 import retrofit2.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class WaterReadingRemoteImpl @Inject constructor(
-    private val request: Request,
     private val apiService: ApiService
 ) : WaterReadingRemote {
-    override fun getWaterReading(
-        vodomerId: Int,
-        uid: String
-    ): Either<Failure, List<WaterReadingEntity>> {
-        return request.make(
-            apiService.getWaterReadings(
-                createGetWaterReadingMap(
-                    vodomerId,
-                    uid
-                )
-            )
-        )
-        {
-            it.waterReadings
-        }
-    }
-
-    override fun addNewWaterReading(
-        vodomerId: Int,
-        newValue: Int,
-        currentValue: Int,
-        uid: String
-    ): Either<Failure, GetSimpleResponse> {
-        return request.make(
-            apiService.addWaterReading(
-                createAddNewReadingMap(
-                    vodomerId,
-                    newValue,
-                    currentValue,
-                    uid
-                )
-            )
-        )
-        {
-            it
-        }
-    }
-
-
-
     override suspend fun getWaterReadings(vodomerId: Int, uid: String):GetWaterReadingsResponse  {
         return apiService.getWaterReadings(
             createGetWaterReadingMap(

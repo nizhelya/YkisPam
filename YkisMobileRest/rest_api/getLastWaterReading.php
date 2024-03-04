@@ -20,6 +20,6 @@ if (isset($_POST['vodomer_id']) && !empty($_POST['vodomer_id']) &&
 } else {
  $response["success"] = 0;
  $response["message"] = "Required field(s) is missing";
- $response["water_readings"] = array();
+ $response["water_reading"] = array();
  echo json_encode($response);
 }

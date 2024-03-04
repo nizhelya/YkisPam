@@ -3,21 +3,20 @@ package com.ykis.ykispam.firebase.service.repo
 import com.google.android.gms.auth.api.identity.BeginSignInResult
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseUser
-import com.ykis.ykispam.core.Response
-
+import com.ykis.ykispam.core.Resource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 
-typealias SignOutResponse = Response<Boolean>
-typealias RevokeAccessResponse = Response<Boolean>
-typealias OneTapSignInResponse = Response<BeginSignInResult>
-typealias SignInWithGoogleResponse = Response<Boolean>
-typealias SignUpResponse = Response<Boolean>
-typealias SendEmailVerificationResponse = Response<Boolean>
-typealias SignInResponse = Response<Boolean>
-typealias addUserFirestoreResponse = Response<Boolean>
-typealias ReloadUserResponse = Response<Boolean>
-typealias SendPasswordResetEmailResponse = Response<Boolean>
+typealias SignOutResponse = Resource<Boolean>
+typealias RevokeAccessResponse = Resource<Boolean>
+typealias OneTapSignInResponse = Resource<BeginSignInResult>
+typealias SignInWithGoogleResponse = Resource<Boolean>
+typealias SignUpResponse = Resource<Boolean>
+typealias SendEmailVerificationResponse = Resource<Boolean>
+typealias SignInResponse = Resource<Boolean>
+typealias addUserFirestoreResponse = Resource<Boolean>
+typealias ReloadUserResponse = Resource<Boolean>
+typealias SendPasswordResetEmailResponse = Resource<Boolean>
 typealias AuthStateResponse = StateFlow<Boolean>
 
 

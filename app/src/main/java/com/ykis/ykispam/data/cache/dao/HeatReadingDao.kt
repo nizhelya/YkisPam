@@ -3,8 +3,8 @@ package com.ykis.ykispam.data.cache.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
-import com.ykis.ykispam.domain.meter.heat.reading.HeatReadingEntity
 import androidx.room.Query
+import com.ykis.ykispam.domain.meter.heat.reading.HeatReadingEntity
 
 
 @Dao
@@ -19,4 +19,6 @@ interface HeatReadingDao {
     @Query("delete from heat_reading where address_id not in (:addressIds)")
     fun deleteHeatReadingsByApartment(addressIds: List<Int>)
 
+    @Query("delete from heat_reading where pok_id = :readingId")
+    fun deleteHeatReadingById(readingId:Int)
 }

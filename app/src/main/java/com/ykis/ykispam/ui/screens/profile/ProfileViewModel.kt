@@ -1,13 +1,13 @@
 package com.ykis.ykispam.ui.screens.profile
 
 import androidx.lifecycle.viewModelScope
-import com.ykis.ykispam.ui.BaseViewModel
-import com.ykis.ykispam.core.Response
+import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.domain.ClearDatabase
 import com.ykis.ykispam.firebase.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.firebase.service.repo.RevokeAccessResponse
 import com.ykis.ykispam.firebase.service.repo.SignOutResponse
+import com.ykis.ykispam.ui.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,15 +28,15 @@ class ProfileViewModel @Inject constructor(
     val email get() = firebaseService.email
     val providerId get() = firebaseService.getProvider(viewModelScope)
 
-    private val _signOutResponse = MutableStateFlow<SignOutResponse>(Response.Success(false))
+    private val _signOutResponse = MutableStateFlow<SignOutResponse>(Resource.Success(false))
     val signOutResponse = _signOutResponse.asStateFlow()
 
-    private val _revokeAccessResponse = MutableStateFlow<RevokeAccessResponse>(Response.Success(false))
+    private val _revokeAccessResponse = MutableStateFlow<RevokeAccessResponse>(Resource.Success(false))
     val revokeAccessResponse = _revokeAccessResponse.asStateFlow()
 
     fun signOut() {
         launchCatching{
-            _signOutResponse.value = Response.Loading
+            _signOutResponse.value =Resource.Loading()
             _signOutResponse.value = firebaseService.signOut()
         }
         this.clearDatabase().launchIn(this.viewModelScope)
@@ -44,7 +44,7 @@ class ProfileViewModel @Inject constructor(
 
     fun revokeAccess() {
         launchCatching {
-            _revokeAccessResponse.value = Response.Loading
+            _revokeAccessResponse.value = Resource.Loading()
             if (providerId == "password") {
                 _revokeAccessResponse.value = firebaseService.revokeAccessEmail()
             } else if (providerId == "google.com") {

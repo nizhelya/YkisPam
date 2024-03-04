@@ -14,7 +14,7 @@ class WaterReadingCacheImpl @Inject constructor(
     }
 
     override fun getWaterReading(vodomerId: Int): List<WaterReadingEntity> {
-        return waterReadingDao.getWaterReading(vodomerId)
+        return waterReadingDao.getWaterReadings(vodomerId)
     }
 
     override fun deleteAllWaterReading() {

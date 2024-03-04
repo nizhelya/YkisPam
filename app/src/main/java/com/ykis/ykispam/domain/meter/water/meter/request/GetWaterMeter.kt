@@ -1,6 +1,8 @@
 package com.ykis.ykispam.domain.meter.water.meter.request
 
+import com.ykis.ykispam.R
 import com.ykis.ykispam.core.Resource
+import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.data.cache.database.AppDatabase
 import com.ykis.ykispam.domain.meter.water.meter.WaterMeterEntity
 import com.ykis.ykispam.domain.meter.water.meter.WaterMeterRepository
@@ -26,14 +28,16 @@ class GetWaterMeterList @Inject constructor(
                 database.waterMeterDao().insertWaterMeter(response.waterMeters)
             }
         }catch (e: HttpException) {
-            emit(Resource.Error(e.localizedMessage ?: "Unexpected error!"))
+            SnackbarManager.showMessage(e.message())
+            emit(Resource.Error())
         } catch (e: IOException) {
             val waterMeterList = database.waterMeterDao().getWaterMeter(addressId)
             if(waterMeterList.isNotEmpty()){
                 emit(Resource.Success(waterMeterList))
                 return@flow
             }
-            emit(Resource.Error("Check your internet connection"))
+            SnackbarManager.showMessage(R.string.error_network)
+            emit(Resource.Error())
         }
     }
 }

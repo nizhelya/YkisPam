@@ -12,14 +12,10 @@ import com.ykis.ykispam.data.cache.payment.PaymentCache
 import com.ykis.ykispam.data.cache.payment.PaymentCacheImpl
 import com.ykis.ykispam.data.cache.service.ServiceCache
 import com.ykis.ykispam.data.cache.service.ServiceCacheImpl
-import com.ykis.ykispam.data.cache.user.UserCache
-import com.ykis.ykispam.data.cache.user.UserCacheImpl
 import com.ykis.ykispam.data.cache.water.meter.WaterMeterCache
 import com.ykis.ykispam.data.cache.water.meter.WaterMeterCacheImpl
 import com.ykis.ykispam.data.cache.water.reading.WaterReadingCache
 import com.ykis.ykispam.data.cache.water.reading.WaterReadingCacheImpl
-import com.ykis.ykispam.data.remote.address.AddressRemote
-import com.ykis.ykispam.data.remote.address.AddressRemoteImpl
 import com.ykis.ykispam.data.remote.appartment.ApartmentRemote
 import com.ykis.ykispam.data.remote.appartment.ApartmentRemoteImpl
 import com.ykis.ykispam.data.remote.family.FamilyRemote
@@ -62,13 +58,6 @@ abstract class ApartmentModule {
     @Binds
     abstract fun bindFamilyRemote(impl: FamilyRemoteImpl): FamilyRemote
 
-    @Singleton
-    @Binds
-    abstract fun bindUserCache(impl: UserCacheImpl): UserCache
-
-    @Singleton
-    @Binds
-    abstract fun bindAddressRemote(impl: AddressRemoteImpl): AddressRemote
 
     @Singleton
     @Binds

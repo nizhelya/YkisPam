@@ -8,12 +8,12 @@ import com.ykis.ykispam.domain.service.request.ServiceParams
 import javax.inject.Inject
 
 class ServiceRepositoryImpl @Inject constructor(
-    private val api : ServiceRemote
+    private val serviceRemote : ServiceRemote
 ):ServiceRepository{
     override suspend fun getFlatDetailService(params: ServiceParams): List<ServiceEntity> {
-        return api.getFlatDetailServices(params)
+        return serviceRemote.getFlatDetailServices(params)
     }
     override suspend fun getTotalDebtService(params: ServiceParams): GetServiceResponse {
-        return api.getTotalDebtService(params)
+        return serviceRemote.getTotalDebtService(params)
     }
 }

@@ -11,5 +11,6 @@ data class HeatMeterState(
     val isMetersLoading:Boolean = true,
     val isLastReadingLoading : Boolean = true,
     val isReadingsLoading:Boolean = true,
+    val newHeatReading : String = "" ,
     val error : String = ""
 )
