@@ -22,6 +22,10 @@ class GetLastWaterReading @Inject constructor(
             val response = repository.getLastWaterReading(
                 vodomerId, uid
             )
+            val lastReading = database.waterReadingDao().getWaterReadings(vodomerId)
+            if(lastReading.isNotEmpty()){
+                emit(Resource.Success(lastReading.last()))
+            }
             if (response.success == 1) {
                 emit(Resource.Success(response.waterReading))
                 database.waterReadingDao().insertWaterReading(listOf(response.waterReading))
@@ -30,8 +34,10 @@ class GetLastWaterReading @Inject constructor(
             SnackbarManager.showMessage(e.message())
             emit(Resource.Error())
         } catch (e: IOException) {
-            val lastReading = database.waterReadingDao().getWaterReadings(vodomerId).last()
-            emit(Resource.Success(lastReading))
+            val lastReading = database.waterReadingDao().getWaterReadings(vodomerId)
+            if(lastReading.isNotEmpty()){
+                emit(Resource.Success(lastReading.last()))
+            }
             SnackbarManager.showMessage(R.string.error_network)
             emit(Resource.Error())
         }

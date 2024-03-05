@@ -22,6 +22,11 @@ class GetHeatMeterList @Inject constructor(
             val response = repository.getHeatMeterList(
                 addressId,uid
             )
+            val meterList = database.heatMeterDao().getHeatMeter(addressId)
+            if(meterList.isNotEmpty()){
+                emit(Resource.Success(meterList))
+                return@flow
+            }
             if(response.success==1){
                 emit(Resource.Success(response.heatMeters))
                 database.heatMeterDao().insertHeatMeter(response.heatMeters)

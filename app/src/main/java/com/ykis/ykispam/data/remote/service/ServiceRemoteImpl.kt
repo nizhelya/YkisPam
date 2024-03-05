@@ -1,7 +1,6 @@
 package com.ykis.ykispam.data.remote.service
 
 import com.ykis.ykispam.data.remote.api.ApiService
-import com.ykis.ykispam.domain.service.ServiceEntity
 import com.ykis.ykispam.domain.service.request.ServiceParams
 import retrofit2.await
 import javax.inject.Inject
@@ -11,7 +10,7 @@ import javax.inject.Singleton
 class ServiceRemoteImpl @Inject constructor(
     private val apiService: ApiService
 ) : ServiceRemote {
-    override suspend fun getFlatDetailServices(params: ServiceParams): List<ServiceEntity> {
+    override suspend fun getFlatDetailServices(params: ServiceParams): GetServiceResponse {
         return apiService.getFlatService(
                 createGetFlatServiceMap(
                     params.uid,
@@ -21,7 +20,7 @@ class ServiceRemoteImpl @Inject constructor(
                     params.service,
                     params.total
                 )
-            ).await().services
+            ).await()
     }
 
     override suspend fun getTotalDebtService(params: ServiceParams): GetServiceResponse {

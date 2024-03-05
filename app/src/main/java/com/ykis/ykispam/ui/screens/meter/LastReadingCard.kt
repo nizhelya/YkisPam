@@ -29,7 +29,7 @@ fun LastReadingCardButtons(
     modifier: Modifier = Modifier,
     onAddButtonClick: ()->Unit,
     onDeleteButtonClick:()->Unit,
-    showDeleteButton:Boolean =true,
+    showDeleteButton:Boolean,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -90,17 +90,8 @@ private fun PreviewLastWaterReadingCard() {
     YkisPAMTheme {
         LastReadingCardButtons(
             onAddButtonClick = {},
-            onDeleteButtonClick = {}
-        )
-    }
-}
-
-@Composable
-private fun PreviewLastHeatReadingCard() {
-    YkisPAMTheme {
-        LastReadingCardButtons(
-            onAddButtonClick = {},
-            onDeleteButtonClick = {}
+            onDeleteButtonClick = {},
+            showDeleteButton = true
         )
     }
 }

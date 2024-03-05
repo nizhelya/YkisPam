@@ -1,6 +1,5 @@
 package com.ykis.ykispam.domain.meter.heat.reading.request
 
-import android.util.Log
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.core.snackbar.SnackbarManager
@@ -25,7 +24,6 @@ class AddHeatReading @Inject constructor(
             if(response.success==1){
                 emit(Resource.Success(response))
             }
-            Log.d("reading_test", response.message)
         }catch (e: HttpException) {
             SnackbarManager.showMessage(e.message())
             emit(Resource.Error())

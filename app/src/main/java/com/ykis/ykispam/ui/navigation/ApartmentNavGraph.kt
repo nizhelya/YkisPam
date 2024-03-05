@@ -66,7 +66,7 @@ fun MainApartmentScreen(
     val coroutineScope = rememberCoroutineScope()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val selectedDestination =
-        navBackStackEntry?.destination?.route ?: InfoApartmentScreen.routeWithArgs
+        navBackStackEntry?.destination?.route ?: InfoApartmentScreen.route
     val railWidth by animateDpAsState(
         targetValue = if (isRailExpanded) 260.dp else 80.dp, tween(550), label = ""
     )
@@ -98,7 +98,8 @@ fun MainApartmentScreen(
                         navigateToApartment = { addressId ->
                             coroutineScope.launch {
                                 drawerState.close()
-                                navController.navigateToInfoApartment(addressId)
+//                                navController.navigateToInfoApartment(addressId)
+                                viewModel.setAddressId(addressId)
                             }
 
                         },
@@ -135,7 +136,7 @@ fun MainApartmentScreen(
                         },
                         apartmentViewModel = viewModel,
                         rootNavController = rootNavController,
-                        firstDestination =  if(baseUIState.apartments.isNotEmpty()) InfoApartmentScreen.routeWithArgs else AddApartmentScreen.route
+                        firstDestination =  if(baseUIState.apartments.isNotEmpty()) InfoApartmentScreen.route else AddApartmentScreen.route
 
                     )
                 }
@@ -162,7 +163,7 @@ fun MainApartmentScreen(
                     },
                     apartmentViewModel = viewModel,
                     rootNavController = rootNavController,
-                        firstDestination = if(baseUIState.apartments.isNotEmpty()) InfoApartmentScreen.routeWithArgs else AddApartmentScreen.route
+                        firstDestination = if(baseUIState.apartments.isNotEmpty()) InfoApartmentScreen.route else AddApartmentScreen.route
 
                 )
                 ApartmentNavigationRail(
@@ -177,7 +178,9 @@ fun MainApartmentScreen(
                     onMenuClick = onMenuClick,
                     baseUIState = baseUIState,
                     navigateToApartment = { addressId ->
-                        navController.navigateToInfoApartment(addressId)
+//                        navController.navigateToInfoApartment(addressId)
+                        viewModel.setAddressId(addressId)
+
                     },
                     railWidth = railWidth,
                     isApartmentsEmpty = baseUIState.apartments.isEmpty()
@@ -269,27 +272,18 @@ fun ApartmentNavGraph(
                     )
                 }
                 composable(
-                    route = InfoApartmentScreen.routeWithArgs,
-                    arguments = InfoApartmentScreen.arguments
+                    route = InfoApartmentScreen.route,
                 ){
-                    navBackStackEntry->
-                    val addressIdArg =
-                    navBackStackEntry.arguments?.getInt(InfoApartmentScreen.addressIdArg)
                     InfoApartmentScreen(
                         contentType = contentType,
                         displayFeatures = displayFeatures,
                         baseUIState = baseUIState,
                         apartmentViewModel = apartmentViewModel,
                         deleteApartment = {
-                            apartmentViewModel.deleteApartment(
-                                navController.navigateToInfoApartment(
-                                    0
-                                )
-                            )
+                            apartmentViewModel.deleteApartment()
                         },
                         onDrawerClicked = onDrawerClicked,
                         appState = appState,
-                        addressId = addressIdArg!!,
                         navigationType = navigationType
                     )
                 }

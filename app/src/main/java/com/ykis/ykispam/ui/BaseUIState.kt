@@ -1,7 +1,6 @@
 package com.ykis.ykispam.ui
 
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
-import com.ykis.ykispam.domain.payment.PaymentItemEntity
 import com.ykis.ykispam.ui.navigation.ContentDetail
 
 data class BaseUIState(
@@ -13,7 +12,6 @@ data class BaseUIState(
     var apartment: ApartmentEntity = ApartmentEntity(),
     val selectedContentDetail: ContentDetail = ContentDetail.BTI,
     val apartments: List<ApartmentEntity> = emptyList(),
-    val paymentItems: List<PaymentItemEntity> = emptyList(),
     val osmdId: Int = 0,
     val houseId: Int = 0,
     val addressId: Int = 0,

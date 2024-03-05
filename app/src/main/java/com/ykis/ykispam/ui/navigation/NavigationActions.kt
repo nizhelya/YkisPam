@@ -86,7 +86,7 @@ val NAV_BAR_DESTINATIONS :List<TopLevelDestination>
 get(){
     return listOf(
         TopLevelDestination(
-            route = InfoApartmentScreen.route + "/0",
+            route = InfoApartmentScreen.route,
             selectedIcon = Icons.Filled.Info,
             unselectedIcon = Icons.Outlined.Info,
             labelId = R.string.info,

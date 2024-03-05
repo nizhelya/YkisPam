@@ -31,7 +31,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
@@ -57,19 +56,16 @@ fun InfoApartmentScreen(
     deleteApartment: () -> Unit,
     onDrawerClicked: () -> Unit,
     navigationType: NavigationType,
-    addressId: Int
 ) {
     var selectedTab by rememberSaveable {
         mutableIntStateOf(0)
     }
-    LaunchedEffect(key1 = addressId, key2 = baseUIState.apartments) {
-        if (baseUIState.apartments.isNotEmpty()) {
-            if (addressId == 0) {
+    LaunchedEffect(key1 = baseUIState.addressId, key2 = baseUIState.apartments) {
+            if (baseUIState.addressId == 0) {
                 apartmentViewModel.getApartment(baseUIState.apartments.first().addressId)
             } else {
-                apartmentViewModel.getApartment(addressId)
+                apartmentViewModel.getApartment(baseUIState.addressId)
             }
-        }
     }
 
     Column(modifier = Modifier.fillMaxSize()) {

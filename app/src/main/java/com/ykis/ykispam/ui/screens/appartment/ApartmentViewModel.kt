@@ -31,7 +31,6 @@ import com.ykis.ykispam.domain.apartment.request.UpdateBti
 import com.ykis.ykispam.firebase.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.ui.BaseViewModel
-import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.navigation.Graph
 import com.ykis.ykispam.ui.navigation.LaunchScreen
 import com.ykis.ykispam.ui.navigation.VerifyEmailScreen
@@ -104,14 +103,6 @@ class ApartmentViewModel @Inject constructor(
             observeApartments()
         }
     }
-
-    fun closeDetailScreen() {
-        _uiState.value = _uiState.value.copy(
-                showDetail = false
-
-            )
-    }
-
     private fun observeApartments() {
             _uiState.value = _uiState.value.copy(
                 uid = uid,
@@ -120,18 +111,12 @@ class ApartmentViewModel @Inject constructor(
             )
         getApartmentList()
     }
-    fun setSelectedDetail(contentDetail: ContentDetail) {
-        _uiState.value = _uiState.value.copy(
-            selectedContentDetail = contentDetail,
-            showDetail = true
-        )
-    }
 
     fun onSecretCodeChange(newValue: String) {
         _secretCode.value = newValue
     }
 
-    fun addApartment(restartApp: (Int) -> Unit) {
+    fun addApartment(restartApp: () -> Unit) {
         this.addApartmentUseCase(
             code = secretCode.value, uid = uid , email = email
         ).onEach { result ->
@@ -141,7 +126,8 @@ class ApartmentViewModel @Inject constructor(
                         addressId = result.data!!.addressId
                     )
                     getApartmentList{
-                        restartApp(uiState.value.addressId)
+                        setAddressId(uiState.value.addressId)
+                        restartApp()
                     }
                     SnackbarManager.showMessage(R.string.success_add_flat)
                     _secretCode.value = ""
@@ -243,9 +229,7 @@ class ApartmentViewModel @Inject constructor(
             when(result){
                 is Resource.Success -> {
                     this._uiState.value = _uiState.value.copy(
-                        apartments = result.data ?: emptyList() ,
-                        addressId = if(!result.data.isNullOrEmpty()) result.data[0].addressId else 0,
-                        apartment = if(!result.data.isNullOrEmpty()) result.data[0] else ApartmentEntity(),
+                        apartments = result.data ?: emptyList(),
                         mainLoading = false
                     )
                     if(uiState.value.apartments.isEmpty()){
@@ -269,7 +253,6 @@ class ApartmentViewModel @Inject constructor(
     }
 
     fun deleteApartment(
-        resetAddressId :  Unit
     ) {
         this.deleteApartmentUseCase(
             addressId = uiState.value.addressId,
@@ -281,9 +264,9 @@ class ApartmentViewModel @Inject constructor(
                     SnackbarManager.showMessage(R.string.success_delete_flat)
                     getApartmentList()
                     this._uiState.value = _uiState.value.copy(
-                        mainLoading   = false
+                        mainLoading   = false,
+                        addressId = 0
                     )
-                    resetAddressId
                 }
                 is Resource.Error -> {
                     this._uiState.value = _uiState.value.copy(
@@ -299,6 +282,12 @@ class ApartmentViewModel @Inject constructor(
                 }
             }
         }.launchIn(this.viewModelScope)
+    }
 
+    fun setAddressId(addressId:Int){
+        _uiState.value = uiState.value.copy(
+            addressId = addressId
+        )
+        getApartment(addressId)
     }
 }

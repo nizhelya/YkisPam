@@ -30,7 +30,6 @@ class DeleteLastHeatReading @Inject constructor(
             SnackbarManager.showMessage(e.message())
             emit(Resource.Error())
         } catch (e: IOException) {
-
             SnackbarManager.showMessage(R.string.error_network)
             emit(Resource.Error())
         }

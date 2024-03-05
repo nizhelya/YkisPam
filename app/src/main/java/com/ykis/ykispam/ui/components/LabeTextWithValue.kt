@@ -1,7 +1,6 @@
 package com.ykis.ykispam.ui.components
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Checkbox
@@ -19,7 +18,7 @@ fun LabelTextWithText(
     valueText:String =""
 ) {
     Row(
-        modifier = modifier.height(24.dp),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ){
         Text(
@@ -40,7 +39,7 @@ fun LabelTextWithCheckBox(
     checked:Boolean,
 ) {
     Row(
-        modifier = modifier.height(24.dp),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ){
         Text(

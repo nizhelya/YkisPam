@@ -1,6 +1,8 @@
 package com.ykis.ykispam.domain.service.request
 
+import com.ykis.ykispam.R
 import com.ykis.ykispam.core.Resource
+import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.data.cache.database.AppDatabase
 import com.ykis.ykispam.domain.service.ServiceEntity
 import com.ykis.ykispam.domain.service.ServiceRepository
@@ -25,10 +27,23 @@ class GetFlatServices @Inject constructor(
                 service = params.service,
                 total = params.total,
             ))
-            database.serviceDao().insertService(response)
-            emit(Resource.Success(response))
+            database.serviceDao().getServiceDetail(
+                params.addressId,
+                when(params.service){
+                    1.toByte() -> "voda"
+                    2.toByte() -> "teplo"
+                    3.toByte() -> "tbo"
+                    else -> "kv"
+                },
+                params.year
+            )
+            if(response.success==1){
+                database.serviceDao().insertService(response.services)
+                emit(Resource.Success(response.services))
+            }
         }catch (e: HttpException) {
-            emit(Resource.Error(e.localizedMessage ?: "Unexpected error!"))
+            SnackbarManager.showMessage(e.message())
+            emit(Resource.Error())
         } catch (e: IOException) {
             val serviceDetailList = database.serviceDao().getServiceDetail(
                 addressId = params.addressId,
@@ -44,7 +59,8 @@ class GetFlatServices @Inject constructor(
                 emit(Resource.Success(serviceDetailList))
                 return@flow
             }
-            emit(Resource.Error("Check your internet connection"))
+            SnackbarManager.showMessage(R.string.error_network)
+            emit(Resource.Error())
         }
     }
 }

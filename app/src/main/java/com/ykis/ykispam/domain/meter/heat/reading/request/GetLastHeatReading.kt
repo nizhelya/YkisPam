@@ -22,6 +22,10 @@ class GetLastHeatReading @Inject constructor(
             val response = repository.getLastHeatReading(
                 teplomerId, uid
             )
+            val lastReading = database.heatReadingDao().getHeatReading(teplomerId)
+            if(lastReading.isNotEmpty()){
+                emit(Resource.Success(lastReading.last()))
+            }
             if(response.success==1){
                 emit(Resource.Success(response.heatReading))
                 database.heatReadingDao().insertHeatReading(listOf(response.heatReading))
@@ -30,8 +34,10 @@ class GetLastHeatReading @Inject constructor(
             SnackbarManager.showMessage(e.message())
             emit(Resource.Error())
         } catch (e: IOException) {
-            val lastReading = database.heatReadingDao().getHeatReading(teplomerId).last()
-            emit(Resource.Success(lastReading))
+            val lastReading = database.heatReadingDao().getHeatReading(teplomerId)
+            if(lastReading.isNotEmpty()){
+                emit(Resource.Success(lastReading.last()))
+            }
             SnackbarManager.showMessage(R.string.error_network)
             emit(Resource.Error())
         }

@@ -40,7 +40,7 @@ fun ServiceListScreen(
     getTotalServiceDebt: (ServiceParams) -> Unit,
     onServiceClick :(ContentDetail)->Unit
 ) {
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(key1 = baseUIState.addressId) {
         getTotalServiceDebt(
             ServiceParams(
                 uid = baseUIState.uid!!,

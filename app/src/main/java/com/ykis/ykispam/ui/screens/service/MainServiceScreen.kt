@@ -13,7 +13,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.layout.DisplayFeature
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.components.BaseDualPanelContent
-import com.ykis.ykispam.ui.components.DetailContent
+import com.ykis.ykispam.ui.components.DetailPanel
 import com.ykis.ykispam.ui.components.appbars.DetailAppBar
 import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.navigation.ContentType
@@ -49,7 +49,7 @@ fun MainServiceScreen(
                 )
                           },
             secondScreen = {
-                DetailContent(
+                DetailPanel(
                     baseUIState = baseUIState,
                     contentType = ContentType.DUAL_PANE,
                     contentDetail = totalDebtState.serviceDetail,

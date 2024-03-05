@@ -63,7 +63,7 @@ fun WaterMeterDetail(
     }
     val enabledButton by remember(key1 =newWaterReading ,key2 = lastReading.current  ) {
         derivedStateOf {
-            (newWaterReading.takeIf { it.isNotEmpty() }?.toInt() ?: 0) > lastReading.current
+            (newWaterReading.takeIf { it.isNotEmpty() }?.toIntOrNull() ?: -1) > lastReading.current
         }
     }
     LaunchedEffect(key1 = baseUIState.addressId, key2 = waterMeterEntity.vodomerId) {

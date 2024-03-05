@@ -34,6 +34,8 @@ import com.ykis.ykispam.ui.screens.meter.DeleteReadingDialog
 import com.ykis.ykispam.ui.screens.meter.LastReadingCardButtons
 import com.ykis.ykispam.ui.screens.meter.heat.reading.HeatReadingItemContent
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @Composable
 fun HeatMeterDetail(
@@ -55,9 +57,9 @@ fun HeatMeterDetail(
     var showDeleteReadingDialog by rememberSaveable {
         mutableStateOf(false)
     }
-    val enabledButton by remember {
+    val enabledButton by remember(key1 =newHeatReading ,key2 = lastHeatReading.current  ) {
         derivedStateOf {
-            newHeatReading.toInt()>lastHeatReading.current
+            (newHeatReading.takeIf { it.isNotEmpty() }?.toIntOrNull() ?: -1) > lastHeatReading.current
         }
     }
     LaunchedEffect(key1 = baseUIState.addressId , key2 = heatMeterEntity.teplomerId ) {
@@ -92,7 +94,10 @@ fun HeatMeterDetail(
                 },
                 onDeleteButtonClick = {
                     showDeleteReadingDialog = true
-                }
+                },
+                showDeleteButton = (lastHeatReading.dateDo == SimpleDateFormat("yyy-MM-dd").format(
+                    Date()
+                ))
             )
         }
         BaseCard(label = stringResource(id = R.string.meter_detail_text) ) {

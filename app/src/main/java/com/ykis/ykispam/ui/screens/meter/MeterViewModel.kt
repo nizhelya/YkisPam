@@ -65,7 +65,6 @@ class MeterViewModel @Inject constructor(
                 is Resource.Success -> {
                     this._waterMeterState.value = _waterMeterState.value.copy(
                         waterMeterList = result.data ?: emptyList(),
-                        // TODO: make loading
                         isMetersLoading = false
                     )
                 }

@@ -23,6 +23,10 @@ class GetWaterReadings @Inject constructor(
             val response = repository.getWaterReadings(
                 vodomerId, uid
             )
+            val readingList = database.waterReadingDao().getWaterReadings(vodomerId)
+            if(readingList.isNotEmpty()){
+                emit(Resource.Success(readingList))
+            }
             if(response.success==1){
                 emit(Resource.Success(response.waterReadings))
                 database.waterReadingDao().insertWaterReading(response.waterReadings)

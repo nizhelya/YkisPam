@@ -21,7 +21,7 @@ import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.navigation.ContentType
 
 @Composable
-fun DetailContent(
+fun DetailPanel(
     modifier: Modifier = Modifier,
     baseUIState: BaseUIState,
     contentType: ContentType,

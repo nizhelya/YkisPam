@@ -20,6 +20,10 @@ class GetHeatReadings @Inject constructor(
         try {
             emit(Resource.Loading())
             val response = repository.getHeatReadings(teplomerId,uid)
+            val readingList = database.heatReadingDao().getHeatReading(teplomerId)
+            if(readingList.isNotEmpty()){
+                emit(Resource.Success(readingList))
+            }
             if(response.success==1){
                 emit(Resource.Success(response.heatReadings))
                 database.heatReadingDao().insertHeatReading(response.heatReadings)

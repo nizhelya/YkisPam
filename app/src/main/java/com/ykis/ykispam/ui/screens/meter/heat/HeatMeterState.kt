@@ -9,7 +9,7 @@ data class HeatMeterState(
     val heatReadings : List<HeatReadingEntity> = emptyList(),
     val lastHeatReading : HeatReadingEntity = HeatReadingEntity(),
     val isMetersLoading:Boolean = true,
-    val isLastReadingLoading : Boolean = true,
+    val isLastReadingLoading : Boolean = false,
     val isReadingsLoading:Boolean = true,
     val newHeatReading : String = "" ,
     val error : String = ""

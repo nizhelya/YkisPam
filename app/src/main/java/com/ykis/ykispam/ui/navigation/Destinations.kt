@@ -99,15 +99,6 @@ object InfoApartmentScreen : Destination{
     override val route: String
         get() = "InfoApartmentScreen"
     const val addressIdArg = "address_id"
-
-    val routeWithArgs = "${route}/{$addressIdArg}"
-
-    val arguments = listOf(
-        navArgument(addressIdArg) {
-            type = NavType.IntType
-            defaultValue = 0
-        }
-    )
 }
 //const val LAUNCH_SCREEN = "LaunchScreen"
 //const val SIGN_IN_SCREEN = "SignInScreen"

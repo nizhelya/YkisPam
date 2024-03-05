@@ -9,7 +9,7 @@ data class WaterMeterState(
     val waterReadings: List<WaterReadingEntity> = emptyList(),
     val lastWaterReading : WaterReadingEntity = WaterReadingEntity(),
     val isMetersLoading:Boolean =true,
-    val isLastReadingLoading : Boolean = true,
+    val isLastReadingLoading : Boolean = false,
     val isReadingsLoading:Boolean = true,
     val newWaterReading : String = "" ,
     val error : String = ""

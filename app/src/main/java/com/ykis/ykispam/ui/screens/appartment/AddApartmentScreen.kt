@@ -133,8 +133,7 @@ fun AddApartmentScreenContent(
                         {
                             keyboard?.hide()
                             viewModel.addApartment {
-                                addressId->
-                                navController.navigateToInfoApartment(addressId)
+                                navController.navigateToInfoApartment()
                             }
                         }
                     }
