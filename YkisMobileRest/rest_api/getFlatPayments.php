@@ -3,10 +3,9 @@ $response = array();
 
 include_once "GeneralFunctions.php";
 
-if (!empty($_POST['address_id']) && !empty($_POST['user_id']) && !empty($_POST['token']))   {
+if (!empty($_POST['address_id']) && !empty($_POST['uid']))   {
     $address_id = $_POST['address_id'];
-    $user_id = $_POST['user_id'];
-    $token = $_POST['token'];
+    $uid = $_POST['uid'];
     $dbOperationsObject = new DBOperations();
     $generalFunctionsObject = new GeneralFunctionsClass();
         $resultPayments = $dbOperationsObject->getFlatPayments($address_id );

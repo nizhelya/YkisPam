@@ -2,8 +2,5 @@ package com.ykis.ykispam.data.remote.payment
 
 
 interface PaymentRemote {
-//    fun getFlatPayments(
-//        addressId: Int,
-//        uid: String
-//    ): Either<Failure, List<PaymentEntity>>
+   suspend fun getPaymentList(addressId:Int , year:String ,uid:String) : GetPaymentResponse
 }

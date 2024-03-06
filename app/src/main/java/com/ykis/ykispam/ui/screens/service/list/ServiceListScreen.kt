@@ -14,13 +14,17 @@ import androidx.compose.material.icons.filled.HotTub
 import androidx.compose.material.icons.filled.Water
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.ykis.ykispam.R
 import com.ykis.ykispam.domain.service.request.ServiceParams
@@ -38,7 +42,7 @@ fun ServiceListScreen(
     navigationType: NavigationType,
     onDrawerClick : () -> Unit,
     getTotalServiceDebt: (ServiceParams) -> Unit,
-    onServiceClick :(ContentDetail)->Unit
+    setContentDetail :(ContentDetail)->Unit
 ) {
     LaunchedEffect(key1 = baseUIState.addressId) {
         getTotalServiceDebt(
@@ -92,7 +96,20 @@ fun ServiceListScreen(
             onBackClick ={},
             onDrawerClick = onDrawerClick,
             canNavigateBack = false,
-            navigationType = navigationType
+            navigationType = navigationType,
+            actionButton = {
+                IconButton(
+                    onClick ={
+                             setContentDetail(ContentDetail.PAYMENT_LIST)
+                    },
+                ){
+                    Icon(
+                        imageVector = ImageVector.vectorResource(R.drawable.ic_history),
+                        contentDescription = "Історія платіжок",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
         )
             Crossfade(
                 modifier = Modifier.fillMaxSize(),
@@ -121,7 +138,7 @@ fun ServiceListScreen(
                                 debt = it.debt,
                                 icon = it.icon,
                                 onClick = {
-                                    onServiceClick(it.contentDetail)
+                                    setContentDetail(it.contentDetail)
                                 }
                             )
                         },

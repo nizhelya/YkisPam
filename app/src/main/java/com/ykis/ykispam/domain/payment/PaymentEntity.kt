@@ -16,8 +16,6 @@ data class PaymentEntity(
     @ColumnInfo(name = "address_id")
     val addressID: Int = 0,
 
-    val address: String = "Unknown",
-    val year: Short = 0,
     val data: String = "Unknown",
     val kvartplata: Double = 0.00,
     val remont: Double = 0.00,

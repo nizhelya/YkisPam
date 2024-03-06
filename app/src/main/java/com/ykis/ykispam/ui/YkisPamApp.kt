@@ -50,7 +50,7 @@ fun YkisPamApp(
         }
 
         WindowWidthSizeClass.Medium -> {
-            navigationType = NavigationType.NAVIGATION_RAIL
+            navigationType = NavigationType.NAVIGATION_RAIL_COMPACT
             contentType = if (foldingDevicePosture != DevicePosture.NormalPosture) {
                 ContentType.DUAL_PANE
             } else {
@@ -59,11 +59,12 @@ fun YkisPamApp(
         }
 
         WindowWidthSizeClass.Expanded -> {
-            navigationType = if (foldingDevicePosture is DevicePosture.BookPosture) {
-                NavigationType.NAVIGATION_RAIL
-            } else {
-                NavigationType.PERMANENT_NAVIGATION_DRAWER
-            }
+            navigationType =
+//                if (foldingDevicePosture is DevicePosture.BookPosture) {
+                NavigationType.NAVIGATION_RAIL_EXPANDED
+//            } else {
+//                NavigationType.PERMANENT_NAVIGATION_DRAWER
+//            }
             contentType = ContentType.DUAL_PANE
 
         }

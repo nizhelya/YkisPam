@@ -23,7 +23,7 @@ fun ModalNavigationDrawerContent(
             navigateToDestination = navigateToDestination,
             navigateToApartment = navigateToApartment,
             railWidth = 320.dp,
-            maxApartmentListHeight = 178.dp,
+            maxApartmentListHeight = 194.dp,
             isApartmentsEmpty = isApartmentsEmpty
         )
     }

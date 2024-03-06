@@ -39,9 +39,9 @@ fun RootNavGraph(
         mutableStateOf(false)
     }
     val padding = when{
-        navigationType == NavigationType.NAVIGATION_RAIL  && !isRailExpanded && isMainScreen-> Modifier.padding(start = 80.dp)
+        (navigationType == NavigationType.NAVIGATION_RAIL_COMPACT || navigationType == NavigationType.NAVIGATION_RAIL_EXPANDED )  && !isRailExpanded && isMainScreen-> Modifier.padding(start = 80.dp)
         navigationType == NavigationType.BOTTOM_NAVIGATION && isMainScreen-> Modifier.padding(bottom = 80.dp)
-        navigationType == NavigationType.NAVIGATION_RAIL && isRailExpanded && isMainScreen -> Modifier.padding(start = 260.dp)
+        (navigationType == NavigationType.NAVIGATION_RAIL_COMPACT || navigationType == NavigationType.NAVIGATION_RAIL_EXPANDED)  && isRailExpanded && isMainScreen -> Modifier.padding(start = 260.dp)
         else -> Modifier.padding(0.dp)
     }
     Scaffold (

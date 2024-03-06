@@ -22,7 +22,6 @@ import com.ykis.ykispam.data.cache.dao.ServiceDao
 import com.ykis.ykispam.data.cache.dao.WaterMeterDao
 import com.ykis.ykispam.data.cache.dao.WaterReadingDao
 import com.ykis.ykispam.data.cache.database.AppDatabase
-import com.ykis.ykispam.data.cache.payment.PaymentCache
 import com.ykis.ykispam.data.remote.api.ApiService
 import com.ykis.ykispam.data.remote.api.ApiService.Companion.BASE_URL
 import com.ykis.ykispam.data.remote.appartment.ApartmentRemote
@@ -172,10 +171,9 @@ object AppModule {
     @Singleton
     @Provides
     fun providePaymentRepository(
-        paymentCache: PaymentCache,
         paymentRemote: PaymentRemote,
     ): PaymentRepository {
-        return PaymentRepositoryImpl(paymentCache , paymentRemote)
+        return PaymentRepositoryImpl( paymentRemote)
     }
     @Singleton
     @Provides

@@ -65,6 +65,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -87,10 +88,11 @@ private fun PreviewRail() {
         isRailExpanded = isRailExpanded.value,
         onMenuClick = { isRailExpanded.value = !isRailExpanded.value },
         baseUIState = BaseUIState(
-            apartments = CollectionUtils.listOf(ApartmentEntity(address = "Хіміків 14/33"))
+            apartments = CollectionUtils.listOf(ApartmentEntity(address = "Новобілярська 28-1/25"))
         ),
         railWidth = 80.dp,
-        isApartmentsEmpty = false
+        isApartmentsEmpty = false,
+        maxApartmentListHeight = 134.dp
     )
 }
 @Preview
@@ -104,10 +106,11 @@ private fun PreviewExpandedRail() {
         isRailExpanded = isRailExpanded.value,
         onMenuClick = { isRailExpanded.value = !isRailExpanded.value },
         baseUIState = BaseUIState(
-            apartments = CollectionUtils.listOf(ApartmentEntity(address = "Хіміків 14/33"))
+            apartments = CollectionUtils.listOf(ApartmentEntity(address = "Новобілярська 28-1/15"))
         ),
         railWidth = 260.dp,
-        isApartmentsEmpty = false
+        isApartmentsEmpty = false,
+        maxApartmentListHeight = 134.dp
     )
 }
 @Composable
@@ -151,7 +154,7 @@ fun ApartmentNavigationRail(
     onMenuClick: () -> Unit,
     navigateToApartment : (Int) -> Unit = {},
     railWidth : Dp,
-    maxApartmentListHeight : Dp = 134.dp,
+    maxApartmentListHeight : Dp,
     isApartmentsEmpty : Boolean
 ) {
     var showApartmentList by rememberSaveable {
@@ -340,6 +343,8 @@ fun ApartmentNavigationRail(
                                         ) {
                                             Text(
                                                 text = stringResource(id = replyDestination.labelId),
+                                                maxLines = 1 ,
+                                                overflow = TextOverflow.Ellipsis
                                             )
                                         }
                                     }
@@ -375,7 +380,9 @@ fun ApartmentNavigationRail(
                                 text = stringResource(id = replyDestination.labelId),
                                 modifier = Modifier
                                     .padding(top = 32.dp),
-                                textAlign = TextAlign.Center
+                                textAlign = TextAlign.Center,
+                                overflow = TextOverflow.Ellipsis,
+                                maxLines = 1
                             )
                         }
                     }

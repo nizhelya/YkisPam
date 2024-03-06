@@ -16,8 +16,10 @@
 
 package com.ykis.ykispam.ui.screens.service.detail
 
-import androidx.compose.animation.Crossfade
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -93,7 +95,7 @@ fun ServicesContent(
         }
     }
     ServiceDetailContent(
-        state = serviceDetail,
+        isLoading = serviceDetail.isLoading,
         year = year,
         serviceEntyties = serviceDetail.services,
         onSelectedChanged = { selectedChip = it },
@@ -178,10 +180,9 @@ fun ServiceDetailItem(
 @Composable
 fun ListServiceDetails(
     listServiceEntity: List<ServiceEntity> = listOf(ServiceEntity(), ServiceEntity()),
-    isLoading: Boolean
 ) {
 
-    if (listServiceEntity.isEmpty() && !isLoading) {
+    if (listServiceEntity.isEmpty()) {
         EmptyListState(
             title = stringResource(id = R.string.no_payment),
             subtitle = stringResource(id = R.string.no_payment_year)
@@ -195,7 +196,7 @@ fun ListServiceDetails(
 
 @Composable
 fun ServiceDetailContent(
-    state: ServiceState,
+    isLoading : Boolean,
     year: String,
     serviceEntyties: List<ServiceEntity>,
     selectedChip: String,
@@ -217,14 +218,19 @@ fun ServiceDetailContent(
             list = years, selectedChip = selectedChip,
             onSelectedChanged = onSelectedChanged
         )
-        Crossfade(
-            targetState = state.isLoading,
-            animationSpec = tween(delayMillis = 500), label = ""
+        AnimatedContent(
+            targetState = isLoading,
+            transitionSpec = {
+                fadeIn() togetherWith fadeOut()
+            },
+//            contentKey = isLoading
+
+//            animationSpec = tween(delayMillis = 500), label = ""
         ) {
             targetState ->
                 if(targetState){
                     ProgressBar()
-                }else ListServiceDetails(listServiceEntity = serviceEntyties, isLoading = state.isLoading)
+                }else ListServiceDetails(listServiceEntity = serviceEntyties)
         }
         }
 

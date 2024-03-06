@@ -42,8 +42,10 @@ import com.ykis.ykispam.ui.screens.appartment.AddApartmentScreenContent
 import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
 import com.ykis.ykispam.ui.screens.appartment.InfoApartmentScreen
 import com.ykis.ykispam.ui.screens.meter.MainMeterScreen
+import com.ykis.ykispam.ui.screens.meter.MeterViewModel
 import com.ykis.ykispam.ui.screens.profile.ProfileScreen
 import com.ykis.ykispam.ui.screens.service.MainServiceScreen
+import com.ykis.ykispam.ui.screens.service.ServiceViewModel
 import com.ykis.ykispam.ui.screens.settings.SettingsScreen
 import kotlinx.coroutines.launch
 
@@ -53,7 +55,9 @@ fun MainApartmentScreen(
     navigationType: NavigationType,
     displayFeatures: List<DisplayFeature>,
     navController: NavHostController = rememberNavController(),
-    viewModel: ApartmentViewModel = hiltViewModel(),
+    apartmentViewModel: ApartmentViewModel = hiltViewModel(),
+    meterViewModel : MeterViewModel = hiltViewModel(),
+    serviceViewModel: ServiceViewModel = hiltViewModel(),
     rootNavController: NavHostController,
     appState: YkisPamAppState,
     onLaunch: () -> Unit,
@@ -61,7 +65,7 @@ fun MainApartmentScreen(
     isRailExpanded: Boolean,
     onMenuClick: () -> Unit
     ) {
-    val baseUIState by viewModel.uiState.collectAsStateWithLifecycle()
+    val baseUIState by apartmentViewModel.uiState.collectAsStateWithLifecycle()
     val drawerState = DrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -72,7 +76,7 @@ fun MainApartmentScreen(
     )
     DisposableEffect(key1 = Unit) {
         onLaunch()
-        viewModel.initialize()
+        apartmentViewModel.initialize()
         onDispose {
             onDispose()
         }
@@ -98,10 +102,10 @@ fun MainApartmentScreen(
                         navigateToApartment = { addressId ->
                             coroutineScope.launch {
                                 drawerState.close()
-//                                navController.navigateToInfoApartment(addressId)
-                                viewModel.setAddressId(addressId)
+                                meterViewModel.closeContentDetail()
+                                apartmentViewModel.setAddressId(addressId)
+                                serviceViewModel.closeContentDetail()
                             }
-
                         },
                         isApartmentsEmpty = baseUIState.apartments.isEmpty()
                     )
@@ -134,10 +138,11 @@ fun MainApartmentScreen(
                                 drawerState.open()
                             }
                         },
-                        apartmentViewModel = viewModel,
+                        apartmentViewModel = apartmentViewModel,
                         rootNavController = rootNavController,
-                        firstDestination =  if(baseUIState.apartments.isNotEmpty()) InfoApartmentScreen.route else AddApartmentScreen.route
-
+                        firstDestination =  if(baseUIState.apartments.isNotEmpty()) InfoApartmentScreen.route else AddApartmentScreen.route,
+                        meterViewModel = meterViewModel,
+                        serviceViewModel = serviceViewModel
                     )
                 }
             }
@@ -161,9 +166,11 @@ fun MainApartmentScreen(
                             drawerState.open()
                         }
                     },
-                    apartmentViewModel = viewModel,
+                    apartmentViewModel = apartmentViewModel,
                     rootNavController = rootNavController,
-                        firstDestination = if(baseUIState.apartments.isNotEmpty()) InfoApartmentScreen.route else AddApartmentScreen.route
+                    firstDestination = if(baseUIState.apartments.isNotEmpty()) InfoApartmentScreen.route else AddApartmentScreen.route,
+                    meterViewModel = meterViewModel,
+                    serviceViewModel = serviceViewModel
 
                 )
                 ApartmentNavigationRail(
@@ -178,12 +185,12 @@ fun MainApartmentScreen(
                     onMenuClick = onMenuClick,
                     baseUIState = baseUIState,
                     navigateToApartment = { addressId ->
-//                        navController.navigateToInfoApartment(addressId)
-                        viewModel.setAddressId(addressId)
+                        apartmentViewModel.setAddressId(addressId)
 
                     },
                     railWidth = railWidth,
-                    isApartmentsEmpty = baseUIState.apartments.isEmpty()
+                    isApartmentsEmpty = baseUIState.apartments.isEmpty(),
+                    maxApartmentListHeight = if(navigationType == NavigationType.NAVIGATION_RAIL_COMPACT) 132.dp else 194.dp
                 )
             }
         }
@@ -200,7 +207,9 @@ fun ApartmentNavGraph(
     navController: NavHostController,
     apartmentViewModel: ApartmentViewModel,
     rootNavController: NavHostController,
-    firstDestination:String
+    firstDestination:String,
+    meterViewModel: MeterViewModel,
+    serviceViewModel: ServiceViewModel
 ) {
     val appState = rememberAppState()
     Box(modifier = modifier.fillMaxSize()) {
@@ -259,7 +268,8 @@ fun ApartmentNavGraph(
                         navigationType = navigationType,
                         onDrawerClick = onDrawerClicked,
                         contentType = contentType,
-                        displayFeature = displayFeatures
+                        displayFeature = displayFeatures,
+                        viewModel = meterViewModel
                     )
                 }
                 composable(ServiceListScreen.route) {
@@ -269,6 +279,7 @@ fun ApartmentNavGraph(
                         onDrawerClick = onDrawerClicked,
                         displayFeature = displayFeatures,
                         contentType = contentType,
+                        viewModel = serviceViewModel
                     )
                 }
                 composable(

@@ -7,7 +7,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -37,17 +36,18 @@ fun ApartmentListItem(
     )
     Row(
         modifier = modifier
-            .padding(horizontal = 16.dp)
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp)
+            .clickable {
+                onClick(apartment.addressId)
+            }
             .border(
                 width = borderWidth,
                 color = MaterialTheme.colorScheme.extendedColor.selectedElement.color,
                 shape = MaterialTheme.shapes.extraSmall
             )
-            .height(36.dp)
-            .fillMaxWidth()
-            .clickable {
-                onClick(apartment.addressId)
-            },
+            .padding(vertical = 4.dp)
+        ,
         verticalAlignment = Alignment.CenterVertically,
     ){
         Icon(
@@ -61,7 +61,7 @@ fun ApartmentListItem(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, device = "id:Nexus One")
 @Composable
 private fun PreviewApartmentListItem() {
     ApartmentListItem(

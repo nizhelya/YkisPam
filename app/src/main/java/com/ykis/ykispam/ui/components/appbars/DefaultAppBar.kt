@@ -20,11 +20,12 @@ import com.ykis.ykispam.ui.navigation.NavigationType
 @Composable
 fun DefaultAppBar(
     modifier: Modifier = Modifier,
-    title : String,
-    onBackClick : () -> Unit,
-    onDrawerClick : () -> Unit,
-    canNavigateBack : Boolean,
-    navigationType: NavigationType
+    title: String,
+    onBackClick: () -> Unit,
+    onDrawerClick: () -> Unit,
+    canNavigateBack: Boolean,
+    navigationType: NavigationType,
+    actionButton: @Composable (() -> Unit)? = null
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -52,6 +53,11 @@ fun DefaultAppBar(
                         contentDescription = stringResource(id = R.string.back_button),
                     )
                 }
+            }
+        },
+        actions = {
+            if (actionButton != null) {
+                actionButton()
             }
         }
     )

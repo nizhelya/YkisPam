@@ -55,7 +55,7 @@ fun isSeparating(foldFeature: FoldingFeature?): Boolean {
  * Different type of navigation supported by app depending on device size and state.
  */
 enum class NavigationType {
-    BOTTOM_NAVIGATION, NAVIGATION_RAIL, PERMANENT_NAVIGATION_DRAWER
+    BOTTOM_NAVIGATION, NAVIGATION_RAIL_COMPACT , NAVIGATION_RAIL_EXPANDED
 }
 /**
  * App Content shown depending on device size and state.
@@ -65,5 +65,10 @@ enum class ContentType {
 }
 
 enum class ContentDetail {
-    BTI, FAMILY, OSBB, WATER_SERVICE, WARM_SERVICE, GARBAGE_SERVICE,PAYMENTS, WATER_METER , HEAT_METER , WATER_READINGS , HEAT_READINGS
+    // TODO: remove useles
+    BTI, FAMILY, OSBB, WATER_SERVICE,
+    WARM_SERVICE, GARBAGE_SERVICE,
+    WATER_METER , HEAT_METER
+    , WATER_READINGS , HEAT_READINGS,
+    PAYMENT_LIST
 }

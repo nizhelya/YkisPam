@@ -20,7 +20,7 @@ import com.ykis.ykispam.ui.theme.YkisPAMTheme
 
 @Composable
 fun BaseCard(
-    modifier: Modifier = Modifier.fillMaxWidth().padding(8.dp),
+    modifier: Modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp , horizontal = 12.dp),
     label : String? = null,
     content :@Composable () ->Unit
 ) {

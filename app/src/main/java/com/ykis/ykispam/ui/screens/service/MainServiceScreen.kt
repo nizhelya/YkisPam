@@ -21,6 +21,7 @@ import com.ykis.ykispam.ui.navigation.NavigationType
 import com.ykis.ykispam.ui.screens.service.detail.ServicesContent
 import com.ykis.ykispam.ui.screens.service.list.ServiceListScreen
 import com.ykis.ykispam.ui.screens.service.list.TotalDebtState
+import com.ykis.ykispam.ui.screens.service.payment.PaymentContentStateful
 
 @Composable
 fun MainServiceScreen(
@@ -45,7 +46,7 @@ fun MainServiceScreen(
                     onDrawerClick = onDrawerClick,
                     totalDebtState = totalDebtState,
                     getTotalServiceDebt = { params -> viewModel.getTotalServiceDebt(params = params)},
-                    onServiceClick = {contentDetail -> viewModel.setContentDetail(contentDetail)}
+                    setContentDetail = { contentDetail -> viewModel.setContentDetail(contentDetail)}
                 )
                           },
             secondScreen = {
@@ -56,10 +57,18 @@ fun MainServiceScreen(
                     onBackPressed = {viewModel.closeContentDetail()},
                     showDetail = totalDebtState.showDetail,
                     detailContent = {
+                        if(contentDetail == ContentDetail.PAYMENT_LIST){
+                            PaymentContentStateful(
+                                serviceViewModel = viewModel,
+                                baseUIState = baseUIState
+                            )
+                        }else{
                             ServicesContent(
                                 contentDetail = contentDetail,
                                 baseUIState = baseUIState
                             )
+                        }
+
                     }
                 )
 
@@ -98,7 +107,7 @@ fun SinglePanelService(
             onDrawerClick = onDrawerClick,
             totalDebtState = totalDebtState,
             getTotalServiceDebt = { params -> viewModel.getTotalServiceDebt(params = params)},
-            onServiceClick = {content -> viewModel.setContentDetail(contentDetail = content)}
+            setContentDetail = { content -> viewModel.setContentDetail(contentDetail = content)}
         )
     }
 
@@ -116,15 +125,22 @@ fun SinglePanelService(
             DetailAppBar(
                 contentType = contentType,
                 baseUIState = baseUIState,
-                contentDetail = contentDetail
+                contentDetail = contentDetail,
             )
              {
                 viewModel.closeContentDetail()
             }
-            ServicesContent(
-                contentDetail = contentDetail,
-                baseUIState = baseUIState
-            )
+            if(contentDetail == ContentDetail.PAYMENT_LIST){
+                PaymentContentStateful(
+                    serviceViewModel = viewModel,
+                    baseUIState = baseUIState
+                )
+            }else{
+                ServicesContent(
+                    contentDetail = contentDetail,
+                    baseUIState = baseUIState
+                )
+            }
         }
     }
 

@@ -1,5 +1,7 @@
 package com.ykis.ykispam.domain.payment
 
+import com.ykis.ykispam.data.remote.payment.GetPaymentResponse
+
 interface PaymentRepository {
-//    fun getFlatPayment(params: BooleanInt): Either<Failure, List<PaymentEntity>>
+   suspend fun getPaymentList(addressId:Int , year:String , uid:String):GetPaymentResponse
 }
