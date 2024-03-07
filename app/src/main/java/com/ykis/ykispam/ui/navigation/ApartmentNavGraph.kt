@@ -103,8 +103,8 @@ fun MainApartmentScreen(
                             coroutineScope.launch {
                                 drawerState.close()
                                 meterViewModel.closeContentDetail()
-                                apartmentViewModel.setAddressId(addressId)
                                 serviceViewModel.closeContentDetail()
+                                apartmentViewModel.setAddressId(addressId)
                             }
                         },
                         isApartmentsEmpty = baseUIState.apartments.isEmpty()
@@ -185,8 +185,9 @@ fun MainApartmentScreen(
                     onMenuClick = onMenuClick,
                     baseUIState = baseUIState,
                     navigateToApartment = { addressId ->
+                        meterViewModel.closeContentDetail()
+                        serviceViewModel.closeContentDetail()
                         apartmentViewModel.setAddressId(addressId)
-
                     },
                     railWidth = railWidth,
                     isApartmentsEmpty = baseUIState.apartments.isEmpty(),
@@ -238,6 +239,7 @@ fun ApartmentNavGraph(
                         appState = appState,
                         popUpScreen = { navController.popBackStack() },
                         cleanNavigateToDestination = { rootNavController.cleanNavigateTo(it) },
+                        navigationType = navigationType
                     )
                 }
                 composable(ChatScreen.route) {

@@ -77,13 +77,13 @@ class ServiceViewModel @Inject constructor(
             result->
             when(result){
                 is Resource.Success -> {
-                    this._detailState.value = ServiceState(services = result.data ?: emptyList(), isLoading = false)
+                    this._detailState.value = detailState.value.copy(services = result.data ?: emptyList(), isLoading = false)
                 }
                 is Resource.Error -> {
-                    this._detailState.value = ServiceState(error = result.message ?: "Unexpected error!")
+                    this._detailState.value = detailState.value.copy(error = result.message ?: "Unexpected error!")
                 }
                 is Resource.Loading -> {
-                    this._detailState.value = ServiceState(isLoading = true)
+                    this._detailState.value = detailState.value.copy(isLoading = true)
                 }
             }
         }.launchIn(this.viewModelScope)

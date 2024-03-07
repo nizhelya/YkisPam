@@ -1,5 +1,6 @@
 package com.ykis.ykispam.ui.screens.service.payment
 
+import android.util.Log
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
@@ -35,6 +36,8 @@ fun PaymentContentStateful(
 
     var selectedChip by rememberSaveable { mutableStateOf(year) }
 
+    Log.d("loading_test", paymentState.isLoading.toString())
+
     LaunchedEffect(
         key1 = selectedChip,
         key2 = baseUIState.addressId
@@ -53,7 +56,8 @@ fun PaymentContentStateful(
         selectedChip = selectedChip,
         onSelectedChanged = {
             selectedChip = it
-        }
+        },
+        osbb = baseUIState.osbb
     )
 }
 
@@ -63,7 +67,8 @@ fun PaymentContentStateless(
     year:String,
     paymentList : List<PaymentEntity>,
     selectedChip : String,
-    onSelectedChanged: (String) -> Unit
+    onSelectedChanged: (String) -> Unit,
+    osbb:String
 ) {
 
     val years = mutableListOf<String>()
@@ -89,7 +94,10 @@ fun PaymentContentStateless(
                 targetState ->
             if(targetState){
                 ProgressBar()
-            }else PaymentList(paymentList = paymentList)
+            }else PaymentList(
+                paymentList = paymentList,
+                osbb = osbb
+            )
         }
     }
 }

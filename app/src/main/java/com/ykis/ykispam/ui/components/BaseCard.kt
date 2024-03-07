@@ -20,25 +20,28 @@ import com.ykis.ykispam.ui.theme.YkisPAMTheme
 
 @Composable
 fun BaseCard(
-    modifier: Modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp , horizontal = 12.dp),
+    cardModifier: Modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp , horizontal = 12.dp),
+    columnModifier : Modifier = Modifier
+        .fillMaxWidth()
+        .padding(12.dp),
+    labelModifier: Modifier = Modifier,
     label : String? = null,
     content :@Composable () ->Unit
 ) {
     Card(
-        modifier= modifier,
+        modifier= cardModifier,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(48.dp),
             contentColor = MaterialTheme.colorScheme.onSecondaryContainer
         )
     ){
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
+            modifier = columnModifier,
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ){
             if(label!=null){
                 Text(
+                    modifier = labelModifier ,
                     text = label,
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight(350)

@@ -23,6 +23,10 @@ class GetWaterMeterList @Inject constructor(
             val response = repository.getWaterMeterList(
                 addressId,uid
             )
+            val waterMeterList = database.waterMeterDao().getWaterMeter(addressId)
+            if(waterMeterList.isNotEmpty()){
+                emit(Resource.Success(waterMeterList))
+            }
             if(response.success==1){
                 emit(Resource.Success(response.waterMeters))
                 database.waterMeterDao().insertWaterMeter(response.waterMeters)

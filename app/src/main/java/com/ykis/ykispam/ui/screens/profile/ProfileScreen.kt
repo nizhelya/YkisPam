@@ -1,26 +1,35 @@
 package com.ykis.ykispam.ui.screens.profile
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.twotone.Email
 import androidx.compose.material.icons.twotone.Key
 import androidx.compose.material.icons.twotone.Nat
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,12 +43,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ykis.ykispam.R
-import com.ykis.ykispam.ui.YkisPamAppState
 import com.ykis.ykispam.core.Constants.REVOKE_ACCESS_MESSAGE
 import com.ykis.ykispam.core.Constants.SIGN_OUT
+import com.ykis.ykispam.ui.YkisPamAppState
+import com.ykis.ykispam.ui.components.appbars.DefaultAppBar
+import com.ykis.ykispam.ui.components.appbars.DeleteMyAccountCard
+import com.ykis.ykispam.ui.components.appbars.SignOutCard
 import com.ykis.ykispam.ui.navigation.Graph
 import com.ykis.ykispam.ui.navigation.LaunchScreen
-import com.ykis.ykispam.ui.components.appbars.ProfileTopBar
+import com.ykis.ykispam.ui.navigation.NavigationType
 import com.ykis.ykispam.ui.screens.profile.components.RevokeAccess
 import com.ykis.ykispam.ui.screens.profile.components.SignOut
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
@@ -51,7 +63,8 @@ fun ProfileScreen(
     appState: YkisPamAppState,
     popUpScreen:() -> Unit,
     cleanNavigateToDestination: (String) -> Unit,
-    viewModel: ProfileViewModel = hiltViewModel()
+    viewModel: ProfileViewModel = hiltViewModel(),
+    navigationType: NavigationType
 ) {
 
     ProfileScreenStateless(
@@ -62,8 +75,7 @@ fun ProfileScreen(
         providerId = viewModel.providerId,
         signOut = { viewModel.signOut() },
         revokeAccess = { viewModel.revokeAccess() },
-        navigateBack = { viewModel.navigateBack(popUpScreen) }
-
+        navigationType = navigationType
     )
     SignOut(
         navigateToAuthScreen = { signedOut ->
@@ -108,24 +120,48 @@ fun ProfileScreenStateless(
     isSelected: Boolean = false,
     signOut: () -> Unit,
     revokeAccess: () -> Unit,
-    navigateBack: () -> Unit,
-
+    navigationType: NavigationType
     ) {
-
+    var openMenu by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
-            .padding(4.dp)
-            .fillMaxWidth()
-            .fillMaxHeight(),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
-        ProfileTopBar(
-            modifier = Modifier,
-            signOut = { signOut() },
-            revokeAccess = { revokeAccess() },
-            navigateBack = { navigateBack() }
+//        ProfileTopBar(
+//            modifier = Modifier,
+//            signOut = { signOut() },
+//            revokeAccess = { revokeAccess() },
+//            navigateBack = { navigateBack() }
+//        )
+        DefaultAppBar(
+            title = stringResource(id = R.string.profile),
+            navigationType = navigationType,
+            canNavigateBack = false,
+            actionButton = {
+                IconButton(
+                    onClick = { openMenu = !openMenu },
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.MoreVert,
+                        contentDescription = stringResource(id = R.string.more_options_button),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                DropdownMenu(
+                    expanded = openMenu,
+                    onDismissRequest = { openMenu = !openMenu },
+                    modifier = Modifier
+                        .wrapContentSize(align = Alignment.TopCenter)
+//                        .fillMaxWidth(0.5f)
+                        .background(color = MaterialTheme.colorScheme.background)
+                ) {
+                    SignOutCard(signOut)
+                    DeleteMyAccountCard(revokeAccess)
+                }
+            }
         )
 
         Card(
@@ -342,7 +378,7 @@ fun ProfileScreenPreview() {
             providerId = "Firebase",
             signOut = { },
             revokeAccess = { },
-            navigateBack = { }
+            navigationType = NavigationType.BOTTOM_NAVIGATION
         )
     }
 }

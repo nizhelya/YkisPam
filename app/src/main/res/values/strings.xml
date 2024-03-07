@@ -197,7 +197,7 @@
     <string name="absent_text">Відсутні:</string>
     <string name="total_debt_text">Усього до сплати:</string>
     <string name="accrued">Платіжка</string>
-    <string name="payment_list">Платежі</string>
+    <string name="payment_list">Історія платежів</string>
     <string name="kvartplata_colon">Внески:</string>
     <string name="rfond_colon">Р. фонд:</string>
     <string name="vneski">Внески</string>
@@ -208,7 +208,6 @@
     <string name="heat_supply">Теплопосточання:</string>
     <string name="distributor">Постачальник:</string>
     <string name="consumed_services">Споживані послуги:</string>
-    <string name="services_detail">Історія платежів</string>
 
 
 

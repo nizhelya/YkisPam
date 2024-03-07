@@ -15,24 +15,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.ykis.ykispam.ui.BaseUIState
-import com.ykis.ykispam.ui.components.appbars.DetailAppBar
-import com.ykis.ykispam.ui.navigation.ContentDetail
-import com.ykis.ykispam.ui.navigation.ContentType
 
 @Composable
 fun DetailPanel(
     modifier: Modifier = Modifier,
-    baseUIState: BaseUIState,
-    contentType: ContentType,
-    contentDetail: ContentDetail,
-    onBackPressed: () -> Unit,
-    showDetail : Boolean,
-    onActionButtonClick : () -> Unit ={},
+//    contentDetail: ContentDetail,
+//    onBackPressed: () -> Unit,
+    showDetail: Boolean,
+//    onActionButtonClick: () -> Unit = {},
+//    barTitle : String? =  null ,
     detailContent: @Composable () -> Unit
 ) {
     androidx.compose.animation.AnimatedVisibility(
-        visible = showDetail ,
+        visible = showDetail,
         enter = slideInVertically(
             tween(
                 durationMillis = 550,
@@ -41,7 +36,7 @@ fun DetailPanel(
             initialOffsetY = {
                 it
             },
-        )+ fadeIn(
+        ) + fadeIn(
             tween(
                 durationMillis = 400
             )
@@ -62,14 +57,28 @@ fun DetailPanel(
             )
         ) {
             Column {
-                DetailAppBar(
-                    contentType = contentType,
-                    baseUIState = baseUIState,
-                    contentDetail = contentDetail,
-                    onActionButtonClick = onActionButtonClick
-                ) {
-                    onBackPressed()
-                }
+//                DefaultAppBar(
+//                    onBackClick = onBackPressed,
+//                    canNavigateBack = true,
+//                    title =
+//                    if(barTitle!=null){
+//                        barTitle
+//                    }else when (contentDetail) {
+//                        ContentDetail.BTI -> stringResource(id = R.string.bti)
+//                        ContentDetail.FAMILY -> stringResource(id = R.string.list_family)
+//                        ContentDetail.OSBB -> stringResource(id = R.string.vneski)
+//                        ContentDetail.WATER_SERVICE -> stringResource(id = R.string.vodokanal)
+//                        ContentDetail.WARM_SERVICE -> stringResource(id = R.string.ytke)
+//                        ContentDetail.GARBAGE_SERVICE -> stringResource(id = R.string.yzhtrans)
+//                        ContentDetail.PAYMENT_LIST -> stringResource(id = R.string.payment_list)
+//                        ContentDetail.WATER_METER -> stringResource(id = R.string.water_meter_label)
+//                        ContentDetail.HEAT_METER -> stringResource(id = R.string.heat_meter_label)
+//                        ContentDetail.WATER_READINGS -> stringResource(id = R.string.reading_history)
+//                        ContentDetail.HEAT_READINGS -> stringResource(id = R.string.reading_history)
+//                    }
+//                ) {
+//                    onActionButtonClick()
+//                }
                 detailContent()
             }
         }

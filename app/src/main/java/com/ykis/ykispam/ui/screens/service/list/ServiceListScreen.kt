@@ -93,25 +93,23 @@ fun ServiceListScreen(
     ) {
         DefaultAppBar(
             title = stringResource(id = R.string.accrued),
-            onBackClick ={},
             onDrawerClick = onDrawerClick,
             canNavigateBack = false,
-            navigationType = navigationType,
-            actionButton = {
-                IconButton(
-                    onClick ={
-                             setContentDetail(ContentDetail.PAYMENT_LIST)
-                    },
-                ){
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.ic_history),
-                        contentDescription = "Історія платіжок",
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
+            navigationType = navigationType
+        ) {
+            IconButton(
+                onClick = {
+                    setContentDetail(ContentDetail.PAYMENT_LIST)
+                },
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_history),
+                    contentDescription = "Історія платіжок",
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
             }
-        )
-            Crossfade(
+        }
+        Crossfade(
                 modifier = Modifier.fillMaxSize(),
                 animationSpec = tween(delayMillis = 500),
                 targetState =totalDebtState.isLoading, label = ""

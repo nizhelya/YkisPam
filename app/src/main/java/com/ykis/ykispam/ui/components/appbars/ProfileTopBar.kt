@@ -110,7 +110,7 @@ fun ProfileTopBar(
 
 
 @Composable
-private fun SignOutCard(signOut: () -> Unit) {
+ fun SignOutCard(signOut: () -> Unit) {
     var showWarningDialog by remember { mutableStateOf(false) }
 
     RegularCardEditor(AppText.sign_out, AppIcon.ic_exit, "", Modifier.card()) {
@@ -135,7 +135,7 @@ private fun SignOutCard(signOut: () -> Unit) {
 
 
 @Composable
-private fun DeleteMyAccountCard(deleteMyAccount: () -> Unit) {
+ fun DeleteMyAccountCard(deleteMyAccount: () -> Unit) {
     var showWarningDialog by remember { mutableStateOf(false) }
 
     DangerousCardEditor(

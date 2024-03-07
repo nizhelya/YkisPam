@@ -22,23 +22,22 @@ class GetPaymentList  @Inject constructor(
             val response = repository.getPaymentList(
                 addressId, year, uid
             )
-//            val readingList = database.waterReadingDao().getWaterReadings(vodomerId)
-//            if(readingList.isNotEmpty()){
-//                emit(Resource.Success(readingList))
-//            }
+            val paymentList = database.paymentDao().getPaymentFromFlat(addressId)
+            if(paymentList.isNotEmpty()){
+                emit(Resource.Success(paymentList))
+            }
             if(response.success==1){
                 emit(Resource.Success(response.payments))
-//                database.waterReadingDao().insertWaterReading(response.waterReadings)
+                database.paymentDao().insertPayment(response.payments)
             }
         }catch (e: HttpException) {
             SnackbarManager.showMessage(e.message())
             emit(Resource.Error())
         } catch (e: IOException) {
-//            val readingList = database.waterReadingDao().getWaterReadings(vodomerId)
-//            if(readingList.isNotEmpty()){
-//                emit(Resource.Success(readingList))
-//                return@flow
-//            }
+            val paymentList = database.paymentDao().getPaymentFromFlat(addressId)
+            if(paymentList.isNotEmpty()){
+                emit(Resource.Success(paymentList))
+            }
             SnackbarManager.showMessage(R.string.error_network)
             emit(Resource.Error())
         }

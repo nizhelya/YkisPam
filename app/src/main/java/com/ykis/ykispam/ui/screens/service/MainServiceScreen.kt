@@ -2,9 +2,6 @@ package com.ykis.ykispam.ui.screens.service
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -14,14 +11,11 @@ import androidx.window.layout.DisplayFeature
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.components.BaseDualPanelContent
 import com.ykis.ykispam.ui.components.DetailPanel
-import com.ykis.ykispam.ui.components.appbars.DetailAppBar
 import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.navigation.ContentType
 import com.ykis.ykispam.ui.navigation.NavigationType
-import com.ykis.ykispam.ui.screens.service.detail.ServicesContent
 import com.ykis.ykispam.ui.screens.service.list.ServiceListScreen
 import com.ykis.ykispam.ui.screens.service.list.TotalDebtState
-import com.ykis.ykispam.ui.screens.service.payment.PaymentContentStateful
 
 @Composable
 fun MainServiceScreen(
@@ -51,23 +45,8 @@ fun MainServiceScreen(
                           },
             secondScreen = {
                 DetailPanel(
-                    baseUIState = baseUIState,
-                    contentType = ContentType.DUAL_PANE,
-                    contentDetail = totalDebtState.serviceDetail,
-                    onBackPressed = {viewModel.closeContentDetail()},
                     showDetail = totalDebtState.showDetail,
                     detailContent = {
-                        if(contentDetail == ContentDetail.PAYMENT_LIST){
-                            PaymentContentStateful(
-                                serviceViewModel = viewModel,
-                                baseUIState = baseUIState
-                            )
-                        }else{
-                            ServicesContent(
-                                contentDetail = contentDetail,
-                                baseUIState = baseUIState
-                            )
-                        }
 
                     }
                 )
@@ -82,12 +61,10 @@ fun MainServiceScreen(
             onDrawerClick = onDrawerClick,
             totalDebtState = totalDebtState,
             viewModel = viewModel,
-            contentType = contentType
         )
     }
 
 }
-
 @Composable
 fun SinglePanelService(
     modifier: Modifier = Modifier,
@@ -97,7 +74,6 @@ fun SinglePanelService(
     onDrawerClick: () -> Unit,
     totalDebtState: TotalDebtState,
     viewModel: ServiceViewModel,
-    contentType: ContentType
 ) {
 
     if(!totalDebtState.showDetail){
@@ -117,31 +93,12 @@ fun SinglePanelService(
         BackHandler {
             viewModel.closeContentDetail()
         }
-        Column(
-            modifier = modifier.background(
-                MaterialTheme.colorScheme.background
-            )
-        ){
-            DetailAppBar(
-                contentType = contentType,
-                baseUIState = baseUIState,
-                contentDetail = contentDetail,
-            )
-             {
-                viewModel.closeContentDetail()
-            }
-            if(contentDetail == ContentDetail.PAYMENT_LIST){
-                PaymentContentStateful(
-                    serviceViewModel = viewModel,
-                    baseUIState = baseUIState
-                )
-            }else{
-                ServicesContent(
-                    contentDetail = contentDetail,
-                    baseUIState = baseUIState
-                )
-            }
-        }
+        ServiceDetailScreen(
+            navigationType = navigationType,
+            viewModel = viewModel,
+            contentDetail = contentDetail,
+            baseUIState =baseUIState
+        )
     }
 
 }

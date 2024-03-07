@@ -16,16 +16,16 @@
 
 package com.ykis.ykispam.ui.screens.service.detail
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
+import android.util.Log
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -40,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ykis.ykispam.R
@@ -58,7 +59,7 @@ import java.util.Date
 import java.util.Locale
 
 @Composable
-fun ServicesContent(
+fun ServiceDetailContent(
     contentDetail: ContentDetail,
     baseUIState: BaseUIState,
     viewModel: ServiceViewModel = hiltViewModel(),
@@ -68,6 +69,10 @@ fun ServicesContent(
 
     val serviceDetail by viewModel.detailState.collectAsStateWithLifecycle()
     var selectedChip by rememberSaveable { mutableStateOf(year) }
+
+//    LaunchedEffect(key1 = serviceDetail.isLoading) {
+        Log.d("loading_test", serviceDetail.isLoading.toString())
+//    }
 
     LaunchedEffect(
         key1 = selectedChip,
@@ -113,13 +118,19 @@ fun ServiceDetailItem(
 
     BaseCard(
         label = SimpleDateFormat("LLLL yyyy", Locale("uk")).format(Date(dateUnix.time))
-            .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
+            .replaceFirstChar {
+                if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString()
+            },
+        columnModifier = modifier.fillMaxWidth(),
+        labelModifier = modifier.padding(top = 12.dp , start = 12.dp)
     ) {
 
         Row(
             modifier
                 .fillMaxWidth()
-                .horizontalScroll(scrollState),
+                .horizontalScroll(scrollState)
+                .padding(start = 8.dp, bottom = 8.dp, end = 8.dp)
+            ,
             verticalAlignment = Alignment.Bottom,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
@@ -138,7 +149,7 @@ fun ServiceDetailItem(
                 value1 = serviceEntity.zadol1.toString(),
                 value2 = serviceEntity.zadol2.toString(),
                 value3 = serviceEntity.zadol3.toString(),
-                value4 = serviceEntity.zadol4.toString(),
+                    value4 = serviceEntity.zadol4.toString(),
                 header = stringResource(id = R.string.start_debt),
                 summary = serviceEntity.zadol.toString(),
                 headerAlign = TextAlign.End
@@ -196,7 +207,7 @@ fun ListServiceDetails(
 
 @Composable
 fun ServiceDetailContent(
-    isLoading : Boolean,
+    isLoading: Boolean,
     year: String,
     serviceEntyties: List<ServiceEntity>,
     selectedChip: String,
@@ -218,21 +229,25 @@ fun ServiceDetailContent(
             list = years, selectedChip = selectedChip,
             onSelectedChanged = onSelectedChanged
         )
-        AnimatedContent(
-            targetState = isLoading,
-            transitionSpec = {
-                fadeIn() togetherWith fadeOut()
-            },
-//            contentKey = isLoading
+//        AnimatedContent(
+//            targetState = isLoading,
+//            transitionSpec = {
+//                fadeIn() togetherWith fadeOut()
+//            },
+////            contentKey = isLoading
+//
+////            animationSpec = tween(delayMillis = 500), label = ""
+//        ) { targetState ->
 
-//            animationSpec = tween(delayMillis = 500), label = ""
-        ) {
-            targetState ->
-                if(targetState){
-                    ProgressBar()
-                }else ListServiceDetails(listServiceEntity = serviceEntyties)
+                Crossfade(
+            targetState = isLoading,
+            animationSpec = tween(600), label = ""
+        ) { targetState ->
+            if (targetState) {
+                ProgressBar()
+            } else ListServiceDetails(listServiceEntity = serviceEntyties)
         }
-        }
+    }
 
 }
 
@@ -243,7 +258,7 @@ private fun Test() {
     YkisPAMTheme {
         ServiceDetailItem(
             serviceEntity = ServiceEntity(
-                dolg1 = 2443545435344.3
+                dolg1 = 24435444445435344.3
             )
         )
     }

@@ -9,7 +9,10 @@ import com.ykis.ykispam.domain.payment.PaymentEntity
 import com.ykis.ykispam.ui.components.EmptyListState
 
 @Composable
-fun PaymentList(paymentList : List<PaymentEntity>) {
+fun PaymentList(
+    paymentList : List<PaymentEntity>,
+    osbb:String
+) {
     if (paymentList.isEmpty()) {
         EmptyListState(
             title = stringResource(id = R.string.no_payment),
@@ -17,7 +20,10 @@ fun PaymentList(paymentList : List<PaymentEntity>) {
         )
     } else LazyColumn {
         items(items = paymentList) { payment ->
-            PaymentListItem(item = payment)
+            PaymentListItem(
+                item = payment,
+                osbb = osbb
+            )
         }
     }
 }

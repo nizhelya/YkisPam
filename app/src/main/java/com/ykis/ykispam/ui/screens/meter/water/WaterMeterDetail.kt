@@ -86,7 +86,7 @@ fun WaterMeterDetail(
             if (isWorking) {
                 BaseCard(
                     label = stringResource(id = R.string.last_reading),
-                    modifier = Modifier
+                    cardModifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp)
                         .clip(CardDefaults.shape)
