@@ -28,7 +28,7 @@ class ApartmentCacheImpl @Inject constructor(
         apartmentDao.deleteFlat(addressId)
     }
 
-    override fun getApartmentById(addressId: Int): ApartmentEntity {
+    override fun getApartmentById(addressId: Int): ApartmentEntity? {
         return apartmentDao.getFlatById(addressId)
     }
 

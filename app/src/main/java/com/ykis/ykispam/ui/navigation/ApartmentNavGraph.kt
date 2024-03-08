@@ -237,9 +237,9 @@ fun ApartmentNavGraph(
 
                     ProfileScreen(
                         appState = appState,
-                        popUpScreen = { navController.popBackStack() },
                         cleanNavigateToDestination = { rootNavController.cleanNavigateTo(it) },
-                        navigationType = navigationType
+                        navigationType = navigationType,
+                        onDrawerClicked = onDrawerClicked
                     )
                 }
                 composable(ChatScreen.route) {

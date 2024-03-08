@@ -71,7 +71,7 @@
     <string name="generic_error">Щось пішло не так. Спробуйте знову</string>
     <string name="email_error">Пожалуйста введите правильный email.</string>
     <string name="try_again">Спробуйте знову</string>
-    <string name="profile">Профіль користувача</string>
+    <string name="profile">Профіль</string>
 
     <!-- LoginScreen -->
     <string name="sign_in">Вхід по електронній пошті</string>
@@ -233,6 +233,7 @@
 
 
     <string name="operator">Оператор:</string>
+    <string name="point_of_sale">Каса:</string>
     <string name="show_more">Подивитися більше</string>
     <string name="date_colon">Дата:</string>
     <string name="next">Продовжити</string>
@@ -319,7 +320,7 @@
 
     //success
     <string name="success_delete_flat">Квартира успішно видалена</string>
-    <string name="success_add_flat">Ви додали квартиру</string>
+    <string name="success_add_flat">Квартиру додано</string>
 
 
     <string name="confirm_password">Подтвердите пароль</string>

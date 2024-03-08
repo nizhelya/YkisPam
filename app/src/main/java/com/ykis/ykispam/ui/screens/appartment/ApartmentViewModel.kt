@@ -100,10 +100,10 @@ class ApartmentViewModel @Inject constructor(
 
     fun initialize() {
         if (uid.isNotEmpty()) {
-            observeApartments()
+                observeApartments()
         }
     }
-    private fun observeApartments() {
+    private  fun observeApartments() {
             _uiState.value = _uiState.value.copy(
                 uid = uid,
                 displayName = displayName,
@@ -262,10 +262,13 @@ class ApartmentViewModel @Inject constructor(
             when(result){
                 is Resource.Success -> {
                     SnackbarManager.showMessage(R.string.success_delete_flat)
-                    getApartmentList()
-                    this._uiState.value = _uiState.value.copy(
-                        mainLoading   = false,
-                        addressId = 0
+                    getApartmentList(
+                        onSuccess = {
+                            this._uiState.value = _uiState.value.copy(
+                                mainLoading   = false,
+                                addressId = 0
+                            )
+                        }
                     )
                 }
                 is Resource.Error -> {

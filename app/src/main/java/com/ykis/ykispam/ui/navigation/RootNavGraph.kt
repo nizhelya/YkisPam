@@ -1,5 +1,7 @@
 package com.ykis.ykispam.ui.navigation
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
@@ -62,17 +64,58 @@ fun RootNavGraph(
                 .padding(paddingValues = paddingValues),
             navController = navController,
             startDestination = LaunchScreen.route,
+            enterTransition = {
+                fadeIn()
+            },
+            exitTransition = {
+                fadeOut()
+            },
+            popEnterTransition = {
+                fadeIn()
+            },
+            popExitTransition = {
+                fadeOut()
+            }
         ) {
-            composable(LaunchScreen.route) {
+            composable(
+                route = LaunchScreen.route,
+                enterTransition = {
+                    fadeIn()
+                },
+                exitTransition = {
+                    fadeOut()
+                },
+                popEnterTransition = {
+                    fadeIn()
+                },
+                popExitTransition = {
+                    fadeOut()
+                }) {
                 LaunchScreen(
                     restartApp = { route -> navController.cleanNavigateTo(route) },
                     openAndPopUp = { route, popUp -> navController.navigateWithPopUp(route, popUp) },
                 )
             }
 
-            authNavGraph(navController)
+            authNavGraph(
+                navController
+            )
 
-            composable(route = Graph.APARTMENT) {
+            composable(
+                route = Graph.APARTMENT,
+                enterTransition = {
+                    fadeIn()
+                },
+                exitTransition = {
+                    fadeOut()
+                },
+                popEnterTransition = {
+                    fadeIn()
+                },
+                popExitTransition = {
+                    fadeOut()
+                }
+            ) {
                 MainApartmentScreen(
                     contentType = contentType,
                     navigationType = navigationType,

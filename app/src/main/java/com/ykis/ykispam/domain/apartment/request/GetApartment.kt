@@ -9,6 +9,7 @@ import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.domain.apartment.ApartmentRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.io.IOException
 import javax.inject.Inject
 
 
@@ -19,7 +20,10 @@ class GetApartment @Inject constructor(
     operator fun invoke (addressId : Int ,uid : String) : Flow<Resource<ApartmentEntity>> = flow{
         try{
             emit(Resource.Loading())
-            emit(Resource.Success(database.apartmentDao().getFlatById(addressId = addressId)))
+            val apartment = database.apartmentDao().getFlatById(addressId = addressId)
+            if(apartment!=null){
+                emit(Resource.Success(apartment))
+            }
             val response = repository.getApartment(addressId , uid)
             if(response.success==1){
                 emit(Resource.Success(response.apartment))
@@ -29,9 +33,13 @@ class GetApartment @Inject constructor(
         }catch (e:ExceptionWithResourceMessage) {
             SnackbarManager.showMessage(e.resourceMessage)
             emit(Resource.Error(e.localizedMessage ?: "Unexpected error!"))
-        } catch (e: Exception) {
+        } catch (e: IOException) {
             val apartment = database.apartmentDao().getFlatById(addressId = addressId)
-            emit(Resource.Success(apartment))
+            if(apartment!= ApartmentEntity()){
+                emit(Resource.Success(apartment))
+            }
+            SnackbarManager.showMessage(R.string.error_network)
+            emit(Resource.Error())
         }
     }
 }

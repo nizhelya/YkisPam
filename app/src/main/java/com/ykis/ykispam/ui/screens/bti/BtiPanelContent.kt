@@ -66,7 +66,6 @@ fun BtiContent(
 //        val keyboard = LocalSoftwareKeyboardController.current
     Column(
         modifier = Modifier
-            .padding(4.dp)
             .verticalScroll(rememberScrollState())
             .fillMaxSize(),
         verticalArrangement = Arrangement.Top,
@@ -74,7 +73,7 @@ fun BtiContent(
     ) {
 
         Card(
-            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+            modifier = modifier.padding(horizontal = 16.dp),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.onSecondary
             )

@@ -1,6 +1,5 @@
 package com.ykis.ykispam.domain.apartment.request
 
-import android.util.Log
 import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.data.cache.database.AppDatabase
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
@@ -34,7 +33,6 @@ class GetApartmentList @Inject constructor(
             database.waterReadingDao().deleteWaterReadingByApartment(addressIdList)
             addressIdList.clear()
             emit(Resource.Success(response.apartments))
-            Log.d("localhost_test" , response.message.toString())
 
         }catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "Unexpected error!"))

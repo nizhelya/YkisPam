@@ -61,10 +61,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun ProfileScreen(
     appState: YkisPamAppState,
-    popUpScreen:() -> Unit,
     cleanNavigateToDestination: (String) -> Unit,
     viewModel: ProfileViewModel = hiltViewModel(),
-    navigationType: NavigationType
+    navigationType: NavigationType,
+    onDrawerClicked: () -> Unit
 ) {
 
     ProfileScreenStateless(
@@ -75,7 +75,8 @@ fun ProfileScreen(
         providerId = viewModel.providerId,
         signOut = { viewModel.signOut() },
         revokeAccess = { viewModel.revokeAccess() },
-        navigationType = navigationType
+        navigationType = navigationType,
+        onDrawerClicked = onDrawerClicked
     )
     SignOut(
         navigateToAuthScreen = { signedOut ->
@@ -120,6 +121,7 @@ fun ProfileScreenStateless(
     isSelected: Boolean = false,
     signOut: () -> Unit,
     revokeAccess: () -> Unit,
+    onDrawerClicked : () ->Unit,
     navigationType: NavigationType
     ) {
     var openMenu by remember { mutableStateOf(false) }
@@ -130,15 +132,10 @@ fun ProfileScreenStateless(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
-//        ProfileTopBar(
-//            modifier = Modifier,
-//            signOut = { signOut() },
-//            revokeAccess = { revokeAccess() },
-//            navigateBack = { navigateBack() }
-//        )
         DefaultAppBar(
             title = stringResource(id = R.string.profile),
             navigationType = navigationType,
+            onDrawerClick = onDrawerClicked,
             canNavigateBack = false,
             actionButton = {
                 IconButton(
@@ -378,7 +375,8 @@ fun ProfileScreenPreview() {
             providerId = "Firebase",
             signOut = { },
             revokeAccess = { },
-            navigationType = NavigationType.BOTTOM_NAVIGATION
+            navigationType = NavigationType.BOTTOM_NAVIGATION,
+            onDrawerClicked ={}
         )
     }
 }

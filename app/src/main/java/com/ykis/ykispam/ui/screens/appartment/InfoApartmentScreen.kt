@@ -13,11 +13,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LeadingIconTab
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PrimaryTabRow
@@ -26,18 +30,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
 import com.ykis.ykispam.R
+import com.ykis.ykispam.core.composable.DialogCancelButton
+import com.ykis.ykispam.core.composable.DialogConfirmButton
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.YkisPamAppState
-import com.ykis.ykispam.ui.components.appbars.ApartmentTopAppBar
+import com.ykis.ykispam.ui.components.appbars.DefaultAppBar
 import com.ykis.ykispam.ui.navigation.ContentType
 import com.ykis.ykispam.ui.navigation.INFO_APARTMENT_TAB_ITEM
 import com.ykis.ykispam.ui.navigation.NavigationType
@@ -60,7 +69,22 @@ fun InfoApartmentScreen(
     var selectedTab by rememberSaveable {
         mutableIntStateOf(0)
     }
-    LaunchedEffect(key1 = baseUIState.addressId, key2 = baseUIState.apartments) {
+    var showWarningDialog by remember { mutableStateOf(false) }
+    if (showWarningDialog) {
+        AlertDialog(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            title = { Text(stringResource(R.string.title_delete_appartment)) },
+            dismissButton = { DialogCancelButton(R.string.cancel) { showWarningDialog = false } },
+            confirmButton = {
+                DialogConfirmButton(R.string.title_delete_appartment) {
+                    deleteApartment()
+                    showWarningDialog = false
+                }
+            },
+            onDismissRequest = { showWarningDialog = false }
+        )
+    }
+    LaunchedEffect(key1 = baseUIState.addressId) {
             if (baseUIState.addressId == 0) {
                 apartmentViewModel.getApartment(baseUIState.apartments.first().addressId)
             } else {
@@ -69,16 +93,27 @@ fun InfoApartmentScreen(
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        ApartmentTopAppBar(
-            appState = appState,
-            apartment = baseUIState.apartment,
-            isButtonAction = baseUIState.apartments.isNotEmpty(),
-            onButtonAction = { deleteApartment() },
-            onButtonPressed = { onDrawerClicked() },
-            navigationType = navigationType
+       DefaultAppBar(
+            title = baseUIState.address,
+            canNavigateBack = false,
+            onDrawerClick = { onDrawerClicked()},
+            navigationType = navigationType,
+            actionButton = {
+                IconButton(
+                    onClick = {
+                        showWarningDialog = true
+                    },
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = stringResource(id = R.string.delete_appartment),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
         )
         if (contentType == ContentType.DUAL_PANE) {
-            DualPanelContentNew(
+            InfoScreenDualPanelContent(
                 appState = appState,
                 baseUIState = baseUIState,
                 displayFeatures = displayFeatures,
@@ -139,7 +174,7 @@ fun InfoApartmentScreen(
 }
 
 @Composable
-fun DualPanelContentNew(
+fun InfoScreenDualPanelContent(
     appState: YkisPamAppState,
     baseUIState: BaseUIState,
     displayFeatures: List<DisplayFeature>,
@@ -151,6 +186,7 @@ fun DualPanelContentNew(
         first = {
             Column {
                 Row(modifier = Modifier
+                    .padding(vertical = 8.dp)
                     .fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 )
@@ -158,22 +194,19 @@ fun DualPanelContentNew(
                     Icon(
                         imageVector = Icons.Filled.Home,
                         contentDescription = "Info",
-                        tint = MaterialTheme.colorScheme.outline
+                        tint = MaterialTheme.colorScheme.primary
                     )
                     Text(
                         text = stringResource(id = R.string.bti),
-                        style = MaterialTheme.typography.bodyLarge
-
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.primary
                     )
                 }
-                Row(modifier = Modifier
-                    .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center) {
+//                HorizontalDivider()
                     BtiPanelContent(
                         baseUIState = baseUIState,
                         viewModel = apartmentViewModel
                     )
-                }
             }
 
 
@@ -181,28 +214,24 @@ fun DualPanelContentNew(
         second = {
             Column {
                 Row(modifier = Modifier
+                    .padding(vertical = 8.dp)
                     .fillMaxWidth(),
-//                    .padding(bottom = 4.dp),
                     horizontalArrangement = Arrangement.Center
                 )
                 {
                     Icon(
                         imageVector = Icons.Filled.Group,
-                        contentDescription = "Info",
-                        tint = MaterialTheme.colorScheme.outline
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
                     )
                     Text(
                         text = stringResource(id = R.string.list_family),
-                        style = MaterialTheme.typography.bodyLarge
-
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.primary
                     )
                 }
-                Row(modifier = Modifier
-                    .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center) {
+//                HorizontalDivider()
                     FamilyContent(baseUIState = baseUIState)
-
-                }
             }
         },
         strategy = HorizontalTwoPaneStrategy(splitFraction = 0.5f),

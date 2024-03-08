@@ -12,6 +12,7 @@ import javax.inject.Inject
 class AddApartment @Inject constructor(
     private val repository: ApartmentRepository,
 ){
+    // TODO: make BaseResponse
     operator fun invoke (code : String , uid:String ,email : String) : Flow<Resource<GetSimpleResponse>> = flow {
         try {
             emit(Resource.Loading())

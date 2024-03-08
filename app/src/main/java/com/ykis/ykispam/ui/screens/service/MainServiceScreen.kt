@@ -47,7 +47,12 @@ fun MainServiceScreen(
                 DetailPanel(
                     showDetail = totalDebtState.showDetail,
                     detailContent = {
-
+                        ServiceDetailScreen(
+                            navigationType = navigationType,
+                            viewModel = viewModel,
+                            contentDetail = contentDetail,
+                            baseUIState =baseUIState
+                        )
                     }
                 )
 

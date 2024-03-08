@@ -9,5 +9,5 @@ interface ApartmentCache {
 
     fun deleteAllApartments()
     fun deleteFlat(addressId: Int)
-    fun getApartmentById(addressId: Int): ApartmentEntity
+    fun getApartmentById(addressId: Int): ApartmentEntity?
 }

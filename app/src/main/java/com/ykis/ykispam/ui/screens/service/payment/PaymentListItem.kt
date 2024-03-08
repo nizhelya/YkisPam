@@ -11,7 +11,7 @@ import androidx.compose.material.icons.filled.Commute
 import androidx.compose.material.icons.filled.CorporateFare
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.HotTub
-import androidx.compose.material.icons.filled.SupportAgent
+import androidx.compose.material.icons.filled.PointOfSale
 import androidx.compose.material.icons.filled.Water
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -46,9 +46,9 @@ fun PaymentListItem(
                 imageVector = Icons.Default.DateRange
             )
             ColumnLabelTextWithTextAndIcon(
-                labelText = stringResource(id = R.string.operator),
+                labelText = stringResource(id = R.string.point_of_sale),
                 valueText = item.kassa,
-                imageVector = Icons.Default.SupportAgent
+                imageVector = Icons.Default.PointOfSale
             )
         }
         HorizontalDivider()
