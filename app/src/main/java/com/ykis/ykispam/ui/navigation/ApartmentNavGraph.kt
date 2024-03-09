@@ -16,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -56,7 +57,7 @@ fun MainApartmentScreen(
     displayFeatures: List<DisplayFeature>,
     navController: NavHostController = rememberNavController(),
     apartmentViewModel: ApartmentViewModel = hiltViewModel(),
-    meterViewModel : MeterViewModel = hiltViewModel(),
+    meterViewModel: MeterViewModel = hiltViewModel(),
     serviceViewModel: ServiceViewModel = hiltViewModel(),
     rootNavController: NavHostController,
     appState: YkisPamAppState,
@@ -64,7 +65,7 @@ fun MainApartmentScreen(
     onDispose: () -> Unit,
     isRailExpanded: Boolean,
     onMenuClick: () -> Unit
-    ) {
+) {
     val baseUIState by apartmentViewModel.uiState.collectAsStateWithLifecycle()
     val drawerState = DrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
@@ -81,120 +82,113 @@ fun MainApartmentScreen(
             onDispose()
         }
     }
-
-        if (navigationType == NavigationType.BOTTOM_NAVIGATION) {
-            ModalNavigationDrawer(
-                drawerContent = {
-                    ModalNavigationDrawerContent(
-                        baseUIState = baseUIState,
-                        selectedDestination = selectedDestination,
-                        navigateToDestination = {
-                            coroutineScope.launch {
-                                drawerState.close()
-                                navController.navigateWithPopUp(it, InfoApartmentScreen.route)
-                            }
-                        },
-                        onMenuClick = {
-                            coroutineScope.launch {
-                                drawerState.close()
-                            }
-                        },
-                        navigateToApartment = { addressId ->
-                            coroutineScope.launch {
-                                drawerState.close()
-                                meterViewModel.closeContentDetail()
-                                serviceViewModel.closeContentDetail()
-                                apartmentViewModel.setAddressId(addressId)
-                            }
-                        },
-                        isApartmentsEmpty = baseUIState.apartments.isEmpty()
-                    )
-                },
-                drawerState = drawerState
-            ) {
-                Scaffold(
-                    snackbarHost = { appState.snackbarHostState },
-                    bottomBar = {
-                        if(baseUIState.apartments.isNotEmpty()) {
-                            BottomNavigationBar(
-                                selectedDestination = selectedDestination,
-                                onClick = { navController.navigateWithPopUp(it , InfoApartmentScreen.route) }
-                            )
-                        }
+    val movableApartmentNavGraph = remember {
+        movableContentOf {
+            ApartmentNavGraph(
+                modifier =
+                Modifier
+                    .padding(
+                        bottom = if (navigationType == NavigationType.BOTTOM_NAVIGATION) 80.dp else 0.dp,
+                        start = if (navigationType != NavigationType.BOTTOM_NAVIGATION) railWidth else 0.dp
+                    ),
+                contentType = contentType,
+                navigationType = navigationType,
+                displayFeatures = displayFeatures,
+                baseUIState = baseUIState,
+                navController = navController,
+                onDrawerClicked = {
+                    coroutineScope.launch {
+                        drawerState.open()
                     }
-                ) {
-                    ApartmentNavGraph(
-                        modifier = Modifier
-                            .padding(
-                                bottom = it.calculateBottomPadding(),
-                            ),
-                        contentType = contentType,
-                        navigationType = navigationType,
-                        displayFeatures = displayFeatures,
-                        baseUIState = baseUIState,
-                        navController = navController,
-                        onDrawerClicked = {
-                            coroutineScope.launch {
-                                drawerState.open()
-                            }
-                        },
-                        apartmentViewModel = apartmentViewModel,
-                        rootNavController = rootNavController,
-                        firstDestination =  if(baseUIState.apartments.isNotEmpty()) InfoApartmentScreen.route else AddApartmentScreen.route,
-                        meterViewModel = meterViewModel,
-                        serviceViewModel = serviceViewModel
-                    )
-                }
-            }
-        } else {
-            Scaffold(
-                snackbarHost = { appState.snackbarHostState },
-            ) { it ->
-                ApartmentNavGraph(
-                    modifier = Modifier
-                        .padding(
-                            start = railWidth,
-                            bottom = it.calculateBottomPadding(),
-                        ),
-                    contentType = contentType,
-                    navigationType = navigationType,
-                    displayFeatures = displayFeatures,
+                },
+                apartmentViewModel = apartmentViewModel,
+                rootNavController = rootNavController,
+                firstDestination = if (baseUIState.apartments.isNotEmpty()) InfoApartmentScreen.route else AddApartmentScreen.route,
+                meterViewModel = meterViewModel,
+                serviceViewModel = serviceViewModel
+            )
+        }
+    }
+    if (navigationType == NavigationType.BOTTOM_NAVIGATION) {
+        ModalNavigationDrawer(
+            drawerContent = {
+                ModalNavigationDrawerContent(
                     baseUIState = baseUIState,
-                    navController = navController,
-                    onDrawerClicked = {
-                        coroutineScope.launch {
-                            drawerState.open()
-                        }
-                    },
-                    apartmentViewModel = apartmentViewModel,
-                    rootNavController = rootNavController,
-                    firstDestination = if(baseUIState.apartments.isNotEmpty()) InfoApartmentScreen.route else AddApartmentScreen.route,
-                    meterViewModel = meterViewModel,
-                    serviceViewModel = serviceViewModel
-
-                )
-                ApartmentNavigationRail(
                     selectedDestination = selectedDestination,
                     navigateToDestination = {
-                        navController.navigateWithPopUp(
-                            it,
-                            InfoApartmentScreen.route
-                        )
+                        coroutineScope.launch {
+                            drawerState.close()
+                            navController.navigateWithPopUp(it, InfoApartmentScreen.route)
+                        }
                     },
-                    isRailExpanded = isRailExpanded,
-                    onMenuClick = onMenuClick,
-                    baseUIState = baseUIState,
+                    onMenuClick = {
+                        coroutineScope.launch {
+                            drawerState.close()
+                        }
+                    },
                     navigateToApartment = { addressId ->
-                        meterViewModel.closeContentDetail()
-                        serviceViewModel.closeContentDetail()
-                        apartmentViewModel.setAddressId(addressId)
+                        coroutineScope.launch {
+                            drawerState.close()
+                            meterViewModel.closeContentDetail()
+                            serviceViewModel.closeContentDetail()
+                            apartmentViewModel.setAddressId(addressId)
+                        }
                     },
-                    railWidth = railWidth,
-                    isApartmentsEmpty = baseUIState.apartments.isEmpty(),
-                    maxApartmentListHeight = if(navigationType == NavigationType.NAVIGATION_RAIL_COMPACT) 132.dp else 194.dp
+                    isApartmentsEmpty = baseUIState.apartments.isEmpty()
                 )
+            },
+            drawerState = drawerState
+        ) {
+            Scaffold(
+                snackbarHost = { appState.snackbarHostState },
+                bottomBar = {
+                    if (baseUIState.apartments.isNotEmpty()) {
+                        BottomNavigationBar(
+                            selectedDestination = selectedDestination,
+                            onClick = {
+                                navController.navigateWithPopUp(
+                                    it,
+                                    InfoApartmentScreen.route
+                                )
+                            }
+                        )
+                    }
+                }
+            ) {
+                paddingValues ->
+                print(paddingValues.toString())
+                movableApartmentNavGraph()
             }
         }
+    } else {
+        Scaffold(
+            snackbarHost = { appState.snackbarHostState },
+        ) {
+            paddingValues ->
+            print(paddingValues.toString())
+            movableApartmentNavGraph()
+            ApartmentNavigationRail(
+                selectedDestination = selectedDestination,
+                navigateToDestination = {
+                    navController.navigateWithPopUp(
+                        it,
+                        InfoApartmentScreen.route
+                    )
+                },
+                isRailExpanded = isRailExpanded,
+                onMenuClick = onMenuClick,
+                baseUIState = baseUIState,
+                navigateToApartment = { addressId ->
+                    meterViewModel.closeContentDetail()
+                    serviceViewModel.closeContentDetail()
+                    apartmentViewModel.setAddressId(addressId)
+                },
+                railWidth = railWidth,
+                isApartmentsEmpty = baseUIState.apartments.isEmpty(),
+                maxApartmentListHeight = if (navigationType == NavigationType.NAVIGATION_RAIL_COMPACT) 132.dp else 194.dp
+            )
+        }
+    }
 }
 
 @Composable
@@ -208,7 +202,7 @@ fun ApartmentNavGraph(
     navController: NavHostController,
     apartmentViewModel: ApartmentViewModel,
     rootNavController: NavHostController,
-    firstDestination:String,
+    firstDestination: String,
     meterViewModel: MeterViewModel,
     serviceViewModel: ServiceViewModel
 ) {
@@ -253,7 +247,7 @@ fun ApartmentNavGraph(
                         navController = navController,
                         canNavigateBack = navController.previousBackStackEntry != null,
                         onDrawerClicked = onDrawerClicked,
-                        navigationType = navigationType
+                        navigationType = navigationType,
                     )
                     //            AddApartmentScreen(
                     //                popUpScreen = { appState.popUp() },
@@ -286,7 +280,7 @@ fun ApartmentNavGraph(
                 }
                 composable(
                     route = InfoApartmentScreen.route,
-                ){
+                ) {
                     InfoApartmentScreen(
                         contentType = contentType,
                         displayFeatures = displayFeatures,

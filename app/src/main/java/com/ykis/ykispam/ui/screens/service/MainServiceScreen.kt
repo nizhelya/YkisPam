@@ -2,9 +2,13 @@ package com.ykis.ykispam.ui.screens.service
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.layout.DisplayFeature
@@ -29,6 +33,11 @@ fun MainServiceScreen(
 ) {
     val totalDebtState by viewModel.totalDebtState.collectAsStateWithLifecycle()
     val contentDetail : ContentDetail = totalDebtState.serviceDetail
+    DisposableEffect(key1 = true) {
+        onDispose {
+            viewModel.closeContentDetail()
+        }
+    }
     if(contentType==ContentType.DUAL_PANE){
         BaseDualPanelContent(
             modifier = modifier,
@@ -48,6 +57,7 @@ fun MainServiceScreen(
                     showDetail = totalDebtState.showDetail,
                     detailContent = {
                         ServiceDetailScreen(
+                            modifier = Modifier.background(Color.Transparent),
                             navigationType = navigationType,
                             viewModel = viewModel,
                             contentDetail = contentDetail,
@@ -99,6 +109,7 @@ fun SinglePanelService(
             viewModel.closeContentDetail()
         }
         ServiceDetailScreen(
+            modifier = modifier.background(MaterialTheme.colorScheme.background),
             navigationType = navigationType,
             viewModel = viewModel,
             contentDetail = contentDetail,

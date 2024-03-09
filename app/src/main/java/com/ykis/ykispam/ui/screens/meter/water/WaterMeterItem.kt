@@ -26,7 +26,6 @@ import com.ykis.ykispam.domain.meter.water.meter.WaterMeterEntity
 import com.ykis.ykispam.ui.components.LabelTextWithText
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 
-
 @Composable
 fun WaterMeterItem(
     modifier: Modifier = Modifier,
@@ -67,9 +66,9 @@ fun WaterMeterItem(
         ) {
             Icon(
                 modifier = Modifier
-                    .padding(horizontal = 12.dp)
-                    .size(48.dp),
-                painter = painterResource(id = R.drawable.ic_water_meter),
+                    .padding(horizontal = 8.dp)
+                    .size(64.dp),
+                painter = painterResource(id = R.drawable.ic_water_meter1_24px),
                 contentDescription = null
             )
             Column(modifier =  Modifier.weight(1f)) {

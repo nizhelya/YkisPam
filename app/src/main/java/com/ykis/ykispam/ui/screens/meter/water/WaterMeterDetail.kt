@@ -138,6 +138,12 @@ fun WaterMeterDetail(
                     labelText = stringResource(id = R.string.sdate_colon),
                     valueText = waterMeterEntity.sdate
                 )
+                if(waterMeterEntity.spisan.isTrue()){
+                    LabelTextWithText(
+                        labelText = stringResource(id = R.string.date_spisan_colon),
+                        valueText = waterMeterEntity.dataSpis
+                    )
+                }
             }
             if (isWorking) {
                 BaseCard(label = stringResource(id = R.string.check_water_meter)) {

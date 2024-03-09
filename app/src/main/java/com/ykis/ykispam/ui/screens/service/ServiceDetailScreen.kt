@@ -2,6 +2,7 @@ package com.ykis.ykispam.ui.screens.service
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.ykis.ykispam.R
 import com.ykis.ykispam.ui.BaseUIState
@@ -13,12 +14,15 @@ import com.ykis.ykispam.ui.screens.service.payment.PaymentContentStateful
 
 @Composable
 fun ServiceDetailScreen(
+    modifier:Modifier = Modifier,
     navigationType: NavigationType,
     viewModel: ServiceViewModel,
     contentDetail: ContentDetail,
     baseUIState: BaseUIState
 ) {
-    Column{
+    Column(
+        modifier = modifier
+    ){
         DefaultAppBar(
             navigationType = navigationType,
             canNavigateBack = true,

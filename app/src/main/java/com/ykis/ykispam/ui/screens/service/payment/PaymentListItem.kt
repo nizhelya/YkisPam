@@ -42,7 +42,7 @@ fun PaymentListItem(
 ) {
 
     val dateUnix = SimpleDateFormat("dd.MM.yyyy").parse(item.data);
-        BaseCard {
+    BaseCard {
             Row{
                 ColumnLabelTextWithTextAndIcon(
                     modifier = modifier.weight(1f),

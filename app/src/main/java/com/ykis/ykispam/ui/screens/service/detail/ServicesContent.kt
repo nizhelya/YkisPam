@@ -16,7 +16,6 @@
 
 package com.ykis.ykispam.ui.screens.service.detail
 
-import android.util.Log
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.horizontalScroll
@@ -70,9 +69,6 @@ fun ServiceDetailContent(
     val serviceDetail by viewModel.detailState.collectAsStateWithLifecycle()
     var selectedChip by rememberSaveable { mutableStateOf(year) }
 
-//    LaunchedEffect(key1 = serviceDetail.isLoading) {
-        Log.d("loading_test", serviceDetail.isLoading.toString())
-//    }
 
     LaunchedEffect(
         key1 = selectedChip,

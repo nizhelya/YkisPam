@@ -256,6 +256,7 @@
     <string name="reading_history">Історія показань</string>
     <string name="reading_added">Показання додани</string>
     <string name="spisan_colon">Списан:</string>
+    <string name="date_spisan_colon">Дата списання:</string>
     <string name="out_colon">На перевірці:</string>
     //WaterReading
     <string name="date_ot_colon">Дата попереднього:</string>

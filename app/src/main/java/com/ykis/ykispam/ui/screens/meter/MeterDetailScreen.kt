@@ -5,6 +5,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -17,13 +18,16 @@ import com.ykis.ykispam.ui.screens.meter.water.WaterMeterState
 
 @Composable
 fun MeterDetailScreen(
+    modifier : Modifier = Modifier,
     contentDetail: ContentDetail,
     waterMeterState: WaterMeterState,
     heatMeterState: HeatMeterState,
     viewModel: MeterViewModel,
     baseUIState: BaseUIState
 ) {
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         DefaultAppBar(
             title = when (contentDetail) {
                 ContentDetail.WATER_METER -> waterMeterState.selectedWaterMeter.model
