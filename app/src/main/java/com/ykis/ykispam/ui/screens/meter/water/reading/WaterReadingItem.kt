@@ -11,8 +11,6 @@ import com.ykis.ykispam.domain.meter.water.reading.WaterReadingEntity
 import com.ykis.ykispam.ui.components.BaseCard
 import com.ykis.ykispam.ui.components.LabelTextWithText
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 
 @Composable
@@ -29,8 +27,6 @@ fun WaterReadingItemContent(
     modifier: Modifier = Modifier,
     reading: WaterReadingEntity
 ) {
-    val dateUnixOt = SimpleDateFormat("yyyy-MM-dd", Locale("uk")).parse(reading.dateOt)
-    val dateUnixDo = SimpleDateFormat("yyyy-MM-dd", Locale("uk")).parse(reading.dateDo)
     if (reading.avg.isTrue()) {
                 LabelTextWithText(
                     labelText = stringResource(id = R.string.last_colon),
@@ -57,10 +53,8 @@ fun WaterReadingItemContent(
             labelText = stringResource(id = R.string.period_colon),
             valueText = stringResource(
                 R.string.date_format,
-                dateUnixOt?.let { SimpleDateFormat("dd/MM/yyyy", Locale("uk")).format(it) }
-                    .toString(),
-                dateUnixDo?.let { SimpleDateFormat("dd/MM/yyyy", Locale("uk")).format(it) }
-                    .toString()
+                reading.dateOt,
+                reading.dateDo
             )
         )
         LabelTextWithText(

@@ -16,8 +16,8 @@ limitations under the License.
 
 package com.ykis.ykispam.core
 
-import com.google.firebase.perf.ktx.trace
 import com.google.firebase.perf.metrics.Trace
+import com.google.firebase.perf.trace
 
 
 /**

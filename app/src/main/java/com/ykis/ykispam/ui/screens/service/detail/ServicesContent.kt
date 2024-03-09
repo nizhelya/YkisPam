@@ -229,16 +229,6 @@ fun ServiceDetailContent(
             list = years, selectedChip = selectedChip,
             onSelectedChanged = onSelectedChanged
         )
-//        AnimatedContent(
-//            targetState = isLoading,
-//            transitionSpec = {
-//                fadeIn() togetherWith fadeOut()
-//            },
-////            contentKey = isLoading
-//
-////            animationSpec = tween(delayMillis = 500), label = ""
-//        ) { targetState ->
-
                 Crossfade(
             targetState = isLoading,
             animationSpec = tween(600), label = ""

@@ -30,6 +30,9 @@ import com.ykis.ykispam.domain.payment.PaymentEntity
 import com.ykis.ykispam.ui.components.BaseCard
 import com.ykis.ykispam.ui.components.LabelTextWithText
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
 fun PaymentListItem(
@@ -37,91 +40,94 @@ fun PaymentListItem(
     item :PaymentEntity,
     osbb : String
 ) {
-    BaseCard {
-        Row{
-            ColumnLabelTextWithTextAndIcon(
-                modifier = modifier.weight(1f),
-                labelText = stringResource(id = R.string.date_colon),
-                valueText = item.data,
-                imageVector = Icons.Default.DateRange
-            )
-            ColumnLabelTextWithTextAndIcon(
-                labelText = stringResource(id = R.string.point_of_sale),
-                valueText = item.kassa,
-                imageVector = Icons.Default.PointOfSale
-            )
-        }
-        HorizontalDivider()
-        if(item.remont !=0.0 || item.kvartplata!=0.0){
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            )
-            {
-                Icon(
-                    imageVector = Icons.Default.CorporateFare,
-                    contentDescription = null
+
+    val dateUnix = SimpleDateFormat("dd.MM.yyyy").parse(item.data);
+        BaseCard {
+            Row{
+                ColumnLabelTextWithTextAndIcon(
+                    modifier = modifier.weight(1f),
+                    labelText = stringResource(id = R.string.date_colon),
+                    valueText =
+                    SimpleDateFormat("d MMMM yyyy", Locale("uk" , "UA")).format(Date(dateUnix.time)),
+                    imageVector = Icons.Default.DateRange
                 )
-                Text(
-                    text = osbb,
-                    style = MaterialTheme.typography.titleMedium
+                ColumnLabelTextWithTextAndIcon(
+                    labelText = stringResource(id = R.string.point_of_sale),
+                    valueText = item.kassa,
+                    imageVector = Icons.Default.PointOfSale
                 )
             }
-            Row(
-                modifier = modifier.height(
-                    IntrinsicSize.Max
+            HorizontalDivider()
+            if(item.remont !=0.0 || item.kvartplata!=0.0){
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
                 )
-            ){
-                VerticalDivider(
-                    thickness = 2.dp,
-                )
-                Column {
-                    if(item.kvartplata != 0.0){
-                        LabelTextWithText(
-                            labelText = stringResource(id = R.string.kvartplata_colon),
-                            valueText = item.kvartplata.formatMoney(),
-                            modifier = modifier.padding(start = 8.dp)
-                        )
-                    }
-                    if(item.remont != 0.0){
-                        LabelTextWithText(
-                            labelText = stringResource(id = R.string.rfond_colon),
-                            valueText = item.remont.formatMoney() ,
-                            modifier = modifier.padding(start = 8.dp)
-                        )
+                {
+                    Icon(
+                        imageVector = Icons.Default.CorporateFare,
+                        contentDescription = null
+                    )
+                    Text(
+                        text = osbb,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                }
+                Row(
+                    modifier = modifier.height(
+                        IntrinsicSize.Max
+                    )
+                ){
+                    VerticalDivider(
+                        thickness = 2.dp,
+                    )
+                    Column {
+                        if(item.kvartplata != 0.0){
+                            LabelTextWithText(
+                                labelText = stringResource(id = R.string.kvartplata_colon),
+                                valueText = item.kvartplata.formatMoney(),
+                                modifier = modifier.padding(start = 8.dp)
+                            )
+                        }
+                        if(item.remont != 0.0){
+                            LabelTextWithText(
+                                labelText = stringResource(id = R.string.rfond_colon),
+                                valueText = item.remont.formatMoney() ,
+                                modifier = modifier.padding(start = 8.dp)
+                            )
+                        }
                     }
                 }
+                HorizontalDivider()
             }
-            HorizontalDivider()
-        }
-        if(item.voda != 0.0){
-            ColumnLabelTextWithTextAndIcon(
-                labelText = stringResource(id = R.string.vodokanal_colon),
-                valueText = item.voda.formatMoney(),
-                imageVector = Icons.Default.Water
+            if(item.voda != 0.0){
+                ColumnLabelTextWithTextAndIcon(
+                    labelText = stringResource(id = R.string.vodokanal_colon),
+                    valueText = item.voda.formatMoney(),
+                    imageVector = Icons.Default.Water
+                )
+                HorizontalDivider()
+            }
+            if(item.otoplenie != 0.0){
+                ColumnLabelTextWithTextAndIcon(
+                    labelText = stringResource(id = R.string.ytke_colon),
+                    valueText = item.otoplenie.formatMoney(),
+                    imageVector = Icons.Default.HotTub
+                )
+                HorizontalDivider()
+            }
+            if(item.tbo != 0.0){
+                ColumnLabelTextWithTextAndIcon(
+                    labelText = stringResource(id = R.string.yzhtrans_colon),
+                    valueText = item.tbo.formatMoney(),
+                    imageVector = Icons.Default.Commute
+                )
+                HorizontalDivider()
+            }
+            LabelTextWithText(
+                labelText = stringResource(id = R.string.summary),
+                valueText = item.summa.formatMoney() + stringResource(id = R.string.uah)
             )
-            HorizontalDivider()
         }
-        if(item.otoplenie != 0.0){
-            ColumnLabelTextWithTextAndIcon(
-                labelText = stringResource(id = R.string.ytke_colon),
-                valueText = item.otoplenie.formatMoney(),
-                imageVector = Icons.Default.HotTub
-            )
-            HorizontalDivider()
-        }
-        if(item.tbo != 0.0){
-            ColumnLabelTextWithTextAndIcon(
-                labelText = stringResource(id = R.string.yzhtrans_colon),
-                valueText = item.tbo.formatMoney(),
-                imageVector = Icons.Default.Commute
-            )
-            HorizontalDivider()
-        }
-        LabelTextWithText(
-            labelText = stringResource(id = R.string.summary),
-            valueText = item.summa.formatMoney() + stringResource(id = R.string.uah)
-        )
-    }
 }
 
 @Composable
