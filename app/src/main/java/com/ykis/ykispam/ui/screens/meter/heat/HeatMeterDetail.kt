@@ -59,7 +59,7 @@ fun HeatMeterDetail(
     }
     val enabledButton by remember(key1 =newHeatReading ,key2 = lastHeatReading.current  ) {
         derivedStateOf {
-            (newHeatReading.takeIf { it.isNotEmpty() }?.toIntOrNull() ?: -1) > lastHeatReading.current
+            (newHeatReading.takeIf { it.isNotEmpty() }?.toDoubleOrNull() ?: -1.0) > lastHeatReading.current
         }
     }
     LaunchedEffect(key1 = baseUIState.addressId , key2 = heatMeterEntity.teplomerId ) {

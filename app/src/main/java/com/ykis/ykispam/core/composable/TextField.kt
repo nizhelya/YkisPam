@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AlternateEmail
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Icon
@@ -90,7 +89,7 @@ fun EmailField(value: String, onNewValue: (String) -> Unit, modifier: Modifier =
         value = value,
         onValueChange = { onNewValue(it) },
         placeholder = { Text(stringResource(AppText.email_placeholder)) },
-        leadingIcon = { Icon(imageVector = Icons.Filled.Email, contentDescription = "Email") }
+        leadingIcon = { Icon(imageVector = Icons.Filled.AlternateEmail, contentDescription = "Email") }
     )
 }
 @Composable
