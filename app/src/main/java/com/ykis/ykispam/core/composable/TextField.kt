@@ -22,9 +22,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AlternateEmail
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.PhoneAndroid
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -106,7 +107,7 @@ fun PhoneField(value: String, onNewValue: (String) -> Unit, modifier: Modifier =
         value = value,
         onValueChange = { onNewValue(it) },
         placeholder = { Text(stringResource(AppText.email_placeholder)) },
-        leadingIcon = { Icon(imageVector = Icons.Filled.PhoneAndroid, contentDescription = "Phone") }
+        leadingIcon = { Icon(imageVector = Icons.Filled.Phone, contentDescription = "Phone") }
     )
 }
 
@@ -203,6 +204,6 @@ fun Field(value: String, onNewValue: (String) -> Unit, modifier: Modifier = Modi
         value = value,
         onValueChange = { onNewValue(it) },
         placeholder = { Text(stringResource(AppText.email_placeholder)) },
-        leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "Email") }
+        leadingIcon = { Icon(imageVector = Icons.Default.AlternateEmail, contentDescription = "Email") }
     )
 }

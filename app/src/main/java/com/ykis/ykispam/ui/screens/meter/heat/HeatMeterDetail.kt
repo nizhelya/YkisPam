@@ -95,7 +95,7 @@ fun HeatMeterDetail(
                 onDeleteButtonClick = {
                     showDeleteReadingDialog = true
                 },
-                showDeleteButton = (lastHeatReading.dateDo == SimpleDateFormat("yyy-MM-dd").format(
+                showDeleteButton = (lastHeatReading.dateDo == SimpleDateFormat("dd.MM.yyyy").format(
                     Date()
                 ))
             )

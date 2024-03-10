@@ -2,6 +2,7 @@ package com.ykis.ykispam.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
@@ -10,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -20,12 +22,15 @@ import com.ykis.ykispam.ui.theme.YkisPAMTheme
 
 @Composable
 fun BaseCard(
-    cardModifier: Modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp , horizontal = 12.dp),
+    cardModifier: Modifier = Modifier
+        .fillMaxWidth()
+        .padding(vertical = 8.dp, horizontal = 12.dp),
     columnModifier : Modifier = Modifier
         .fillMaxWidth()
         .padding(12.dp),
     labelModifier: Modifier = Modifier,
     label : String? = null,
+    actionButton: @Composable (() ->Unit)? = null,
     content :@Composable () ->Unit
 ) {
     Card(
@@ -39,20 +44,26 @@ fun BaseCard(
             modifier = columnModifier,
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ){
-            if(label!=null){
-                Text(
-                    modifier = labelModifier ,
-                    text = label,
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        fontWeight = FontWeight(350)
+            if(label!=null) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        modifier = labelModifier.weight(1f),
+                        text = label,
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            fontWeight = FontWeight(350)
+                        )
                     )
-                )
+                    if (actionButton != null) {
+                        actionButton()
+                    }
+                }
             }
             content()
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

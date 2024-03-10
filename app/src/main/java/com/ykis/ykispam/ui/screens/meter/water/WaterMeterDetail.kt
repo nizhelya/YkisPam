@@ -100,7 +100,7 @@ fun WaterMeterDetail(
                 LastReadingCardButtons(
                     onAddButtonClick = { showAddReadingDialog = true },
                     onDeleteButtonClick = { showDeleteReadingDialog = true },
-                    showDeleteButton = (lastReading.dateDo == SimpleDateFormat("yyy-MM-dd").format(
+                    showDeleteButton = (lastReading.dateDo == SimpleDateFormat("dd.MM.yyyy").format(
                         Date()
                     ))
                 )

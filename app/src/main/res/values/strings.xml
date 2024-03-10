@@ -159,10 +159,10 @@
     <string name="area_life">Житлова:</string>
     <string name="area_extra">Додаткова:</string>
     <string name="area_otopl">Опалення:</string>
-    <string name="elevator_text">Ліфт:</string>
-    <string name="rooms">Кімнат:</string>
+    <string name="elevator_colon">Ліфт:</string>
+    <string name="rooms_colon">Кімнат:</string>
     <string name="data_bti">Дані БТІ </string>
-    <string name="private_text">Приват:</string>
+    <string name="private_text_colon">Приват:</string>
     <string name="private_ok">Так</string>
     <string name="private_no">Ні</string>
     <string name="ok">Так</string>
@@ -170,14 +170,14 @@
 
 
 
-    <string name="data_order">Дата видачі ордера:</string>
+    <string name="date_orde_colon">Дата видачі ордера:</string>
     <string name="order_text">Ордер:</string>
     <string name="update">Оновити</string>
     <string name="updated">Дані оновлено</string>
     <string name="phone">Телефон</string>
     <string name="dialog_edit_title">Оновити контактну інформацію</string>
     <string name="phone_colon">Телефон:</string>
-    <string name="employer_text">Гл.наймач (П.І.Б.)  </string>
+    <string name="employer_text_colon">Гл.наймач (П.І.Б.):</string>
     <string name="employer_none">дані відсутні</string>
 
     <string name="owner_text">Власник:</string>

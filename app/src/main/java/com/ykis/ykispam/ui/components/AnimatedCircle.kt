@@ -28,7 +28,7 @@ fun AnimatedCircle(
     colors: List<Color>,
     modifier: Modifier = Modifier
 ) {
-    val currentState = remember {
+    val currentState = remember{
         MutableTransitionState(AnimatedCircleProgress.START)
             .apply { targetState = AnimatedCircleProgress.END }
     }

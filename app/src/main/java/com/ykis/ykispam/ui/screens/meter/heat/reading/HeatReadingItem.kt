@@ -10,8 +10,6 @@ import com.ykis.ykispam.domain.meter.heat.reading.HeatReadingEntity
 import com.ykis.ykispam.ui.components.BaseCard
 import com.ykis.ykispam.ui.components.LabelTextWithText
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 
 @Composable
@@ -36,17 +34,13 @@ fun HeatReadingItemContent(
     reading: HeatReadingEntity,
     isAverage: Boolean
 ) {
-    val dateUnixOt = SimpleDateFormat("yyyy-MM-dd", Locale("uk")).parse(reading.dateOt)
-    val dateUnixDo = SimpleDateFormat("yyyy-MM-dd", Locale("uk")).parse(reading.dateDo)
     if (isAverage) {
         LabelTextWithText(
             labelText = stringResource(id = R.string.period_colon),
             valueText = stringResource(
                 R.string.date_format,
-                dateUnixOt?.let { SimpleDateFormat("dd/MM/yyyy", Locale("uk")).format(it) }
-                    .toString(),
-                dateUnixDo?.let { SimpleDateFormat("dd/MM/yyyy", Locale("uk")).format(it) }
-                    .toString()
+                reading.dateOt,
+                reading.dateDo
             )
         )
         LabelTextWithText(
@@ -66,10 +60,8 @@ fun HeatReadingItemContent(
             labelText = stringResource(id = R.string.period_colon),
             valueText = stringResource(
                 R.string.date_format,
-                dateUnixOt?.let { SimpleDateFormat("dd/MM/yyyy", Locale("uk")).format(it) }
-                    .toString(),
-                dateUnixDo?.let { SimpleDateFormat("dd/MM/yyyy", Locale("uk")).format(it) }
-                    .toString()
+                reading.dateOt,
+                reading.dateDo
             )
         )
         LabelTextWithText(

@@ -4,17 +4,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.twotone.Person
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -23,10 +16,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.R
+import com.ykis.ykispam.core.ext.isTrue
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.ui.BaseUIState
+import com.ykis.ykispam.ui.components.BaseCard
+import com.ykis.ykispam.ui.components.ColumnLabelTextWithTextAndIcon
+import com.ykis.ykispam.ui.components.LabelTextWithCheckBox
+import com.ykis.ykispam.ui.components.LabelTextWithText
 import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 
@@ -63,7 +60,6 @@ fun BtiContent(
     onPhoneChange: (String) -> Unit,
     onUpdateBti: () -> Unit,
 ) {
-//        val keyboard = LocalSoftwareKeyboardController.current
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
@@ -71,580 +67,90 @@ fun BtiContent(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        Card(
-            modifier = modifier.padding(horizontal = 16.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.onSecondary
+        BaseCard {
+            ColumnLabelTextWithTextAndIcon(
+                imageVector = Icons.Default.Person,
+                labelText = stringResource(id = R.string.employer_text_colon),
+                valueText = baseUIState.apartment.nanim
             )
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 8.dp, bottom = 4.dp),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.employer_text),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.outline
-
-                    )
-
-
-                }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(all = 4.dp),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .padding(end = 4.dp),
-
-                        imageVector = Icons.TwoTone.Person,
-                        contentDescription = "Info",
-                        tint = MaterialTheme.colorScheme.outline
-                    )
-                    Text(
-                        text = baseUIState.apartment.nanim,
-                        style = MaterialTheme.typography.bodyLarge
-
-                    )
-
-                }
-            }
         }
 
-        Card(
-            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.onSecondary
-            )
+        BaseCard(
+            label = stringResource(id = R.string.compound_text)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.compound_text),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.outline,
-                        modifier = Modifier
-                            .padding(4.dp)
-
-                    )
-
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(
-                        modifier = Modifier.weight(0.5f),
-                    ) {
-                        Row(//площадь
-                            modifier = Modifier
-                                .padding(
-                                    start = 4.dp,
-                                    top = 4.dp,
-                                    end = 4.dp,
-                                    bottom = 4.dp
-                                ),
-                            horizontalArrangement = Arrangement.Start,
-                            verticalAlignment = Alignment.CenterVertically
-
-                        ) {
-                            Text(
-                                modifier = Modifier
-                                    .padding(
-                                        end = 8.dp,
-                                    ),
-                                text = stringResource(R.string.tenant_text),
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.outline
-
-                            )
-                            Text(
-                                text = baseUIState.apartment.tenant.toString(),
-                                style = MaterialTheme.typography.bodyLarge,
-
-                                )
-                        }
-                    }
-                    Column(
-                        modifier = Modifier.weight(0.5f)
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .padding(
-                                    start = 4.dp,
-                                    top = 4.dp,
-                                    end = 4.dp,
-                                    bottom = 4.dp
-                                ),
-                            horizontalArrangement = Arrangement.Start,
-                            verticalAlignment = Alignment.CenterVertically
-
-                        ) {
-                            Text(
-                                modifier = Modifier
-                                    .padding(
-                                        end = 8.dp,
-                                    ),
-                                text = stringResource(R.string.podnan_text),
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.outline
-
-                            )
-                            Text(
-                                text = baseUIState.apartment.podnan.toString(),
-                                style = MaterialTheme.typography.bodyLarge,
-
-                                )
-                        }
-                    }
-
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(
-                        modifier = Modifier.weight(0.5f),
-                    ) {
-                        Row(//площадь
-                            modifier = Modifier
-                                .padding(
-                                    start = 4.dp,
-                                    top = 4.dp,
-                                    end = 4.dp,
-                                    bottom = 4.dp
-                                ),
-                            horizontalArrangement = Arrangement.Start,
-                            verticalAlignment = Alignment.CenterVertically
-
-                        ) {
-                            Text(
-                                modifier = Modifier
-                                    .padding(
-                                        end = 8.dp,
-                                    ),
-                                text = stringResource(R.string.absent_text),
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.outline
-
-                            )
-                            Text(
-                                text = baseUIState.apartment.absent.toString(),
-                                style = MaterialTheme.typography.bodyLarge,
-
-                                )
-                        }
-                    }
-
-
-                }
-            }
+            LabelTextWithText(
+                labelText = stringResource(R.string.tenant_text),
+                valueText = baseUIState.apartment.tenant.toString()
+            )
+            LabelTextWithText(
+                labelText = stringResource(R.string.podnan_text),
+                valueText = baseUIState.apartment.podnan.toString(),
+            )
+            LabelTextWithText(
+                labelText = stringResource(R.string.absent_text),
+                valueText = baseUIState.apartment.absent.toString()
+            )
         }
-
-        Card(
-            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.onSecondary
+        BaseCard(
+            label = stringResource(
+                id = R.string.area_flat
             )
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.area_flat),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.outline,
-                        modifier = Modifier
-                            .padding(4.dp)
-
-                    )
-
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(
-                        modifier = Modifier.weight(0.5f),
-                    ) {
-                        Row(//площадь
-                            modifier = Modifier
-                                .padding(
-                                    start = 4.dp,
-                                    top = 4.dp,
-                                    end = 4.dp,
-                                    bottom = 4.dp
-                                ),
-                            horizontalArrangement = Arrangement.Start,
-                            verticalAlignment = Alignment.CenterVertically
-
-                        ) {
-                            Text(
-                                modifier = Modifier
-                                    .padding(
-                                        end = 8.dp,
-                                    ),
-                                text = stringResource(R.string.area_full),
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.outline
-
-                            )
-                            Text(
-                                text = baseUIState.apartment.areaFull.toString(),
-                                style = MaterialTheme.typography.bodyLarge,
-
-                                )
-                        }
-                    }
-                    Column(
-                        modifier = Modifier.weight(0.5f)
-                    ) {
-                        Row(//Ф.И.О.
-                            modifier = Modifier
-                                .padding(
-                                    start = 4.dp,
-                                    top = 4.dp,
-                                    end = 4.dp,
-                                    bottom = 4.dp
-                                ),
-                            horizontalArrangement = Arrangement.Start,
-                            verticalAlignment = Alignment.CenterVertically
-
-                        ) {
-                            Text(
-                                modifier = Modifier
-                                    .padding(
-                                        end = 8.dp,
-                                    ),
-                                text = stringResource(R.string.area_life),
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.outline
-
-                            )
-                            Text(
-                                text = baseUIState.apartment.areaLife.toString(),
-                                style = MaterialTheme.typography.bodyLarge,
-
-                                )
-                        }
-                    }
-
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(
-                        modifier = Modifier.weight(0.5f),
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .padding(
-                                    start = 4.dp,
-                                    top = 4.dp,
-                                    end = 4.dp,
-                                    bottom = 4.dp
-                                ),
-                            horizontalArrangement = Arrangement.Start,
-                            verticalAlignment = Alignment.CenterVertically
-
-                        ) {
-                            Text(
-                                modifier = Modifier
-                                    .padding(
-                                        end = 8.dp,
-                                    ),
-                                text = stringResource(R.string.area_extra),
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.outline
-
-                            )
-                            Text(
-                                text = baseUIState.apartment.areaDop.toString(),
-                                style = MaterialTheme.typography.bodyLarge,
-
-                                )
-                        }
-                    }
-                    Column(
-                        modifier = Modifier.weight(0.5f)
-                    ) {
-                        Row(//Ф.И.О.
-                            modifier = Modifier
-                                .padding(
-                                    start = 4.dp,
-                                    top = 4.dp,
-                                    end = 4.dp,
-                                    bottom = 4.dp
-                                ),
-                            horizontalArrangement = Arrangement.Start,
-                            verticalAlignment = Alignment.CenterVertically
-
-                        ) {
-                            Text(
-                                modifier = Modifier
-                                    .padding(
-                                        end = 8.dp,
-                                    ),
-                                text = stringResource(R.string.area_otopl),
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.outline
-
-                            )
-                            Text(
-                                text = baseUIState.apartment.areaOtopl.toString(),
-                                style = MaterialTheme.typography.bodyLarge,
-
-                                )
-                        }
-                    }
-
-                }
+            Row{
+                LabelTextWithText(
+                    modifier = modifier.weight(1f),
+                    labelText = stringResource(R.string.area_full),
+                    valueText = baseUIState.apartment.areaFull.toString()
+                )
+                LabelTextWithText(
+                    modifier = modifier.weight(1f),
+                    labelText = stringResource(R.string.area_life),
+                    valueText = baseUIState.apartment.areaLife.toString()
+                )
             }
+            Row{
+                LabelTextWithText(
+                    modifier = modifier.weight(1f),
+                    labelText = stringResource(id = R.string.area_extra),
+                    valueText = baseUIState.apartment.areaDop.toString()
+                )
+                LabelTextWithText(
+                    modifier = modifier.weight(1f),
+                    labelText = stringResource(id = R.string.area_otopl),
+                    valueText = baseUIState.apartment.areaOtopl.toString()
+                )
+            }
+
         }
-        Card(
-            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.onSecondary
-            )
+        BaseCard(
+            label = stringResource(id = R.string.data_bti)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.data_bti),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.outline,
-                        modifier = Modifier
-                            .padding(4.dp)
-
-                    )
-
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(
-                        modifier = Modifier.weight(0.33f),
-                    ) {
-                        Row(//площадь
-                            modifier = Modifier
-                                .padding(
-                                    start = 4.dp,
-                                    top = 4.dp,
-                                    end = 4.dp,
-                                    bottom = 4.dp
-                                ),
-                            horizontalArrangement = Arrangement.Start,
-                            verticalAlignment = Alignment.CenterVertically
-
-                        ) {
-                            Text(
-                                modifier = Modifier
-                                    .padding(
-                                        end = 8.dp,
-                                    ),
-                                text = stringResource(R.string.rooms),
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.outline
-
-                            )
-                            Text(
-                                text = baseUIState.apartment.room.toString(),
-                                style = MaterialTheme.typography.bodyLarge,
-
-                                )
-                        }
-                    }
-                    Column(
-                        modifier = Modifier.weight(0.33f)
-                    ) {
-                        Row(//Ф.И.О.
-                            modifier = Modifier
-                                .padding(
-                                    start = 4.dp,
-                                    top = 4.dp,
-                                    end = 4.dp,
-                                    bottom = 4.dp
-                                ),
-                            horizontalArrangement = Arrangement.Start,
-                            verticalAlignment = Alignment.CenterVertically
-
-                        ) {
-                            Text(
-                                modifier = Modifier
-                                    .padding(
-                                        end = 8.dp,
-                                    ),
-                                text = stringResource(R.string.private_text),
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.outline
-
-                            )
-                            Text(
-                                text = if (baseUIState.apartment.privat.toString() == "1") {
-                                    stringResource(R.string.private_ok)
-                                } else {
-                                    stringResource(R.string.private_no)
-                                },
-                                style = MaterialTheme.typography.bodyLarge,
-                            )
-                        }
-                    }
-                    Column(
-                        modifier = Modifier.weight(0.33f)
-                    ) {
-                        Row(//Ф.И.О.
-                            modifier = Modifier
-                                .padding(
-                                    start = 4.dp,
-                                    top = 4.dp,
-                                    end = 4.dp,
-                                    bottom = 4.dp
-                                ),
-                            horizontalArrangement = Arrangement.Start,
-                            verticalAlignment = Alignment.CenterVertically
-
-                        ) {
-                            Text(
-                                modifier = Modifier
-                                    .padding(
-                                        end = 8.dp,
-                                    ),
-                                text = stringResource(R.string.elevator_text),
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.outline
-
-                            )
-                            Text(
-                                text = if (baseUIState.apartment.lift.toString() == "1") {
-                                    stringResource(R.string.private_ok)
-                                } else {
-                                    stringResource(R.string.private_no)
-                                },
-                                style = MaterialTheme.typography.bodyLarge,
-                            )
-                        }
-                    }
-
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(
-                        modifier = Modifier.weight(1f),
-                    ) {
-                        Row(//площадь
-                            modifier = Modifier
-                                .padding(
-                                    start = 4.dp,
-                                    top = 4.dp,
-                                    end = 4.dp,
-                                    bottom = 4.dp
-                                ),
-                            horizontalArrangement = Arrangement.Start,
-                            verticalAlignment = Alignment.CenterVertically
-
-                        ) {
-                            Text(
-                                modifier = Modifier
-                                    .padding(
-                                        end = 8.dp,
-                                    ),
-                                text = stringResource(R.string.order_text),
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.outline
-
-                            )
-                            Text(
-                                text = baseUIState.apartment.order,
-                                style = MaterialTheme.typography.bodyLarge,
-                            )
-                        }
-                    }
-
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(
-                        modifier = Modifier.weight(1f),
-                    ) {
-                        Row(//площадь
-                            modifier = Modifier
-                                .padding(
-                                    start = 4.dp,
-                                    top = 4.dp,
-                                    end = 4.dp,
-                                    bottom = 4.dp
-                                ),
-                            horizontalArrangement = Arrangement.Start,
-                            verticalAlignment = Alignment.CenterVertically
-
-                        ) {
-                            Text(
-                                modifier = Modifier
-                                    .padding(
-                                        end = 8.dp,
-                                    ),
-                                text = stringResource(R.string.data_order),
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.outline
-                            )
-                            Text(
-                                text = baseUIState.apartment.dataOrder,
-                                style = MaterialTheme.typography.bodyLarge,
-                            )
-                        }
-                    }
-
-                }
+            Row{
+                LabelTextWithText(
+                    modifier = modifier.weight(1f),
+                    labelText =  stringResource(R.string.rooms_colon),
+                    valueText = baseUIState.apartment.room.toString()
+                )
+                LabelTextWithCheckBox(
+                    modifier = modifier.weight(1f),
+                    labelText = stringResource(id = R.string.private_text_colon) ,
+                    checked = baseUIState.apartment.privat.isTrue()
+                )
+                LabelTextWithCheckBox(
+                    modifier = modifier.weight(1f),
+                    labelText = stringResource(id = R.string.elevator_colon) ,
+                    checked = baseUIState.apartment.lift.isTrue()
+                )
             }
+
+            LabelTextWithText(
+                labelText = stringResource(id = R.string.order_text),
+                valueText = baseUIState.apartment.order
+            )
+            LabelTextWithText(
+                labelText = stringResource(id = R.string.date_orde_colon),
+                valueText = baseUIState.apartment.dataOrder
+            )
         }
         ContactsCard(
             baseUIState = baseUIState,

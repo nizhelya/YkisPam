@@ -14,7 +14,6 @@ data class FamilyEntity(
     @Json(name = "address_id")
     @ColumnInfo(name = "address_id")
     val addressId: Int = 0,
-    val address: String = "Unknown",
     val rodstvo: String = "Unknown",
     @Json(name = "firstname")
     @ColumnInfo(name = "firstname")
@@ -31,8 +30,6 @@ data class FamilyEntity(
     val sex: String = "Unknown",
 
     var phone: String = "Unknown",
-
-    var isExpandable: Boolean = false,
 
     val subsidia: Byte = 0,
 

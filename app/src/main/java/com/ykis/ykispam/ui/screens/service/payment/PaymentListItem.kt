@@ -20,7 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,6 +27,7 @@ import com.ykis.ykispam.R
 import com.ykis.ykispam.core.ext.formatMoney
 import com.ykis.ykispam.domain.payment.PaymentEntity
 import com.ykis.ykispam.ui.components.BaseCard
+import com.ykis.ykispam.ui.components.ColumnLabelTextWithTextAndIcon
 import com.ykis.ykispam.ui.components.LabelTextWithText
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 import java.text.SimpleDateFormat
@@ -130,37 +130,6 @@ fun PaymentListItem(
         }
 }
 
-@Composable
-fun ColumnLabelTextWithTextAndIcon(
-    modifier: Modifier = Modifier,
-    labelText: String = "",
-    valueText:String ="",
-    imageVector: ImageVector? = null
-) { 
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(4.dp)
-    ){
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
-        ){
-            if(imageVector!=null){
-                Icon(
-                    imageVector = imageVector ,
-                    contentDescription = null
-                )
-            }
-            Text(
-                text = labelText,
-                style = MaterialTheme.typography.titleMedium
-            )
-        }
-        Text(
-            modifier = Modifier,
-            text = valueText
-        )
-    }
-}
 
 @Preview
 @Composable
