@@ -4,10 +4,9 @@ pluginManagement {
         google()
        gradlePluginPortal()
         maven {
-            url = uri("https://jitpack.io")
-            credentials {
-                username = "jp_qmo7ur7lrm7bvb3gsdlqfuk1lp"
-            }
+            url = uri("https://www.jitpack.io")
+            credentials { username = "jp_v5dov1ma3oe85c8t4qe92duvqt"}
+
         }
     }
 }
@@ -17,12 +16,8 @@ dependencyResolutionManagement {
         mavenCentral()
         google()
         maven {
-            url = uri("https://jitpack.io")
-            credentials {
-                username = "jp_qmo7ur7lrm7bvb3gsdlqfuk1lp"
-
-
-            }
+            url  = uri("https://www.jitpack.io")
+            credentials { username ="jp_v5dov1ma3oe85c8t4qe92duvqt"}
         }
     }
 }

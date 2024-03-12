@@ -68,7 +68,7 @@ fun WaterMeterItem(
                 modifier = Modifier
                     .padding(horizontal = 4.dp)
                     .size(64.dp),
-                painter = painterResource(id = R.drawable.ic_water_meter4_24px),
+                painter = painterResource(id = R.drawable.ic_water_meter9_24px),
                 contentDescription = null
             )
             Column(modifier =  Modifier.weight(1f)) {

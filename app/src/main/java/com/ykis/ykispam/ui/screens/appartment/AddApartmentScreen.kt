@@ -36,12 +36,12 @@ import com.ykis.ykispam.R.string as AppText
 @Composable
 fun AddApartmentScreenContent(
     modifier: Modifier = Modifier,
-    isSelected: Boolean = false,
     viewModel: ApartmentViewModel = hiltViewModel(),
     navController : NavHostController,
     canNavigateBack : Boolean,
     onDrawerClicked : () -> Unit,
-    navigationType: NavigationType
+    navigationType: NavigationType,
+    closeContentDetail : ()->Unit
 ) {
     
     val secretCode by viewModel.secretCode.collectAsState()
@@ -72,8 +72,7 @@ fun AddApartmentScreenContent(
         Card(
             modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
             colors = CardDefaults.cardColors(
-                containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer
-                else MaterialTheme.colorScheme.surfaceVariant
+                containerColor = MaterialTheme.colorScheme.surfaceVariant
             )
         ) {
             Row(
@@ -133,6 +132,7 @@ fun AddApartmentScreenContent(
                         {
                             keyboard?.hide()
                             viewModel.addApartment {
+                                closeContentDetail()
                                 navController.navigateToInfoApartment()
                             }
                         }

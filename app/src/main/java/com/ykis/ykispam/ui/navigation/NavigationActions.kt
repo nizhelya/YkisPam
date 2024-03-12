@@ -119,7 +119,7 @@ get(){
             route = ProfileScreen.route,
             selectedIcon = Icons.Default.AccountCircle,
             unselectedIcon = Icons.Outlined.AccountCircle,
-            labelId = R.string.account,
+            labelId = R.string.profile,
             alwaysVisible = true
         ),
 

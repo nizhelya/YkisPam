@@ -1,6 +1,5 @@
 package com.ykis.ykispam.ui.navigation
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -99,22 +98,22 @@ fun MainApartmentScreen(
                 navController = navController,
                 onDrawerClicked = {
                     coroutineScope.launch {
-                        Log.d("drawer_test" , "1 " + drawerState.isOpen.toString())
                         drawerState.open()
-                        Log.d("drawer_test" , "2 " + drawerState.isOpen.toString())
-
                     }
                 },
                 apartmentViewModel = apartmentViewModel,
                 rootNavController = rootNavController,
                 firstDestination = if (baseUIState.apartments.isNotEmpty()) InfoApartmentScreen.route else AddApartmentScreen.route,
                 meterViewModel = meterViewModel,
-                serviceViewModel = serviceViewModel
+                serviceViewModel = serviceViewModel,
+                closeContentDetail = {
+                    meterViewModel.closeContentDetail()
+                    serviceViewModel.closeContentDetail()
+                }
             )
         }
     }
     if (navigationType == NavigationType.BOTTOM_NAVIGATION) {
-//        Log.d("drawer_test" , "3 " + drawerState.isOpen.toString())
         ModalNavigationDrawer(
             drawerContent = {
                 ModalNavigationDrawerContent(
@@ -209,7 +208,8 @@ fun ApartmentNavGraph(
     rootNavController: NavHostController,
     firstDestination: String,
     meterViewModel: MeterViewModel,
-    serviceViewModel: ServiceViewModel
+    serviceViewModel: ServiceViewModel,
+    closeContentDetail :() ->Unit
 ) {
     val appState = rememberAppState()
     Box(modifier = modifier.fillMaxSize()) {
@@ -253,6 +253,9 @@ fun ApartmentNavGraph(
                         canNavigateBack = navController.previousBackStackEntry != null,
                         onDrawerClicked = onDrawerClicked,
                         navigationType = navigationType,
+                        closeContentDetail = {
+                            closeContentDetail()
+                        }
                     )
                     //            AddApartmentScreen(
                     //                popUpScreen = { appState.popUp() },

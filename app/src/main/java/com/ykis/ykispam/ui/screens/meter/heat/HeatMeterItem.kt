@@ -61,7 +61,7 @@ fun HeatMeterItem(
                     modifier = Modifier
                         .padding(horizontal = 4.dp)
                         .size(64.dp),
-                    painter = painterResource(id = R.drawable.ic_heat_meter_24px),
+                    painter = painterResource(id = R.drawable.ic_heat_meter5_24px),
                     contentDescription = null
                 )
                 Column(modifier = Modifier.weight(1f)) {

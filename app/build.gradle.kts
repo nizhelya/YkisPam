@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "com.ykis.ykispam"
-        minSdk = 21
+        minSdk = 28
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -136,4 +136,5 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation(libs.kotlinx.coroutines.android)
+    implementation("com.github.pustovitandriy:XPAY_Android_SDK:1.0.2")
 }

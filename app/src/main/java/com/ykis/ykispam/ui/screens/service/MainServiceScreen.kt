@@ -5,7 +5,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,11 +32,7 @@ fun MainServiceScreen(
 ) {
     val totalDebtState by viewModel.totalDebtState.collectAsStateWithLifecycle()
     val contentDetail : ContentDetail = totalDebtState.serviceDetail
-    DisposableEffect(key1 = true) {
-        onDispose {
-            viewModel.closeContentDetail()
-        }
-    }
+
     if(contentType==ContentType.DUAL_PANE){
         BaseDualPanelContent(
             modifier = modifier,

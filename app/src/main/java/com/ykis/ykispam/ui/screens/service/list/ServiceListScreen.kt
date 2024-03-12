@@ -12,11 +12,13 @@ import androidx.compose.material.icons.filled.CorporateFare
 import androidx.compose.material.icons.filled.GasMeter
 import androidx.compose.material.icons.filled.HotTub
 import androidx.compose.material.icons.filled.Water
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -44,6 +46,15 @@ fun ServiceListScreen(
     getTotalServiceDebt: (ServiceParams) -> Unit,
     setContentDetail :(ContentDetail)->Unit
 ) {
+//    val orderListData = listOf(
+//        OrderItem(
+//                "Iphone 14", "256GB", 35000.00,
+//        )
+//        ,
+//        OrderItem(
+//            "Iphone 15", "1TB" ,45000.00
+//        )
+//    )
     LaunchedEffect(key1 = baseUIState.addressId) {
         getTotalServiceDebt(
             ServiceParams(
@@ -142,6 +153,11 @@ fun ServiceListScreen(
                         },
                     )
             }
+        Button(onClick = {  }) {
+            Text(
+                "Xpay"
+            )
+        }
     }
 }
 @Preview(showBackground = true)

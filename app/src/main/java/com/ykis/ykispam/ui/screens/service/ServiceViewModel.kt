@@ -34,7 +34,6 @@ class ServiceViewModel @Inject constructor(
     private val _totalDebtState = MutableStateFlow(TotalDebtState())
     val totalDebtState = _totalDebtState.asStateFlow()
 
-
     private val _paymentState = MutableStateFlow(PaymentState())
     val paymentState = _paymentState.asStateFlow()
 
