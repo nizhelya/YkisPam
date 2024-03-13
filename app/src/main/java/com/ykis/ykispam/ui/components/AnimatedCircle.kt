@@ -24,7 +24,7 @@ private const val DividerLengthInDegrees = 0f
 
 @Composable
 fun AnimatedCircle(
-    proportions: List<Float>,
+    proportions: List<Double>,
     colors: List<Color>,
     modifier: Modifier = Modifier
 ) {
@@ -80,13 +80,13 @@ fun AnimatedCircle(
             drawArc(
                 color = colors[index],
                 startAngle = startAngle + DividerLengthInDegrees / 2,
-                sweepAngle = sweep - DividerLengthInDegrees,
+                sweepAngle =(sweep - DividerLengthInDegrees).toFloat(),
                 topLeft = topLeft,
                 size = size,
                 useCenter = false,
                 style = stroke
             )
-            startAngle += sweep
+            startAngle += sweep.toFloat()
         }
     }
 }
@@ -97,7 +97,7 @@ private enum class AnimatedCircleProgress { START, END }
 private fun PreviewAnimatedCircle() {
     YkisPAMTheme {
         AnimatedCircle(
-            proportions = listOf(25f , 33f ,10f ,32f),
+            proportions = listOf(25.00 , 33.00 ,10.00 ,32.00),
             colors = listOf(Color.Red , Color.Blue , Color.Green , Color.White) )
     }
 }

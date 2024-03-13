@@ -1,4 +1,4 @@
-package com.ykis.ykispam.ui.screens.service.payment
+package com.ykis.ykispam.ui.screens.service.payment.list
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items

@@ -1,6 +1,5 @@
-package com.ykis.ykispam.ui.screens.service.payment
+package com.ykis.ykispam.ui.screens.service.payment.list
 
-import android.util.Log
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
@@ -26,7 +25,7 @@ import java.util.Locale
 
 
 @Composable
-fun PaymentContentStateful(
+fun PaymentListStateful(
     serviceViewModel: ServiceViewModel,
     baseUIState: BaseUIState
 ) {
@@ -36,7 +35,6 @@ fun PaymentContentStateful(
 
     var selectedChip by rememberSaveable { mutableStateOf(year) }
 
-    Log.d("loading_test", paymentState.isLoading.toString())
 
     LaunchedEffect(
         key1 = selectedChip,

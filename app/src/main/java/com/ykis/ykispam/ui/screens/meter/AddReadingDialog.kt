@@ -84,8 +84,6 @@ fun AddReadingDialog(
                     onValueChange = onReadingChange,
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,
-
-
                     )
                 )
                 Row(

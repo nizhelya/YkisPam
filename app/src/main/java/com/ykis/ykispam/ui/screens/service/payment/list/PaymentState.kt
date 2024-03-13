@@ -1,4 +1,4 @@
-package com.ykis.ykispam.ui.screens.service.payment
+package com.ykis.ykispam.ui.screens.service.payment.list
 
 import com.ykis.ykispam.domain.payment.PaymentEntity
 

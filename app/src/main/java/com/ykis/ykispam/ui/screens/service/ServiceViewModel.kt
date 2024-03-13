@@ -11,7 +11,7 @@ import com.ykis.ykispam.ui.BaseViewModel
 import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.screens.service.detail.ServiceState
 import com.ykis.ykispam.ui.screens.service.list.TotalDebtState
-import com.ykis.ykispam.ui.screens.service.payment.PaymentState
+import com.ykis.ykispam.ui.screens.service.payment.list.PaymentState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -36,6 +36,8 @@ class ServiceViewModel @Inject constructor(
 
     private val _paymentState = MutableStateFlow(PaymentState())
     val paymentState = _paymentState.asStateFlow()
+
+
 
     fun setContentDetail (contentDetail: ContentDetail){
         _totalDebtState.value = _totalDebtState.value.copy(

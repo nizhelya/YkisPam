@@ -28,8 +28,8 @@ fun <T> ServiceListStateless(
     modifier: Modifier = Modifier,
     items: List<T>,
     colors: (T) -> Color,
-    debts: (T) -> Float,
-    total: Float,
+    debts: (T) -> Double,
+    total: Double,
     circleLabel: String,
     rows: @Composable (T) -> Unit
 ) {

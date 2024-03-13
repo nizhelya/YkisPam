@@ -37,6 +37,45 @@ import com.ykis.ykispam.ui.navigation.NavigationType
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 import com.ykis.ykispam.ui.theme.extendedColor
 
+
+@Composable
+fun assembleServiceList(
+    totalDebtState: TotalDebtState,
+    baseUIState: BaseUIState
+) : List<TotalServiceDebt> {
+    return  listOf(
+        TotalServiceDebt(
+            name = baseUIState.osbb,
+            color = MaterialTheme.colorScheme.extendedColor.sectorColor4.color,
+            debt = totalDebtState.totalDebt.dolg4!!,
+            icon = Icons.Default.CorporateFare,
+            contentDetail = ContentDetail.OSBB
+        ),
+        TotalServiceDebt(
+            name = stringResource( R.string.vodokanal),
+            color = MaterialTheme.colorScheme.extendedColor.sectorColor1.color,
+            debt = totalDebtState.totalDebt.dolg1!!,
+            icon = Icons.Default.Water,
+            contentDetail = ContentDetail.WATER_SERVICE
+
+        ),
+        TotalServiceDebt(
+            name = stringResource(id =  R.string.ytke),
+            color = MaterialTheme.colorScheme.extendedColor.sectorColor2.color,
+            debt = totalDebtState.totalDebt.dolg2!!,
+            icon = Icons.Default.HotTub,
+            contentDetail = ContentDetail.WARM_SERVICE
+        ),
+        TotalServiceDebt(
+            name = stringResource(id =R.string.yzhtrans),
+            color = MaterialTheme.colorScheme.extendedColor.sectorColor3.color,
+            debt = totalDebtState.totalDebt.dolg3!!,
+            icon = Icons.Default.Commute,
+            contentDetail = ContentDetail.GARBAGE_SERVICE
+        ),
+    )
+}
+
 @Composable
 fun ServiceListScreen(
     totalDebtState: TotalDebtState,
@@ -46,15 +85,6 @@ fun ServiceListScreen(
     getTotalServiceDebt: (ServiceParams) -> Unit,
     setContentDetail :(ContentDetail)->Unit
 ) {
-//    val orderListData = listOf(
-//        OrderItem(
-//                "Iphone 14", "256GB", 35000.00,
-//        )
-//        ,
-//        OrderItem(
-//            "Iphone 15", "1TB" ,45000.00
-//        )
-//    )
     LaunchedEffect(key1 = baseUIState.addressId) {
         getTotalServiceDebt(
             ServiceParams(
@@ -67,99 +97,74 @@ fun ServiceListScreen(
             )
         )
     }
-    val totalServiceDebtList : List<TotalServiceDebt> = listOf(
-            TotalServiceDebt(
-                name = baseUIState.osbb,
-                color = MaterialTheme.colorScheme.extendedColor.sectorColor4.color,
-                debt = totalDebtState.totalDebt.dolg4!!.toFloat(),
-                icon = Icons.Default.CorporateFare,
-                contentDetail = ContentDetail.OSBB
-            ),
-            TotalServiceDebt(
-                name = stringResource( R.string.vodokanal),
-                color = MaterialTheme.colorScheme.extendedColor.sectorColor1.color,
-                debt = totalDebtState.totalDebt.dolg1!!.toFloat(),
-                icon = Icons.Default.Water,
-                contentDetail = ContentDetail.WATER_SERVICE
-
-            ),
-            TotalServiceDebt(
-                name = stringResource(id =  R.string.ytke),
-                color = MaterialTheme.colorScheme.extendedColor.sectorColor2.color,
-                debt = totalDebtState.totalDebt.dolg2!!.toFloat(),
-                icon = Icons.Default.HotTub,
-                contentDetail = ContentDetail.WARM_SERVICE
-            ),
-            TotalServiceDebt(
-                name = stringResource(id =R.string.yzhtrans),
-                color = MaterialTheme.colorScheme.extendedColor.sectorColor3.color,
-                debt = totalDebtState.totalDebt.dolg3!!.toFloat(),
-                icon = Icons.Default.Commute,
-                contentDetail = ContentDetail.GARBAGE_SERVICE
-            ),
-    )
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        DefaultAppBar(
-            title = stringResource(id = R.string.accrued),
-            onDrawerClick = onDrawerClick,
-            canNavigateBack = false,
-            navigationType = navigationType
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            IconButton(
-                onClick = {
-                    setContentDetail(ContentDetail.PAYMENT_LIST)
-                },
+            DefaultAppBar(
+                title = stringResource(id = R.string.accrued),
+                onDrawerClick = onDrawerClick,
+                canNavigateBack = false,
+                navigationType = navigationType
             ) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.ic_history),
-                    contentDescription = "Історія платіжок",
-                    tint = MaterialTheme.colorScheme.onSurface
+                IconButton(
+                    onClick = {
+                        setContentDetail(ContentDetail.PAYMENT_LIST)
+                    },
+                ) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(R.drawable.ic_history),
+                        contentDescription = "Історія платіжок",
+                        tint = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+            }
+            Button(onClick = {
+//            val requestCode = 123
+//            payment.startPaymentFrom(localContext as Activity, requestCode)
+                setContentDetail(ContentDetail.PAYMENT_CHOICE)
+            }) {
+                Text(
+                    "Xpay"
+                )
+            }
+            Crossfade(
+                modifier = Modifier.fillMaxSize(),
+                animationSpec = tween(delayMillis = 500),
+                targetState = totalDebtState.isLoading, label = ""
+            ) { isLoading ->
+                if (isLoading) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                } else ServiceListStateless(
+                    modifier = Modifier.fillMaxSize(),
+                    items = assembleServiceList(
+                        totalDebtState = totalDebtState,
+                        baseUIState = baseUIState
+                    ),
+                    debts = { totalServiceDebtList -> totalServiceDebtList.debt },
+                    colors = { totalServiceDebtList -> totalServiceDebtList.color },
+                    total = totalDebtState.totalDebt.dolg!!,
+                    circleLabel = stringResource(R.string.summary),
+                    rows = {
+                        ServiceRow(
+                            color = it.color,
+                            title = it.name,
+                            debt = it.debt,
+                            icon = it.icon,
+                            onClick = {
+                                setContentDetail(it.contentDetail)
+                            }
+                        )
+                    },
                 )
             }
         }
-        Crossfade(
-                modifier = Modifier.fillMaxSize(),
-                animationSpec = tween(delayMillis = 500),
-                targetState =totalDebtState.isLoading, label = ""
-            ) {
-                isLoading->
-                    if(isLoading){
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            CircularProgressIndicator()
-                        }
-                    }else ServiceListStateless(
-                        modifier = Modifier.fillMaxSize(),
-                        items = totalServiceDebtList,
-                        debts = { totalServiceDebtList -> totalServiceDebtList.debt },
-                        colors = { totalServiceDebtList -> totalServiceDebtList.color },
-                        total = totalDebtState.totalDebt.dolg!!.toFloat(),
-                        circleLabel = stringResource(R.string.summary),
-                        rows = {
-                            ServiceRow(
-                                color = it.color,
-                                title = it.name,
-                                debt = it.debt,
-                                icon = it.icon,
-                                onClick = {
-                                    setContentDetail(it.contentDetail)
-                                }
-                            )
-                        },
-                    )
-            }
-        Button(onClick = {  }) {
-            Text(
-                "Xpay"
-            )
-        }
     }
-}
 @Preview(showBackground = true)
 @Composable
 private fun PreviewRow() {
@@ -169,21 +174,21 @@ private fun PreviewRow() {
                 ServiceRow(
                     color = Color.Blue,
                     title = stringResource(id = R.string.yzhtrans),
-                    debt = 564.00f,
+                    debt = 564.00,
                     icon = Icons.Default.GasMeter,
                     onClick = {}
                 )
                 ServiceRow(
                     color = Color.Blue,
                     title = stringResource(id = R.string.yzhtrans),
-                    debt = 564.00f,
+                    debt = 564.00,
                     icon = Icons.Default.GasMeter,
                     onClick = {}
                 )
                 ServiceRow(
                     color = Color.Blue,
                     title = stringResource(id = R.string.yzhtrans),
-                    debt = 564.00f,
+                    debt = 564.00,
                     icon = Icons.Default.GasMeter,
                     onClick = {}
                 )

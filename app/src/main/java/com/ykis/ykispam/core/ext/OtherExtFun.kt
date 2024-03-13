@@ -2,7 +2,7 @@ package com.ykis.ykispam.core.ext
 
 import java.text.DecimalFormat
 
-fun formatDebt(debt: Float): String {
+fun formatDebt(debt: Double): String {
     return DebtDecimalFormat.format(debt)
 }
 
@@ -15,7 +15,7 @@ fun Double.formatMoney():String {
 
 fun Byte.isTrue(): Boolean = this == 1.toByte()
 
-fun <E> List<E>.extractProportions(selector: (E) -> Float): List<Float> {
-    val total = this.sumOf { selector(it).toDouble() }
-    return this.map { (selector(it) / total).toFloat() }
+fun <E> List<E>.extractProportions(selector: (E) ->Double): List<Double> {
+    val total = this.sumOf { selector(it) }
+    return this.map { (selector(it) / total) }
 }

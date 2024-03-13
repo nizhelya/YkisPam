@@ -34,7 +34,7 @@ fun ServiceRow(
     modifier: Modifier = Modifier,
     color: Color,
     title: String,
-    debt: Float,
+    debt: Double,
     icon : ImageVector,
     onClick: ()->Unit
 ) {
