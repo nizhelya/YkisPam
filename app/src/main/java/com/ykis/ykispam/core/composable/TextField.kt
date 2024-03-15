@@ -189,20 +189,29 @@ fun LabelField(
 }
 
 @Composable
-fun Field(value: String, onNewValue: (String) -> Unit, modifier: Modifier = Modifier) {
+fun NumberField(
+    value: String,
+    onNewValue: (String) -> Unit,
+    @StringRes label: Int,
+    typeNumber: Boolean
+) {
     OutlinedTextField(
         singleLine = true,
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp, 4.dp, 16.dp, 4.dp),
+            .fillMaxWidth(),
         label = {
             Text(
-                text = stringResource(id = R.string.email)
+                text = stringResource(id = label)
             )
         },
         value = value,
         onValueChange = { onNewValue(it) },
-        placeholder = { Text(stringResource(AppText.email_placeholder)) },
-        leadingIcon = { Icon(imageVector = Icons.Default.AlternateEmail, contentDescription = "Email") }
+        placeholder = { if (typeNumber) {
+            Text(stringResource(id = R.string.number_int_placeholder))
+        }else {
+            Text(stringResource(id = R.string.number_double_placeholder))
+        }
+        },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
     )
 }

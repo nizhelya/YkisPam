@@ -174,7 +174,8 @@ fun WaterMeterDetail(
             currentReading = lastReading.current.toString(),
             newReading = newWaterReading,
             onReadingChange = onNewReadingChange,
-            enabledButton = enabledButton
+            enabledButton = enabledButton,
+            typeNumber = true
         )
     }
     if (showDeleteReadingDialog) {

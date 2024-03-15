@@ -16,14 +16,19 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.google.protobuf.Internal.BooleanList
 import com.ykis.ykispam.R
+import com.ykis.ykispam.core.composable.NumberField
+import com.ykis.ykispam.core.composable.PasswordField
 
 @Composable
 fun AddReadingDialog(
@@ -33,7 +38,8 @@ fun AddReadingDialog(
     currentReading: String,
     newReading:String,
     onReadingChange: (String) -> Unit,
-    enabledButton:Boolean
+    enabledButton:Boolean,
+    typeNumber: Boolean
 ) {
     Dialog(
         onDismissRequest = { onDismissRequest() },
@@ -73,19 +79,13 @@ fun AddReadingDialog(
                     value = currentReading,
                     onValueChange = {}
                 )
-                OutlinedTextField(
-                    modifier = modifier.fillMaxWidth(),
-                    label = {
-                        Text(
-                            text = stringResource(id = R.string.new_reading)
-                        )
-                    },
+                NumberField(
                     value = newReading,
-                    onValueChange = onReadingChange,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
-                    )
-                )
+                    onNewValue = onReadingChange,
+                    label = R.string.new_reading,
+                    typeNumber = typeNumber)
+
+
                 Row(
                     modifier = modifier
                         .fillMaxWidth()
@@ -125,6 +125,7 @@ private fun PreviewDialog() {
         currentReading = 940.toString(),
         newReading = "",
         onReadingChange = {},
-        enabledButton = false
+        enabledButton = false,
+        typeNumber = true
     )
 }

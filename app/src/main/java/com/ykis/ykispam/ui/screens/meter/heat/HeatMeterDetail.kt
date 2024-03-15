@@ -90,7 +90,7 @@ fun HeatMeterDetail(
             }
             LastReadingCardButtons(
                 onAddButtonClick = {
-                                   showAddReadingDialog=true
+                    showAddReadingDialog=true
                 },
                 onDeleteButtonClick = {
                     showDeleteReadingDialog = true
@@ -158,7 +158,8 @@ fun HeatMeterDetail(
             currentReading = lastHeatReading.current.toString(),
             newReading = newHeatReading,
             onReadingChange = onNewReadingChange,
-            enabledButton = enabledButton
+            enabledButton = enabledButton,
+            typeNumber = false
         )
     }
     if (showDeleteReadingDialog) {
