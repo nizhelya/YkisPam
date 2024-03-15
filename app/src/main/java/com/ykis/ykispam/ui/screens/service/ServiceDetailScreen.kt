@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.ykis.ykispam.R
-import com.ykis.ykispam.domain.service.request.ServiceParams
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.components.appbars.DefaultAppBar
 import com.ykis.ykispam.ui.navigation.ContentDetail
@@ -23,7 +22,6 @@ fun ServiceDetailScreen(
     contentDetail: ContentDetail,
     baseUIState: BaseUIState,
     totalDebtState: TotalDebtState,
-    getTotalServiceDebt:(ServiceParams) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -50,7 +48,7 @@ fun ServiceDetailScreen(
                 )
             }
             ContentDetail.PAYMENT_CHOICE->{
-                PaymentChoiceStateful(baseUIState =baseUIState , totalDebtState =totalDebtState , getTotalServiceDebt =  getTotalServiceDebt )
+                PaymentChoiceStateful(baseUIState =baseUIState , totalDebtState =totalDebtState ,viewModel = viewModel)
             }
             else ->{
                 ServiceDetailContent(

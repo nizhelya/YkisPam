@@ -58,7 +58,6 @@ fun MainServiceScreen(
                             contentDetail = contentDetail,
                             baseUIState =baseUIState,
                             totalDebtState = totalDebtState,
-                            getTotalServiceDebt = { params -> viewModel.getTotalServiceDebt(params = params)}
                         )
                     }
                 )
@@ -112,7 +111,6 @@ fun SinglePanelService(
             contentDetail = contentDetail,
             baseUIState =baseUIState,
             totalDebtState = totalDebtState,
-            getTotalServiceDebt = { params -> viewModel.getTotalServiceDebt(params = params)}
         )
     }
 

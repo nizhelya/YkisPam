@@ -2,18 +2,20 @@ package com.ykis.ykispam.ui.screens.service.payment.choice
 
 import android.app.Activity
 import android.util.Log
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ykis.ykispam.domain.service.request.ServiceParams
 import com.ykis.ykispam.ui.BaseUIState
+import com.ykis.ykispam.ui.screens.service.ServiceViewModel
 import com.ykis.ykispam.ui.screens.service.list.TotalDebtState
 import com.ykis.ykispam.ui.screens.service.list.TotalServiceDebt
 import com.ykis.ykispam.ui.screens.service.list.assembleServiceList
@@ -26,10 +28,12 @@ import ua.com.xpay.xpaylib.model.OrderItem
 fun PaymentChoiceStateful(
     baseUIState: BaseUIState,
     totalDebtState: TotalDebtState,
-    getTotalServiceDebt:(ServiceParams) -> Unit
+    viewModel: ServiceViewModel
 ) {
+    val orderList by viewModel.orderItemList.collectAsStateWithLifecycle()
+
     LaunchedEffect(key1 = baseUIState.addressId) {
-        getTotalServiceDebt(
+        viewModel.getTotalServiceDebt(
             ServiceParams(
                 uid = baseUIState.uid!!,
                 addressId = baseUIState.addressId,
@@ -41,62 +45,68 @@ fun PaymentChoiceStateful(
         )
     }
     PaymentChoiceStateless(
-        serviceList = assembleServiceList(totalDebtState = totalDebtState, baseUIState =baseUIState )
+        serviceList = assembleServiceList(
+            totalDebtState = totalDebtState,
+            baseUIState = baseUIState
+        ),
+        orderList = orderList,
+        addToOrderList = { service, debt ->
+            viewModel.addToOrderList(service, debt)
+        },
+        removeFromOrderList = { service, debt ->
+            viewModel.removeFromOrderList(service, debt)
+        }
     )
 }
 
 @Composable
 fun PaymentChoiceStateless(
-    modifier : Modifier = Modifier,
-    serviceList: List<TotalServiceDebt>
+    modifier: Modifier = Modifier,
+    serviceList: List<TotalServiceDebt>,
+    orderList: List<OrderItem>,
+    addToOrderList: (String, Double) -> Unit,
+    removeFromOrderList: (String, Double) -> Unit
 ) {
     val localContext = LocalContext.current
-    val orderListData : MutableList<OrderItem> = mutableListOf()
-//    var osbbText by remember {
-//        mutableStateOf(serviceList[0].debt.toString())
-//    }
-    Column{
-        LazyColumn {
-            items(serviceList){
-                item->
-                PaymentChoiceItem(
-                    service = item.name,
-                    debt = item.debt,
-                    onCheckedTrue = {
-                        service , debt ->
-                        orderListData.add(
-                        OrderItem(
-                            orderItemTitle = service,
-                            orderItemDescription = "",
-                            price = debt
+    LazyColumn {
+        items(serviceList) { item ->
+            PaymentChoiceItem(
+                service = item.name,
+                debt = item.debt,
+                onCheckedTrue = { service, debt ->
+                    addToOrderList(service, debt)
+                },
+                onCheckedFalse = {
+                    removeFromOrderList(
+                        item.name, it
+                    )
+                },
+                onTextChange = { o ->
+                    Log.d("payment_test" , o)
+                    removeFromOrderList(
+                        item.name , item.debt
+                    )
+                    val userInputDebt = o.toDoubleOrNull()
+                    if(userInputDebt!=null){
+                        addToOrderList(
+                            item.name ,o.toDouble()
                         )
-                    )},
-                    onCheckedFalse = {
-                        orderListData.remove(
-                            OrderItem(
-                                orderItemTitle = item.name,
-                                orderItemDescription = "",
-                                price =item.debt
-                            )
-                        )
-                    },
-                    onTextChange = {
-                        o->
-                        Log.d("payment_test" , "onTextChange" + orderListData.toString())
-                        orderListData.remove(
-                            OrderItem(
-                                orderItemTitle = item.name,
-                                orderItemDescription = "",
-                                price =item.debt
-                            )
-                        )
-                        orderListData.add(
-                            OrderItem(
-                                orderItemTitle = item.name,
-                                orderItemDescription = "",
-                                price = o.toDouble()
-                            )
-                        )
+                    }
+
+//                        orderList.remove(
+//                            OrderItem(
+//                                orderItemTitle = item.name,
+//                                orderItemDescription = "",
+//                                price =item.debt
+//                            )
+//                        )
+//                        orderList.add(
+//                            OrderItem(
+//                                orderItemTitle = item.name,
+//                                orderItemDescription = "",
+//                                price = o.toDouble()
+//                            )
+//                        )
 //                        val indexToUpdate = orderListData.indexOfFirst { it.price == o.toDouble() }
 //                        if(indexToUpdate != -1){
 //                            Log.d("payment_test" , "found")
@@ -109,38 +119,38 @@ fun PaymentChoiceStateless(
 //                            orderListData.removeAt(indexToUpdate)
 //                            Log.d("payment_test" , "2onTextChange" + orderListData.toString())
 //                        }else Log.d("payment_test" , "not found" + o.toString())
+                }
+            )
+        }
+        item {
+            Button(
+                onClick = {
+                    val payment: XPayLibPayment = XPayLibPayment {
+                        this.partnerToken = "72a8ddb8-9145-4a41-af1a-8c48ecaa4be1"
+                        this.transactionId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx"
+                        this.googlePayGateway = "exampleGateway"
+                        this.googlePayGatewayMerchantId = "exampleMerchantId"
+                        this.terminalId = "111"
+                        this.payeeEmail = "test@test.com"
+                        this.payeePhone = "380xxxxxxxxx"
+                        this.payeeUserId = "1"
+                        this.payeeName = "Name"
+                        this.currency = "UAH"
+                        this.amount = orderList.sumOf { it.price }
+                        this.purpose = "purpose"
+                        this.order = "example order"
+                        this.site = "example site"
+                        this.showOrderDetails = true
+                        this.orderItemList = orderList
                     }
+                    val requestCode = 123
+                    payment.startPaymentFrom(localContext as Activity, requestCode)
+                }
+            ) {
+                Text(
+                    "Сплатити"
                 )
             }
-        }
-        Button(
-            onClick = {
-                Log.d("payment_test" , orderListData.toString())
-                val payment: XPayLibPayment = XPayLibPayment {
-                    this.partnerToken = "72a8ddb8-9145-4a41-af1a-8c48ecaa4be1"
-                    this.transactionId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx"
-                    this.googlePayGateway = "exampleGateway"
-                    this.googlePayGatewayMerchantId = "exampleMerchantId"
-                    this.terminalId = "111"
-                    this.payeeEmail = "test@test.com"
-                    this.payeePhone = "380xxxxxxxxx"
-                    this.payeeUserId = "1"
-                    this.payeeName = "Name"
-                    this.currency = "UAH"
-                    this.amount = orderListData.sumOf { it.price }
-                    this.purpose = "purpose"
-                    this.order = "example order"
-                    this.site = "example site"
-                    this.showOrderDetails = true
-                    this.orderItemList = orderListData
-                }
-                val requestCode = 123
-                payment.startPaymentFrom(localContext as Activity, requestCode)
-            }
-        ){
-            Text(
-                "Сплатити"
-            )
         }
     }
 }
@@ -151,7 +161,13 @@ fun PaymentChoiceStateless(
 private fun PreviewPaymentChoice() {
     YkisPAMTheme {
         PaymentChoiceStateless(
-            serviceList = assembleServiceList(totalDebtState = TotalDebtState(), baseUIState = BaseUIState(osbb="ОСББ Хіміків 14") )
+            serviceList = assembleServiceList(
+                totalDebtState = TotalDebtState(),
+                baseUIState = BaseUIState(osbb = "ОСББ Хіміків 14")
+            ),
+            addToOrderList = { _, _ -> },
+            removeFromOrderList = { _, _ -> },
+            orderList = emptyList()
         )
     }
 }

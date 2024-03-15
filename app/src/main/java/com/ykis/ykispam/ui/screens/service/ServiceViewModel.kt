@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import ua.com.xpay.xpaylib.model.OrderItem
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,6 +38,8 @@ class ServiceViewModel @Inject constructor(
     private val _paymentState = MutableStateFlow(PaymentState())
     val paymentState = _paymentState.asStateFlow()
 
+    private val _orderItemList = MutableStateFlow<List<OrderItem>>(mutableListOf())
+    val orderItemList = _orderItemList.asStateFlow()
 
 
     fun setContentDetail (contentDetail: ContentDetail){
@@ -118,5 +121,21 @@ class ServiceViewModel @Inject constructor(
                 }
             }
         }.launchIn(this.viewModelScope)
+    }
+
+    fun addToOrderList(service:String , debt:Double){
+        _orderItemList.value += OrderItem(
+            orderItemTitle = service,
+            orderItemDescription = "",
+            price = debt
+        )
+    }
+
+    fun removeFromOrderList(service:String , debt:Double){
+        _orderItemList.value -= OrderItem(
+            orderItemTitle = service,
+            orderItemDescription = "",
+            price = debt
+        )
     }
 }

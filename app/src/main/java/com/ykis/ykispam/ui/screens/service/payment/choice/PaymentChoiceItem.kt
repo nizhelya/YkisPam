@@ -13,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -31,11 +30,11 @@ import com.ykis.ykispam.ui.theme.YkisPAMTheme
 @Composable
 fun PaymentChoiceItem(
     modifier: Modifier = Modifier,
-    service:String,
-    debt:Double,
-    onCheckedTrue:(String , Double)->Unit,
-    onCheckedFalse: () -> Unit,
-    onTextChange :(String)->Unit ={}
+    service: String,
+    debt: Double,
+    onCheckedTrue: (String, Double) -> Unit,
+    onCheckedFalse: (Double) -> Unit,
+    onTextChange: (String) -> Unit = {}
 ) {
     var checked by rememberSaveable {
         mutableStateOf(false)
@@ -45,11 +44,11 @@ fun PaymentChoiceItem(
             "0.00"
         )
     }
-    LaunchedEffect(key1 = checked) {
-        text = if(checked){
-            debt.toString()
-        }else text
-    }
+//    LaunchedEffect(key1 = checked) {
+//        text = if(checked){
+//            debt.toString()
+//        }else "0.00"
+//    }
     Card(
         modifier = modifier
             .padding(4.dp)
@@ -59,21 +58,29 @@ fun PaymentChoiceItem(
             contentColor = MaterialTheme.colorScheme.onSecondaryContainer
         )
     ) {
-        Column(modifier = modifier
-            .fillMaxWidth()
-            .padding(8.dp)
+        Column(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(8.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 Checkbox(
-                    checked =checked, onCheckedChange = {
+                    checked = checked, onCheckedChange = {
                         checked = it
-                        if(it){
+                        if (it) {
                             onCheckedTrue(
-                                service,debt
+                                service, debt
                             )
-                        }else onCheckedFalse()
+                            text = debt.toString()
+                        } else {
+                            val userInputDebt = text.toDoubleOrNull()
+                            if (userInputDebt != null) {
+                                onCheckedFalse(userInputDebt)
+                            }
+                            text = "0.00"
+                        }
                     }
                 )
                 Text(
@@ -88,29 +95,29 @@ fun PaymentChoiceItem(
                     text = debt.toString(),
                 )
             }
-                    TextField(
-                        modifier = modifier,
-                        value = text,
-                        onValueChange = {
-                            onTextChange(text)
-                            text = it
-                                        },
-                        label = {
-                            Text(
-                                text ="Сума до сплати"
-                            )
-                        },
-                        shape = RoundedCornerShape(12.dp),
-                        enabled = checked,
-                        colors = TextFieldDefaults.colors(
-                            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.7f),
-                            focusedContainerColor =   MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.7f),
-                            disabledContainerColor =  MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.7f),
-                            focusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent
-                        )
+            TextField(
+                modifier = modifier,
+                value = text,
+                onValueChange = {
+                    text = it
+                    onTextChange(text)
+                },
+                label = {
+                    Text(
+                        text = "Сума до сплати"
                     )
+                },
+                shape = RoundedCornerShape(12.dp),
+                enabled = checked,
+                colors = TextFieldDefaults.colors(
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.7f),
+                    focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.7f),
+                    disabledContainerColor = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.7f),
+                    focusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                )
+            )
 
         }
     }
@@ -125,10 +132,9 @@ private fun PreviewPaymentChoiceItem() {
         PaymentChoiceItem(
             service = "КП ЮЖВОДОКАНАЛ",
             debt = 245.00,
-            onCheckedTrue = {
-                            _ , _ ->
+            onCheckedTrue = { _, _ ->
             },
-            onCheckedFalse={},
+            onCheckedFalse = {},
             onTextChange = {},
         )
     }
