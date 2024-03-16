@@ -149,7 +149,7 @@
         <string name="podnan_text">Піднаймач:</string>
         <string name="absent_text">Відсутні:</string>
         <string name="total_debt_text">Усього до сплати:</string>
-        <string name="accrued">ФінОблік</string>
+        <string name="accrued">Фін. Облік</string>
         <string name="payment_list">Історія платежів</string>
         <string name="kvartplata_colon">Внески:</string>
         <string name="rfond_colon">Р. фонд:</string>

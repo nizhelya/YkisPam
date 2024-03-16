@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 
-private const val DividerLengthInDegrees = 1.8f
+private const val DividerLengthInDegrees = 0f
 
 @Composable
 fun AnimatedCircle(
@@ -32,13 +32,13 @@ fun AnimatedCircle(
         MutableTransitionState(AnimatedCircleProgress.START)
             .apply { targetState = AnimatedCircleProgress.END }
     }
-    val stroke = with(LocalDensity.current) { Stroke(10.dp.toPx()) }
+    val stroke = with(LocalDensity.current) { Stroke(38.dp.toPx()) }
     val transition = updateTransition(currentState)
     val angleOffset by transition.animateFloat(
         transitionSpec = {
             tween(
-                delayMillis = 500,
-                durationMillis = 900,
+                delayMillis = 450,
+                durationMillis = 1000,
                 easing = LinearOutSlowInEasing
             )
         }, label = ""

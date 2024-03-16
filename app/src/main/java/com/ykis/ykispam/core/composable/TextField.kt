@@ -193,7 +193,7 @@ fun NumberField(
     value: String,
     onNewValue: (String) -> Unit,
     @StringRes label: Int,
-    typeNumber: Boolean
+    isInteger: Boolean
 ) {
     OutlinedTextField(
         singleLine = true,
@@ -206,7 +206,7 @@ fun NumberField(
         },
         value = value,
         onValueChange = { onNewValue(it) },
-        placeholder = { if (typeNumber) {
+        placeholder = { if (isInteger) {
             Text(stringResource(id = R.string.number_int_placeholder))
         }else {
             Text(stringResource(id = R.string.number_double_placeholder))

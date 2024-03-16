@@ -159,7 +159,7 @@ fun HeatMeterDetail(
             newReading = newHeatReading,
             onReadingChange = onNewReadingChange,
             enabledButton = enabledButton,
-            typeNumber = false
+            isInteger = false
         )
     }
     if (showDeleteReadingDialog) {

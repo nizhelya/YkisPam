@@ -8,8 +8,12 @@ fun formatDebt(debt: Double): String {
 
 private val DebtDecimalFormat = DecimalFormat("#,##0.00")
 
-fun Double.formatMoney():String {
+fun Double.formatMoneyString():String {
    return DebtDecimalFormat.format(this)
+}
+
+fun Double.formatMoneyDouble():String {
+    return DebtDecimalFormat.format(this)
 }
 
 

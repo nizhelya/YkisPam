@@ -175,7 +175,7 @@ fun WaterMeterDetail(
             newReading = newWaterReading,
             onReadingChange = onNewReadingChange,
             enabledButton = enabledButton,
-            typeNumber = true
+            isInteger = true
         )
     }
     if (showDeleteReadingDialog) {

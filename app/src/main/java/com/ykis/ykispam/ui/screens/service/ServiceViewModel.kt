@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import ua.com.xpay.xpaylib.model.OrderItem
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,10 +36,6 @@ class ServiceViewModel @Inject constructor(
 
     private val _paymentState = MutableStateFlow(PaymentState())
     val paymentState = _paymentState.asStateFlow()
-
-    private val _orderItemList = MutableStateFlow<List<OrderItem>>(mutableListOf())
-    val orderItemList = _orderItemList.asStateFlow()
-
 
     fun setContentDetail (contentDetail: ContentDetail){
         _totalDebtState.value = _totalDebtState.value.copy(
@@ -97,23 +92,24 @@ class ServiceViewModel @Inject constructor(
         addressId : Int,
         year:String,
         uid:String
-    ){
+    ) {
         this.getPaymentListUseCase(
             addressId, year, uid
-        ).onEach {
-                result->
-            when(result){
+        ).onEach { result ->
+            when (result) {
                 is Resource.Success -> {
                     this._paymentState.value = paymentState.value.copy(
                         paymentList = result.data ?: emptyList(),
                         isLoading = false
                     )
                 }
+
                 is Resource.Error -> {
                     this._paymentState.value = paymentState.value.copy(
 //                        isLoading = false
                     )
                 }
+
                 is Resource.Loading -> {
                     this._paymentState.value = paymentState.value.copy(
                         isLoading = true
@@ -121,21 +117,5 @@ class ServiceViewModel @Inject constructor(
                 }
             }
         }.launchIn(this.viewModelScope)
-    }
-
-    fun addToOrderList(service:String , debt:Double){
-        _orderItemList.value += OrderItem(
-            orderItemTitle = service,
-            orderItemDescription = "",
-            price = debt
-        )
-    }
-
-    fun removeFromOrderList(service:String , debt:Double){
-        _orderItemList.value -= OrderItem(
-            orderItemTitle = service,
-            orderItemDescription = "",
-            price = debt
-        )
     }
 }

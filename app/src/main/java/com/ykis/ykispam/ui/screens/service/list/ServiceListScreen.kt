@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.GasMeter
 import androidx.compose.material.icons.filled.HotTub
 import androidx.compose.material.icons.filled.Water
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -41,7 +42,8 @@ import com.ykis.ykispam.ui.theme.extendedColor
 @Composable
 fun assembleServiceList(
     totalDebtState: TotalDebtState,
-    baseUIState: BaseUIState
+    baseUIState: BaseUIState,
+
 ) : List<TotalServiceDebt> {
     return  listOf(
         TotalServiceDebt(
@@ -56,8 +58,7 @@ fun assembleServiceList(
             color = MaterialTheme.colorScheme.extendedColor.sectorColor1.color,
             debt = totalDebtState.totalDebt.dolg1!!,
             icon = Icons.Default.Water,
-            contentDetail = ContentDetail.WATER_SERVICE
-
+            contentDetail = ContentDetail.WATER_SERVICE,
         ),
         TotalServiceDebt(
             name = stringResource(id =  R.string.ytke),
@@ -65,6 +66,7 @@ fun assembleServiceList(
             debt = totalDebtState.totalDebt.dolg2!!,
             icon = Icons.Default.HotTub,
             contentDetail = ContentDetail.WARM_SERVICE
+
         ),
         TotalServiceDebt(
             name = stringResource(id =R.string.yzhtrans),
@@ -72,7 +74,7 @@ fun assembleServiceList(
             debt = totalDebtState.totalDebt.dolg3!!,
             icon = Icons.Default.Commute,
             contentDetail = ContentDetail.GARBAGE_SERVICE
-        ),
+        )
     )
 }
 
@@ -107,6 +109,7 @@ fun ServiceListScreen(
                 canNavigateBack = false,
                 navigationType = navigationType
             ) {
+
                 IconButton(
                     onClick = {
                         setContentDetail(ContentDetail.PAYMENT_LIST)
@@ -119,11 +122,14 @@ fun ServiceListScreen(
                     )
                 }
             }
-            Button(onClick = {
-//            val requestCode = 123
-//            payment.startPaymentFrom(localContext as Activity, requestCode)
-                setContentDetail(ContentDetail.PAYMENT_CHOICE)
-            }) {
+            Button(
+                onClick = {
+                    setContentDetail(ContentDetail.PAYMENT_CHOICE)
+                },
+                colors = ButtonDefaults.buttonColors(
+//                    contentColor = Color(0x008856)
+                )
+            ) {
                 Text(
                     "Xpay"
                 )

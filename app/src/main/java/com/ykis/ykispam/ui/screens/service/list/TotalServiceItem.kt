@@ -10,5 +10,4 @@ data class TotalServiceDebt(
     val icon : ImageVector,
     val color : Color,
     val debt : Double,
-    val userInputDebt : String? = null
 )

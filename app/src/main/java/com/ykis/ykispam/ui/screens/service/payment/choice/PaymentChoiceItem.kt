@@ -34,16 +34,17 @@ fun PaymentChoiceItem(
     debt: Double,
     onCheckedTrue: (String, Double) -> Unit,
     onCheckedFalse: (Double) -> Unit,
-    onTextChange: (String) -> Unit = {}
+    userInput : String,
+    onTextChange: (String) -> Unit = {},
 ) {
     var checked by rememberSaveable {
         mutableStateOf(false)
     }
-    var text by rememberSaveable {
-        mutableStateOf(
-            "0.00"
-        )
-    }
+//    var text by rememberSaveable {
+//        mutableStateOf(
+//            "0.00"
+//        )
+//    }
 //    LaunchedEffect(key1 = checked) {
 //        text = if(checked){
 //            debt.toString()
@@ -73,13 +74,14 @@ fun PaymentChoiceItem(
                             onCheckedTrue(
                                 service, debt
                             )
-                            text = debt.toString()
+//                            text = debt.toString()
+                            onTextChange(debt.toString())
                         } else {
-                            val userInputDebt = text.toDoubleOrNull()
+                            val userInputDebt = userInput.toDoubleOrNull()
                             if (userInputDebt != null) {
                                 onCheckedFalse(userInputDebt)
                             }
-                            text = "0.00"
+                            onTextChange("0.00")
                         }
                     }
                 )
@@ -97,10 +99,9 @@ fun PaymentChoiceItem(
             }
             TextField(
                 modifier = modifier,
-                value = text,
+                value = userInput,
                 onValueChange = {
-                    text = it
-                    onTextChange(text)
+                    onTextChange(it)
                 },
                 label = {
                     Text(
@@ -136,6 +137,8 @@ private fun PreviewPaymentChoiceItem() {
             },
             onCheckedFalse = {},
             onTextChange = {},
+            userInput = "0.00",
+            modifier = Modifier
         )
     }
 }

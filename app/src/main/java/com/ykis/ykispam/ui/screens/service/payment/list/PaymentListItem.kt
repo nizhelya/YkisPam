@@ -24,7 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.R
-import com.ykis.ykispam.core.ext.formatMoney
+import com.ykis.ykispam.core.ext.formatMoneyString
 import com.ykis.ykispam.domain.payment.PaymentEntity
 import com.ykis.ykispam.ui.components.BaseCard
 import com.ykis.ykispam.ui.components.ColumnLabelTextWithTextAndIcon
@@ -84,14 +84,14 @@ fun PaymentListItem(
                         if(item.kvartplata != 0.0){
                             LabelTextWithText(
                                 labelText = stringResource(id = R.string.kvartplata_colon),
-                                valueText = item.kvartplata.formatMoney(),
+                                valueText = item.kvartplata.formatMoneyString(),
                                 modifier = modifier.padding(start = 8.dp)
                             )
                         }
                         if(item.remont != 0.0){
                             LabelTextWithText(
                                 labelText = stringResource(id = R.string.rfond_colon),
-                                valueText = item.remont.formatMoney() ,
+                                valueText = item.remont.formatMoneyString() ,
                                 modifier = modifier.padding(start = 8.dp)
                             )
                         }
@@ -102,7 +102,7 @@ fun PaymentListItem(
             if(item.voda != 0.0){
                 ColumnLabelTextWithTextAndIcon(
                     labelText = stringResource(id = R.string.vodokanal_colon),
-                    valueText = item.voda.formatMoney(),
+                    valueText = item.voda.formatMoneyString(),
                     imageVector = Icons.Default.Water
                 )
                 HorizontalDivider()
@@ -110,7 +110,7 @@ fun PaymentListItem(
             if(item.otoplenie != 0.0){
                 ColumnLabelTextWithTextAndIcon(
                     labelText = stringResource(id = R.string.ytke_colon),
-                    valueText = item.otoplenie.formatMoney(),
+                    valueText = item.otoplenie.formatMoneyString(),
                     imageVector = Icons.Default.HotTub
                 )
                 HorizontalDivider()
@@ -118,14 +118,14 @@ fun PaymentListItem(
             if(item.tbo != 0.0){
                 ColumnLabelTextWithTextAndIcon(
                     labelText = stringResource(id = R.string.yzhtrans_colon),
-                    valueText = item.tbo.formatMoney(),
+                    valueText = item.tbo.formatMoneyString(),
                     imageVector = Icons.Default.Commute
                 )
                 HorizontalDivider()
             }
             LabelTextWithText(
                 labelText = stringResource(id = R.string.summary),
-                valueText = item.summa.formatMoney() + stringResource(id = R.string.uah)
+                valueText = item.summa.formatMoneyString() + stringResource(id = R.string.uah)
             )
         }
 }
