@@ -24,10 +24,10 @@ fun ApartmentList(
     LazyColumn(
         modifier = modifier
             .fillMaxWidth()
-            .background(color = MaterialTheme.colorScheme.surfaceContainerHighest),
+//            .background(color = MaterialTheme.colorScheme.surfaceContainerHighest),
     ) {
         item{
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(8.dp))
         }
         items(
             items = apartmentList,
@@ -43,7 +43,7 @@ fun ApartmentList(
             )
         }
         item{
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }

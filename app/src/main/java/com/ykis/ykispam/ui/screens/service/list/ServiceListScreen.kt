@@ -60,7 +60,7 @@ fun assembleServiceList(
 
         ),
         TotalServiceDebt(
-            name = stringResource(id =  R.string.ytke),
+            name = stringResource(id =  R.string.ytke_short),
             color = MaterialTheme.colorScheme.extendedColor.sectorColor2.color,
             debt = totalDebtState.totalDebt.dolg2!!,
             icon = Icons.Default.HotTub,

@@ -118,15 +118,14 @@ fun ServiceDetailItem(
                 if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString()
             },
         columnModifier = modifier.fillMaxWidth(),
-        labelModifier = modifier.padding(top = 12.dp , start = 12.dp)
+        labelModifier = modifier.padding(all = 8.dp)
     ) {
 
         Row(
             modifier
                 .fillMaxWidth()
                 .horizontalScroll(scrollState)
-                .padding(start = 8.dp, bottom = 8.dp, end = 8.dp)
-            ,
+                .padding(start = 8.dp, bottom = 8.dp, end = 8.dp),
             verticalAlignment = Alignment.Bottom,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
@@ -145,7 +144,7 @@ fun ServiceDetailItem(
                 value1 = serviceEntity.zadol1.toString(),
                 value2 = serviceEntity.zadol2.toString(),
                 value3 = serviceEntity.zadol3.toString(),
-                    value4 = serviceEntity.zadol4.toString(),
+                value4 = serviceEntity.zadol4.toString(),
                 header = stringResource(id = R.string.start_debt),
                 summary = serviceEntity.zadol.toString(),
                 headerAlign = TextAlign.End
@@ -225,7 +224,7 @@ fun ServiceDetailContent(
             list = years, selectedChip = selectedChip,
             onSelectedChanged = onSelectedChanged
         )
-                Crossfade(
+        Crossfade(
             targetState = isLoading,
             animationSpec = tween(600), label = ""
         ) { targetState ->

@@ -217,8 +217,8 @@ fun ApartmentNavigationRail(
                     .widthIn(max = 180.dp)
                     .fillMaxWidth(),
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary,
+//                containerColor = MaterialTheme.colorScheme.primary,
+//                contentColor = MaterialTheme.colorScheme.onPrimary,
             ) {
                 Row(
                     modifier = Modifier

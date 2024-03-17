@@ -13,18 +13,20 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.R
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
+import com.ykis.ykispam.ui.theme.extendedColor
 
 @Composable
 fun BaseCard(
     cardModifier: Modifier = Modifier
         .fillMaxWidth()
-        .padding(vertical = 8.dp, horizontal = 12.dp),
+        .padding(vertical = 4.dp, horizontal = 12.dp),
     columnModifier : Modifier = Modifier
         .fillMaxWidth()
         .padding(12.dp),
@@ -35,10 +37,10 @@ fun BaseCard(
 ) {
     Card(
         modifier= cardModifier,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(48.dp),
-            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-        )
+      //  colors = CardDefaults.cardColors(
+//            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(48.dp),
+//            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+ //       )
     ){
         Column(
             modifier = columnModifier,
@@ -51,9 +53,11 @@ fun BaseCard(
                     Text(
                         modifier = labelModifier.weight(1f),
                         text = label,
-                        style = MaterialTheme.typography.titleLarge.copy(
-                            fontWeight = FontWeight(350)
-                        )
+                        color = MaterialTheme.colorScheme.primary
+
+//                        style = MaterialTheme.typography.labelSmall.copy(
+//                            fontWeight = FontWeight.SemiBold
+//                        ),
                     )
                     if (actionButton != null) {
                         actionButton()
@@ -72,38 +76,38 @@ private fun PreviewBaseCard() {
         BaseCard(
             label = stringResource(id = R.string.last_reading)
         ){
-                LabelTextWithText(
-                    labelText = stringResource(id = R.string.model_colon),
-                    valueText = "0"
-                )
-                LabelTextWithText(
-                    labelText = stringResource(id = R.string.number_colon),
-                    valueText = "0"
-                )
-                LabelTextWithText(
-                    labelText = stringResource(id = R.string.place_colon),
-                    valueText = "0"
-                )
-                LabelTextWithText(
-                    labelText = stringResource(id = R.string.position_colon),
-                    valueText = "0"
-                )
-                LabelTextWithCheckBox(
-                    labelText = stringResource(id = R.string.stoki_colon),
-                    checked = true
-                )
-                LabelTextWithCheckBox(
-                    labelText = stringResource(id = R.string.general_colon),
-                    checked  = true
-                )
-                LabelTextWithText(
-                    labelText = stringResource(id = R.string.zdate_colon),
-                    valueText = "0"
-                )
-                LabelTextWithText(
-                    labelText = stringResource(id = R.string.sdate_colon),
-                    valueText = "0"
-                )
+            LabelTextWithText(
+                labelText = stringResource(id = R.string.model_colon),
+                valueText = "0"
+            )
+            LabelTextWithText(
+                labelText = stringResource(id = R.string.number_colon),
+                valueText = "0"
+            )
+            LabelTextWithText(
+                labelText = stringResource(id = R.string.place_colon),
+                valueText = "0"
+            )
+            LabelTextWithText(
+                labelText = stringResource(id = R.string.position_colon),
+                valueText = "0"
+            )
+            LabelTextWithCheckBox(
+                labelText = stringResource(id = R.string.stoki_colon),
+                checked = true
+            )
+            LabelTextWithCheckBox(
+                labelText = stringResource(id = R.string.general_colon),
+                checked  = true
+            )
+            LabelTextWithText(
+                labelText = stringResource(id = R.string.zdate_colon),
+                valueText = "0"
+            )
+            LabelTextWithText(
+                labelText = stringResource(id = R.string.sdate_colon),
+                valueText = "0"
+            )
         }
     }
 }

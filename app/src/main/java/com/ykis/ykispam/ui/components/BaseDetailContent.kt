@@ -46,10 +46,10 @@ fun DetailPanel(
                 .fillMaxSize()
                 .padding(horizontal = 24.dp),
             shape = MaterialTheme.shapes.large,
-            colors = CardDefaults.cardColors(
-                containerColor =
-                MaterialTheme.colorScheme.surfaceContainer
-            )
+//            colors = CardDefaults.cardColors(
+//                containerColor =
+//                MaterialTheme.colorScheme.surfaceContainer
+//            )
         ) {
                 detailContent()
         }

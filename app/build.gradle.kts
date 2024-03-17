@@ -60,6 +60,7 @@ android {
 dependencies {
 
     //implementation(libs.androidx.material3.adaptive)
+    implementation(libs.core.ktx)
     implementation(libs.androidx.material3.adaptive.navigation.suite)
     implementation(libs.androidx.glance.appwidget)
     val composeBom = platform(libs.androidx.compose.bom)
@@ -82,7 +83,6 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
-    implementation(libs.core.ktx)
     implementation(libs.constraintlayout)
 
     implementation(libs.lifecycle.runtime.ktx)

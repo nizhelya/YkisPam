@@ -56,16 +56,14 @@ fun BasicField(
 ) {
     OutlinedTextField(
         singleLine = true,
-//        colors = TextFieldColors(Color(0xFFFFB945)),
         modifier = Modifier
             .widthIn(0.dp, 480.dp),
         label = {
             Text(
                 text = stringResource(id = label),
-//                color = Color(0xFFFFB945)
             )
         },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+//        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         value = value,
         onValueChange = { onNewValue(it) },
         placeholder = { Text(stringResource(id = placeholder)) }
@@ -109,6 +107,7 @@ fun PhoneField(value: String, onNewValue: (String) -> Unit, modifier: Modifier =
         leadingIcon = { Icon(imageVector = Icons.Filled.Phone, contentDescription = "Phone") }
     )
 }
+
 
 @Composable
 fun PasswordField(value: String, onNewValue: (String) -> Unit, modifier: Modifier = Modifier) {
@@ -212,6 +211,6 @@ fun NumberField(
             Text(stringResource(id = R.string.number_double_placeholder))
         }
         },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
     )
 }

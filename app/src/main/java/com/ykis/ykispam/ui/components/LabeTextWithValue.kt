@@ -20,22 +20,24 @@ import androidx.compose.ui.unit.dp
 fun LabelTextWithText(
     modifier: Modifier = Modifier,
     labelText: String = "",
-    valueText:String =""
+    valueText: String = ""
 ) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
-    ){
+    ) {
         Text(
             text = labelText,
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.primary
+
         )
         Text(
-            modifier = Modifier.padding(start = 8.dp),
+            modifier = Modifier.padding(start = 12.dp),
             text = valueText,
-            style =  MaterialTheme.typography.bodyLarge.copy(
-                fontWeight = FontWeight.Light
-            )
+//            style = MaterialTheme.typography.bodyLarge.copy(
+//                fontWeight = FontWeight.N
+//            )
         )
     }
 }
@@ -44,28 +46,29 @@ fun LabelTextWithText(
 fun LabelTextWithTextAndIcon(
     modifier: Modifier = Modifier,
     labelText: String = "",
-    valueText:String ="",
+    valueText: String = "",
     imageVector: ImageVector
 ) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
-    ){
+    ) {
         Icon(
             modifier = modifier.padding(end = 4.dp),
-            imageVector = imageVector ,
+            imageVector = imageVector,
             contentDescription = null
         )
 
         Text(
             text = labelText,
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.primary
         )
         Text(
             modifier = Modifier.padding(start = 8.dp),
             text = valueText,
-            style =  MaterialTheme.typography.bodyLarge.copy(
-                fontWeight = FontWeight.Light
+            style = MaterialTheme.typography.titleMedium.copy(
+                fontWeight = FontWeight.Normal
             )
         )
     }
@@ -75,19 +78,21 @@ fun LabelTextWithTextAndIcon(
 fun LabelTextWithCheckBox(
     modifier: Modifier = Modifier,
     labelText: String,
-    checked:Boolean,
+    checked: Boolean,
 ) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
-    ){
+    ) {
         Text(
             text = labelText,
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.primary
+
         )
         Checkbox(
             modifier = Modifier
-                .padding(start = 8.dp)
+                .padding(start = 12.dp)
                 .size(24.dp),
             checked = checked,
             onCheckedChange = {}
@@ -99,33 +104,35 @@ fun LabelTextWithCheckBox(
 fun ColumnLabelTextWithTextAndIcon(
     modifier: Modifier = Modifier,
     labelText: String = "",
-    valueText:String = "",
+    valueText: String = "",
     imageVector: ImageVector? = null
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(4.dp)
-    ){
+    ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
-        ){
-            if(imageVector!=null){
+        ) {
+            if (imageVector != null) {
                 Icon(
-                    imageVector = imageVector ,
+                    imageVector = imageVector,
                     contentDescription = null
                 )
             }
             Text(
                 text = labelText,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.primary
+
             )
         }
-            Text(
-                modifier = Modifier,
-                text = valueText,
-                style =  MaterialTheme.typography.bodyLarge.copy(
-                    fontWeight = FontWeight.Light
-                )
+        Text(
+            modifier = Modifier,
+            text = valueText,
+            style = MaterialTheme.typography.bodyLarge.copy(
+                fontWeight = FontWeight.SemiBold
             )
+        )
     }
 }

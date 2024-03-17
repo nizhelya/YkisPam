@@ -36,6 +36,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
@@ -122,12 +123,15 @@ fun InfoApartmentScreen(
         } else {
             PrimaryTabRow(
                 selectedTabIndex = selectedTab,
-                containerColor = MaterialTheme.colorScheme.background
+//                containerColor = MaterialTheme.colorScheme.background
             ) {
                 INFO_APARTMENT_TAB_ITEM.forEachIndexed { index, tabItem ->
                     LeadingIconTab(
                         selected = selectedTab == index,
                         onClick = { selectedTab = index },
+//                        selectedContentColor = Color(0xFFABC7FF),
+//                        unselectedContentColor = Color(0xFF425E91),
+
                         text = {
                             Text(text = stringResource(tabItem.titleId))
                         },
@@ -194,12 +198,12 @@ fun InfoScreenDualPanelContent(
                     Icon(
                         imageVector = Icons.Filled.Home,
                         contentDescription = "Info",
-                        tint = MaterialTheme.colorScheme.primary
+//                        tint = MaterialTheme.colorScheme.primary
                     )
                     Text(
                         text = stringResource(id = R.string.bti),
                         style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.primary
+//                        color = MaterialTheme.colorScheme.primary
                     )
                 }
 //                HorizontalDivider()
@@ -227,7 +231,7 @@ fun InfoScreenDualPanelContent(
                     Text(
                         text = stringResource(id = R.string.list_family),
                         style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.primary
+//                        color = MaterialTheme.colorScheme.primary
                     )
                 }
 //                HorizontalDivider()

@@ -71,9 +71,9 @@ fun AddApartmentScreenContent(
         )
         Card(
             modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant
-            )
+//            colors = CardDefaults.cardColors(
+//                containerColor = MaterialTheme.colorScheme.surfaceVariant
+//            )
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
