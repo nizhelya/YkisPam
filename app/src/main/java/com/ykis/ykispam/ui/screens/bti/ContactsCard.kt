@@ -99,22 +99,24 @@ fun ChangeContactsDialog(
         onDismissRequest = { onDismissRequest()},
     ) {
         Card(
-            modifier = modifier.widthIn(min = 280.dp , max =560.dp)
+            modifier = modifier
+                .fillMaxWidth()
+//                .padding(8.dp)
         ) {
             Column(
-                modifier = modifier.padding(all = 24.dp)
+                modifier = modifier.padding(all = 8.dp)
             ){
-                Icon(
-                    tint = MaterialTheme.colorScheme.secondary,
-                    modifier = modifier.fillMaxWidth(),
-                    imageVector = Icons.Default.Edit ,
-                    contentDescription = null
-                )
+//                Icon(
+//                    tint = MaterialTheme.colorScheme.secondary,
+//                    modifier = modifier.fillMaxWidth(),
+//                    imageVector = Icons.Default.Edit ,
+//                    contentDescription = null
+//                )
                 Text(
                     text = stringResource(R.string.update_bti),
                     fontSize = 22.sp,
                     style = MaterialTheme.typography.headlineSmall,
-                    modifier = modifier.padding(vertical = 16.dp),
+                    modifier = modifier.padding(all = 8.dp),
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 PhoneField(modifier = modifier.padding(bottom = 5.dp),value = phone , onNewValue =onPhoneChange )
@@ -134,12 +136,12 @@ fun ChangeContactsDialog(
                     }
                     TextButton(
                         onClick = {
-                        onDismissRequest()
-                        onUpdateClick()
-                    },
+                            onDismissRequest()
+                            onUpdateClick()
+                        },
                         enabled = (previousEmail != email ||previousPhone != phone )
 
-                        ) {
+                    ) {
                         Text(
                             stringResource(R.string.change)
                         )

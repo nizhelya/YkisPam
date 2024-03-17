@@ -39,21 +39,21 @@ fun AddReadingDialog(
         onDismissRequest = { onDismissRequest() },
     ) {
         Card(
-            modifier = modifier.widthIn(min = 280.dp, max = 560.dp)
+//            modifier = modifier.widthIn(min = 280.dp, max = 560.dp)
+            modifier = modifier.padding(all = 4.dp)
         ) {
             Column(
                 modifier = modifier.padding(all = 24.dp)
             ) {
-                Icon(
-                    tint = MaterialTheme.colorScheme.secondary,
-                    modifier = modifier.fillMaxWidth(),
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_add_reading),
-                    contentDescription = null
-                )
+//                Icon(
+//                    tint = MaterialTheme.colorScheme.secondary,
+//                    modifier = modifier.fillMaxWidth(),
+//                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_add_reading),
+//                    contentDescription = null
+//                )
                 Text(
                     text = stringResource(R.string.add_reading_title),
-                    fontSize = 22.sp,
-                    style = MaterialTheme.typography.headlineSmall,
+                    style = MaterialTheme.typography.titleLarge,
                     modifier = modifier.padding(vertical = 16.dp),
                     color = MaterialTheme.colorScheme.onSurface,
                 )

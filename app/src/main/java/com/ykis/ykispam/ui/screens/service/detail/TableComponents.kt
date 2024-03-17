@@ -17,7 +17,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun HeaderInTable(text: String, modifier: Modifier = Modifier, textAlign: TextAlign) {
     Text(
-        text = text, style = MaterialTheme.typography.labelLarge,
+        text = text,
+        style = MaterialTheme.typography.titleSmall,
         modifier = modifier.height(24.dp).wrapContentHeight(
             Alignment.CenterVertically
         ),
@@ -59,32 +60,32 @@ fun ColumnItemInTable(
             if (value1 !== "null" && value1 !== "none") {
                 Text(
                     text = value1,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontWeight = FontWeight.Light
+                    style = MaterialTheme.typography.titleSmall.copy(
+                        fontWeight = FontWeight.Normal
                     )
                 )
             }
             if (value2 != "null" && value2 != "none") {
                 Text(
                     text = value2,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontWeight = FontWeight.Light
+                    style = MaterialTheme.typography.titleSmall.copy(
+                        fontWeight = FontWeight.Normal
                     )
                 )
             }
             if (value3 != "null" && value3 != "none") {
                 Text(
                     text = value3,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontWeight = FontWeight.Light
+                    style = MaterialTheme.typography.titleSmall.copy(
+                        fontWeight = FontWeight.Normal
                     )
                 )
             }
             if (value4 != "null" && value4 != "none") {
                 Text(
                     text = value4,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontWeight = FontWeight.Light
+                    style = MaterialTheme.typography.titleSmall.copy(
+                        fontWeight = FontWeight.Normal
                     )
                 )
             }

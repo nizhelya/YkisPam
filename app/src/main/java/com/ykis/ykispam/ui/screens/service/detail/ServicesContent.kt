@@ -152,16 +152,6 @@ fun ServiceDetailItem(
             )
             ColumnItemInTable(
                 alignment = Alignment.End,
-                value1 = serviceEntity.nachisleno1.toString(),
-                value2 = serviceEntity.nachisleno2.toString(),
-                value3 = serviceEntity.nachisleno3.toString(),
-                value4 = serviceEntity.nachisleno4.toString(),
-                header = stringResource(id = R.string.paid),
-                summary = serviceEntity.nachisleno.toString(),
-                headerAlign = TextAlign.End
-            )
-            ColumnItemInTable(
-                alignment = Alignment.End,
                 value1 = serviceEntity.oplacheno1.toString(),
                 value2 = serviceEntity.oplacheno2.toString(),
                 value3 = serviceEntity.oplacheno3.toString(),
@@ -170,6 +160,17 @@ fun ServiceDetailItem(
                 summary = serviceEntity.oplacheno.toString(),
                 headerAlign = TextAlign.End
             )
+            ColumnItemInTable(
+                alignment = Alignment.End,
+                value1 = serviceEntity.nachisleno1.toString(),
+                value2 = serviceEntity.nachisleno2.toString(),
+                value3 = serviceEntity.nachisleno3.toString(),
+                value4 = serviceEntity.nachisleno4.toString(),
+                header = stringResource(id = R.string.paid),
+                summary = serviceEntity.nachisleno.toString(),
+                headerAlign = TextAlign.End
+            )
+
             ColumnItemInTable(
                 alignment = Alignment.End,
                 value1 = serviceEntity.dolg1.toString(),

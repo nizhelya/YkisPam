@@ -76,7 +76,7 @@ fun HeatMeterDetail(
             BaseCard(
                 cardModifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp)
+                    .padding(all = 8.dp)
                     .clip(CardDefaults.shape)
                     .clickable {
                         navigateToReadings()

@@ -212,6 +212,6 @@ fun NumberField(
             Text(stringResource(id = R.string.number_double_placeholder))
         }
         },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
     )
 }
