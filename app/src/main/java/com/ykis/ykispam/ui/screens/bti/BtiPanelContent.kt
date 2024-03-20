@@ -75,21 +75,33 @@ fun BtiContent(
             )
         }
 
+
         BaseCard(
-            label = stringResource(id = R.string.compound_text)
+            label = stringResource(
+                id = R.string.compound_text
+            )
         ) {
-            LabelTextWithText(
-                labelText = stringResource(R.string.tenant_text),
-                valueText = baseUIState.apartment.tenant.toString()
-            )
-            LabelTextWithText(
-                labelText = stringResource(R.string.podnan_text),
-                valueText = baseUIState.apartment.podnan.toString(),
-            )
-            LabelTextWithText(
-                labelText = stringResource(R.string.absent_text),
-                valueText = baseUIState.apartment.absent.toString()
-            )
+            Row{
+                LabelTextWithText(
+                    modifier = modifier.weight(1f),
+                    labelText = stringResource(R.string.tenant_text),
+                    valueText = baseUIState.apartment.tenant.toString()
+                )
+                LabelTextWithText(
+                    modifier = modifier.weight(1f),
+                    labelText = stringResource(R.string.podnan_text),
+                    valueText = baseUIState.apartment.podnan.toString()
+                )
+            }
+            Row{
+                LabelTextWithText(
+                    modifier = modifier.weight(1f),
+                    labelText = stringResource(id = R.string.absent_text),
+                    valueText = baseUIState.apartment.absent.toString()
+                )
+
+            }
+
         }
         BaseCard(
             label = stringResource(

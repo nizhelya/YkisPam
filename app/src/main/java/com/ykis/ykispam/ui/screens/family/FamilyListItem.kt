@@ -13,8 +13,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ykis.ykispam.R
 import com.ykis.ykispam.domain.family.FamilyEntity
 import com.ykis.ykispam.ui.components.BaseCard
@@ -59,7 +61,10 @@ fun FamilyListItem(
                     Text(
                         modifier = modifier.padding(start = 8.dp),
                         text = "${person.surname} ${person.fistname} ${person.lastname}",
-                        style = MaterialTheme.typography.titleMedium
+                        style =  MaterialTheme.typography.bodyLarge.copy(
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Normal
+                        )
                     )
 
 //                    Text(

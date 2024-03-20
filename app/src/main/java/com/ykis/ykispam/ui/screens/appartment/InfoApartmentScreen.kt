@@ -92,7 +92,10 @@ fun InfoApartmentScreen(
             }
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
        DefaultAppBar(
             title = baseUIState.address,
             canNavigateBack = false,

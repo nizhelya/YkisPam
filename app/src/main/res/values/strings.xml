@@ -93,7 +93,7 @@
         <string name="sex_text">Стать:</string>
         <string name="phone_text">Номер телефона:</string>
         <string name="subsidia_text">Субсидія:</string>
-        <string name="vkl_text">Прописаний:</string>
+        <string name="vkl_text">Зареєстровано:</string>
         <string name="ots_text">Відсутній:</string>
         <string name="inn_text">РНОКПП:</string>
         <string name="card_text">Статутні документи</string>
@@ -114,7 +114,7 @@
         <string name="area_full">Корисна:</string>
         <string name="area_life">Житлова:</string>
         <string name="area_extra">Додаткова:</string>
-        <string name="area_otopl">Опалення:</string>
+        <string name="area_otopl">Опалювальна:</string>
         <string name="elevator_colon">Ліфт:</string>
         <string name="rooms_colon">Кімнат:</string>
         <string name="data_bti">Дані БТІ </string>
@@ -145,7 +145,7 @@
         <string name="organ">Організація</string>
         <string name="borg_text">Борг на %s</string>
         <string name="compound_text">Склад(людина)</string>
-        <string name="tenant_text">Прописано:</string>
+        <string name="tenant_text">Зареєстровано:</string>
         <string name="podnan_text">Піднаймач:</string>
         <string name="absent_text">Відсутні:</string>
         <string name="total_debt_text">Усього до сплати:</string>
@@ -195,13 +195,13 @@
         <string name="pdate_colon">Попередня:</string>
         <string name="check_water_meter">Перевірка</string>
         <string name="zdate_colon">Дата випуску:</string>
-        <string name="stoki_colon">Стоки:</string>
+        <string name="stoki_colon">Водовідведення:</string>
         <string name="general_colon">Спільний:</string>
         <string name="stop_colon">Призупинено:</string>
         <string name="meter_history_colon">Історія показань приладів обліку води:</string>
         <string name="reading_history">Історія показань</string>
         <string name="reading_added">Показання додани</string>
-        <string name="spisan_colon">Списан:</string>
+        <string name="spisan_colon">Знятий з обліку:</string>
         <string name="date_spisan_colon">Дата списання:</string>
         <string name="out_colon">На перевірці:</string>
         //WaterReading

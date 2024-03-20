@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun LabelTextWithText(
@@ -28,7 +29,9 @@ fun LabelTextWithText(
     ){
         Text(
             text = labelText,
-            style = MaterialTheme.typography.titleMedium
+            style =  MaterialTheme.typography.titleSmall.copy(
+                fontWeight = FontWeight.Normal
+            )
         )
         Text(
             modifier = Modifier.padding(start = 8.dp),
@@ -59,8 +62,9 @@ fun LabelTextWithTextAndIcon(
 
         Text(
             text = labelText,
-            style = MaterialTheme.typography.titleMedium
-        )
+            style =  MaterialTheme.typography.titleMedium.copy(
+                fontWeight = FontWeight.Normal
+            )        )
         Text(
             modifier = Modifier.padding(start = 8.dp),
             text = valueText,
@@ -83,7 +87,9 @@ fun LabelTextWithCheckBox(
     ){
         Text(
             text = labelText,
-            style = MaterialTheme.typography.titleMedium
+            style =  MaterialTheme.typography.titleSmall.copy(
+                fontWeight = FontWeight.Normal
+            )
         )
         Checkbox(
             modifier = Modifier
@@ -117,14 +123,17 @@ fun ColumnLabelTextWithTextAndIcon(
             }
             Text(
                 text = labelText,
-                style = MaterialTheme.typography.titleMedium
+                style =  MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.Normal
+                )
             )
         }
             Text(
                 modifier = Modifier,
                 text = valueText,
                 style =  MaterialTheme.typography.bodyLarge.copy(
-                    fontWeight = FontWeight.Light
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Thin
                 )
             )
     }

@@ -105,7 +105,7 @@ fun SinglePanelService(
             viewModel.closeContentDetail()
         }
         ServiceDetailScreen(
-            modifier = modifier.background(MaterialTheme.colorScheme.background),
+//            modifier = modifier.background(MaterialTheme.colorScheme.background),
             navigationType = navigationType,
             viewModel = viewModel,
             contentDetail = contentDetail,

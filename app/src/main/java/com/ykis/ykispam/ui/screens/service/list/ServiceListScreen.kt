@@ -171,35 +171,35 @@ fun ServiceListScreen(
             }
         }
     }
-@Preview(showBackground = true)
-@Composable
-private fun PreviewRow() {
-    YkisPAMTheme {
-        Card {
-            Column {
-                ServiceRow(
-                    color = Color.Blue,
-                    title = stringResource(id = R.string.yzhtrans),
-                    debt = 564.00,
-                    icon = Icons.Default.GasMeter,
-                    onClick = {}
-                )
-                ServiceRow(
-                    color = Color.Blue,
-                    title = stringResource(id = R.string.yzhtrans),
-                    debt = 564.00,
-                    icon = Icons.Default.GasMeter,
-                    onClick = {}
-                )
-                ServiceRow(
-                    color = Color.Blue,
-                    title = stringResource(id = R.string.yzhtrans),
-                    debt = 564.00,
-                    icon = Icons.Default.GasMeter,
-                    onClick = {}
-                )
-            }
-        }
-
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//private fun PreviewRow() {
+//    YkisPAMTheme {
+//        Card {
+//            Column {
+//                ServiceRow(
+//                    color = Color.Blue,
+//                    title = stringResource(id = R.string.yzhtrans),
+//                    debt = 564.00,
+//                    icon = Icons.Default.GasMeter,
+//                    onClick = {}
+//                )
+//                ServiceRow(
+//                    color = Color.Blue,
+//                    title = stringResource(id = R.string.yzhtrans),
+//                    debt = 564.00,
+//                    icon = Icons.Default.GasMeter,
+//                    onClick = {}
+//                )
+//                ServiceRow(
+//                    color = Color.Blue,
+//                    title = stringResource(id = R.string.yzhtrans),
+//                    debt = 564.00,
+//                    icon = Icons.Default.GasMeter,
+//                    onClick = {}
+//                )
+//            }
+//        }
+//
+//    }
+//}

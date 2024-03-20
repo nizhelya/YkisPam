@@ -71,7 +71,7 @@ fun BasicToolbar(
             ) {
                 Text(
                     text = stringResource(title),
-                    color = MaterialTheme.colorScheme.onSurface
+//                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
 

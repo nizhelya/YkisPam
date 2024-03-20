@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -13,6 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import com.ykis.ykispam.R
 import com.ykis.ykispam.ui.navigation.NavigationType
@@ -33,14 +36,16 @@ fun DefaultAppBar(
             containerColor = Color.Transparent
         ),
         title = {
-                Text(
-                    text = title,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+            Text(
+                text = title,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.titleLarge,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
         },
         navigationIcon = {
-            if(!canNavigateBack && navigationType == NavigationType.BOTTOM_NAVIGATION) {
+            if (!canNavigateBack && navigationType == NavigationType.BOTTOM_NAVIGATION) {
                 IconButton(
                     onClick = onDrawerClick
                 ) {
@@ -49,7 +54,7 @@ fun DefaultAppBar(
                         contentDescription = stringResource(id = R.string.driver_menu),
                     )
                 }
-            }else if(canNavigateBack) {
+            } else if (canNavigateBack) {
                 IconButton(
                     onClick = onBackClick,
                 ) {
@@ -61,7 +66,7 @@ fun DefaultAppBar(
             }
         },
         actions = {
-            if(actionButton !=null){
+            if (actionButton != null) {
                 actionButton()
             }
         }

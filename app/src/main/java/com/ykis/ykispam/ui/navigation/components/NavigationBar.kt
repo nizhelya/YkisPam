@@ -40,8 +40,8 @@ fun BottomNavigationBar(
                 alwaysShowLabel = true,
                 label = { Text(
                     text = stringResource(destination.labelId),
-                    style = MaterialTheme.typography.labelSmall.copy(
-                        fontWeight = FontWeight.SemiBold
+                    style = MaterialTheme.typography.labelMedium.copy(
+                        fontWeight = FontWeight.Normal
                     ),
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1
