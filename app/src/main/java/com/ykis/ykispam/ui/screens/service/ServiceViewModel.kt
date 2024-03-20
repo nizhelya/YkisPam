@@ -2,7 +2,10 @@ package com.ykis.ykispam.ui.screens.service
 
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.core.Resource
+import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.domain.payment.request.GetPaymentList
+import com.ykis.ykispam.domain.payment.request.InsertPayment
+import com.ykis.ykispam.domain.payment.request.InsertPaymentParams
 import com.ykis.ykispam.domain.service.request.GetFlatServices
 import com.ykis.ykispam.domain.service.request.GetTotalDebtServices
 import com.ykis.ykispam.domain.service.request.ServiceParams
@@ -25,6 +28,7 @@ class ServiceViewModel @Inject constructor(
     private val getFlatServiceUseCase: GetFlatServices,
     private val getTotalDebtServicesUseCase: GetTotalDebtServices,
     private val getPaymentListUseCase : GetPaymentList,
+    private val insertPaymentUseCase : InsertPayment,
     private val logService: LogService
 ) : BaseViewModel(logService) {
 
@@ -114,6 +118,25 @@ class ServiceViewModel @Inject constructor(
                     this._paymentState.value = paymentState.value.copy(
                         isLoading = true
                     )
+                }
+            }
+        }.launchIn(this.viewModelScope)
+    }
+
+    fun insertPayment(params:InsertPaymentParams){
+        this.insertPaymentUseCase(
+            params
+        ).onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    SnackbarManager.showMessage(result.data.toString())
+                }
+
+                is Resource.Error -> {
+                }
+
+                is Resource.Loading -> {
+
                 }
             }
         }.launchIn(this.viewModelScope)

@@ -1,6 +1,5 @@
 package com.ykis.ykispam.ui.screens.service.payment.choice
 
-import android.app.Activity
 import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.core.snackbar.SnackbarManager
+import com.ykis.ykispam.domain.payment.request.InsertPaymentParams
 import com.ykis.ykispam.domain.service.request.ServiceParams
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.navigation.ContentDetail
@@ -48,16 +48,16 @@ fun PaymentChoiceStateful(
         )
     }
     val serviceList = assembleServiceList(totalDebtState = totalDebtState, baseUIState =baseUIState )
-    var textField1 by rememberSaveable {
+    var osbbField by rememberSaveable {
         mutableStateOf("0.00")
     }
-    var textField2 by rememberSaveable {
+    var waterField by rememberSaveable {
         mutableStateOf("0.00")
     }
-    var textField3 by rememberSaveable {
+    var heatField by rememberSaveable {
         mutableStateOf("0.00")
     }
-    var textField4 by rememberSaveable {
+    var tboField by rememberSaveable {
         mutableStateOf("0.00")
     }
     val localContext = LocalContext.current
@@ -65,37 +65,37 @@ fun PaymentChoiceStateful(
     LazyColumn {
         items(serviceList) { item ->
             val currentField = when(item.contentDetail){
-                ContentDetail.OSBB -> textField1
-                ContentDetail.WATER_SERVICE ->textField2
-                ContentDetail.WARM_SERVICE ->textField3
-                else ->textField4
+                ContentDetail.OSBB -> osbbField
+                ContentDetail.WATER_SERVICE ->waterField
+                ContentDetail.WARM_SERVICE ->heatField
+                else ->tboField
             }
             PaymentChoiceItem(
                 service = item.name,
                 debt = item.debt,
                 onCheckedTrue = { service, debt ->
                     when(item.contentDetail){
-                        ContentDetail.OSBB ->         textField1  = debt.toString()
-                        ContentDetail.WATER_SERVICE ->textField2 =  debt.toString()
-                        ContentDetail.WARM_SERVICE -> textField3 =  debt.toString()
-                        else ->                       textField4 =  debt.toString()
+                        ContentDetail.OSBB ->         osbbField  = debt.toString()
+                        ContentDetail.WATER_SERVICE ->waterField =  debt.toString()
+                        ContentDetail.WARM_SERVICE -> heatField =  debt.toString()
+                        else ->                       tboField =  debt.toString()
                     }
                 },
                 onCheckedFalse = {
                     when(item.contentDetail){
-                        ContentDetail.OSBB ->         textField1  = "0.00"
-                        ContentDetail.WATER_SERVICE ->textField2 =  "0.00"
-                        ContentDetail.WARM_SERVICE -> textField3 =  "0.00"
-                        else ->                       textField4 =  "0.00"
+                        ContentDetail.OSBB ->         osbbField  = "0.00"
+                        ContentDetail.WATER_SERVICE ->waterField =  "0.00"
+                        ContentDetail.WARM_SERVICE -> heatField =  "0.00"
+                        else ->                       tboField =  "0.00"
                     }
                 },
                 userInput = currentField,
                 onTextChange = { newText->
                     when(item.contentDetail){
-                        ContentDetail.OSBB ->         textField1  = newText
-                        ContentDetail.WATER_SERVICE ->textField2 = newText
-                        ContentDetail.WARM_SERVICE -> textField3 = newText
-                        else ->                       textField4 = newText
+                        ContentDetail.OSBB ->         osbbField  = newText
+                        ContentDetail.WATER_SERVICE ->waterField = newText
+                        ContentDetail.WARM_SERVICE -> heatField = newText
+                        else ->                       tboField = newText
                     }
                 }
             )
@@ -108,12 +108,23 @@ fun PaymentChoiceStateful(
                     for(item in serviceList){
                         Log.d("payment_test" ,"cycle started " + serviceList.size.toString())
                         when(item.contentDetail){
-                            ContentDetail.OSBB ->         {addToOrderList(textField1 , item.name , orderList)}
-                            ContentDetail.WATER_SERVICE ->{addToOrderList(textField2 , item.name , orderList)}
-                            ContentDetail.WARM_SERVICE -> {addToOrderList(textField3 , item.name , orderList)}
-                            else ->                       {addToOrderList(textField4 , item.name , orderList)}
+                            ContentDetail.OSBB ->         {addToOrderList(osbbField , item.name , orderList)}
+                            ContentDetail.WATER_SERVICE ->{addToOrderList(waterField , item.name , orderList)}
+                            ContentDetail.WARM_SERVICE -> {addToOrderList(heatField , item.name , orderList)}
+                            else ->                       {addToOrderList(tboField , item.name , orderList)}
                         }
                     }
+                    viewModel.insertPayment(
+                        params = InsertPaymentParams(
+                            uid = baseUIState.uid.toString(),
+                            addressId = baseUIState.addressId,
+                            kvartplata = osbbField.toDoubleOrNull() ?: 0.0,
+                            rfond = 0.0,
+                            teplo = heatField.toDoubleOrNull() ?: 0.0,
+                            voda = waterField.toDoubleOrNull() ?: 0.0,
+                            tbo = tboField.toDoubleOrNull() ?: 0.0
+                        )
+                    )
                     if(orderList.isNotEmpty()){
                         val payment: XPayLibPayment = XPayLibPayment {
                             this.partnerToken = "72a8ddb8-9145-4a41-af1a-8c48ecaa4be1"
@@ -134,7 +145,7 @@ fun PaymentChoiceStateful(
                             this.orderItemList = orderList
                         }
                         val requestCode = 123
-                        payment.startPaymentFrom(localContext as Activity, requestCode)
+//                        payment.startPaymentFrom(localContext as Activity, requestCode)
                     }else SnackbarManager.showMessage("Щоб сплатити оберіть послугу")
 
                 }

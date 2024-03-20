@@ -9,6 +9,7 @@ import com.ykis.ykispam.data.remote.heat.meter.GetHeatMeterResponse
 import com.ykis.ykispam.data.remote.heat.reading.GetHeatReadingResponse
 import com.ykis.ykispam.data.remote.heat.reading.GetLastHeatReadingResponse
 import com.ykis.ykispam.data.remote.payment.GetPaymentResponse
+import com.ykis.ykispam.data.remote.payment.InsertPaymentResponse
 import com.ykis.ykispam.data.remote.service.GetServiceResponse
 import com.ykis.ykispam.data.remote.water.meter.GetWaterMeterResponse
 import com.ykis.ykispam.data.remote.water.reading.GetLastWaterReadingResponse
@@ -52,6 +53,7 @@ interface ApiService {
         const val DELETE_CURRENT_HEAT_READING = "deleteCurrentHeatReading.php"
         const val GET_LAST_WATER_READING = "getLastWaterReading.php"
         const val GET_LAST_HEAT_READING = "getLastHeatReading.php"
+        const val INSERT_PAYMENT = "newPaymentXpay.php"
         const val PARAM_ADDRESS_ID = "address_id"
         const val UID = "uid"
         const val YEAR = "year"
@@ -69,7 +71,11 @@ interface ApiService {
         const val PHONE = "phone"
         const val EMAIL = "email"
         const val BLOCK_ID = "raion_id"
-
+        const val KVARTPLATA = "kvartplata"
+        const val RFOND = "rfond"
+        const val TEPLO = "teplo"
+        const val VODA = "voda"
+        const val TBO = "tbo"
     }
 
     //appartment
@@ -150,4 +156,8 @@ interface ApiService {
     @FormUrlEncoded
     @POST(GET_LAST_HEAT_READING)
     fun getLastHeatReading(@FieldMap params: Map<String, String>): Call<GetLastHeatReadingResponse>
+
+    @FormUrlEncoded
+    @POST(INSERT_PAYMENT)
+    fun insertPayment(@FieldMap params: Map<String, String>): Call<InsertPaymentResponse>
 }
