@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 @Composable
 fun LabelTextWithText(
@@ -29,14 +28,12 @@ fun LabelTextWithText(
     ){
         Text(
             text = labelText,
-            style =  MaterialTheme.typography.titleSmall.copy(
-                fontWeight = FontWeight.Normal
-            )
+            style = MaterialTheme.typography.titleSmall
         )
         Text(
             modifier = Modifier.padding(start = 8.dp),
             text = valueText,
-            style =  MaterialTheme.typography.bodyLarge.copy(
+            style =  MaterialTheme.typography.bodyMedium.copy(
                 fontWeight = FontWeight.Light
             )
         )
@@ -62,13 +59,12 @@ fun LabelTextWithTextAndIcon(
 
         Text(
             text = labelText,
-            style =  MaterialTheme.typography.titleMedium.copy(
-                fontWeight = FontWeight.Normal
-            )        )
+            style = MaterialTheme.typography.titleSmall
+        )
         Text(
             modifier = Modifier.padding(start = 8.dp),
             text = valueText,
-            style =  MaterialTheme.typography.bodyLarge.copy(
+            style =  MaterialTheme.typography.bodyMedium.copy(
                 fontWeight = FontWeight.Light
             )
         )
@@ -87,9 +83,7 @@ fun LabelTextWithCheckBox(
     ){
         Text(
             text = labelText,
-            style =  MaterialTheme.typography.titleSmall.copy(
-                fontWeight = FontWeight.Normal
-            )
+            style = MaterialTheme.typography.titleSmall
         )
         Checkbox(
             modifier = Modifier
@@ -113,7 +107,8 @@ fun ColumnLabelTextWithTextAndIcon(
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ){
         Row(
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalAlignment = Alignment.CenterVertically
         ){
             if(imageVector!=null){
                 Icon(
@@ -123,18 +118,15 @@ fun ColumnLabelTextWithTextAndIcon(
             }
             Text(
                 text = labelText,
-                style =  MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.Normal
-                )
+                style = MaterialTheme.typography.titleSmall
             )
         }
-            Text(
-                modifier = Modifier,
-                text = valueText,
-                style =  MaterialTheme.typography.bodyLarge.copy(
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Thin
-                )
+        Text(
+            modifier = Modifier,
+            text = valueText,
+            style =  MaterialTheme.typography.bodyMedium.copy(
+                fontWeight = FontWeight.Light
             )
+        )
     }
 }

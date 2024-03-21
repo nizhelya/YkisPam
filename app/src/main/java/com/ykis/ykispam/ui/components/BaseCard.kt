@@ -26,36 +26,35 @@ fun BaseCard(
     cardModifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(vertical = 8.dp, horizontal = 12.dp),
-    columnModifier: Modifier = Modifier
+    columnModifier : Modifier = Modifier
         .fillMaxWidth()
         .padding(12.dp),
     labelModifier: Modifier = Modifier,
-    label: String? = null,
-    actionButton: @Composable (() -> Unit)? = null,
-    content: @Composable () -> Unit
+    label : String? = null,
+    actionButton: @Composable (() ->Unit)? = null,
+    content :@Composable () ->Unit
 ) {
     Card(
-        modifier = cardModifier,
+        modifier= cardModifier,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(48.dp),
             contentColor = MaterialTheme.colorScheme.onSecondaryContainer
         )
-    ) {
+    ){
         Column(
             modifier = columnModifier,
             verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            if (label != null) {
+        ){
+            if(label!=null) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        modifier = labelModifier
-                            .weight(1f)
-                            .padding(bottom = 4.dp),
+                        modifier = labelModifier.weight(1f),
                         text = label,
-                        style = MaterialTheme.typography.titleMedium.copy(
-                            fontWeight = FontWeight.Normal
+                        style = MaterialTheme.typography.titleSmall.copy(
+                            fontWeight = FontWeight.Light,
+                            fontSize = 16.sp
                         )
                     )
                     if (actionButton != null) {
@@ -74,7 +73,7 @@ private fun PreviewBaseCard() {
     YkisPAMTheme {
         BaseCard(
             label = stringResource(id = R.string.last_reading)
-        ) {
+        ){
             LabelTextWithText(
                 labelText = stringResource(id = R.string.model_colon),
                 valueText = "0"
@@ -97,7 +96,7 @@ private fun PreviewBaseCard() {
             )
             LabelTextWithCheckBox(
                 labelText = stringResource(id = R.string.general_colon),
-                checked = true
+                checked  = true
             )
             LabelTextWithText(
                 labelText = stringResource(id = R.string.zdate_colon),

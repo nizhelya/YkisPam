@@ -178,7 +178,7 @@ fun YkisPAMTheme(
     MaterialTheme(
         colorScheme = colors,
         content = content,
-        typography = Typography,
+        typography = typography,
         shapes = shapes
     )
 }

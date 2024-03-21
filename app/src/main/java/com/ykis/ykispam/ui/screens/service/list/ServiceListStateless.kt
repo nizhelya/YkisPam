@@ -36,7 +36,7 @@ fun <T> ServiceListStateless(
     BoxWithConstraints {
         val height = maxHeight
         val modifierBox1 : Modifier = if (height > 600.dp)
-            Modifier.height(height - 272.dp)
+            Modifier.height(height - 224.dp)
         else
             Modifier.height(300.dp)
 

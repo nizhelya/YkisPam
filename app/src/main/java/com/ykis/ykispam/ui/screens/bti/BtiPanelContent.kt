@@ -8,6 +8,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -15,13 +18,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.ext.isTrue
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.components.BaseCard
-import com.ykis.ykispam.ui.components.ColumnLabelTextWithTextAndIcon
 import com.ykis.ykispam.ui.components.LabelTextWithCheckBox
 import com.ykis.ykispam.ui.components.LabelTextWithText
 import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
@@ -68,11 +73,32 @@ fun BtiContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         BaseCard {
-            ColumnLabelTextWithTextAndIcon(
-                imageVector = Icons.Default.Person,
-                labelText = stringResource(id = R.string.employer_text_colon),
-                valueText = baseUIState.apartment.nanim
-            )
+//            ColumnLabelTextWithTextAndIcon(
+//                imageVector = Icons.Default.Person,
+//                labelText = stringResource(id = R.string.employer_text_colon),
+//                valueText = baseUIState.apartment.nanim
+//            )
+            Column {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Person,
+                        contentDescription = null
+                    )
+                    Text(
+                        text = stringResource(id = R.string.employer_text_colon),
+                        style = MaterialTheme.typography.titleSmall.copy(
+                            fontWeight = FontWeight.Light,
+                            fontSize = 16.sp
+                        )
+                    )
+                }
+                Text(
+                    text = baseUIState.apartment.nanim
+                )
+            }
         }
 
 
@@ -137,7 +163,9 @@ fun BtiContent(
         BaseCard(
             label = stringResource(id = R.string.data_bti)
         ) {
-            Row{
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ){
                 LabelTextWithText(
                     modifier = modifier.weight(1f),
                     labelText =  stringResource(R.string.rooms_colon),
