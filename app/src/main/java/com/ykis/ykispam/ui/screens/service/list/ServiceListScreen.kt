@@ -1,5 +1,6 @@
 package com.ykis.ykispam.ui.screens.service.list
 
+import android.os.Build
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
@@ -9,12 +10,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Commute
 import androidx.compose.material.icons.filled.CorporateFare
-import androidx.compose.material.icons.filled.GasMeter
 import androidx.compose.material.icons.filled.HotTub
 import androidx.compose.material.icons.filled.Water
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -24,18 +23,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.ykis.ykispam.R
 import com.ykis.ykispam.domain.service.request.ServiceParams
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.components.appbars.DefaultAppBar
 import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.navigation.NavigationType
-import com.ykis.ykispam.ui.theme.YkisPAMTheme
 import com.ykis.ykispam.ui.theme.extendedColor
 
 
@@ -122,16 +118,18 @@ fun ServiceListScreen(
                 )
             }
         }
-        Button(
-            onClick = {
-                setContentDetail(ContentDetail.PAYMENT_CHOICE)
-            },
-            colors = ButtonDefaults.buttonColors(
-            )
-        ) {
-            Text(
-                "Xpay"
-            )
+        if(Build.VERSION.SDK_INT>27){
+            Button(
+                onClick = {
+                    setContentDetail(ContentDetail.PAYMENT_CHOICE)
+                },
+                colors = ButtonDefaults.buttonColors(
+                )
+            ) {
+                Text(
+                    "Xpay"
+                )
+            }
         }
         Crossfade(
             modifier = Modifier.fillMaxSize(),

@@ -17,7 +17,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.ykis.ykispam.R
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 
@@ -55,7 +54,7 @@ fun BaseCard(
                             .padding(bottom = 4.dp),
                         text = label,
                         style = MaterialTheme.typography.titleMedium.copy(
-                            fontWeight = FontWeight.Normal
+                            fontWeight = FontWeight.SemiBold
                         )
                     )
                     if (actionButton != null) {
