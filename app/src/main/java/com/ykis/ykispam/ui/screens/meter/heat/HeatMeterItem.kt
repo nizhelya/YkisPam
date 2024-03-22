@@ -53,42 +53,42 @@ fun HeatMeterItem(
         modifier = modifier,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(48.dp)),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
+            Icon(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .padding(horizontal = 4.dp)
-                        .size(64.dp),
-                    painter = painterResource(id = R.drawable.ic_heat_meter5_24px),
-                    contentDescription = null
+                    .padding(horizontal = 4.dp)
+                    .size(64.dp),
+                painter = painterResource(id = R.drawable.ic_heat_meter5_24px),
+                contentDescription = null
+            )
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = heatMeter.model,
+                    style = MaterialTheme.typography.titleLarge
                 )
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = heatMeter.model,
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                    LabelTextWithText(
-                        labelText = stringResource(id = R.string.number_colon),
-                        valueText = heatMeter.number
-                    )
-                    Text(
-                        text = statusText
-                    )
+                LabelTextWithText(
+                    labelText = stringResource(id = R.string.number_colon),
+                    valueText = heatMeter.number
+                )
+                Text(
+                    text = statusText
+                )
 
-                }
-                Icon(
-                    modifier = Modifier.padding(end = 24.dp),
-                    imageVector = Icons.Default.ChevronRight,
-                    contentDescription = null
-                )
             }
+            Icon(
+                modifier = Modifier.padding(end = 24.dp),
+                imageVector = Icons.Default.ChevronRight,
+                contentDescription = null
+            )
         }
     }
+}
 
 
 @Preview(showBackground = true)

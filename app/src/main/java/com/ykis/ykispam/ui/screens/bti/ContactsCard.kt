@@ -11,11 +11,13 @@ import androidx.compose.material.icons.filled.AlternateEmail
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,13 +49,13 @@ fun ContactsCard(
         label = stringResource(id = R.string.contacts),
         actionButton = {
             IconButton(onClick = {
-                    openDialog.value = true
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.Edit ,
-                        contentDescription = "edit"
-                    )
-                }
+                openDialog.value = true
+            }) {
+                Icon(
+                    imageVector = Icons.Default.Edit ,
+                    contentDescription = "edit"
+                )
+            }
         }
     ) {
         LabelTextWithTextAndIcon(
@@ -99,9 +101,8 @@ fun ChangeContactsDialog(
         onDismissRequest = { onDismissRequest()},
     ) {
         Card(
-            modifier = modifier
-                .fillMaxWidth()
-//                .padding(8.dp)
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(48.dp)),
         ) {
             Column(
                 modifier = modifier.padding(all = 8.dp)
@@ -176,6 +177,6 @@ private fun PreviewDialog() {
         previousEmail = "example@gmail.com",
         onEmailChange = {}
     ) {
-        
+
     }
 }

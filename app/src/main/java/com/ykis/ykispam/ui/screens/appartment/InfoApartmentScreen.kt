@@ -14,11 +14,15 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,6 +30,7 @@ import androidx.compose.material3.LeadingIconTab
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -71,8 +76,9 @@ fun InfoApartmentScreen(
     }
     var showWarningDialog by remember { mutableStateOf(false) }
     if (showWarningDialog) {
+
         AlertDialog(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(48.dp),
             title = { Text(stringResource(R.string.title_delete_appartment)) },
             dismissButton = { DialogCancelButton(R.string.cancel) { showWarningDialog = false } },
             confirmButton = {
@@ -83,23 +89,25 @@ fun InfoApartmentScreen(
             },
             onDismissRequest = { showWarningDialog = false }
         )
+
+
     }
     LaunchedEffect(key1 = baseUIState.addressId) {
-            if (baseUIState.addressId == 0) {
-                apartmentViewModel.getApartment(baseUIState.apartments.first().addressId)
-            } else {
-                apartmentViewModel.getApartment(baseUIState.addressId)
-            }
+        if (baseUIState.addressId == 0) {
+            apartmentViewModel.getApartment(baseUIState.apartments.first().addressId)
+        } else {
+            apartmentViewModel.getApartment(baseUIState.addressId)
+        }
     }
 
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-       DefaultAppBar(
+        DefaultAppBar(
             title = baseUIState.address,
             canNavigateBack = false,
-            onDrawerClick = { onDrawerClicked()},
+            onDrawerClick = { onDrawerClicked() },
             navigationType = navigationType,
             actionButton = {
                 IconButton(
@@ -188,9 +196,10 @@ fun InfoScreenDualPanelContent(
         modifier = Modifier.fillMaxSize(),
         first = {
             Column {
-                Row(modifier = Modifier
-                    .padding(vertical = 8.dp)
-                    .fillMaxWidth(),
+                Row(
+                    modifier = Modifier
+                        .padding(vertical = 8.dp)
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 )
                 {
@@ -206,19 +215,20 @@ fun InfoScreenDualPanelContent(
                     )
                 }
 //                HorizontalDivider()
-                    BtiPanelContent(
-                        baseUIState = baseUIState,
-                        viewModel = apartmentViewModel
-                    )
+                BtiPanelContent(
+                    baseUIState = baseUIState,
+                    viewModel = apartmentViewModel
+                )
             }
 
 
         },
         second = {
             Column {
-                Row(modifier = Modifier
-                    .padding(vertical = 8.dp)
-                    .fillMaxWidth(),
+                Row(
+                    modifier = Modifier
+                        .padding(vertical = 8.dp)
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 )
                 {
@@ -234,7 +244,7 @@ fun InfoScreenDualPanelContent(
                     )
                 }
 //                HorizontalDivider()
-                    FamilyContent(baseUIState = baseUIState)
+                FamilyContent(baseUIState = baseUIState)
             }
         },
         strategy = HorizontalTwoPaneStrategy(splitFraction = 0.5f),

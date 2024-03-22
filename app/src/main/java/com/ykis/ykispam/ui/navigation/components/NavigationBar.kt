@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import com.ykis.ykispam.ui.navigation.NAV_BAR_DESTINATIONS
 
@@ -39,7 +40,9 @@ fun BottomNavigationBar(
                 alwaysShowLabel = true,
                 label = { Text(
                     text = stringResource(destination.labelId),
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.labelMedium.copy(
+                        fontWeight = FontWeight.Normal
+                    ),
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1
                 ) }

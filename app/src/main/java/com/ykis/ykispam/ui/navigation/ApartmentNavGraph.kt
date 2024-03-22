@@ -264,7 +264,10 @@ fun ApartmentNavGraph(
                 }
 
                 composable(SettingsScreen.route) {
-                    SettingsScreen(popUpScreen = { navController.popBackStack() })
+                    SettingsScreen(
+                        popUpScreen = { navController.popBackStack() },
+                        navigationType = navigationType,
+                    )
                 }
                 composable(MeterScreen.route) {
                     MainMeterScreen(

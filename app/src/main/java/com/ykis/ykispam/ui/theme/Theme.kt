@@ -76,7 +76,7 @@ val extendedLight = ExtendedColorScheme(
 )
 val ColorScheme.extendedColor: ExtendedColorScheme
     @Composable
-get() = if (!isSystemInDarkTheme()) extendedLight else extendedDark
+    get() = if (!isSystemInDarkTheme()) extendedLight else extendedDark
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -178,7 +178,7 @@ fun YkisPAMTheme(
     MaterialTheme(
         colorScheme = colors,
         content = content,
-        typography = typography,
+        typography = Typography,
         shapes = shapes
     )
 }

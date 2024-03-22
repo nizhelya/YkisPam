@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -32,7 +34,9 @@ fun DeleteReadingDialog(
         onDismissRequest = { onDismissRequest() },
     ) {
         Card(
-            modifier = modifier.widthIn(min = 280.dp, max = 560.dp)
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(48.dp)
+            ),
         ) {
             Column(
                 modifier = modifier.padding(all = 24.dp)

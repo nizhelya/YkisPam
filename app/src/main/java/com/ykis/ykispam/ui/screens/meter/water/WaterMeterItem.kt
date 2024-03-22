@@ -89,12 +89,12 @@ fun WaterMeterItem(
                 )
 
             }
-        Icon(
-            modifier = Modifier.padding(end = 24.dp),
-            imageVector = Icons.Default.ChevronRight,
-            contentDescription = null
-        )
-    }
+            Icon(
+                modifier = Modifier.padding(end = 24.dp),
+                imageVector = Icons.Default.ChevronRight,
+                contentDescription = null
+            )
+        }
     }
 }
 @Preview(showBackground = true)

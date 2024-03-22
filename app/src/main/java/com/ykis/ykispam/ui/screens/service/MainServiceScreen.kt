@@ -46,7 +46,7 @@ fun MainServiceScreen(
                     getTotalServiceDebt = { params -> viewModel.getTotalServiceDebt(params = params)},
                     setContentDetail = { contentDetail -> viewModel.setContentDetail(contentDetail)}
                 )
-                          },
+            },
             secondScreen = {
                 DetailPanel(
                     showDetail = totalDebtState.showDetail,

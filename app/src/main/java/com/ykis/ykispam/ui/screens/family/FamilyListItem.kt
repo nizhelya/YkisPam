@@ -30,10 +30,10 @@ fun FamilyListItem(
 
     ) {
     BaseCard {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 //                AsyncImage(
 //                    model = ImageRequest.Builder(LocalContext.current)
 //                        .data("photoUrl")
@@ -53,90 +53,90 @@ fun FamilyListItem(
 //                        .padding(horizontal = 12.dp, vertical = 4.dp),
 //                    verticalArrangement = Arrangement.Center
 //                ) {
-                    Icon(
-                        modifier = modifier.size(48.dp),
-                        imageVector = Icons.Default.AccountCircle ,
-                        contentDescription = null
-                    )
-                    Text(
-                        modifier = modifier.padding(start = 8.dp),
-                        text = "${person.surname} ${person.fistname} ${person.lastname}",
-                        style =  MaterialTheme.typography.bodyLarge.copy(
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Normal
-                        )
-                    )
+            Icon(
+                modifier = modifier.size(48.dp),
+                imageVector = Icons.Default.AccountCircle ,
+                contentDescription = null
+            )
+            Text(
+                modifier = modifier.padding(start = 8.dp),
+                text = "${person.surname} ${person.fistname} ${person.lastname}",
+                style =  MaterialTheme.typography.bodyLarge.copy(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Normal
+                )
+            )
 
 //                    Text(
 //                        text = person.lastname,
 //                        style = MaterialTheme.typography.bodyLarge,
 //                    )
 //                }
-            }
+        }
 
-            /*Row(
+        /*Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp)
+        ) {
+
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp)
+                    .weight(1f),
+                verticalArrangement = Arrangement.Center
             ) {
-
-                Column(
-                    modifier = Modifier
-                        .weight(1f),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = stringResource(R.string.status),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.outline
-                    )
-                }
-                Column(
-                    modifier = Modifier
-                        .weight(1f),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = person.rodstvo,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface,
-                    )
-                }
-            }*/
-//            if(person.rodstvo != """"""){
-                LabelTextWithText(
-                    labelText = stringResource(R.string.status_colon),
-                    valueText = person.rodstvo
+                Text(
+                    text = stringResource(R.string.status),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.outline
                 )
-//            }
-            /*Row(
+            }
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .weight(1f),
+                verticalArrangement = Arrangement.Center
             ) {
+                Text(
+                    text = person.rodstvo,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+            }
+        }*/
+//            if(person.rodstvo != """"""){
+        LabelTextWithText(
+            labelText = stringResource(R.string.status_colon),
+            valueText = person.rodstvo
+        )
+//            }
+        /*Row(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
 
-                Column(
-                    modifier = Modifier
-                        .weight(1f),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = stringResource(R.string.born_text),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.outline
-                    )
-                }
-                Column(
-                    modifier = Modifier
-                        .weight(1f),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = person.born,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface,
-                    )
-                }
-            }*/
+            Column(
+                modifier = Modifier
+                    .weight(1f),
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = stringResource(R.string.born_text),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.outline
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .weight(1f),
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = person.born,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+            }
+        }*/
         LabelTextWithText(
             labelText = stringResource(R.string.born_text),
             valueText = person.born
@@ -173,34 +173,34 @@ fun FamilyListItem(
             labelText = stringResource(R.string.doc_text),
             valueText = person.document
         )
-           /* Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
+        /* Row(
+             modifier = Modifier
+                 .fillMaxWidth()
+         ) {
 
-                Column(
-                    modifier = Modifier
-                        .weight(1f),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = stringResource(R.string.inn_text),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.outline
-                    )
-                }
-                Column(
-                    modifier = Modifier
-                        .weight(1f),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = person.inn,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface,
-                    )
-                }
-            }*/
+             Column(
+                 modifier = Modifier
+                     .weight(1f),
+                 verticalArrangement = Arrangement.Center
+             ) {
+                 Text(
+                     text = stringResource(R.string.inn_text),
+                     style = MaterialTheme.typography.labelMedium,
+                     color = MaterialTheme.colorScheme.outline
+                 )
+             }
+             Column(
+                 modifier = Modifier
+                     .weight(1f),
+                 verticalArrangement = Arrangement.Center
+             ) {
+                 Text(
+                     text = person.inn,
+                     style = MaterialTheme.typography.bodyMedium,
+                     color = MaterialTheme.colorScheme.onSurface,
+                 )
+             }
+         }*/
         LabelTextWithText(
             labelText = stringResource(R.string.inn_text),
             valueText = person.inn

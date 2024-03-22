@@ -30,7 +30,7 @@ import ua.com.xpay.xpaylib.model.OrderItem
 
 @Composable
 fun PaymentChoiceStateful(
-    modifier : Modifier = Modifier,
+    modifier: Modifier = Modifier,
     baseUIState: BaseUIState,
     totalDebtState: TotalDebtState,
     viewModel: ServiceViewModel
@@ -47,7 +47,8 @@ fun PaymentChoiceStateful(
             )
         )
     }
-    val serviceList = assembleServiceList(totalDebtState = totalDebtState, baseUIState =baseUIState )
+    val serviceList =
+        assembleServiceList(totalDebtState = totalDebtState, baseUIState = baseUIState)
     var osbbField by rememberSaveable {
         mutableStateOf("0.00")
     }
@@ -64,54 +65,67 @@ fun PaymentChoiceStateful(
 
     LazyColumn {
         items(serviceList) { item ->
-            val currentField = when(item.contentDetail){
+            val currentField = when (item.contentDetail) {
                 ContentDetail.OSBB -> osbbField
-                ContentDetail.WATER_SERVICE ->waterField
-                ContentDetail.WARM_SERVICE ->heatField
-                else ->tboField
+                ContentDetail.WATER_SERVICE -> waterField
+                ContentDetail.WARM_SERVICE -> heatField
+                else -> tboField
             }
             PaymentChoiceItem(
                 service = item.name,
                 debt = item.debt,
                 onCheckedTrue = { service, debt ->
-                    when(item.contentDetail){
-                        ContentDetail.OSBB ->         osbbField  = debt.toString()
-                        ContentDetail.WATER_SERVICE ->waterField =  debt.toString()
-                        ContentDetail.WARM_SERVICE -> heatField =  debt.toString()
-                        else ->                       tboField =  debt.toString()
+                    when (item.contentDetail) {
+                        ContentDetail.OSBB -> osbbField = debt.toString()
+                        ContentDetail.WATER_SERVICE -> waterField = debt.toString()
+                        ContentDetail.WARM_SERVICE -> heatField = debt.toString()
+                        else -> tboField = debt.toString()
                     }
                 },
                 onCheckedFalse = {
-                    when(item.contentDetail){
-                        ContentDetail.OSBB ->         osbbField  = "0.00"
-                        ContentDetail.WATER_SERVICE ->waterField =  "0.00"
-                        ContentDetail.WARM_SERVICE -> heatField =  "0.00"
-                        else ->                       tboField =  "0.00"
+                    when (item.contentDetail) {
+                        ContentDetail.OSBB -> osbbField = "0.00"
+                        ContentDetail.WATER_SERVICE -> waterField = "0.00"
+                        ContentDetail.WARM_SERVICE -> heatField = "0.00"
+                        else -> tboField = "0.00"
                     }
                 },
                 userInput = currentField,
-                onTextChange = { newText->
-                    when(item.contentDetail){
-                        ContentDetail.OSBB ->         osbbField  = newText
-                        ContentDetail.WATER_SERVICE ->waterField = newText
+                onTextChange = { newText ->
+                    when (item.contentDetail) {
+                        ContentDetail.OSBB -> osbbField = newText
+                        ContentDetail.WATER_SERVICE -> waterField = newText
                         ContentDetail.WARM_SERVICE -> heatField = newText
-                        else ->                       tboField = newText
+                        else -> tboField = newText
                     }
                 }
             )
         }
         item {
             Button(
-                modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
                 onClick = {
-                    val orderList :MutableList<OrderItem> = mutableListOf()
-                    for(item in serviceList){
-                        Log.d("payment_test" ,"cycle started " + serviceList.size.toString())
-                        when(item.contentDetail){
-                            ContentDetail.OSBB ->         {addToOrderList(osbbField , item.name , orderList)}
-                            ContentDetail.WATER_SERVICE ->{addToOrderList(waterField , item.name , orderList)}
-                            ContentDetail.WARM_SERVICE -> {addToOrderList(heatField , item.name , orderList)}
-                            else ->                       {addToOrderList(tboField , item.name , orderList)}
+                    val orderList: MutableList<OrderItem> = mutableListOf()
+                    for (item in serviceList) {
+                        Log.d("payment_test", "cycle started " + serviceList.size.toString())
+                        when (item.contentDetail) {
+                            ContentDetail.OSBB -> {
+                                addToOrderList(osbbField, item.name, orderList)
+                            }
+
+                            ContentDetail.WATER_SERVICE -> {
+                                addToOrderList(waterField, item.name, orderList)
+                            }
+
+                            ContentDetail.WARM_SERVICE -> {
+                                addToOrderList(heatField, item.name, orderList)
+                            }
+
+                            else -> {
+                                addToOrderList(tboField, item.name, orderList)
+                            }
                         }
                     }
                     viewModel.insertPayment(
@@ -125,7 +139,7 @@ fun PaymentChoiceStateful(
                             tbo = tboField.toDoubleOrNull() ?: 0.0
                         )
                     )
-                    if(orderList.isNotEmpty()){
+                    if (orderList.isNotEmpty()) {
                         val payment: XPayLibPayment = XPayLibPayment {
                             this.partnerToken = "72a8ddb8-9145-4a41-af1a-8c48ecaa4be1"
                             this.transactionId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx"
@@ -146,7 +160,7 @@ fun PaymentChoiceStateful(
                         }
                         val requestCode = 123
 //                        payment.startPaymentFrom(localContext as Activity, requestCode)
-                    }else SnackbarManager.showMessage("Щоб сплатити оберіть послугу")
+                    } else SnackbarManager.showMessage("Щоб сплатити оберіть послугу")
 
                 }
             ) {
@@ -159,12 +173,18 @@ fun PaymentChoiceStateful(
 }
 
 fun addToOrderList(
-    textField : String,
-    name : String,
-    orderList : MutableList<OrderItem>
-){
+    textField: String,
+    name: String,
+    orderList: MutableList<OrderItem>
+) {
     val userPrice = textField.toDoubleOrNull()
-    if(userPrice != null && userPrice > 0.0){
-        orderList.add(OrderItem(orderItemTitle = name , orderItemDescription = "" , price = userPrice))
+    if (userPrice != null && userPrice > 0.0) {
+        orderList.add(
+            OrderItem(
+                orderItemTitle = name,
+                orderItemDescription = "",
+                price = userPrice
+            )
+        )
     }
 }

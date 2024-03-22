@@ -71,7 +71,7 @@ fun BasicToolbar(
             ) {
                 Text(
                     text = stringResource(title),
-//                    color = MaterialTheme.colorScheme.onSurface
+                    style = MaterialTheme.typography.titleLarge,
                 )
             }
 
@@ -101,7 +101,7 @@ fun ActionToolbar(
             ) {
                 Text(
                     text = stringResource(title),
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }

@@ -47,7 +47,7 @@ fun AddAppBar(
             ) {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
@@ -61,8 +61,8 @@ fun AddAppBar(
         navigationIcon = {
             if(!canNavigateBack && navigationType == NavigationType.BOTTOM_NAVIGATION) {
                 IconButton(
-                        onClick = onDrawerClicked
-                        ) {
+                    onClick = onDrawerClicked
+                ) {
                     Icon(
                         imageVector = Icons.Default.Menu,
                         contentDescription = stringResource(id = R.string.back_button),
