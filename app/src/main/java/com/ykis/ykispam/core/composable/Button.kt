@@ -103,11 +103,11 @@ fun BasicImageButton(
 fun DialogConfirmButton(@StringRes text: Int, action: () -> Unit) {
     Button(
         onClick = action,
-        colors =
-        ButtonDefaults.buttonColors(
-            containerColor = Color(0xFF3A4C2B),
-            contentColor = Color(0xFFFFB945)
-        )
+//        colors =
+//        ButtonDefaults.buttonColors(
+//            containerColor = Color(0xFF3A4C2B),
+//            contentColor = Color(0xFFFFB945)
+//        )
     ) {
         Text(text = stringResource(text))
     }
@@ -117,11 +117,11 @@ fun DialogConfirmButton(@StringRes text: Int, action: () -> Unit) {
 fun DialogCancelButton(@StringRes text: Int, action: () -> Unit) {
     Button(
         onClick = action,
-        colors =
-        ButtonDefaults.buttonColors(
-            containerColor = Color(0xFF516440),
-            contentColor = Color(0xFFFFB945)
-        )
+//        colors =
+//        ButtonDefaults.buttonColors(
+//            containerColor = Color(0xFF516440),
+//            contentColor = Color(0xFFFFB945)
+//        )
     ) {
         Text(text = stringResource(text))
     }

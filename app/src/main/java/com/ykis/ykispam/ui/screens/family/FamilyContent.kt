@@ -86,9 +86,3 @@ fun FamilyList(
         }
     }
 }
-
-
-
-
-
-

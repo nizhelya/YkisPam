@@ -25,6 +25,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -123,7 +124,7 @@ fun ProfileScreenStateless(
     revokeAccess: () -> Unit,
     onDrawerClicked : () ->Unit,
     navigationType: NavigationType
-    ) {
+) {
     var openMenu by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
@@ -164,9 +165,7 @@ fun ProfileScreenStateless(
         Card(
             modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
             colors = CardDefaults.cardColors(
-                containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer
-                else MaterialTheme.colorScheme.surfaceVariant
-            )
+                containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(48.dp)),
         ) {
             Column(
                 modifier = Modifier

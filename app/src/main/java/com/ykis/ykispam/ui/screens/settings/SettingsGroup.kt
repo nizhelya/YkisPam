@@ -20,18 +20,14 @@ import androidx.compose.ui.unit.dp
 fun SettingsGroup(
     @StringRes name: Int,
     // to accept only composables compatible with column
-    content: @Composable ColumnScope.() -> Unit ){
-    Column(modifier = Modifier.padding(vertical = 8.dp)) {
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .padding(vertical = 4.dp)
+    ) {
         Text(stringResource(id = name))
-        Spacer(modifier = Modifier.height(8.dp))
-        Surface(
-            color = Color(0xFF4F4539),
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(4),
-        ) {
-            Column {
-                content()
-            }
-        }
+        Spacer(modifier = Modifier.height(4.dp))
+        content()
     }
 }

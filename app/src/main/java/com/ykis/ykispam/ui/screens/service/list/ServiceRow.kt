@@ -6,16 +6,20 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +32,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.ext.formatDebt
+import com.ykis.ykispam.ui.components.BaseCard
 
 @Composable
 fun ServiceRow(
@@ -35,17 +40,26 @@ fun ServiceRow(
     color: Color,
     title: String,
     debt: Double,
-    icon : ImageVector,
-    onClick: ()->Unit
+    icon: ImageVector,
+    onClick: () -> Unit
 ) {
     val formattedDebt = formatDebt(debt)
-    Box(modifier = modifier.clickable {
-        onClick()
-    }){
+
+    Card(
+
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp, horizontal = 4.dp)
+            .clickable { onClick() },
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(48.dp),
+        )
+    ) {
+
         Row(
             modifier = modifier
-                .padding(start = 12.dp ,end = 8.dp)
-                .height(56.dp)
+                .padding(all = 4.dp)
+//                    .height(68.dp)
                 .clearAndSetSemantics {
                     contentDescription =
                         "Ваш борг для компанії $title становить $debt"
@@ -65,8 +79,7 @@ fun ServiceRow(
             Column(Modifier.weight(1f)) {
                 Text(
                     text = title,
-                    style = typography.labelLarge,
-                    overflow = TextOverflow.Ellipsis,
+                    style = typography.titleMedium,
                     maxLines = 1
                 )
 
@@ -94,7 +107,7 @@ fun ServiceRow(
                     .size(24.dp)
             )
         }
+//        }
     }
-
-    HorizontalDivider(color = MaterialTheme.colorScheme.background , thickness = 1.dp)
+    HorizontalDivider(thickness = 1.dp)
 }

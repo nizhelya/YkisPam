@@ -60,11 +60,11 @@ fun ProfileTopBar(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                    Text(
-                        text = stringResource(id = R.string.profile),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                Text(
+                    text = stringResource(id = R.string.profile),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
         },
         navigationIcon = {
@@ -83,26 +83,26 @@ fun ProfileTopBar(
             }
         },
         actions = {
-                IconButton(
-                    onClick = { openMenu = !openMenu },
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.MoreVert,
-                        contentDescription = stringResource(id = R.string.more_options_button),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-                DropdownMenu(
-                    expanded = openMenu,
-                    onDismissRequest = { openMenu = !openMenu },
-                    modifier = Modifier
-                        .wrapContentSize(align = Alignment.TopCenter)
+            IconButton(
+                onClick = { openMenu = !openMenu },
+            ) {
+                Icon(
+                    imageVector = Icons.Default.MoreVert,
+                    contentDescription = stringResource(id = R.string.more_options_button),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            DropdownMenu(
+                expanded = openMenu,
+                onDismissRequest = { openMenu = !openMenu },
+                modifier = Modifier
+                    .wrapContentSize(align = Alignment.TopCenter)
 //                        .fillMaxWidth(0.5f)
-                        .background(color = MaterialTheme.colorScheme.background)
-                ) {
-                    SignOutCard(signOut)
-                    DeleteMyAccountCard(revokeAccess)
-                }
+                    .background(color = MaterialTheme.colorScheme.background)
+            ) {
+                SignOutCard(signOut)
+                DeleteMyAccountCard(revokeAccess)
+            }
 
         }
     )
@@ -110,7 +110,7 @@ fun ProfileTopBar(
 
 
 @Composable
- fun SignOutCard(signOut: () -> Unit) {
+fun SignOutCard(signOut: () -> Unit) {
     var showWarningDialog by remember { mutableStateOf(false) }
 
     RegularCardEditor(AppText.sign_out, AppIcon.ic_exit, "", Modifier.card()) {
@@ -135,7 +135,7 @@ fun ProfileTopBar(
 
 
 @Composable
- fun DeleteMyAccountCard(deleteMyAccount: () -> Unit) {
+fun DeleteMyAccountCard(deleteMyAccount: () -> Unit) {
     var showWarningDialog by remember { mutableStateOf(false) }
 
     DangerousCardEditor(

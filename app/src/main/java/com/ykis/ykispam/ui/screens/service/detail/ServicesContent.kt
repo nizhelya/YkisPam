@@ -145,9 +145,20 @@ fun ServiceDetailItem(
                 value1 = serviceEntity.zadol1.toString(),
                 value2 = serviceEntity.zadol2.toString(),
                 value3 = serviceEntity.zadol3.toString(),
-                    value4 = serviceEntity.zadol4.toString(),
+                value4 = serviceEntity.zadol4.toString(),
                 header = stringResource(id = R.string.start_debt),
                 summary = serviceEntity.zadol.toString(),
+                headerAlign = TextAlign.End
+            )
+
+            ColumnItemInTable(
+                alignment = Alignment.End,
+                value1 = serviceEntity.nachisleno1.toString(),
+                value2 = serviceEntity.nachisleno2.toString(),
+                value3 = serviceEntity.nachisleno3.toString(),
+                value4 = serviceEntity.nachisleno4.toString(),
+                header = stringResource(id = R.string.accrued_text),
+                summary = serviceEntity.nachisleno.toString(),
                 headerAlign = TextAlign.End
             )
             ColumnItemInTable(
@@ -156,21 +167,10 @@ fun ServiceDetailItem(
                 value2 = serviceEntity.oplacheno2.toString(),
                 value3 = serviceEntity.oplacheno3.toString(),
                 value4 = serviceEntity.oplacheno4.toString(),
-                header = stringResource(id = R.string.accrued_text),
+                header = stringResource(id = R.string.paid),
                 summary = serviceEntity.oplacheno.toString(),
                 headerAlign = TextAlign.End
             )
-            ColumnItemInTable(
-                alignment = Alignment.End,
-                value1 = serviceEntity.nachisleno1.toString(),
-                value2 = serviceEntity.nachisleno2.toString(),
-                value3 = serviceEntity.nachisleno3.toString(),
-                value4 = serviceEntity.nachisleno4.toString(),
-                header = stringResource(id = R.string.paid),
-                summary = serviceEntity.nachisleno.toString(),
-                headerAlign = TextAlign.End
-            )
-
             ColumnItemInTable(
                 alignment = Alignment.End,
                 value1 = serviceEntity.dolg1.toString(),
@@ -226,7 +226,7 @@ fun ServiceDetailContent(
             list = years, selectedChip = selectedChip,
             onSelectedChanged = onSelectedChanged
         )
-                Crossfade(
+        Crossfade(
             targetState = isLoading,
             animationSpec = tween(600), label = ""
         ) { targetState ->

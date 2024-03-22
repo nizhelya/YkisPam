@@ -44,7 +44,7 @@ fun assembleServiceList(
     totalDebtState: TotalDebtState,
     baseUIState: BaseUIState,
 
-) : List<TotalServiceDebt> {
+    ) : List<TotalServiceDebt> {
     return  listOf(
         TotalServiceDebt(
             name = baseUIState.osbb,
@@ -99,107 +99,74 @@ fun ServiceListScreen(
             )
         )
     }
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        DefaultAppBar(
+            title = stringResource(id = R.string.accrued),
+            onDrawerClick = onDrawerClick,
+            canNavigateBack = false,
+            navigationType = navigationType
         ) {
-            DefaultAppBar(
-                title = stringResource(id = R.string.accrued),
-                onDrawerClick = onDrawerClick,
-                canNavigateBack = false,
-                navigationType = navigationType
-            ) {
 
-                IconButton(
-                    onClick = {
-                        setContentDetail(ContentDetail.PAYMENT_LIST)
-                    },
-                ) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.ic_history),
-                        contentDescription = "Історія платіжок",
-                        tint = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-            }
-            Button(
+            IconButton(
                 onClick = {
-                    setContentDetail(ContentDetail.PAYMENT_CHOICE)
+                    setContentDetail(ContentDetail.PAYMENT_LIST)
                 },
-                colors = ButtonDefaults.buttonColors(
-//                    contentColor = Color(0x008856)
-                )
             ) {
-                Text(
-                    "Xpay"
-                )
-            }
-            Crossfade(
-                modifier = Modifier.fillMaxSize(),
-                animationSpec = tween(delayMillis = 500),
-                targetState = totalDebtState.isLoading, label = ""
-            ) { isLoading ->
-                if (isLoading) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
-                } else ServiceListStateless(
-                    modifier = Modifier.fillMaxSize(),
-                    items = assembleServiceList(
-                        totalDebtState = totalDebtState,
-                        baseUIState = baseUIState
-                    ),
-                    debts = { totalServiceDebtList -> totalServiceDebtList.debt },
-                    colors = { totalServiceDebtList -> totalServiceDebtList.color },
-                    total = totalDebtState.totalDebt.dolg!!,
-                    circleLabel = stringResource(R.string.summary),
-                    rows = {
-                        ServiceRow(
-                            color = it.color,
-                            title = it.name,
-                            debt = it.debt,
-                            icon = it.icon,
-                            onClick = {
-                                setContentDetail(it.contentDetail)
-                            }
-                        )
-                    },
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_history),
+                    contentDescription = "Історія платіжок",
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
             }
         }
+        Button(
+            onClick = {
+                setContentDetail(ContentDetail.PAYMENT_CHOICE)
+            },
+            colors = ButtonDefaults.buttonColors(
+            )
+        ) {
+            Text(
+                "Xpay"
+            )
+        }
+        Crossfade(
+            modifier = Modifier.fillMaxSize(),
+            animationSpec = tween(delayMillis = 500),
+            targetState = totalDebtState.isLoading, label = ""
+        ) { isLoading ->
+            if (isLoading) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            } else ServiceListStateless(
+                modifier = Modifier.fillMaxSize(),
+                items = assembleServiceList(
+                    totalDebtState = totalDebtState,
+                    baseUIState = baseUIState
+                ),
+                debts = { totalServiceDebtList -> totalServiceDebtList.debt },
+                colors = { totalServiceDebtList -> totalServiceDebtList.color },
+                total = totalDebtState.totalDebt.dolg!!,
+                circleLabel = stringResource(R.string.summary),
+                rows = {
+                    ServiceRow(
+                        color = it.color,
+                        title = it.name,
+                        debt = it.debt,
+                        icon = it.icon,
+                        onClick = {
+                            setContentDetail(it.contentDetail)
+                        }
+                    )
+                },
+            )
+        }
     }
-//@Preview(showBackground = true)
-//@Composable
-//private fun PreviewRow() {
-//    YkisPAMTheme {
-//        Card {
-//            Column {
-//                ServiceRow(
-//                    color = Color.Blue,
-//                    title = stringResource(id = R.string.yzhtrans),
-//                    debt = 564.00,
-//                    icon = Icons.Default.GasMeter,
-//                    onClick = {}
-//                )
-//                ServiceRow(
-//                    color = Color.Blue,
-//                    title = stringResource(id = R.string.yzhtrans),
-//                    debt = 564.00,
-//                    icon = Icons.Default.GasMeter,
-//                    onClick = {}
-//                )
-//                ServiceRow(
-//                    color = Color.Blue,
-//                    title = stringResource(id = R.string.yzhtrans),
-//                    debt = 564.00,
-//                    icon = Icons.Default.GasMeter,
-//                    onClick = {}
-//                )
-//            }
-//        }
-//
-//    }
-//}
+}

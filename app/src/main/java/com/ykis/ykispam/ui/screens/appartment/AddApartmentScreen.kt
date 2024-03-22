@@ -11,6 +11,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
@@ -43,7 +44,7 @@ fun AddApartmentScreenContent(
     navigationType: NavigationType,
     closeContentDetail : ()->Unit
 ) {
-    
+
     val secretCode by viewModel.secretCode.collectAsState()
     val buttonEnabled by remember {
         derivedStateOf{
@@ -64,15 +65,18 @@ fun AddApartmentScreenContent(
             onBackPressed = {
                 navController.popBackStack()
                 viewModel.onSecretCodeChange("")
-                            },
+            },
             canNavigateBack = canNavigateBack,
             onDrawerClicked = onDrawerClicked,
             navigationType = navigationType
         )
         Card(
-            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp, horizontal = 12.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant
+                containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(48.dp),
+                contentColor = MaterialTheme.colorScheme.onSecondaryContainer
             )
         ) {
             Row(

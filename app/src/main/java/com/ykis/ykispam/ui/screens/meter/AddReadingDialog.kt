@@ -7,11 +7,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -39,18 +41,13 @@ fun AddReadingDialog(
         onDismissRequest = { onDismissRequest() },
     ) {
         Card(
-//            modifier = modifier.widthIn(min = 280.dp, max = 560.dp)
-            modifier = modifier.padding(all = 4.dp)
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(48.dp)),            modifier = modifier.padding(all = 4.dp)
         ) {
             Column(
                 modifier = modifier.padding(all = 24.dp)
             ) {
-//                Icon(
-//                    tint = MaterialTheme.colorScheme.secondary,
-//                    modifier = modifier.fillMaxWidth(),
-//                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_add_reading),
-//                    contentDescription = null
-//                )
+
                 Text(
                     text = stringResource(R.string.add_reading_title),
                     style = MaterialTheme.typography.titleLarge,
