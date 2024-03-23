@@ -124,6 +124,8 @@ fun MainApartmentScreen(
                             drawerState.close()
                             navController.navigateWithPopUp(it, InfoApartmentScreen.route)
                         }
+                        meterViewModel.closeContentDetail()
+                        serviceViewModel.closeContentDetail()
                     },
                     onMenuClick = {
                         coroutineScope.launch {
@@ -154,6 +156,8 @@ fun MainApartmentScreen(
                                     it,
                                     InfoApartmentScreen.route
                                 )
+                                meterViewModel.closeContentDetail()
+                                serviceViewModel.closeContentDetail()
                             }
                         )
                     }
@@ -178,6 +182,8 @@ fun MainApartmentScreen(
                         it,
                         InfoApartmentScreen.route
                     )
+                    meterViewModel.closeContentDetail()
+                    serviceViewModel.closeContentDetail()
                 },
                 isRailExpanded = isRailExpanded,
                 onMenuClick = onMenuClick,
