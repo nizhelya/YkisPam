@@ -118,18 +118,16 @@ fun ServiceListScreen(
                 )
             }
         }
-        if(Build.VERSION.SDK_INT>27){
-            Button(
-                onClick = {
-                    setContentDetail(ContentDetail.PAYMENT_CHOICE)
-                },
-                colors = ButtonDefaults.buttonColors(
-                )
-            ) {
-                Text(
-                    "Xpay"
-                )
-            }
+        Button(
+            onClick = {
+                setContentDetail(ContentDetail.PAYMENT_CHOICE)
+            },
+            colors = ButtonDefaults.buttonColors(
+            )
+        ) {
+            Text(
+                "Xpay"
+            )
         }
         Crossfade(
             modifier = Modifier.fillMaxSize(),

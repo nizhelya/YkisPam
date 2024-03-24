@@ -30,14 +30,14 @@ fun LabelTextWithText(
         Text(
             text = labelText,
             style =  MaterialTheme.typography.titleSmall.copy(
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Normal
             )
         )
         Text(
             modifier = Modifier.padding(start = 8.dp),
             text = valueText,
             style =  MaterialTheme.typography.bodyLarge.copy(
-                fontWeight = FontWeight.Normal
+                fontWeight = FontWeight.Light
             )
         )
     }
@@ -63,13 +63,13 @@ fun LabelTextWithTextAndIcon(
         Text(
             text = labelText,
             style =  MaterialTheme.typography.titleMedium.copy(
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Normal
             )        )
         Text(
             modifier = Modifier.padding(start = 8.dp),
             text = valueText,
             style =  MaterialTheme.typography.bodyLarge.copy(
-                fontWeight = FontWeight.Normal
+                fontWeight = FontWeight.Light
             )
         )
     }
@@ -88,7 +88,7 @@ fun LabelTextWithCheckBox(
         Text(
             text = labelText,
             style =  MaterialTheme.typography.titleSmall.copy(
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Normal
             )
         )
         Checkbox(
@@ -113,8 +113,7 @@ fun ColumnLabelTextWithTextAndIcon(
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ){
         Row(
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
-            verticalAlignment = Alignment.CenterVertically
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
         ){
             if(imageVector!=null){
                 Icon(
@@ -125,7 +124,7 @@ fun ColumnLabelTextWithTextAndIcon(
             Text(
                 text = labelText,
                 style =  MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.Normal
                 )
             )
         }
@@ -133,8 +132,7 @@ fun ColumnLabelTextWithTextAndIcon(
             modifier = Modifier,
             text = valueText,
             style =  MaterialTheme.typography.bodyLarge.copy(
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Normal
+                fontWeight = FontWeight.Thin
             )
         )
     }

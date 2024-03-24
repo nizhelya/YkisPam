@@ -54,7 +54,7 @@ fun BaseCard(
                             .padding(bottom = 4.dp),
                         text = label,
                         style = MaterialTheme.typography.titleMedium.copy(
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.Normal
                         )
                     )
                     if (actionButton != null) {
