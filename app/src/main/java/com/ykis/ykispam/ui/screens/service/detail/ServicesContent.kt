@@ -20,6 +20,7 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -120,68 +121,80 @@ fun ServiceDetailItem(
         columnModifier = modifier.fillMaxWidth(),
         labelModifier = modifier.padding(top = 12.dp , start = 12.dp)
     ) {
+        Box{
+            Column(
+//                modifier = modifier.padding(horizontal = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(29.dp)
+            ) {
+                TableDivider(modifier = modifier.padding(top=42.dp))
+                TableDivider(serviceEntity.zadol1.toString())
+                TableDivider(serviceEntity.zadol2.toString())
+                TableDivider(serviceEntity.zadol3.toString())
+                TableDivider(serviceEntity.zadol4.toString())
+            }
+            Row(
+                modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(scrollState)
+                    .padding(start = 8.dp, bottom = 8.dp, end = 8.dp)
+                ,
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                ColumnItemInTable(
+                    alignment = Alignment.Start,
+                    value1 = serviceEntity.service1.toString(),
+                    value2 = serviceEntity.service2.toString(),
+                    value3 = serviceEntity.service3.toString(),
+                    value4 = serviceEntity.service4.toString(),
+                    header = stringResource(id = R.string.services),
+                    summary = stringResource(id = R.string.summary),
+                    headerAlign = TextAlign.Start
+                )
+                ColumnItemInTable(
+                    alignment = Alignment.End,
+                    value1 = serviceEntity.zadol1.toString(),
+                    value2 = serviceEntity.zadol2.toString(),
+                    value3 = serviceEntity.zadol3.toString(),
+                    value4 = serviceEntity.zadol4.toString(),
+                    header = stringResource(id = R.string.start_debt),
+                    summary = serviceEntity.zadol.toString(),
+                    headerAlign = TextAlign.End
+                )
 
-        Row(
-            modifier
-                .fillMaxWidth()
-                .horizontalScroll(scrollState)
-                .padding(start = 8.dp, bottom = 8.dp, end = 8.dp)
-            ,
-            verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            ColumnItemInTable(
-                alignment = Alignment.Start,
-                value1 = serviceEntity.service1.toString(),
-                value2 = serviceEntity.service2.toString(),
-                value3 = serviceEntity.service3.toString(),
-                value4 = serviceEntity.service4.toString(),
-                header = stringResource(id = R.string.services),
-                summary = stringResource(id = R.string.summary),
-                headerAlign = TextAlign.Start
-            )
-            ColumnItemInTable(
-                alignment = Alignment.End,
-                value1 = serviceEntity.zadol1.toString(),
-                value2 = serviceEntity.zadol2.toString(),
-                value3 = serviceEntity.zadol3.toString(),
-                value4 = serviceEntity.zadol4.toString(),
-                header = stringResource(id = R.string.start_debt),
-                summary = serviceEntity.zadol.toString(),
-                headerAlign = TextAlign.End
-            )
-
-            ColumnItemInTable(
-                alignment = Alignment.End,
-                value1 = serviceEntity.nachisleno1.toString(),
-                value2 = serviceEntity.nachisleno2.toString(),
-                value3 = serviceEntity.nachisleno3.toString(),
-                value4 = serviceEntity.nachisleno4.toString(),
-                header = stringResource(id = R.string.accrued_text),
-                summary = serviceEntity.nachisleno.toString(),
-                headerAlign = TextAlign.End
-            )
-            ColumnItemInTable(
-                alignment = Alignment.End,
-                value1 = serviceEntity.oplacheno1.toString(),
-                value2 = serviceEntity.oplacheno2.toString(),
-                value3 = serviceEntity.oplacheno3.toString(),
-                value4 = serviceEntity.oplacheno4.toString(),
-                header = stringResource(id = R.string.paid),
-                summary = serviceEntity.oplacheno.toString(),
-                headerAlign = TextAlign.End
-            )
-            ColumnItemInTable(
-                alignment = Alignment.End,
-                value1 = serviceEntity.dolg1.toString(),
-                value2 = serviceEntity.dolg2.toString(),
-                value3 = serviceEntity.dolg3.toString(),
-                value4 = serviceEntity.dolg4.toString(),
-                header = stringResource(id = R.string.end_debt),
-                summary = serviceEntity.dolg.toString(),
-                headerAlign = TextAlign.End
-            )
+                ColumnItemInTable(
+                    alignment = Alignment.End,
+                    value1 = serviceEntity.nachisleno1.toString(),
+                    value2 = serviceEntity.nachisleno2.toString(),
+                    value3 = serviceEntity.nachisleno3.toString(),
+                    value4 = serviceEntity.nachisleno4.toString(),
+                    header = stringResource(id = R.string.accrued_text),
+                    summary = serviceEntity.nachisleno.toString(),
+                    headerAlign = TextAlign.End
+                )
+                ColumnItemInTable(
+                    alignment = Alignment.End,
+                    value1 = serviceEntity.oplacheno1.toString(),
+                    value2 = serviceEntity.oplacheno2.toString(),
+                    value3 = serviceEntity.oplacheno3.toString(),
+                    value4 = serviceEntity.oplacheno4.toString(),
+                    header = stringResource(id = R.string.paid),
+                    summary = serviceEntity.oplacheno.toString(),
+                    headerAlign = TextAlign.End
+                )
+                ColumnItemInTable(
+                    alignment = Alignment.End,
+                    value1 = serviceEntity.dolg1.toString(),
+                    value2 = serviceEntity.dolg2.toString(),
+                    value3 = serviceEntity.dolg3.toString(),
+                    value4 = serviceEntity.dolg4.toString(),
+                    header = stringResource(id = R.string.end_debt),
+                    summary = serviceEntity.dolg.toString(),
+                    headerAlign = TextAlign.End
+                )
+            }
         }
+
     }
 }
 

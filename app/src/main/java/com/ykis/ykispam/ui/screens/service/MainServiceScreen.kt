@@ -1,7 +1,7 @@
 package com.ykis.ykispam.ui.screens.service
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -87,8 +87,20 @@ fun SinglePanelService(
     viewModel: ServiceViewModel,
 ) {
 
-    if(!totalDebtState.showDetail){
-        ServiceListScreen(
+    Crossfade(targetState = totalDebtState.showDetail) {
+        if(it){
+            BackHandler {
+                viewModel.closeContentDetail()
+            }
+            ServiceDetailScreen(
+                modifier = modifier.background(MaterialTheme.colorScheme.background),
+                navigationType = navigationType,
+                viewModel = viewModel,
+                contentDetail = contentDetail,
+                baseUIState =baseUIState,
+                totalDebtState = totalDebtState,
+            )
+        }else ServiceListScreen(
             baseUIState =baseUIState ,
             navigationType = navigationType,
             onDrawerClick = onDrawerClick,
@@ -97,21 +109,4 @@ fun SinglePanelService(
             setContentDetail = { content -> viewModel.setContentDetail(contentDetail = content)}
         )
     }
-
-    AnimatedVisibility(
-        visible = totalDebtState.showDetail
-    ) {
-        BackHandler {
-            viewModel.closeContentDetail()
-        }
-        ServiceDetailScreen(
-//            modifier = modifier.background(MaterialTheme.colorScheme.background),
-            navigationType = navigationType,
-            viewModel = viewModel,
-            contentDetail = contentDetail,
-            baseUIState =baseUIState,
-            totalDebtState = totalDebtState,
-        )
-    }
-
 }
