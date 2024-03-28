@@ -18,9 +18,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var application: HiltApp
 
     private var pressBackExitJob: Job? = null
     private var backPressedOnce = false
@@ -29,7 +32,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         setContent {
-            YkisPAMTheme {
+            YkisPAMTheme(
+                appTheme = application.theme.value
+            ) {
                 val windowSize = calculateWindowSizeClass(this)
                 val displayFeatures = calculateDisplayFeatures(this)
                 Surface (

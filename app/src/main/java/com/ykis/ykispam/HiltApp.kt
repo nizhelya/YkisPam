@@ -17,8 +17,11 @@ limitations under the License.
 package com.ykis.ykispam
 
 import android.app.Application
+import androidx.compose.runtime.mutableStateOf
 import dagger.hilt.android.HiltAndroidApp
 
 
 @HiltAndroidApp
-class HiltApp : Application()
+class HiltApp : Application(){
+    val theme = mutableStateOf("")
+}

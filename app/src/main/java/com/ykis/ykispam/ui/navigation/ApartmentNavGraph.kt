@@ -47,7 +47,7 @@ import com.ykis.ykispam.ui.screens.meter.MeterViewModel
 import com.ykis.ykispam.ui.screens.profile.ProfileScreen
 import com.ykis.ykispam.ui.screens.service.MainServiceScreen
 import com.ykis.ykispam.ui.screens.service.ServiceViewModel
-import com.ykis.ykispam.ui.screens.settings.SettingsScreen
+import com.ykis.ykispam.ui.screens.settings.SettingsScreenStateful
 import kotlinx.coroutines.launch
 
 @Composable
@@ -244,7 +244,10 @@ fun ApartmentNavGraph(
                         appState = appState,
                         cleanNavigateToDestination = { rootNavController.cleanNavigateTo(it) },
                         navigationType = navigationType,
-                        onDrawerClicked = onDrawerClicked
+                        onDrawerClicked = onDrawerClicked,
+                        navigateToSettings = {
+                            navController.navigate(SettingsScreen.route)
+                        }
                     )
                 }
                 composable(ChatScreen.route) {
@@ -270,9 +273,8 @@ fun ApartmentNavGraph(
                 }
 
                 composable(SettingsScreen.route) {
-                    SettingsScreen(
+                   SettingsScreenStateful(
                         popUpScreen = { navController.popBackStack() },
-                        navigationType = navigationType,
                     )
                 }
                 composable(MeterScreen.route) {

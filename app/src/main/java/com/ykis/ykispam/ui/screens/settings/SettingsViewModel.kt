@@ -1,12 +1,18 @@
 package com.ykis.ykispam.ui.screens.settings
 
-import com.ykis.ykispam.ui.BaseViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.ykis.ykispam.HiltApp
+import com.ykis.ykispam.data.cache.preferences.AppSettingsRepository
 import com.ykis.ykispam.firebase.service.repo.ConfigurationService
 import com.ykis.ykispam.firebase.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.service.repo.LogService
+import com.ykis.ykispam.ui.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.text.DecimalFormatSymbols
 import java.util.Locale
 import javax.inject.Inject
@@ -59,11 +65,6 @@ class SettingsViewModel @Inject constructor(
             ?: 0 // значение по умолчанию / каким-то образом обработать ошибку - показать тост или что-то в этом роде
 
     }
-
-    companion object {
-        const val TAG = "SettingsViewModel"
-    }
-
 //
 //    val options = mutableStateOf<List<String>>(listOf())
 //
@@ -139,3 +140,59 @@ class SettingsViewModel @Inject constructor(
 //
 //    }
 }
+
+@HiltViewModel
+class NewSettingsViewModel @Inject constructor(
+    private val dataStore: AppSettingsRepository,
+    private val application: HiltApp
+) : ViewModel() {
+
+//    private val _settingsState = MutableStateFlow(SettingsScreenState())
+//    val settingsState = _settingsState.asStateFlow()
+
+    private val _theme = MutableStateFlow<String?>(null)
+    val theme = _theme.asStateFlow()
+
+//    fun handleScreenEvents(event: SettingsScreenEvent) {
+//        when (event) {
+//            is SettingsScreenEvent.OpenThemeDialog -> {
+//                openTheme(event.open)
+//            }
+//
+//            is SettingsScreenEvent.SetNewTheme -> setThemeValue(event.value)
+//            is SettingsScreenEvent.ThemeChanged -> getThemeValue()
+//        }
+//    }
+//
+//     fun openTheme(open: Boolean) {
+//        viewModelScope.launch {
+//            _settingsState.update { it.copy(openThemeDialog = open) }
+//        }
+//    }
+
+    fun setThemeValue(value: String) {
+        viewModelScope.launch {
+            dataStore.putThemeStrings(key = "theme", value = value)
+        }
+    }
+     fun getThemeValue() {
+            viewModelScope.launch {
+                val theme = dataStore.getThemeStrings(key = "theme").first()
+                theme?.let { value ->
+//                    _settingsState.updateAndGet {
+//                        it.copy(getThemeValue = value)
+//                    }
+//                    _settingsState.value = _settingsState.value.copy(
+//                        getThemeValue = value
+//                    )
+                    _theme.value = value
+                    application.theme.value = value
+                }
+            }
+        }
+    }
+
+    data class SettingsScreenState(
+        val openThemeDialog: Boolean = false,
+        val getThemeValue: String? = null,
+    )

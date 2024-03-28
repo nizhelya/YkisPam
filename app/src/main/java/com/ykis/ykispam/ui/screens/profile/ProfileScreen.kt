@@ -12,12 +12,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.twotone.Email
 import androidx.compose.material.icons.twotone.Key
 import androidx.compose.material.icons.twotone.Nat
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -25,7 +23,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -47,6 +44,7 @@ import com.ykis.ykispam.R
 import com.ykis.ykispam.core.Constants.REVOKE_ACCESS_MESSAGE
 import com.ykis.ykispam.core.Constants.SIGN_OUT
 import com.ykis.ykispam.ui.YkisPamAppState
+import com.ykis.ykispam.ui.components.BaseCard
 import com.ykis.ykispam.ui.components.appbars.DefaultAppBar
 import com.ykis.ykispam.ui.components.appbars.DeleteMyAccountCard
 import com.ykis.ykispam.ui.components.appbars.SignOutCard
@@ -65,7 +63,8 @@ fun ProfileScreen(
     cleanNavigateToDestination: (String) -> Unit,
     viewModel: ProfileViewModel = hiltViewModel(),
     navigationType: NavigationType,
-    onDrawerClicked: () -> Unit
+    onDrawerClicked: () -> Unit,
+    navigateToSettings: () -> Unit
 ) {
 
     ProfileScreenStateless(
@@ -77,7 +76,8 @@ fun ProfileScreen(
         signOut = { viewModel.signOut() },
         revokeAccess = { viewModel.revokeAccess() },
         navigationType = navigationType,
-        onDrawerClicked = onDrawerClicked
+        onDrawerClicked = onDrawerClicked,
+        navigateToSettings = navigateToSettings
     )
     SignOut(
         navigateToAuthScreen = { signedOut ->
@@ -123,7 +123,8 @@ fun ProfileScreenStateless(
     signOut: () -> Unit,
     revokeAccess: () -> Unit,
     onDrawerClicked : () ->Unit,
-    navigationType: NavigationType
+    navigationType: NavigationType,
+    navigateToSettings : () ->Unit
 ) {
     var openMenu by remember { mutableStateOf(false) }
     Column(
@@ -140,11 +141,14 @@ fun ProfileScreenStateless(
             canNavigateBack = false,
             actionButton = {
                 IconButton(
-                    onClick = { openMenu = !openMenu },
+                    onClick = {
+//                        openMenu = !openMenu
+                              navigateToSettings()
+                              },
                 ) {
                     Icon(
-                        imageVector = Icons.Default.MoreVert,
-                        contentDescription = stringResource(id = R.string.more_options_button),
+                        imageVector = Icons.Default.Settings,
+                        contentDescription = stringResource(id = R.string.settings),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
@@ -162,15 +166,10 @@ fun ProfileScreenStateless(
             }
         )
 
-        Card(
-            modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(48.dp)),
-        ) {
+        BaseCard() {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp)
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -182,7 +181,7 @@ fun ProfileScreenStateless(
                             .data(photoUrl)
                             .build(),
                         contentDescription = null,
-                        error = painterResource(R.drawable.ic_account_circle),
+                        error = painterResource(id = R.drawable.ic_valve_filled),
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .clip(CircleShape)
@@ -375,7 +374,8 @@ fun ProfileScreenPreview() {
             signOut = { },
             revokeAccess = { },
             navigationType = NavigationType.BOTTOM_NAVIGATION,
-            onDrawerClicked ={}
+            onDrawerClicked ={},
+            navigateToSettings = {}
         )
     }
 }

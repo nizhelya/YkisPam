@@ -18,7 +18,6 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,7 +31,7 @@ fun SettingsSwitch(
     @DrawableRes icon: Int,
     @StringRes iconDesc: Int,
     @StringRes name: Int,
-    state: State<Boolean>,
+    state: Boolean,
     onClick: () -> Unit
 ) {
 
@@ -66,7 +65,7 @@ fun SettingsSwitch(
             Spacer(Modifier.weight(1f))
 
             Switch(
-                checked = state.value,
+                checked = state,
                 colors = SwitchDefaults.colors(
                     checkedThumbColor = Color.White,
                 ),

@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.room.Room
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.ykis.ykispam.HiltApp
 import com.ykis.ykispam.data.ApartmentRepositoryImpl
 import com.ykis.ykispam.data.FamilyRepositoryImpl
 import com.ykis.ykispam.data.HeatMeterRepositoryImpl
@@ -22,6 +23,8 @@ import com.ykis.ykispam.data.cache.dao.ServiceDao
 import com.ykis.ykispam.data.cache.dao.WaterMeterDao
 import com.ykis.ykispam.data.cache.dao.WaterReadingDao
 import com.ykis.ykispam.data.cache.database.AppDatabase
+import com.ykis.ykispam.data.cache.preferences.AppSettingsRepository
+import com.ykis.ykispam.data.cache.preferences.AppSettingsRepositoryImpl
 import com.ykis.ykispam.data.remote.api.ApiService
 import com.ykis.ykispam.data.remote.api.ApiService.Companion.BASE_URL
 import com.ykis.ykispam.data.remote.appartment.ApartmentRemote
@@ -210,6 +213,30 @@ object AppModule {
     fun provideApplicationScope(): CoroutineScope {
         return CoroutineScope(SupervisorJob())
     }
+
+    @Singleton
+    @Provides
+    fun providesDatastoreRepo(
+        @ApplicationContext context: Context
+    ): AppSettingsRepository = AppSettingsRepositoryImpl(context)
+
+    @Singleton
+    @Provides
+    fun provideApplication(@ApplicationContext app: Context): HiltApp {
+        return app as HiltApp
+    }
+//    @Singleton
+//    @Provides
+//    fun providePreferencesDataStore(@ApplicationContext appContext: Context): DataStore<Preferences> {
+//        return PreferenceDataStoreFactory.create(
+//            corruptionHandler = ReplaceFileCorruptionHandler(
+//                produceNewData = { emptyPreferences() }
+//            ),
+//            migrations = listOf(SharedPreferencesMigration(appContext,"user_preferences")),
+//            scope = CoroutineScope(Dispatchers.IO + SupervisorJob()),
+//            produceFile = { appContext.preferencesDataStoreFile("user_preferences") }
+//        )
+//    }
 }
 @Retention(AnnotationRetention.RUNTIME)
 @Qualifier

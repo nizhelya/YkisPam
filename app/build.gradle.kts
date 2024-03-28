@@ -32,6 +32,8 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
+            buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
         }
     }
     compileOptions {
@@ -43,6 +45,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
 //        dataBinding = true
         viewBinding = true
     }
@@ -137,4 +140,6 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation(libs.kotlinx.coroutines.android)
     implementation("com.github.pustovitandriy:XPAY_Android_SDK:1.0.2")
+    implementation ("androidx.datastore:datastore-preferences:1.0.0")
+
 }

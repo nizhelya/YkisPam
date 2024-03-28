@@ -9,13 +9,25 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ykis.ykispam.data.cache.preferences.UserPreferences
+import com.ykis.ykispam.ui.screens.settings.ThemeValues
 
 // Material 3 color schemes
 
+object ThemeState {
+    var isLight by mutableStateOf(
+        true
+    )
+}
 @Immutable
 data class ExtendedColorScheme(
     val selectedElement: ColorFamily,
@@ -76,7 +88,7 @@ val extendedLight = ExtendedColorScheme(
 )
 val ColorScheme.extendedColor: ExtendedColorScheme
     @Composable
-    get() = if (!isSystemInDarkTheme()) extendedLight else extendedDark
+    get() = if (!UserPreferences(LocalContext.current , isSystemInDarkTheme()).getIsDarkMode.collectAsStateWithLifecycle(initialValue = isSystemInDarkTheme()).value) extendedLight else extendedDark
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -157,13 +169,46 @@ private val darkScheme = darkColorScheme(
 
 @Composable
 fun YkisPAMTheme(
+    appTheme : String? = ThemeValues.LIGHT_MODE.title,
     useDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable() () -> Unit
 ) {
-    val colors = if (!useDarkTheme) {
-        lightScheme
-    } else {
-        darkScheme
+    val dataStore = UserPreferences(LocalContext.current , isSystemInDarkTheme())
+
+    val isDarkMode by dataStore.getIsDarkMode.collectAsStateWithLifecycle(initialValue = isSystemInDarkTheme())
+
+    val colors = when (appTheme) {
+        ThemeValues.SYSTEM_DEFAULT.title -> {
+            if (useDarkTheme) {
+                darkScheme
+            } else {
+                lightScheme
+            }
+        }
+
+        ThemeValues.LIGHT_MODE.title -> {
+            lightScheme
+        }
+
+        ThemeValues.DARK_MODE.title -> {
+            darkScheme
+        }
+
+        null -> {
+            if (useDarkTheme) {
+                darkScheme
+            } else {
+                lightScheme
+            }
+        }
+
+        else -> {
+            if (useDarkTheme) {
+                darkScheme
+            } else {
+                lightScheme
+            }
+        }
     }
     val view = LocalView.current
     if (!view.isInEditMode) {
