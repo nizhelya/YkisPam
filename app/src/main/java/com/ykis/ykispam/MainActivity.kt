@@ -10,9 +10,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.lifecycleScope
 import com.google.accompanist.adaptive.calculateDisplayFeatures
 import com.ykis.ykispam.ui.YkisPamApp
+import com.ykis.ykispam.ui.screens.settings.NewSettingsViewModel
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -32,8 +34,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         setContent {
+            val settingsViewModel : NewSettingsViewModel = hiltViewModel()
+            settingsViewModel.getThemeValue()
             YkisPAMTheme(
-                appTheme = application.theme.value
+                appTheme = application.theme.value,
             ) {
                 val windowSize = calculateWindowSizeClass(this)
                 val displayFeatures = calculateDisplayFeatures(this)

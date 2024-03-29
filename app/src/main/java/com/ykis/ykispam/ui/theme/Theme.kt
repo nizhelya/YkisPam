@@ -1,6 +1,7 @@
 package com.ykis.ykispam.ui.theme
 
 import android.app.Activity
+import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
@@ -14,11 +15,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.ykis.ykispam.data.cache.preferences.UserPreferences
 import com.ykis.ykispam.ui.screens.settings.ThemeValues
 
 // Material 3 color schemes
@@ -88,7 +86,7 @@ val extendedLight = ExtendedColorScheme(
 )
 val ColorScheme.extendedColor: ExtendedColorScheme
     @Composable
-    get() = if (!UserPreferences(LocalContext.current , isSystemInDarkTheme()).getIsDarkMode.collectAsStateWithLifecycle(initialValue = isSystemInDarkTheme()).value) extendedLight else extendedDark
+    get() = if (isSystemInDarkTheme()) extendedLight else extendedDark
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -173,9 +171,7 @@ fun YkisPAMTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable() () -> Unit
 ) {
-    val dataStore = UserPreferences(LocalContext.current , isSystemInDarkTheme())
-
-    val isDarkMode by dataStore.getIsDarkMode.collectAsStateWithLifecycle(initialValue = isSystemInDarkTheme())
+        Log.d("theme_test" , "PamTheme " + appTheme.toString())
 
     val colors = when (appTheme) {
         ThemeValues.SYSTEM_DEFAULT.title -> {
@@ -193,15 +189,6 @@ fun YkisPAMTheme(
         ThemeValues.DARK_MODE.title -> {
             darkScheme
         }
-
-        null -> {
-            if (useDarkTheme) {
-                darkScheme
-            } else {
-                lightScheme
-            }
-        }
-
         else -> {
             if (useDarkTheme) {
                 darkScheme

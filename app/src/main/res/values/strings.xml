@@ -108,6 +108,7 @@
         <string name="response_address_id">особовий рахунок %s </string>
         <string name="cancel">Відмінити</string>
         <string name="delete">Видалити</string>
+        <string name="save">Зберегти</string>
         <string name="area_flat">Площа квартири(м²)</string>
         <string name="contacts">Контактні дані</string>
         <string name="PIB">ПІБ</string>

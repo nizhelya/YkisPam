@@ -3,15 +3,20 @@ package com.ykis.ykispam.ui.screens.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.HiltApp
+import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.data.cache.preferences.AppSettingsRepository
+import com.ykis.ykispam.domain.ClearDatabase
 import com.ykis.ykispam.firebase.service.repo.ConfigurationService
 import com.ykis.ykispam.firebase.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.service.repo.LogService
+import com.ykis.ykispam.firebase.service.repo.RevokeAccessResponse
+import com.ykis.ykispam.firebase.service.repo.SignOutResponse
 import com.ykis.ykispam.ui.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import java.text.DecimalFormatSymbols
 import java.util.Locale
@@ -144,55 +149,53 @@ class SettingsViewModel @Inject constructor(
 @HiltViewModel
 class NewSettingsViewModel @Inject constructor(
     private val dataStore: AppSettingsRepository,
-    private val application: HiltApp
+    private val application: HiltApp,
+    private val clearDatabase: ClearDatabase,
+    private val firebaseService: FirebaseService,
 ) : ViewModel() {
-
-//    private val _settingsState = MutableStateFlow(SettingsScreenState())
-//    val settingsState = _settingsState.asStateFlow()
 
     private val _theme = MutableStateFlow<String?>(null)
     val theme = _theme.asStateFlow()
 
-//    fun handleScreenEvents(event: SettingsScreenEvent) {
-//        when (event) {
-//            is SettingsScreenEvent.OpenThemeDialog -> {
-//                openTheme(event.open)
-//            }
-//
-//            is SettingsScreenEvent.SetNewTheme -> setThemeValue(event.value)
-//            is SettingsScreenEvent.ThemeChanged -> getThemeValue()
-//        }
-//    }
-//
-//     fun openTheme(open: Boolean) {
-//        viewModelScope.launch {
-//            _settingsState.update { it.copy(openThemeDialog = open) }
-//        }
-//    }
+    private val _signOutResponse = MutableStateFlow<SignOutResponse>(Resource.Success(false))
+    val signOutResponse = _signOutResponse.asStateFlow()
 
+    val providerId get() = firebaseService.getProvider(viewModelScope)
+
+    private val _revokeAccessResponse = MutableStateFlow<RevokeAccessResponse>(Resource.Success(false))
+    val revokeAccessResponse = _revokeAccessResponse.asStateFlow()
+
+    fun signOut() {
+        viewModelScope.launch{
+            _signOutResponse.value = Resource.Loading()
+            _signOutResponse.value = firebaseService.signOut()
+        }
+        this.clearDatabase().launchIn(this.viewModelScope)
+    }
+
+    fun revokeAccess() {
+        viewModelScope.launch {
+            _revokeAccessResponse.value = Resource.Loading()
+            if (providerId == "password") {
+                _revokeAccessResponse.value = firebaseService.revokeAccessEmail()
+            } else if (providerId == "google.com") {
+                _revokeAccessResponse.value = firebaseService.revokeAccess()
+            }
+        }
+    }
     fun setThemeValue(value: String) {
         viewModelScope.launch {
             dataStore.putThemeStrings(key = "theme", value = value)
+            getThemeValue()
         }
     }
      fun getThemeValue() {
             viewModelScope.launch {
                 val theme = dataStore.getThemeStrings(key = "theme").first()
                 theme?.let { value ->
-//                    _settingsState.updateAndGet {
-//                        it.copy(getThemeValue = value)
-//                    }
-//                    _settingsState.value = _settingsState.value.copy(
-//                        getThemeValue = value
-//                    )
                     _theme.value = value
                     application.theme.value = value
                 }
             }
         }
     }
-
-    data class SettingsScreenState(
-        val openThemeDialog: Boolean = false,
-        val getThemeValue: String? = null,
-    )
