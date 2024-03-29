@@ -41,7 +41,7 @@ fun LogoImage() {
             .align(Alignment.CenterVertically)
 
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground),
+            painter = painterResource(id = R.drawable.ykis),
             contentDescription = stringResource(id = R.string.app_name),
             contentScale = ContentScale.Fit,
             modifier = imageModifier,
@@ -76,7 +76,7 @@ fun LogoImageShort() {
             .align(Alignment.CenterHorizontally)
 
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground),
+            painter = painterResource(id = R.drawable.ykis),
             contentDescription = stringResource(id = R.string.app_name),
             contentScale = ContentScale.Fit,
             modifier = imageModifier,
