@@ -4,19 +4,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.HiltApp
 import com.ykis.ykispam.core.Resource
+import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.data.cache.preferences.AppSettingsRepository
 import com.ykis.ykispam.domain.ClearDatabase
 import com.ykis.ykispam.firebase.service.repo.ConfigurationService
 import com.ykis.ykispam.firebase.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.service.repo.LogService
-import com.ykis.ykispam.firebase.service.repo.RevokeAccessResponse
-import com.ykis.ykispam.firebase.service.repo.SignOutResponse
 import com.ykis.ykispam.ui.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.text.DecimalFormatSymbols
 import java.util.Locale
@@ -154,33 +154,74 @@ class NewSettingsViewModel @Inject constructor(
     private val firebaseService: FirebaseService,
 ) : ViewModel() {
 
+    val displayName get() = firebaseService.displayName
+    val photoUrl get() = firebaseService.photoUrl
+    val email get() = firebaseService.email
+
     private val _theme = MutableStateFlow<String?>(null)
     val theme = _theme.asStateFlow()
 
-    private val _signOutResponse = MutableStateFlow<SignOutResponse>(Resource.Success(false))
-    val signOutResponse = _signOutResponse.asStateFlow()
+    private val _loading = MutableStateFlow(false)
+    val loading = _loading.asStateFlow()
 
-    val providerId get() = firebaseService.getProvider(viewModelScope)
+    private val providerId get() = firebaseService.getProvider(viewModelScope)
 
-    private val _revokeAccessResponse = MutableStateFlow<RevokeAccessResponse>(Resource.Success(false))
-    val revokeAccessResponse = _revokeAccessResponse.asStateFlow()
-
-    fun signOut() {
-        viewModelScope.launch{
-            _signOutResponse.value = Resource.Loading()
-            _signOutResponse.value = firebaseService.signOut()
-        }
+    fun signOut(onSuccess : () -> Unit) {
+        firebaseService.signOut().onEach {
+            result ->
+            when (result) {
+                is Resource.Success -> {
+                    _loading.value = false
+                    onSuccess()
+                }
+                is Resource.Error -> {
+                    _loading.value = false
+                    SnackbarManager.showMessage(result.resourceMessage)
+                }
+                is Resource.Loading -> {
+                    _loading.value = true
+                }
+            }
+        }.launchIn(viewModelScope)
         this.clearDatabase().launchIn(this.viewModelScope)
     }
 
-    fun revokeAccess() {
-        viewModelScope.launch {
-            _revokeAccessResponse.value = Resource.Loading()
-            if (providerId == "password") {
-                _revokeAccessResponse.value = firebaseService.revokeAccessEmail()
-            } else if (providerId == "google.com") {
-                _revokeAccessResponse.value = firebaseService.revokeAccess()
-            }
+    fun revokeAccess(onSuccess: () -> Unit) {
+        if(providerId == "password"){
+            firebaseService.revokeAccessEmail().onEach {
+                    result ->
+                when(result){
+                    is Resource.Success -> {
+                        _loading.value = false
+                        onSuccess()
+                    }
+                    is Resource.Error -> {
+                        _loading.value = false
+                        SnackbarManager.showMessage(result.resourceMessage)
+                    }
+                    is Resource.Loading -> {
+                        _loading.value = true
+                    }
+                }
+            }.launchIn(viewModelScope)
+        }else if(providerId == "google.com") {
+            firebaseService.revokeAccess().onEach { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        _loading.value = false
+                        onSuccess()
+                    }
+
+                    is Resource.Error -> {
+                        _loading.value = false
+                        SnackbarManager.showMessage(result.resourceMessage)
+                    }
+
+                    is Resource.Loading -> {
+                        _loading.value = true
+                    }
+                }
+            }.launchIn(viewModelScope)
         }
     }
     fun setThemeValue(value: String) {

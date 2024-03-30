@@ -7,7 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import com.ykis.ykispam.core.ProgressBar
+import com.ykis.ykispam.core.CenteredProgressIndicator
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.screens.meter.water.WaterMeterState
 
@@ -28,7 +28,7 @@ fun WaterReadings(
         ) {
         isLoading->
         if(isLoading){
-            ProgressBar()
+            CenteredProgressIndicator()
         }else  LazyColumn {
             items(
                 waterMeterState.waterReadings

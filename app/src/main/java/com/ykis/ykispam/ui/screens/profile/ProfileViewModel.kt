@@ -11,7 +11,6 @@ import com.ykis.ykispam.ui.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
 import javax.inject.Inject
 
 
@@ -34,22 +33,4 @@ class ProfileViewModel @Inject constructor(
     private val _revokeAccessResponse = MutableStateFlow<RevokeAccessResponse>(Resource.Success(false))
     val revokeAccessResponse = _revokeAccessResponse.asStateFlow()
 
-    fun signOut() {
-        launchCatching{
-            _signOutResponse.value =Resource.Loading()
-            _signOutResponse.value = firebaseService.signOut()
-        }
-        this.clearDatabase().launchIn(this.viewModelScope)
-    }
-
-    fun revokeAccess() {
-        launchCatching {
-            _revokeAccessResponse.value = Resource.Loading()
-            if (providerId == "password") {
-                _revokeAccessResponse.value = firebaseService.revokeAccessEmail()
-            } else if (providerId == "google.com") {
-                _revokeAccessResponse.value = firebaseService.revokeAccess()
-            }
-        }
-    }
 }

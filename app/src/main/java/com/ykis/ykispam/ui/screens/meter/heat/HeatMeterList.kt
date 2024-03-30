@@ -14,7 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.R
-import com.ykis.ykispam.core.ProgressBar
+import com.ykis.ykispam.core.CenteredProgressIndicator
 import com.ykis.ykispam.domain.meter.heat.meter.HeatMeterEntity
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.components.EmptyListState
@@ -37,7 +37,7 @@ fun HeatMeterList(
     ) {
         isLoading->
             if(isLoading){
-                ProgressBar()
+                CenteredProgressIndicator()
             }else  if(heatMeterState.heatMeterList.isEmpty()){
                 EmptyListState(title = stringResource(R.string.no_meters) , subtitle = stringResource(R.string.no_heat_meters))
             }else {

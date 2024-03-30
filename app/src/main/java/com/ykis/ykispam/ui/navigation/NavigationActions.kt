@@ -17,7 +17,6 @@
 package com.ykis.ykispam.ui.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Adjust
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.HeatPump
@@ -26,7 +25,6 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Payments
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.WaterDrop
-import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Group
 import androidx.compose.material.icons.outlined.HeatPump
 import androidx.compose.material.icons.outlined.Home
@@ -108,20 +106,20 @@ get(){
             alwaysVisible = false
 
         ),
-//    TopLevelDestination(
-//        route = ChatScreen.route,
-//        selectedIcon = Icons.AutoMirrored.Filled.Chat,
-//        unselectedIcon = Icons.AutoMirrored.Outlined.Chat,
-//        labelId = R.string.chat,
-//        alwaysVisible = false
-//    )
         TopLevelDestination(
-            route = ProfileScreen.route,
-            selectedIcon = Icons.Default.AccountCircle,
-            unselectedIcon = Icons.Outlined.AccountCircle,
-            labelId = R.string.profile,
+            route = SettingsScreen.route,
+            selectedIcon = Icons.Default.Settings,
+            unselectedIcon = Icons.Outlined.Settings,
+            labelId = R.string.settings,
             alwaysVisible = true
-        ),
+        )
+//        TopLevelDestination(
+//            route = ProfileScreen.route,
+//            selectedIcon = Icons.Default.AccountCircle,
+//            unselectedIcon = Icons.Outlined.AccountCircle,
+//            labelId = R.string.profile,
+//            alwaysVisible = true
+//        ),
 
         )
     }
@@ -129,14 +127,15 @@ get(){
 val NAV_RAIL_DESTINATIONS :List<TopLevelDestination>
 @Composable
 get(){
-  return   NAV_BAR_DESTINATIONS + listOf(
-      TopLevelDestination(
-          route = SettingsScreen.route,
-          selectedIcon = Icons.Default.Settings,
-          unselectedIcon = Icons.Outlined.Settings,
-          labelId = R.string.settings,
-          alwaysVisible = true
-      )
-  )  
+  return   NAV_BAR_DESTINATIONS
+//    + listOf(
+//      TopLevelDestination(
+//          route = SettingsScreen.route,
+//          selectedIcon = Icons.Default.Settings,
+//          unselectedIcon = Icons.Outlined.Settings,
+//          labelId = R.string.settings,
+//          alwaysVisible = true
+//      )
+//  )
 }
   

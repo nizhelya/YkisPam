@@ -18,22 +18,21 @@ import com.ykis.ykispam.core.Constants.SIGN_IN_REQUEST
 import com.ykis.ykispam.core.Constants.SIGN_UP_REQUEST
 import com.ykis.ykispam.core.Constants.USERS
 import com.ykis.ykispam.core.Resource
-
 import com.ykis.ykispam.core.trace
 import com.ykis.ykispam.firebase.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.service.repo.OneTapSignInResponse
 import com.ykis.ykispam.firebase.service.repo.ReloadUserResponse
-import com.ykis.ykispam.firebase.service.repo.RevokeAccessResponse
 import com.ykis.ykispam.firebase.service.repo.SendEmailVerificationResponse
 import com.ykis.ykispam.firebase.service.repo.SendPasswordResetEmailResponse
 import com.ykis.ykispam.firebase.service.repo.SignInWithGoogleResponse
-import com.ykis.ykispam.firebase.service.repo.SignOutResponse
 import com.ykis.ykispam.firebase.service.repo.SignUpResponse
 import com.ykis.ykispam.firebase.service.repo.addUserFirestoreResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -125,12 +124,13 @@ class FirebaseServiceImpl @Inject constructor(
         }
         return providerId
     }
-    override suspend fun revokeAccessEmail(): RevokeAccessResponse {
-        return try {
+    override fun revokeAccessEmail(): Flow<Resource<Boolean>> = flow{
+        try {
+            emit(Resource.Loading())
             auth.currentUser?.delete()?.await()
-            Resource.Success(true)
+            emit(Resource.Success(true))
         } catch (e: Exception) {
-            Resource.Error(e.message)
+            emit(Resource.Error(e.message))
         }
     }
 
@@ -195,27 +195,29 @@ class FirebaseServiceImpl @Inject constructor(
         CREATED_AT to serverTimestamp()
     )
 
-    override suspend fun signOut(): SignOutResponse {
-        return try {
+    override fun signOut(): Flow<Resource<Boolean>> = flow {
+        try {
+            emit(Resource.Loading())
             oneTapClient.signOut().await()
             auth.signOut()
-            Resource.Success(true)
+            emit(Resource.Success(true))
         } catch (e: Exception) {
-            Resource.Error(e.message)
+            emit(Resource.Error(e.message))
         }
     }
 
-    override suspend fun revokeAccess(): RevokeAccessResponse {
-        return try {
+    override fun revokeAccess(): Flow<Resource<Boolean>> = flow{
+        try {
+            emit(Resource.Loading())
             auth.currentUser?.apply {
                 db.collection(USERS).document(uid).delete().await()
                 signInClient.revokeAccess().await()
                 oneTapClient.signOut().await()
                 delete().await()
             }
-            Resource.Success(true)
+            emit(Resource.Success(true))
         } catch (e: Exception) {
-            Resource.Error(e.message)
+            emit(Resource.Error(e.message))
         }
     }
 

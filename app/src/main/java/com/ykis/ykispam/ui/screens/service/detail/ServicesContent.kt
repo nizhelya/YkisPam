@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ykis.ykispam.R
-import com.ykis.ykispam.core.ProgressBar
+import com.ykis.ykispam.core.CenteredProgressIndicator
 import com.ykis.ykispam.domain.service.ServiceEntity
 import com.ykis.ykispam.domain.service.request.ServiceParams
 import com.ykis.ykispam.ui.BaseUIState
@@ -244,7 +244,7 @@ fun ServiceDetailContent(
             animationSpec = tween(600), label = ""
         ) { targetState ->
             if (targetState) {
-                ProgressBar()
+                CenteredProgressIndicator()
             } else ListServiceDetails(listServiceEntity = serviceEntyties)
         }
     }

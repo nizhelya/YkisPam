@@ -1,6 +1,5 @@
 package com.ykis.ykispam.ui.screens.profile
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,19 +8,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.twotone.Email
 import androidx.compose.material.icons.twotone.Key
 import androidx.compose.material.icons.twotone.Nat
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,26 +37,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ykis.ykispam.R
-import com.ykis.ykispam.core.Constants.REVOKE_ACCESS_MESSAGE
-import com.ykis.ykispam.core.Constants.SIGN_OUT
-import com.ykis.ykispam.ui.YkisPamAppState
 import com.ykis.ykispam.ui.components.BaseCard
 import com.ykis.ykispam.ui.components.appbars.DefaultAppBar
-import com.ykis.ykispam.ui.components.appbars.DeleteMyAccountCard
-import com.ykis.ykispam.ui.components.appbars.SignOutCard
-import com.ykis.ykispam.ui.navigation.Graph
-import com.ykis.ykispam.ui.navigation.LaunchScreen
 import com.ykis.ykispam.ui.navigation.NavigationType
-import com.ykis.ykispam.ui.screens.profile.components.RevokeAccess
-import com.ykis.ykispam.ui.screens.profile.components.SignOut
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    appState: YkisPamAppState,
-    cleanNavigateToDestination: (String) -> Unit,
     viewModel: ProfileViewModel = hiltViewModel(),
     navigationType: NavigationType,
     onDrawerClicked: () -> Unit,
@@ -73,40 +57,9 @@ fun ProfileScreen(
         email = viewModel.email,
         uid = viewModel.uid,
         providerId = viewModel.providerId,
-        signOut = { viewModel.signOut() },
-        revokeAccess = { viewModel.revokeAccess() },
         navigationType = navigationType,
         onDrawerClicked = onDrawerClicked,
         navigateToSettings = navigateToSettings
-    )
-    SignOut(
-        navigateToAuthScreen = { signedOut ->
-            if (signedOut) {
-                cleanNavigateToDestination(Graph.AUTHENTICATION)
-            }
-        },
-        viewModel = viewModel
-    )
-    fun showSnackBar() = appState.coroutineScope.launch {
-        val result = appState.snackbarHostState.showSnackbar(
-            message = REVOKE_ACCESS_MESSAGE,
-            actionLabel = SIGN_OUT
-        )
-        if (result == SnackbarResult.ActionPerformed) {
-            viewModel.signOut()
-        }
-    }
-
-    RevokeAccess(
-        navigateToAuthScreen = { accessRevoked ->
-            if (accessRevoked) {
-                cleanNavigateToDestination(LaunchScreen.route)
-            }
-        },
-        showSnackBar = {
-            showSnackBar()
-        },
-        viewModel = viewModel
     )
 }
 
@@ -118,10 +71,6 @@ fun ProfileScreenStateless(
     email: String,
     uid: String,
     providerId: String,
-    modifier: Modifier = Modifier,
-    isSelected: Boolean = false,
-    signOut: () -> Unit,
-    revokeAccess: () -> Unit,
     onDrawerClicked : () ->Unit,
     navigationType: NavigationType,
     navigateToSettings : () ->Unit
@@ -140,29 +89,19 @@ fun ProfileScreenStateless(
             onDrawerClick = onDrawerClicked,
             canNavigateBack = false,
             actionButton = {
-                IconButton(
-                    onClick = {
-//                        openMenu = !openMenu
-                              navigateToSettings()
-                              },
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Settings,
-                        contentDescription = stringResource(id = R.string.settings),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-                DropdownMenu(
-                    expanded = openMenu,
-                    onDismissRequest = { openMenu = !openMenu },
-                    modifier = Modifier
-                        .wrapContentSize(align = Alignment.TopCenter)
-//                        .fillMaxWidth(0.5f)
-                        .background(color = MaterialTheme.colorScheme.background)
-                ) {
-                    SignOutCard(signOut)
-                    DeleteMyAccountCard(revokeAccess)
-                }
+                if(navigationType == NavigationType.BOTTOM_NAVIGATION){
+                    IconButton(
+                        onClick = {
+                            navigateToSettings()
+                        },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Settings,
+                            contentDescription = stringResource(id = R.string.settings),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }else null
             }
         )
 
@@ -292,7 +231,6 @@ fun ProfileScreenStateless(
                             Text(
                                 text = uid,
                                 style = MaterialTheme.typography.bodyLarge
-
                             )
 
                         }
@@ -345,15 +283,6 @@ fun ProfileScreenStateless(
                         }
                     }
                 }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                ) {
-
-
-                }
-
             }
         }
     }
@@ -371,8 +300,6 @@ fun ProfileScreenPreview() {
             email = "nizhelskiy.sergey@gmail.com",
             uid = "e8aStXd8xONf3ngKnZDAsFNOG6n2",
             providerId = "Firebase",
-            signOut = { },
-            revokeAccess = { },
             navigationType = NavigationType.BOTTOM_NAVIGATION,
             onDrawerClicked ={},
             navigateToSettings = {}

@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.gms.auth.api.identity.BeginSignInResult
-import com.ykis.ykispam.core.ProgressBar
+import com.ykis.ykispam.core.CenteredProgressIndicator
 import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.ui.screens.auth.sign_in.SignInViewModel
 
@@ -14,7 +14,7 @@ fun OneTapSignIn(
     launch: (result: BeginSignInResult) -> Unit
 ) {
     when (val oneTapSignInResponse = viewModel.oneTapSignInResponse) {
-        is Resource.Loading -> ProgressBar()
+        is Resource.Loading -> CenteredProgressIndicator()
         is Resource.Success -> oneTapSignInResponse.data?.let {
             LaunchedEffect(it) {
                 launch(it)

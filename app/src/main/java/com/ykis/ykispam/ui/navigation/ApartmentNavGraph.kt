@@ -241,8 +241,6 @@ fun ApartmentNavGraph(
                 composable(ProfileScreen.route) {
 
                     ProfileScreen(
-                        appState = appState,
-                        cleanNavigateToDestination = { rootNavController.cleanNavigateTo(it) },
                         navigationType = navigationType,
                         onDrawerClicked = onDrawerClicked,
                         navigateToSettings = {
@@ -274,7 +272,11 @@ fun ApartmentNavGraph(
 
                 composable(SettingsScreen.route) {
                    SettingsScreenStateful(
-                        popUpScreen = { navController.popBackStack() },
+                        navigationType = navigationType,
+                        navigateToAuthGraph = {
+                            rootNavController.cleanNavigateTo(LaunchScreen.route)
+                        },
+                       onDrawerClick = onDrawerClicked
                     )
                 }
                 composable(MeterScreen.route) {

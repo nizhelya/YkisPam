@@ -37,7 +37,7 @@ fun BottomNavigationBar(
                         contentDescription = stringResource(id = destination.labelId)
                     )
                 },
-                alwaysShowLabel = true,
+                alwaysShowLabel = false,
                 label = { Text(
                     text = stringResource(destination.labelId),
                     style = MaterialTheme.typography.labelMedium.copy(

@@ -3,7 +3,7 @@ package com.ykis.ykispam.ui.screens.auth.sign_up.components
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import com.ykis.ykispam.core.ProgressBar
+import com.ykis.ykispam.core.CenteredProgressIndicator
 import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.ui.screens.auth.sign_up.SignUpViewModel
 
@@ -16,7 +16,7 @@ fun SignUp(
 
 ) {
     when(val signUpResponse = viewModel.signUpResponse.collectAsState().value) {
-        is Resource.Loading -> ProgressBar()
+        is Resource.Loading -> CenteredProgressIndicator()
         is Resource.Success -> {
             val isUserSignedUp = signUpResponse.data
             LaunchedEffect(isUserSignedUp) {

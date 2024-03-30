@@ -14,7 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.ykis.ykispam.core.ProgressBar
+import com.ykis.ykispam.core.CenteredProgressIndicator
 import com.ykis.ykispam.domain.payment.PaymentEntity
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.components.GroupFilterChip
@@ -91,7 +91,7 @@ fun PaymentContentStateless(
         ) {
                 targetState ->
             if(targetState){
-                ProgressBar()
+                CenteredProgressIndicator()
             }else PaymentList(
                 paymentList = paymentList,
                 osbb = osbb

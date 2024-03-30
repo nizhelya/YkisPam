@@ -13,7 +13,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.ykis.ykispam.core.ProgressBar
+import com.ykis.ykispam.core.CenteredProgressIndicator
 import com.ykis.ykispam.domain.meter.water.meter.WaterMeterEntity
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.screens.meter.MeterViewModel
@@ -36,7 +36,7 @@ fun WaterMeterList(
     ) {
         isLoading->
             if(isLoading){
-             ProgressBar()
+             CenteredProgressIndicator()
             }else LazyColumn(
                 contentPadding = PaddingValues(top = 8.dp)
             ) {

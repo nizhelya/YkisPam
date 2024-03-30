@@ -5,6 +5,7 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseUser
 import com.ykis.ykispam.core.Resource
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
 typealias SignOutResponse = Resource<Boolean>
@@ -25,20 +26,19 @@ interface FirebaseService {
     val uid: String
     val hasUser: Boolean
     val isEmailVerified: Boolean?
-//    val currentUserId: String
-//    val currentUser: Flow<User>
     val currentUser: FirebaseUser?
     val displayName: String
     val providerId: String
-//    val providerData: String
     val photoUrl: String
     val email: String
 
     suspend fun authenticate(email: String, password: String)
     suspend fun sendRecoveryEmail(email: String)
     suspend fun linkAccount(email: String, password: String)
+
     suspend fun deleteAccount()
-    suspend fun signOut(): SignOutResponse
+
+    fun signOut(): Flow<Resource<Boolean>>
 //    fun signOut()
 
 
@@ -57,12 +57,12 @@ interface FirebaseService {
     suspend fun reloadFirebaseUser(): ReloadUserResponse
 
 
-    suspend fun revokeAccess(): RevokeAccessResponse
+    fun revokeAccess(): Flow<Resource<Boolean>>
 
     //    suspend fun sendPasswordResetEmail(email: String)
     suspend fun addUserFirestore(): addUserFirestoreResponse
 
-    suspend fun revokeAccessEmail(): RevokeAccessResponse
+   fun revokeAccessEmail(): Flow<Resource<Boolean>>
 
     fun getAuthState(viewModelScope: CoroutineScope): AuthStateResponse
 
