@@ -25,10 +25,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ServiceViewModel @Inject constructor(
-    private val getFlatServiceUseCase: GetFlatServices,
-    private val getTotalDebtServicesUseCase: GetTotalDebtServices,
-    private val getPaymentListUseCase : GetPaymentList,
-    private val insertPaymentUseCase : InsertPayment,
+    private val getFlatService: GetFlatServices,
+    private val getTotalDebtServices: GetTotalDebtServices,
+    private val getPaymentListRepo : GetPaymentList,
+    private val insertPaymentRepo : InsertPayment,
     private val logService: LogService
 ) : BaseViewModel(logService) {
 
@@ -54,7 +54,7 @@ class ServiceViewModel @Inject constructor(
     }
 
     fun getTotalServiceDebt(params: ServiceParams){
-        this.getTotalDebtServicesUseCase(
+        this.getTotalDebtServices(
             params = params
         ).onEach {
             result ->
@@ -74,7 +74,7 @@ class ServiceViewModel @Inject constructor(
         }.launchIn(this.viewModelScope)
     }
      fun getDetailService(params: ServiceParams){
-        this.getFlatServiceUseCase(
+        this.getFlatService(
             params = params
         ).onEach {
             result->
@@ -97,7 +97,7 @@ class ServiceViewModel @Inject constructor(
         year:String,
         uid:String
     ) {
-        this.getPaymentListUseCase(
+        this.getPaymentListRepo(
             addressId, year, uid
         ).onEach { result ->
             when (result) {
@@ -124,7 +124,7 @@ class ServiceViewModel @Inject constructor(
     }
 
     fun insertPayment(params:InsertPaymentParams){
-        this.insertPaymentUseCase(
+        this.insertPaymentRepo(
             params
         ).onEach { result ->
             when (result) {

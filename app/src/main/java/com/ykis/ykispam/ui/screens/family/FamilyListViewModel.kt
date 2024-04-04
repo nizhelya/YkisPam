@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FamilyListViewModel @Inject constructor(
-    private val getFamilyListUseCase: GetFamilyList,
+    private val getFamilyList: GetFamilyList,
     private val logService: LogService,
 ) : BaseViewModel(logService) {
 
@@ -24,7 +24,7 @@ class FamilyListViewModel @Inject constructor(
     val state : StateFlow<FamilyState> = _state.asStateFlow()
 
     fun getFamilyList(uid:String, addressId:Int) {
-        this.getFamilyListUseCase(FamilyParams(uid , addressId)).onEach {
+        this.getFamilyList(FamilyParams(uid , addressId)).onEach {
                 result->
             when(result){
                 is Resource.Success -> {

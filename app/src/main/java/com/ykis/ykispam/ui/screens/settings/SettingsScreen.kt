@@ -312,7 +312,6 @@ fun SettingsScreenStateless(
             },
             confirmButton = {
                 DialogConfirmButton(R.string.delete_my_account) {
-//                    deleteMyAccount()
                     revokeAccess()
                     showDeleteAccountDialog = false
                 }
@@ -327,7 +326,6 @@ fun SettingsScreenStateless(
             dismissButton = { DialogCancelButton(R.string.cancel) { showLogOutDialog = false } },
             confirmButton = {
                 DialogConfirmButton(R.string.sign_out) {
-//                    signOut()
                     signOut()
                     showLogOutDialog = false
                 }

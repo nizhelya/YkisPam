@@ -34,16 +34,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MeterViewModel @Inject constructor(
-    private val getWaterMeterListUseCase: GetWaterMeterList,
-    private val getLastWaterReadingUseCase: GetLastWaterReading,
-    private val getWaterReadingsUseCase: GetWaterReadings,
-    private val addWaterReadingUseCase: AddWaterReading,
+    private val getWaterMeterList: GetWaterMeterList,
+    private val getLastWaterReading: GetLastWaterReading,
+    private val getWaterReadings: GetWaterReadings,
+    private val addWaterReading: AddWaterReading,
     private val deleteLastWaterReadingUseCse: DeleteLastWaterReading,
-    private val getHeatMeterListUseCase: GetHeatMeterList,
-    private val getHeatReadingsUseCase: GetHeatReadings,
-    private val getLastHeatReadingUseCase: GetLastHeatReading,
-    private val addHeatReadingUseCase : AddHeatReading,
-    private val deleteLastHeatReadingUseCase: DeleteLastHeatReading,
+    private val getHeatMeterList: GetHeatMeterList,
+    private val getHeatReadings: GetHeatReadings,
+    private val getLastHeatReading: GetLastHeatReading,
+    private val addHeatReading : AddHeatReading,
+    private val deleteLastHeatReading: DeleteLastHeatReading,
     private val logService: LogService
 ) : BaseViewModel(logService) {
 
@@ -60,7 +60,7 @@ class MeterViewModel @Inject constructor(
     val contentDetail = _contentDetail.asStateFlow()
 
     fun getWaterMeterList(uid: String, addressId: Int) {
-        this.getWaterMeterListUseCase(addressId, uid).onEach { result ->
+        this.getWaterMeterList(addressId, uid).onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     this._waterMeterState.value = _waterMeterState.value.copy(
@@ -86,7 +86,7 @@ class MeterViewModel @Inject constructor(
     }
 
     fun getHeatMeterList(uid: String, addressId: Int) {
-        this.getHeatMeterListUseCase(addressId, uid).onEach { result ->
+        this.getHeatMeterList(addressId, uid).onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     this._heatMeterState.value = _heatMeterState.value.copy(
@@ -133,7 +133,7 @@ class MeterViewModel @Inject constructor(
     }
 
     fun getWaterReadings(uid: String, vodomerId: Int) {
-        this.getWaterReadingsUseCase(vodomerId, uid).onEach { result ->
+        this.getWaterReadings(vodomerId, uid).onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     this._waterMeterState.value = waterMeterState.value.copy(
@@ -159,7 +159,7 @@ class MeterViewModel @Inject constructor(
     }
 
     fun getLastWaterReading(uid: String, vodomerId: Int) {
-        this.getLastWaterReadingUseCase(vodomerId, uid).onEach { result ->
+        this.getLastWaterReading(vodomerId, uid).onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     this._waterMeterState.value = waterMeterState.value.copy(
@@ -185,7 +185,7 @@ class MeterViewModel @Inject constructor(
     }
 
     fun getHeatReadings(uid: String, teplomerId: Int) {
-        this.getHeatReadingsUseCase(teplomerId, uid).onEach { result ->
+        this.getHeatReadings(teplomerId, uid).onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     this._heatMeterState.value = heatMeterState.value.copy(
@@ -211,7 +211,7 @@ class MeterViewModel @Inject constructor(
     }
 
     fun getLastHeatReading(uid: String, teplomerId: Int) {
-        this.getLastHeatReadingUseCase(teplomerId, uid).onEach { result ->
+        this.getLastHeatReading(teplomerId, uid).onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     this._heatMeterState.value = heatMeterState.value.copy(
@@ -239,7 +239,7 @@ class MeterViewModel @Inject constructor(
         currentValue: Int,
         vodomerId: Int
     ) {
-        this.addWaterReadingUseCase(
+        this.addWaterReading(
             AddWaterReadingParams(
                 uid = uid,
                 newValue = newValue,
@@ -312,7 +312,7 @@ class MeterViewModel @Inject constructor(
         readingId: Int,
         uid: String
     ) {
-        this.deleteLastHeatReadingUseCase(
+        this.deleteLastHeatReading(
             readingId = readingId,
             uid = uid,
         ).onEach { result ->
@@ -347,7 +347,7 @@ class MeterViewModel @Inject constructor(
         currentValue: Double,
         teplomerId: Int
     ) {
-        this.addHeatReadingUseCase(
+        this.addHeatReading(
             AddHeatReadingParams(
                 uid = uid,
                 newValue = newValue,

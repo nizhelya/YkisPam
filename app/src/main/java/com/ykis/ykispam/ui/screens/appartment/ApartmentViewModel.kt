@@ -47,10 +47,10 @@ import javax.inject.Inject
 @HiltViewModel
 class ApartmentViewModel @Inject constructor(
     private val firebaseService: FirebaseService,
-    private val getApartmentListUseCase: GetApartmentList,
-    private val getApartmentUseCase : GetApartment,
-    private val deleteApartmentUseCase : DeleteApartment,
-    private val addApartmentUseCase : AddApartment,
+    private val getApartmentList: GetApartmentList,
+    private val getApartment : GetApartment,
+    private val deleteApartment : DeleteApartment,
+    private val addApartment : AddApartment,
     private val networkHandler: NetworkHandler,
     private val logService: LogService,
     private val updateBti: UpdateBti
@@ -117,7 +117,7 @@ class ApartmentViewModel @Inject constructor(
     }
 
     fun addApartment(restartApp: () -> Unit) {
-        this.addApartmentUseCase(
+        this.addApartment(
             code = secretCode.value, uid = uid , email = email
         ).onEach { result ->
             when (result) {
@@ -188,7 +188,7 @@ class ApartmentViewModel @Inject constructor(
     }
 
     fun getApartment(addressId: Int = uiState.value.addressId ){
-            this.getApartmentUseCase(addressId = addressId, uid).onEach {
+            this.getApartment(addressId = addressId, uid).onEach {
                     result ->
                 when(result){
                     is Resource.Success -> {
@@ -224,7 +224,7 @@ class ApartmentViewModel @Inject constructor(
     }
 
     fun getApartmentList(onSuccess: ()->Unit ={}){
-        this.getApartmentListUseCase(uid).onEach {
+        this.getApartmentList(uid).onEach {
                 result->
             when(result){
                 is Resource.Success -> {
@@ -254,7 +254,7 @@ class ApartmentViewModel @Inject constructor(
 
     fun deleteApartment(
     ) {
-        this.deleteApartmentUseCase(
+        this.deleteApartment(
             addressId = uiState.value.addressId,
             uid = uid
         ).onEach {

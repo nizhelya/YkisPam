@@ -35,6 +35,7 @@ fun SettingsClickable(
     @StringRes name: Int,
     onClick: () -> Unit
 ) {
+
     Surface(
         color = Color.Transparent,
         modifier = Modifier
