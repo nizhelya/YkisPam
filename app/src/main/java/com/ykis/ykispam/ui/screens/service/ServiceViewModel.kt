@@ -1,8 +1,8 @@
 package com.ykis.ykispam.ui.screens.service
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.core.Resource
-import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.domain.payment.request.GetPaymentList
 import com.ykis.ykispam.domain.payment.request.InsertPayment
 import com.ykis.ykispam.domain.payment.request.InsertPaymentParams
@@ -40,6 +40,9 @@ class ServiceViewModel @Inject constructor(
 
     private val _paymentState = MutableStateFlow(PaymentState())
     val paymentState = _paymentState.asStateFlow()
+
+    private val _insertPaymentLoading = MutableStateFlow(false)
+    val insertPaymentLoading = _insertPaymentLoading.asStateFlow()
 
     fun setContentDetail (contentDetail: ContentDetail){
         _totalDebtState.value = _totalDebtState.value.copy(
@@ -129,14 +132,17 @@ class ServiceViewModel @Inject constructor(
         ).onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    SnackbarManager.showMessage(result.data.toString())
+                    _insertPaymentLoading.value = false
+                    Log.d("link_test" , result.data.toString())
                 }
 
                 is Resource.Error -> {
+                    _insertPaymentLoading.value = false
+                    Log.d("link_test" , "error")
                 }
 
                 is Resource.Loading -> {
-
+                    _insertPaymentLoading.value = true
                 }
             }
         }.launchIn(this.viewModelScope)

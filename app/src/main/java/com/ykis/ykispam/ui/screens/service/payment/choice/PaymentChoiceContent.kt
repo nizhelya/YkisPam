@@ -1,11 +1,16 @@
 package com.ykis.ykispam.ui.screens.service.payment.choice
 
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -14,8 +19,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.domain.payment.request.InsertPaymentParams
 import com.ykis.ykispam.domain.service.request.ServiceParams
@@ -35,6 +40,7 @@ fun PaymentChoiceStateful(
     totalDebtState: TotalDebtState,
     viewModel: ServiceViewModel
 ) {
+    val loading by viewModel.insertPaymentLoading.collectAsStateWithLifecycle()
     LaunchedEffect(key1 = baseUIState.addressId) {
         viewModel.getTotalServiceDebt(
             ServiceParams(
@@ -61,7 +67,6 @@ fun PaymentChoiceStateful(
     var tboField by rememberSaveable {
         mutableStateOf("0.00")
     }
-    val localContext = LocalContext.current
 
     LazyColumn {
         items(serviceList) { item ->
@@ -164,9 +169,20 @@ fun PaymentChoiceStateful(
 
                 }
             ) {
-                Text(
-                    "Перейти до сплати"
-                )
+                AnimatedVisibility(visible = loading) {
+                    CircularProgressIndicator(
+                        modifier = modifier.size(
+                            ButtonDefaults.IconSize
+                        ),
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        strokeWidth = 3.dp
+                    )
+                }
+                AnimatedVisibility(visible = !loading) {
+                    Text(
+                        "Перейти до сплати"
+                    )
+                }
             }
         }
     }

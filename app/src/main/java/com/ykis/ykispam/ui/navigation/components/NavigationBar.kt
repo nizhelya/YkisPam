@@ -5,12 +5,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import com.ykis.ykispam.ui.navigation.NAV_BAR_DESTINATIONS
 
 @Composable
@@ -38,14 +35,15 @@ fun BottomNavigationBar(
                     )
                 },
                 alwaysShowLabel = false,
-                label = { Text(
-                    text = stringResource(destination.labelId),
-                    style = MaterialTheme.typography.labelMedium.copy(
-                        fontWeight = FontWeight.Normal
-                    ),
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1
-                ) }
+//                label = {
+//                    Text(
+//                    text = stringResource(destination.labelId),
+//                    style = MaterialTheme.typography.labelMedium.copy(
+//                        fontWeight = FontWeight.Normal
+//                    ),
+//                    overflow = TextOverflow.Ellipsis,
+//                    maxLines = 1
+//                ) }
             )
         }
     }

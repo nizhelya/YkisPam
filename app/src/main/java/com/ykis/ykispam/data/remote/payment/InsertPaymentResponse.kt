@@ -7,5 +7,6 @@ class InsertPaymentResponse(
     success: Int,
     message: String,
     @Json(name = "payment_id")
-    val paymentId: Int
+    val paymentId: Int,
+    val link : String
 ) : BaseResponse(success, message)
