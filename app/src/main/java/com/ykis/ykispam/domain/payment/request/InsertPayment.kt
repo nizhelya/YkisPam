@@ -2,7 +2,6 @@ package com.ykis.ykispam.domain.payment.request
 
 import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.domain.payment.PaymentRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -13,12 +12,11 @@ class InsertPayment @Inject constructor(
     operator fun invoke(params:InsertPaymentParams): Flow<Resource<String?>> = flow {
         try {
             emit(Resource.Loading())
-            delay(5000)
             val response = repository.insertPayment(
                 params
             )
             if (response.success == 1) {
-                emit(Resource.Success(response.link))
+                emit(Resource.Success(response.uri))
             }
         }catch (e: Exception) {
             emit(Resource.Error())

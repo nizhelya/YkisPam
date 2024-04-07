@@ -64,7 +64,8 @@ fun MainApartmentScreen(
     onLaunch: () -> Unit,
     onDispose: () -> Unit,
     isRailExpanded: Boolean,
-    onMenuClick: () -> Unit
+    onMenuClick: () -> Unit,
+    navigateToWebView: (String) -> Unit
 ) {
     val baseUIState by apartmentViewModel.uiState.collectAsStateWithLifecycle()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -109,7 +110,8 @@ fun MainApartmentScreen(
                 closeContentDetail = {
                     meterViewModel.closeContentDetail()
                     serviceViewModel.closeContentDetail()
-                }
+                },
+                navigateToWebView = navigateToWebView
             )
         }
     }
@@ -215,7 +217,8 @@ fun ApartmentNavGraph(
     firstDestination: String,
     meterViewModel: MeterViewModel,
     serviceViewModel: ServiceViewModel,
-    closeContentDetail :() ->Unit
+    closeContentDetail :() ->Unit,
+    navigateToWebView: (String) -> Unit
 ) {
     val appState = rememberAppState()
     Box(modifier = modifier.fillMaxSize()) {
@@ -296,7 +299,8 @@ fun ApartmentNavGraph(
                         onDrawerClick = onDrawerClicked,
                         displayFeature = displayFeatures,
                         contentType = contentType,
-                        viewModel = serviceViewModel
+                        viewModel = serviceViewModel,
+                        navigateToWebView = navigateToWebView
                     )
                 }
                 composable(

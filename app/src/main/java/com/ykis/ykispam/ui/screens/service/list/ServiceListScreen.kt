@@ -1,6 +1,5 @@
 package com.ykis.ykispam.ui.screens.service.list
 
-import android.os.Build
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
@@ -81,7 +80,7 @@ fun ServiceListScreen(
     navigationType: NavigationType,
     onDrawerClick : () -> Unit,
     getTotalServiceDebt: (ServiceParams) -> Unit,
-    setContentDetail :(ContentDetail)->Unit
+    setContentDetail :(ContentDetail)->Unit,
 ) {
     LaunchedEffect(key1 = baseUIState.addressId) {
         getTotalServiceDebt(

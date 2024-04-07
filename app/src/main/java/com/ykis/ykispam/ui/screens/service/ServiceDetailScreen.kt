@@ -22,6 +22,7 @@ fun ServiceDetailScreen(
     contentDetail: ContentDetail,
     baseUIState: BaseUIState,
     totalDebtState: TotalDebtState,
+    navigateToWebView: (String) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -48,7 +49,10 @@ fun ServiceDetailScreen(
                 )
             }
             ContentDetail.PAYMENT_CHOICE->{
-                PaymentChoiceStateful(baseUIState =baseUIState , totalDebtState =totalDebtState ,viewModel = viewModel)
+                PaymentChoiceStateful(
+                    baseUIState =baseUIState , totalDebtState =totalDebtState ,viewModel = viewModel,
+                    navigateToWebView = navigateToWebView
+                )
             }
             else ->{
                 ServiceDetailContent(

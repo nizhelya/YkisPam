@@ -100,6 +100,21 @@ object InfoApartmentScreen : Destination{
         get() = "InfoApartmentScreen"
     const val addressIdArg = "address_id"
 }
+
+object WebViewScreen : Destination {
+    override val route: String
+        get() = "WebViewScreen"
+    const val link = "link"
+
+    val routeWithArgs = "$route/{$link}"
+
+    val arguments = listOf(
+        navArgument(link) {
+            type = NavType.StringType
+        }
+    )
+
+}
 //const val LAUNCH_SCREEN = "LaunchScreen"
 //const val SIGN_IN_SCREEN = "SignInScreen"
 //const val VERIFY_EMAIL_SCREEN = "VerifyEmailScreen"

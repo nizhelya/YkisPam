@@ -29,6 +29,7 @@ fun MainServiceScreen(
     displayFeature: List<DisplayFeature>,
     contentType: ContentType,
     onDrawerClick :()->Unit,
+    navigateToWebView: (String) -> Unit
 ) {
     val totalDebtState by viewModel.totalDebtState.collectAsStateWithLifecycle()
     val contentDetail : ContentDetail = totalDebtState.serviceDetail
@@ -58,6 +59,7 @@ fun MainServiceScreen(
                             contentDetail = contentDetail,
                             baseUIState =baseUIState,
                             totalDebtState = totalDebtState,
+                            navigateToWebView = navigateToWebView
                         )
                     }
                 )
@@ -72,6 +74,7 @@ fun MainServiceScreen(
             onDrawerClick = onDrawerClick,
             totalDebtState = totalDebtState,
             viewModel = viewModel,
+            navigateToWebView = navigateToWebView
         )
     }
 
@@ -85,6 +88,7 @@ fun SinglePanelService(
     onDrawerClick: () -> Unit,
     totalDebtState: TotalDebtState,
     viewModel: ServiceViewModel,
+    navigateToWebView: (String) -> Unit
 ) {
 
     Crossfade(targetState = totalDebtState.showDetail) {
@@ -99,6 +103,8 @@ fun SinglePanelService(
                 contentDetail = contentDetail,
                 baseUIState =baseUIState,
                 totalDebtState = totalDebtState,
+                navigateToWebView =navigateToWebView
+
             )
         }else ServiceListScreen(
             baseUIState =baseUIState ,

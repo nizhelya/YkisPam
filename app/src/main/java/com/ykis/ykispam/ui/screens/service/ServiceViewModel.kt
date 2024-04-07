@@ -126,13 +126,20 @@ class ServiceViewModel @Inject constructor(
         }.launchIn(this.viewModelScope)
     }
 
-    fun insertPayment(params:InsertPaymentParams){
+    fun insertPayment(
+        params:InsertPaymentParams,
+        onSuccess : (String) -> Unit
+    ){
         this.insertPaymentRepo(
             params
         ).onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     _insertPaymentLoading.value = false
+                    //if open in WebView
+//                    onSuccess(result.data.toString().replace("/" , "*"))
+                    //if open in Browser
+                    onSuccess(result.data.toString())
                     Log.d("link_test" , result.data.toString())
                 }
 

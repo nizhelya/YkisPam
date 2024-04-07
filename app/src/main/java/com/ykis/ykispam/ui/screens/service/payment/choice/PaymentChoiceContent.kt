@@ -1,6 +1,9 @@
 package com.ykis.ykispam.ui.screens.service.payment.choice
 
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
+import android.view.ViewGroup
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -19,7 +22,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.domain.payment.request.InsertPaymentParams
@@ -38,9 +43,14 @@ fun PaymentChoiceStateful(
     modifier: Modifier = Modifier,
     baseUIState: BaseUIState,
     totalDebtState: TotalDebtState,
-    viewModel: ServiceViewModel
+    viewModel: ServiceViewModel,
+    navigateToWebView: (String) -> Unit
 ) {
     val loading by viewModel.insertPaymentLoading.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    fun intent(uri:String) = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+//    val intent = remember { Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/")) }
+
     LaunchedEffect(key1 = baseUIState.addressId) {
         viewModel.getTotalServiceDebt(
             ServiceParams(
@@ -67,7 +77,6 @@ fun PaymentChoiceStateful(
     var tboField by rememberSaveable {
         mutableStateOf("0.00")
     }
-
     LazyColumn {
         items(serviceList) { item ->
             val currentField = when (item.contentDetail) {
@@ -133,6 +142,7 @@ fun PaymentChoiceStateful(
                             }
                         }
                     }
+
                     viewModel.insertPayment(
                         params = InsertPaymentParams(
                             uid = baseUIState.uid.toString(),
@@ -142,7 +152,13 @@ fun PaymentChoiceStateful(
                             teplo = heatField.toDoubleOrNull() ?: 0.0,
                             voda = waterField.toDoubleOrNull() ?: 0.0,
                             tbo = tboField.toDoubleOrNull() ?: 0.0
-                        )
+                        ),
+                        onSuccess = {
+                            //if open in WebView
+//                            navigateToWebView(it)
+                            //if open in Browser
+                            context.startActivity(intent(it))
+                        }
                     )
                     if (orderList.isNotEmpty()) {
                         val payment: XPayLibPayment = XPayLibPayment {
@@ -203,4 +219,25 @@ fun addToOrderList(
             )
         )
     }
+}
+
+@Composable
+fun WebView(uri:String){
+
+    // Declare a string that contains a url
+
+    // Adding a WebView inside AndroidView
+    // with layout as full screen
+    val formattedUri = uri.replace("*" , "/")
+    Log.d("wv_test" , "formated $formattedUri")
+    AndroidView(factory = {
+        android.webkit.WebView(it).apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+        }
+    }, update = {
+        it.loadUrl(formattedUri)
+    })
 }

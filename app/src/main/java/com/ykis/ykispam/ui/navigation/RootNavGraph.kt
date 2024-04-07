@@ -1,5 +1,6 @@
 package com.ykis.ykispam.ui.navigation
 
+import android.util.Log
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.padding
@@ -20,6 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
 import com.ykis.ykispam.ui.rememberAppState
 import com.ykis.ykispam.ui.screens.launch.LaunchScreen
+import com.ykis.ykispam.ui.screens.service.payment.choice.WebView
 
 object Graph {
     const val AUTHENTICATION = "auth_graph"
@@ -125,14 +127,33 @@ fun RootNavGraph(
                     onLaunch = {isMainScreen = true},
                     onDispose = {isMainScreen = false},
                     isRailExpanded = isRailExpanded,
-                    onMenuClick = { isRailExpanded = !isRailExpanded }
+                    onMenuClick = { isRailExpanded = !isRailExpanded },
+                    navigateToWebView = {
+                        uri->
+                        Log.d("wv_test" , uri.toString())
+                        navController.navigateToWebView(uri)
+                    }
+                )
+            }
+
+            composable(
+                route = WebViewScreen.routeWithArgs,
+                arguments = WebViewScreen.arguments
+            ){
+                    navBackStackEntry->
+                val uri =
+                    navBackStackEntry.arguments?.getString(WebViewScreen.link)
+                WebView(
+                    uri = uri.toString()
                 )
             }
         }
     }
 }
 
-
+private fun NavHostController.navigateToWebView(uri: String) {
+    this.navigate("${WebViewScreen.route}/$uri")
+}
 
 
 
