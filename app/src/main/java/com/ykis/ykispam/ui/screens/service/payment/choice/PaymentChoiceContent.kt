@@ -155,9 +155,9 @@ fun PaymentChoiceStateful(
                         ),
                         onSuccess = {
                             //if open in WebView
-//                            navigateToWebView(it)
+                            navigateToWebView(it)
                             //if open in Browser
-                            context.startActivity(intent(it))
+//                            context.startActivity(intent(it))
                         }
                     )
                     if (orderList.isNotEmpty()) {
@@ -223,19 +223,14 @@ fun addToOrderList(
 
 @Composable
 fun WebView(uri:String){
-
-    // Declare a string that contains a url
-
-    // Adding a WebView inside AndroidView
-    // with layout as full screen
     val formattedUri = uri.replace("*" , "/")
-    Log.d("wv_test" , "formated $formattedUri")
     AndroidView(factory = {
         android.webkit.WebView(it).apply {
             layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
+            settings.javaScriptEnabled = true
         }
     }, update = {
         it.loadUrl(formattedUri)

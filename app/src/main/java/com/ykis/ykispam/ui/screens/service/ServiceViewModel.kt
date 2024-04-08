@@ -137,9 +137,9 @@ class ServiceViewModel @Inject constructor(
                 is Resource.Success -> {
                     _insertPaymentLoading.value = false
                     //if open in WebView
-//                    onSuccess(result.data.toString().replace("/" , "*"))
+                    onSuccess(result.data.toString().replace("/" , "*"))
                     //if open in Browser
-                    onSuccess(result.data.toString())
+//                    onSuccess(result.data.toString())
                     Log.d("link_test" , result.data.toString())
                 }
 
