@@ -17,6 +17,8 @@
 package com.ykis.ykispam.ui.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Chat
+import androidx.compose.material.icons.automirrored.outlined.Chat
 import androidx.compose.material.icons.filled.Adjust
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.HeatPump
@@ -103,6 +105,14 @@ get(){
             selectedIcon = Icons.Filled.Payments,
             unselectedIcon = Icons.Outlined.Payments,
             labelId = R.string.accrued,
+            alwaysVisible = false
+
+        ),
+        TopLevelDestination(
+            route = ChatScreen.route,
+            selectedIcon = Icons.AutoMirrored.Filled.Chat,
+            unselectedIcon = Icons.AutoMirrored.Outlined.Chat,
+            labelId = R.string.chat,
             alwaysVisible = false
 
         ),

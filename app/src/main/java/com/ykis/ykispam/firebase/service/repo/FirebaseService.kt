@@ -4,6 +4,7 @@ import com.google.android.gms.auth.api.identity.BeginSignInResult
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseUser
 import com.ykis.ykispam.core.Resource
+import com.ykis.ykispam.domain.UserRole
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
@@ -66,6 +67,6 @@ interface FirebaseService {
 
     fun getAuthState(viewModelScope: CoroutineScope): AuthStateResponse
 
-
+    suspend fun getUserRole() : UserRole
 }
 

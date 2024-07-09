@@ -7,11 +7,13 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -38,7 +40,6 @@ import com.ykis.ykispam.ui.navigation.components.ApartmentNavigationRail
 import com.ykis.ykispam.ui.navigation.components.BottomNavigationBar
 import com.ykis.ykispam.ui.navigation.components.ModalNavigationDrawerContent
 import com.ykis.ykispam.ui.rememberAppState
-import com.ykis.ykispam.ui.screens.EmptyScreen
 import com.ykis.ykispam.ui.screens.appartment.AddApartmentScreenContent
 import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
 import com.ykis.ykispam.ui.screens.appartment.InfoApartmentScreen
@@ -252,9 +253,17 @@ fun ApartmentNavGraph(
                     )
                 }
                 composable(ChatScreen.route) {
-                    EmptyScreen(
-                        popUpScreen = { navController.popBackStack() },
-                    )
+//                    EmptyScreen(
+//                        popUpScreen = { navController.popBackStack() },
+//                    )
+                    Box(
+                        modifier = modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ){
+                        Text(
+                            "Ваша роль: ${baseUIState.userRole.codeName}"
+                        )
+                    }
                 }
                 composable(AddApartmentScreen.route) {
                     AddApartmentScreenContent(

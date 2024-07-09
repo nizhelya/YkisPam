@@ -1,5 +1,6 @@
 package com.ykis.ykispam.ui
 
+import com.ykis.ykispam.domain.UserRole
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.ui.navigation.ContentDetail
 
@@ -23,5 +24,6 @@ data class BaseUIState(
     val mainLoading: Boolean = true,
     val apartmentLoading : Boolean = true,
     val error: String? = null,
-    val showDetail : Boolean = false
+    val showDetail : Boolean = false,
+    val userRole : UserRole = UserRole.StandardUser
 )

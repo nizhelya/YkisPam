@@ -16,6 +16,7 @@ limitations under the License.
 
 package com.ykis.ykispam.ui.screens.appartment
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.Resource
@@ -36,11 +37,13 @@ import com.ykis.ykispam.ui.navigation.LaunchScreen
 import com.ykis.ykispam.ui.navigation.VerifyEmailScreen
 import com.ykis.ykispam.ui.screens.bti.ContactUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -61,6 +64,8 @@ class ApartmentViewModel @Inject constructor(
 
     private val displayName get() = firebaseService.displayName
     val email get() = firebaseService.email
+
+
 
     private val _apartment = MutableStateFlow(ApartmentEntity())
     val apartment: StateFlow<ApartmentEntity> get() = _apartment.asStateFlow()
@@ -101,15 +106,21 @@ class ApartmentViewModel @Inject constructor(
     fun initialize() {
         if (uid.isNotEmpty()) {
                 observeApartments()
+
         }
     }
     private  fun observeApartments() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val userRole = firebaseService.getUserRole()
             _uiState.value = _uiState.value.copy(
                 uid = uid,
                 displayName = displayName,
                 email = email,
+                userRole = firebaseService.getUserRole()
             )
-        getApartmentList()
+            Log.d("role_test" , "userRole $userRole")
+            getApartmentList()
+        }
     }
 
     fun onSecretCodeChange(newValue: String) {

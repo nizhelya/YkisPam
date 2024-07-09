@@ -10,15 +10,18 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FieldValue.serverTimestamp
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.getField
 import com.ykis.ykispam.core.Constants.CREATED_AT
 import com.ykis.ykispam.core.Constants.DISPLAY_NAME
 import com.ykis.ykispam.core.Constants.EMAIL
 import com.ykis.ykispam.core.Constants.PHOTO_URL
+import com.ykis.ykispam.core.Constants.ROLE
 import com.ykis.ykispam.core.Constants.SIGN_IN_REQUEST
 import com.ykis.ykispam.core.Constants.SIGN_UP_REQUEST
 import com.ykis.ykispam.core.Constants.USERS
 import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.core.trace
+import com.ykis.ykispam.domain.UserRole
 import com.ykis.ykispam.firebase.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.service.repo.OneTapSignInResponse
 import com.ykis.ykispam.firebase.service.repo.ReloadUserResponse
@@ -66,6 +69,7 @@ class FirebaseServiceImpl @Inject constructor(
     override val photoUrl = auth.currentUser?.photoUrl.toString()
     override val email = auth.currentUser?.email.toString()
     override val providerId = auth.currentUser?.providerId.toString()
+
 //    override val providerData = getProvider()
 
 
@@ -93,6 +97,19 @@ class FirebaseServiceImpl @Inject constructor(
             auth.removeAuthStateListener(authStateListener)
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), auth.currentUser == null)
+
+    override suspend fun getUserRole() : UserRole {
+        val response = db.collection(USERS).document(uid).get().await().getField<Any?>(
+            ROLE
+        )
+       return when(response){
+           UserRole.StandardUser.codeName->UserRole.StandardUser
+           UserRole.VodokanalUser.codeName -> UserRole.VodokanalUser
+           UserRole.YtkeUser.codeName -> UserRole.YtkeUser
+           UserRole.TboUser.codeName -> UserRole.TboUser
+           else -> UserRole.OsbbUser
+       }
+    }
 
     override suspend fun sendEmailVerification(): SendEmailVerificationResponse {
         return try {
@@ -192,7 +209,8 @@ class FirebaseServiceImpl @Inject constructor(
         PROVIDER_ID to providerId,
         EMAIL to email,
         PHOTO_URL to photoUrl?.toString(),
-        CREATED_AT to serverTimestamp()
+        CREATED_AT to serverTimestamp(),
+        ROLE to UserRole.StandardUser.codeName
     )
 
     override fun signOut(): Flow<Resource<Boolean>> = flow {
@@ -257,7 +275,11 @@ class FirebaseServiceImpl @Inject constructor(
         email: String, password: String
     ): SignUpResponse {
         return try {
-            auth.createUserWithEmailAndPassword(email, password).await()
+            val authResult = auth.createUserWithEmailAndPassword(email, password).await()
+            val isNewUser = authResult.additionalUserInfo?.isNewUser ?: false
+            if(isNewUser){
+                addUserToFirestore()
+            }
             Resource.Success(true)
         } catch (e: Exception) {
             Resource.Error(e.message)
