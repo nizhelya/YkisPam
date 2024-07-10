@@ -53,7 +53,6 @@ class FirebaseServiceImpl @Inject constructor(
     @Named(SIGN_UP_REQUEST)
     private var signUpRequest: BeginSignInRequest,
     private val db: FirebaseFirestore
-
 ) : FirebaseService {
 
     override val isUserAuthenticatedInFirebase = auth.currentUser != null

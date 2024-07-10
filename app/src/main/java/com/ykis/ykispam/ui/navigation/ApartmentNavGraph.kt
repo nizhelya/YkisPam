@@ -7,13 +7,11 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -43,6 +41,7 @@ import com.ykis.ykispam.ui.rememberAppState
 import com.ykis.ykispam.ui.screens.appartment.AddApartmentScreenContent
 import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
 import com.ykis.ykispam.ui.screens.appartment.InfoApartmentScreen
+import com.ykis.ykispam.ui.screens.chat.ChatScreenStateful
 import com.ykis.ykispam.ui.screens.meter.MainMeterScreen
 import com.ykis.ykispam.ui.screens.meter.MeterViewModel
 import com.ykis.ykispam.ui.screens.profile.ProfileScreen
@@ -253,17 +252,7 @@ fun ApartmentNavGraph(
                     )
                 }
                 composable(ChatScreen.route) {
-//                    EmptyScreen(
-//                        popUpScreen = { navController.popBackStack() },
-//                    )
-                    Box(
-                        modifier = modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center
-                    ){
-                        Text(
-                            "Ваша роль: ${baseUIState.userRole.codeName}"
-                        )
-                    }
+                    ChatScreenStateful(baseUIState = baseUIState)
                 }
                 composable(AddApartmentScreen.route) {
                     AddApartmentScreenContent(

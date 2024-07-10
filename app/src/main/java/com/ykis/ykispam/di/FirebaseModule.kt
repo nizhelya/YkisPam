@@ -162,6 +162,4 @@ class FirebaseModule {
     fun provideLogService(): LogService = LogServiceImpl()
     @Provides
     fun provideConfigurationService(): ConfigurationService = ConfigurationServiceImpl()
-
-
 }
