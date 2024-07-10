@@ -1,10 +1,10 @@
 package com.ykis.ykispam.ui.screens.chat
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,36 +19,40 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ykis.ykispam.ui.BaseUIState
+import com.ykis.ykispam.ui.components.appbars.DefaultAppBar
 
 @Composable
-fun ChatScreenStateful(
+fun ChatScreen(
     modifier: Modifier = Modifier,
-    baseUIState: BaseUIState,
-    chatViewModel: ChatViewModel = hiltViewModel()
+    userEntity: UserEntity,
+    chatViewModel : ChatViewModel,
+    baseUIState : BaseUIState,
+    navigateBack : () -> Unit
 ) {
-
-    val testList by chatViewModel.firebaseTest.collectAsStateWithLifecycle()
     val messageText by chatViewModel.messageText.collectAsStateWithLifecycle()
-    val userList by chatViewModel.userList.collectAsStateWithLifecycle()
-    LaunchedEffect(key1 = true) {
-        chatViewModel.getUsers()
+    val messageList by chatViewModel.firebaseTest.collectAsStateWithLifecycle()
+    LaunchedEffect(key1 = baseUIState.uid) {
+        chatViewModel.readFromDatabase(baseUIState.uid.toString())
+    }
+    LaunchedEffect(key1 = messageList) {
+        Log.d("messages_test" , messageList.toString())
     }
     Column(
-        modifier = modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier.fillMaxSize()
     ) {
-        Text(
-            modifier = modifier,
-            text = "Ваша роль: ${baseUIState.userRole.codeName}",
-            style = MaterialTheme.typography.headlineSmall
+        DefaultAppBar(
+            title = userEntity.displayName ?: userEntity.email.toString() ,
+            canNavigateBack = true,
+            onBackClick = {navigateBack()}
         )
         LazyColumn(
             modifier = modifier.weight(1f)
         ){
-            items(testList) {
+            items(
+                messageList,
+            ) {
                 Column(
                     modifier = modifier.padding(vertical = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -64,15 +68,15 @@ fun ChatScreenStateful(
             }
         }
         Row(
-            modifier = modifier.imePadding(),
+//            modifier = modifier.imePadding(),
             verticalAlignment = Alignment.CenterVertically
         ){
             OutlinedTextField(
-            modifier = modifier.weight(1f),
-            singleLine = true,
-            value = messageText,
-            onValueChange = { chatViewModel.onMessageTextChanged(it) }
-        )
+                modifier = modifier.weight(1f),
+                singleLine = true,
+                value = messageText,
+                onValueChange = { chatViewModel.onMessageTextChanged(it) }
+            )
             Button(
                 modifier = modifier,
                 onClick = { chatViewModel.writeToDatabase(baseUIState.uid.toString() , baseUIState.email.toString()) }
@@ -81,14 +85,5 @@ fun ChatScreenStateful(
             }
 
         }
-
     }
-//    LazyColumn {
-//        items(userList){
-//            Text(
-//                it.displayName ?: it.email.toString()
-//
-//            )
-//        }
-//    }
 }

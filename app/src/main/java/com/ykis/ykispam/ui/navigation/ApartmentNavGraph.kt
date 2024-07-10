@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.remember
@@ -41,7 +42,8 @@ import com.ykis.ykispam.ui.rememberAppState
 import com.ykis.ykispam.ui.screens.appartment.AddApartmentScreenContent
 import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
 import com.ykis.ykispam.ui.screens.appartment.InfoApartmentScreen
-import com.ykis.ykispam.ui.screens.chat.ChatScreenStateful
+import com.ykis.ykispam.ui.screens.chat.ChatViewModel
+import com.ykis.ykispam.ui.screens.chat.UserListScreen
 import com.ykis.ykispam.ui.screens.meter.MainMeterScreen
 import com.ykis.ykispam.ui.screens.meter.MeterViewModel
 import com.ykis.ykispam.ui.screens.profile.ProfileScreen
@@ -59,6 +61,7 @@ fun MainApartmentScreen(
     apartmentViewModel: ApartmentViewModel = hiltViewModel(),
     meterViewModel: MeterViewModel = hiltViewModel(),
     serviceViewModel: ServiceViewModel = hiltViewModel(),
+    chatViewModel: ChatViewModel = hiltViewModel(),
     rootNavController: NavHostController,
     appState: YkisPamAppState,
     onLaunch: () -> Unit,
@@ -76,6 +79,7 @@ fun MainApartmentScreen(
     val railWidth by animateDpAsState(
         targetValue = if (isRailExpanded) 260.dp else 80.dp, tween(550), label = ""
     )
+
     DisposableEffect(key1 = Unit) {
         onLaunch()
         apartmentViewModel.initialize()
@@ -111,7 +115,8 @@ fun MainApartmentScreen(
                     meterViewModel.closeContentDetail()
                     serviceViewModel.closeContentDetail()
                 },
-                navigateToWebView = navigateToWebView
+                navigateToWebView = navigateToWebView,
+                chatViewModel = chatViewModel
             )
         }
     }
@@ -217,10 +222,13 @@ fun ApartmentNavGraph(
     firstDestination: String,
     meterViewModel: MeterViewModel,
     serviceViewModel: ServiceViewModel,
+    chatViewModel: ChatViewModel,
     closeContentDetail :() ->Unit,
     navigateToWebView: (String) -> Unit
 ) {
     val appState = rememberAppState()
+    val userList by chatViewModel.userList.collectAsStateWithLifecycle()
+    val selectedUser by chatViewModel.selectedUser.collectAsStateWithLifecycle()
     Box(modifier = modifier.fillMaxSize()) {
         AnimatedVisibility(
             modifier = Modifier.align(Alignment.Center),
@@ -251,8 +259,31 @@ fun ApartmentNavGraph(
                         }
                     )
                 }
-                composable(ChatScreen.route) {
-                    ChatScreenStateful(baseUIState = baseUIState)
+                composable(UserListScreen.route) {
+                    LaunchedEffect(key1 = true) {
+                        chatViewModel.getUsers()
+                    }
+                    UserListScreen(
+                        userList = userList,
+                        onUserClicked = {
+                            chatViewModel.setSelectedUser(it)
+                            navController.navigate(ChatScreen.route)
+                        },
+                        onDrawerClicked = onDrawerClicked,
+                        navigationType = navigationType,
+                        baseUIState = baseUIState
+                    )
+                }
+
+                composable(ChatScreen.route){
+                    com.ykis.ykispam.ui.screens.chat.ChatScreen(
+                        userEntity = selectedUser,
+                        navigateBack = {
+                            navController.navigateUp()
+                        },
+                        chatViewModel = chatViewModel,
+                        baseUIState = baseUIState
+                    )
                 }
                 composable(AddApartmentScreen.route) {
                     AddApartmentScreenContent(
@@ -265,10 +296,6 @@ fun ApartmentNavGraph(
                             closeContentDetail()
                         }
                     )
-                    //            AddApartmentScreen(
-                    //                popUpScreen = { appState.popUp() },
-                    //                restartApp = { route -> appState.clearAndNavigate(route) },
-                    //            )
                 }
 
                 composable(SettingsScreen.route) {

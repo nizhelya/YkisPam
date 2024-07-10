@@ -109,7 +109,7 @@ get(){
 
         ),
         TopLevelDestination(
-            route = ChatScreen.route,
+            route = UserListScreen.route,
             selectedIcon = Icons.AutoMirrored.Filled.Chat,
             unselectedIcon = Icons.AutoMirrored.Outlined.Chat,
             labelId = R.string.chat,
