@@ -55,7 +55,7 @@ class ChatViewModel @Inject constructor(
 
     private val realtimeDatabase = Firebase.database
     val userDatabase = Firebase.firestore
-    val messagesRef = realtimeDatabase.getReference("messages")
+
     private val _firebaseTest = MutableStateFlow<List<MessageEntity>>(emptyList())
     val firebaseTest = _firebaseTest.asStateFlow()
 
@@ -69,19 +69,26 @@ class ChatViewModel @Inject constructor(
     val selectedUser = _selectedUser.asStateFlow()
 
     fun writeToDatabase(uid: String, email : String){
+        Log.d("chat_test" , "функция writeToDatabase")
         val chatId = generateChatId(uid,selectedUser.value.uid)
+        Log.d("chat_test" , "chatId $chatId")
         val reference = FirebaseDatabase.getInstance().getReference("chats").child(chatId)
         val key = reference.push().key!!
+        Log.d("chat_test" , "key $key")
+        val messageEntity = MessageEntity(
+            id = key,
+            senderUid = uid,
+            email = email,
+            text = messageText.value
+        )
+        Log.d("chat_test" , "messageEntity $messageEntity")
         reference.child(key)
-            .setValue(MessageEntity(
-                id = key,
-                senderUid = uid,
-                email = email,
-                text = messageText.value
-            )).addOnCompleteListener {
+            .setValue(messageEntity).addOnCompleteListener {
                 _messageText.value = ""
+                Log.d("chat_test" , "completed")
             }.addOnFailureListener {
                 SnackbarManager.showMessage(it.message.toString())
+                Log.d("chat_test" , "failure ${it.message}")
             }
     }
 

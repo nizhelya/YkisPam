@@ -79,7 +79,10 @@ fun ChatScreen(
             )
             Button(
                 modifier = modifier,
-                onClick = { chatViewModel.writeToDatabase(baseUIState.uid.toString() , baseUIState.email.toString()) }
+                onClick = {
+                    Log.d("chat_test" , "onClick")
+                    chatViewModel.writeToDatabase(baseUIState.uid.toString() , baseUIState.email.toString())
+                }
             ) {
                 Text("Відправити")
             }
