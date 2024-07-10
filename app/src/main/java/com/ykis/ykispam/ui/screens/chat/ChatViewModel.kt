@@ -9,6 +9,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 import com.google.firebase.firestore.firestore
+import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.ui.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -79,6 +80,8 @@ class ChatViewModel @Inject constructor(
                 text = messageText.value
             )).addOnCompleteListener {
                 _messageText.value = ""
+            }.addOnFailureListener {
+                SnackbarManager.showMessage(it.message.toString())
             }
     }
 
@@ -104,6 +107,7 @@ class ChatViewModel @Inject constructor(
 
                     override fun onCancelled(error: DatabaseError) {
                         Log.w("firebase_error", "Failed to read value.", error.toException())
+                        SnackbarManager.showMessage(error.message)
                     }
                 }
             )
@@ -125,6 +129,7 @@ class ChatViewModel @Inject constructor(
             }
             .addOnFailureListener { exception ->
                 Log.w("user_store_test", "Error getting documents.", exception)
+                SnackbarManager.showMessage(exception.message.toString())
             }
     }
 
