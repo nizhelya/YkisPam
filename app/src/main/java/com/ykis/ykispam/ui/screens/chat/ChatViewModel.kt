@@ -7,16 +7,22 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.database
 import com.google.firebase.firestore.firestore
 import com.ykis.ykispam.core.snackbar.SnackbarManager
+import com.ykis.ykispam.domain.UserRole
 import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.ui.BaseViewModel
+import com.ykis.ykispam.ui.navigation.ContentDetail
+import com.ykis.ykispam.ui.screens.service.list.TotalServiceDebt
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
+data class ServiceWithCodeName(
+    val name : String = "",
+    val codeName : String = ""
+)
 fun generateChatId(uid1: String, uid2: String): String {
     return if (uid1 < uid2) {
         uid1 + uid2
@@ -53,7 +59,6 @@ class ChatViewModel @Inject constructor(
     logService: LogService
 ): BaseViewModel(logService){
 
-    private val realtimeDatabase = Firebase.database
     val userDatabase = Firebase.firestore
 
     private val _firebaseTest = MutableStateFlow<List<MessageEntity>>(emptyList())
@@ -68,17 +73,27 @@ class ChatViewModel @Inject constructor(
     private val _selectedUser = MutableStateFlow<UserEntity>(UserEntity())
     val selectedUser = _selectedUser.asStateFlow()
 
-    fun writeToDatabase(uid: String, email : String){
+    private val _selectedService = MutableStateFlow(ServiceWithCodeName())
+    val selectedService = _selectedService.asStateFlow()
+
+    fun writeToDatabase(
+        chatUid : String ,
+        senderUid: String,
+        senderEmail : String,
+        role : UserRole,
+    ){
         Log.d("chat_test" , "функция writeToDatabase")
-        val chatId = generateChatId(uid,selectedUser.value.uid)
+        val chatId = if(role==UserRole.StandardUser){
+            "${selectedService.value.codeName}_$senderUid"
+        }else "${role.codeName}_$chatUid"
         Log.d("chat_test" , "chatId $chatId")
         val reference = FirebaseDatabase.getInstance().getReference("chats").child(chatId)
         val key = reference.push().key!!
         Log.d("chat_test" , "key $key")
         val messageEntity = MessageEntity(
             id = key,
-            senderUid = uid,
-            email = email,
+            senderUid = senderUid,
+            email = senderEmail,
             text = messageText.value
         )
         Log.d("chat_test" , "messageEntity $messageEntity")
@@ -93,9 +108,12 @@ class ChatViewModel @Inject constructor(
     }
 
     fun readFromDatabase(
+        role : UserRole,
         uid:String
     ){
-        val chatId = generateChatId(uid,selectedUser.value.uid)
+        val chatId = if(role==UserRole.StandardUser){
+            "${selectedService.value.codeName}_$uid"
+        }else "${role.codeName}_$uid"
         Log.d("read_test" , chatId.toString())
         FirebaseDatabase.getInstance().getReference("chats")
             .child(chatId)
@@ -142,5 +160,18 @@ class ChatViewModel @Inject constructor(
 
     fun setSelectedUser(user:UserEntity){
         _selectedUser.value = user
+    }
+
+    fun setSelectedService(totalServiceDebt:TotalServiceDebt){
+        val service = ServiceWithCodeName(
+            name = totalServiceDebt.name,
+            codeName = when(totalServiceDebt.contentDetail){
+                ContentDetail.WARM_SERVICE -> UserRole.YtkeUser.codeName
+                ContentDetail.WATER_SERVICE-> UserRole.VodokanalUser.codeName
+                ContentDetail.OSBB -> UserRole.OsbbUser.codeName
+                else -> UserRole.TboUser.codeName
+            }
+        )
+        _selectedService.value = service
     }
 }

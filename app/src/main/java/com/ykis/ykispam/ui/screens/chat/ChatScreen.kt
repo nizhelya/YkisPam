@@ -16,10 +16,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ykis.ykispam.domain.UserRole
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.components.appbars.DefaultAppBar
 
@@ -33,8 +35,18 @@ fun ChatScreen(
 ) {
     val messageText by chatViewModel.messageText.collectAsStateWithLifecycle()
     val messageList by chatViewModel.firebaseTest.collectAsStateWithLifecycle()
+    val selectedService by chatViewModel.selectedService.collectAsStateWithLifecycle()
+    val chatUid = remember(baseUIState , userEntity) {
+        if(baseUIState.userRole == UserRole.StandardUser){
+            baseUIState.uid.toString()
+        }else userEntity.uid
+    }
+
     LaunchedEffect(key1 = baseUIState.uid) {
-        chatViewModel.readFromDatabase(baseUIState.uid.toString())
+        chatViewModel.readFromDatabase(
+            role = baseUIState.userRole,
+           chatUid
+        )
     }
     LaunchedEffect(key1 = messageList) {
         Log.d("messages_test" , messageList.toString())
@@ -43,7 +55,12 @@ fun ChatScreen(
         modifier = modifier.fillMaxSize()
     ) {
         DefaultAppBar(
-            title = userEntity.displayName ?: userEntity.email.toString() ,
+            modifier = modifier,
+            title = if(baseUIState.userRole == UserRole.StandardUser) selectedService.name
+            else{
+                userEntity.displayName ?: userEntity.email.toString()
+            }
+            ,
             canNavigateBack = true,
             onBackClick = {navigateBack()}
         )
@@ -68,7 +85,6 @@ fun ChatScreen(
             }
         }
         Row(
-//            modifier = modifier.imePadding(),
             verticalAlignment = Alignment.CenterVertically
         ){
             OutlinedTextField(
@@ -81,7 +97,12 @@ fun ChatScreen(
                 modifier = modifier,
                 onClick = {
                     Log.d("chat_test" , "onClick")
-                    chatViewModel.writeToDatabase(baseUIState.uid.toString() , baseUIState.email.toString())
+                    chatViewModel.writeToDatabase(
+                        chatUid = chatUid,
+                        baseUIState.uid.toString() ,
+                        baseUIState.email.toString(),
+                        role = baseUIState.userRole
+                    )
                 }
             ) {
                 Text("Відправити")

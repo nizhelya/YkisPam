@@ -271,7 +271,11 @@ fun ApartmentNavGraph(
                         },
                         onDrawerClicked = onDrawerClicked,
                         navigationType = navigationType,
-                        baseUIState = baseUIState
+                        baseUIState = baseUIState,
+                        onServiceClick = {
+                            chatViewModel.setSelectedService(it)
+                            navController.navigate(ChatScreen.route)
+                        }
                     )
                 }
 
