@@ -35,7 +35,7 @@ fun UserListScreen(
     onServiceClick : (TotalServiceDebt) -> Unit,
     onDrawerClicked: () -> Unit,
     navigationType: NavigationType,
-
+    chatViewModel: ChatViewModel
     ) {
     Column(
         modifier = modifier.fillMaxSize()
@@ -51,7 +51,8 @@ fun UserListScreen(
             UserList(
                 userList = userList,
                 baseUIState = baseUIState,
-                onUserClick = onUserClicked
+                onUserClick = onUserClicked,
+                chatViewModel = chatViewModel
             )
         } else {
             Box(

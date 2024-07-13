@@ -23,18 +23,12 @@ data class ServiceWithCodeName(
     val name : String = "",
     val codeName : String = ""
 )
-fun generateChatId(uid1: String, uid2: String): String {
-    return if (uid1 < uid2) {
-        uid1 + uid2
-    } else {
-        uid2 + uid1
-    }
-}
 data class MessageEntity(
     val id : String = "",
     val senderUid : String = "",
     val email : String = "",
-    val text :  String = ""
+    val text :  String = "",
+    val timestamp: Long = System.currentTimeMillis()
 )
 data class UserEntity(
     val uid : String ="",
@@ -76,6 +70,9 @@ class ChatViewModel @Inject constructor(
     private val _selectedService = MutableStateFlow(ServiceWithCodeName())
     val selectedService = _selectedService.asStateFlow()
 
+    private val _userIdentifiersWithRole = MutableStateFlow<List<String>>(emptyList())
+    val userIdentifiersWithRole = _userIdentifiersWithRole.asStateFlow()
+
     fun writeToDatabase(
         chatUid : String ,
         senderUid: String,
@@ -94,7 +91,8 @@ class ChatViewModel @Inject constructor(
             id = key,
             senderUid = senderUid,
             email = senderEmail,
-            text = messageText.value
+            text = messageText.value,
+            timestamp = System.currentTimeMillis()
         )
         Log.d("chat_test" , "messageEntity $messageEntity")
         reference.child(key)
@@ -107,27 +105,27 @@ class ChatViewModel @Inject constructor(
             }
     }
 
-    fun readFromDatabase(
-        role : UserRole,
-        uid:String
-    ){
-        val chatId = if(role==UserRole.StandardUser){
+    fun readFromDatabase(role: UserRole, uid: String) {
+        val chatId = if (role == UserRole.StandardUser) {
             "${selectedService.value.codeName}_$uid"
-        }else "${role.codeName}_$uid"
-        Log.d("read_test" , chatId.toString())
+        } else "${role.codeName}_$uid"
+
+        Log.d("read_test", chatId.toString())
         FirebaseDatabase.getInstance().getReference("chats")
             .child(chatId)
             .addValueEventListener(
                 object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        _firebaseTest.value = emptyList()
+                        val messageList = mutableListOf<MessageEntity>()
+                        val latestMessages = mutableMapOf<String, MessageEntity>()
                         for (messageSnap in dataSnapshot.children) {
                             val messageData = messageSnap.getValue(MessageEntity::class.java)
                             if (messageData != null) {
-                                _firebaseTest.value = firebaseTest.value + listOf(messageData)
+                                messageList.add(messageData)
+                                latestMessages[chatId] = messageData
                             }
-
                         }
+                        _firebaseTest.value = messageList
                     }
 
                     override fun onCancelled(error: DatabaseError) {
@@ -142,14 +140,48 @@ class ChatViewModel @Inject constructor(
         _messageText.value = value
     }
 
-    fun getUsers(){
+    fun trackUserIdentifiersWithRole(role: UserRole) {
+        val reference = FirebaseDatabase.getInstance().getReference("chats")
+        reference.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val userIdentifiers = mutableListOf<String>()
+                    for (chatSnap in dataSnapshot.children) {
+                        val chatId = chatSnap.key ?: continue
+                        if (chatId.startsWith(role.codeName)) {
+                            val userId = chatId.substringAfter("_")
+                            userIdentifiers.add(userId)
+                        }
+                    }
+                    Log.d("user_ids" , "$userIdentifiers")
+                    _userIdentifiersWithRole.value = userIdentifiers
+                    getUsers()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.w("firebase_error", "Failed to read value.", error.toException())
+                    SnackbarManager.showMessage(error.message)
+                }
+            }
+        )
+    }
+
+
+    fun getUsers() {
         userDatabase.collection("users")
             .get()
             .addOnSuccessListener { result ->
                 _userList.value = emptyList()
-                for (document in result) {
-                    Log.d("user_store_test", "${document.id} => ${document.data}")
-                    _userList.value = userList.value + listOf(mapToUserEntity(document.id ,document.data))
+                val userIdentifiers = _userIdentifiersWithRole.value
+                val filteredUsers = result.documents.mapNotNull { document ->
+                    val user = mapToUserEntity(document.id, document.data?.toMap() ?: emptyMap())
+                    Log.d("filtered_test" , "userEntity: $user")
+                    if (user.uid in userIdentifiers) user else null
+                }
+                Log.d("filtered_test" , "filteredUsers $filteredUsers")
+                _userList.value = filteredUsers
+                for (user in filteredUsers) {
+                    Log.d("user_store_test", "${user.uid} => ${user.email}")
                 }
             }
             .addOnFailureListener { exception ->
@@ -157,7 +189,6 @@ class ChatViewModel @Inject constructor(
                 SnackbarManager.showMessage(exception.message.toString())
             }
     }
-
     fun setSelectedUser(user:UserEntity){
         _selectedUser.value = user
     }
@@ -173,5 +204,26 @@ class ChatViewModel @Inject constructor(
             }
         )
         _selectedService.value = service
+    }
+
+    fun addChatListener(chatUid: String , onLastMessageChange : (MessageEntity) -> Unit) {
+        val reference = FirebaseDatabase.getInstance().getReference("chats").child(chatUid).limitToLast(1)
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                val latestMessage = dataSnapshot.children.lastOrNull()?.getValue(MessageEntity::class.java)
+                // Log the latest message
+                latestMessage?.let {
+                    Log.d("chat_listener", "Latest message in chat $chatUid: ${it.text}")
+                } ?: run {
+                    Log.d("chat_listener", "No messages found in chat $chatUid.")
+                }
+                onLastMessageChange(latestMessage ?: MessageEntity())
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.w("firebase_error", "Failed to read value for chat $chatUid.", error.toException())
+            }
+        })
     }
 }

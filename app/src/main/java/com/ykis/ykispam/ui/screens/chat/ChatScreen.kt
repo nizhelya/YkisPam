@@ -47,6 +47,7 @@ fun ChatScreen(
             role = baseUIState.userRole,
            chatUid
         )
+
     }
     LaunchedEffect(key1 = messageList) {
         Log.d("messages_test" , messageList.toString())

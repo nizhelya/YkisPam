@@ -20,7 +20,8 @@ import com.ykis.ykispam.ui.components.UserImage
 fun UserListItem(
     modifier: Modifier = Modifier,
     it : UserEntity,
-    onUserClick : (UserEntity) -> Unit
+    onUserClick : (UserEntity) -> Unit,
+    lastMessage : MessageEntity
 ) {
     Column(
         modifier = modifier.clickable {
@@ -41,8 +42,10 @@ fun UserListItem(
                 overflow = TextOverflow.Ellipsis
             )
         }
-        HorizontalDivider(
+        Text(
+            text =  lastMessage.text
         )
+        HorizontalDivider()
     }
 }
 

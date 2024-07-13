@@ -165,7 +165,7 @@ fun SettingsScreenStateless(
             modifier = modifier
                 .padding(horizontal = 8.dp)
                 .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+//            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Card(
                 modifier = modifier.fillMaxWidth()
@@ -250,8 +250,8 @@ fun SettingsScreenStateless(
                     }
             }
             Column(
-                modifier = modifier.weight(1f),
-                verticalArrangement = Arrangement.Bottom
+//                modifier = modifier.weight(1f),
+//                verticalArrangement = Arrangement.Bottom
             ) {
                 OutlinedButton(
                     modifier = modifier

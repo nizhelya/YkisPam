@@ -140,7 +140,9 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
     implementation("com.github.pustovitandriy:XPAY_Android_SDK:1.0.2")
     implementation ("androidx.datastore:datastore-preferences:1.0.0")
+
 
 }

@@ -261,7 +261,8 @@ fun ApartmentNavGraph(
                 }
                 composable(UserListScreen.route) {
                     LaunchedEffect(key1 = true) {
-                        chatViewModel.getUsers()
+                        chatViewModel.trackUserIdentifiersWithRole(baseUIState.userRole)
+//                        chatViewModel.getUsers()
                     }
                     UserListScreen(
                         userList = userList,
@@ -275,7 +276,8 @@ fun ApartmentNavGraph(
                         onServiceClick = {
                             chatViewModel.setSelectedService(it)
                             navController.navigate(ChatScreen.route)
-                        }
+                        },
+                        chatViewModel = chatViewModel
                     )
                 }
 
