@@ -58,19 +58,19 @@ fun MainApartmentScreen(
     navigationType: NavigationType,
     displayFeatures: List<DisplayFeature>,
     navController: NavHostController = rememberNavController(),
-    apartmentViewModel: ApartmentViewModel = hiltViewModel(),
+    apartmentViewModel: ApartmentViewModel,
     meterViewModel: MeterViewModel = hiltViewModel(),
     serviceViewModel: ServiceViewModel = hiltViewModel(),
-    chatViewModel: ChatViewModel = hiltViewModel(),
+    chatViewModel: ChatViewModel,
     rootNavController: NavHostController,
     appState: YkisPamAppState,
     onLaunch: () -> Unit,
     onDispose: () -> Unit,
     isRailExpanded: Boolean,
     onMenuClick: () -> Unit,
-    navigateToWebView: (String) -> Unit
+    navigateToWebView: (String) -> Unit,
+    baseUIState: BaseUIState
 ) {
-    val baseUIState by apartmentViewModel.uiState.collectAsStateWithLifecycle()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -79,7 +79,6 @@ fun MainApartmentScreen(
     val railWidth by animateDpAsState(
         targetValue = if (isRailExpanded) 260.dp else 80.dp, tween(550), label = ""
     )
-
     DisposableEffect(key1 = Unit) {
         onLaunch()
         apartmentViewModel.initialize()
@@ -87,7 +86,7 @@ fun MainApartmentScreen(
             onDispose()
         }
     }
-    val movableApartmentNavGraph = remember {
+    val movableApartmentNavGraph = remember(baseUIState) {
         movableContentOf {
             ApartmentNavGraph(
                 modifier =
@@ -163,6 +162,7 @@ fun MainApartmentScreen(
                                     it,
                                     InfoApartmentScreen.route
                                 )
+
                                 meterViewModel.closeContentDetail()
                                 serviceViewModel.closeContentDetail()
                             }
@@ -224,11 +224,10 @@ fun ApartmentNavGraph(
     serviceViewModel: ServiceViewModel,
     chatViewModel: ChatViewModel,
     closeContentDetail :() ->Unit,
-    navigateToWebView: (String) -> Unit
+    navigateToWebView: (String) -> Unit,
 ) {
     val appState = rememberAppState()
     val userList by chatViewModel.userList.collectAsStateWithLifecycle()
-    val selectedUser by chatViewModel.selectedUser.collectAsStateWithLifecycle()
     Box(modifier = modifier.fillMaxSize()) {
         AnimatedVisibility(
             modifier = Modifier.align(Alignment.Center),
@@ -268,27 +267,17 @@ fun ApartmentNavGraph(
                         userList = userList,
                         onUserClicked = {
                             chatViewModel.setSelectedUser(it)
-                            navController.navigate(ChatScreen.route)
+                            rootNavController.navigate(ChatScreen.route)
                         },
                         onDrawerClicked = onDrawerClicked,
                         navigationType = navigationType,
                         baseUIState = baseUIState,
                         onServiceClick = {
                             chatViewModel.setSelectedService(it)
-                            navController.navigate(ChatScreen.route)
+//                            navController.navigate(ChatScreen.route)
+                            rootNavController.navigate(ChatScreen.route)
                         },
                         chatViewModel = chatViewModel
-                    )
-                }
-
-                composable(ChatScreen.route){
-                    com.ykis.ykispam.ui.screens.chat.ChatScreen(
-                        userEntity = selectedUser,
-                        navigateBack = {
-                            navController.navigateUp()
-                        },
-                        chatViewModel = chatViewModel,
-                        baseUIState = baseUIState
                     )
                 }
                 composable(AddApartmentScreen.route) {

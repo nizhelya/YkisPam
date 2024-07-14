@@ -10,7 +10,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ykis.ykispam.core.composable.BasicButton
 import com.ykis.ykispam.core.ext.basicButton
@@ -22,7 +21,7 @@ fun LaunchScreen(
     modifier: Modifier = Modifier,
     restartApp: ( String) -> Unit,
     openAndPopUp: (String, String) -> Unit,
-    viewModel: ApartmentViewModel = hiltViewModel(),
+    viewModel: ApartmentViewModel,
 ) {
     val isUserSignedOut = viewModel.getAuthState().collectAsStateWithLifecycle().value
     val showError = viewModel.showError.collectAsState()

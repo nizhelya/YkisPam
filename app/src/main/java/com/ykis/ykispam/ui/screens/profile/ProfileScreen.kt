@@ -53,7 +53,7 @@ fun ProfileScreen(
 
     ProfileScreenStateless(
         photoUrl = viewModel.photoUrl,
-        displayName = viewModel.displayName,
+        displayName = viewModel.displayName.toString(),
         email = viewModel.email,
         uid = viewModel.uid,
         providerId = viewModel.providerId,

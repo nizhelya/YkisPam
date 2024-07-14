@@ -1,5 +1,6 @@
 package com.ykis.ykispam.ui.screens.appartment
 
+import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.EaseIn
 import androidx.compose.animation.core.EaseOut
@@ -14,15 +15,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -94,8 +91,10 @@ fun InfoApartmentScreen(
     }
     LaunchedEffect(key1 = baseUIState.addressId) {
         if (baseUIState.addressId == 0) {
+            Log.d("debug_test1", "baseUIState.addressId == 0")
             apartmentViewModel.getApartment(baseUIState.apartments.first().addressId)
         } else {
+            Log.d("debug_test1", "else")
             apartmentViewModel.getApartment(baseUIState.addressId)
         }
     }

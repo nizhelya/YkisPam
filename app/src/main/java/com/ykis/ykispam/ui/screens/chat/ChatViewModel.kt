@@ -26,11 +26,17 @@ data class ServiceWithCodeName(
 data class MessageEntity(
     val id: String = "",
     val senderUid: String = "",
-    val email: String = "",
+    val senderDisplayedName : String = "",
+    val senderLogoUrl : String? = null,
+//    val senderAddress: String
     val text:  String = "",
 //    val timestamp: Long = System
     val timestamp: Long =  0L  // Use serverTimestamp()
-)
+){
+    fun isForMe(messageSenderUid:String):Boolean{
+        return messageSenderUid == senderUid
+    }
+}
 data class UserEntity(
     val uid : String ="",
     val photoUrl: String? = "",
@@ -75,9 +81,12 @@ class ChatViewModel @Inject constructor(
     val userIdentifiersWithRole = _userIdentifiersWithRole.asStateFlow()
 
     fun writeToDatabase(
-        chatUid : String ,
+        chatUid : String,
         senderUid: String,
-        senderEmail : String,
+        senderDisplayedName : String,
+        senderLogoUrl: String?,
+        onComplete : () -> Unit,
+//        senderAddress : String,
         role : UserRole,
     ){
         Log.d("chat_test" , "функция writeToDatabase")
@@ -91,8 +100,9 @@ class ChatViewModel @Inject constructor(
         val messageEntity = MessageEntity(
             id = key,
             senderUid = senderUid,
-            email = senderEmail,
             text = messageText.value,
+            senderLogoUrl = senderLogoUrl,
+            senderDisplayedName = senderDisplayedName,
             timestamp = Timestamp.now().seconds * 1000
         )
         Log.d("chat_test" , "messageEntity $messageEntity")
@@ -101,6 +111,7 @@ class ChatViewModel @Inject constructor(
                 messageEntity
             ).addOnCompleteListener {
                 _messageText.value = ""
+                onComplete()
                 Log.d("chat_test" , "completed")
             }.addOnFailureListener {
                 SnackbarManager.showMessage(it.message.toString())

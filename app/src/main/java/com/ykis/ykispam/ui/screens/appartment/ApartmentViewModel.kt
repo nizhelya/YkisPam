@@ -119,6 +119,7 @@ class ApartmentViewModel @Inject constructor(
                 userRole = firebaseService.getUserRole()
             )
             Log.d("role_test" , "userRole $userRole")
+            Log.d("displayName_test" , "displayName: $displayName")
             getApartmentList()
         }
     }
@@ -203,6 +204,7 @@ class ApartmentViewModel @Inject constructor(
                     result ->
                 when(result){
                     is Resource.Success -> {
+                        Log.d("debug_test1", "success")
                         this._uiState.value = _uiState.value.copy(
                             apartment = result.data ?: ApartmentEntity(),
                             addressId = result.data!!.addressId,
@@ -220,15 +222,18 @@ class ApartmentViewModel @Inject constructor(
                         )
                     }
                     is Resource.Error -> {
+                        Log.d("debug_test1", "error")
                         this._uiState.value = _uiState.value.copy(
                             error = result.message ?: "Unexpected error!",
                            apartmentLoading = false
                         )
                     }
                     is Resource.Loading -> {
+                        Log.d("debug_test1", "loading")
                         this._uiState.value = _uiState.value.copy(
                              apartmentLoading = true
                         )
+
                     }
                 }
             }.launchIn(this.viewModelScope)
@@ -304,4 +309,5 @@ class ApartmentViewModel @Inject constructor(
         )
         getApartment(addressId)
     }
+
 }

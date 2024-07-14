@@ -14,12 +14,16 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
 import com.ykis.ykispam.ui.rememberAppState
+import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
+import com.ykis.ykispam.ui.screens.chat.ChatViewModel
 import com.ykis.ykispam.ui.screens.launch.LaunchScreen
 import com.ykis.ykispam.ui.screens.service.payment.choice.WebView
 
@@ -31,6 +35,8 @@ object Graph {
 fun RootNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
+    chatViewModel : ChatViewModel = hiltViewModel(),
+    apartmentViewModel : ApartmentViewModel = hiltViewModel(),
     contentType: ContentType,
     displayFeatures: List<DisplayFeature>,
     navigationType: NavigationType,
@@ -48,6 +54,9 @@ fun RootNavGraph(
         (navigationType == NavigationType.NAVIGATION_RAIL_COMPACT || navigationType == NavigationType.NAVIGATION_RAIL_EXPANDED)  && isRailExpanded && isMainScreen -> Modifier.padding(start = 260.dp)
         else -> Modifier.padding(0.dp)
     }
+    val selectedUser by chatViewModel.selectedUser.collectAsStateWithLifecycle()
+    val baseUIState by apartmentViewModel.uiState.collectAsStateWithLifecycle()
+
     Scaffold (
         snackbarHost = {
             SnackbarHost(
@@ -96,6 +105,7 @@ fun RootNavGraph(
                 LaunchScreen(
                     restartApp = { route -> navController.cleanNavigateTo(route) },
                     openAndPopUp = { route, popUp -> navController.navigateWithPopUp(route, popUp) },
+                    viewModel = apartmentViewModel
                 )
             }
 
@@ -132,7 +142,10 @@ fun RootNavGraph(
                         uri->
                         Log.d("wv_test" , uri.toString())
                         navController.navigateToWebView(uri)
-                    }
+                    },
+                    chatViewModel = chatViewModel,
+                    apartmentViewModel = apartmentViewModel,
+                    baseUIState = baseUIState
                 )
             }
 
@@ -145,6 +158,16 @@ fun RootNavGraph(
                     navBackStackEntry.arguments?.getString(WebViewScreen.link)
                 WebView(
                     uri = uri.toString()
+                )
+            }
+            composable(ChatScreen.route){
+                com.ykis.ykispam.ui.screens.chat.ChatScreen(
+                    userEntity = selectedUser,
+                    navigateBack = {
+                        navController.navigateUp()
+                    },
+                    chatViewModel = chatViewModel,
+                    baseUIState = baseUIState
                 )
             }
         }
