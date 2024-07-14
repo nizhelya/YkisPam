@@ -26,6 +26,7 @@ fun UserImage(
         contentDescription = null,
         error = painterResource(id = R.drawable.ic_account_circle),
         contentScale = ContentScale.Crop,
+        placeholder = painterResource(id = R.drawable.ic_account_circle) ,
         modifier = Modifier
             .clip(CircleShape)
             .width(48.dp)

@@ -211,7 +211,6 @@ class FirebaseServiceImpl @Inject constructor(
         CREATED_AT to serverTimestamp(),
         ROLE to UserRole.StandardUser.codeName
     )
-
     override fun signOut(): Flow<Resource<Boolean>> = flow {
         try {
             emit(Resource.Loading())

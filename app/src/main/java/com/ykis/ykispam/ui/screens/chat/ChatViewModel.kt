@@ -24,11 +24,12 @@ data class ServiceWithCodeName(
     val codeName : String = ""
 )
 data class MessageEntity(
-    val id : String = "",
-    val senderUid : String = "",
-    val email : String = "",
-    val text :  String = "",
-    val timestamp: Long = System.currentTimeMillis()
+    val id: String = "",
+    val senderUid: String = "",
+    val email: String = "",
+    val text:  String = "",
+//    val timestamp: Long = System
+    val timestamp: Long =  0L  // Use serverTimestamp()
 )
 data class UserEntity(
     val uid : String ="",
@@ -92,11 +93,13 @@ class ChatViewModel @Inject constructor(
             senderUid = senderUid,
             email = senderEmail,
             text = messageText.value,
-            timestamp = System.currentTimeMillis()
+            timestamp = Timestamp.now().seconds * 1000
         )
         Log.d("chat_test" , "messageEntity $messageEntity")
         reference.child(key)
-            .setValue(messageEntity).addOnCompleteListener {
+            .setValue(
+                messageEntity
+            ).addOnCompleteListener {
                 _messageText.value = ""
                 Log.d("chat_test" , "completed")
             }.addOnFailureListener {
@@ -119,6 +122,7 @@ class ChatViewModel @Inject constructor(
                         val messageList = mutableListOf<MessageEntity>()
                         val latestMessages = mutableMapOf<String, MessageEntity>()
                         for (messageSnap in dataSnapshot.children) {
+                            Log.d("time_test1" , messageSnap.children.toString())
                             val messageData = messageSnap.getValue(MessageEntity::class.java)
                             if (messageData != null) {
                                 messageList.add(messageData)
