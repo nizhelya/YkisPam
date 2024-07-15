@@ -34,6 +34,7 @@ android {
             )
             buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
             buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {

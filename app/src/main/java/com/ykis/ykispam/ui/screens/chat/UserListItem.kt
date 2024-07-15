@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-fun formatTime(timestamp: Long): String {
+fun historyFormatTime(timestamp: Long): String {
     val currentTime = System.currentTimeMillis()
     val sevenDaysInMillis = 7 * 24 * 60 * 60 * 1000L // 7 days in milliseconds
 
@@ -44,6 +44,12 @@ fun formatTime(timestamp: Long): String {
         else ->
             sdfDate.format(Date(timestamp))
     }
+}
+fun formatTime24H(timestamp: Long): String {
+
+    val sdfTime = SimpleDateFormat("HH:mm", Locale.getDefault())
+
+    return sdfTime.format(Date(timestamp))
 }
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -81,7 +87,7 @@ fun UserListItem(
                         overflow = TextOverflow.Ellipsis
                     )
                     Text(
-                        text = formatTime(lastMessage.timestamp),
+                        text = historyFormatTime(lastMessage.timestamp),
                         style = MaterialTheme.typography.bodySmall
                     )
                 }

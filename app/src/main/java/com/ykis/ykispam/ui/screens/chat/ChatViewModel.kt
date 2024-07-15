@@ -28,15 +28,9 @@ data class MessageEntity(
     val senderUid: String = "",
     val senderDisplayedName : String = "",
     val senderLogoUrl : String? = null,
-//    val senderAddress: String
     val text:  String = "",
-//    val timestamp: Long = System
-    val timestamp: Long =  0L  // Use serverTimestamp()
-){
-    fun isForMe(messageSenderUid:String):Boolean{
-        return messageSenderUid == senderUid
-    }
-}
+    val timestamp: Long =  0L
+)
 data class UserEntity(
     val uid : String ="",
     val photoUrl: String? = "",
