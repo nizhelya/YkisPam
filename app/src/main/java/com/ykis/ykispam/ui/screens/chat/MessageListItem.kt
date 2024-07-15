@@ -69,6 +69,13 @@ fun MessageListItem(
                                 color = MaterialTheme.colorScheme.primary
                             )
                         }
+                        if(messageEntity.senderAddress.isNotBlank()){
+                            Text(
+                                text = messageEntity.senderAddress,
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
                         Text(
                             modifier = modifier.padding(end = 32.dp),
                             text = messageEntity.text,
@@ -96,7 +103,8 @@ private fun PreviewMessageListItem() {
     YkisPAMTheme {
         MessageListItem(uid = "1", messageEntity = MessageEntity(
             text = "Привіт чувак! aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-            senderDisplayedName = "Кирило Блідний"
+            senderDisplayedName = "Кирило Блідний",
+            senderAddress = "Миру 28/1"
         )
         )
     }

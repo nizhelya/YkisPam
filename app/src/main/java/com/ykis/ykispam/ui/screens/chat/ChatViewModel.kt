@@ -28,6 +28,7 @@ data class MessageEntity(
     val senderUid: String = "",
     val senderDisplayedName : String = "",
     val senderLogoUrl : String? = null,
+    val senderAddress : String = "",
     val text:  String = "",
     val timestamp: Long =  0L
 )
@@ -79,6 +80,7 @@ class ChatViewModel @Inject constructor(
         senderUid: String,
         senderDisplayedName : String,
         senderLogoUrl: String?,
+        senderAddress: String,
         onComplete : () -> Unit,
 //        senderAddress : String,
         role : UserRole,
@@ -97,6 +99,7 @@ class ChatViewModel @Inject constructor(
             text = messageText.value,
             senderLogoUrl = senderLogoUrl,
             senderDisplayedName = senderDisplayedName,
+            senderAddress = senderAddress,
             timestamp = Timestamp.now().seconds * 1000
         )
         Log.d("chat_test" , "messageEntity $messageEntity")

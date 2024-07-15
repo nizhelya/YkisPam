@@ -98,7 +98,7 @@ fun ChatScreen(
     ) {
         DefaultAppBar(
             modifier = modifier,
-            title = if (baseUIState.userRole == UserRole.StandardUser) selectedService.name
+            title = if (baseUIState.userRole == UserRole.StandardUser) "Чат ${selectedService.name}"
             else {
                 userEntity.displayName ?: userEntity.email.toString()
             },
@@ -138,6 +138,7 @@ fun ChatScreen(
                     if (baseUIState.displayName.isNullOrEmpty()) baseUIState.email.toString() else baseUIState.displayName,
                     senderLogoUrl = baseUIState.photoUrl,
                     role = baseUIState.userRole,
+                    senderAddress = if(baseUIState.userRole == UserRole.StandardUser) baseUIState.address else "",
                     onComplete = {
                         coroutineScope.launch {
                             listState.animateScrollToItem(messageList.size - 1)
