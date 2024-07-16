@@ -1,5 +1,6 @@
 package com.ykis.ykispam.ui.screens.chat
 
+import android.net.Uri
 import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.Timestamp
@@ -8,6 +9,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.FirebaseStorage
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.domain.UserRole
 import com.ykis.ykispam.firebase.service.repo.LogService
@@ -30,6 +32,7 @@ data class MessageEntity(
     val senderLogoUrl : String? = null,
     val senderAddress : String = "",
     val text:  String = "",
+    val imageUrl : String? = null,
     val timestamp: Long =  0L
 )
 data class UserEntity(
@@ -56,6 +59,7 @@ class ChatViewModel @Inject constructor(
 ): BaseViewModel(logService){
 
     val userDatabase = Firebase.firestore
+    private val storageReference = FirebaseStorage.getInstance().reference
 
     private val _firebaseTest = MutableStateFlow<List<MessageEntity>>(emptyList())
     val firebaseTest = _firebaseTest.asStateFlow()
@@ -75,24 +79,25 @@ class ChatViewModel @Inject constructor(
     private val _userIdentifiersWithRole = MutableStateFlow<List<String>>(emptyList())
     val userIdentifiersWithRole = _userIdentifiersWithRole.asStateFlow()
 
+
     fun writeToDatabase(
-        chatUid : String,
+        chatUid: String,
         senderUid: String,
-        senderDisplayedName : String,
+        senderDisplayedName: String,
         senderLogoUrl: String?,
         senderAddress: String,
-        onComplete : () -> Unit,
-//        senderAddress : String,
-        role : UserRole,
-    ){
-        Log.d("chat_test" , "функция writeToDatabase")
-        val chatId = if(role==UserRole.StandardUser){
+        imageUrl: String?,  // Modified parameter to include imageUrl
+        role: UserRole,
+        onComplete: () -> Unit
+    ) {
+        Log.d("chat_test", "функция writeToDatabase")
+        val chatId = if (role == UserRole.StandardUser) {
             "${selectedService.value.codeName}_$senderUid"
-        }else "${role.codeName}_$chatUid"
-        Log.d("chat_test" , "chatId $chatId")
+        } else "${role.codeName}_$chatUid"
+        Log.d("chat_test", "chatId $chatId")
         val reference = FirebaseDatabase.getInstance().getReference("chats").child(chatId)
         val key = reference.push().key!!
-        Log.d("chat_test" , "key $key")
+        Log.d("chat_test", "key $key")
         val messageEntity = MessageEntity(
             id = key,
             senderUid = senderUid,
@@ -100,19 +105,20 @@ class ChatViewModel @Inject constructor(
             senderLogoUrl = senderLogoUrl,
             senderDisplayedName = senderDisplayedName,
             senderAddress = senderAddress,
+            imageUrl = imageUrl,  // Set the imageUrl in MessageEntity
             timestamp = Timestamp.now().seconds * 1000
         )
-        Log.d("chat_test" , "messageEntity $messageEntity")
+        Log.d("chat_test", "messageEntity $messageEntity")
         reference.child(key)
             .setValue(
                 messageEntity
             ).addOnCompleteListener {
                 _messageText.value = ""
                 onComplete()
-                Log.d("chat_test" , "completed")
+                Log.d("chat_test", "completed")
             }.addOnFailureListener {
                 SnackbarManager.showMessage(it.message.toString())
-                Log.d("chat_test" , "failure ${it.message}")
+                Log.d("chat_test", "failure ${it.message}")
             }
     }
 
@@ -237,5 +243,29 @@ class ChatViewModel @Inject constructor(
                 Log.w("firebase_error", "Failed to read value for chat $chatUid.", error.toException())
             }
         })
+    }
+    fun uploadPhotoAndSendMessage(
+        chatUid: String,
+        senderUid: String,
+        senderDisplayedName: String,
+        senderLogoUrl: String?,
+        senderAddress: String,
+        photoUri: Uri,
+        role: UserRole,
+        onComplete: () -> Unit
+    ) {
+        val photoRef = storageReference.child("chat_images/${photoUri.lastPathSegment}")
+        photoRef.putFile(photoUri)
+            .addOnSuccessListener { taskSnapshot ->
+                photoRef.downloadUrl.addOnSuccessListener { uri ->
+                    val imageUrl = uri.toString()
+                    Log.d("photo_upload", "Image URL: $imageUrl")
+                    writeToDatabase(chatUid, senderUid, senderDisplayedName, senderLogoUrl, senderAddress, imageUrl, role, onComplete)
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w("photo_upload", "Error uploading image.", exception)
+                SnackbarManager.showMessage("Error uploading image: ${exception.message}")
+            }
     }
 }

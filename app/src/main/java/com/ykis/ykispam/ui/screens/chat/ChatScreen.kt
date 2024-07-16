@@ -143,8 +143,25 @@ fun ChatScreen(
                         coroutineScope.launch {
                             listState.animateScrollToItem(messageList.size - 1)
                         }
-                    }
+                    },
+                    imageUrl = null
                 )
+            },
+            onImageSent = {
+                          chatViewModel.uploadPhotoAndSendMessage(
+                              chatUid = chatUid,
+                              senderUid = baseUIState.uid.toString(),
+                              senderDisplayedName = if (baseUIState.displayName.isNullOrEmpty()) baseUIState.email.toString() else baseUIState.displayName,
+                              senderLogoUrl = baseUIState.photoUrl,
+                              role = baseUIState.userRole,
+                              senderAddress = if(baseUIState.userRole == UserRole.StandardUser) baseUIState.address else "",
+                              onComplete = {
+                                  coroutineScope.launch {
+                                      listState.animateScrollToItem(messageList.size - 1)
+                                  }
+                              },
+                              photoUri = it
+                          )
             },
             text = messageText,
             onTextChanged = { chatViewModel.onMessageTextChanged(it) }

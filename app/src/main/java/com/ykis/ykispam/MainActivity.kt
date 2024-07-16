@@ -1,10 +1,14 @@
 package com.ykis.ykispam
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.addCallback
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
@@ -29,6 +33,11 @@ class MainActivity : ComponentActivity() {
 
     private var pressBackExitJob: Job? = null
     private var backPressedOnce = false
+
+    private val openDocument = registerForActivityResult(MyOpenDocumentContract()){
+        uri -> uri?.let { Log.d("uri_test" , uri.toString()) }
+    }
+
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +79,14 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
 }
 
+class MyOpenDocumentContract : ActivityResultContracts.OpenDocument() {
+
+    override fun createIntent(context: Context, input: Array<String>): Intent {
+        val intent = super.createIntent(context, input)
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+
+        return intent;
+    }
+}

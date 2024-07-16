@@ -103,6 +103,7 @@ dependencies {
     implementation(libs.firebase.config)
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.database)
+    implementation(libs.firebase.storage)
     //implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.play.services.auth)
@@ -145,5 +146,6 @@ dependencies {
     implementation("com.github.pustovitandriy:XPAY_Android_SDK:1.0.2")
     implementation ("androidx.datastore:datastore-preferences:1.0.0")
 
-
+//    implementation("com.google.firebase:firebase-storage:21.0.0")
+//    implementation("com.google.firebase:firebase-storage-ktx:21.0.0")
 }
