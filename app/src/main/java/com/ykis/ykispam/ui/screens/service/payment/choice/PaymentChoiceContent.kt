@@ -2,7 +2,6 @@ package com.ykis.ykispam.ui.screens.service.payment.choice
 
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.view.ViewGroup
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,7 +25,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.domain.payment.request.InsertPaymentParams
 import com.ykis.ykispam.domain.service.request.ServiceParams
 import com.ykis.ykispam.ui.BaseUIState
@@ -34,8 +32,6 @@ import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.screens.service.ServiceViewModel
 import com.ykis.ykispam.ui.screens.service.list.TotalDebtState
 import com.ykis.ykispam.ui.screens.service.list.assembleServiceList
-import ua.com.xpay.xpaylib.XPayLibPayment
-import ua.com.xpay.xpaylib.model.OrderItem
 
 
 @Composable
@@ -121,28 +117,6 @@ fun PaymentChoiceStateful(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
                 onClick = {
-                    val orderList: MutableList<OrderItem> = mutableListOf()
-                    for (item in serviceList) {
-                        Log.d("payment_test", "cycle started " + serviceList.size.toString())
-                        when (item.contentDetail) {
-                            ContentDetail.OSBB -> {
-                                addToOrderList(osbbField, item.name, orderList)
-                            }
-
-                            ContentDetail.WATER_SERVICE -> {
-                                addToOrderList(waterField, item.name, orderList)
-                            }
-
-                            ContentDetail.WARM_SERVICE -> {
-                                addToOrderList(heatField, item.name, orderList)
-                            }
-
-                            else -> {
-                                addToOrderList(tboField, item.name, orderList)
-                            }
-                        }
-                    }
-
                     viewModel.insertPayment(
                         params = InsertPaymentParams(
                             uid = baseUIState.uid.toString(),
@@ -154,35 +128,10 @@ fun PaymentChoiceStateful(
                             tbo = tboField.toDoubleOrNull() ?: 0.0
                         ),
                         onSuccess = {
-                            //if open in WebView
                             navigateToWebView(it)
-                            //if open in Browser
-//                            context.startActivity(intent(it))
                         }
                     )
-                    if (orderList.isNotEmpty()) {
-                        val payment: XPayLibPayment = XPayLibPayment {
-                            this.partnerToken = "72a8ddb8-9145-4a41-af1a-8c48ecaa4be1"
-                            this.transactionId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx"
-                            this.googlePayGateway = "exampleGateway"
-                            this.googlePayGatewayMerchantId = "exampleMerchantId"
-                            this.terminalId = "111"
-                            this.payeeEmail = "test@test.com"
-                            this.payeePhone = "380xxxxxxxxx"
-                            this.payeeUserId = "1"
-                            this.payeeName = "Name"
-                            this.currency = "UAH"
-                            this.amount = orderList.sumOf { it.price }
-                            this.purpose = "purpose"
-                            this.order = "example order"
-                            this.site = "example site"
-                            this.showOrderDetails = true
-                            this.orderItemList = orderList
-                        }
-                        val requestCode = 123
-//                        payment.startPaymentFrom(localContext as Activity, requestCode)
-                    } else SnackbarManager.showMessage("Щоб сплатити оберіть послугу")
-
+                    // TODO: make for empty user fields 
                 }
             ) {
                 AnimatedVisibility(visible = loading) {
@@ -201,23 +150,6 @@ fun PaymentChoiceStateful(
                 }
             }
         }
-    }
-}
-
-fun addToOrderList(
-    textField: String,
-    name: String,
-    orderList: MutableList<OrderItem>
-) {
-    val userPrice = textField.toDoubleOrNull()
-    if (userPrice != null && userPrice > 0.0) {
-        orderList.add(
-            OrderItem(
-                orderItemTitle = name,
-                orderItemDescription = "",
-                price = userPrice
-            )
-        )
     }
 }
 
