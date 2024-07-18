@@ -1,4 +1,5 @@
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -67,6 +68,7 @@ fun MessageListItem(
             }
             Box(
                 modifier = Modifier
+                    .animateContentSize()
                     .padding(start = 4.dp)
                     .clip(
                         shape
@@ -76,21 +78,29 @@ fun MessageListItem(
             ) {
                 Box {
                     if(messageEntity.imageUrl!=null){
-                        AsyncImage(
-                            modifier = modifier.clip(shape),
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .dispatcher(Dispatchers.IO)
-                                .memoryCacheKey(messageEntity.imageUrl)
-                                .diskCacheKey(messageEntity.imageUrl)
-                                .data(messageEntity.imageUrl)
-                                .diskCachePolicy(CachePolicy.ENABLED)
-                                .memoryCachePolicy(CachePolicy.ENABLED)
-                                .crossfade(true)
-                                .build(),
-//                                error = ,
-                            contentDescription = null,
-                            contentScale = ContentScale.Fit
-                        )
+                        Column {
+                            AsyncImage(
+                                modifier = modifier.clip(shape),
+                                model = ImageRequest.Builder(LocalContext.current)
+                                    .dispatcher(Dispatchers.IO)
+                                    .memoryCacheKey(messageEntity.imageUrl)
+                                    .diskCacheKey(messageEntity.imageUrl)
+                                    .data(messageEntity.imageUrl)
+                                    .diskCachePolicy(CachePolicy.ENABLED)
+                                    .memoryCachePolicy(CachePolicy.ENABLED)
+                                    .crossfade(true)
+                                    .build(),
+                                contentDescription = null,
+                                contentScale = ContentScale.Fit,
+//                                placeholder = painterResource(id = R.drawable.ic_empty_box_light)
+                            )
+                            if(messageEntity.text.isNotBlank()){
+                                Text(
+                                    modifier = modifier.padding(start = 4.dp ,end = 32.dp),
+                                    text = messageEntity.text,
+                                )
+                            }
+                        }
                     }
                     Column(
                         modifier = modifier.padding(6.dp)
@@ -107,23 +117,25 @@ fun MessageListItem(
                                 modifier = modifier
                                     .clip(RoundedCornerShape(32.dp))
                                     .background(
-                                        if (messageEntity.imageUrl != null) {
+                                        if (messageEntity.imageUrl != null && messageEntity.text.isBlank()) {
                                             MaterialTheme.colorScheme.surface.copy(alpha = 0.7f)
                                         } else Color.Transparent
                                     )
                                     .padding(
                                         vertical = 2.dp,
-                                        horizontal = if (messageEntity.imageUrl != null) 4.dp else 0.dp
+                                        horizontal = if (messageEntity.imageUrl != null && messageEntity.text.isBlank()) 4.dp else 0.dp
                                     ),
                                 text = messageEntity.senderAddress,
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
-                        Text(
-                            modifier = modifier.padding(end = 32.dp),
-                            text = messageEntity.text,
-                        )
+                        if(messageEntity.imageUrl==null) {
+                            Text(
+                                modifier = modifier.padding(end = 32.dp),
+                                text = messageEntity.text,
+                            )
+                        }
                     }
                     Text(
                         modifier = modifier

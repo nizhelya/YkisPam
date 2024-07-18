@@ -37,7 +37,8 @@ internal fun ComposeMessageBox(
     onSent: () -> Unit,
     onImageSent : (Uri) -> Unit,
     text: String,
-    onTextChanged: (String) -> Unit
+    onTextChanged: (String) -> Unit,
+    showAttachIcon : Boolean = true
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -54,20 +55,23 @@ internal fun ComposeMessageBox(
 
     Row(
         modifier = Modifier
-            .padding(8.dp)
+//            .padding(4.dp)
             .fillMaxWidth()
             .wrapContentHeight(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
-        IconButton(onClick = {
-            openDocumentLauncher.launch(arrayOf("image/*"))
-        }) {
-            Icon(
-                imageVector = Icons.Default.AttachFile,
-                contentDescription = null
-            )
+        if(showAttachIcon){
+            IconButton(onClick = {
+                openDocumentLauncher.launch(arrayOf("image/*"))
+            }) {
+                Icon(
+                    imageVector = Icons.Default.AttachFile,
+                    contentDescription = null
+                )
+            }
         }
+
         BasicTextField(
             value = text,
             onValueChange = { onTextChanged(it) },

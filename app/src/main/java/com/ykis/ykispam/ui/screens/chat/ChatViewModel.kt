@@ -79,6 +79,8 @@ class ChatViewModel @Inject constructor(
     private val _userIdentifiersWithRole = MutableStateFlow<List<String>>(emptyList())
     val userIdentifiersWithRole = _userIdentifiersWithRole.asStateFlow()
 
+    private val _selectedImageUri = MutableStateFlow(Uri.EMPTY)
+    val selectedImageUri = _selectedImageUri.asStateFlow()
 
     fun writeToDatabase(
         chatUid: String,
@@ -250,12 +252,11 @@ class ChatViewModel @Inject constructor(
         senderDisplayedName: String,
         senderLogoUrl: String?,
         senderAddress: String,
-        photoUri: Uri,
         role: UserRole,
         onComplete: () -> Unit
     ) {
-        val photoRef = storageReference.child("chat_images/${photoUri.lastPathSegment}")
-        photoRef.putFile(photoUri)
+        val photoRef = storageReference.child("chat_images/${selectedImageUri.value.lastPathSegment}")
+        photoRef.putFile(selectedImageUri.value)
             .addOnSuccessListener { taskSnapshot ->
                 photoRef.downloadUrl.addOnSuccessListener { uri ->
                     val imageUrl = uri.toString()
@@ -267,5 +268,9 @@ class ChatViewModel @Inject constructor(
                 Log.w("photo_upload", "Error uploading image.", exception)
                 SnackbarManager.showMessage("Error uploading image: ${exception.message}")
             }
+    }
+
+    fun setSelectedImageUri(uri : Uri){
+        _selectedImageUri.value = uri
     }
 }

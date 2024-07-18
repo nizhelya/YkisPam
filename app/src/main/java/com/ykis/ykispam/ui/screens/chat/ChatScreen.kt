@@ -48,16 +48,13 @@ fun ChatScreen(
     userEntity: UserEntity,
     chatViewModel: ChatViewModel,
     baseUIState: BaseUIState,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    navigateToSendImageScreen : () -> Unit,
+    chatUid : String
 ) {
     val messageText by chatViewModel.messageText.collectAsStateWithLifecycle()
     val messageList by chatViewModel.firebaseTest.collectAsStateWithLifecycle()
     val selectedService by chatViewModel.selectedService.collectAsStateWithLifecycle()
-    val chatUid = remember(baseUIState, userEntity) {
-        if (baseUIState.userRole == UserRole.StandardUser) {
-            baseUIState.uid.toString()
-        } else userEntity.uid
-    }
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
     var isFirstTime by remember { mutableStateOf(true) }
@@ -148,20 +145,22 @@ fun ChatScreen(
                 )
             },
             onImageSent = {
-                          chatViewModel.uploadPhotoAndSendMessage(
-                              chatUid = chatUid,
-                              senderUid = baseUIState.uid.toString(),
-                              senderDisplayedName = if (baseUIState.displayName.isNullOrEmpty()) baseUIState.email.toString() else baseUIState.displayName,
-                              senderLogoUrl = baseUIState.photoUrl,
-                              role = baseUIState.userRole,
-                              senderAddress = if(baseUIState.userRole == UserRole.StandardUser) baseUIState.address else "",
-                              onComplete = {
-                                  coroutineScope.launch {
-                                      listState.animateScrollToItem(messageList.size - 1)
-                                  }
-                              },
-                              photoUri = it
-                          )
+                            chatViewModel.setSelectedImageUri(it)
+                          navigateToSendImageScreen()
+//                          chatViewModel.uploadPhotoAndSendMessage(
+//                              chatUid = chatUid,
+//                              senderUid = baseUIState.uid.toString(),
+//                              senderDisplayedName = if (baseUIState.displayName.isNullOrEmpty()) baseUIState.email.toString() else baseUIState.displayName,
+//                              senderLogoUrl = baseUIState.photoUrl,
+//                              role = baseUIState.userRole,
+//                              senderAddress = if(baseUIState.userRole == UserRole.StandardUser) baseUIState.address else "",
+//                              onComplete = {
+//                                  coroutineScope.launch {
+//                                      listState.animateScrollToItem(messageList.size - 1)
+//                                  }
+//                              },
+//                              photoUri = it
+//                          )
             },
             text = messageText,
             onTextChanged = { chatViewModel.onMessageTextChanged(it) }

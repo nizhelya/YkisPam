@@ -10,6 +10,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -21,6 +22,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
+import com.ykis.ykispam.domain.UserRole
 import com.ykis.ykispam.ui.rememberAppState
 import com.ykis.ykispam.ui.screens.appartment.ApartmentViewModel
 import com.ykis.ykispam.ui.screens.chat.ChatViewModel
@@ -56,7 +58,12 @@ fun RootNavGraph(
     }
     val selectedUser by chatViewModel.selectedUser.collectAsStateWithLifecycle()
     val baseUIState by apartmentViewModel.uiState.collectAsStateWithLifecycle()
-
+    val selectedImageUri by chatViewModel.selectedImageUri.collectAsStateWithLifecycle()
+    val chatUid = remember(baseUIState, selectedUser.uid) {
+        if (baseUIState.userRole == UserRole.StandardUser) {
+            baseUIState.uid.toString()
+        } else selectedUser.uid
+    }
     Scaffold (
         snackbarHost = {
             SnackbarHost(
@@ -167,7 +174,38 @@ fun RootNavGraph(
                         navController.navigateUp()
                     },
                     chatViewModel = chatViewModel,
-                    baseUIState = baseUIState
+                    baseUIState = baseUIState,
+                    navigateToSendImageScreen = {
+                        navController.navigate(SendImageScreen.route)
+                    },
+                    chatUid = chatUid,
+                )
+            }
+
+            composable(SendImageScreen.route){
+                val messageText by chatViewModel.messageText.collectAsStateWithLifecycle()
+                com.ykis.ykispam.ui.screens.chat.SendImageScreen(
+                    imageUri = selectedImageUri,
+                    messageText = messageText,
+                    onMessageTextChanged = {
+                        chatViewModel.onMessageTextChanged(it)
+                    },
+                    navigateBack = {
+                        navController.navigateUp()
+                    },
+                    onSent = {
+                        chatViewModel.uploadPhotoAndSendMessage(
+                              chatUid = chatUid,
+                              senderUid = baseUIState.uid.toString(),
+                              senderDisplayedName = if (baseUIState.displayName.isNullOrEmpty()) baseUIState.email.toString() else baseUIState.displayName.toString(),
+                              senderLogoUrl = baseUIState.photoUrl,
+                              role = baseUIState.userRole,
+                              senderAddress = if(baseUIState.userRole == UserRole.StandardUser) baseUIState.address else "",
+                              onComplete = {
+                                  navController.navigateUp()
+                              },
+                          )
+                    }
                 )
             }
         }
