@@ -85,6 +85,9 @@ class ChatViewModel @Inject constructor(
     private val _isLoadingAfterSending = MutableStateFlow(false)
     val isLoadingAfterSending = _isLoadingAfterSending.asStateFlow()
 
+    private val _selectedMessage = MutableStateFlow(MessageEntity())
+    val selectedMessage = _selectedMessage.asStateFlow()
+
     fun writeToDatabase(
         chatUid: String,
         senderUid: String,
@@ -294,5 +297,8 @@ class ChatViewModel @Inject constructor(
                 Log.w("delete_message", "Error deleting message $messageId from chat $chatId", exception)
                 SnackbarManager.showMessage("Error deleting message: ${exception.message}")
             }
+    }
+    fun setSelectedMessage(message : MessageEntity){
+        _selectedMessage.value = message
     }
 }

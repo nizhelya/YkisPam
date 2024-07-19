@@ -52,7 +52,8 @@ fun ChatScreen(
     navigateBack: () -> Unit,
     navigateToSendImageScreen : () -> Unit,
     chatUid : String,
-    navigateToCameraScreen : () -> Unit
+    navigateToCameraScreen : () -> Unit,
+    navigateToImageDetailScreen : (MessageEntity) -> Unit
 ) {
     val messageText by chatViewModel.messageText.collectAsStateWithLifecycle()
     val messageList by chatViewModel.firebaseTest.collectAsStateWithLifecycle()
@@ -136,8 +137,11 @@ fun ChatScreen(
                             uid = baseUIState.uid.toString(),
                             messageEntity = chatItem.message,
                             onLongClick = {
-                               selectedMessageId = it
+                               selectedMessageId = chatItem.message.id
                                 showDeleteMessageDialog = true
+                            },
+                            onClick = {
+                                navigateToImageDetailScreen(chatItem.message)
                             }
                         )
                     }

@@ -44,7 +44,8 @@ fun MessageListItem(
     modifier: Modifier = Modifier,
     uid: String,
     messageEntity: MessageEntity,
-    onLongClick : (String) -> Unit
+    onLongClick : () -> Unit,
+    onClick : () -> Unit
 ) {
     val isFromMe = remember(uid, messageEntity) { uid == messageEntity.senderUid }
     val shape = remember(isFromMe){
@@ -82,9 +83,13 @@ fun MessageListItem(
                     .padding(2.dp)
                     .combinedClickable(
                         onLongClick = {
-                            onLongClick(messageEntity.id)
+                            onLongClick()
                         },
-                        onClick = {}
+                        onClick = {
+                            if(messageEntity.imageUrl!=null){
+                                onClick()
+                            }
+                        }
                     )
             ) {
                 Box {
@@ -184,7 +189,8 @@ private fun PreviewMessageListItem() {
             senderDisplayedName = "Кирило Блідний",
             senderAddress = "Миру 28/1"
         ),
-            onLongClick = {}
+            onLongClick = {},
+            onClick = {}
         )
     }
 }

@@ -5,14 +5,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import com.ykis.ykispam.ui.components.appbars.DefaultAppBar
+import com.ykis.ykispam.ui.components.ZoomableImage
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 
 @Composable
@@ -28,26 +30,23 @@ fun SendImageScreen(
     Column(
         modifier = modifier.fillMaxSize()
     ) {
-        DefaultAppBar(
-            title = "",
-            canNavigateBack = true,
-            onBackClick = {
-                navigateBack()
-            }
-        )
         Box(
-            modifier = modifier.weight(1f).align(Alignment.CenterHorizontally)
+            modifier = modifier
+                .weight(1f)
+                .align(Alignment.CenterHorizontally),
+            contentAlignment = Alignment.Center
         ){
-            AsyncImage(
-                model = imageUri,
-                contentDescription = "",
-                modifier = Modifier
-                    .padding(vertical = 16.dp)
-                    .align(Alignment.Center),
-                contentScale = ContentScale.Fit,
-            )
+           ZoomableImage(imageUri = imageUri)
+            IconButton(
+                modifier = modifier.padding(8.dp).align(Alignment.TopStart),
+                onClick = { navigateBack() }
+            ) {
+                Icon(
+                    Icons.AutoMirrored.Filled.ArrowBack,
+                    null
+                )
+            }
         }
-
 
         ComposeMessageBox(
             onSent = { onSent() },

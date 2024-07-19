@@ -181,6 +181,10 @@ fun RootNavGraph(
                     chatUid = chatUid,
                     navigateToCameraScreen = {
                         navController.navigate(CameraScreen.route)
+                    },
+                    navigateToImageDetailScreen = {
+                        chatViewModel.setSelectedMessage(it)
+                        navController.navigate(ImageDetailScreen.route)
                     }
                 )
             }
@@ -224,6 +228,13 @@ fun RootNavGraph(
                     setImageUri = {
                         chatViewModel.setSelectedImageUri(it)
                     }
+                )
+            }
+            composable(ImageDetailScreen.route){
+                val selectedMessage by chatViewModel.selectedMessage.collectAsStateWithLifecycle()
+                com.ykis.ykispam.ui.screens.chat.ImageDetailScreen(
+                    navigateUp = {navController.navigateUp()},
+                    messageEntity = selectedMessage
                 )
             }
         }
