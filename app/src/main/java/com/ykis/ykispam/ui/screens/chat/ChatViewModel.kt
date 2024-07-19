@@ -82,6 +82,9 @@ class ChatViewModel @Inject constructor(
     private val _selectedImageUri = MutableStateFlow(Uri.EMPTY)
     val selectedImageUri = _selectedImageUri.asStateFlow()
 
+    private val _isLoadingAfterSending = MutableStateFlow(false)
+    val isLoadingAfterSending = _isLoadingAfterSending.asStateFlow()
+
     fun writeToDatabase(
         chatUid: String,
         senderUid: String,
@@ -92,6 +95,7 @@ class ChatViewModel @Inject constructor(
         role: UserRole,
         onComplete: () -> Unit
     ) {
+        _isLoadingAfterSending.value = true
         Log.d("chat_test", "функция writeToDatabase")
         val chatId = if (role == UserRole.StandardUser) {
             "${selectedService.value.codeName}_$senderUid"
@@ -115,6 +119,7 @@ class ChatViewModel @Inject constructor(
             .setValue(
                 messageEntity
             ).addOnCompleteListener {
+                _isLoadingAfterSending.value = false
                 _messageText.value = ""
                 onComplete()
                 Log.d("chat_test", "completed")
@@ -255,6 +260,7 @@ class ChatViewModel @Inject constructor(
         role: UserRole,
         onComplete: () -> Unit
     ) {
+        _isLoadingAfterSending.value = true
         val photoRef = storageReference.child("chat_images/${selectedImageUri.value.lastPathSegment}")
         photoRef.putFile(selectedImageUri.value)
             .addOnSuccessListener { taskSnapshot ->

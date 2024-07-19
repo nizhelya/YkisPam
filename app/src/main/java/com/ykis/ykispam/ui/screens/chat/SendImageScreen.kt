@@ -22,7 +22,8 @@ fun SendImageScreen(
     navigateBack : () -> Unit,
     messageText : String,
     onMessageTextChanged : (String) -> Unit,
-    onSent : () -> Unit
+    onSent : () -> Unit,
+    isLoadingAfterSending : Boolean
 ) {
     Column(
         modifier = modifier.fillMaxSize()
@@ -53,7 +54,10 @@ fun SendImageScreen(
             onImageSent = {} ,
             text = messageText,
             showAttachIcon = false ,
-            onTextChanged = onMessageTextChanged
+            onTextChanged = onMessageTextChanged,
+            onCameraClick = {},
+            isLoading = isLoadingAfterSending,
+            canSend = true
         )
     }
 }
@@ -67,7 +71,8 @@ private fun PreviewSendImageScreen() {
             messageText = "" ,
             onMessageTextChanged = {},
             navigateBack = {},
-            onSent = {}
+            onSent = {},
+            isLoadingAfterSending = false
         )
     }
 }

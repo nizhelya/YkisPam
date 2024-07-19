@@ -63,6 +63,10 @@ object SendImageScreen : Destination {
     override val route: String
         get() = "SendImageScreen"
 }
+object CameraScreen : Destination {
+    override val route: String
+        get() = "CameraScreen"
+}
 //object ChatServicesListScreen : Destination {
 //    override val route: String
 //        get() = "ChatServicesListScreen"

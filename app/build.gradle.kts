@@ -144,7 +144,11 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
     implementation ("androidx.datastore:datastore-preferences:1.0.0")
-
+    val cameraxVersion = "1.3.4"
+    implementation ("androidx.camera:camera-core:${cameraxVersion}")
+    implementation ("androidx.camera:camera-camera2:${cameraxVersion}")
+    implementation ("androidx.camera:camera-view:${cameraxVersion}")
+    implementation ("androidx.camera:camera-lifecycle:$cameraxVersion")
 //    implementation("com.google.firebase:firebase-storage:21.0.0")
 //    implementation("com.google.firebase:firebase-storage-ktx:21.0.0")
 }

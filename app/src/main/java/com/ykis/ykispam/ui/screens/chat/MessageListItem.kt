@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -50,6 +51,14 @@ fun MessageListItem(
             bottomEnd = if (isFromMe) 0f else 24f
         )
     }
+    val boxModifier = Modifier.animateContentSize()
+    .padding(start = 4.dp)
+        .clip(
+            shape
+        )
+        .background(MaterialTheme.colorScheme.secondaryContainer)
+        .padding(2.dp)
+
     Box(modifier = modifier.fillMaxWidth()) {
         Row(
             modifier = modifier.align(if (isFromMe) Alignment.CenterEnd else Alignment.CenterStart),
@@ -67,20 +76,15 @@ fun MessageListItem(
                 )
             }
             Box(
-                modifier = Modifier
-                    .animateContentSize()
-                    .padding(start = 4.dp)
-                    .clip(
-                        shape
-                    )
-                    .background(MaterialTheme.colorScheme.secondaryContainer)
-                    .padding(2.dp)
+                modifier = if(messageEntity.imageUrl==null){
+                    boxModifier
+                }else boxModifier
             ) {
                 Box {
                     if(messageEntity.imageUrl!=null){
                         Column {
                             AsyncImage(
-                                modifier = modifier.clip(shape),
+                                modifier = modifier.clip(shape).sizeIn(minWidth = 144.dp , minHeight = 24.dp),
                                 model = ImageRequest.Builder(LocalContext.current)
                                     .dispatcher(Dispatchers.IO)
                                     .memoryCacheKey(messageEntity.imageUrl)
@@ -92,7 +96,6 @@ fun MessageListItem(
                                     .build(),
                                 contentDescription = null,
                                 contentScale = ContentScale.Fit,
-//                                placeholder = painterResource(id = R.drawable.ic_empty_box_light)
                             )
                             if(messageEntity.text.isNotBlank()){
                                 Text(
@@ -117,13 +120,13 @@ fun MessageListItem(
                                 modifier = modifier
                                     .clip(RoundedCornerShape(32.dp))
                                     .background(
-                                        if (messageEntity.imageUrl != null && messageEntity.text.isBlank()) {
+                                        if (messageEntity.imageUrl != null) {
                                             MaterialTheme.colorScheme.surface.copy(alpha = 0.7f)
                                         } else Color.Transparent
                                     )
                                     .padding(
                                         vertical = 2.dp,
-                                        horizontal = if (messageEntity.imageUrl != null && messageEntity.text.isBlank()) 4.dp else 0.dp
+                                        horizontal = if (messageEntity.imageUrl != null) 4.dp else 0.dp
                                     ),
                                 text = messageEntity.senderAddress,
                                 style = MaterialTheme.typography.labelSmall,
@@ -143,7 +146,7 @@ fun MessageListItem(
                             .clip(RoundedCornerShape(32.dp))
                             .align(Alignment.BottomEnd)
                             .background(
-                                if (messageEntity.imageUrl != null) {
+                                if (messageEntity.imageUrl != null  && messageEntity.text.isBlank()) {
                                     MaterialTheme.colorScheme.surface.copy(alpha = 0.7f)
                                 } else Color.Transparent
                             )

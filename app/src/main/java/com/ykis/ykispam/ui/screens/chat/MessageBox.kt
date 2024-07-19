@@ -4,12 +4,14 @@ import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -17,6 +19,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.AttachFile
+import androidx.compose.material.icons.filled.CameraAlt
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -36,9 +40,12 @@ import androidx.compose.ui.unit.dp
 internal fun ComposeMessageBox(
     onSent: () -> Unit,
     onImageSent : (Uri) -> Unit,
+    onCameraClick : () -> Unit,
     text: String,
     onTextChanged: (String) -> Unit,
-    showAttachIcon : Boolean = true
+    showAttachIcon : Boolean = true,
+    isLoading : Boolean,
+    canSend :Boolean
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -55,7 +62,6 @@ internal fun ComposeMessageBox(
 
     Row(
         modifier = Modifier
-//            .padding(4.dp)
             .fillMaxWidth()
             .wrapContentHeight(),
         verticalAlignment = Alignment.CenterVertically,
@@ -67,6 +73,14 @@ internal fun ComposeMessageBox(
             }) {
                 Icon(
                     imageVector = Icons.Default.AttachFile,
+                    contentDescription = null
+                )
+            }
+            IconButton(onClick = {
+                onCameraClick()
+            }) {
+                Icon(
+                    imageVector = Icons.Default.CameraAlt,
                     contentDescription = null
                 )
             }
@@ -104,17 +118,23 @@ internal fun ComposeMessageBox(
                 }
             }
         )
-        IconButton(
-            onClick = {
-                onSent()
-                keyboardController?.hide()
-            },
-            enabled = text.isNotBlank()
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.Send,
-                contentDescription = "Відправити"
-            )
+        Crossfade(isLoading) {
+            if(it){
+                CircularProgressIndicator(modifier = Modifier.size(24.dp))
+            }else{
+                IconButton(
+                    onClick = {
+                        onSent()
+                        keyboardController?.hide()
+                    },
+                    enabled = canSend
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.Send,
+                        contentDescription = "Відправити"
+                    )
+                }
+            }
         }
     }
 }

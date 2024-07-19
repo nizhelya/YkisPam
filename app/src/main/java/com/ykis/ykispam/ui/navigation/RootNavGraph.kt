@@ -179,11 +179,16 @@ fun RootNavGraph(
                         navController.navigate(SendImageScreen.route)
                     },
                     chatUid = chatUid,
+                    navigateToCameraScreen = {
+                        navController.navigate(CameraScreen.route)
+                    }
                 )
             }
 
             composable(SendImageScreen.route){
                 val messageText by chatViewModel.messageText.collectAsStateWithLifecycle()
+                val isLoadingAfterSending by chatViewModel.isLoadingAfterSending.collectAsStateWithLifecycle()
+
                 com.ykis.ykispam.ui.screens.chat.SendImageScreen(
                     imageUri = selectedImageUri,
                     messageText = messageText,
@@ -202,9 +207,22 @@ fun RootNavGraph(
                               role = baseUIState.userRole,
                               senderAddress = if(baseUIState.userRole == UserRole.StandardUser) baseUIState.address else "",
                               onComplete = {
-                                  navController.navigateUp()
+                                  navController.navigate(ChatScreen.route){
+                                      popUpTo(ChatScreen.route){
+                                          inclusive = true
+                                      }
+                                  }
                               },
                           )
+                    },
+                    isLoadingAfterSending = isLoadingAfterSending
+                )
+            }
+            composable(CameraScreen.route){
+                com.ykis.ykispam.ui.screens.chat.CameraScreen(
+                    navController = navController,
+                    setImageUri = {
+                        chatViewModel.setSelectedImageUri(it)
                     }
                 )
             }
