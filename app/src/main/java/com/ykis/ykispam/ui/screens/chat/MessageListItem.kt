@@ -1,6 +1,8 @@
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,11 +38,13 @@ import com.ykis.ykispam.ui.screens.chat.formatTime24H
 import com.ykis.ykispam.ui.theme.YkisPAMTheme
 import kotlinx.coroutines.Dispatchers
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MessageListItem(
     modifier: Modifier = Modifier,
     uid: String,
-    messageEntity: MessageEntity
+    messageEntity: MessageEntity,
+    onLongClick : (String) -> Unit
 ) {
     val isFromMe = remember(uid, messageEntity) { uid == messageEntity.senderUid }
     val shape = remember(isFromMe){
@@ -51,13 +55,6 @@ fun MessageListItem(
             bottomEnd = if (isFromMe) 0f else 24f
         )
     }
-    val boxModifier = Modifier.animateContentSize()
-    .padding(start = 4.dp)
-        .clip(
-            shape
-        )
-        .background(MaterialTheme.colorScheme.secondaryContainer)
-        .padding(2.dp)
 
     Box(modifier = modifier.fillMaxWidth()) {
         Row(
@@ -76,9 +73,19 @@ fun MessageListItem(
                 )
             }
             Box(
-                modifier = if(messageEntity.imageUrl==null){
-                    boxModifier
-                }else boxModifier
+                modifier = Modifier.animateContentSize()
+                    .padding(start = 4.dp)
+                    .clip(
+                        shape
+                    )
+                    .background(MaterialTheme.colorScheme.secondaryContainer)
+                    .padding(2.dp)
+                    .combinedClickable(
+                        onLongClick = {
+                            onLongClick(messageEntity.id)
+                        },
+                        onClick = {}
+                    )
             ) {
                 Box {
                     if(messageEntity.imageUrl!=null){
@@ -176,7 +183,8 @@ private fun PreviewMessageListItem() {
             text = "Привіт чувак! aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
             senderDisplayedName = "Кирило Блідний",
             senderAddress = "Миру 28/1"
-        )
+        ),
+            onLongClick = {}
         )
     }
 }

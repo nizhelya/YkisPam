@@ -279,4 +279,20 @@ class ChatViewModel @Inject constructor(
     fun setSelectedImageUri(uri : Uri){
         _selectedImageUri.value = uri
     }
+
+    fun deleteMessageFromDatabase(chatUid: String, messageId: String, role: UserRole) {
+        val chatId = if (role == UserRole.StandardUser) {
+            "${selectedService.value.codeName}_$chatUid"
+        } else "${role.codeName}_$chatUid"
+
+        val reference = FirebaseDatabase.getInstance().getReference("chats").child(chatId).child(messageId)
+        reference.removeValue()
+            .addOnCompleteListener {
+                Log.d("delete_message", "Message $messageId deleted successfully from chat $chatId")
+            }
+            .addOnFailureListener { exception ->
+                Log.w("delete_message", "Error deleting message $messageId from chat $chatId", exception)
+                SnackbarManager.showMessage("Error deleting message: ${exception.message}")
+            }
+    }
 }

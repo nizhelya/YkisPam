@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -60,7 +61,12 @@ fun ChatScreen(
     val coroutineScope = rememberCoroutineScope()
     var isFirstTime by remember { mutableStateOf(true) }
     val isLoadingAfterSending by chatViewModel.isLoadingAfterSending.collectAsStateWithLifecycle()
-
+    var showDeleteMessageDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var selectedMessageId by rememberSaveable {
+        mutableStateOf("")
+    }
     LaunchedEffect(key1 = baseUIState.uid) {
         chatViewModel.readFromDatabase(
             role = baseUIState.userRole,
@@ -126,7 +132,14 @@ fun ChatScreen(
                         )
                     }
                     is ChatItem.MessageItem -> {
-                        MessageListItem(uid = baseUIState.uid.toString(), messageEntity = chatItem.message)
+                        MessageListItem(
+                            uid = baseUIState.uid.toString(),
+                            messageEntity = chatItem.message,
+                            onLongClick = {
+                               selectedMessageId = it
+                                showDeleteMessageDialog = true
+                            }
+                        )
                     }
                 }
             }
@@ -159,6 +172,19 @@ fun ChatScreen(
             },
             isLoading = isLoadingAfterSending,
             canSend = messageText.isNotBlank()
+        )
+    }
+    if(showDeleteMessageDialog){
+        DeleteMessageDialog(
+            onDismiss = { showDeleteMessageDialog = false },
+            onConfirm = {
+                chatViewModel.deleteMessageFromDatabase(
+                    chatUid = chatUid,
+                    messageId = selectedMessageId,
+                    role = baseUIState.userRole
+                )
+                showDeleteMessageDialog = false
+            }
         )
     }
 }
