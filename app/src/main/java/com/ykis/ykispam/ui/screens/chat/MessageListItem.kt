@@ -3,6 +3,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -63,7 +64,7 @@ fun MessageListItem(
             verticalAlignment = Alignment.Bottom
         ) {
             if(isFromMe){
-                Spacer(modifier =modifier.width(48.dp))
+                Spacer(modifier =modifier.width(96.dp))
             }
             if (!isFromMe) {
                 UserImage(
@@ -75,7 +76,7 @@ fun MessageListItem(
             }
             Box(
                 modifier = Modifier.animateContentSize()
-                    .padding(start = 4.dp)
+                    .padding(start = if(isFromMe) 96.dp else 4.dp , end = if(isFromMe) 0.dp else 96.dp)
                     .clip(
                         shape
                     )
@@ -120,31 +121,35 @@ fun MessageListItem(
                     Column(
                         modifier = modifier.padding(6.dp)
                     ) {
-                        if (!isFromMe) {
-                            Text(
-                                text = messageEntity.senderDisplayedName,
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.primary
-                            )
+                        Column(
+                            modifier = modifier.clip(RoundedCornerShape(8.dp))
+                                .background(
+                                    if (messageEntity.imageUrl != null) {
+                                        MaterialTheme.colorScheme.surface.copy(alpha = 0.7f)
+                                    } else Color.Transparent
+                                )
+                                .padding(
+                                    vertical = 2.dp,
+                                    horizontal = if (messageEntity.imageUrl != null) 4.dp else 0.dp
+                                ),
+                            verticalArrangement = Arrangement.spacedBy(2.dp)
+                        ){
+                            if (!isFromMe) {
+                                Text(
+                                    text = messageEntity.senderDisplayedName,
+                                    style = MaterialTheme.typography.titleSmall,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                            }
+                            if(messageEntity.senderAddress.isNotBlank()){
+                                Text(
+                                    text = messageEntity.senderAddress,
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
                         }
-                        if(messageEntity.senderAddress.isNotBlank()){
-                            Text(
-                                modifier = modifier
-                                    .clip(RoundedCornerShape(32.dp))
-                                    .background(
-                                        if (messageEntity.imageUrl != null) {
-                                            MaterialTheme.colorScheme.surface.copy(alpha = 0.7f)
-                                        } else Color.Transparent
-                                    )
-                                    .padding(
-                                        vertical = 2.dp,
-                                        horizontal = if (messageEntity.imageUrl != null) 4.dp else 0.dp
-                                    ),
-                                text = messageEntity.senderAddress,
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
+
                         if(messageEntity.imageUrl==null) {
                             Text(
                                 modifier = modifier.padding(end = 32.dp),
@@ -172,9 +177,6 @@ fun MessageListItem(
                         textAlign = TextAlign.Center
                     )
                 }
-            }
-            if(!isFromMe){
-                Spacer(modifier =modifier.width(48.dp))
             }
         }
     }
