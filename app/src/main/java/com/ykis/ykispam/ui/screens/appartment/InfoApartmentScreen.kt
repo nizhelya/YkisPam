@@ -71,9 +71,13 @@ fun InfoApartmentScreen(
     var selectedTab by rememberSaveable {
         mutableIntStateOf(0)
     }
-    var showWarningDialog by remember { mutableStateOf(false) }
-    if (showWarningDialog) {
 
+    var showWarningDialog by remember { mutableStateOf(false) }
+    LaunchedEffect(key1 = true) {
+        Log.d("get_role_test" , "launched")
+        apartmentViewModel.getUserRole()
+    }
+    if (showWarningDialog) {
         AlertDialog(
             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(48.dp),
             title = { Text(stringResource(R.string.title_delete_appartment)) },

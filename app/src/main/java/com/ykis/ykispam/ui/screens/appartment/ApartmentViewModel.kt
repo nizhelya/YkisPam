@@ -116,7 +116,8 @@ class ApartmentViewModel @Inject constructor(
                 uid = uid,
                 displayName = displayName,
                 email = email,
-                userRole = firebaseService.getUserRole()
+                userRole = firebaseService.getUserRole(),
+
             )
             Log.d("role_test" , "userRole $userRole")
             Log.d("displayName_test" , "displayName: $displayName")
@@ -124,6 +125,18 @@ class ApartmentViewModel @Inject constructor(
         }
     }
 
+    fun getUserRole(){
+        viewModelScope.launch(Dispatchers.IO) {
+            val userRole = firebaseService.getUserRole()
+            Log.d("get_role_test" , "userRole $userRole")
+            _uiState.value = _uiState.value.copy(
+                uid = uid,
+                displayName = displayName,
+                email = email,
+                userRole = userRole,
+                )
+        }
+    }
     fun onSecretCodeChange(newValue: String) {
         _secretCode.value = newValue
     }

@@ -98,7 +98,7 @@ class FirebaseServiceImpl @Inject constructor(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), auth.currentUser == null)
 
     override suspend fun getUserRole() : UserRole {
-        val response = db.collection(USERS).document(uid).get().await().getField<Any?>(
+        val response = db.collection(USERS).document(auth.currentUser?.uid.toString()).get().await().getField<Any?>(
             ROLE
         )
        return when(response){
@@ -106,7 +106,7 @@ class FirebaseServiceImpl @Inject constructor(
            UserRole.VodokanalUser.codeName -> UserRole.VodokanalUser
            UserRole.YtkeUser.codeName -> UserRole.YtkeUser
            UserRole.TboUser.codeName -> UserRole.TboUser
-           else -> UserRole.OsbbUser
+           else -> UserRole.StandardUser
        }
     }
 
