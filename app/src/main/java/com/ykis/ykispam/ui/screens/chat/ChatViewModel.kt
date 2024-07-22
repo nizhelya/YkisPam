@@ -41,7 +41,8 @@ data class UserEntity(
     val createdAt: Timestamp? = null,
     val password: String? = "",
     val displayName: String? = "",
-    val email: String? = ""
+    val email: String? = "",
+    val osbbRoleId : Int? =  null
 )
 fun mapToUserEntity(uid:String ,map: Map<String, Any>): UserEntity {
     return UserEntity(
@@ -95,14 +96,26 @@ class ChatViewModel @Inject constructor(
         senderLogoUrl: String?,
         senderAddress: String,
         imageUrl: String?,  // Modified parameter to include imageUrl
+        osbbId : Int,
         role: UserRole,
         onComplete: () -> Unit
     ) {
         _isLoadingAfterSending.value = true
         Log.d("chat_test", "функция writeToDatabase")
-        val chatId = if (role == UserRole.StandardUser) {
-            "${selectedService.value.codeName}_$senderUid"
-        } else "${role.codeName}_$chatUid"
+        val chatId = when {
+            role == UserRole.StandardUser && selectedService.value.codeName == UserRole.OsbbUser.codeName -> {
+                "${selectedService.value.codeName}_${osbbId}_$chatUid"
+            }
+            role == UserRole.StandardUser -> {
+                "${selectedService.value.codeName}_$chatUid"
+            }
+            role == UserRole.OsbbUser -> {
+                "${role.codeName}_${osbbId}_$chatUid"
+            }
+            else -> {
+                "${role.codeName}_$chatUid"
+            }
+        }
         Log.d("chat_test", "chatId $chatId")
         val reference = FirebaseDatabase.getInstance().getReference("chats").child(chatId)
         val key = reference.push().key!!
@@ -132,10 +145,21 @@ class ChatViewModel @Inject constructor(
             }
     }
 
-    fun readFromDatabase(role: UserRole, uid: String) {
-        val chatId = if (role == UserRole.StandardUser) {
-            "${selectedService.value.codeName}_$uid"
-        } else "${role.codeName}_$uid"
+    fun readFromDatabase(role: UserRole, senderUid: String , osbbId: Int) {
+        val chatId = when {
+            role == UserRole.StandardUser && selectedService.value.codeName == UserRole.OsbbUser.codeName -> {
+                "${selectedService.value.codeName}_${osbbId}_$senderUid"
+            }
+            role == UserRole.StandardUser -> {
+                "${selectedService.value.codeName}_$senderUid"
+            }
+            role == UserRole.OsbbUser -> {
+                "${role.codeName}_${osbbId}_$senderUid"
+            }
+            else -> {
+                "${role.codeName}_$senderUid"
+            }
+        }
 
         Log.d("read_test", chatId.toString())
         FirebaseDatabase.getInstance().getReference("chats")
@@ -168,7 +192,7 @@ class ChatViewModel @Inject constructor(
         _messageText.value = value
     }
 
-    fun trackUserIdentifiersWithRole(role: UserRole) {
+    fun trackUserIdentifiersWithRole(role: UserRole , osbbRoleId: Int?) {
         val reference = FirebaseDatabase.getInstance().getReference("chats")
         reference.addValueEventListener(
             object : ValueEventListener {
@@ -176,8 +200,16 @@ class ChatViewModel @Inject constructor(
                     val userIdentifiers = mutableListOf<String>()
                     for (chatSnap in dataSnapshot.children) {
                         val chatId = chatSnap.key ?: continue
-                        if (chatId.startsWith(role.codeName)) {
-                            val userId = chatId.substringAfter("_")
+                        val condition = if(osbbRoleId != null) chatId.startsWith("${role.codeName}_${osbbRoleId}") else chatId.startsWith(
+                            role.codeName
+                        )
+                        if (condition) {
+                            Log.d("osbb_test" , "osbbRoleId: $osbbRoleId")
+                            Log.d("osbb_test" , "chatId: $chatId")
+                            val userId = if(osbbRoleId!=null){
+                                chatId.substringAfter("${osbbRoleId}_")
+                            }else chatId.substringAfter("_")
+                            Log.d("osbb_test" , "userId: $userId")
                             userIdentifiers.add(userId)
                         }
                     }
@@ -235,6 +267,7 @@ class ChatViewModel @Inject constructor(
     }
 
     fun addChatListener(chatUid: String , onLastMessageChange : (MessageEntity) -> Unit) {
+        Log.d("osbb_test" , "chatUid111 : $chatUid")
         val reference = FirebaseDatabase.getInstance().getReference("chats").child(chatUid).limitToLast(1)
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -260,6 +293,7 @@ class ChatViewModel @Inject constructor(
         senderDisplayedName: String,
         senderLogoUrl: String?,
         senderAddress: String,
+        osbbId: Int,
         role: UserRole,
         onComplete: () -> Unit
     ) {
@@ -270,7 +304,7 @@ class ChatViewModel @Inject constructor(
                 photoRef.downloadUrl.addOnSuccessListener { uri ->
                     val imageUrl = uri.toString()
                     Log.d("photo_upload", "Image URL: $imageUrl")
-                    writeToDatabase(chatUid, senderUid, senderDisplayedName, senderLogoUrl, senderAddress, imageUrl, role, onComplete)
+                    writeToDatabase(chatUid, senderUid, senderDisplayedName, senderLogoUrl, senderAddress, imageUrl,osbbId, role, onComplete)
                 }
             }
             .addOnFailureListener { exception ->

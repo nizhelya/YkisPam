@@ -23,6 +23,7 @@ import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.core.ext.isValidEmail
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.data.remote.core.NetworkHandler
+import com.ykis.ykispam.domain.UserRole
 import com.ykis.ykispam.domain.apartment.ApartmentEntity
 import com.ykis.ykispam.domain.apartment.request.AddApartment
 import com.ykis.ykispam.domain.apartment.request.DeleteApartment
@@ -128,12 +129,16 @@ class ApartmentViewModel @Inject constructor(
     fun getUserRole(){
         viewModelScope.launch(Dispatchers.IO) {
             val userRole = firebaseService.getUserRole()
-            Log.d("get_role_test" , "userRole $userRole")
+            var osbbRoleId : Int? = null
+            if(userRole == UserRole.OsbbUser){
+                osbbRoleId = firebaseService.getOsbbRoleId()
+            }
             _uiState.value = _uiState.value.copy(
                 uid = uid,
                 displayName = displayName,
                 email = email,
                 userRole = userRole,
+                osbbRoleId = osbbRoleId
                 )
         }
     }

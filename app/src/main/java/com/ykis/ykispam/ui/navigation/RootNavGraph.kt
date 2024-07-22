@@ -217,6 +217,7 @@ fun RootNavGraph(
                                       }
                                   }
                               },
+                            osbbId = baseUIState.osmdId
                           )
                     },
                     isLoadingAfterSending = isLoadingAfterSending

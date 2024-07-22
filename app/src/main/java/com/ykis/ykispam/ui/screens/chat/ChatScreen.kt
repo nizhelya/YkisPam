@@ -68,10 +68,11 @@ fun ChatScreen(
     var selectedMessageId by rememberSaveable {
         mutableStateOf("")
     }
-    LaunchedEffect(key1 = baseUIState.uid) {
+    LaunchedEffect(key1 = baseUIState.uid , baseUIState.osmdId) {
         chatViewModel.readFromDatabase(
             role = baseUIState.userRole,
-            chatUid
+            chatUid,
+            if(baseUIState.userRole == UserRole.OsbbUser) baseUIState.osbbRoleId ?: 0 else baseUIState.osmdId
         )
     }
     LaunchedEffect(key1 = messageList) {
@@ -162,7 +163,8 @@ fun ChatScreen(
                             listState.animateScrollToItem(messageList.size - 1)
                         }
                     },
-                    imageUrl = null
+                    imageUrl = null,
+                    osbbId = baseUIState.osmdId
                 )
             },
             onImageSent = {

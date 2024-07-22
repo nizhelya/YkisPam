@@ -68,5 +68,7 @@ interface FirebaseService {
     fun getAuthState(viewModelScope: CoroutineScope): AuthStateResponse
 
     suspend fun getUserRole() : UserRole
+
+    suspend fun getOsbbRoleId () : Int?
 }
 

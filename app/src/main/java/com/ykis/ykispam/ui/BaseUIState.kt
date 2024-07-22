@@ -25,5 +25,6 @@ data class BaseUIState(
     val apartmentLoading : Boolean = true,
     val error: String? = null,
     val showDetail : Boolean = false,
-    val userRole : UserRole = UserRole.StandardUser
+    val userRole : UserRole = UserRole.StandardUser,
+    val osbbRoleId : Int? =  null
 )

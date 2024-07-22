@@ -10,6 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import com.ykis.ykispam.domain.UserRole
 import com.ykis.ykispam.ui.BaseUIState
 
 
@@ -37,8 +38,11 @@ fun UserList(
 
     LaunchedEffect(key1 = userList) {
         userList.forEach { user ->
+            val chatUid = if(baseUIState.userRole == UserRole.OsbbUser){
+                "${baseUIState.userRole.codeName}_${baseUIState.osbbRoleId}_${user.uid}"
+            }else "${baseUIState.userRole.codeName}_${user.uid}"
             chatViewModel.addChatListener(
-                "${baseUIState.userRole.codeName}_${user.uid}",
+                chatUid,
                 onLastMessageChange = { message ->
                     // Update the map with the latest message
                     latestMessages.value = latestMessages.value.toMutableMap().apply {

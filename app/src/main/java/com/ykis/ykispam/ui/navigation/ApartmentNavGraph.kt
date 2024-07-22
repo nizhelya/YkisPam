@@ -260,7 +260,7 @@ fun ApartmentNavGraph(
                 }
                 composable(UserListScreen.route) {
                     LaunchedEffect(key1 = true) {
-                        chatViewModel.trackUserIdentifiersWithRole(baseUIState.userRole)
+                        chatViewModel.trackUserIdentifiersWithRole(baseUIState.userRole , baseUIState.osbbRoleId)
 //                        chatViewModel.getUsers()
                     }
                     UserListScreen(

@@ -1,5 +1,6 @@
 package com.ykis.ykispam.firebase.service.impl
 
+import android.util.Log
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -14,6 +15,7 @@ import com.google.firebase.firestore.getField
 import com.ykis.ykispam.core.Constants.CREATED_AT
 import com.ykis.ykispam.core.Constants.DISPLAY_NAME
 import com.ykis.ykispam.core.Constants.EMAIL
+import com.ykis.ykispam.core.Constants.OSBB_ROLE_ID
 import com.ykis.ykispam.core.Constants.PHOTO_URL
 import com.ykis.ykispam.core.Constants.ROLE
 import com.ykis.ykispam.core.Constants.SIGN_IN_REQUEST
@@ -76,6 +78,7 @@ class FirebaseServiceImpl @Inject constructor(
 //        get() = auth.currentUser?.uid.orEmpty()
 
     override val currentUser get() = auth.currentUser
+
 //    override val currentUser: `Flow<User>
 //        get() = callbackFlow {
 //            val listener =
@@ -106,9 +109,22 @@ class FirebaseServiceImpl @Inject constructor(
            UserRole.VodokanalUser.codeName -> UserRole.VodokanalUser
            UserRole.YtkeUser.codeName -> UserRole.YtkeUser
            UserRole.TboUser.codeName -> UserRole.TboUser
-           else -> UserRole.StandardUser
+           else -> UserRole.OsbbUser
        }
     }
+
+    override suspend fun getOsbbRoleId(): Int? {
+        val response = db.collection(USERS).document(auth.currentUser?.uid.toString()).get().await().getField<Any?>(
+            OSBB_ROLE_ID
+        )
+        val returnResponse = when(response){
+            is Long -> response
+            else -> null
+        }
+        Log.d("osbb_test" , "return: $returnResponse")
+        return returnResponse?.toInt()
+    }
+
 
     override suspend fun sendEmailVerification(): SendEmailVerificationResponse {
         return try {
@@ -209,7 +225,8 @@ class FirebaseServiceImpl @Inject constructor(
         EMAIL to email,
         PHOTO_URL to photoUrl?.toString(),
         CREATED_AT to serverTimestamp(),
-        ROLE to UserRole.StandardUser.codeName
+        ROLE to UserRole.StandardUser.codeName,
+        OSBB_ROLE_ID to null
     )
     override fun signOut(): Flow<Resource<Boolean>> = flow {
         try {
