@@ -33,45 +33,51 @@ import com.ykis.ykispam.ui.navigation.ContentDetail
 import com.ykis.ykispam.ui.navigation.NavigationType
 import com.ykis.ykispam.ui.theme.extendedColor
 
-
 @Composable
 fun assembleServiceList(
     totalDebtState: TotalDebtState,
     baseUIState: BaseUIState,
-
-    ) : List<TotalServiceDebt> {
-    return  listOf(
-        TotalServiceDebt(
-            name = baseUIState.osbb,
-            color = MaterialTheme.colorScheme.extendedColor.sectorColor4.color,
-            debt = totalDebtState.totalDebt.dolg4!!,
-            icon = Icons.Default.CorporateFare,
-            contentDetail = ContentDetail.OSBB
-        ),
-        TotalServiceDebt(
-            name = stringResource( R.string.vodokanal),
-            color = MaterialTheme.colorScheme.extendedColor.sectorColor1.color,
-            debt = totalDebtState.totalDebt.dolg1!!,
-            icon = Icons.Default.Water,
-            contentDetail = ContentDetail.WATER_SERVICE,
-        ),
-        TotalServiceDebt(
-            name = stringResource(id =  R.string.ytke_short),
-            color = MaterialTheme.colorScheme.extendedColor.sectorColor2.color,
-            debt = totalDebtState.totalDebt.dolg2!!,
-            icon = Icons.Default.HotTub,
-            contentDetail = ContentDetail.WARM_SERVICE
-
-        ),
-        TotalServiceDebt(
-            name = stringResource(id =R.string.yzhtrans),
-            color = MaterialTheme.colorScheme.extendedColor.sectorColor3.color,
-            debt = totalDebtState.totalDebt.dolg3!!,
-            icon = Icons.Default.Commute,
-            contentDetail = ContentDetail.GARBAGE_SERVICE
+): List<TotalServiceDebt> {
+    val serviceList = mutableListOf<TotalServiceDebt>()
+    if (baseUIState.osmdId != 0) {
+        serviceList.add(
+            TotalServiceDebt(
+                name = baseUIState.osbb,
+                color = MaterialTheme.colorScheme.extendedColor.sectorColor4.color,
+                debt = totalDebtState.totalDebt.dolg4!!,
+                icon = Icons.Default.CorporateFare,
+                contentDetail = ContentDetail.OSBB
+            )
+        )
+    }
+    serviceList.addAll(
+        listOf(
+            TotalServiceDebt(
+                name = stringResource(R.string.vodokanal),
+                color = MaterialTheme.colorScheme.extendedColor.sectorColor1.color,
+                debt = totalDebtState.totalDebt.dolg1!!,
+                icon = Icons.Default.Water,
+                contentDetail = ContentDetail.WATER_SERVICE,
+            ),
+            TotalServiceDebt(
+                name = stringResource(id = R.string.ytke_short),
+                color = MaterialTheme.colorScheme.extendedColor.sectorColor2.color,
+                debt = totalDebtState.totalDebt.dolg2!!,
+                icon = Icons.Default.HotTub,
+                contentDetail = ContentDetail.WARM_SERVICE
+            ),
+            TotalServiceDebt(
+                name = stringResource(id = R.string.yzhtrans),
+                color = MaterialTheme.colorScheme.extendedColor.sectorColor3.color,
+                debt = totalDebtState.totalDebt.dolg3!!,
+                icon = Icons.Default.Commute,
+                contentDetail = ContentDetail.GARBAGE_SERVICE
+            )
         )
     )
+    return serviceList
 }
+
 
 @Composable
 fun ServiceListScreen(
