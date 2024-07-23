@@ -125,6 +125,18 @@ class FirebaseServiceImpl @Inject constructor(
         return returnResponse?.toInt()
     }
 
+    override suspend fun getUid(): String {
+        return auth.currentUser?.uid.toString()
+    }
+
+    override suspend fun getEmail(): String {
+        return auth.currentUser?.email.toString()
+    }
+
+    override suspend fun getDisplayName(): String {
+        return auth.currentUser?.displayName.toString()
+    }
+
 
     override suspend fun sendEmailVerification(): SendEmailVerificationResponse {
         return try {

@@ -104,24 +104,22 @@ class ApartmentViewModel @Inject constructor(
 
 
 
-    fun initialize() {
-        if (uid.isNotEmpty()) {
-                observeApartments()
-
-        }
-    }
-    private  fun observeApartments() {
+    fun observeApartments() {
         viewModelScope.launch(Dispatchers.IO) {
+            Log.d("uid_null_test" , "observeAppartments")
             val userRole = firebaseService.getUserRole()
+            val newUid = firebaseService.getUid()
+            val newEmail = firebaseService.email
+            val newDisplayName = firebaseService.displayName
             _uiState.value = _uiState.value.copy(
-                uid = uid,
-                displayName = displayName,
-                email = email,
-                userRole = firebaseService.getUserRole(),
-
+                uid = newUid,
+                displayName = newDisplayName,
+                email = newEmail,
+                userRole = userRole,
             )
-            Log.d("role_test" , "userRole $userRole")
-            Log.d("displayName_test" , "displayName: $displayName")
+            Log.d("iii_test" , "uid : $newUid")
+            Log.d("iii_test" , "email : $newEmail")
+            Log.d("iii_test" , "displayName : $newDisplayName")
             getApartmentList()
         }
     }
@@ -258,7 +256,7 @@ class ApartmentViewModel @Inject constructor(
     }
 
     fun getApartmentList(onSuccess: ()->Unit ={}){
-        this.getApartmentList(uid).onEach {
+        this.getApartmentList(uiState.value.uid.toString()).onEach {
                 result->
             when(result){
                 is Resource.Success -> {

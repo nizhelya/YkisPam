@@ -70,5 +70,9 @@ interface FirebaseService {
     suspend fun getUserRole() : UserRole
 
     suspend fun getOsbbRoleId () : Int?
+
+    suspend fun getUid() : String
+    suspend fun getEmail() : String
+    suspend fun getDisplayName() : String
 }
 

@@ -81,11 +81,12 @@ fun MainApartmentScreen(
     )
     DisposableEffect(key1 = Unit) {
         onLaunch()
-        apartmentViewModel.initialize()
+        apartmentViewModel.observeApartments()
         onDispose {
             onDispose()
         }
     }
+
     val movableApartmentNavGraph = remember(baseUIState) {
         movableContentOf {
             ApartmentNavGraph(
@@ -261,7 +262,6 @@ fun ApartmentNavGraph(
                 composable(UserListScreen.route) {
                     LaunchedEffect(key1 = true) {
                         chatViewModel.trackUserIdentifiersWithRole(baseUIState.userRole , baseUIState.osbbRoleId)
-//                        chatViewModel.getUsers()
                     }
                     UserListScreen(
                         userList = userList,
