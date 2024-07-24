@@ -317,11 +317,26 @@ class ChatViewModel @Inject constructor(
         _selectedImageUri.value = uri
     }
 
-    fun deleteMessageFromDatabase(chatUid: String, messageId: String, role: UserRole) {
-        val chatId = if (role == UserRole.StandardUser) {
-            "${selectedService.value.codeName}_$chatUid"
-        } else "${role.codeName}_$chatUid"
-
+    fun deleteMessageFromDatabase(senderUid: String, messageId: String, role: UserRole, osbbId : Int) {
+//        val chatId = if (role == UserRole.StandardUser) {
+//            "${selectedService.value.codeName}_$chatUid"
+//        } else "${role.codeName}_$chatUid"
+        val chatId = when {
+            role == UserRole.StandardUser && selectedService.value.codeName == UserRole.OsbbUser.codeName -> {
+                "${selectedService.value.codeName}_${osbbId}_$senderUid"
+            }
+            role == UserRole.StandardUser -> {
+                "${selectedService.value.codeName}_$senderUid"
+            }
+            role == UserRole.OsbbUser -> {
+                "${role.codeName}_${osbbId}_$senderUid"
+            }
+            else -> {
+                "${role.codeName}_$senderUid"
+            }
+        }
+        Log.d("delete_message" , "chatId: $chatId")
+        Log.d("delete_message" , "messageId: $messageId")
         val reference = FirebaseDatabase.getInstance().getReference("chats").child(chatId).child(messageId)
         reference.removeValue()
             .addOnCompleteListener {

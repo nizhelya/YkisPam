@@ -164,7 +164,7 @@ fun ChatScreen(
                         }
                     },
                     imageUrl = null,
-                    osbbId = baseUIState.osmdId
+                    osbbId =  if(baseUIState.userRole == UserRole.OsbbUser) baseUIState.osbbRoleId ?: 0 else baseUIState.osmdId
                 )
             },
             onImageSent = {
@@ -185,9 +185,10 @@ fun ChatScreen(
             onDismiss = { showDeleteMessageDialog = false },
             onConfirm = {
                 chatViewModel.deleteMessageFromDatabase(
-                    chatUid = chatUid,
+                    senderUid = chatUid,
                     messageId = selectedMessageId,
-                    role = baseUIState.userRole
+                    role = baseUIState.userRole,
+                    osbbId =  if(baseUIState.userRole == UserRole.OsbbUser) baseUIState.osbbRoleId ?: 0 else baseUIState.osmdId
                 )
                 showDeleteMessageDialog = false
             }

@@ -84,7 +84,9 @@ fun MessageListItem(
                     .padding(2.dp)
                     .combinedClickable(
                         onLongClick = {
-                            onLongClick()
+                            if(isFromMe){
+                                onLongClick()
+                            }
                         },
                         onClick = {
                             if(messageEntity.imageUrl!=null){
