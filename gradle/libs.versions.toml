@@ -1,6 +1,6 @@
 [versions]
 accompanist-adaptive = "0.34.0"
-agp = "8.3.0-beta02"
+agp = "8.3.2"
 androidx-activity-compose = "1.8.2"
 androidx-compose-bom = "2024.03.00"
 coil-compose = "2.5.0"
@@ -82,6 +82,7 @@ lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtim
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+firebase-firebase-inappmessaging-display= { module = "com.google.firebase:firebase-inappmessaging-display"}
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
 firebase-storage = {module = "com.google.firebase:firebase-storage" }

@@ -2,6 +2,8 @@ package com.ykis.ykispam.ui.screens.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.Firebase
+import com.google.firebase.messaging.messaging
 import com.ykis.ykispam.HiltApp
 import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.core.snackbar.SnackbarManager
@@ -18,6 +20,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import java.text.DecimalFormatSymbols
 import java.util.Locale
 import javax.inject.Inject
@@ -166,6 +169,11 @@ class NewSettingsViewModel @Inject constructor(
 
     private val providerId get() = firebaseService.getProvider(viewModelScope)
 
+    init {
+        viewModelScope.launch {
+            Firebase.messaging.subscribeToTopic("chat").await()
+        }
+    }
     fun signOut(onSuccess : () -> Unit) {
         firebaseService.signOut().onEach {
             result ->
