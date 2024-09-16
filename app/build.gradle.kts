@@ -23,7 +23,9 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        multiDexEnabled = true
     }
+
 
     buildTypes {
         release {
@@ -57,8 +59,11 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/DEPENDENCIES"
+            excludes += "/META-INF/INDEX.LIST"
         }
     }
+
 }
 
 dependencies {
@@ -150,6 +155,9 @@ dependencies {
     implementation ("androidx.camera:camera-camera2:${cameraxVersion}")
     implementation ("androidx.camera:camera-view:${cameraxVersion}")
     implementation ("androidx.camera:camera-lifecycle:$cameraxVersion")
+    implementation ("com.google.auth:google-auth-library-oauth2-http:1.7.0")
+//    implementation ("com.google.auth:google-auth-library-oauth2-http:1.25.0")
+//    implementation (libs.google.auth.library.oauth2.http)
 //    implementation("com.google.firebase:firebase-storage:21.0.0")
 //    implementation("com.google.firebase:firebase-storage-ktx:21.0.0")
 }

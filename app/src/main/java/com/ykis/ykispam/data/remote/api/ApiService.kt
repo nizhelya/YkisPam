@@ -54,6 +54,7 @@ interface ApiService {
         const val GET_LAST_WATER_READING = "getLastWaterReading.php"
         const val GET_LAST_HEAT_READING = "getLastHeatReading.php"
         const val INSERT_PAYMENT = "newPaymentXpay.php"
+        const val SEND_NOTIFICATION_TO_USER = "sendNotificationToUser.php"
         const val PARAM_ADDRESS_ID = "address_id"
         const val UID = "uid"
         const val YEAR = "year"
@@ -76,6 +77,9 @@ interface ApiService {
         const val TEPLO = "teplo"
         const val VODA = "voda"
         const val TBO = "tbo"
+        const val RECIPIENT_TOKEN = "recipient_token"
+        const val TITLE = "title"
+        const val BODY = "body"
     }
 
     //appartment
@@ -160,4 +164,8 @@ interface ApiService {
     @FormUrlEncoded
     @POST(INSERT_PAYMENT)
     fun insertPayment(@FieldMap params: Map<String, String>): Call<InsertPaymentResponse>
+
+    @FormUrlEncoded
+    @POST(SEND_NOTIFICATION_TO_USER)
+    fun sendNotificationToUser(@FieldMap params: Map<String, String>): Call<GetSimpleResponse>
 }

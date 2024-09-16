@@ -80,12 +80,10 @@ class MainActivity : ComponentActivity() {
             }
         }
         firebaseMessaging = FirebaseMessaging.getInstance()
-
         firebaseMessaging.token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val token = task.result
                 Log.d("token_test", "Token: $token")
-                // Send token to server
             } else {
                 Log.w("token_test", "Failed to get token")
             }
@@ -108,4 +106,5 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
 }

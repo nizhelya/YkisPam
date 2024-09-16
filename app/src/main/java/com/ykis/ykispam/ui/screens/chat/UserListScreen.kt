@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ykis.ykispam.R
 import com.ykis.ykispam.domain.UserRole
+import com.ykis.ykispam.domain.firebase.SendNotificationArguments
 import com.ykis.ykispam.ui.BaseUIState
 import com.ykis.ykispam.ui.components.appbars.DefaultAppBar
 import com.ykis.ykispam.ui.navigation.NavigationType
@@ -40,6 +41,17 @@ fun UserListScreen(
     Column(
         modifier = modifier.fillMaxSize()
     ) {
+        Button(onClick = {
+            chatViewModel.sendPushNotification(
+                SendNotificationArguments(
+                    recipientToken = "f-yahik1QUa8uReGq6Ey-d:APA91bFVc8D5wvLsZ_uKLvVLolPNbossLtPveFjAbHcXhO7T2fjR30cenWLba4-XmpQ59bVWS3sQMgd4WfTMdXR8BCOPY7cFliVrzaFdjSlOHmz1QL9pvnNiufNAb3dOCpqgaQ5-AI8w",
+                    body = "Oppo A53",
+                    title = "sho tam"
+                )
+            )
+        }) {
+            Text("Send notification")
+        }
         DefaultAppBar(
             title = stringResource(id = R.string.chat),
             onDrawerClick = onDrawerClicked,

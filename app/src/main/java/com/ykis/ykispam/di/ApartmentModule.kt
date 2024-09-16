@@ -20,6 +20,8 @@ import com.ykis.ykispam.data.remote.appartment.ApartmentRemote
 import com.ykis.ykispam.data.remote.appartment.ApartmentRemoteImpl
 import com.ykis.ykispam.data.remote.family.FamilyRemote
 import com.ykis.ykispam.data.remote.family.FamilyRemoteImpl
+import com.ykis.ykispam.data.remote.firebase.FirebaseRemote
+import com.ykis.ykispam.data.remote.firebase.FirebaseRemoteImpl
 import com.ykis.ykispam.data.remote.heat.meter.HeatMeterRemote
 import com.ykis.ykispam.data.remote.heat.meter.HeatMeterRemoteImpl
 import com.ykis.ykispam.data.remote.heat.reading.HeatReadingRemote
@@ -106,4 +108,8 @@ abstract class ApartmentModule {
     @Singleton
     @Binds
     abstract fun bindHeatReadingRemote(impl: HeatReadingRemoteImpl): HeatReadingRemote
+
+    @Singleton
+    @Binds
+    abstract fun bindFirebaseRemote(impl : FirebaseRemoteImpl) : FirebaseRemote
   }

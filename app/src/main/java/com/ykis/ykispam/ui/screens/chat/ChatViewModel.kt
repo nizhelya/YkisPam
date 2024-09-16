@@ -2,7 +2,10 @@ package com.ykis.ykispam.ui.screens.chat
 
 import android.net.Uri
 import android.util.Log
+import com.google.auth.oauth2.GoogleCredentials
+//import com.google.auth.oauth2.GoogleCredentials
 import com.google.firebase.Firebase
+import com.google.firebase.FirebaseOptions
 import com.google.firebase.Timestamp
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -12,6 +15,8 @@ import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.FirebaseStorage
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.domain.UserRole
+import com.ykis.ykispam.domain.firebase.SendNotificationArguments
+import com.ykis.ykispam.domain.firebase.SendNotificationToUser
 import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.ui.BaseViewModel
 import com.ykis.ykispam.ui.navigation.ContentDetail
@@ -19,6 +24,13 @@ import com.ykis.ykispam.ui.screens.service.list.TotalServiceDebt
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
+import java.io.File
+import java.io.FileInputStream
 import javax.inject.Inject
 
 data class ServiceWithCodeName(
@@ -56,8 +68,9 @@ fun mapToUserEntity(uid:String ,map: Map<String, Any>): UserEntity {
 }
 @HiltViewModel
 class ChatViewModel @Inject constructor(
-    logService: LogService
-): BaseViewModel(logService){
+    logService: LogService,
+    private val sendNotificationToUserRepo : SendNotificationToUser
+): BaseViewModel(logService) {
 
     val userDatabase = Firebase.firestore
     private val storageReference = FirebaseStorage.getInstance().reference
@@ -96,7 +109,7 @@ class ChatViewModel @Inject constructor(
         senderLogoUrl: String?,
         senderAddress: String,
         imageUrl: String?,  // Modified parameter to include imageUrl
-        osbbId : Int,
+        osbbId: Int,
         role: UserRole,
         onComplete: () -> Unit
     ) {
@@ -106,12 +119,15 @@ class ChatViewModel @Inject constructor(
             role == UserRole.StandardUser && selectedService.value.codeName == UserRole.OsbbUser.codeName -> {
                 "${selectedService.value.codeName}_${osbbId}_$chatUid"
             }
+
             role == UserRole.StandardUser -> {
                 "${selectedService.value.codeName}_$chatUid"
             }
+
             role == UserRole.OsbbUser -> {
                 "${role.codeName}_${osbbId}_$chatUid"
             }
+
             else -> {
                 "${role.codeName}_$chatUid"
             }
@@ -145,17 +161,20 @@ class ChatViewModel @Inject constructor(
             }
     }
 
-    fun readFromDatabase(role: UserRole, senderUid: String , osbbId: Int) {
+    fun readFromDatabase(role: UserRole, senderUid: String, osbbId: Int) {
         val chatId = when {
             role == UserRole.StandardUser && selectedService.value.codeName == UserRole.OsbbUser.codeName -> {
                 "${selectedService.value.codeName}_${osbbId}_$senderUid"
             }
+
             role == UserRole.StandardUser -> {
                 "${selectedService.value.codeName}_$senderUid"
             }
+
             role == UserRole.OsbbUser -> {
                 "${role.codeName}_${osbbId}_$senderUid"
             }
+
             else -> {
                 "${role.codeName}_$senderUid"
             }
@@ -170,7 +189,7 @@ class ChatViewModel @Inject constructor(
                         val messageList = mutableListOf<MessageEntity>()
                         val latestMessages = mutableMapOf<String, MessageEntity>()
                         for (messageSnap in dataSnapshot.children) {
-                            Log.d("time_test1" , messageSnap.children.toString())
+                            Log.d("time_test1", messageSnap.children.toString())
                             val messageData = messageSnap.getValue(MessageEntity::class.java)
                             if (messageData != null) {
                                 messageList.add(messageData)
@@ -188,11 +207,11 @@ class ChatViewModel @Inject constructor(
             )
     }
 
-    fun onMessageTextChanged(value:String){
+    fun onMessageTextChanged(value: String) {
         _messageText.value = value
     }
 
-    fun trackUserIdentifiersWithRole(role: UserRole , osbbRoleId: Int?) {
+    fun trackUserIdentifiersWithRole(role: UserRole, osbbRoleId: Int?) {
         val reference = FirebaseDatabase.getInstance().getReference("chats")
         reference.addValueEventListener(
             object : ValueEventListener {
@@ -200,20 +219,21 @@ class ChatViewModel @Inject constructor(
                     val userIdentifiers = mutableListOf<String>()
                     for (chatSnap in dataSnapshot.children) {
                         val chatId = chatSnap.key ?: continue
-                        val condition = if(osbbRoleId != null) chatId.startsWith("${role.codeName}_${osbbRoleId}") else chatId.startsWith(
-                            role.codeName
-                        )
+                        val condition =
+                            if (osbbRoleId != null) chatId.startsWith("${role.codeName}_${osbbRoleId}") else chatId.startsWith(
+                                role.codeName
+                            )
                         if (condition) {
-                            Log.d("osbb_test" , "osbbRoleId: $osbbRoleId")
-                            Log.d("osbb_test" , "chatId: $chatId")
-                            val userId = if(osbbRoleId!=null){
+                            Log.d("osbb_test", "osbbRoleId: $osbbRoleId")
+                            Log.d("osbb_test", "chatId: $chatId")
+                            val userId = if (osbbRoleId != null) {
                                 chatId.substringAfter("${osbbRoleId}_")
-                            }else chatId.substringAfter("_")
-                            Log.d("osbb_test" , "userId: $userId")
+                            } else chatId.substringAfter("_")
+                            Log.d("osbb_test", "userId: $userId")
                             userIdentifiers.add(userId)
                         }
                     }
-                    Log.d("user_ids" , "$userIdentifiers")
+                    Log.d("user_ids", "$userIdentifiers")
                     _userIdentifiersWithRole.value = userIdentifiers
                     getUsers()
                 }
@@ -235,10 +255,10 @@ class ChatViewModel @Inject constructor(
                 val userIdentifiers = _userIdentifiersWithRole.value
                 val filteredUsers = result.documents.mapNotNull { document ->
                     val user = mapToUserEntity(document.id, document.data?.toMap() ?: emptyMap())
-                    Log.d("filtered_test" , "userEntity: $user")
+                    Log.d("filtered_test", "userEntity: $user")
                     if (user.uid in userIdentifiers) user else null
                 }
-                Log.d("filtered_test" , "filteredUsers $filteredUsers")
+                Log.d("filtered_test", "filteredUsers $filteredUsers")
                 _userList.value = filteredUsers
                 for (user in filteredUsers) {
                     Log.d("user_store_test", "${user.uid} => ${user.email}")
@@ -249,16 +269,17 @@ class ChatViewModel @Inject constructor(
                 SnackbarManager.showMessage(exception.message.toString())
             }
     }
-    fun setSelectedUser(user:UserEntity){
+
+    fun setSelectedUser(user: UserEntity) {
         _selectedUser.value = user
     }
 
-    fun setSelectedService(totalServiceDebt:TotalServiceDebt){
+    fun setSelectedService(totalServiceDebt: TotalServiceDebt) {
         val service = ServiceWithCodeName(
             name = totalServiceDebt.name,
-            codeName = when(totalServiceDebt.contentDetail){
+            codeName = when (totalServiceDebt.contentDetail) {
                 ContentDetail.WARM_SERVICE -> UserRole.YtkeUser.codeName
-                ContentDetail.WATER_SERVICE-> UserRole.VodokanalUser.codeName
+                ContentDetail.WATER_SERVICE -> UserRole.VodokanalUser.codeName
                 ContentDetail.OSBB -> UserRole.OsbbUser.codeName
                 else -> UserRole.TboUser.codeName
             }
@@ -266,13 +287,15 @@ class ChatViewModel @Inject constructor(
         _selectedService.value = service
     }
 
-    fun addChatListener(chatUid: String , onLastMessageChange : (MessageEntity) -> Unit) {
-        Log.d("osbb_test" , "chatUid111 : $chatUid")
-        val reference = FirebaseDatabase.getInstance().getReference("chats").child(chatUid).limitToLast(1)
+    fun addChatListener(chatUid: String, onLastMessageChange: (MessageEntity) -> Unit) {
+        Log.d("osbb_test", "chatUid111 : $chatUid")
+        val reference =
+            FirebaseDatabase.getInstance().getReference("chats").child(chatUid).limitToLast(1)
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-                val latestMessage = dataSnapshot.children.lastOrNull()?.getValue(MessageEntity::class.java)
+                val latestMessage =
+                    dataSnapshot.children.lastOrNull()?.getValue(MessageEntity::class.java)
                 // Log the latest message
                 latestMessage?.let {
                     Log.d("chat_listener", "Latest message in chat $chatUid: ${it.text}")
@@ -283,10 +306,15 @@ class ChatViewModel @Inject constructor(
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.w("firebase_error", "Failed to read value for chat $chatUid.", error.toException())
+                Log.w(
+                    "firebase_error",
+                    "Failed to read value for chat $chatUid.",
+                    error.toException()
+                )
             }
         })
     }
+
     fun uploadPhotoAndSendMessage(
         chatUid: String,
         senderUid: String,
@@ -298,13 +326,24 @@ class ChatViewModel @Inject constructor(
         onComplete: () -> Unit
     ) {
         _isLoadingAfterSending.value = true
-        val photoRef = storageReference.child("chat_images/${selectedImageUri.value.lastPathSegment}")
+        val photoRef =
+            storageReference.child("chat_images/${selectedImageUri.value.lastPathSegment}")
         photoRef.putFile(selectedImageUri.value)
             .addOnSuccessListener { taskSnapshot ->
                 photoRef.downloadUrl.addOnSuccessListener { uri ->
                     val imageUrl = uri.toString()
                     Log.d("photo_upload", "Image URL: $imageUrl")
-                    writeToDatabase(chatUid, senderUid, senderDisplayedName, senderLogoUrl, senderAddress, imageUrl,osbbId, role, onComplete)
+                    writeToDatabase(
+                        chatUid,
+                        senderUid,
+                        senderDisplayedName,
+                        senderLogoUrl,
+                        senderAddress,
+                        imageUrl,
+                        osbbId,
+                        role,
+                        onComplete
+                    )
                 }
             }
             .addOnFailureListener { exception ->
@@ -313,11 +352,16 @@ class ChatViewModel @Inject constructor(
             }
     }
 
-    fun setSelectedImageUri(uri : Uri){
+    fun setSelectedImageUri(uri: Uri) {
         _selectedImageUri.value = uri
     }
 
-    fun deleteMessageFromDatabase(senderUid: String, messageId: String, role: UserRole, osbbId : Int) {
+    fun deleteMessageFromDatabase(
+        senderUid: String,
+        messageId: String,
+        role: UserRole,
+        osbbId: Int
+    ) {
 //        val chatId = if (role == UserRole.StandardUser) {
 //            "${selectedService.value.codeName}_$chatUid"
 //        } else "${role.codeName}_$chatUid"
@@ -325,29 +369,53 @@ class ChatViewModel @Inject constructor(
             role == UserRole.StandardUser && selectedService.value.codeName == UserRole.OsbbUser.codeName -> {
                 "${selectedService.value.codeName}_${osbbId}_$senderUid"
             }
+
             role == UserRole.StandardUser -> {
                 "${selectedService.value.codeName}_$senderUid"
             }
+
             role == UserRole.OsbbUser -> {
                 "${role.codeName}_${osbbId}_$senderUid"
             }
+
             else -> {
                 "${role.codeName}_$senderUid"
             }
         }
-        Log.d("delete_message" , "chatId: $chatId")
-        Log.d("delete_message" , "messageId: $messageId")
-        val reference = FirebaseDatabase.getInstance().getReference("chats").child(chatId).child(messageId)
+        Log.d("delete_message", "chatId: $chatId")
+        Log.d("delete_message", "messageId: $messageId")
+        val reference =
+            FirebaseDatabase.getInstance().getReference("chats").child(chatId).child(messageId)
         reference.removeValue()
             .addOnCompleteListener {
                 Log.d("delete_message", "Message $messageId deleted successfully from chat $chatId")
             }
             .addOnFailureListener { exception ->
-                Log.w("delete_message", "Error deleting message $messageId from chat $chatId", exception)
+                Log.w(
+                    "delete_message",
+                    "Error deleting message $messageId from chat $chatId",
+                    exception
+                )
                 SnackbarManager.showMessage("Error deleting message: ${exception.message}")
             }
     }
-    fun setSelectedMessage(message : MessageEntity){
+
+    fun setSelectedMessage(message: MessageEntity) {
         _selectedMessage.value = message
     }
+
+    fun sendPushNotification(sendNotificationArguments: SendNotificationArguments) {
+//        sendNotificationToUserRepo(sendNotificationArguments).onEach { result ->
+//            when (result) {
+//                is Resource.Success -> {
+//                    SnackbarManager.showMessage("Notification was sent")
+//                }
+//
+//                is Resource.Error -> {}
+//
+//                is Resource.Loading -> {}
+//            }
+//        }.launchIn(this.viewModelScope)
+//    }
+}
 }
