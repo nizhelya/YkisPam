@@ -1,17 +1,20 @@
 package com.ykis.ykispam.ui.screens.chat
 
+//import com.google.auth.oauth2.GoogleCredentials
 import android.net.Uri
 import android.util.Log
-import com.google.auth.oauth2.GoogleCredentials
-//import com.google.auth.oauth2.GoogleCredentials
+import androidx.core.net.toUri
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.Firebase
-import com.google.firebase.FirebaseOptions
 import com.google.firebase.Timestamp
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.firestore
+import com.google.firebase.functions.FirebaseFunctions
+import com.google.firebase.functions.FirebaseFunctionsException
+import com.google.firebase.functions.functions
 import com.google.firebase.storage.FirebaseStorage
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.domain.UserRole
@@ -24,13 +27,9 @@ import com.ykis.ykispam.ui.screens.service.list.TotalServiceDebt
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
-import java.io.File
-import java.io.FileInputStream
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import javax.inject.Inject
 
 data class ServiceWithCodeName(
@@ -101,6 +100,8 @@ class ChatViewModel @Inject constructor(
 
     private val _selectedMessage = MutableStateFlow(MessageEntity())
     val selectedMessage = _selectedMessage.asStateFlow()
+
+    private val functions: FirebaseFunctions = FirebaseFunctions.getInstance()
 
     fun writeToDatabase(
         chatUid: String,
@@ -404,18 +405,16 @@ class ChatViewModel @Inject constructor(
         _selectedMessage.value = message
     }
 
-    fun sendPushNotification(sendNotificationArguments: SendNotificationArguments) {
-//        sendNotificationToUserRepo(sendNotificationArguments).onEach { result ->
-//            when (result) {
-//                is Resource.Success -> {
-//                    SnackbarManager.showMessage("Notification was sent")
-//                }
-//
-//                is Resource.Error -> {}
-//
-//                is Resource.Loading -> {}
-//            }
-//        }.launchIn(this.viewModelScope)
-//    }
-}
+    fun sendPushNotification() {
+        val sendNotificationArguments = SendNotificationArguments(
+        recipientToken = "fFxlqefTQN-FhPlTcYFbBI:APA91bG5qEWnB4LaBL9JCIZDsWjMeOxbIe6rufwu2NPgkzkGD3JzRdFOxQisA5m8WppTbxVaWOcJGnDZVlkSexNAm4f-t2yo15HfonIA1ZIYmIsvsksxHj2uGV8vahJQ_FYh8V7MQ5-K",
+        body = "Test body",
+        title = "Test title!"
+        )
+        viewModelScope.launch {
+                val urlString = "https://sendnotification-ai2rm2uxna-uc.a.run.app?token=${sendNotificationArguments.recipientToken}&body=${sendNotificationArguments.body}&title=${sendNotificationArguments.title}"
+                functions.getHttpsCallableFromUrl(urlString.toHttpUrl().toUrl()).call()
+        }
+    }
+
 }

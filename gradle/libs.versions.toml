@@ -38,6 +38,8 @@ glance-appwidget = "1.0.0"
 splashscreen="1.0.1"
 google-services = "4.4.1"
 material-design = "1.2.1"
+firebase-functions-ktx = "21.0.0"
+firebase-functions = "21.0.0"
 [libraries]
 
 accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive", version.ref = "accompanist-adaptive" }
@@ -102,6 +104,7 @@ androidx-constraintlayout-compose = { group = "androidx.constraintlayout", name 
 androidx-glance-appwidget = { group = "androidx.glance", name = "glance-appwidget", version.ref = "glance-appwidget" }
 androidx-splashscreen={group = "androidx.core" , name = "core-splashscreen" , version.ref ="splashscreen"}
 google-services = { group = "com.google.gms", name = "google-services", version.ref = "google-services" }
+firebase-functions = { module = "com.google.firebase:firebase-functions"}
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

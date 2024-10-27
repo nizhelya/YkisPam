@@ -29,6 +29,9 @@ import javax.inject.Inject
 import android.Manifest
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.firestore
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -83,9 +86,21 @@ class MainActivity : ComponentActivity() {
         firebaseMessaging.token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val token = task.result
-                Log.d("token_test", "Token: $token")
+                val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid
+                Log.d("token_test", "token: $token")
+                // Збережіть токен в Firestore
+                if (currentUserUid != null) {
+                    val userRef = Firebase.firestore.collection("users").document(currentUserUid)
+                    userRef.update("fcmToken", token)
+                        .addOnSuccessListener {
+                            Log.d("FCM", "FCM Token successfully updated!")
+                        }
+                        .addOnFailureListener { e ->
+                            Log.w("FCM", "Error updating FCM Token", e)
+                        }
+                }
             } else {
-                Log.w("token_test", "Failed to get token")
+                Log.w("FCM", "Failed to get FCM token")
             }
         }
     }

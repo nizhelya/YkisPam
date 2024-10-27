@@ -71,6 +71,8 @@ dependencies {
     //implementation(libs.androidx.material3.adaptive)
     implementation(libs.androidx.material3.adaptive.navigation.suite)
     implementation(libs.androidx.glance.appwidget)
+    implementation(libs.firebase.functions)
+//    implementation(libs.firebase.functions.ktx)
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
     implementation(libs.androidx.compose.material3)

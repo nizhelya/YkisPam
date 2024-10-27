@@ -42,13 +42,7 @@ fun UserListScreen(
         modifier = modifier.fillMaxSize()
     ) {
         Button(onClick = {
-            chatViewModel.sendPushNotification(
-                SendNotificationArguments(
-                    recipientToken = "f-yahik1QUa8uReGq6Ey-d:APA91bFVc8D5wvLsZ_uKLvVLolPNbossLtPveFjAbHcXhO7T2fjR30cenWLba4-XmpQ59bVWS3sQMgd4WfTMdXR8BCOPY7cFliVrzaFdjSlOHmz1QL9pvnNiufNAb3dOCpqgaQ5-AI8w",
-                    body = "Oppo A53",
-                    title = "sho tam"
-                )
-            )
+            chatViewModel.sendPushNotification()
         }) {
             Text("Send notification")
         }
