@@ -12,7 +12,7 @@ class PushNotificationService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.d("token_test", "Refreshed token: $token")
-        // Send token to server
+        addFcmToken()
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {

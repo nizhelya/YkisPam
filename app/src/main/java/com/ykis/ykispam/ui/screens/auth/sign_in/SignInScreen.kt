@@ -36,6 +36,7 @@ import com.ykis.ykispam.core.ext.smallSpacer
 import com.ykis.ykispam.core.ext.textButton
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.core.snackbar.SnackbarMessage.Companion.toSnackbarMessage
+import com.ykis.ykispam.firebase.messaging.addFcmToken
 import com.ykis.ykispam.ui.navigation.LaunchScreen
 import com.ykis.ykispam.ui.screens.auth.sign_in.components.OneTapSignIn
 import com.ykis.ykispam.ui.screens.auth.sign_in.components.SignInWithGoogle
@@ -94,7 +95,9 @@ fun SignInScreen(
                     Modifier.card()
                 ) {
                     keyboard?.hide()
-                    viewModel.onSignInClick(openScreen)
+                    viewModel.onSignInClick{
+                        openScreen(it)
+                    }
                 }
                 Spacer(modifier = Modifier.smallSpacer())
                 BasicLinkButton(AppText.forgot_password, Modifier.textButton()) {

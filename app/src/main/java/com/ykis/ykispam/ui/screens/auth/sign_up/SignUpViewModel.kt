@@ -24,6 +24,7 @@ import com.ykis.ykispam.core.ext.isValidEmail
 import com.ykis.ykispam.core.ext.isValidPassword
 import com.ykis.ykispam.core.ext.passwordMatches
 import com.ykis.ykispam.core.snackbar.SnackbarManager
+import com.ykis.ykispam.firebase.messaging.addFcmToken
 import com.ykis.ykispam.firebase.service.repo.ConfigurationService
 import com.ykis.ykispam.firebase.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.service.repo.LogService
@@ -130,6 +131,7 @@ class SignUpViewModel @Inject constructor(
         launchCatching {
             _reloadUserResponse.value = Resource.Loading()
             _reloadUserResponse.value = firebaseService.reloadFirebaseUser()
+            addFcmToken()
         }
     }
 

@@ -16,10 +16,9 @@ import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.functions.FirebaseFunctionsException
 import com.google.firebase.functions.functions
 import com.google.firebase.storage.FirebaseStorage
+import com.squareup.moshi.Json
 import com.ykis.ykispam.core.snackbar.SnackbarManager
 import com.ykis.ykispam.domain.UserRole
-import com.ykis.ykispam.domain.firebase.SendNotificationArguments
-import com.ykis.ykispam.domain.firebase.SendNotificationToUser
 import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.ui.BaseViewModel
 import com.ykis.ykispam.ui.navigation.ContentDetail
@@ -31,6 +30,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import javax.inject.Inject
+
+
+data class SendNotificationArguments(
+    @Json(name = "recipient_token")
+    val recipientTokens : List<String>,
+    val title : String,
+    val body : String
+)
 
 data class ServiceWithCodeName(
     val name : String = "",
@@ -53,7 +60,8 @@ data class UserEntity(
     val password: String? = "",
     val displayName: String? = "",
     val email: String? = "",
-    val osbbRoleId : Int? =  null
+    val osbbRoleId : Int? =  null,
+    val tokens : List<String> = emptyList()
 )
 fun mapToUserEntity(uid:String ,map: Map<String, Any>): UserEntity {
     return UserEntity(
@@ -62,13 +70,13 @@ fun mapToUserEntity(uid:String ,map: Map<String, Any>): UserEntity {
         createdAt = map["createdAt"] as Timestamp?,
         password = map["password"] as String?,
         displayName = map["displayName"] as String?,
-        email = map["email"] as String?
+        email = map["email"] as String?,
+        tokens = map["fcmTokens"] as List<String>? ?: emptyList()
     )
 }
 @HiltViewModel
 class ChatViewModel @Inject constructor(
     logService: LogService,
-    private val sendNotificationToUserRepo : SendNotificationToUser
 ): BaseViewModel(logService) {
 
     val userDatabase = Firebase.firestore
@@ -112,10 +120,12 @@ class ChatViewModel @Inject constructor(
         imageUrl: String?,  // Modified parameter to include imageUrl
         osbbId: Int,
         role: UserRole,
-        onComplete: () -> Unit
+        onComplete: () -> Unit,
+        recipientTokens: List<String>
     ) {
         _isLoadingAfterSending.value = true
         Log.d("chat_test", "функция writeToDatabase")
+        Log.d("fcm_tokens_test" , "tokens: ${recipientTokens}")
         val chatId = when {
             role == UserRole.StandardUser && selectedService.value.codeName == UserRole.OsbbUser.codeName -> {
                 "${selectedService.value.codeName}_${osbbId}_$chatUid"
@@ -153,6 +163,13 @@ class ChatViewModel @Inject constructor(
                 messageEntity
             ).addOnCompleteListener {
                 _isLoadingAfterSending.value = false
+                sendPushNotification(
+                    SendNotificationArguments(
+                        recipientTokens = recipientTokens,
+                        title = senderDisplayedName,
+                        body = messageText.value
+                    )
+                )
                 _messageText.value = ""
                 onComplete()
                 Log.d("chat_test", "completed")
@@ -324,7 +341,8 @@ class ChatViewModel @Inject constructor(
         senderAddress: String,
         osbbId: Int,
         role: UserRole,
-        onComplete: () -> Unit
+        onComplete: () -> Unit,
+        recipientTokens: List<String>
     ) {
         _isLoadingAfterSending.value = true
         val photoRef =
@@ -343,7 +361,8 @@ class ChatViewModel @Inject constructor(
                         imageUrl,
                         osbbId,
                         role,
-                        onComplete
+                        onComplete,
+                        recipientTokens
                     )
                 }
             }
@@ -405,16 +424,18 @@ class ChatViewModel @Inject constructor(
         _selectedMessage.value = message
     }
 
-    fun sendPushNotification() {
-        val sendNotificationArguments = SendNotificationArguments(
-        recipientToken = "fFxlqefTQN-FhPlTcYFbBI:APA91bG5qEWnB4LaBL9JCIZDsWjMeOxbIe6rufwu2NPgkzkGD3JzRdFOxQisA5m8WppTbxVaWOcJGnDZVlkSexNAm4f-t2yo15HfonIA1ZIYmIsvsksxHj2uGV8vahJQ_FYh8V7MQ5-K",
-        body = "Test body",
-        title = "Test title!"
-        )
+    fun sendPushNotification(
+        sendNotificationArguments: SendNotificationArguments
+    ) {
         viewModelScope.launch {
-                val urlString = "https://sendnotification-ai2rm2uxna-uc.a.run.app?token=${sendNotificationArguments.recipientToken}&body=${sendNotificationArguments.body}&title=${sendNotificationArguments.title}"
+            for(token in sendNotificationArguments.recipientTokens){
+                val urlString = "https://sendnotification-ai2rm2uxna-uc.a.run.app?token=${token}&body=${sendNotificationArguments.body}&title=${sendNotificationArguments.title}"
+                Log.d("fcm_tokens_test" , "sent not: $urlString")
                 functions.getHttpsCallableFromUrl(urlString.toHttpUrl().toUrl()).call()
+            }
+
         }
     }
+
 
 }

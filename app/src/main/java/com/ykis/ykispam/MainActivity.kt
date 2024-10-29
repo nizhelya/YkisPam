@@ -31,7 +31,9 @@ import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
+import com.ykis.ykispam.firebase.messaging.addFcmToken
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -40,7 +42,6 @@ class MainActivity : ComponentActivity() {
 
     private var pressBackExitJob: Job? = null
     private var backPressedOnce = false
-    private lateinit var firebaseMessaging: FirebaseMessaging
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +73,8 @@ class MainActivity : ComponentActivity() {
                 return@addCallback
             }
 
-            Toast.makeText(applicationContext, getText(R.string.exit_app), Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, getText(R.string.exit_app), Toast.LENGTH_SHORT)
+                .show()
 
             backPressedOnce = true
 
@@ -82,27 +84,7 @@ class MainActivity : ComponentActivity() {
                 backPressedOnce = false
             }
         }
-        firebaseMessaging = FirebaseMessaging.getInstance()
-        firebaseMessaging.token.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val token = task.result
-                val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid
-                Log.d("token_test", "token: $token")
-                // Збережіть токен в Firestore
-                if (currentUserUid != null) {
-                    val userRef = Firebase.firestore.collection("users").document(currentUserUid)
-                    userRef.update("fcmToken", token)
-                        .addOnSuccessListener {
-                            Log.d("FCM", "FCM Token successfully updated!")
-                        }
-                        .addOnFailureListener { e ->
-                            Log.w("FCM", "Error updating FCM Token", e)
-                        }
-                }
-            } else {
-                Log.w("FCM", "Failed to get FCM token")
-            }
-        }
+        addFcmToken()
     }
 
     private fun requestNotificationPermission() {

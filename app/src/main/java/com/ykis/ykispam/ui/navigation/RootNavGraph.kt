@@ -217,7 +217,9 @@ fun RootNavGraph(
                                       }
                                   }
                               },
-                            osbbId = baseUIState.osmdId
+                            osbbId = baseUIState.osmdId,
+                            // TODO: remove empty list 
+                            recipientTokens = emptyList()
                           )
                     },
                     isLoadingAfterSending = isLoadingAfterSending

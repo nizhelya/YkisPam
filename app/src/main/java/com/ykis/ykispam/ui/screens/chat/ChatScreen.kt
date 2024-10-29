@@ -164,7 +164,8 @@ fun ChatScreen(
                         }
                     },
                     imageUrl = null,
-                    osbbId =  if(baseUIState.userRole == UserRole.OsbbUser) baseUIState.osbbRoleId ?: 0 else baseUIState.osmdId
+                    osbbId =  if(baseUIState.userRole == UserRole.OsbbUser) baseUIState.osbbRoleId ?: 0 else baseUIState.osmdId,
+                    recipientTokens = userEntity.tokens
                 )
             },
             onImageSent = {

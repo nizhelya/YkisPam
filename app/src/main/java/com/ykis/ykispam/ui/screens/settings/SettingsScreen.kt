@@ -1,5 +1,6 @@
 package com.ykis.ykispam.ui.screens.settings
 
+import android.util.Log
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -50,10 +51,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.google.firebase.auth.FirebaseAuth
 import com.ykis.ykispam.R
 import com.ykis.ykispam.core.CenteredProgressIndicator
 import com.ykis.ykispam.core.composable.DialogCancelButton
 import com.ykis.ykispam.core.composable.DialogConfirmButton
+import com.ykis.ykispam.firebase.messaging.removeFcmTokenOnLogout
 import com.ykis.ykispam.ui.components.SingleSelectDialog
 import com.ykis.ykispam.ui.components.appbars.DefaultAppBar
 import com.ykis.ykispam.ui.navigation.NavigationType
@@ -103,9 +106,13 @@ fun SettingsScreenStateful(
                 )
             },
             signOut = {
-                viewModel.signOut(
-                    navigateToAuthGraph
-                )
+                val previousUid = FirebaseAuth.getInstance().currentUser?.uid
+                Log.d("FCM", "pr : ${previousUid}")
+                viewModel.signOut {
+                    navigateToAuthGraph()
+                    Log.d("FCM", "successful sign out")
+                    removeFcmTokenOnLogout(previousUid)
+                }
             },
             onDrawerClick = {
                 onDrawerClick()

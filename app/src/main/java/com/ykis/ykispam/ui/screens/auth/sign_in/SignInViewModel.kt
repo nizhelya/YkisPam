@@ -8,6 +8,7 @@ import com.google.firebase.auth.AuthCredential
 import com.ykis.ykispam.core.Resource
 import com.ykis.ykispam.core.ext.isValidEmail
 import com.ykis.ykispam.core.snackbar.SnackbarManager
+import com.ykis.ykispam.firebase.messaging.addFcmToken
 import com.ykis.ykispam.firebase.service.repo.FirebaseService
 import com.ykis.ykispam.firebase.service.repo.LogService
 import com.ykis.ykispam.firebase.service.repo.OneTapSignInResponse
@@ -66,6 +67,7 @@ class SignInViewModel @Inject constructor(
 
         launchCatching {
                 firebaseService.firebaseSignInWithEmailAndPassword(email, password)
+            addFcmToken()
             openScreen(LaunchScreen.route)
         }
 

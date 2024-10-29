@@ -8,7 +8,6 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.ykis.ykispam.HiltApp
 import com.ykis.ykispam.data.ApartmentRepositoryImpl
 import com.ykis.ykispam.data.FamilyRepositoryImpl
-import com.ykis.ykispam.data.FirebaseRepositoryImpl
 import com.ykis.ykispam.data.HeatMeterRepositoryImpl
 import com.ykis.ykispam.data.HeatReadingRepositoryImpl
 import com.ykis.ykispam.data.PaymentRepositoryImpl
@@ -30,8 +29,6 @@ import com.ykis.ykispam.data.remote.api.ApiService
 import com.ykis.ykispam.data.remote.api.ApiService.Companion.BASE_URL
 import com.ykis.ykispam.data.remote.appartment.ApartmentRemote
 import com.ykis.ykispam.data.remote.family.FamilyRemote
-import com.ykis.ykispam.data.remote.firebase.FirebaseRemote
-import com.ykis.ykispam.data.remote.firebase.FirebaseRemoteImpl
 import com.ykis.ykispam.data.remote.heat.meter.HeatMeterRemote
 import com.ykis.ykispam.data.remote.heat.reading.HeatReadingRemote
 import com.ykis.ykispam.data.remote.payment.PaymentRemote
@@ -40,7 +37,6 @@ import com.ykis.ykispam.data.remote.water.meter.WaterMeterRemote
 import com.ykis.ykispam.data.remote.water.reading.WaterReadingRemote
 import com.ykis.ykispam.domain.apartment.ApartmentRepository
 import com.ykis.ykispam.domain.family.FamilyRepository
-import com.ykis.ykispam.domain.firebase.FirebaseRepository
 import com.ykis.ykispam.domain.meter.heat.meter.HeatMeterRepository
 import com.ykis.ykispam.domain.meter.heat.reading.HeatReadingRepository
 import com.ykis.ykispam.domain.meter.water.meter.WaterMeterRepository
@@ -211,13 +207,6 @@ object AppModule {
         return  HeatReadingRepositoryImpl(heatReadingRemote)
     }
 
-    @Singleton
-    @Provides
-    fun provideFirebaseRepository(
-        firebaseRemote: FirebaseRemote,
-    ): FirebaseRepository{
-        return  FirebaseRepositoryImpl(firebaseRemote)
-    }
     @ApplicationScope
     @Provides
     @Singleton
