@@ -41,7 +41,7 @@ fun PaymentListItem(
     osbb : String
 ) {
 
-    val dateUnix = SimpleDateFormat("dd.MM.yyyy").parse(item.data);
+    val dateUnix = SimpleDateFormat("dd.MM.yyyy").parse(item.data)
     BaseCard {
             Row{
                 ColumnLabelTextWithTextAndIcon(

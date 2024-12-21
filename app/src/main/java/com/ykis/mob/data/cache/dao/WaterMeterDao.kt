@@ -4,8 +4,8 @@ package com.ykis.mob.data.cache.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
-import com.ykis.mob.domain.meter.water.meter.WaterMeterEntity
 import androidx.room.Query
+import com.ykis.mob.domain.meter.water.meter.WaterMeterEntity
 
 @Dao
 interface WaterMeterDao {

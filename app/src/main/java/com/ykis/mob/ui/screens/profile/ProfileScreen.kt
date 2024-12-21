@@ -105,7 +105,7 @@ fun ProfileScreenStateless(
             }
         )
 
-        BaseCard() {
+        BaseCard {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
