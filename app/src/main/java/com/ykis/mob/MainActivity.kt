@@ -25,7 +25,21 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import android.Manifest
 import android.content.pm.PackageManager
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.core.app.ActivityCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import com.ykis.mob.core.ext.basicButton
 import com.ykis.mob.firebase.messaging.addFcmToken
 
 @AndroidEntryPoint
@@ -40,6 +54,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         requestNotificationPermission()
+        enableEdgeToEdge()
         setContent {
             val settingsViewModel: NewSettingsViewModel = hiltViewModel()
             settingsViewModel.getThemeValue()
@@ -49,12 +64,16 @@ class MainActivity : ComponentActivity() {
                 val windowSize = calculateWindowSizeClass(this)
                 val displayFeatures = calculateDisplayFeatures(this)
                 Surface(
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.surfaceContainerHigh
                 ) {
-                    YkisPamApp(
-                        windowSize = windowSize,
-                        displayFeatures = displayFeatures
-                    )
+                    Box(
+                        modifier = Modifier.fillMaxSize().safeDrawingPadding(),
+                    ) {
+                        YkisPamApp(
+                            windowSize = windowSize,
+                            displayFeatures = displayFeatures
+                        )
+                    }
                 }
             }
         }
@@ -79,6 +98,7 @@ class MainActivity : ComponentActivity() {
         }
         addFcmToken()
     }
+
 
     private fun requestNotificationPermission() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

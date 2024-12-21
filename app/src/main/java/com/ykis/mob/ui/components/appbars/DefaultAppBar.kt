@@ -31,7 +31,7 @@ fun DefaultAppBar(
     actionButton: @Composable() (() -> Unit)? = null
 ) {
     TopAppBar(
-        modifier = modifier,
+        modifier = Modifier,
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Transparent
         ),

@@ -6,10 +6,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -137,177 +139,45 @@ fun SettingsScreenStateless(
     setThemeValues: (String) -> Unit,
     revokeAccess: () -> Unit,
     signOut: () -> Unit,
-    onDrawerClick : () -> Unit,
-    photoUrl : String,
-    email : String
+    onDrawerClick: () -> Unit,
+    photoUrl: String,
+    email: String
 ) {
-    var showChangeThemeDialog by rememberSaveable {
-        mutableStateOf(false)
-    }
-    var showLogOutDialog by rememberSaveable {
-        mutableStateOf(false)
-    }
-    var showDeleteAccountDialog by rememberSaveable {
-        mutableStateOf(false)
-    }
+    var showChangeThemeDialog by rememberSaveable { mutableStateOf(false) }
+    var showLogOutDialog by rememberSaveable { mutableStateOf(false) }
+    var showDeleteAccountDialog by rememberSaveable { mutableStateOf(false) }
 
-    LaunchedEffect(key1 = theme) {
+    LaunchedEffect(theme) {
         getThemeValues()
         onThemeChange()
     }
+
     Column(
         modifier = modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         DefaultAppBar(
             title = stringResource(id = R.string.settings),
             navigationType = navigationType,
             canNavigateBack = false,
-            onDrawerClick = {
-                onDrawerClick()
-            }
+            onDrawerClick = onDrawerClick
         )
 
         Column(
             modifier = modifier
+                .fillMaxSize()
                 .padding(horizontal = 8.dp)
                 .verticalScroll(rememberScrollState()),
-//            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Card(
-                modifier = modifier.fillMaxWidth()
-            ){
-                Row(
-                    modifier = modifier.padding(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ){
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(photoUrl)
-                            .build(),
-                        contentDescription = null,
-                        error = painterResource(id = R.drawable.ic_account_circle),
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .clip(CircleShape)
-                            .width(48.dp)
-                            .height(48.dp)
-                    )
-                    Text(
-                        text = email,
-                        style = MaterialTheme.typography.titleSmall
-                    )
-                }
-            }
-
-
-            Card {
-                SettingsGroup(name = R.string.settings_loadin_from_server) {
-
-                    SettingsSwitch(
-                        name = R.string.loading_from_wifi,
-                        icon = R.drawable.ic_loading_wifi,
-                        iconDesc = R.string.loading_from_wifi,
-                        // value is collected from StateFlow - updates the UI on change
-                        state = isSwitchOn
-                    ) {
-                        // call ViewModel to toggle the value
-                        toggleSwitch()
-                    }
-                    SettingsSwitch(
-                        name = R.string.loading_from_mobile,
-                        icon = R.drawable.ic_loading_mobile,
-                        iconDesc = R.string.loading_from_mobile,
-                        // value is collected from StateFlow - updates the UI on change
-                        state = isSwitchOn
-                    ) {
-                        toggleSwitch()
-                    }
-                }
-            }
-            Card{
-                    Row(
-                        modifier = modifier
-                            .clip(
-                                shape = CardDefaults.shape
-                            )
-                            .clickable {
-                                showChangeThemeDialog = true
-                            }
-                            .padding(
-                                vertical = 16.dp,
-                                horizontal = 8.dp
-                            ),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.DarkMode,
-                            contentDescription = null
-                        )
-                        Text(
-                            modifier = modifier.weight(1f),
-                            text = "Режим теми"
-                        )
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
-                            contentDescription = null
-                        )
-                    }
-            }
-            Column(
-//                modifier = modifier.weight(1f),
-//                verticalArrangement = Arrangement.Bottom
-            ) {
-                OutlinedButton(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    onClick = {
-                        showLogOutDialog = true
-                    },
-                ) {
-                    Icon(
-                        modifier = modifier.padding(end = 8.dp),
-                        imageVector = Icons.AutoMirrored.Filled.Logout,
-                        contentDescription = null
-                    )
-                    Text(
-                        "Вийти з акаунту"
-                    )
-                }
-                TextButton(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    onClick = { showDeleteAccountDialog = true },
-                    colors = ButtonDefaults.buttonColors(
-                        contentColor = MaterialTheme.colorScheme.error,
-                        containerColor = Color.Transparent
-                    )
-                ) {
-                    Icon(
-                        modifier = modifier.padding(end = 8.dp),
-                        imageVector = Icons.Default.DeleteForever,
-                        contentDescription = null
-                    )
-                    Text(
-                        "Видалити акаунт",
-                    )
-                }
-                Text(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp, bottom = 8.dp),
-                    text = "Версія " + BuildConfig.VERSION_NAME,
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
+            ProfileCard(modifier, photoUrl, email)
+            ThemeSettingCard(modifier) { showChangeThemeDialog = true }
+            Spacer(modifier = modifier.weight(1f))
+            ActionButtons(modifier, onLogOutClick = { showLogOutDialog = true }, onDeleteAccountClick = { showDeleteAccountDialog = true })
         }
     }
 
+    // Dialogs
     if (showDeleteAccountDialog) {
         AlertDialog(
             title = { Text(stringResource(R.string.delete_account_title)) },
@@ -326,11 +196,14 @@ fun SettingsScreenStateless(
             onDismissRequest = { showDeleteAccountDialog = false }
         )
     }
+
     if (showLogOutDialog) {
         AlertDialog(
             title = { Text(stringResource(R.string.sign_out_title)) },
             text = { Text(stringResource(R.string.sign_out_description)) },
-            dismissButton = { DialogCancelButton(R.string.cancel) { showLogOutDialog = false } },
+            dismissButton = {
+                DialogCancelButton(R.string.cancel) { showLogOutDialog = false }
+            },
             confirmButton = {
                 DialogConfirmButton(R.string.sign_out) {
                     signOut()
@@ -340,9 +213,11 @@ fun SettingsScreenStateless(
             onDismissRequest = { showLogOutDialog = false }
         )
     }
+
     if (showChangeThemeDialog) {
-        SingleSelectDialog(modifier = modifier,
-            title = "Оберіть режим",
+        SingleSelectDialog(
+            modifier = modifier,
+            title = stringResource(R.string.choose_mode),
             optionsList = themes,
             defaultSelected = themeLocation,
             submitButtonText = stringResource(id = R.string.save),
@@ -353,10 +228,120 @@ fun SettingsScreenStateless(
             },
             onDismissRequest = {
                 showChangeThemeDialog = false
-            })
+            }
+        )
     }
-
 }
+
+@Composable
+fun ProfileCard(modifier: Modifier, photoUrl: String, email: String) {
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh)
+
+    ) {
+        Row(
+            modifier = modifier.padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(photoUrl)
+                    .build(),
+                contentDescription = null,
+                error = painterResource(id = R.drawable.ic_account_circle),
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .size(48.dp)
+            )
+            Text(
+                text = email,
+                style = MaterialTheme.typography.titleSmall
+            )
+        }
+    }
+}
+
+@Composable
+fun ThemeSettingCard(modifier: Modifier, onClick: () -> Unit) {
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh)
+    ) {
+        Row(
+            modifier = modifier
+                .clip(shape = CardDefaults.shape)
+                .clickable(onClick = onClick)
+                .padding(vertical = 16.dp, horizontal = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.DarkMode,
+                contentDescription = null
+            )
+            Text(
+                modifier = modifier.weight(1f),
+                text = stringResource(R.string.theme_mode)
+            )
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
+                contentDescription = null
+            )
+        }
+    }
+}
+
+@Composable
+fun ActionButtons(
+    modifier: Modifier,
+    onLogOutClick: () -> Unit,
+    onDeleteAccountClick: () -> Unit
+) {
+    Column(modifier = modifier) {
+        OutlinedButton(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = onLogOutClick
+        ) {
+            Icon(
+                modifier = modifier.padding(end = 8.dp),
+                imageVector = Icons.AutoMirrored.Filled.Logout,
+                contentDescription = null
+            )
+            Text(stringResource(R.string.log_out))
+        }
+        TextButton(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = onDeleteAccountClick,
+            colors = ButtonDefaults.buttonColors(
+                contentColor = MaterialTheme.colorScheme.error,
+                containerColor = Color.Transparent
+            )
+        ) {
+            Icon(
+                modifier = modifier.padding(end = 8.dp),
+                imageVector = Icons.Default.DeleteForever,
+                contentDescription = null
+            )
+            Text(stringResource(R.string.delete_acc))
+        }
+        Text(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            text = stringResource(R.string.version) + BuildConfig.VERSION_NAME,
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
+}
+
 
 @Preview(showBackground = true)
 @Composable

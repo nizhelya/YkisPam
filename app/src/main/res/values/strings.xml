@@ -308,4 +308,9 @@
         <string name="no_heat_meters">Теплові лічільникі не знайдено</string>
         <string name="date_format">з %1$s до %2$s</string>
         <string name="add_reading_supporting_text">Якщо ви помилково додали показання, то ви зможете видалити їх протягом сьогоднішнього дня</string>
+    <string name="log_out">Вийти з акаунту</string>
+        <string name="delete_acc">Видалити акаунт</string>
+        <string name="version">"Версія "</string>
+        <string name="choose_mode">Оберіть режим</string>
+        <string name="theme_mode">Режим теми</string>
 </resources>

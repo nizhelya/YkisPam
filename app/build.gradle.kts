@@ -12,6 +12,12 @@ android {
     namespace = "com.ykis.mob"
     compileSdk = 34
 
+    configurations{
+        all {
+            exclude(group = "org.apache.httpcomponents", module = "httpclient")
+            exclude(group = "commons-logging", module = "commons-logging")
+        }
+    }
     defaultConfig {
         applicationId = "com.ykis.ykispam"
         minSdk = 21

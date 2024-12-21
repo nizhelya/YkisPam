@@ -79,7 +79,8 @@ fun RootNavGraph(
     ){ paddingValues ->
         NavHost(
             modifier = modifier
-                .padding(paddingValues = paddingValues),
+//                .padding(paddingValues = paddingValues)
+            ,
             navController = navController,
             startDestination = LaunchScreen.route,
             enterTransition = {
