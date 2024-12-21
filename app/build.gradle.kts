@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ykis.ykispam"
+    namespace = "com.ykis.mob"
     compileSdk = 34
 
     defaultConfig {
