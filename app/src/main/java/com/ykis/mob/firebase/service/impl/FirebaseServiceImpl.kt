@@ -71,24 +71,8 @@ class FirebaseServiceImpl @Inject constructor(
     override val email = auth.currentUser?.email.toString()
     override val providerId = auth.currentUser?.providerId.toString()
 
-//    override val providerData = getProvider()
-
-
-//    override val currentUserId: String
-//        get() = auth.currentUser?.uid.orEmpty()
 
     override val currentUser get() = auth.currentUser
-
-//    override val currentUser: `Flow<User>
-//        get() = callbackFlow {
-//            val listener =
-//                FirebaseAuth.AuthStateListener { auth ->
-//                    this.trySend(auth.currentUser?.let { User(it.uid, it.isAnonymous) } ?: User())
-//                }
-//            auth.addAuthStateListener(listener)
-//            awaitClose { auth.removeAuthStateListener(listener) }
-//        }
-
 
     override fun getAuthState(viewModelScope: CoroutineScope) = callbackFlow {
         val authStateListener = FirebaseAuth.AuthStateListener { auth ->

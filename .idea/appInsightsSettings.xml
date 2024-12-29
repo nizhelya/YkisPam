@@ -26,10 +26,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.ykis.ykispam" />
-                  <option name="mobileSdkAppId" value="1:126951826811:android:624e171c4c61dc259789de" />
-                  <option name="projectId" value="ykis-4cab7" />
-                  <option name="projectNumber" value="126951826811" />
+                  <option name="appId" value="com.ykis.mob" />
+                  <option name="mobileSdkAppId" value="1:1062920014188:android:2fd6c70e4349bef4088b49" />
+                  <option name="projectId" value="ykis-mob" />
+                  <option name="projectNumber" value="1062920014188" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

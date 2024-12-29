@@ -19,7 +19,7 @@ android {
         }
     }
     defaultConfig {
-        applicationId = "com.ykis.ykispam"
+        applicationId = "com.ykis.mob"
         minSdk = 21
         targetSdk = 34
         versionCode = 1

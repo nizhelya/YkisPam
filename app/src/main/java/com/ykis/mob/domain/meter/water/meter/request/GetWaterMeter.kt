@@ -20,6 +20,8 @@ class GetWaterMeterList @Inject constructor(
     operator fun invoke(addressId:Int , uid:String): Flow<Resource<List<WaterMeterEntity>?>> = flow {
         try {
             emit(Resource.Loading())
+            val localMeters = database.waterMeterDao().getWaterMeter(addressId)
+            emit(Resource.Success(localMeters))
             val response = repository.getWaterMeterList(
                 addressId,uid
             )

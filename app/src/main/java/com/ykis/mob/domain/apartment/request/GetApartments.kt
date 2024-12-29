@@ -4,8 +4,10 @@ import com.ykis.mob.core.Resource
 import com.ykis.mob.data.cache.database.AppDatabase
 import com.ykis.mob.domain.apartment.ApartmentEntity
 import com.ykis.mob.domain.apartment.ApartmentRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import retrofit2.HttpException
 import javax.inject.Inject
 
@@ -13,11 +15,12 @@ class GetApartmentList @Inject constructor(
     private val repository: ApartmentRepository,
     private val database : AppDatabase
 ){
-    operator fun invoke (uid : String) : Flow<Resource<List<ApartmentEntity>?>>  = flow{
+    operator fun invoke (uid : String) : Flow<Resource<List<ApartmentEntity>>> = flow{
         val addressIdList = mutableListOf<Int>()
         try{
             emit(Resource.Loading())
-
+            val localList = database.apartmentDao().getApartmentList()
+            emit(Resource.Success(localList))
             val response = repository.getApartmentList(uid)
             database.apartmentDao().deleteAllApartments()
             database.apartmentDao().insertApartmentList(response.apartments)

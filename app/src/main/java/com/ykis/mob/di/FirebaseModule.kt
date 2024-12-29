@@ -70,18 +70,6 @@ class FirebaseModule {
 
     @Provides
     @Named(SIGN_IN_REQUEST)
-//    fun provideSignInRequest(
-//        app: Application
-//    ) = BeginSignInRequest.builder()
-//        .setGoogleIdTokenRequestOptions(
-//            BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-//                .setSupported(true)
-//                .setServerClientId(app.getString(R.string.web_client_id))
-//                .setFilterByAuthorizedAccounts(true)
-//                .build()
-//        )
-//        .setAutoSelectEnabled(true)
-//        .build()
     fun provideSignInRequest(
         app: Application
     ) = BeginSignInRequest.builder()
@@ -96,17 +84,6 @@ class FirebaseModule {
 
     @Provides
     @Named(SIGN_UP_REQUEST)
-//    fun provideSignUpRequest(
-//        app: Application
-//    ) = BeginSignInRequest.builder()
-//        .setGoogleIdTokenRequestOptions(
-//            BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-//                .setSupported(true)
-//                .setServerClientId(app.getString(R.string.web_client_id))
-//                .setFilterByAuthorizedAccounts(false)
-//                .build()
-//        )
-//        .build()
     fun provideSignUpRequest(
         app: Application
     ) = BeginSignInRequest.builder()
@@ -118,12 +95,6 @@ class FirebaseModule {
                 .build())
         .build()
     @Provides
-//    fun provideGoogleSignInOptions(
-//        app: Application
-//    ) = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//        .requestIdToken(app.getString(R.string.web_client_id))
-//        .requestEmail()
-//        .build()
     fun provideGoogleSignInOptions(
         app: Application
     ) = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -131,10 +102,6 @@ class FirebaseModule {
         .requestEmail()
         .build()
     @Provides
-//    fun provideGoogleSignInClient(
-//        app: Application,
-//        options: GoogleSignInOptions
-//    ) = GoogleSignIn.getClient(app, options)
     fun provideGoogleSignInClient(
         app: Application,
         options: GoogleSignInOptions
