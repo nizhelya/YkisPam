@@ -110,7 +110,7 @@ fun SignUpScreen(
                 )
                 {
                     EmailField(signUpUiState.email, viewModel::onEmailChange, modifier)
-                    PasswordField(signUpUiState.password, viewModel::onPasswordChange, modifier)
+                    PasswordField(signUpUiState.password, viewModel::onPasswordChange)
                     RepeatPasswordField(
                         signUpUiState.repeatPassword,
                         viewModel::onRepeatPasswordChange,

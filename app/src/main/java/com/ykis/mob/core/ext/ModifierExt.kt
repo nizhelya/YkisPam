@@ -61,3 +61,11 @@ fun Modifier.spacer(): Modifier {
 fun Modifier.smallSpacer(): Modifier {
   return this.fillMaxWidth().height(8.dp)
 }
+
+fun Modifier.mediumSpacer(): Modifier {
+  return this.fillMaxWidth().height(24.dp)
+}
+
+fun Modifier.largeSpacer(): Modifier {
+  return this.fillMaxWidth().height(64.dp)
+}

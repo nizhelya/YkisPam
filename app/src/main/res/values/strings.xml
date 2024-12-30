@@ -42,8 +42,7 @@
         <string name="try_again">Спробуйте знову</string>
         <string name="profile">Профіль</string>
         <!--   LoginScreen   -->
-        <string name="sign_in">Вхід по електронній пошті</string>
-        <string name="login_details">Авторизація</string>
+        <string name="login_details">Ласкаво просимо!</string>
         <string name="forgot_password">Забули пароль? Натисніть для\n його відновлення по email</string>
         <string name="recovery_email_sent">Перевірте поштову скриньку (спам) на наявність листа для відновлення.</string>
         <string name="empty_password_error">Пароль не може бути пустим.</string>
@@ -52,7 +51,6 @@
         <!--   SignUpScreen   -->
         <string name="create_account_toolbar">Реєстрація</string>
         <string name="create_account">Зареєструйтесь, використовуючи електронну пошту та пароль</string>
-        <string name="sign_in_with_google">Вхід за допомогою Google</string>
         <!--   TasksScreen   -->
         <string name="tasks">Событие</string>
         <!--   AccountScreen   -->
@@ -273,7 +271,6 @@
         <string name="register">Регистрация</string>
         <string name="already_have_account">Уже есть аккаунт?</string>
         <string name="dont_have_account">Еще нет аккаунта?</string>
-        <string name="forget_password">Забыли пароль?</string>
         <string name="login">Вход</string>
         <string name="chats">Чаты</string>
         <string name="friends">Друзья</string>
@@ -313,4 +310,10 @@
         <string name="version">"Версія "</string>
         <string name="choose_mode">Оберіть режим</string>
         <string name="theme_mode">Режим теми</string>
+        <string name="forget_password">Забули пароль?</string>
+        <string name="sign_in">Увійти</string>
+        <string name="or">Або</string>
+        <string name="sign_in_with_google">Увійти за допомогою Google</string>
+        <string name="have_no_account">Не маєш акаунту?</string>
+        <string name="sign_up">Зареєструватися</string>
 </resources>

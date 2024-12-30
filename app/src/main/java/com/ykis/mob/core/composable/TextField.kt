@@ -19,6 +19,7 @@ package com.ykis.mob.core.composable
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -56,13 +57,11 @@ fun BasicField(
 ) {
     OutlinedTextField(
         singleLine = true,
-//        colors = TextFieldColors(Color(0xFFFFB945)),
         modifier = Modifier
             .widthIn(0.dp, 480.dp),
         label = {
             Text(
                 text = stringResource(id = label),
-//                color = Color(0xFFFFB945)
             )
         },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -76,9 +75,7 @@ fun BasicField(
 fun EmailField(value: String, onNewValue: (String) -> Unit, modifier: Modifier = Modifier) {
     OutlinedTextField(
         singleLine = true,
-        modifier = Modifier
-            .fillMaxWidth()
-//            .padding(16.dp, 4.dp, 16.dp, 4.dp)
+        modifier = Modifier.fillMaxWidth()
         ,
         label = {
             Text(
@@ -111,8 +108,8 @@ fun PhoneField(value: String, onNewValue: (String) -> Unit, modifier: Modifier =
 }
 
 @Composable
-fun PasswordField(value: String, onNewValue: (String) -> Unit, modifier: Modifier = Modifier) {
-    PasswordField(value, AppText.password, onNewValue, modifier)
+fun PasswordField(value: String, onNewValue: (String) -> Unit) {
+    PasswordField(value, AppText.password, onNewValue)
 }
 
 @Composable
@@ -121,7 +118,7 @@ fun RepeatPasswordField(
     onNewValue: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    PasswordField(value, AppText.repeat_password, onNewValue, modifier)
+    PasswordField(value, AppText.repeat_password, onNewValue)
 }
 
 @Composable
@@ -129,7 +126,6 @@ private fun PasswordField(
     value: String,
     @StringRes placeholder: Int,
     onNewValue: (String) -> Unit,
-    modifier: Modifier = Modifier
 ) {
     var isVisible by remember { mutableStateOf(false) }
 
@@ -141,8 +137,7 @@ private fun PasswordField(
         if (isVisible) VisualTransformation.None else PasswordVisualTransformation()
 
     OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth() ,
+        modifier = Modifier.fillMaxWidth(),
         label = {
             Text(
                 text = stringResource(id = placeholder)
@@ -162,31 +157,6 @@ private fun PasswordField(
     )
 }
 
-@Composable
-fun LabelField(
-    value: String,
-    @StringRes label: Int,
-    @StringRes placeholder: Int,
-    modifier: Modifier = Modifier
-) {
-    OutlinedTextField(
-        singleLine = false,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp, 4.dp, 16.dp, 4.dp),
-        readOnly = true,
-        maxLines = 2,
-
-        label = {
-            Text(
-                text = stringResource(id = label)
-            )
-        },
-        value = value,
-        onValueChange = {},
-        placeholder = { Text(stringResource(id = placeholder)) }
-    )
-}
 
 @Composable
 fun NumberField(

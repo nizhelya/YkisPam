@@ -18,6 +18,7 @@ package com.ykis.mob.core.composable
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -97,7 +98,7 @@ private fun CardEditor(
                 Text(text = content, modifier = modifier.padding(16.dp, 0.dp))
             }
 
-            Icon(
+            Image(
                 painter = painterResource(icon),
                 contentDescription = "Icon",
 //                tint = highlightColor
