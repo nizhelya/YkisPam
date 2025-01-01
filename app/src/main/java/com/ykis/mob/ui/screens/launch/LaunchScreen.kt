@@ -1,5 +1,6 @@
 package com.ykis.mob.ui.screens.launch
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -23,9 +25,10 @@ fun LaunchScreen(
     openAndPopUp: (String, String) -> Unit,
     viewModel: ApartmentViewModel,
 ) {
-    val isUserSignedOut = viewModel.getAuthState().collectAsStateWithLifecycle().value
+    val isUserSignedOut by viewModel.getAuthState().collectAsStateWithLifecycle()
     val showError = viewModel.showError.collectAsState()
     LaunchedEffect(key1 = isUserSignedOut) {
+        Log.d("init_values" , "isUserSignedOut: $isUserSignedOut")
         viewModel.onAppStart(isUserSignedOut, openAndPopUp,restartApp)
     }
     Column(

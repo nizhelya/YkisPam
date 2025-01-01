@@ -1,153 +1,284 @@
 package com.ykis.mob.ui.screens.auth.sign_up
 
+import android.util.Log
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ykis.mob.core.composable.BasicLinkButton
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.ykis.mob.R
+import com.ykis.mob.core.Resource
 import com.ykis.mob.core.composable.EmailField
 import com.ykis.mob.core.composable.LogoImage
 import com.ykis.mob.core.composable.PasswordField
-import com.ykis.mob.core.composable.RegularCardEditor
 import com.ykis.mob.core.composable.RepeatPasswordField
-import com.ykis.mob.core.ext.card
-import com.ykis.mob.core.ext.spacer
-import com.ykis.mob.core.ext.textButton
+import com.ykis.mob.core.ext.fieldModifier
 import com.ykis.mob.core.snackbar.SnackbarManager
+import com.ykis.mob.ui.components.appbars.DefaultAppBar
+import com.ykis.mob.ui.navigation.LaunchScreen
+import com.ykis.mob.ui.navigation.VerifyEmailScreen
 import com.ykis.mob.ui.screens.auth.sign_up.components.AgreementChekBox
 import com.ykis.mob.ui.screens.auth.sign_up.components.SignUp
-import com.ykis.mob.ui.screens.auth.sign_up.components.SignUpTopBar
-import com.ykis.mob.R.drawable as AppIcon
+import com.ykis.mob.ui.screens.auth.sign_up.components.SignUpUiState
+import com.ykis.mob.ui.theme.YkisPAMTheme
 import com.ykis.mob.R.string as AppText
 
+
 @Composable
-fun SignUpScreen(
-    openScreen: (String) -> Unit,
+fun SignUpScreenStateless(
     modifier: Modifier = Modifier,
-    viewModel: SignUpViewModel
+    signUpUiState: SignUpUiState,
+    navigateBack : () -> Unit,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onRepeatPasswordChange: (String) -> Unit,
+    onSignUpClick: () -> Unit,
+    isLoading:Boolean
 ) {
-    Row( modifier = modifier
-        .fillMaxWidth()
-        .fillMaxHeight(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center)
-    {
+    var isExpanded by remember{
+        mutableStateOf(true)
+    }
+    var checkedState by rememberSaveable { mutableStateOf(false) }
+    val termHeight by animateDpAsState(
+        targetValue = if(isExpanded) 824.dp else 64.dp, label = "",
+        animationSpec = tween(
+            durationMillis = 600,
+            easing = FastOutSlowInEasing
+        )
+    )
+    val iconAngle by animateFloatAsState(
+        targetValue = if(isExpanded) 0f else 180f, label = "",
+        animationSpec = spring(
+            stiffness = Spring.StiffnessLow,
+            dampingRatio = Spring.DampingRatioLowBouncy
+        )
+    )
+
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ){
         Column(
             modifier = modifier
-                .widthIn(0.dp, 460.dp)
                 .fillMaxHeight()
-                .verticalScroll(rememberScrollState()),
+                .widthIn(max = 460.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val signUpUiState by viewModel.signUpUiState
-            val keyboard = LocalSoftwareKeyboardController.current
-            var checkedState by rememberSaveable { mutableStateOf(false) }
-            SignUpTopBar(navigateBack = { viewModel.navigateBack(openScreen) })
-            Spacer(modifier = Modifier.spacer())
-            LogoImage()
-            Spacer(modifier = Modifier.spacer())
-            if (!checkedState) {
-                Text(
-                    text = viewModel.agreementTitle.collectAsState().value.ifEmpty {
-                        stringResource(id = AppText.agreement_title)
-                    },
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(4.dp, 0.dp),
-                    style = MaterialTheme.typography.titleSmall
-                )
-                Card(
-                    modifier = Modifier.padding(PaddingValues(8.dp)),
-                    elevation = CardDefaults.cardElevation(20.dp),
-                    shape = RoundedCornerShape(20.dp),
-                )
-                {
-                    Text(
-                        text = viewModel.agreementText.collectAsState().value.ifEmpty {
-                            stringResource(id = AppText.agreement_text)
-                        },
-                        modifier = Modifier.padding(PaddingValues(8.dp)),
-                        textAlign = TextAlign.Start,
-                        style = MaterialTheme.typography.bodyMedium
-
-                    )
+            DefaultAppBar(
+                title = "Реєстрація",
+                canNavigateBack = true,
+                onBackClick = {
+                    navigateBack()
                 }
-            }
-            AgreementChekBox(
-                checked = checkedState,
-                onCheckedChange = { checkedState = it },
-                modifier = Modifier
             )
-            if (checkedState) {
-                Column(
-                    modifier = Modifier
-                        .padding(PaddingValues(8.dp))
-                        .widthIn(0.dp, 480.dp),
+            Column(
+                modifier = modifier
+                    .padding(horizontal = 16.dp)
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier.height(16.dp))
+                LogoImage()
+                Spacer(modifier = Modifier.height(16.dp))
+                EmailField(signUpUiState.email, onEmailChange, modifier)
+                Spacer(modifier = Modifier.height(8.dp))
+                PasswordField(signUpUiState.password, onPasswordChange)
+                Spacer(modifier = Modifier.height(8.dp))
+                RepeatPasswordField(
+                    signUpUiState.repeatPassword,
+                    onRepeatPasswordChange,
+                    modifier
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Card(
+                    modifier = Modifier.height(termHeight).clickable {
+                        isExpanded = !isExpanded
+                    },
                 )
                 {
-                    EmailField(signUpUiState.email, viewModel::onEmailChange, modifier)
-                    PasswordField(signUpUiState.password, viewModel::onPasswordChange)
-                    RepeatPasswordField(
-                        signUpUiState.repeatPassword,
-                        viewModel::onRepeatPasswordChange,
-                        modifier
-                    )
-
-                    RegularCardEditor(
-                        AppText.create_account_sign,
-                        AppIcon.ic_create_account,
-                        "",
-                        Modifier.card()
+                    Column(
+                        modifier = modifier.padding(8.dp)
                     ) {
-                        keyboard?.hide()
-                        viewModel.signUpWithEmailAndPassword()
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                modifier = modifier.weight(1f),
+                                text = stringResource(R.string.agreement_title),
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                            Icon(
+                                modifier = modifier.rotate(iconAngle),
+                                imageVector = Icons.Default.ExpandLess,
+                                contentDescription = null
+                            )
+                        }
+                        Text(
+                            text =
+                            stringResource(id = AppText.agreement_text),
+                            modifier = Modifier.padding(top = 4.dp),
+                            textAlign = TextAlign.Start,
+                            style = MaterialTheme.typography.bodyMedium,
+                            overflow = TextOverflow.Ellipsis
+                        )
                     }
                 }
+                Box(
+                    modifier = modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.CenterEnd
+                ) {
+                    AgreementChekBox(
+                        checked = checkedState,
+                        onCheckedChange = {
+                            checkedState = it
+                            isExpanded = false
+                        },
 
-
-                BasicLinkButton(AppText.alredy_user, Modifier.textButton()) {
-                    viewModel.navigateBack(openScreen)
+                        modifier = Modifier
+                    )
                 }
+                Button(
+                    modifier = modifier.fillMaxWidth(),
+                    onClick = {
+                        onSignUpClick()
+                    },
+                    enabled = checkedState
+                ) {
+                    AnimatedContent(isLoading) {
+                        if(it) {
+                            CircularProgressIndicator(
+                                modifier = modifier.size(24.dp),
+                                color = MaterialTheme.colorScheme.onPrimary
+                            )
+                        }else{
+                            Text(
+                                text = stringResource(R.string.sign_up),
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                        }
+                    }
 
+                }
             }
         }
     }
-    SignUp(
-        sendEmailVerification = {
-            viewModel.sendEmailVerification(openScreen)
+}
+@Composable
+fun SignUpScreen(
+    modifier: Modifier = Modifier,
+    viewModel: SignUpViewModel,
+    navController: NavController
+) {
+    val keyboard = LocalSoftwareKeyboardController.current
+    val signUpUiState by viewModel.signUpUiState
+    val signUpResponse by viewModel.signUpResponse.collectAsStateWithLifecycle()
+    LaunchedEffect(signUpResponse) {
+        Log.d("response_test" , signUpResponse.toString())
+    }
+    SignUpScreenStateless(
+        signUpUiState = signUpUiState,
+        navigateBack = { navController.navigateUp()},
+        onEmailChange = { viewModel.onEmailChange(it) },
+        onPasswordChange = { viewModel.onPasswordChange(it) },
+        onRepeatPasswordChange = { viewModel.onRepeatPasswordChange(it) },
+        onSignUpClick = {
+            keyboard?.hide()
+//            viewModel.signUpWithEmailAndPassword{
+//                navController.navigate(VerifyEmailScreen.route){
+//                    popUpTo(com.ykis.mob.ui.navigation.SignUpScreen.route){
+//                        inclusive = true
+//                    }
+//                }
+//            }
+            viewModel.sendEmailVerification {
+                navController.navigate(VerifyEmailScreen.route){
+                    popUpTo(com.ykis.mob.ui.navigation.SignUpScreen.route){
+                        inclusive = true
+                    }
+                }
+            }
         },
-        showVerifyEmailMessage = {
-            SnackbarManager.showMessage(AppText.verify_email_message)
-        },
-        showErrorMessage = { errorMessage ->
-            SnackbarManager.showMessage(errorMessage)
-        },
-        viewModel = viewModel
+        isLoading = signUpResponse is Resource.Loading
     )
+//    SignUp(
+//        sendEmailVerification = {
+//            viewModel.sendEmailVerification{
+//                navController.navigate(it)
+//            }
+//        },
+//        showVerifyEmailMessage = {
+//            SnackbarManager.showMessage(AppText.verify_email_message)
+//        },
+//        showErrorMessage = { errorMessage ->
+//            SnackbarManager.showMessage(errorMessage)
+//        },
+//        viewModel = viewModel
+//    )
+}
 
-//    SendEmailVerification()
+@Preview
+@Composable
+private fun SignUpScreenPreview() {
+    YkisPAMTheme {
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            SignUpScreenStateless(
+                signUpUiState = SignUpUiState(),
+                navigateBack = { },
+                onEmailChange = { },
+                onPasswordChange = { },
+                onRepeatPasswordChange = { },
+                onSignUpClick = {},
+                isLoading = true
+            )
+        }
+    }
 }

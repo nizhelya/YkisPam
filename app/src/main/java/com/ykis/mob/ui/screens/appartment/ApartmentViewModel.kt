@@ -91,14 +91,15 @@ class ApartmentViewModel @Inject constructor(
 
     ) {
         _showError.value = false
-        if (isUserSignedOut) {
+        Log.d("init_values" , "isEmailVerified: $isEmailVerified \n email:$email \n isUserSignOut : $isUserSignedOut" )
+        if (isUserSignedOut || !isEmailVerified) {
             restartApp(Graph.AUTHENTICATION)
         } else {
-            if (isEmailVerified) {
+//            if (isEmailVerified) {
                 restartApp(Graph.APARTMENT)
-            } else {
-                openAndPopUp(VerifyEmailScreen.route, LaunchScreen.route)
-            }
+//            } else {
+//                openAndPopUp(VerifyEmailScreen.route, LaunchScreen.route)
+//            }
         }
     }
 

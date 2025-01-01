@@ -208,6 +208,9 @@ class FirebaseServiceImpl @Inject constructor(
         }
     }
 
+    override suspend fun firebaseSignUpWithGoogle2(googleCredential: AuthCredential) {
+
+    }
     private suspend fun addUserToFirestore() {
         auth.currentUser?.apply {
             val user = toUser()

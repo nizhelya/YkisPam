@@ -46,6 +46,7 @@ interface FirebaseService {
     suspend fun oneTapSignInWithGoogle(): OneTapSignInResponse
     suspend fun firebaseSignInWithGoogle(googleCredential: AuthCredential): SignInWithGoogleResponse
     suspend fun firebaseSignUpWithEmailAndPassword(email: String, password: String): SignUpResponse
+    suspend fun firebaseSignUpWithGoogle2(googleCredential: AuthCredential)
     suspend fun sendEmailVerification(): SendEmailVerificationResponse
     suspend fun sendPasswordResetEmail(email: String): SendPasswordResetEmailResponse
     fun getProvider(viewModelScope: CoroutineScope):String

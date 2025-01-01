@@ -1,6 +1,8 @@
 package com.ykis.mob.ui.screens.auth.sign_in
 
 import android.app.Activity.RESULT_OK
+import android.content.Context
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -24,15 +26,18 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,10 +47,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.credentials.Credential
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.gms.auth.api.identity.BeginSignInResult
 import com.google.android.gms.auth.api.identity.SignInPassword
 import com.google.android.gms.common.api.ApiException
+import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.firebase.auth.GoogleAuthProvider.getCredential
 import com.ykis.mob.R
 import com.ykis.mob.core.composable.BasicLinkButton
@@ -66,8 +74,70 @@ import com.ykis.mob.ui.navigation.LaunchScreen
 import com.ykis.mob.ui.screens.auth.sign_in.components.OneTapSignIn
 import com.ykis.mob.ui.screens.auth.sign_in.components.SignInWithGoogle
 import com.ykis.mob.ui.theme.YkisPAMTheme
+import kotlinx.coroutines.launch
 import com.ykis.mob.R.drawable as AppIcon
 import com.ykis.mob.R.string as AppText
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.CredentialManager
+import androidx.credentials.exceptions.GetCredentialException
+import androidx.credentials.exceptions.NoCredentialException
+import androidx.navigation.NavController
+import com.ykis.mob.ui.navigation.Graph
+
+@Composable
+fun AuthenticationButton(buttonText: Int, onRequestResult: (Credential) -> Unit) {
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+
+    Button(
+        onClick = { coroutineScope.launch {
+            launchCredManButtonUI(context, onRequestResult) }
+
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp, 0.dp)
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_google_logo),
+            modifier = Modifier.padding(horizontal = 16.dp),
+            contentDescription = "Google logo"
+        )
+
+        Text(
+            text = stringResource(buttonText),
+            fontSize = 16.sp,
+            modifier = Modifier.padding(0.dp, 6.dp)
+        )
+    }
+}
+
+private suspend fun launchCredManButtonUI(
+    context: Context,
+    onRequestResult: (Credential) -> Unit
+) {
+    try {
+        val signInWithGoogleOption = GetSignInWithGoogleOption
+            .Builder(serverClientId = "1062920014188-8s41hcrkkik155m7mo2spj26jupp27e5.apps.googleusercontent.com")
+            .build()
+
+        val request = GetCredentialRequest.Builder()
+            .addCredentialOption(signInWithGoogleOption)
+            .build()
+
+        val result = CredentialManager.create(context).getCredential(
+            request = request,
+            context = context
+        )
+
+        onRequestResult(result.credential)
+    } catch (e: NoCredentialException) {
+        Log.e("error_tag", e.message.orEmpty())
+        SnackbarManager.showMessage("Помилка реєстрації")
+    } catch (e: GetCredentialException) {
+        Log.d("error_tag", e.message.orEmpty())
+    }
+}
 
 
 @Composable
@@ -80,7 +150,7 @@ fun SignInScreenStateless(
     onSignInClick : ()->Unit,
     onForgotPasswordClick : () ->Unit,
     onSignUpClick : () -> Unit,
-    onGoogleClick : () -> Unit
+    onGoogleClick : (Credential) -> Unit
 ) {
         Box(
             modifier = modifier.fillMaxSize(),
@@ -99,7 +169,7 @@ fun SignInScreenStateless(
                 )
                 Column(
                     modifier = modifier
-                        .padding(horizontal = 24.dp, vertical = 16.dp)
+                        .padding(16.dp)
                         .verticalScroll(rememberScrollState())
                     ,
                     verticalArrangement = Arrangement.Top,
@@ -155,26 +225,8 @@ fun SignInScreenStateless(
                             .height(1.dp)
                             .background(MaterialTheme.colorScheme.outline))
                     }
-                    OutlinedButton(
-                        modifier = modifier.fillMaxWidth(),
-                        onClick = {
-                            onGoogleClick()
-                        }
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            Text(
-                                text = stringResource(R.string.sign_in_with_google),
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                            Spacer(modifier = modifier.widthIn(16.dp))
-                            Image(
-                                painter = painterResource(R.drawable.ic_google_logo),
-                                contentDescription = "google logo"
-                            )
-                        }
+                    AuthenticationButton(buttonText = R.string.sign_in_with_google) { credential ->
+                        onGoogleClick(credential)
                     }
                     Spacer(modifier = modifier.height(8.dp))
                     Row(
@@ -208,6 +260,7 @@ fun SignInScreen(
     navigateToDestination: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SignInViewModel = hiltViewModel(),
+    navController: NavController
 ) {
     val singInUiState = viewModel.singInUiState
     val keyboard = LocalSoftwareKeyboardController.current
@@ -245,28 +298,30 @@ fun SignInScreen(
             viewModel.onSignUpClick(openScreen)
         },
         onGoogleClick = {
-            viewModel.oneTapSignIn()
+            viewModel.onSignUpWithGoogle(it , openAndPopUp = {
+                navController.navigate(Graph.APARTMENT)
+            })
         }
     )
 
-    fun launch(signInResult: BeginSignInResult) {
-        val intent = IntentSenderRequest.Builder(signInResult.pendingIntent.intentSender).build()
-        launcher.launch(intent)
-    }
-
-    OneTapSignIn(
-        launch = {
-            launch(it)
-        }
-    )
-
-    SignInWithGoogle(
-        navigateToHomeScreen = { signedIn ->
-            if (signedIn) {
-                navigateToDestination(LaunchScreen.route)
-            }
-        }
-    )
+//    fun launch(signInResult: BeginSignInResult) {
+//        val intent = IntentSenderRequest.Builder(signInResult.pendingIntent.intentSender).build()
+//        launcher.launch(intent)
+//    }
+//
+//    OneTapSignIn(
+//        launch = {
+//            launch(it)
+//        }
+//    )
+//
+//    SignInWithGoogle(
+//        navigateToHomeScreen = { signedIn ->
+//            if (signedIn) {
+//                navigateToDestination(LaunchScreen.route)
+//            }
+//        }
+//    )
 
 }
 

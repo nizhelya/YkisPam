@@ -33,7 +33,9 @@ import com.ykis.mob.firebase.service.repo.SendEmailVerificationResponse
 import com.ykis.mob.firebase.service.repo.SignUpResponse
 import com.ykis.mob.ui.BaseViewModel
 import com.ykis.mob.ui.navigation.LaunchScreen
+import com.ykis.mob.ui.navigation.VerifyEmailScreen
 import com.ykis.mob.ui.screens.auth.sign_up.components.SignUpUiState
+import com.ykis.mob.ui.screens.auth.verify_email.VerifyEmailScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -48,12 +50,6 @@ class SignUpViewModel @Inject constructor(
     logService: LogService
 ) : BaseViewModel(logService) {
 
-    private val  _agreementTitle = MutableStateFlow(configurationService.agreementTitle)
-    val agreementTitle = _agreementTitle.asStateFlow()
-
-    private val  _agreementText = MutableStateFlow(configurationService.agreementText)
-    val agreementText = _agreementText.asStateFlow()
-
     private val _reloadUserResponse = MutableStateFlow<ReloadUserResponse>(Resource.Success(false))
     val reloadUserResponse = _reloadUserResponse.asStateFlow()
 
@@ -65,7 +61,7 @@ class SignUpViewModel @Inject constructor(
     var signUpUiState = mutableStateOf(SignUpUiState())
         private set
 
-    private val email
+    val email
         get() = signUpUiState.value.email
     private val password
         get() = signUpUiState.value.password
@@ -97,7 +93,18 @@ class SignUpViewModel @Inject constructor(
         signUpUiState.value = signUpUiState.value.copy(repeatPassword = newValue)
     }
 
-    fun signUpWithEmailAndPassword() {
+    fun signUpWithEmailAndPassword(onSuccess:()->Unit) {
+
+        launchCatching {
+            _signUpResponse.value = Resource.Loading()
+            _signUpResponse.value = firebaseService.firebaseSignUpWithEmailAndPassword(email, password)
+            sendEmailVerification{
+                onSuccess()
+            }
+        }
+    }
+
+    fun sendEmailVerification(openScreen: () -> Unit) {
         if (!email.isValidEmail()) {
             SnackbarManager.showMessage(AppText.email_error)
             return
@@ -112,18 +119,12 @@ class SignUpViewModel @Inject constructor(
             SnackbarManager.showMessage(AppText.password_match_error)
             return
         }
-
         launchCatching {
             _signUpResponse.value = Resource.Loading()
             _signUpResponse.value = firebaseService.firebaseSignUpWithEmailAndPassword(email, password)
-        }
-    }
-
-    fun sendEmailVerification(openScreen: (String) -> Unit) {
-        launchCatching {
             _sendEmailVerificationResponse.value = Resource.Loading()
             _sendEmailVerificationResponse.value = firebaseService.sendEmailVerification()
-            openScreen(LaunchScreen.route)
+            openScreen()
         }
 
     }
@@ -133,14 +134,5 @@ class SignUpViewModel @Inject constructor(
             _reloadUserResponse.value = firebaseService.reloadFirebaseUser()
             addFcmToken()
         }
-    }
-
-    // TODO: remove this
-    fun navigateBack(openScreen: (String) -> Unit) {
-        openScreen(LaunchScreen.route)
-    }
-    override fun onCleared() {
-        Log.d("sharedViewModel", "vm is cleared!")
-        super.onCleared()
     }
 }

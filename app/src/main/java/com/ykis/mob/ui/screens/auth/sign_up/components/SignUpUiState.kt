@@ -17,7 +17,7 @@ limitations under the License.
 package com.ykis.mob.ui.screens.auth.sign_up.components
 
 data class SignUpUiState(
-    val email: String = "",
-    val password: String = "",
-    val repeatPassword: String = "",
+    val email: String = "rshulik74@stud.op.edu.ua",
+    val password: String = "Vlad123456789",
+    val repeatPassword: String = "Vlad123456789",
 )

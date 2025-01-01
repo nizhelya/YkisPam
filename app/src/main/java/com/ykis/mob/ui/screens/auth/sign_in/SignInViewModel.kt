@@ -1,8 +1,15 @@
 package com.ykis.mob.ui.screens.auth.sign_in
 
+import androidx.compose.material3.Button
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
+import androidx.credentials.Credential
+import androidx.credentials.CustomCredential
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.AuthCredential
 import com.ykis.mob.core.Resource
@@ -15,12 +22,21 @@ import com.ykis.mob.firebase.service.repo.OneTapSignInResponse
 import com.ykis.mob.firebase.service.repo.SignInResponse
 import com.ykis.mob.firebase.service.repo.SignInWithGoogleResponse
 import com.ykis.mob.ui.BaseViewModel
+import com.ykis.mob.ui.navigation.Graph
 import com.ykis.mob.ui.navigation.LaunchScreen
 import com.ykis.mob.ui.navigation.SignUpScreen
+import com.ykis.mob.ui.navigation.VerifyEmailScreen
 import com.ykis.mob.ui.screens.auth.sign_in.components.SingInUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import com.ykis.mob.R.string as AppText
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential.Companion.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
+import com.google.firebase.Firebase
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.auth
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
@@ -45,6 +61,10 @@ class SignInViewModel @Inject constructor(
 
     var signInResponse by mutableStateOf<SignInResponse>(Resource.Success(false))
 
+
+    private val isEmailVerified get() = firebaseService.currentUser?.isEmailVerified ?: false
+
+
     fun onEmailChange(newValue: String) {
         singInUiState = singInUiState.copy(email = newValue)
     }
@@ -66,9 +86,14 @@ class SignInViewModel @Inject constructor(
         }
 
         launchCatching {
-                firebaseService.firebaseSignInWithEmailAndPassword(email, password)
+            firebaseService.firebaseSignInWithEmailAndPassword(email, password)
             addFcmToken()
-            openScreen(LaunchScreen.route)
+            if(isEmailVerified) {
+                openScreen(Graph.APARTMENT)
+            }else{
+                openScreen(VerifyEmailScreen.route)
+            }
+
         }
 
     }
@@ -111,4 +136,28 @@ class SignInViewModel @Inject constructor(
 //            openScreen(LAUNCH_SCREEN)
 //        }
 //    }
+suspend fun signInAndLinkWithGoogle(idToken: String) {
+    val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
+
+    val currentUser = Firebase.auth.currentUser
+    if (currentUser == null) {
+        // Авторизація користувача
+        Firebase.auth.signInWithCredential(firebaseCredential).await()
+    } else {
+        // Прив'язка до існуючого облікового запису
+        currentUser.linkWithCredential(firebaseCredential).await()
+    }
+}
+
+    fun onSignUpWithGoogle(credential: Credential, openAndPopUp: () -> Unit) {
+        viewModelScope.launch {
+            if (credential is CustomCredential && credential.type == TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+                val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
+                signInAndLinkWithGoogle(googleIdTokenCredential.idToken)
+                openAndPopUp()
+            } else {
+                SnackbarManager.showMessage("Невдалося зареєструватись з Google аккаунтом")
+            }
+        }
+    }
 }

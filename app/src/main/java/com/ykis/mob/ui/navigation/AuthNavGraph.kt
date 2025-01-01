@@ -20,8 +20,8 @@ fun NavGraphBuilder.authNavGraph(
             entry ->
             val signUpViewModel = entry.sharedViewModel<SignUpViewModel>(navController)
             SignUpScreen(
-                openScreen = { route -> navController.navigate(route) },
-                viewModel = signUpViewModel
+                viewModel = signUpViewModel,
+                navController = navController
             )
         }
         composable(VerifyEmailScreen.route) {
@@ -29,7 +29,8 @@ fun NavGraphBuilder.authNavGraph(
             val signUpViewModel = entry.sharedViewModel<SignUpViewModel>(navController)
             VerifyEmailScreen(
                 restartApp = { route ->  navController.cleanNavigateTo(route) },
-                viewModel = signUpViewModel
+                viewModel = signUpViewModel,
+                navController = navController
                 )
         }
 
@@ -39,6 +40,7 @@ fun NavGraphBuilder.authNavGraph(
             SignInScreen(
                 openScreen = { route -> navController.navigate(route) },
                 navigateToDestination = {route-> navController.navigate(route)},
+                navController = navController
             )
 
         }
