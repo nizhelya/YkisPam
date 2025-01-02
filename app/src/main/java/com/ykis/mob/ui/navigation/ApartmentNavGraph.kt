@@ -297,7 +297,7 @@ fun ApartmentNavGraph(
                    SettingsScreenStateful(
                         navigationType = navigationType,
                         navigateToAuthGraph = {
-                            rootNavController.cleanNavigateTo(LaunchScreen.route)
+                            rootNavController.cleanNavigateTo(Graph.AUTHENTICATION)
                         },
                        onDrawerClick = onDrawerClicked
                     )
@@ -342,15 +342,4 @@ fun ApartmentNavGraph(
             }
         }
     }
-}
-
-@Composable
-inline fun <reified T : ViewModel> NavBackStackEntry.sharedViewModel(
-    navController: NavHostController,
-): T {
-    val navGraphRoute = destination.parent?.route ?: return hiltViewModel()
-    val parentEntry = remember(this) {
-        navController.getBackStackEntry(navGraphRoute)
-    }
-    return hiltViewModel(parentEntry)
 }

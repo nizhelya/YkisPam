@@ -1,5 +1,7 @@
 package com.ykis.mob.ui.screens.auth.verify_email
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,25 +20,29 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.ykis.mob.R
+import com.ykis.mob.core.Resource
 import com.ykis.mob.core.snackbar.SnackbarManager
 import com.ykis.mob.ui.components.appbars.DefaultAppBar
-import com.ykis.mob.ui.navigation.LaunchScreen
+import com.ykis.mob.ui.navigation.Graph
 import com.ykis.mob.ui.screens.auth.sign_up.SignUpViewModel
-import com.ykis.mob.ui.screens.auth.verify_email.components.ReloadUser
-import com.ykis.mob.ui.screens.auth.verify_email.components.SendEmailVerification
 import com.ykis.mob.ui.theme.YkisPAMTheme
 import com.ykis.mob.R.string as AppText
 
@@ -46,7 +52,8 @@ fun VerifyEmailScreenStateless(
     onReloadClick: () -> Unit,
     onRepeatEmailClick: () -> Unit,
     email: String,
-    navigateBack :()->Unit
+    navigateBack :()->Unit,
+    isLoading:Boolean
 ) {
     Box(
         modifier = Modifier
@@ -61,7 +68,7 @@ fun VerifyEmailScreenStateless(
         ) {
             DefaultAppBar(
                 canNavigateBack = true,
-                title = "Підтвердження пошти",
+                title = stringResource(R.string.verify_email_title),
                 onBackClick = { navigateBack()}
             )
         }
@@ -83,13 +90,13 @@ fun VerifyEmailScreenStateless(
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Ми відправили вам лист на пошту",
+                text = stringResource(R.string.verify_email_label),
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Перейдіть за посиланням , яким ми відправили на пошту ${email}. Потім нажміть на кнопку далі.",
+                text = stringResource(R.string.verify_email_text, email),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.bodyMedium
             )
@@ -97,7 +104,7 @@ fun VerifyEmailScreenStateless(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "Не отримали лист?")
+                Text(text = stringResource(R.string.did_not_receive_email))
                 Text(
                     modifier = Modifier
                         .padding(start = 4.dp)
@@ -105,7 +112,7 @@ fun VerifyEmailScreenStateless(
                         .clickable { onRepeatEmailClick() }
                         .padding(4.dp)
                         ,
-                    text = "Надіслати ще раз",
+                    text = stringResource(R.string.send_again),
                     textDecoration = TextDecoration.Underline,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -119,7 +126,21 @@ fun VerifyEmailScreenStateless(
                 .padding(16.dp),
             onClick = { onReloadClick() }
         ) {
-            Text(text = "Далі")
+            AnimatedContent(
+                isLoading
+            ) {
+                if(it) {
+                    CircularProgressIndicator(
+                        modifier = modifier.size(24.dp),
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                }else{
+                    Text(
+                        text = stringResource(R.string.next),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                }
+            }
         }
     }
 }
@@ -130,39 +151,25 @@ fun VerifyEmailScreen(
     restartApp: (String) -> Unit,
     navController: NavController
 ) {
+    val reloadUserResponse by viewModel.reloadUserResponse.collectAsStateWithLifecycle()
     VerifyEmailScreenStateless(
         onRepeatEmailClick = {
             viewModel.repeatEmailVerified()
         },
         onReloadClick = {
-            viewModel.reloadUser()
+            viewModel.reloadUser{
+                if (viewModel.isEmailVerified) {
+                    restartApp(Graph.APARTMENT)
+                } else {
+                    SnackbarManager.showMessage(AppText.email_not_verified_message)
+                }
+            }
         },
         email = viewModel.email,
         navigateBack = {
             navController.navigateUp()
-        }
-    )
-    SendEmailVerification(
-        navigateToLaunchScreen = {
-            if (viewModel.isEmailVerified) {
-                restartApp(LaunchScreen.route)
-            } else {
-                SnackbarManager.showMessage(AppText.email_not_verified_message)
-
-            }        },
-        viewModel= viewModel
-    )
-
-    ReloadUser(
-        navigateToProfileScreen = {
-            if (viewModel.isEmailVerified) {
-                restartApp(LaunchScreen.route)
-            } else {
-                SnackbarManager.showMessage(AppText.email_not_verified_message)
-
-            }
         },
-        viewModel = viewModel
+        isLoading = reloadUserResponse is Resource.Loading
     )
 }
 
@@ -171,13 +178,16 @@ fun VerifyEmailScreen(
 private fun VerifyEmailScreenPreview() {
     YkisPAMTheme {
         Box(
-            modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
         ) {
             VerifyEmailScreenStateless(
                onReloadClick = {},
                 onRepeatEmailClick = {},
                 email = "rshulik74@gmail.com",
-                navigateBack = {}
+                navigateBack = {},
+                isLoading = false
             )
         }
     }

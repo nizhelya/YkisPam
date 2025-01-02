@@ -12,6 +12,7 @@ class ClearDatabase @Inject constructor(
 ){
     operator fun invoke () : Flow<Resource<String>> = flow{
         try{
+            database.apartmentDao().deleteAllApartments()
             database.familyDao().deleteAllFamily()
             database.serviceDao().deleteAllService()
             database.paymentDao().deleteAllPayment()

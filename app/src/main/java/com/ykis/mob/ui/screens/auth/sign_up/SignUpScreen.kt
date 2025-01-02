@@ -2,7 +2,6 @@ package com.ykis.mob.ui.screens.auth.sign_up
 
 import android.util.Log
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
@@ -34,7 +33,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -57,13 +55,9 @@ import com.ykis.mob.core.composable.EmailField
 import com.ykis.mob.core.composable.LogoImage
 import com.ykis.mob.core.composable.PasswordField
 import com.ykis.mob.core.composable.RepeatPasswordField
-import com.ykis.mob.core.ext.fieldModifier
-import com.ykis.mob.core.snackbar.SnackbarManager
 import com.ykis.mob.ui.components.appbars.DefaultAppBar
-import com.ykis.mob.ui.navigation.LaunchScreen
 import com.ykis.mob.ui.navigation.VerifyEmailScreen
-import com.ykis.mob.ui.screens.auth.sign_up.components.AgreementChekBox
-import com.ykis.mob.ui.screens.auth.sign_up.components.SignUp
+import com.ykis.mob.ui.screens.auth.sign_up.components.AgreementCheckBox
 import com.ykis.mob.ui.screens.auth.sign_up.components.SignUpUiState
 import com.ykis.mob.ui.theme.YkisPAMTheme
 import com.ykis.mob.R.string as AppText
@@ -174,7 +168,7 @@ fun SignUpScreenStateless(
                     modifier = modifier.fillMaxWidth(),
                     contentAlignment = Alignment.CenterEnd
                 ) {
-                    AgreementChekBox(
+                    AgreementCheckBox(
                         checked = checkedState,
                         onCheckedChange = {
                             checkedState = it
@@ -230,13 +224,6 @@ fun SignUpScreen(
         onRepeatPasswordChange = { viewModel.onRepeatPasswordChange(it) },
         onSignUpClick = {
             keyboard?.hide()
-//            viewModel.signUpWithEmailAndPassword{
-//                navController.navigate(VerifyEmailScreen.route){
-//                    popUpTo(com.ykis.mob.ui.navigation.SignUpScreen.route){
-//                        inclusive = true
-//                    }
-//                }
-//            }
             viewModel.sendEmailVerification {
                 navController.navigate(VerifyEmailScreen.route){
                     popUpTo(com.ykis.mob.ui.navigation.SignUpScreen.route){
@@ -247,20 +234,6 @@ fun SignUpScreen(
         },
         isLoading = signUpResponse is Resource.Loading
     )
-//    SignUp(
-//        sendEmailVerification = {
-//            viewModel.sendEmailVerification{
-//                navController.navigate(it)
-//            }
-//        },
-//        showVerifyEmailMessage = {
-//            SnackbarManager.showMessage(AppText.verify_email_message)
-//        },
-//        showErrorMessage = { errorMessage ->
-//            SnackbarManager.showMessage(errorMessage)
-//        },
-//        viewModel = viewModel
-//    )
 }
 
 @Preview

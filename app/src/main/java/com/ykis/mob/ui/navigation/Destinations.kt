@@ -24,10 +24,6 @@ interface Destination{
     val route:String
 }
 
-object LaunchScreen : Destination {
-    override val route: String = "LaunchScreen"
-}
-
 object SignInScreen : Destination {
     override val route: String
         get() = "SignInScreen"

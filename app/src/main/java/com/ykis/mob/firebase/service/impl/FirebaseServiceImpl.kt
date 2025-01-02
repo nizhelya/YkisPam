@@ -211,7 +211,7 @@ class FirebaseServiceImpl @Inject constructor(
     override suspend fun firebaseSignUpWithGoogle2(googleCredential: AuthCredential) {
 
     }
-    private suspend fun addUserToFirestore() {
+    suspend fun addUserToFirestore() {
         auth.currentUser?.apply {
             val user = toUser()
             db.collection(USERS).document(uid).set(user).await()
@@ -230,7 +230,7 @@ class FirebaseServiceImpl @Inject constructor(
     override fun signOut(): Flow<Resource<Boolean>> = flow {
         try {
             emit(Resource.Loading())
-            oneTapClient.signOut().await()
+//            oneTapClient.signOut().await()
             auth.signOut()
             emit(Resource.Success(true))
         } catch (e: Exception) {

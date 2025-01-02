@@ -16,7 +16,6 @@ limitations under the License.
 
 package com.ykis.mob.ui.screens.auth.sign_up
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import com.ykis.mob.R
 import com.ykis.mob.core.Resource
@@ -32,10 +31,7 @@ import com.ykis.mob.firebase.service.repo.ReloadUserResponse
 import com.ykis.mob.firebase.service.repo.SendEmailVerificationResponse
 import com.ykis.mob.firebase.service.repo.SignUpResponse
 import com.ykis.mob.ui.BaseViewModel
-import com.ykis.mob.ui.navigation.LaunchScreen
-import com.ykis.mob.ui.navigation.VerifyEmailScreen
 import com.ykis.mob.ui.screens.auth.sign_up.components.SignUpUiState
-import com.ykis.mob.ui.screens.auth.verify_email.VerifyEmailScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -77,7 +73,8 @@ class SignUpViewModel @Inject constructor(
     fun repeatEmailVerified() {
         launchCatching {
             _sendEmailVerificationResponse.value = Resource.Loading()
-            _sendEmailVerificationResponse.value = firebaseService.sendEmailVerification()
+            val result = firebaseService.sendEmailVerification()
+            _sendEmailVerificationResponse.value = result
             SnackbarManager.showMessage(R.string.verify_email_message)
         }
     }
@@ -128,11 +125,12 @@ class SignUpViewModel @Inject constructor(
         }
 
     }
-    fun reloadUser() {
+    fun reloadUser(onSuccess: () -> Unit) {
         launchCatching {
             _reloadUserResponse.value = Resource.Loading()
             _reloadUserResponse.value = firebaseService.reloadFirebaseUser()
             addFcmToken()
+            onSuccess()
         }
     }
 }

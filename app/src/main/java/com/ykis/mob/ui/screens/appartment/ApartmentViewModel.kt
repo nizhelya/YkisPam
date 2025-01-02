@@ -34,8 +34,6 @@ import com.ykis.mob.firebase.service.repo.FirebaseService
 import com.ykis.mob.firebase.service.repo.LogService
 import com.ykis.mob.ui.BaseViewModel
 import com.ykis.mob.ui.navigation.Graph
-import com.ykis.mob.ui.navigation.LaunchScreen
-import com.ykis.mob.ui.navigation.VerifyEmailScreen
 import com.ykis.mob.ui.screens.bti.ContactUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -85,25 +83,13 @@ class ApartmentViewModel @Inject constructor(
     val contactUIState : StateFlow<ContactUIState> = _contactUiState.asStateFlow()
 
     fun onAppStart(
-        isUserSignedOut: Boolean,
-        openAndPopUp: (String, String) -> Unit,
-        restartApp: (String) -> Unit,
-
-    ) {
-        _showError.value = false
-        Log.d("init_values" , "isEmailVerified: $isEmailVerified \n email:$email \n isUserSignOut : $isUserSignedOut" )
-        if (isUserSignedOut || !isEmailVerified) {
-            restartApp(Graph.AUTHENTICATION)
+        ) : String{
+        return if (getAuthState().value || !isEmailVerified) {
+            Graph.AUTHENTICATION
         } else {
-//            if (isEmailVerified) {
-                restartApp(Graph.APARTMENT)
-//            } else {
-//                openAndPopUp(VerifyEmailScreen.route, LaunchScreen.route)
-//            }
+            Graph.APARTMENT
         }
     }
-
-
 
     fun observeApartments() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -147,7 +133,7 @@ class ApartmentViewModel @Inject constructor(
 
     fun addApartment(restartApp: () -> Unit) {
         this.addApartment(
-            code = secretCode.value, uid = uid , email = email
+            code = secretCode.value, uid = firebaseService.uid , email = firebaseService.email
         ).onEach { result ->
             when (result) {
                 is Resource.Success -> {

@@ -4,7 +4,6 @@ import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,30 +11,21 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
-import androidx.compose.material3.DividerDefaults
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -47,68 +37,55 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.credentials.Credential
+import androidx.credentials.CredentialManager
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.exceptions.GetCredentialException
+import androidx.credentials.exceptions.NoCredentialException
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.android.gms.auth.api.identity.BeginSignInResult
-import com.google.android.gms.auth.api.identity.SignInPassword
+import androidx.navigation.NavController
 import com.google.android.gms.common.api.ApiException
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.firebase.auth.GoogleAuthProvider.getCredential
 import com.ykis.mob.R
-import com.ykis.mob.core.composable.BasicLinkButton
-import com.ykis.mob.core.composable.BasicToolbar
 import com.ykis.mob.core.composable.EmailField
 import com.ykis.mob.core.composable.LogoImage
 import com.ykis.mob.core.composable.PasswordField
-import com.ykis.mob.core.composable.RegularCardEditor
-import com.ykis.mob.core.ext.card
-import com.ykis.mob.core.ext.largeSpacer
-import com.ykis.mob.core.ext.mediumSpacer
-import com.ykis.mob.core.ext.smallSpacer
-import com.ykis.mob.core.ext.textButton
 import com.ykis.mob.core.snackbar.SnackbarManager
 import com.ykis.mob.core.snackbar.SnackbarMessage.Companion.toSnackbarMessage
 import com.ykis.mob.ui.components.appbars.DefaultAppBar
-import com.ykis.mob.ui.navigation.LaunchScreen
-import com.ykis.mob.ui.screens.auth.sign_in.components.OneTapSignIn
-import com.ykis.mob.ui.screens.auth.sign_in.components.SignInWithGoogle
+import com.ykis.mob.ui.navigation.Graph
 import com.ykis.mob.ui.theme.YkisPAMTheme
 import kotlinx.coroutines.launch
-import com.ykis.mob.R.drawable as AppIcon
-import com.ykis.mob.R.string as AppText
-import androidx.credentials.GetCredentialRequest
-import androidx.credentials.CredentialManager
-import androidx.credentials.exceptions.GetCredentialException
-import androidx.credentials.exceptions.NoCredentialException
-import androidx.navigation.NavController
-import com.ykis.mob.ui.navigation.Graph
 
 @Composable
 fun AuthenticationButton(buttonText: Int, onRequestResult: (Credential) -> Unit) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
-    Button(
+    OutlinedButton(
         onClick = { coroutineScope.launch {
             launchCredManButtonUI(context, onRequestResult) }
 
         },
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp, 0.dp)
     ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_google_logo),
-            modifier = Modifier.padding(horizontal = 16.dp),
-            contentDescription = "Google logo"
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ){
+            Image(
+                painter = painterResource(id = R.drawable.ic_google_logo),
+                contentDescription = "Google logo"
+            )
 
-        Text(
-            text = stringResource(buttonText),
-            fontSize = 16.sp,
-            modifier = Modifier.padding(0.dp, 6.dp)
-        )
+            Text(
+                text = stringResource(buttonText),
+                style = MaterialTheme.typography.titleMedium
+            )
+        }
+
     }
 }
 
@@ -257,30 +234,11 @@ fun SignInScreenStateless(
 @Composable
 fun SignInScreen(
     openScreen: (String) -> Unit,
-    navigateToDestination: (String) -> Unit,
-    modifier: Modifier = Modifier,
     viewModel: SignInViewModel = hiltViewModel(),
     navController: NavController
 ) {
     val singInUiState = viewModel.singInUiState
     val keyboard = LocalSoftwareKeyboardController.current
-
-    val launcher =
-        rememberLauncherForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                try {
-                    val credentials =
-                        viewModel.oneTapClient.getSignInCredentialFromIntent(result.data)
-                    val googleIdToken = credentials.googleIdToken
-                    val googleCredentials = getCredential(googleIdToken, null)
-                    viewModel.signInWithGoogle(googleCredentials)
-                } catch (it: ApiException) {
-                    print(it)
-                    SnackbarManager.showMessage(it.toSnackbarMessage())
-
-                }
-            }
-        }
 
     SignInScreenStateless(
         email = singInUiState.email,
@@ -303,26 +261,6 @@ fun SignInScreen(
             })
         }
     )
-
-//    fun launch(signInResult: BeginSignInResult) {
-//        val intent = IntentSenderRequest.Builder(signInResult.pendingIntent.intentSender).build()
-//        launcher.launch(intent)
-//    }
-//
-//    OneTapSignIn(
-//        launch = {
-//            launch(it)
-//        }
-//    )
-//
-//    SignInWithGoogle(
-//        navigateToHomeScreen = { signedIn ->
-//            if (signedIn) {
-//                navigateToDestination(LaunchScreen.route)
-//            }
-//        }
-//    )
-
 }
 
 @Preview(showBackground = true, device = "spec:parent=pixel_5,orientation=landscape")

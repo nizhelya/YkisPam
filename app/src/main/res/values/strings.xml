@@ -316,4 +316,9 @@
         <string name="sign_in_with_google">Увійти за допомогою Google</string>
         <string name="have_no_account">Не маєш акаунту?</string>
         <string name="sign_up">Зареєструватися</string>
+    <string name="did_not_receive_email">Не отримали лист?</string>
+        <string name="send_again">Надіслати ще раз</string>
+        <string name="verify_email_text">Перейдіть за посиланням , яким ми відправили на пошту %1$s. Потім нажміть на кнопку далі.</string>
+        <string name="verify_email_label">Ми відправили вам лист на пошту</string>
+        <string name="verify_email_title">Підтвердження пошти</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.ykis.mob.ui.navigation
 
+import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -9,16 +11,18 @@ import com.ykis.mob.ui.screens.auth.sign_up.SignUpScreen
 import com.ykis.mob.ui.screens.auth.sign_up.SignUpViewModel
 import com.ykis.mob.ui.screens.auth.verify_email.VerifyEmailScreen
 
+
 fun NavGraphBuilder.authNavGraph(
     navController : NavHostController,
+    signUpViewModel : SignUpViewModel
 ) {
+
     navigation(
         route = Graph.AUTHENTICATION,
         startDestination = SignInScreen.route
     ){
         composable(SignUpScreen.route) {
             entry ->
-            val signUpViewModel = entry.sharedViewModel<SignUpViewModel>(navController)
             SignUpScreen(
                 viewModel = signUpViewModel,
                 navController = navController
@@ -26,7 +30,6 @@ fun NavGraphBuilder.authNavGraph(
         }
         composable(VerifyEmailScreen.route) {
             entry ->
-            val signUpViewModel = entry.sharedViewModel<SignUpViewModel>(navController)
             VerifyEmailScreen(
                 restartApp = { route ->  navController.cleanNavigateTo(route) },
                 viewModel = signUpViewModel,
@@ -36,13 +39,10 @@ fun NavGraphBuilder.authNavGraph(
 
         composable(SignInScreen.route) {
                 entry ->
-            val signUpViewModel = entry.sharedViewModel<SignUpViewModel>(navController)
             SignInScreen(
                 openScreen = { route -> navController.navigate(route) },
-                navigateToDestination = {route-> navController.navigate(route)},
                 navController = navController
             )
-
         }
     }
 }

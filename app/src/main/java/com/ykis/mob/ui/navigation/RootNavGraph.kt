@@ -1,6 +1,8 @@
 package com.ykis.mob.ui.navigation
 
 import android.util.Log
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.padding
@@ -25,8 +27,8 @@ import androidx.window.layout.DisplayFeature
 import com.ykis.mob.domain.UserRole
 import com.ykis.mob.ui.rememberAppState
 import com.ykis.mob.ui.screens.appartment.ApartmentViewModel
+import com.ykis.mob.ui.screens.auth.sign_up.SignUpViewModel
 import com.ykis.mob.ui.screens.chat.ChatViewModel
-import com.ykis.mob.ui.screens.launch.LaunchScreen
 import com.ykis.mob.ui.screens.service.payment.choice.WebView
 
 object Graph {
@@ -39,6 +41,7 @@ fun RootNavGraph(
     navController: NavHostController = rememberNavController(),
     chatViewModel : ChatViewModel = hiltViewModel(),
     apartmentViewModel : ApartmentViewModel = hiltViewModel(),
+    signUpViewModel: SignUpViewModel = hiltViewModel(),
     contentType: ContentType,
     displayFeatures: List<DisplayFeature>,
     navigationType: NavigationType,
@@ -64,6 +67,9 @@ fun RootNavGraph(
             baseUIState.uid.toString()
         } else selectedUser.uid
     }
+//    val firstScreen = remember(baseUIState.userRole) {
+//        apartmentViewModel.
+//    }
     Scaffold (
         snackbarHost = {
             SnackbarHost(
@@ -82,43 +88,47 @@ fun RootNavGraph(
 //                .padding(paddingValues = paddingValues)
             ,
             navController = navController,
-            startDestination = LaunchScreen.route,
+            startDestination = apartmentViewModel.onAppStart(),
             enterTransition = {
-                fadeIn()
+//                fadeIn()
+                EnterTransition.None
             },
             exitTransition = {
-                fadeOut()
+//                fadeOut()
+                ExitTransition.None
             },
             popEnterTransition = {
-                fadeIn()
+//                fadeIn()
+                EnterTransition.None
             },
             popExitTransition = {
-                fadeOut()
+//                fadeOut()
+                ExitTransition.None
             }
         ) {
-            composable(
-                route = LaunchScreen.route,
-                enterTransition = {
-                    fadeIn()
-                },
-                exitTransition = {
-                    fadeOut()
-                },
-                popEnterTransition = {
-                    fadeIn()
-                },
-                popExitTransition = {
-                    fadeOut()
-                }) {
-                LaunchScreen(
-                    restartApp = { route -> navController.cleanNavigateTo(route) },
-                    openAndPopUp = { route, popUp -> navController.navigateWithPopUp(route, popUp) },
-                    viewModel = apartmentViewModel
-                )
-            }
+//            composable(
+//                route = LaunchScreen.route,
+//                enterTransition = {
+//                    fadeIn()
+//                },
+//                exitTransition = {
+//                    fadeOut()
+//                },
+//                popEnterTransition = {
+//                    fadeIn()
+//                },
+//                popExitTransition = {
+//                    fadeOut()
+//                }) {
+//                LaunchScreen(
+//                    restartApp = { route -> navController.navigate(route) },
+//                    viewModel = apartmentViewModel
+//                )
+//            }
 
             authNavGraph(
-                navController
+                navController,
+                signUpViewModel = signUpViewModel
             )
 
             composable(

@@ -23,7 +23,6 @@ import com.ykis.mob.firebase.service.repo.SignInResponse
 import com.ykis.mob.firebase.service.repo.SignInWithGoogleResponse
 import com.ykis.mob.ui.BaseViewModel
 import com.ykis.mob.ui.navigation.Graph
-import com.ykis.mob.ui.navigation.LaunchScreen
 import com.ykis.mob.ui.navigation.SignUpScreen
 import com.ykis.mob.ui.navigation.VerifyEmailScreen
 import com.ykis.mob.ui.screens.auth.sign_in.components.SingInUiState
@@ -154,6 +153,7 @@ suspend fun signInAndLinkWithGoogle(idToken: String) {
             if (credential is CustomCredential && credential.type == TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
                 val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
                 signInAndLinkWithGoogle(googleIdTokenCredential.idToken)
+                firebaseService.addUserFirestore()
                 openAndPopUp()
             } else {
                 SnackbarManager.showMessage("Невдалося зареєструватись з Google аккаунтом")
